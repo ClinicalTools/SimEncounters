@@ -1344,7 +1344,7 @@ public class DataScript : MonoBehaviour
         if (Dict.ContainsKey(oldName)) {
             //Update newName to fit the conventions of section names and update the Dict reference.
             string linkToName = newName.Replace(" ", "_") + "Section";
-            if (!Dict.ContainsKey(newName) && !Dict.ContainsKey(linkToName)) {
+            if (oldName == linkToName || (!Dict.ContainsKey(newName) && !Dict.ContainsKey(linkToName))) {
                 SectionDataScript temp = Dict[oldName];
                 Dict.Remove(oldName);
 
