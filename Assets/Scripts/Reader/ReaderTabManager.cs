@@ -409,7 +409,7 @@ public class ReaderTabManager : MonoBehaviour
 
 				//Apply the checkmark when the last tab is visited
 				Transform currentButton = ds.SectionButtonPar.transform.GetChild(ds.GetData(currentSection).GetPosition());
-				currentButton.Find("AllTabsVisitedCheck").gameObject.SetActive(true);
+				currentButton?.Find("AllTabsVisitedCheck")?.gameObject.SetActive(true);
 			} else {
                 //Track the tab visit
                 Tracker.RecordData(

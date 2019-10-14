@@ -11,7 +11,8 @@ public class PinOnClickScript : MonoBehaviour {
 	public enum PinType
 	{
 		Dialogue,
-		Quiz
+		Quiz,
+        Conditional
 	}
 
 	private void Start()

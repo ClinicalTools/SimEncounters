@@ -175,6 +175,8 @@ public class HistoryFieldManagerScript : MonoBehaviour {
 	 */
     public void FindUniqueParent()
     {
+        var y = System.Diagnostics.Stopwatch.StartNew();
+
         //Gets the xml data for this tab
         string text = "<data></data>";
 
@@ -321,6 +323,9 @@ public class HistoryFieldManagerScript : MonoBehaviour {
                 }
             }
         }
+
+        y.Stop();
+        Debug.Log(y.ElapsedMilliseconds);
     }
 
     /**

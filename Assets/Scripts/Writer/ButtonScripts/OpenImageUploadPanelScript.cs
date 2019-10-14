@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public class OpenImageUploadPanelScript : MonoBehaviour
 {
-
-    private Transform parent;
-    private Text serial;
     public SerialScript sserial;
     private TabManager tm;
     public bool canSetPatientImage = false;
@@ -104,7 +101,7 @@ public class OpenImageUploadPanelScript : MonoBehaviour
     public void OpenImagePanel()
     {
         if (sserial.GetSerial() == null || sserial.GetSerial().Equals("")) {
-            print(sserial.GenerateSerial());
+            print(sserial.GenerateSerial(GameObject.Find("GaudyBG").GetComponent<DataScript>().GetImageKeys()));
         }
         GameObject panel = Instantiate(Resources.Load("Writer/Prefabs/Panels/ImageUploadBG"), GameObject.Find("GaudyBG").transform) as GameObject;
         panel.name = "ImageUploadBG";
@@ -121,6 +118,4 @@ public class OpenImageUploadPanelScript : MonoBehaviour
             tgl.interactable = transform.parent.GetComponentInChildren<Toggle>().interactable;
         }
     }
-
-
 }
