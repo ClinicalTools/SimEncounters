@@ -484,7 +484,7 @@ public class DialogueManagerScript : MonoBehaviour
 		}
 		while (node != null) {
             if (node.Name.Equals ("character")) { //load in character data
-				node = AdvNode(node);
+				node = xmlDoc.AdvNode(node);
 
 				if (!charColors.ContainsKey (node.InnerText)) {
 					string name = WWW.UnEscapeURL(node.InnerText);
@@ -575,31 +575,7 @@ public class DialogueManagerScript : MonoBehaviour
 
         return parsedColorValues;
     }
-
-    /**
-	 * 	Advance the node to the correct next node in the XmlDoc. Think Depth first search
-	 */
-    /*private XmlNode AdvNode(XmlNode node)
-	{
-		if (node == null)
-			return node;
-		if (node.HasChildNodes)
-			node = node.ChildNodes.Item(0);
-		else if (node.NextSibling != null)
-			node = node.NextSibling;
-		else {
-			while (node.ParentNode.NextSibling == null) {
-				node = node.ParentNode;
-				if (node == xmlDocc.DocumentElement || node.ParentNode == null)
-					return null;
-			}
-			node = node.ParentNode.NextSibling;
-			if (node == xmlDocc.DocumentElement.LastChild)
-				return node;
-		}
-		return node;
-	}*/
-
+    
     /**
 	 * Save the dialogue to DataScript (when apply button is clicked)
 	 */

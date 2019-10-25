@@ -283,11 +283,11 @@ public class HistoryFieldManagerScript : MonoBehaviour {
                             break;
                         }
                     }
-                    tempNode = AdvNode(tempNode);
+                    tempNode = xmlDoc.AdvNode(tempNode);
                 }
             }
             uniqueParentNode = tempNode;
-            tempNode = AdvNode(tempNode); //Advance inside the unique parent
+            tempNode = xmlDoc.AdvNode(tempNode); //Advance inside the unique parent
         }
 
         if (tempNode == null) { //No data found
@@ -297,7 +297,7 @@ public class HistoryFieldManagerScript : MonoBehaviour {
         //Find the first entry while avoiding going into the next manager's data (if there are any)
         //Doing this to add and spwan in the Entries we'll need for loading into
         while (tempNode != null && !tempNode.Name.Equals("Entry0")) {
-            tempNode = AdvNode(tempNode);
+            tempNode = xmlDoc.AdvNode(tempNode);
             if (uniqueParentNode.NextSibling != null && tempNode.Equals(uniqueParentNode.NextSibling)) {
                 break;
             }
@@ -305,7 +305,7 @@ public class HistoryFieldManagerScript : MonoBehaviour {
 
         if (tempNode != null && !tempNode.Equals(uniqueParentNode.NextSibling)) {
             while (tempNode != null) { //&& tempNode.ParentNode.HasChildNodes
-                XmlNode a = AdvNode(tempNode);
+                XmlNode a = xmlDoc.AdvNode(tempNode);
                 AddEntry(a.InnerText, false);
                 tempNode = tempNode.NextSibling;
             }
@@ -352,14 +352,14 @@ public class HistoryFieldManagerScript : MonoBehaviour {
 
         //If the node isn't already on EntryData, get it there
         while (!node.Name.Equals("EntryData")) {
-            node = AdvNode(node);
+            node = xmlDoc.AdvNode(node);
 
             if (node == null) {
                 Debug.Log("No Data to load.");
                 return;
             }
         }
-        node = AdvNode(node); //Enter the EntryData. This will put Node on "Parent". The entries are all siblings now
+        node = xmlDoc.AdvNode(node); //Enter the EntryData. This will put Node on "Parent". The entries are all siblings now
 
         XmlDocument element = new XmlDocument();
         int ii = 0; //This is uesd for referencing labEntries
@@ -380,7 +380,7 @@ public class HistoryFieldManagerScript : MonoBehaviour {
                 spawnQuiz = true;
                 XmlNode findParent = tempNodee;
                 while (!findParent.Name.Equals("Parent")) {
-                    findParent = AdvNode(findParent);
+                    findParent = xmlDoc.AdvNode(findParent);
                 }
                 quizId = findParent.InnerText;
                 ds.AddQuiz(findParent.InnerText, tempNodee.InnerXml);
@@ -390,7 +390,7 @@ public class HistoryFieldManagerScript : MonoBehaviour {
             }
             if ((tempNodee = element.GetElementsByTagName("DialoguePin").Item(0)) != null) {
                 spawnDialogue = true;
-                findUID(node);
+                uid = node.FindUID();
                 ds.AddDialogue(uid, element.GetElementsByTagName("DialoguePin").Item(0).InnerXml);
                 tempNodee.ParentNode.RemoveChild(tempNodee);
                 //GiveOutline (labNodee.gObject);
@@ -672,14 +672,14 @@ public class HistoryFieldManagerScript : MonoBehaviour {
 
         //If the node isn't already on EntryData, get it there
         while (!node.Name.Equals("EntryData")) {
-            node = AdvNode(node);
+            node = xmlDoc.AdvNode(node);
 
             if (node == null) {
                 Debug.Log("No Data to load.");
                 return;
             }
         }
-        node = AdvNode(node); //Enter the EntryData. This will put Node on "Parent". The entries are all siblings now
+        node = xmlDoc.AdvNode(node); //Enter the EntryData. This will put Node on "Parent". The entries are all siblings now
 
         XmlDocument questionXml = new XmlDocument();
 
@@ -706,7 +706,7 @@ public class HistoryFieldManagerScript : MonoBehaviour {
             questionXml.LoadXml(questionXml.GetElementsByTagName("data").Item(0).InnerXml); //Prepare to traverse answers
             XmlNode answerNode = questionXml.DocumentElement;
             while (!answerNode.Name.Equals("EntryData")) {
-                answerNode = AdvNode(answerNode);
+                answerNode = xmlDoc.AdvNode(answerNode);
 
                 if (answerNode == null) {
                     Debug.Log("No Data to load.");
@@ -1331,44 +1331,6 @@ public class HistoryFieldManagerScript : MonoBehaviour {
         currentPin = pin;
     }
 
-    // Recursive function to read all nodes until uid is found
-    private string findUID(XmlNode node)
-    {
-        if (node.Name == "uid") {
-            uid = node.InnerText;
-            return uid;
-        }
-
-        foreach (XmlNode n in node.ChildNodes) {
-            if (!findUID(n).Equals(""))
-                return uid;
-        }
-        return "";
-    }
-    /**
-	 * 	Advance the node to the correct next node in the XmlDoc. Just like Depth first search
-	 */
-    private XmlNode AdvNode(XmlNode node)
-    {
-        if (node == null)
-            return node;
-        if (node.HasChildNodes)
-            node = node.ChildNodes.Item(0);
-        else if (node.NextSibling != null)
-            node = node.NextSibling;
-        else {
-            while (node.ParentNode.NextSibling == null) {
-                node = node.ParentNode;
-                if (node == xmlDoc.DocumentElement || node.ParentNode == null)
-                    return null;
-            }
-            node = node.ParentNode.NextSibling;
-            if (node == xmlDoc.DocumentElement.LastChild)
-                return node;
-        }
-        return node;
-    }
-
     /**
 	 * From early testing. Move an entry down one position
 	 */
@@ -1468,7 +1430,7 @@ public class HistoryFieldManagerScript : MonoBehaviour {
             if (node.Name.StartsWith("Entry")) {
                 inEntryData = true;
             }
-            node = AdvNode(node);
+            node = xmlDoc.AdvNode(node);
 
             if (node == null) {
                 Debug.Log("No Data to load.");
@@ -1490,7 +1452,7 @@ public class HistoryFieldManagerScript : MonoBehaviour {
             // For nodes without values check if they are a pin
             while (node.Value == null && !node.InnerText.Equals("")) {
                 if (node.Name.Equals("DialoguePin") || node.Name.Equals("QuizPin") || node.Name.Equals("FlagPin") || node.Name.Equals("EventPin")) {
-                    findUID(node); // Get the uid used for dialogue key
+                    uid = node.FindUID(); // Get the uid used for dialogue key
                     if (node.Name.Equals("DialoguePin")) {
                         addDialogue = true;
                         ds.AddDialogue(uid, node.InnerXml);
@@ -1499,7 +1461,7 @@ public class HistoryFieldManagerScript : MonoBehaviour {
                         addQuiz = true;
                         XmlNode tempNode = node;
                         while (!tempNode.Name.Equals("Parent")) {
-                            tempNode = AdvNode(tempNode);
+                            tempNode = xmlDoc.AdvNode(tempNode);
                         }
                         ds.AddQuiz(tempNode.InnerText, node.InnerXml);
 
@@ -1514,11 +1476,11 @@ public class HistoryFieldManagerScript : MonoBehaviour {
                     if (node.NextSibling != null) {
                         node = node.NextSibling;
                     } else {
-                        node = AdvNode(node);
+                        node = xmlDoc.AdvNode(node);
                     }
 
                 } else {
-                    node = AdvNode(node);
+                    node = xmlDoc.AdvNode(node);
                 }
                 if (node == null) {
                     return;
@@ -1610,14 +1572,14 @@ public class HistoryFieldManagerScript : MonoBehaviour {
                             }
                         }
                         //Advance node to the next value we need
-                        node = AdvNode(node);
+                        node = xmlDoc.AdvNode(node);
 
                         while (node != null && node.Value == null && !node.InnerText.Equals("")) {
 
                             if (Regex.IsMatch(node.Name.ToLower(), "tab[0-9]*$"))
                                 break;
                             if (node.Name.Equals("DialoguePin") || node.Name.Equals("QuizPin") || node.Name.Equals("FlagPin") || node.Name.Equals("EventPin")) {
-                                findUID(node); // Get the uid used for dialogue key
+                                uid = node.FindUID(); // Get the uid used for dialogue key
                                 if (node.Name.Equals("DialoguePin")) {
                                     addDialogue = true;
                                     ds.AddDialogue(uid, node.InnerXml);
@@ -1626,7 +1588,7 @@ public class HistoryFieldManagerScript : MonoBehaviour {
                                     addQuiz = true;
                                     XmlNode tempNode = node;
                                     while (!tempNode.Name.Equals("Parent")) {
-                                        tempNode = AdvNode(tempNode);
+                                        tempNode = xmlDoc.AdvNode(tempNode);
                                     }
                                     ds.AddQuiz(tempNode.InnerText, node.InnerXml);
                                 }
@@ -1661,7 +1623,7 @@ public class HistoryFieldManagerScript : MonoBehaviour {
 
                                 }
                             } else {
-                                node = AdvNode(node);
+                                node = xmlDoc.AdvNode(node);
                             }
                         }
                     } catch (Exception e) {
@@ -1748,7 +1710,7 @@ public class HistoryFieldManagerScript : MonoBehaviour {
             while (node != null && !node.Name.Equals("PanelData")) {
                 //Debug.Log("NODE NAME: " + node.Name);
 
-                node = AdvNode(node);
+                node = xmlDoc.AdvNode(node);
                 newEntry = true;
 
                 if (node == null) {
@@ -1763,7 +1725,7 @@ public class HistoryFieldManagerScript : MonoBehaviour {
             while (node != null && node.Value == null) {
                 //Debug.Log("NODE NAME: " + node.Name);
 
-                node = AdvNode(node);
+                node = xmlDoc.AdvNode(node);
 
                 if (node == null) {
                     break;

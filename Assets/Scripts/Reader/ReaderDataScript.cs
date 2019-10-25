@@ -321,18 +321,18 @@ public class ReaderDataScript : MonoBehaviour
         while (node != null) {
             if (node.Name.ToLower().StartsWith("image")) {
                 while (!node.Name.Equals("key")) {
-                    node = AdvNode(node);
+                    node = xmlDoc.AdvNode(node);
                 }
                 string key = node.InnerText;
                 while (!node.Name.Equals("imgData")) {
-                    node = AdvNode(node);
+                    node = xmlDoc.AdvNode(node);
                 }
 
-                node = AdvNode(node);
+                node = xmlDoc.AdvNode(node);
                 Color c = new Color();
                 bool newColor = false;
                 if (node.Name.Equals("iconColor")) {
-                    node = AdvNode(node);
+                    node = xmlDoc.AdvNode(node);
                     string colorValue = node.Value;
                     string[] vars = Regex.Split(colorValue, ",");
                     c.r = float.Parse(vars[0]);
@@ -341,7 +341,7 @@ public class ReaderDataScript : MonoBehaviour
                     c.a = float.Parse(vars[3]);
                     //c = (node = AdvNode (node)).Value;
                     newColor = true;
-                    node = AdvNode(node);
+                    node = xmlDoc.AdvNode(node);
                 }
 
                 if (node.Name.Equals("reference")) {
@@ -357,17 +357,17 @@ public class ReaderDataScript : MonoBehaviour
                     }
                 } else {
                     while (!node.Name.Equals("width")) {
-                        node = AdvNode(node);
+                        node = xmlDoc.AdvNode(node);
                     }
                     int width = int.Parse(node.InnerText);
 
                     while (!node.Name.Equals("height")) {
-                        node = AdvNode(node);
+                        node = xmlDoc.AdvNode(node);
                     }
                     int height = int.Parse(node.InnerText);
 
                     while (!node.Name.Equals("data")) {
-                        node = AdvNode(node);
+                        node = xmlDoc.AdvNode(node);
                     }
 
                     Texture2D temp = new Texture2D(2, 2);
@@ -382,7 +382,7 @@ public class ReaderDataScript : MonoBehaviour
                 }
             }
 
-            node = AdvNode(node);
+            node = xmlDoc.AdvNode(node);
         }
 
         if (GetImage(GlobalData.patientImageID) != null && GetImage(GlobalData.patientImageID).sprite != null) {
@@ -686,7 +686,7 @@ public class ReaderDataScript : MonoBehaviour
 
         //Loads the data into the Dictionary variable
         XmlNode node = xmlDoc.FirstChild;
-        node = AdvNode(node);
+        node = xmlDoc.AdvNode(node);
         string sectionName = null;
         string tabName = null;
         SectionDataScript xmlDict = new SectionDataScript();
@@ -782,7 +782,7 @@ public class ReaderDataScript : MonoBehaviour
 
             bool endCurrentXMLSection = false;
             while (node != null && node.Value == null && !inSections) {
-                node = AdvNode(node);
+                node = xmlDoc.AdvNode(node);
                 if (node.Name.Equals("Sections")) {
                     inSections = true;
                     print(node.Name + ", " + node.Value + ", " + node.OuterXml);
@@ -857,11 +857,11 @@ public class ReaderDataScript : MonoBehaviour
                     print(node.Name + ", " + node.Value + ", " + node.OuterXml);
                     break;
                 }
-                node = AdvNode(node);
+                node = xmlDoc.AdvNode(node);
             }
         }
 
-        node = AdvNode(node); //Go inside sections
+        node = xmlDoc.AdvNode(node); //Go inside sections
         if (node == null) {
             print("Null node");
         }
@@ -892,21 +892,21 @@ public class ReaderDataScript : MonoBehaviour
                 xmlDict.SetPosition(Dict.Count);
                 sectionName = ConvertNameFromXML(node.Name);
                 while (node != null && !node.Name.ToLower().EndsWith("tab")) {
-                    node = AdvNode(node);
+                    node = xmlDoc.AdvNode(node);
                 }
             }
             if (node?.Name?.ToLower().EndsWith("tab") == true && tabName == null) {
                 tabName = node.Name.Replace("_", " ").Substring(0, node.Name.Length - 3); //Unformat tabType
-                XmlNode tempNode = AdvNode(node);
+                XmlNode tempNode = xmlDoc.AdvNode(node);
                 if (tempNode.Name.Equals("customTabName")) {
-                    tempNode = AdvNode(tempNode);
+                    tempNode = xmlDoc.AdvNode(tempNode);
                     customTabName = tempNode.Value;
 
                 } else {
                     customTabName = tabName;
                 }
                 while (node != null && !node.Name.ToLower().Equals("data")) {
-                    node = AdvNode(node);
+                    node = xmlDoc.AdvNode(node);
                 }
             }
             if (tabName != null && sectionName != null && node.Name.Equals("data")) {
@@ -948,7 +948,7 @@ public class ReaderDataScript : MonoBehaviour
             }
             if (node != null) {
                 if (node.Name.Equals("sectionName")) { //Section's custom name
-                    node = AdvNode(node);
+                    node = xmlDoc.AdvNode(node);
                     if (node == null || node.Value == null || node.Value.Equals("")) {
                         xmlDict.SetSectionDisplayName(sectionName);
                     } else {
@@ -1612,30 +1612,6 @@ public class ReaderDataScript : MonoBehaviour
             return;
         }
         Destroy(notification);
-    }
-
-    /**
-     * Advance the node to the correct next node in the XmlDoc. Think Depth first search
-     */
-    private XmlNode AdvNode(XmlNode node)
-    {
-        if (node == null)
-            return node;
-        if (node.HasChildNodes)
-            node = node.ChildNodes.Item(0);
-        else if (node.NextSibling != null)
-            node = node.NextSibling;
-        else {
-            while (node.ParentNode.NextSibling == null) {
-                node = node.ParentNode;
-                if (node == xmlDoc.DocumentElement || node.ParentNode == null)
-                    return null;
-            }
-            node = node.ParentNode.NextSibling;
-            if (node == xmlDoc.DocumentElement.LastChild)
-                return node;
-        }
-        return node;
     }
 
     //Used for testing

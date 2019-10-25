@@ -1,8 +1,4 @@
-﻿public enum CaseVariableType
-{
-    Bool, Int
-}
-public abstract class CaseVariable<T>
+﻿public abstract class CaseVariable<T>
 {
     public virtual string Name { get; set; }
 
@@ -10,24 +6,27 @@ public abstract class CaseVariable<T>
     public virtual string Serial {
         get {
             if (string.IsNullOrEmpty(serial.GetSerial()))
-                serial.GenerateSerial(null);
+                serial.GenerateSerial(VarData.Keys, VarType.Prefix);
 
             return serial.GetSerial();
         }
-        set {
+        protected set {
             serial.SetSerial(value);
+            VarData.Keys.Add(value);
         }
     }
 
-    public abstract CaseVariableType VarType { get; }
+
+    public abstract VarType VarType { get; }
 
     public virtual T Value { get; set; }
 
-    public abstract bool SetValue(string value);
-    public virtual string GetValue()
+    public CaseVariable() { }
+
+    public CaseVariable(string serial, string name, T value)
     {
-        return Value.ToString();
+        Serial = serial;
+        Name = name;
+        Value = value;
     }
-
-
 }

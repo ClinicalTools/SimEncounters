@@ -18,6 +18,8 @@ public class SectionDataScript
     private List<string> tabList;       //List of the names of tabs
     private int count;                  //Number of all tabs ever created (NOT THE NUMBER OF CURRENT TABS)
     private int position;
+    public List<string> Conditions { get; set; }
+    
     //private bool visited = false; //Only used in the reader
 
     // Use this for initialization
@@ -81,8 +83,17 @@ public class SectionDataScript
     public string GetAllData()
     {
         //Debug.Log(string.Join("", Dict.Values.OrderBy((TabInfoScript arg) => arg.position).Select(x => x.getData()).ToArray ()));
-        string data = string.Join("", Dict.Select(x => x.Value.getData()).ToArray());
-        data = string.Join("", Dict.Values.OrderBy((TabInfoScript arg) => arg.position).Select(x => x.getData()).ToArray());
+        string data = "";
+
+        if (Conditions != null && Conditions.Count > 0) {
+            data += "<conditionals>";
+            foreach (var condition in Conditions)
+                data += "<cond>" + condition + "</cond>";
+            data += "</conditionals>";
+        }
+
+        //data += string.Join("", Dict.Select(x => x.Value.getData()).ToArray());
+        data += string.Join("", Dict.Values.OrderBy((TabInfoScript arg) => arg.position).Select(x => x.getData()).ToArray());
 
         return data;
     }
@@ -153,14 +164,16 @@ public class SectionDataScript
 	 * Pass in tabType as key, nonformatted
 	 */
     //I replaced key with custom name below
-    public void AddData(string key, string customName, string data)
+    public void AddData(string key, string customName, string data, List<string> conditions = null)
     {
         if (Dict.ContainsKey(customName)) {
-            Dict[customName].data = data;
+            var tabInfo = Dict[customName];
+            tabInfo.data = data;
+            tabInfo.Conditions = conditions;
         } else {
             //Dict.Add(key, new TabInfoScript(count, key, customName, data, Dict.Count));
             //Debug.Log("ADDING " + customName + " TO DICTIONARY AS " + key);
-            Dict.Add(customName, new TabInfoScript(count, key, customName, data, Dict.Count));
+            Dict.Add(customName, new TabInfoScript(count, key, customName, data, Dict.Count, conditions));
             count++;
             AddTabToList(customName);
         }
@@ -198,6 +211,7 @@ public class SectionDataScript
     {
         if (Dict.ContainsKey(tabName)) {
             currentTab = Dict[tabName];
+            TabInfoScript.CurrentTab = currentTab;
         }
         //if (Dict [tabName] != null) {
         //currentTab = Dict [tabName];
@@ -243,7 +257,8 @@ public class SectionDataScript
             //TabInfoScript temp = Dict [oldName];
             try {
                 Dict.Add(newName, Dict[oldName]);
-                Dict[newName].customName = newName;
+                var tab = Dict[newName];
+                tab.customName = newName;
                 Dict.Remove(oldName);
                 tabList[tabList.FindIndex(listIdxname => listIdxname == oldName)] = newName;
             } catch (System.Exception) {

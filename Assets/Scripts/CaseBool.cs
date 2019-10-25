@@ -1,11 +1,8 @@
 ﻿public class CaseBool : CaseVariable<bool>
 {
-    public override CaseVariableType VarType => CaseVariableType.Bool;
+    public override VarType VarType => VarType.Bool;
 
-    public override bool SetValue(string value)
-    {
-        var success = bool.TryParse(value, out var val);
-        Value = val;
-        return success;
-    }
+
+    public CaseBool() : base() { }
+    public CaseBool(string serial, string name, bool value) : base(serial, name, value) { }
 }

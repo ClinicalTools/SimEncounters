@@ -265,29 +265,6 @@ public class ReaderDialogueManagerScript : MonoBehaviour
         return parsedColorValues;
     }
 
-    /**
-	 * 	Advance the node to the correct next node in the XmlDoc. Think Depth first search
-	 */
-    /*private XmlNode AdvNode(XmlNode node)
-	{
-		if (node == null)
-			return node;
-		if (node.HasChildNodes)
-			node = node.ChildNodes.Item(0);
-		else if (node.NextSibling != null)
-			node = node.NextSibling;
-		else {
-			while (node.ParentNode.NextSibling == null) {
-				node = node.ParentNode;
-				if (node == xmlDocc.DocumentElement || node.ParentNode == null)
-					return null;
-			}
-			node = node.ParentNode.NextSibling;
-			if (node == xmlDocc.DocumentElement.LastChild)
-				return node;
-		}
-		return node;
-	}*/
 
     /**
 	 * Call this when the Cancel button is clicked.
@@ -400,7 +377,7 @@ public class ReaderDialogueManagerScript : MonoBehaviour
 		XmlNode node = xmlDocc.FirstChild;
 
 		while (node != null && !node.InnerText.Equals(UID)) {
-			node = AdvNode(node);
+			node = xmlDoc.AdvNode(node);
 		}
 		if (node == null) {
 			return;
@@ -410,7 +387,7 @@ public class ReaderDialogueManagerScript : MonoBehaviour
 			Debug.Log("No existing dialogue data to load");
 			return;
 		}
-		node = AdvNode(node); //into characters
+		node = xmlDoc.AdvNode(node); //into characters
 		bool inData = false;
 		List<DialogueEntryScript> parents = new List<DialogueEntryScript>();
 		List<XmlNode> nodesOfParents = new List<XmlNode>();
@@ -422,7 +399,7 @@ public class ReaderDialogueManagerScript : MonoBehaviour
 		}
 		while (node != null) {
 			if (node.Name.Equals("character")) { //load in character data
-				node = AdvNode(node);
+				node = xmlDoc.AdvNode(node);
 				continue;
 			} else if (inData || node.Name.Equals("EntryData")) {
 				inData = true;
@@ -437,7 +414,7 @@ public class ReaderDialogueManagerScript : MonoBehaviour
 						nodesOfParents.RemoveRange(indexOf, range);
 
 					}
-					node = AdvNode(node);  //To character name
+					node = xmlDoc.AdvNode(node);  //To character name
 
 					GameObject dialogue;
 
@@ -492,7 +469,7 @@ public class ReaderDialogueManagerScript : MonoBehaviour
 					entries.Add(des);
 				}
 			}
-			node = AdvNode(node);
+			node = xmlDoc.AdvNode(node);
 			if (node != null && node.PreviousSibling != null && node.PreviousSibling.Name.Equals("dialogue")) {
 				break;
 			}

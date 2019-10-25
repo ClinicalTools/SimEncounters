@@ -28,6 +28,7 @@ public class DataScript : MonoBehaviour
 
     private Dictionary<string, SectionDataScript> Dict;     //A dictionary of Sections. Key=sectionName. Value=sectionData (all tab info)
     private Dictionary<string, SpriteHolderScript> imgDict; //A dictionary of any and all images. Key=Section(.Tab(.Entry name))
+
     private Dictionary<string, string> dialogueDict;
     private Dictionary<string, string> quizDict;
     private Dictionary<string, string> flagDict;
@@ -46,17 +47,17 @@ public class DataScript : MonoBehaviour
     public UploadToServer ServerUploader;
     public CanvasGroup loadingScreen;
 
-	public static DataScript instance;
+    public static DataScript instance;
 
-	[ContextMenu("Print dict")]
-	private void PrintDict()
-	{
-		string keys = "";
-		foreach(string key in dialogueDict.Keys) {
-			keys += key + ",";
-		}
-		print(keys);
-	}
+    [ContextMenu("Print dict")]
+    private void PrintDict()
+    {
+        string keys = "";
+        foreach (string key in dialogueDict.Keys) {
+            keys += key + ",";
+        }
+        print(keys);
+    }
 
     void Awake()
     {
@@ -77,16 +78,16 @@ public class DataScript : MonoBehaviour
         } else if (loadingScreen != null && GlobalData.showLoading) {
             loadingScreen.gameObject.SetActive(true);
         }
-		// Use code below if you want to default to a specific file on application load
+        // Use code below if you want to default to a specific file on application load
 
-		/*
+        /*
 		if (fileName == null || fileName.Equals ("")) {
 			fileName = "test.txt";
 		} else if (!fileName.EndsWith (".txt")) {
 			fileName = fileName + ".txt";
 		}
         */
-		instance = this;
+        instance = this;
     }
 
     // Use this for initialization
@@ -178,9 +179,9 @@ public class DataScript : MonoBehaviour
         //print((GlobalData.caseObj == null) + ", " + GlobalData.GDS.developer);
         if (GlobalData.caseObj == null && GlobalData.GDS.developer) {
             transform.Find("SidePanel/MainPanel/MenuPanel/LoadIntoWriterButton").gameObject.SetActive(true);
-			GlobalData.filePath = "C:/Users/Will/AppData/LocalLow/Clinical Tools Inc/Clinical Encounters_ Creator";
+            GlobalData.filePath = "C:/Users/Will/AppData/LocalLow/Clinical Tools Inc/Clinical Encounters_ Creator";
 
-		}
+        }
         if (loadingScreen != null && GlobalData.showLoading) {
             loadingScreen.blocksRaycasts = false;
             LoadingScreenManager.Instance.Fade();
@@ -195,13 +196,13 @@ public class DataScript : MonoBehaviour
         }
         print("filename: " + GlobalData.fileName + ", recordNumber: " + GlobalData.caseObj.recordNumber);
 
-        string recordNumber = (System.Math.Floor(UnityEngine.Random.value * 999999) + "").PadLeft(6, '0');
+        string recordNumber = (Math.Floor(UnityEngine.Random.value * 999999) + "").PadLeft(6, '0');
         GlobalData.caseObj.recordNumber = recordNumber;
         GlobalData.fileName = "[CHECKFORDUPLICATE]" + GlobalData.caseObj.recordNumber + GlobalData.firstName + " " + GlobalData.lastName + ".ced";
         bool exit = false;
         do {
             if (File.Exists(GlobalData.fileName)) {
-                recordNumber = (System.Math.Floor(UnityEngine.Random.value * 999999) + "").PadLeft(6, '0');
+                recordNumber = (Math.Floor(UnityEngine.Random.value * 999999) + "").PadLeft(6, '0');
                 GlobalData.caseObj.recordNumber = recordNumber;
                 GlobalData.fileName = "[CHECKFORDUPLICATE]" + GlobalData.caseObj.recordNumber + GlobalData.firstName + " " + GlobalData.lastName + ".ced";
             } else {
@@ -287,23 +288,25 @@ public class DataScript : MonoBehaviour
         }
         //imgDict = new Dictionary<string, Sprite> ();
 
+        VarData.Reset();
+        CondData.Reset();
         XmlNode node = xmlDoc.FirstChild;
         while (node != null) {
             if (node.Name.ToLower().StartsWith("image")) {
                 while (!node.Name.Equals("key")) {
-                    node = AdvNode(node);
+                    node = xmlDoc.AdvNode(node);
                 }
 
                 string key = node.InnerText.Replace(GlobalData.EMPTY_WIDTH_SPACE + "", "");
                 while (!node.Name.Equals("imgData")) {
-                    node = AdvNode(node);
+                    node = xmlDoc.AdvNode(node);
                 }
 
-                node = AdvNode(node);
+                node = xmlDoc.AdvNode(node);
                 Color c = new Color();
                 bool newColor = false;
                 if (node.Name.Equals("iconColor")) {
-                    node = AdvNode(node);
+                    node = xmlDoc.AdvNode(node);
                     string colorValue = node.Value;
                     string[] vars = Regex.Split(colorValue, ",");
                     c.r = float.Parse(vars[0]);
@@ -312,7 +315,7 @@ public class DataScript : MonoBehaviour
                     c.a = float.Parse(vars[3]);
                     //c = (node = AdvNode (node)).Value;
                     newColor = true;
-                    node = AdvNode(node);
+                    node = xmlDoc.AdvNode(node);
                 }
 
                 if (node.Name.Equals("reference")) {
@@ -327,17 +330,17 @@ public class DataScript : MonoBehaviour
                         continue;
                     }
                     while (!node.Name.Equals("width")) {
-                        node = AdvNode(node);
+                        node = xmlDoc.AdvNode(node);
                     }
                     int width = int.Parse(node.InnerText);
 
                     while (!node.Name.Equals("height")) {
-                        node = AdvNode(node);
+                        node = xmlDoc.AdvNode(node);
                     }
                     int height = int.Parse(node.InnerText);
 
                     while (!node.Name.Equals("data")) {
-                        node = AdvNode(node);
+                        node = xmlDoc.AdvNode(node);
                     }
 
                     Texture2D temp = new Texture2D(2, 2);
@@ -352,7 +355,10 @@ public class DataScript : MonoBehaviour
                 }
             }
 
-            node = AdvNode(node);
+            node = VarData.ReadNode(xmlDoc, node);
+            node = CondData.ReadNode(xmlDoc, node);
+
+            node = xmlDoc.AdvNode(node);
         }
 
         if (GetImage(GlobalData.patientImageID) != null) {
@@ -526,6 +532,10 @@ public class DataScript : MonoBehaviour
             data += "</image" + i + ">";
             i++;
         }
+
+        data += VarData.GetXML();
+        data += CondData.GetXML();
+
         data += "</Body>";
         return data;
     }
@@ -616,7 +626,7 @@ public class DataScript : MonoBehaviour
         }
         //Finds the file and loads data into xmlDoc
         xmlDoc = new XmlDocument();
-        if (serverCaseData.Equals("") && System.IO.File.Exists(path + fileName)) {
+        if (serverCaseData.Equals("") && File.Exists(path + fileName)) {
             if (overwrite) {
                 SpawnDefaultSection();
                 //ClearVitalsPanel ();
@@ -663,7 +673,7 @@ public class DataScript : MonoBehaviour
 
         //Loads the data into the Dictionary variable
         XmlNode node = xmlDoc.FirstChild;
-        node = AdvNode(node);
+        node = xmlDoc.AdvNode(node);
         string sectionName = null;
         string tabName = null;
         SectionDataScript xmlDict = new SectionDataScript();
@@ -700,7 +710,7 @@ public class DataScript : MonoBehaviour
             }
             bool endCurrentXMLSection = false;
             while (node != null && node.Value == null && !inSections) {
-                node = AdvNode(node);
+                node = xmlDoc.AdvNode(node);
                 if (node.Name.Equals("Sections")) {
                     inSections = true;
                     print(node.Name + ", " + node.Value + ", " + node.OuterXml);
@@ -796,14 +806,14 @@ public class DataScript : MonoBehaviour
                     //print (node.Name + ", " + node.Value + ", " + node.OuterXml);
                     break;
                 }
-                node = AdvNode(node);
+                node = xmlDoc.AdvNode(node);
             }
         }
 
         //Special case, set case description from caseObj due to case copies
         transform.Find("SaveCaseBG/SaveCasePanel/Content/Row3/TMPInputField/DescriptionValue").GetComponent<TMP_InputField>().text = GlobalData.caseObj.description;
 
-        node = AdvNode(node); //Go inside sections
+        node = xmlDoc.AdvNode(node); //Go inside sections
 
         while (node != null) {
             if (node.Name.ToLower().EndsWith("section")) {
@@ -818,22 +828,53 @@ public class DataScript : MonoBehaviour
                 xmlDict.Initiate();
                 xmlDict.SetPosition(Dict.Count);
                 sectionName = ConvertNameFromXML(node.Name);
-                while (node != null && !node.Name.ToLower().EndsWith("tab")) {
-                    node = AdvNode(node);
+                while (node != null && node.Name.ToLower() != "conditionals" && !node.Name.ToLower().EndsWith("tab")) {
+                    node = xmlDoc.AdvNode(node);
+                }
+
+
+                if (node != null && node.Name.ToLower() == "conditionals") {
+                    node = xmlDoc.AdvNode(node);
+
+                    var sectionCondKeys = new List<string>();
+                    while (node.Name.Equals("cond")) {
+                        node = xmlDoc.AdvNode(node);
+                        sectionCondKeys.Add(node.Value);
+                        node = xmlDoc.AdvNode(node);
+                    }
+                    xmlDict.Conditions = sectionCondKeys;
+
+                    XmlNode tempNode = xmlDoc.AdvNode(node);
+                    while (node != null && !node.Name.ToLower().EndsWith("tab"))
+                        node = xmlDoc.AdvNode(node);
                 }
             }
+
+            List<string> condKeys = null;
             if (node != null && node.Name.ToLower().EndsWith("tab") && tabName == null) {
                 tabName = node.Name.Replace("_", " ").Substring(0, node.Name.Length - 3); //Unformat tabType
-                XmlNode tempNode = AdvNode(node);
+                XmlNode tempNode = xmlDoc.AdvNode(node);
                 if (tempNode.Name.Equals("customTabName")) {
-                    tempNode = AdvNode(tempNode);
+                    tempNode = xmlDoc.AdvNode(tempNode);
                     customTabName = tempNode.Value;
-
                 } else {
                     customTabName = tabName;
                 }
+
+                tempNode = xmlDoc.AdvNode(tempNode);
+                if (tempNode.Name.Equals("conditionals")) {
+                    tempNode = xmlDoc.AdvNode(tempNode);
+
+                    condKeys = new List<string>();
+                    while (tempNode.Name.Equals("cond")) {
+                        tempNode = xmlDoc.AdvNode(tempNode);
+                        condKeys.Add(tempNode.Value);
+                        tempNode = xmlDoc.AdvNode(tempNode);
+                    }
+                }
+
                 while (node != null && !node.Name.ToLower().Equals("data")) {
-                    node = AdvNode(node);
+                    node = xmlDoc.AdvNode(node);
                 }
             }
             if (tabName != null && sectionName != null && node.Name.Equals("data")) {
@@ -841,12 +882,12 @@ public class DataScript : MonoBehaviour
                 if (tabName.Equals("Personal Info") || tabName.Equals("Office Visit")) {
                     xmlDict.AddPersistingData(tabName, customTabName, node.OuterXml);
                     /*XmlDocument tempXml = new XmlDocument ();
-					tempXml.LoadXml (node.OuterXml);
-					string gend = tempXml.GetElementsByTagName ("Gender").Item (0).InnerText;
-					transform.parent.GetComponent<CharacterManagerScript> ().setCharacter (gend);
-					GlobalData.gender = gend;*/
+                    tempXml.LoadXml (node.OuterXml);
+                    string gend = tempXml.GetElementsByTagName ("Gender").Item (0).InnerText;
+                    transform.parent.GetComponent<CharacterManagerScript> ().setCharacter (gend);
+                    GlobalData.gender = gend;*/
                 } else {
-                    xmlDict.AddData(tabName, customTabName, node.OuterXml);
+                    xmlDict.AddData(tabName, customTabName, node.OuterXml, condKeys);
                 }
                 tabName = null;
                 customTabName = null;
@@ -863,7 +904,7 @@ public class DataScript : MonoBehaviour
             }
             if (node != null) {
                 if (node.Name.Equals("sectionName")) { //Section's custom name
-                    node = AdvNode(node);
+                    node = xmlDoc.AdvNode(node);
                     if (node == null || node.Value == null || node.Value.Equals("")) {
                         xmlDict.SetSectionDisplayName(sectionName);
                     } else {
@@ -980,28 +1021,28 @@ public class DataScript : MonoBehaviour
     }
 
     /**
-	 * Clears the Vitals panel information
-	 *
-	public void ClearVitalsPanel() {
-		//Clear out the Vitals panel as well
-		Transform[] children = GameObject.Find ("VitalsPanel").transform.GetComponentsInChildren<Transform> ();
-		foreach (Transform child in children) {
-			if (child.tag.Equals("Value")) {
-				if (child.gameObject.GetComponent<InputField> () != null) {
-					child.gameObject.GetComponent<InputField> ().text = "";
-				} else if (child.gameObject.GetComponent<Dropdown> () != null) {
-					child.gameObject.GetComponent<Dropdown> ().value = 0;
-					child.gameObject.GetComponent<Dropdown> ().captionText.text = child.gameObject.GetComponent<Dropdown> ().options [0].text;
-				} else if (child.gameObject.GetComponent<Toggle> () != null) {
-					child.gameObject.GetComponent<Toggle> ().isOn = false;
-				}
-			}
-		}
-	}*/
+     * Clears the Vitals panel information
+     *
+    public void ClearVitalsPanel() {
+        //Clear out the Vitals panel as well
+        Transform[] children = GameObject.Find ("VitalsPanel").transform.GetComponentsInChildren<Transform> ();
+        foreach (Transform child in children) {
+            if (child.tag.Equals("Value")) {
+                if (child.gameObject.GetComponent<InputField> () != null) {
+                    child.gameObject.GetComponent<InputField> ().text = "";
+                } else if (child.gameObject.GetComponent<Dropdown> () != null) {
+                    child.gameObject.GetComponent<Dropdown> ().value = 0;
+                    child.gameObject.GetComponent<Dropdown> ().captionText.text = child.gameObject.GetComponent<Dropdown> ().options [0].text;
+                } else if (child.gameObject.GetComponent<Toggle> () != null) {
+                    child.gameObject.GetComponent<Toggle> ().isOn = false;
+                }
+            }
+        }
+    }*/
 
     /**
-	 * 	Load in the default section buttons
-	 */
+     * 	Load in the default section buttons
+     */
     public void SpawnDefaultSection()
     {
 
@@ -1045,8 +1086,8 @@ public class DataScript : MonoBehaviour
     }
 
     /**
-	 * Adds a new Section to the Dictionary
-	 */
+     * Adds a new Section to the Dictionary
+     */
     public void AddSection(string sectionName)
     {
         if (Dict.ContainsKey(sectionName)) {
@@ -1058,9 +1099,9 @@ public class DataScript : MonoBehaviour
     }
 
     /**
-	 * Adds or updates data for a specified Tab
-	 * Tab = TabName
-	 */
+     * Adds or updates data for a specified Tab
+     * Tab = TabName
+     */
     public void AddData(string Section, string Tab, string Data)
     {
         if (!Dict.ContainsKey(Section)) {
@@ -1080,8 +1121,8 @@ public class DataScript : MonoBehaviour
     }
 
     /**
-	 * Adds or updates data for a specified Tab with customName provided
-	 */
+     * Adds or updates data for a specified Tab with customName provided
+     */
     public void AddData(string Section, string Tab, string customName, string Data)
     {
         if (!Dict.ContainsKey(Section)) {
@@ -1101,8 +1142,8 @@ public class DataScript : MonoBehaviour
     }
 
     /**
-	 * Returns the data of a specified Tab as a long string
-	 */
+     * Returns the data of a specified Tab as a long string
+     */
     public string GetData(string Section, string Tab)
     {
         if (Section == null || !Dict.ContainsKey(Section) || !Dict[Section].ContainsKey(Tab)) {
@@ -1112,8 +1153,8 @@ public class DataScript : MonoBehaviour
     }
 
     /**
-	 * Returns the data of all Sections in the Dictionary
-	 */
+     * Returns the data of all Sections in the Dictionary
+     */
     public string GetData()
     {
         string longertext = "";
@@ -1189,8 +1230,8 @@ public class DataScript : MonoBehaviour
     }
 
     /**
-	 * This method will convert special characters into an xml friendly format so they can be used
-	 */
+     * This method will convert special characters into an xml friendly format so they can be used
+     */
     private string ConvertNameForXML(string name)
     {
 
@@ -1203,7 +1244,7 @@ public class DataScript : MonoBehaviour
                 if (a > 255) {
                     continue;
                 }
-                string hex = "." + String.Format("{0:X}", a) + ".";
+                string hex = "." + string.Format("{0:X}", a) + ".";
                 //name = name.Replace (character, hex);
                 newName += hex;
             } else {
@@ -1215,8 +1256,8 @@ public class DataScript : MonoBehaviour
     }
 
     /**
-	 * Convert's a section's formatted XML name into regular text
-	 */
+     * Convert's a section's formatted XML name into regular text
+     */
     public string ConvertNameFromXML(string name)
     {
 
@@ -1240,8 +1281,8 @@ public class DataScript : MonoBehaviour
     }
 
     /**
-	 * Returns the data of the specified Section
-	 */
+     * Returns the data of the specified Section
+     */
     public SectionDataScript GetData(string Section)
     {
         if (Section == null || Section.Equals("")) {
@@ -1253,30 +1294,30 @@ public class DataScript : MonoBehaviour
             print("No section found with the given section name");
             return new SectionDataScript();
             /*Dict [Section] = new SectionDataScript ();
-			Dict [Section].SetPosition (Dict.Count - 1);
-			return Dict[Section];*/
+            Dict [Section].SetPosition (Dict.Count - 1);
+            return Dict[Section];*/
         }
     }
 
     /**
-	 * Returns the specified Section's custom Display name
-	 */
+     * Returns the specified Section's custom Display name
+     */
     public string getSectionCustomName(string sectionName)
     {
         return Dict[sectionName].GetSectionDisplayName();
     }
 
     /**
-	 * Updates the specified Section's custom Display name
-	 */
+     * Updates the specified Section's custom Display name
+     */
     public void setSectionCustomName(string sectionName, string customName)
     {
         Dict[sectionName].SetSectionDisplayName(customName);
     }
 
     /**
-	 * Returns the list of keys in the Dictionary. This will give section LinkTo names
-	 */
+     * Returns the list of keys in the Dictionary. This will give section LinkTo names
+     */
     public string[] getKeys()
     {
         if (Dict != null)
@@ -1285,8 +1326,8 @@ public class DataScript : MonoBehaviour
     }
 
     /**
-	 * Edits a tab's display name
-	 */
+     * Edits a tab's display name
+     */
     public void EditTab(string oldName, string newName)
     {
         string Section = transform.GetComponent<TabManager>().getCurrentSection();
@@ -1313,8 +1354,7 @@ public class DataScript : MonoBehaviour
                 }
             }
 
-            Dictionary<string, string> tempDict = new Dictionary<string, string>();
-            tempDict = dialogueDict;
+            Dictionary<string, string> tempDict = dialogueDict;
             foreach (string key in tempDict.Keys.ToList()) {
                 //Debug.Log ("Key     : " + key);
                 //Debug.Log ("Matching: " + oldName + "Tab");
@@ -1337,8 +1377,17 @@ public class DataScript : MonoBehaviour
     }
 
     /**
-	 * Edits a section's display name
-	 */
+     * Updates a section's conditions
+     */
+    public void UpdateSectionConds(string name, List<string> conditions)
+    {
+        if (Dict.ContainsKey(name)) {
+            Dict[name].Conditions = conditions;
+        }
+    }
+    /**
+     * Edits a section's display name
+     */
     public void EditSection(string oldName, string newName)
     {
         if (Dict.ContainsKey(oldName)) {
@@ -1365,10 +1414,10 @@ public class DataScript : MonoBehaviour
                 }
 
                 /*Transform currentTab = transform.Find ("ContentPanel/TabContentPanel").GetChild (0);
-				HistoryFieldManagerScript[] listToUpdate = currentTab.GetComponentsInChildren<HistoryFieldManagerScript> ();
-				foreach (HistoryFieldManagerScript HFM in listToUpdate) {
-					Debug.Log (HFM.RefreshUniquePath ());
-				}*/
+                HistoryFieldManagerScript[] listToUpdate = currentTab.GetComponentsInChildren<HistoryFieldManagerScript> ();
+                foreach (HistoryFieldManagerScript HFM in listToUpdate) {
+                    Debug.Log (HFM.RefreshUniquePath ());
+                }*/
 
 
 
@@ -1420,24 +1469,24 @@ public class DataScript : MonoBehaviour
     }
 
     /**
-	 * Removes a tab from a section
-	 */
+     * Removes a tab from a section
+     */
     public void RemoveTab(string Tab)
     {
         Dict[transform.GetComponent<TabManager>().getCurrentSection()].Remove(Tab);
     }
 
     /**
-	 * Removes a section from the Dictionary
-	 */
+     * Removes a section from the Dictionary
+     */
     public void RemoveSection(string Section)
     {
         Dict.Remove(Section);
     }
 
     /**
-	 * Clears all data
-	 */
+     * Clears all data
+     */
     public void ClearAllData()
     {
         Dict.Clear();
@@ -1449,8 +1498,8 @@ public class DataScript : MonoBehaviour
     }
 
     /**
-	 * Method to check if the provided name has any special characters that XML wouldn't like
-	 */
+     * Method to check if the provided name has any special characters that XML wouldn't like
+     */
     public bool IsValidName(string name, string field)
     {
         if (name.ToLower().StartsWith("xml")) {
@@ -1464,13 +1513,13 @@ public class DataScript : MonoBehaviour
         return true; //Comment this line out to prevent special characters from being used.
 
         /*if (!Regex.IsMatch (name, "^[a-zA-Z_]")) {
-			Debug.Log ("Name must start with letters or an underscore");
-			return false;
-		} else if (!Regex.IsMatch (name, "^([a-zA-Z0-9-_. ])*$")) {
-			Debug.Log ("Name contains special characters");
-			return false;
-		}
-		return true;*/
+            Debug.Log ("Name must start with letters or an underscore");
+            return false;
+        } else if (!Regex.IsMatch (name, "^([a-zA-Z0-9-_. ])*$")) {
+            Debug.Log ("Name contains special characters");
+            return false;
+        }
+        return true;*/
     }
 
 
@@ -1540,30 +1589,6 @@ public class DataScript : MonoBehaviour
         yield return obj;
 
         yield break;
-    }
-
-    /**
-	 * Advance the node to the correct next node in the XmlDoc. Think Depth first search
-	 */
-    private XmlNode AdvNode(XmlNode node)
-    {
-        if (node == null)
-            return node;
-        if (node.HasChildNodes)
-            node = node.ChildNodes.Item(0);
-        else if (node.NextSibling != null)
-            node = node.NextSibling;
-        else {
-            while (node.ParentNode.NextSibling == null) {
-                node = node.ParentNode;
-                if (node == xmlDoc.DocumentElement || node.ParentNode == null)
-                    return null;
-            }
-            node = node.ParentNode.NextSibling;
-            if (node == xmlDoc.DocumentElement.LastChild)
-                return node;
-        }
-        return node;
     }
 
     //Used for testing

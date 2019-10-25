@@ -22,6 +22,7 @@ public class EditSectionScript : MonoBehaviour {
 	Transform deleteButton;
 	GlobalDataScript gData;
 	Transform BGInfoOption; //The transform of the BG Info option in the tab selector
+    CondGroup condGroup;
 
     private GameObject sectionEditPrefab;
 
@@ -46,8 +47,10 @@ public class EditSectionScript : MonoBehaviour {
 		if (BG == null) {
 			Start ();
 		}
-	
-		tObject = t;
+        var section = ds.GetData(tm.getCurrentSection());
+
+
+        tObject = t;
 
         sectionEditPrefab = Instantiate(Resources.Load("Writer/Prefabs/Panels/SectionEditorBG")) as GameObject;
         sectionEditPrefab.transform.SetParent(parentBG.transform, false);
@@ -55,10 +58,10 @@ public class EditSectionScript : MonoBehaviour {
 		sectionEditPrefab.transform.SetAsLastSibling ();
 		sectionEditPrefab.transform.SetSiblingIndex (sectionEditPrefab.transform.GetSiblingIndex () - 1);
 		sectionEditPrefab.transform.Find (TitleValuePath).GetComponent<TMP_InputField>().text = t.text;
-        colorPanelParent = sectionEditPrefab.transform.Find("SectionEditorPanel/Content/Row3");
+        colorPanelParent = sectionEditPrefab.transform.Find("SectionEditorPanel/Content/MainGroup/Row3");
         customColorParent = colorPanelParent.Find("Column0/RowCustomColor/TMPInputField/ColorHexValue");
         colorSlidersParent = colorPanelParent.Find("Column1");
-		deleteButton = sectionEditPrefab.transform.Find("SectionEditorPanel/Content/Row5/DeleteSectionButton");
+		deleteButton = sectionEditPrefab.transform.Find("SectionEditorPanel/Content/MainGroup/Row5/DeleteSectionButton");
 
 		// Checks if this tab has Patient Info, if so then this section cannot be deleted
 		foreach (Transform child in tm.TabButtonContentPar.transform) {
@@ -70,8 +73,8 @@ public class EditSectionScript : MonoBehaviour {
 
         //Check the Background Info box if the background info tab is already spawned
         //Debug.Log(string.Join(",", ds.GetData(tm.getCurrentSection()).GetTabList().ToArray()));
-        bool spawn = (ds.GetData(tm.getCurrentSection()).GetTabList().Find((string obj) => obj.StartsWith("Background_InfoTab")) != null);
-		Toggle bgInfoToggle = sectionEditPrefab.transform.Find("SectionEditorPanel/Content/Row1").GetComponentInChildren<Toggle>();
+        bool spawn = (section.GetTabList().Find((string obj) => obj.StartsWith("Background_InfoTab")) != null);
+		Toggle bgInfoToggle = sectionEditPrefab.transform.Find("SectionEditorPanel/Content/MainGroup/Row1").GetComponentInChildren<Toggle>();
 		bgInfoToggle.isOn = false;
 		if (spawn) {
 			bgInfoToggle.isOn = true;
@@ -80,9 +83,9 @@ public class EditSectionScript : MonoBehaviour {
 		//Set the selected section icon at the bottom to the section's current icon
 		SpriteHolderScript shs = ds.GetImage(tObject.text);
 		if (shs == null) {
-			sectionEditPrefab.transform.Find("SectionEditorPanel/Content/ScrollView/Viewport/Content").GetChild(0).GetComponentInChildren<Toggle>().isOn = true;
+			sectionEditPrefab.transform.Find("SectionEditorPanel/Content/MainGroup/ScrollView/Viewport/Content").GetChild(0).GetComponentInChildren<Toggle>().isOn = true;
 		} else {
-			foreach (Toggle tog in sectionEditPrefab.transform.Find("SectionEditorPanel/Content/ScrollView/Viewport/Content").GetComponentsInChildren<Toggle>()) {
+			foreach (Toggle tog in sectionEditPrefab.transform.Find("SectionEditorPanel/Content/MainGroup/ScrollView/Viewport/Content").GetComponentsInChildren<Toggle>()) {
 				if (tog.name.Equals(shs.referenceName)) {
 					tog.isOn = true;
 				} else {
@@ -134,8 +137,17 @@ public class EditSectionScript : MonoBehaviour {
 			//Debug.Log (newTextString);
 			customColorParent.GetComponentInChildren<TextMeshProUGUI> ().text = newTextString;
 		}
-		//editSectionPanel.gameObject.SetActive (true);
-	}
+        //editSectionPanel.gameObject.SetActive (true);
+
+
+        // Import conditions
+        var conditions = section.Conditions;
+        if (conditions != null) {
+            var condGroup = sectionEditPrefab.GetComponent<SectionEditorScript>();
+
+            condGroup.SetConditions(conditions);
+        }
+    }
 
 	public void UpdateColorSlidersFromHex(TMP_InputField hex)
 	{
@@ -217,14 +229,20 @@ public class EditSectionScript : MonoBehaviour {
 	public void SubmitChanges() {
 		//Sets the section's name to the new display name
 		string sectionLinkTo = tObject.text;
-		string newName = sectionEditPrefab.transform.Find (TitleValuePath).GetComponent<TMP_InputField> ().text;
+
+        // Set conditions
+        var condGroup = sectionEditPrefab.GetComponentInChildren<CondGroup>();
+        var conditions = condGroup.ConditionSerials();
+        ds.UpdateSectionConds(sectionLinkTo, conditions);
+
+        string newName = sectionEditPrefab.transform.Find (TitleValuePath).GetComponent<TMP_InputField> ().text;
 		if (newName.Equals("") || newName.Length == 0) {
 			ds.ShowMessage("Cannot leave section name blank");
 			return;
 		}
 		if (!ds.IsValidName (newName, "Section")) {
 			//ds.ShowMessage ("Section name not valid. Cannot use:\n*, &, <, >, or //", true);
-			throw new System.Exception("Name not valid: Please rename your section");
+			throw new Exception("Name not valid: Please rename your section");
 		}
 		Debug.Log ("SECTIONEDITPREFAB: " + sectionEditPrefab.name);
 		if (newName != null && !newName.Equals("")) {
@@ -250,7 +268,7 @@ public class EditSectionScript : MonoBehaviour {
 
 		//Finds and sets the section's icon to the chosen one
 		Sprite spr = null;
-		Transform[] sectionIcons = sectionEditPrefab.transform.Find("SectionEditorPanel/Content/ScrollView/Viewport/Content").GetComponentsInChildren<Transform>();
+		Transform[] sectionIcons = sectionEditPrefab.transform.Find("SectionEditorPanel/Content/MainGroup/ScrollView/Viewport/Content").GetComponentsInChildren<Transform>();
 		foreach (Transform t in sectionIcons) {
 			Toggle tog;
 			if ((tog = t.GetComponent<Toggle> ()) != null && tog.isOn) {
@@ -278,7 +296,7 @@ public class EditSectionScript : MonoBehaviour {
 		}
 
 		//Spawns/Removes the Background Info tab as needed
-		bool spawn = sectionEditPrefab.transform.Find("SectionEditorPanel/Content/Row1").GetComponentInChildren<Toggle>().isOn;
+		bool spawn = sectionEditPrefab.transform.Find("SectionEditorPanel/Content/MainGroup/Row1").GetComponentInChildren<Toggle>().isOn;
 		string tabName = ds.GetData(tm.getCurrentSection()).GetTabList().Find((string obj) => obj.StartsWith("Background_InfoTab"));
 		bool tabExists = true;
 		if (tabName == null || tabName.Equals ("")) {

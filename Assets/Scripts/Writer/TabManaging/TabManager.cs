@@ -269,18 +269,6 @@ public class TabManager : MonoBehaviour
     }
 
     /**
-	 * Directly loads the data from the XML file into the data fields in the current tab
-	 */
-
-    public void LoadData()
-    {
-        ds.ClearAllData();
-        ClearAll();
-        ds.PopulateDict();
-        currentTab.GetComponent<LoadData>().LoadXML();
-    }
-
-    /**
 	 * Switches the active tab
 	 * Pass in the formatted tabName
 	 */

@@ -255,11 +255,11 @@ public class ReaderEntryManagerScript : MonoBehaviour
                             break;
                         }
                     }
-                    tempNode = AdvNode(tempNode);
+                    tempNode = xmlDoc.AdvNode(tempNode);
                 }
             }
             uniqueParentNode = tempNode;
-            tempNode = AdvNode(tempNode); //Advance inside the unique parent
+            tempNode = xmlDoc.AdvNode(tempNode); //Advance inside the unique parent
         }
 
         if (tempNode == null) { //No data found
@@ -273,7 +273,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
         //Find the first entry while avoiding going into the next manager's data (if there are any)
         //Doing this to add and spwan in the Entries we'll need for loading into
         while (tempNode != null && !tempNode.Name.Equals("Entry0")) {
-            tempNode = AdvNode(tempNode);
+            tempNode = xmlDoc.AdvNode(tempNode);
             if (uniqueParentNode.NextSibling != null && tempNode.Equals(uniqueParentNode.NextSibling)) {
                 break;
             }
@@ -286,10 +286,10 @@ public class ReaderEntryManagerScript : MonoBehaviour
                 CreateQuestions(tempNode.ParentNode.OuterXml); //Temp node was on the first entry. We want the entries' parent.
             } else {
                 while (tempNode != null) { //&& tempNode.ParentNode.HasChildNodes
-                    XmlNode a = AdvNode(tempNode);
+                    XmlNode a = xmlDoc.AdvNode(tempNode);
                     if (a.InnerText.Equals("DialogueEntryTest2") || a.InnerText.Equals("DialogueEntry")) { //TODO update this to remove Test2 reference
                         while (!a.Name.StartsWith("character")) {
-                            a = AdvNode(a);
+                            a = xmlDoc.AdvNode(a);
                         }
                         AddDialogue(a.InnerText);
                         /*if (WWW.UnEscapeURL(a.InnerText).Equals("Patient")) {
@@ -408,14 +408,14 @@ public class ReaderEntryManagerScript : MonoBehaviour
 
         //If the node isn't already on EntryData, get it there
         while (!node.Name.Equals("EntryData")) {
-            node = AdvNode(node);
+            node = xmlDoc.AdvNode(node);
 
             if (node == null) {
                 Debug.Log("No Data to load.");
                 return;
             }
         }
-        node = AdvNode(node); //Enter the EntryData. This will put Node on "Parent". The entries are all siblings now
+        node = xmlDoc.AdvNode(node); //Enter the EntryData. This will put Node on "Parent". The entries are all siblings now
 
         XmlDocument element = new XmlDocument();
         int ii = 0; //This is uesd for referencing labEntries
@@ -451,7 +451,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
                     spawnQuiz = true;
                     XmlNode findParent = tempNodee;
                     while (!findParent.Name.Equals("Parent")) {
-                        findParent = AdvNode(findParent);
+                        findParent = xmlDoc.AdvNode(findParent);
                     }
                     quizId = findParent.InnerText;
                     ds.AddQuiz(findParent.InnerText, tempNodee.InnerXml);
@@ -465,7 +465,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
                     spawnDialogue = false;
                 } else {
                     spawnDialogue = true;
-                    findUID(node);
+                    uid = node.FindUID();
                     ds.AddDialogue(uid, element.GetElementsByTagName("DialoguePin").Item(0).InnerXml);
                     //GiveOutline (labNodee.gObject);
                 }
@@ -487,13 +487,13 @@ public class ReaderEntryManagerScript : MonoBehaviour
             }
 
             //Iterate over all transform children of the entry to find where we need to load in data
-            List<Transform> allChildrenn = labNodee.gObject.GetComponentsInChildren<Transform>(true).ToList<Transform>();
+            List<Transform> allChildrenn = labNodee.gObject.GetComponentsInChildren<Transform>(true).ToList();
 
             //Establish commonly used variables as to limit the number of items for Garbage Collection
             Transform nestedParent = null;
             HideLabelScript hls = null;
-            TMPro.TextMeshProUGUI tmpUGUI;
-            TMPro.TMP_InputField tmpInput;
+            TextMeshProUGUI tmpUGUI;
+            TMP_InputField tmpInput;
 
             foreach (Transform child in allChildrenn) {
 
@@ -529,7 +529,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
                     if ((hls = child.GetComponent<HideLabelScript>()) != null && (xmlValue.Equals("") || xmlValue.Equals(hls.customHide))) {
                         if (hls.displayNA) {
                             xmlValue = "N/A";
-                        } else if (!hls.customDisplay.Equals("")) {
+                        } else if (!string.IsNullOrEmpty(hls.customDisplay)) {
                             xmlValue = hls.customDisplay;
                         } else {
                             hls.HideLabel();
@@ -873,14 +873,14 @@ public class ReaderEntryManagerScript : MonoBehaviour
 
         //If the node isn't already on EntryData, get it there
         while (!node.Name.Equals("EntryData")) {
-            node = AdvNode(node);
+            node = xmlDoc.AdvNode(node);
 
             if (node == null) {
                 Debug.Log("No Data to load.");
                 return;
             }
         }
-        node = AdvNode(node); //Enter the EntryData. This will put Node on "Parent". The entries are all siblings now
+        node = xmlDoc.AdvNode(node); //Enter the EntryData. This will put Node on "Parent". The entries are all siblings now
 
         XmlDocument questionXml = new XmlDocument();
 
@@ -918,7 +918,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
             questionXml.LoadXml(questionXml.GetElementsByTagName("data").Item(0).InnerXml); //Prepare to traverse answers
             XmlNode answerNode = questionXml.DocumentElement;
             while (!answerNode.Name.Equals("EntryData")) {
-                answerNode = AdvNode(answerNode);
+                answerNode = xmlDoc.AdvNode(answerNode);
 
                 if (answerNode == null) {
                     Debug.Log("No Data to load.");
@@ -1625,44 +1625,6 @@ public class ReaderEntryManagerScript : MonoBehaviour
     public void SetPin(Transform pin)
     {
         panelPin = pin;
-    }
-
-    // Recursive function to read all nodes until uid is found
-    private string findUID(XmlNode node)
-    {
-        if (node.Name == "uid") {
-            uid = node.InnerText;
-            return uid;
-        }
-
-        foreach (XmlNode n in node.ChildNodes) {
-            if (!findUID(n).Equals(""))
-                return uid;
-        }
-        return "";
-    }
-    /**
-	 * 	Advance the node to the correct next node in the XmlDoc. Just like Depth first search
-	 */
-    private XmlNode AdvNode(XmlNode node)
-    {
-        if (node == null)
-            return node;
-        if (node.HasChildNodes)
-            node = node.ChildNodes.Item(0);
-        else if (node.NextSibling != null)
-            node = node.NextSibling;
-        else {
-            while (node.ParentNode.NextSibling == null) {
-                node = node.ParentNode;
-                if (node == xmlDoc.DocumentElement || node.ParentNode == null)
-                    return null;
-            }
-            node = node.ParentNode.NextSibling;
-            if (node == xmlDoc.DocumentElement.LastChild)
-                return node;
-        }
-        return node;
     }
 
     /**
