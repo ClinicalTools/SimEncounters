@@ -89,6 +89,7 @@ public class ReaderDataScript : MonoBehaviour
     // Use this for initialization
     IEnumerator Start()
     {
+        //! READER: potentially get demo case
         if (fileName.Equals("") && readerOnlyBuild && GlobalData.caseObj == null) {
             GetDemoCase();
         }
@@ -122,6 +123,8 @@ public class ReaderDataScript : MonoBehaviour
 			xmlDoc.LoadXml(text);
 		}
 		*/
+
+        //! READER: check absolute url
         if (Application.absoluteURL.Contains("?patient=")) {
             string patient = Application.absoluteURL.Substring(Application.absoluteURL.IndexOf("?patient="));
             patient = patient.Remove(0, "?patient=".Length);
@@ -135,6 +138,8 @@ public class ReaderDataScript : MonoBehaviour
         ServerUploader = transform.GetComponent<UploadToServer>();
         serverCaseData = "";
         serverImageData = "";
+
+        //! READER: download data if not disabled
         if (!disableDownload) {//Application.platform != RuntimePlatform.WebGLPlayer) {//&& Application.platform != RuntimePlatform.Android) { 
                                //if (fileName.Length > 5 && !GlobalData.loadLocal && !System.IO.File.Exists (path + fileName.Remove (fileName.Length - 3) + "ced")) {
             if (!GlobalData.loadLocal || !File.Exists(path + fileName)) {
@@ -157,6 +162,8 @@ public class ReaderDataScript : MonoBehaviour
 		*/
 
         yield return StartCoroutine(LoadCase());
+
+        //! READER: set patient information
         GlobalData.firstName = "";
         GlobalData.lastName = "";
         if (GlobalData.caseObj != null) {
@@ -180,6 +187,8 @@ public class ReaderDataScript : MonoBehaviour
                 }
             }
         }
+
+
         if (loadingScreen == null) {
             loadingScreen = LoadingScreenManager.Instance.GetComponent<CanvasGroup>();
         }
@@ -189,6 +198,7 @@ public class ReaderDataScript : MonoBehaviour
             LoadingScreenManager.Instance.Fade();
         }
 
+        //! READER: Refresh case overview
         if (caseOverviewScript != null) {
             caseOverviewScript.RefreshOverview();
         }
@@ -196,6 +206,7 @@ public class ReaderDataScript : MonoBehaviour
         yield return null;
     }
 
+    // READER ONLY METHOD
     public void DisplayMessageFromJavascript(string message)
     {
         Debug.Log("I'm printing because I was called from javascript!");
@@ -207,6 +218,7 @@ public class ReaderDataScript : MonoBehaviour
         Debug.Log(Application.absoluteURL);
     }
 
+    //! READER ONLY METHOD
     private IEnumerator LoadCase()
     {
         if (fileName.Length > 5) {
@@ -217,6 +229,7 @@ public class ReaderDataScript : MonoBehaviour
         yield break;
     }
 
+    //! ???
     public void CallStart()
     {
         ClearAllData();
@@ -227,6 +240,7 @@ public class ReaderDataScript : MonoBehaviour
     /**
 	 * Manually entering in the variables needed to load the chad case for the reader
 	 */
+     //! READER ONLY METHOD
     public void GetDemoCase()
     {
         disableDownload = true;
@@ -240,6 +254,7 @@ public class ReaderDataScript : MonoBehaviour
     /**
 	 * Loads images from the images XML file
 	 */
+     //! LOADIMAGES
     public IEnumerator LoadImages()
     {
         string imageFileName = fileName.Remove(fileName.Length - 3) + "cei";
@@ -382,12 +397,16 @@ public class ReaderDataScript : MonoBehaviour
                 }
             }
 
+            node = VarData.ReadNode(xmlDoc, node);
+            node = CondData.ReadNode(xmlDoc, node);
+
             node = xmlDoc.AdvNode(node);
         }
 
         if (GetImage(GlobalData.patientImageID) != null && GetImage(GlobalData.patientImageID).sprite != null) {
             GameObject.Find("CharacterCamera").transform.Find("Canvas/Image").GetComponent<Image>().sprite = GetImage(GlobalData.patientImageID).sprite;
             GameObject.Find("CharacterCamera").transform.Find("Canvas").gameObject.SetActive(true);
+        //! READER: No character image ????
         } else {
             Debug.Log("No character image");
             GameObject.Find("CharacterCamera").transform.Find("Canvas").gameObject.SetActive(false);

@@ -101,6 +101,8 @@ public class DataScript : MonoBehaviour
         ServerUploader = transform.GetComponent<UploadToServer>();
         serverCaseData = "";
         serverImageData = "";
+
+        //! WRITER: check if new case
         if (GlobalData.caseObj == null) {
             GlobalData.newCase = true;
         }
@@ -109,6 +111,7 @@ public class DataScript : MonoBehaviour
             loadingScreen = LoadingScreenManager.Instance.GetComponent<CanvasGroup>();
         }
 
+        //! WRITER: set loading screen if it's not a new case and download
         if (!GlobalData.newCase) {
             if (!GlobalData.loadLocal || !File.Exists(path + fileName)) {
                 loadingScreen.transform.Find("LoadingBar").gameObject.SetActive(false);
@@ -127,6 +130,7 @@ public class DataScript : MonoBehaviour
         correctlyOrderedQuizes = new Dictionary<string, string>();
         correctlyOrderedFlags = new Dictionary<string, string>();
 
+        //! WRITER: handle loading autosaves
         if (fileName.Length > 5) {
             LoadImages();
 
@@ -143,13 +147,18 @@ public class DataScript : MonoBehaviour
             }
         }
 
+        //! WRITER: load tab manager
         transform.GetComponent<TabManager>().FirstTimeLoad();
 
+        //! WRITER: guests can't show a case in the reader from the writer??????
         if (GlobalData.role == GlobalData.Roles.Guest) {
             transform.Find("SidePanel/MainPanel/MenuPanel/ShowCaseInReader").gameObject.SetActive(false);
         }
+
         //GlobalData.firstName = "";
         //GlobalData.lastName = "";
+
+        //! WRITER: set up initial handling of patient name info
         if (GlobalData.firstName != null && GlobalData.firstName.Equals("") && GlobalData.caseObj != null) {
             if (!GlobalData.caseObj.patientName.Equals("")) {
                 string[] nameSplit = GlobalData.caseObj.patientName.Split('_');
@@ -163,11 +172,14 @@ public class DataScript : MonoBehaviour
             }
         }
 
+        //! WRITER: handle template
         //Check to see if the case opened is a template. If it is, set it up so the user saves a copy
         if (GlobalData.createCopy) {// || (GlobalData.caseObj.caseType.GetHashCode() & GlobalData.caseObj.templateCompare) == GlobalData.caseObj.templateCompare) {
             CheckDuplicateFiles();
             GlobalData.createCopy = false;
         }
+
+        //! WRITER: handle saving autosaves
         int minutesBetweenSaves = GlobalData.autosaveRate;
         //int minutesBetweenSaves = transform.Find("SaveCaseBG").GetComponent<SubmitToXML>().minutesBetweenSaves;
         if (GlobalData.caseObj != null && minutesBetweenSaves > 0 && GlobalData.enableAutoSave) { //If the user is logged in/came from the main menu, they'll have a case object
@@ -175,6 +187,7 @@ public class DataScript : MonoBehaviour
             InvokeRepeating("Autosaving", minutesBetweenSaves * 60, minutesBetweenSaves * 60);
         }
 
+        //! WRITER: handle load into writer button
         //When playing just the writer
         //print((GlobalData.caseObj == null) + ", " + GlobalData.GDS.developer);
         if (GlobalData.caseObj == null && GlobalData.GDS.developer) {
@@ -189,6 +202,7 @@ public class DataScript : MonoBehaviour
         yield return null;
     }
 
+    //! WRITER ONLY METHOD
     private void CheckDuplicateFiles()
     {
         if (GlobalData.caseObj == null) {
@@ -221,6 +235,7 @@ public class DataScript : MonoBehaviour
         transform.Find("SaveCaseBG").GetComponent<SubmitToXML>().Autosave();
     }
 
+    //! WRITER ONLY METHOD
     public void RestartAutosave()
     {
         int minutesBetweenSaves = GlobalData.autosaveRate;
@@ -232,6 +247,7 @@ public class DataScript : MonoBehaviour
     /**
 	 * Loads images from the images XML file
 	 */
+    //! LOADIMAGES
     public void LoadImages()
     {
         string imageFileName = fileName.Remove(fileName.Length - 3);
@@ -361,10 +377,12 @@ public class DataScript : MonoBehaviour
             node = xmlDoc.AdvNode(node);
         }
 
-        if (GetImage(GlobalData.patientImageID) != null) {
+        if (GetImage(GlobalData.patientImageID) != null && GetImage(GlobalData.patientImageID).sprite != null) {
             GameObject.Find("CharacterCamera").transform.Find("Canvas/Image").GetComponent<Image>().sprite = GetImage(GlobalData.patientImageID).sprite;
             GameObject.Find("CharacterCamera").transform.Find("Canvas").gameObject.SetActive(true);
         }
+        //! READER: No character image ????
+
         //Debug.Log (string.Join (",", imgDict.Keys.ToArray ()));
     }
 
@@ -425,6 +443,7 @@ public class DataScript : MonoBehaviour
 	 */
     public void AddImg(string key, Sprite s)
     {
+        // Remove all empty space characters from the string
         key = key.Replace("​", "");
         if (imgDict.ContainsKey(key)) {
             imgDict[key].sprite = s;
