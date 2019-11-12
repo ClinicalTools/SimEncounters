@@ -19,7 +19,9 @@ public class SectionDataScript
     private int count;                  //Number of all tabs ever created (NOT THE NUMBER OF CURRENT TABS)
     private int position;
     public List<string> Conditions { get; set; }
-    
+    public string Name { get; set; }
+
+
     //private bool visited = false; //Only used in the reader
 
     // Use this for initialization
@@ -119,13 +121,15 @@ public class SectionDataScript
 	 * Adds a certain Tab's information to the dictionary whose name cannot be changed
 	 * Pass in tabType as key, nonformatted
 	 */
-    public void AddPersistingData(string key, string customName, string data)
+    public void AddPersistingData(string key, string customName, string data, List<string> conditions = null)
     {
         //string key2 = Regex.Split (key, "[0-9]*$")[0];
         if (Dict.ContainsKey(key)) {
-            Dict[key].data = data;
+            var tabInfo = Dict[key];
+            tabInfo.data = data;
+            tabInfo.Conditions = conditions;
         } else {
-            Dict.Add(customName, new TabInfoScript(count, key, customName, data, Dict.Count));
+            Dict.Add(customName, new TabInfoScript(count, key, customName, data, Dict.Count, conditions));
             count++;
             AddTabToList(customName);
             Dict[customName].persistant = true;

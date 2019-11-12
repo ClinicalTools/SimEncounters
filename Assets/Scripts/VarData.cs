@@ -6,13 +6,14 @@ public static class VarData
 {
     public static HashSet<string> Keys { get; } = new HashSet<string>();
 
-    private static readonly Dictionary<string, CaseBool> boolDict = new Dictionary<string, CaseBool>(); //A dictionary of all bool variables for a case
-    public static List<CaseBool> BoolVars => boolDict.Values.ToList();
-    public static void AddCaseBool(CaseBool boolVar)
+    private static readonly Dictionary<string, EncounterBool> boolDict = new Dictionary<string, EncounterBool>(); //A dictionary of all bool variables for a case
+    public static List<EncounterBool> BoolVars => boolDict.Values.ToList();
+    public static void AddCaseBool(EncounterBool boolVar)
     {
-        boolDict.Add(boolVar.Serial, boolVar);
+        // TODO: Fix
+        //boolDict.Add(boolVar.Serial, boolVar);
     }
-    public static CaseBool GetCaseBool(string key)
+    public static EncounterBool GetCaseBool(string key)
     {
         if (boolDict.ContainsKey(key))
             return boolDict[key];
@@ -25,13 +26,14 @@ public static class VarData
     }
 
 
-    private static readonly Dictionary<string, CaseInt> intDict = new Dictionary<string, CaseInt>(); //A dictionary of all int variables for a case
-    public static List<CaseInt> IntVars => intDict.Values.ToList();
-    public static void AddCaseInt(CaseInt intVar)
+    private static readonly Dictionary<string, EncounterInt> intDict = new Dictionary<string, EncounterInt>(); //A dictionary of all int variables for a case
+    public static List<EncounterInt> IntVars => intDict.Values.ToList();
+    public static void AddCaseInt(EncounterInt intVar)
     {
-        intDict.Add(intVar.Serial, intVar);
+        // TODO: Fix
+        //intDict.Add(intVar.Serial, intVar);
     }
-    public static CaseInt GetCaseInt(string key)
+    public static EncounterInt GetCaseInt(string key)
     {
         if (intDict.ContainsKey(key))
             return intDict[key];
@@ -73,7 +75,7 @@ public static class VarData
         var name = xmlDoc.GetNodeVal(ref node, "name");
         var valStr = xmlDoc.GetNodeVal(ref node, "value");
         if (bool.TryParse(valStr, out var val))
-            boolDict.Add(serial, new CaseBool(serial, name, val));
+            boolDict.Add(serial, new EncounterBool(name, val));
 
         return xmlDoc.AdvNode(node);
     }
@@ -83,7 +85,7 @@ public static class VarData
         var name = xmlDoc.GetNodeVal(ref node, "name");
         var valStr = xmlDoc.GetNodeVal(ref node, "value");
         if (int.TryParse(valStr, out var val))
-            intDict.Add(serial, new CaseInt(serial, name, val));
+            intDict.Add(serial, new EncounterInt(name, val));
 
         return xmlDoc.AdvNode(node);
     }
@@ -95,7 +97,7 @@ public static class VarData
         int i = 0;
         foreach (var boolVar in boolDict.Values) {
             data += "<var" + i + ">";
-            data += "<key>" + boolVar.Serial + "</key>";
+            //data += "<key>" + boolVar.Serial + "</key>";
             data += "<name>" + boolVar.Name + "</name>";
             data += "<value>" + boolVar.Value + "</value>";
             data += "</var" + i + ">";
@@ -104,7 +106,7 @@ public static class VarData
 
         foreach (var intVar in intDict.Values) {
             data += "<var" + i + ">";
-            data += "<key>" + intVar.Serial + "</key>";
+            //data += "<key>" + intVar.Serial + "</key>";
             data += "<name>" + intVar.Name + "</name>";
             data += "<value>" + intVar.Value + "</value>";
             data += "</var" + i + ">";

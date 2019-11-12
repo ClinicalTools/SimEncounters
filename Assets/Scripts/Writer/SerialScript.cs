@@ -11,9 +11,9 @@ public class SerialScript
     {
         return GenerateSerial(keys, defaultLength);
     }
-    public string GenerateSerial(HashSet<string> keys, char prefix)
+    public string GenerateSerial(HashSet<string> keys)
     {
-        return GenerateSerial(keys, defaultLength, prefix);
+        return GenerateSerial(keys, defaultLength);
     }
 
     public string GenerateSerial(List<string> keys, int len)
@@ -24,11 +24,11 @@ public class SerialScript
         }
         return serial;
     }
-    public string GenerateSerial(HashSet<string> keys, int len, char prefix)
+    public string GenerateSerial(HashSet<string> keys, int len)
     {
-        serial = prefix + Guid.NewGuid().ToString("N").Substring(0, len);
+        serial =  Guid.NewGuid().ToString("N").Substring(0, len);
         if (keys.Contains(serial)) { //If duplicate, recalculate UID
-            return GenerateSerial(keys, len, prefix);
+            return GenerateSerial(keys, len);
         }
 
         keys.Add(serial);

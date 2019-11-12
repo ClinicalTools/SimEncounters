@@ -32,6 +32,7 @@ public class BoolCondFields : CondFields<BoolConditional, bool>
 
     protected override void Delete()
     {
-        CondGroup.DeleteBoolCond(Cond.Serial);
+        // TODO: Fix
+        //CondGroup.DeleteBoolCond(Cond.Serial);
     }
 }

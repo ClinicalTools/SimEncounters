@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public abstract class VarRow<T, U> : MonoBehaviour
-    where T : CaseVariable<U>
+    where T : EncounterVariable<U>
 {
     protected virtual T CaseVar { get; set; }
     protected virtual bool New { get; set; }

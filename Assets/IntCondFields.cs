@@ -34,6 +34,7 @@ public class IntCondFields : CondFields<IntConditional, int>
 
     protected override void Delete()
     {
-        CondGroup.DeleteIntCond(Cond.Serial);
+        // TODO: fix
+        ///CondGroup.DeleteIntCond(Cond.Serial);
     }
 }

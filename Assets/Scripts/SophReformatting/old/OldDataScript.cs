@@ -22,12 +22,18 @@ using UnityEngine.UI;
  * "//! DIFF:" indicates an area of the code that does the same thing but in a different way depending on whether it's in the Reader or Writer.
  */
 
-namespace SimEncounters.Data
+namespace SimEncounters
 {
     public class SophData : MonoBehaviour
     {
         // There should only ever be one data script in the scene, so it's safe to use a static instance
         public static SophData Instance { get; private set; }
+
+        private SectionCollection sectionData;
+        private ImgCollection imgData;
+        // These need to not be static so their methods can be overridden
+        // private CondData condData;
+        // private VarData varData;
 
         private Dictionary<string, SectionDataScript> Dict = new Dictionary<string, SectionDataScript>();     //A dictionary of Sections. Key=sectionName. Value=sectionData (all tab info)
         private Dictionary<string, SpriteHolderScript> imgDict = new Dictionary<string, SpriteHolderScript>(); //A dictionary of any and all images. Key=Section(.Tab(.Entry name))
@@ -230,6 +236,7 @@ namespace SimEncounters.Data
                 node = xmlDoc.AdvNode(node);
             }
 
+            // Unique to clinical encountners
             if (GetImage(GlobalData.patientImageID) != null) {
                 GameObject.Find("CharacterCamera").transform.Find("Canvas/Image").GetComponent<Image>().sprite = GetImage(GlobalData.patientImageID).sprite;
                 GameObject.Find("CharacterCamera").transform.Find("Canvas").gameObject.SetActive(true);
@@ -434,7 +441,7 @@ namespace SimEncounters.Data
 
         public List<string> GetSectionsList()
         {
-            return Dict.Keys.ToList();
+            return null;//sectionData.GetSectionsList();
         }
 
         // TODO: This method is 500 lines long and I don't want to have to deal with that kind of negativity right now
@@ -463,7 +470,7 @@ namespace SimEncounters.Data
 
             while (!inSections) { //Load in any panel's data that is not in a section
                 print(node.Name + ", " + node.Value + ", " + node.OuterXml);
-                Transform[] children;
+                Transform[] children = null;
 
                 XmlDocument element = new XmlDocument();
 
@@ -530,8 +537,8 @@ namespace SimEncounters.Data
                         child.gameObject.GetComponent<Text>().text = UnityWebRequest.UnEscapeURL(xmlValue);
                     } else if (child.gameObject.GetComponent<TextMeshProUGUI>() != null) {
                         child.gameObject.GetComponent<TextMeshProUGUI>().text = UnityWebRequest.UnEscapeURL(xmlValue);
-                    //! DIFF: image 
-                    } else if (child.name.Equals("Image") && child.GetComponent<OpenImageUploadPanelScript>()) { 
+                        //! DIFF: image 
+                    } else if (child.name.Equals("Image") && child.GetComponent<OpenImageUploadPanelScript>()) {
                         Debug.Log("LOADING IMAGE: " + xmlValue);
                         child.GetComponent<OpenImageUploadPanelScript>().SetGuid(xmlValue);
 
@@ -551,7 +558,7 @@ namespace SimEncounters.Data
                         }
 
                         //! DIFF: slider
-                    } else if (child.gameObject.GetComponent<Slider>() != null) { 
+                    } else if (child.gameObject.GetComponent<Slider>() != null) {
                         if (child.name.Equals("AgeSlider")) {
                             NextFrame.Function(delegate { child.gameObject.GetComponent<Slider>().value = float.Parse(xmlValue); });
                         } else {
@@ -566,13 +573,107 @@ namespace SimEncounters.Data
                         if (node.Name.Equals("Sections") && !inSections) {
                             inSections = true;
                         }
-                        
-                        print (node.Name + ", " + node.Value + ", " + node.OuterXml);
+
+                        print(node.Name + ", " + node.Value + ", " + node.OuterXml);
                         break;
                     }
                     node = xmlDoc.AdvNode(node);
                 }
             }
+
+
+            node = xmlDoc.AdvNode(node); //Go inside sections
+
+            //! READER: tracking data
+
+
+            while (node != null) {
+                if (node.Name.ToLower().EndsWith("section")) {
+                    //sectionData.ReadSection(node);
+                }
+
+                node = node.NextSibling;
+            }
+
+
+            //If there were no sections in the file then loading is done. Return.
+            if (sectionName == null) {
+                yield break;
+            }
+
+            //! READER: tracking data
+
+            if (SectionButtonPar == null)
+                yield break;
+
+            //Load in the section buttons
+            GameObject parent = SectionButtonPar;
+
+            //Remove all previously existing section buttons (Since we'll have new sections)
+            foreach (Transform child in parent.transform) {
+                if (child.name != "Filler" && child.name != "AddSectionButton") {
+                    GameObject.Destroy(child.gameObject);
+                }
+            }
+
+            //Spawn the section buttons
+            int i = 0;
+            Transform iconHolder = GameObject.Find("GaudyBG").transform;
+            iconHolder = iconHolder.Find("SectionCreatorBG/SectionCreatorPanel/Content/ScrollView/Viewport/Content");
+            foreach (string key in GetSectionsList()) {
+                GameObject newSection = Resources.Load(GlobalData.resourcePath + "/Prefabs/SectionButton") as GameObject;
+                TextMeshProUGUI[] children = newSection.GetComponentsInChildren<TextMeshProUGUI>(true);
+                string buttonName = null;
+                string imageKey = null;
+                foreach (TextMeshProUGUI child in children) {
+                    if (child.name.Equals("SectionLinkToText")) { //Where the button links to
+                        imageKey = key;
+                        child.text = key;
+                    } else if (child.name.Equals("SectionDisplayTMP")) { //What the button displays
+                        child.text = key.Replace('_', ' ').Substring(0, key.Length - "Section".Length);
+                        buttonName = child.text.Replace(" ", "_") + "SectionButton";
+                    }
+                }
+                //Just in case
+                newSection.transform.Find("SectionDisplayText").GetComponent<Text>().text = key.Replace('_', ' ').Substring(0, key.Length - "Section".Length);
+
+                newSection = Instantiate(newSection, parent.transform);
+                newSection.name = buttonName;
+                newSection.transform.SetSiblingIndex(i);
+                i++;
+
+                if (imgDict.Count > 0) {
+                    Image[] images = newSection.GetComponentsInChildren<Image>();
+                    foreach (Image img in images) {
+                        if (img.transform.name.Equals("Image")) {
+                            img.sprite = null;
+                            if (!imgDict.ContainsKey(imageKey)) { //Load default image if it's not found in the dictionary
+                                img.sprite = iconHolder.transform.Find("IconPanel1/Icon").GetComponent<Image>().sprite;
+                            } else {
+                                if (imgDict[imageKey].referenceName != null && !imgDict[imageKey].referenceName.Equals("")) {
+                                    img.sprite = imgDict[imageKey].iconHolder.transform.Find(imgDict[imageKey].referenceName + "/Icon").GetComponent<Image>().sprite;
+                                } else {
+                                    img.sprite = imgDict[imageKey].sprite;
+                                }
+                                if (imgDict[imageKey].useColor) {
+                                    newSection.GetComponent<Image>().color = imgDict[imageKey].color;
+                                    //img.color = imgDict [imageKey].color;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //! READER: tabs visitied
+                //! READER: force visited
+
+                //! WRITER: set SectionDisplayTMP to active
+            }
+
+            //! READER: step selection title
+
+            //! WRITER: get keys
+            //! WRITER: set section button/filler as siblings
 
             //! TODO: complete the rest of this
         }
@@ -854,6 +955,8 @@ namespace SimEncounters.Data
 
         /**
          * Edits a tab's display name
+         * 
+         * why isn't this writer only
          */
         public void EditTab(string oldName, string newName)
         {

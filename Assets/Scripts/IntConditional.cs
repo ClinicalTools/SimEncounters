@@ -12,7 +12,7 @@ public class IntConditional : CaseConditional<int>
     public IntConditionalOperator Comparator { get; set; }
 
     public IntConditional(string varSerial) : base(varSerial) { }
-    public IntConditional(string serial, string varSerial, int value, IntConditionalOperator op) : base(serial, varSerial, value) {
+    public IntConditional(string varSerial, int value, IntConditionalOperator op) : base(varSerial, value) {
         Comparator = op;
     }
 
@@ -32,7 +32,7 @@ public class IntConditional : CaseConditional<int>
         }
     }
 
-    protected override CaseVariable<int> GetVar()
+    protected override EncounterVariable<int> GetVar()
     {
         throw new NotImplementedException();
     }

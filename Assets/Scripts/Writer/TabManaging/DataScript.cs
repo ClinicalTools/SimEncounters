@@ -182,7 +182,8 @@ public class DataScript : MonoBehaviour
         //! WRITER: handle saving autosaves
         int minutesBetweenSaves = GlobalData.autosaveRate;
         //int minutesBetweenSaves = transform.Find("SaveCaseBG").GetComponent<SubmitToXML>().minutesBetweenSaves;
-        if (GlobalData.caseObj != null && minutesBetweenSaves > 0 && GlobalData.enableAutoSave) { //If the user is logged in/came from the main menu, they'll have a case object
+        if (GlobalData.caseObj != null && minutesBetweenSaves > 0 && GlobalData.enableAutoSave) { 
+            //If the user is logged in/came from the main menu, they'll have a case object
             print("Autosaving started. Saving every " + minutesBetweenSaves + " minutes.");
             InvokeRepeating("Autosaving", minutesBetweenSaves * 60, minutesBetweenSaves * 60);
         }
@@ -195,6 +196,7 @@ public class DataScript : MonoBehaviour
             GlobalData.filePath = "C:/Users/Will/AppData/LocalLow/Clinical Tools Inc/Clinical Encounters_ Creator";
 
         }
+
         if (loadingScreen != null && GlobalData.showLoading) {
             loadingScreen.blocksRaycasts = false;
             LoadingScreenManager.Instance.Fade();
@@ -287,8 +289,6 @@ public class DataScript : MonoBehaviour
                 }
                 xmlDoc.LoadXml(text);
             }
-
-
 
 
 

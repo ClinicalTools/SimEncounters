@@ -7,6 +7,8 @@ public static class Extensions
     /**
      * Advance the node to the correct next node in the XmlDoc. Think Depth first search
      */
+    // you can't do this like literally please don't
+    // It makes it impossible to know how the xml code is supposed to be structred
     public static XmlNode AdvNode(this XmlDocument xmlDoc, XmlNode node)
     {
         if (node == null)

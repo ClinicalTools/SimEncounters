@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-public class BoolRow : VarRow<CaseBool, bool>
+public class BoolRow : VarRow<EncounterBool, bool>
 {
     [SerializeField] private TMP_InputField nameField;
     [SerializeField] private TMP_Dropdown valDropdown;
@@ -10,10 +10,10 @@ public class BoolRow : VarRow<CaseBool, bool>
     public override void NewVal()
     {
         base.NewVal();
-        CaseVar = new CaseBool();
+        CaseVar = new EncounterBool();
     }
 
-    public override void SetVal(CaseBool value)
+    public override void SetVal(EncounterBool value)
     {
         base.SetVal(value);
         nameField.text = CaseVar.Name;
@@ -33,6 +33,7 @@ public class BoolRow : VarRow<CaseBool, bool>
 
     protected override void Delete()
     {
-        BoolGroup.Instance.DeleteVar(CaseVar.Serial);
+        // TODO: fix
+        //BoolGroup.Instance.DeleteVar(CaseVar.Serial);
     } 
 }

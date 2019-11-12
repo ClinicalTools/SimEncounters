@@ -914,6 +914,7 @@ public class ReaderDataScript : MonoBehaviour
                     node = xmlDoc.AdvNode(node);
                 }
             }
+
             if (node?.Name?.ToLower().EndsWith("tab") == true && tabName == null) {
                 tabName = node.Name.Replace("_", " ").Substring(0, node.Name.Length - 3); //Unformat tabType
                 XmlNode tempNode = xmlDoc.AdvNode(node);

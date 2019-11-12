@@ -29,8 +29,8 @@ public class CondGroup : MonoBehaviour
     }
 
     public IEnumerable<TMP_Dropdown.OptionData> VarNames { get; private set; }
-    private Dictionary<string, CaseBool> boolVars;
-    public CaseBool GetBool(string name)
+    private Dictionary<string, EncounterBool> boolVars;
+    public EncounterBool GetBool(string name)
     {
         return boolVars[name];
     }
@@ -42,8 +42,8 @@ public class CondGroup : MonoBehaviour
         delIntConds.Add(serial);
     }
 
-    private Dictionary<string, CaseInt> intVars;
-    public CaseInt GetInt(string name)
+    private Dictionary<string, EncounterInt> intVars;
+    public EncounterInt GetInt(string name)
     {
         return intVars[name];
     }
@@ -65,8 +65,8 @@ public class CondGroup : MonoBehaviour
         var names = new List<TMP_Dropdown.OptionData>();
         names.Add(new TMP_Dropdown.OptionData(" "));
 
-        boolVars = new Dictionary<string, CaseBool>();
-        intVars = new Dictionary<string, CaseInt>();
+        boolVars = new Dictionary<string, EncounterBool>();
+        intVars = new Dictionary<string, EncounterInt>();
         var boolNames = new List<string>();
         foreach (var boolVar in VarData.BoolVars) {
             boolVars.Add(boolVar.Name, boolVar);

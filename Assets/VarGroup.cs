@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class VarGroup<T, U, V> : MonoBehaviour
     where T : VarRow<U, V>
-    where U : CaseVariable<V>
+    where U : EncounterVariable<V>
 {
     [SerializeField] private GameObject rowPrefab;
     public virtual GameObject RowPrefab => rowPrefab;

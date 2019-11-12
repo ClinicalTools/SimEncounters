@@ -14,12 +14,7 @@ public class CondRow : MonoBehaviour
 
     public string Serial {
         get {
-            if (type == VarType.Bool)
-                return boolFields.Cond.Serial;
-            else if (type == VarType.Int)
-                return intFields.Cond.Serial;
-            else
-                return null;
+            return null;
         }
     }
 
@@ -43,10 +38,12 @@ public class CondRow : MonoBehaviour
                 intFields.gameObject.SetActive(false);
         }
 
+        // TODO: Fix 
+        /*
         if (type == VarType.Bool) {
             var caseBool = condGroup.GetBool(varName);
 
-            if (boolFields == null || boolFields.Cond.VarSerial != caseBool.Serial) {
+            if (boolFields == null || boolFields.Cond.VarKey != caseBool.Serial) {
                 if (boolFields != null)
                     boolFields.ConfirmDelete();
 
@@ -59,7 +56,7 @@ public class CondRow : MonoBehaviour
         } else if (type == VarType.Int) {
             var caseInt = condGroup.GetInt(varName);
 
-            if (intFields == null || intFields.Cond.VarSerial != caseInt.Serial) {
+            if (intFields == null || intFields.Cond.VarKey != caseInt.Serial) {
                 if (intFields != null)
                     intFields.ConfirmDelete();
 
@@ -69,16 +66,17 @@ public class CondRow : MonoBehaviour
             } else {
                 intFields.gameObject.SetActive(true);
             }
-        }
+        }*/
     }
 
 
     public void SetBoolCond(BoolConditional cond)
     {
-        var caseVar = VarData.GetCaseBool(cond.VarSerial);
+        var caseVar = VarData.GetCaseBool(cond.VarKey);
 
         if (caseVar == null) {
-            CondGroup.DeleteBoolCond(cond.Serial);
+            // TODO: Fix
+            //CondGroup.DeleteBoolCond(cond.Serial);
             Destroy(gameObject);
             return;
         }
@@ -93,10 +91,11 @@ public class CondRow : MonoBehaviour
     }
     public void SetIntCond(IntConditional cond)
     {
-        var caseVar = VarData.GetCaseInt(cond.VarSerial);
+        var caseVar = VarData.GetCaseInt(cond.VarKey);
 
         if (caseVar == null) {
-            condGroup.DeleteIntCond(cond.Serial);
+            // TODO: Fix
+            //condGroup.DeleteIntCond(cond.Serial);
             Destroy(gameObject);
             return;
         }

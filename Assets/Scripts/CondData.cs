@@ -8,7 +8,8 @@ public static class CondData
     private static readonly Dictionary<string, BoolConditional> boolCondDict = new Dictionary<string, BoolConditional>(); //A dictionary of all conditionals for the bool variables
     public static void AddBoolCond(BoolConditional boolCond)
     {
-        boolCondDict.Add(boolCond.Serial, boolCond);
+        // TODO: Fix
+        //boolCondDict.Add(boolCond.Serial, boolCond);
     }
     public static BoolConditional GetBoolCond(string key)
     {
@@ -26,7 +27,8 @@ public static class CondData
     private static readonly Dictionary<string, IntConditional> intCondDict = new Dictionary<string, IntConditional>(); //A dictionary of all conditionals for the int variables
     public static void AddIntCond(IntConditional intCond)
     {
-        intCondDict.Add(intCond.Serial, intCond);
+        // TODO: Fix
+        //intCondDict.Add(intCond.Serial, intCond);
     }
     public static IntConditional GetIntCond(string key)
     {
@@ -70,7 +72,7 @@ public static class CondData
         var varKey = xmlDoc.GetNodeVal(ref node, "varKey");
         var valStr = xmlDoc.GetNodeVal(ref node, "value");
         if (bool.TryParse(valStr, out var val))
-            boolCondDict.Add(serial, new BoolConditional(serial, varKey, val));
+            boolCondDict.Add(serial, new BoolConditional(varKey, val));
 
         return xmlDoc.AdvNode(node);
     }
@@ -81,7 +83,7 @@ public static class CondData
         var valStr = xmlDoc.GetNodeVal(ref node, "value");
         var opStr = xmlDoc.GetNodeVal(ref node, "op");
         if (int.TryParse(valStr, out var val) && IntConditional.TryParseOperator(opStr, out var op))
-            intCondDict.Add(serial, new IntConditional(serial, varKey, val, op));
+            intCondDict.Add(serial, new IntConditional(varKey, val, op));
 
         return xmlDoc.AdvNode(node);
     }
@@ -90,24 +92,21 @@ public static class CondData
     {
         var data = "";
 
-        int i = 0;
         foreach (var boolVar in boolCondDict.Values) {
-            data += "<cond" + i + ">";
-            data += "<key>" + boolVar.Serial + "</key>";
-            data += "<varKey>" + boolVar.VarSerial + "</varKey>";
+            data += "<cond>";
+            //data += "<key>" + boolVar.Serial + "</key>";
+            data += "<varKey>" + boolVar.VarKey + "</varKey>";
             data += "<value>" + boolVar.Value + "</value>";
-            data += "</cond" + i + ">";
-            i++;
+            data += "</cond>";
         }
 
         foreach (var intVar in intCondDict.Values) {
-            data += "<cond" + i + ">";
-            data += "<key>" + intVar.Serial + "</key>";
-            data += "<varKey>" + intVar.VarSerial + "</varKey>";
+            data += "<cond>";
+            //data += "<key>" + intVar.Serial + "</key>";
+            data += "<varKey>" + intVar.VarKey + "</varKey>";
             data += "<value>" + intVar.Value + "</value>";
             data += "<op>" + intVar.Comparator + "</op>";
-            data += "</cond" + i + ">";
-            i++;
+            data += "</cond>";
         }
 
         return data;

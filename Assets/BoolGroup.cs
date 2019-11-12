@@ -1,4 +1,4 @@
-﻿public class BoolGroup : VarGroup<BoolRow, CaseBool, bool>
+﻿public class BoolGroup : VarGroup<BoolRow, EncounterBool, bool>
 {
     public static BoolGroup Instance { get; private set; }
     public void Awake()

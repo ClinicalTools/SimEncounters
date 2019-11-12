@@ -1,4 +1,4 @@
-﻿public class IntGroup : VarGroup<IntRow, CaseInt, int>
+﻿public class IntGroup : VarGroup<IntRow, EncounterInt, int>
 {
     public static IntGroup Instance { get; private set; }
     public void Awake()

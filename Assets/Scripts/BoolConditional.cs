@@ -3,14 +3,14 @@
     public override VarType VarType => VarType.Bool;
 
     public BoolConditional(string varSerial) : base(varSerial) { }
-    public BoolConditional(string serial, string varSerial, bool value) : base(serial, varSerial, value) { }
-
+    public BoolConditional(string varSerial, bool value) : base(varSerial, value) { }
+ 
     protected override bool CheckVal(bool val)
     {
         return (val == Value);
     }
 
-    protected override CaseVariable<bool> GetVar()
+    protected override EncounterVariable<bool> GetVar()
     {
         throw new System.NotImplementedException();
     }

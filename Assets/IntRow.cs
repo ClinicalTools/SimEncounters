@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-public class IntRow : VarRow<CaseInt, int>
+public class IntRow : VarRow<EncounterInt, int>
 {
     [SerializeField] private TMP_InputField nameField;
     [SerializeField] private TMP_InputField valField;
@@ -9,10 +9,10 @@ public class IntRow : VarRow<CaseInt, int>
     public override void NewVal()
     {
         base.NewVal();
-        CaseVar = new CaseInt();
+        CaseVar = new EncounterInt();
     }
 
-    public override void SetVal(CaseInt value)
+    public override void SetVal(EncounterInt value)
     {
         base.SetVal(value);
 
@@ -34,7 +34,8 @@ public class IntRow : VarRow<CaseInt, int>
 
     protected override void Delete()
     {
-        IntGroup.Instance.DeleteVar(CaseVar.Serial);
+        // TODO: Fix
+        //IntGroup.Instance.DeleteVar(CaseVar.Serial);
     }
 
 }
