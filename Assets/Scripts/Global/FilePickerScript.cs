@@ -106,7 +106,8 @@ public class FilePickerScript : MonoBehaviour
         Cursor.visible = false;
         Debug.Log("[Open File] Selected file: " + GlobalData.filePath + GlobalData.fileName);
         GlobalData.caseObj = new MenuCase(GlobalData.fileName);
-        GameObject.Find("GaudyBG").GetComponent<DataScript>().Reload();
+        // TODO: reload
+        //GameObject.Find("GaudyBG").GetComponent<DataScript>().Reload();
     }
 
     public void NewFile()
@@ -216,7 +217,8 @@ public class FilePickerScript : MonoBehaviour
             GlobalData.caseObj = new MenuCase(GlobalData.fileName);
         }
         GlobalData.caseObj.accountId = GlobalData.accountId;
-        GameObject.Find("GaudyBG").GetComponent<DataScript>().loadingScreen.gameObject.SetActive(true);
+        // TODO: start loading screen 
+        //GameObject.Find("GaudyBG").GetComponent<DataScript>().loadingScreen.gameObject.SetActive(true);
         SceneManager.LoadScene(levelName);
     }
 

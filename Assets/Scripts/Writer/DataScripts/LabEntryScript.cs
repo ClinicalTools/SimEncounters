@@ -5,31 +5,26 @@ using UnityEngine.UI;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine.Networking;
+using SimEncounters;
 
 public class LabEntryScript
 {
 
     private int position;               //The entry's position compared to it's siblings
-    public LabEntryScript previousEntry;//The previous entry in the list (deprecated)
-    public LabEntryScript nextEntry;    //The next entry in the list (deprecated)
     public GameObject gObject;          //The actual game object this entry is used for
     public string panelType;            //The name of the prefab that represents this entry
-    public string startingName;         //The name the game object had (deprecated)
-    private DataScript ds;              //Variable to hold a reference to DataScript
+    private WriterHandler ds;              //Variable to hold a reference to DataScript
 
     /**
 	 * An entry (panel) used in HistoryFieldManagerScript
 	 */
 
-    public LabEntryScript(int pos, LabEntryScript prev, LabEntryScript next, GameObject obj, string panelType)
+    public LabEntryScript(int pos, GameObject obj, string panelType)
     {
         position = pos;
-        previousEntry = prev;
-        nextEntry = next;
-        this.gObject = obj;
+        gObject = obj;
         this.panelType = panelType;
-        startingName = obj.name;
-        ds = GameObject.Find("GaudyBG").transform.GetComponent<DataScript>();
+        ds = WriterHandler.WriterInstance;
     }
 
     /**
@@ -161,7 +156,7 @@ public class LabEntryScript
                                         //ds.AddDialogue (newUID, dialogueXML.Replace (startingUID, newUID));
                                     }
                                    // if (ds.correctlyOrderedDialogues.ContainsKey(newUID)) {
-                                        ds.correctlyOrderedDialogues.Add(newUID, dialogueXML.Replace(startingUID, newUID));
+                                        ds.CorrectlyOrderedDialogues.Add(newUID, dialogueXML.Replace(startingUID, newUID));
                                     //}
 
                                     xml += dialogueXML.Replace(startingUID, newUID);
@@ -192,8 +187,8 @@ public class LabEntryScript
                                         ds.GetQuizes().Remove(startingUID);
                                         //ds.AddQuiz (newUID, quizXML.Replace (startingUID, newUID));
                                     }
-                                    if (ds.correctlyOrderedQuizes.ContainsKey(newUID)) {
-                                        ds.correctlyOrderedQuizes.Add(newUID, quizXML.Replace(startingUID, newUID));
+                                    if (ds.CorrectlyOrderedQuizes.ContainsKey(newUID)) {
+                                        ds.CorrectlyOrderedQuizes.Add(newUID, quizXML.Replace(startingUID, newUID));
                                     }
                                     xml += quizXML.Replace(startingUID, newUID);
                                 } else {

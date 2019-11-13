@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
 using TMPro;
+using SimEncounters;
 
 public class TabAndSectionDragScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler {
 
@@ -21,7 +22,7 @@ public class TabAndSectionDragScript : MonoBehaviour, IPointerEnterHandler, IPoi
 	private float dMPos;						//Difference between the mouse's height and the center of the entry being clicked
 	private bool clicked;
 	private TabManager tm;
-	private DataScript ds;
+	private WriterHandler ds;
 	private float clickPoint;
 	private string linkToText;
 	private bool draggable;
@@ -50,16 +51,16 @@ public class TabAndSectionDragScript : MonoBehaviour, IPointerEnterHandler, IPoi
 		clickPoint = 0;
 		clicked = false;
 		tm = GameObject.Find ("GaudyBG").GetComponent<TabManager> ();
-		ds = tm.GetComponent<DataScript> ();
+        ds = WriterHandler.WriterInstance;
 		string tabType = "";
-		if (transform.Find ("TabButtonLinkToText") != null) {
-			linkToText = transform.Find ("TabButtonLinkToText").GetComponent<TextMeshProUGUI> ().text;
-			tabType = ds.GetData (tm.getCurrentSection ()).GetTabInfo (linkToText).type;
+        if (transform.Find("TabButtonLinkToText") != null) {
+            linkToText = transform.Find("TabButtonLinkToText").GetComponent<TextMeshProUGUI>().text;
+            tabType = ds.EncounterData.Sections[tm.getCurrentSection()].GetTabInfo(linkToText).type;
 		} else {
 			linkToText = transform.Find ("SectionLinkToText").GetComponent<TextMeshProUGUI> ().text;
 
 		}
-        draggable = !(!linkToText.EndsWith("Section") && ds.GetData (tm.getCurrentSection ()).GetTabInfo (linkToText).persistant);
+        draggable = !(!linkToText.EndsWith("Section") && ds.EncounterData.Sections[tm.getCurrentSection()].GetTabInfo (linkToText).persistant);
         if (tabType.StartsWith("Personal Info") || tabType.StartsWith("Office Visit"))
         {
             draggable = true;
@@ -191,7 +192,7 @@ public class TabAndSectionDragScript : MonoBehaviour, IPointerEnterHandler, IPoi
 					pos++;
 				} else if (draggable) {
 
-				} else if (!linkToText.EndsWith ("Section") && ds.GetData (tm.getCurrentSection ()).GetTabInfo (entry.Find ("TabButtonLinkToText").GetComponent<TextMeshProUGUI> ().text).persistant) {					//If you're to the left of a persistant tab
+				} else if (!linkToText.EndsWith ("Section") && ds.EncounterData.Sections[tm.getCurrentSection()].GetTabInfo (entry.Find ("TabButtonLinkToText").GetComponent<TextMeshProUGUI> ().text).persistant) {					//If you're to the left of a persistant tab
 					pos++;
 				} else if (!linkToText.EndsWith ("Section") && entry.name.Equals ("BackgroundData")) {
 					pos++;
@@ -257,11 +258,11 @@ public class TabAndSectionDragScript : MonoBehaviour, IPointerEnterHandler, IPoi
 
 				foreach (Transform t in buttons) {
 					if (!linkToText.EndsWith ("Section")) {
-						//Debug.Log (t.name + ", SETTING POSITION: " + t.GetSiblingIndex() + ", FROM" + ds.GetData(tm.getCurrentSection ()).GetTabInfo (t.Find("TabButtonLinkToText").GetComponent<Text>().text).position);
-						ds.GetData (tm.getCurrentSection ()).GetTabInfo (t.Find ("TabButtonDisplayText").GetComponent<TextMeshProUGUI> ().text).SetPosition (t.GetSiblingIndex ());
+                        //Debug.Log (t.name + ", SETTING POSITION: " + t.GetSiblingIndex() + ", FROM" + ds.GetData(tm.getCurrentSection ()).GetTabInfo (t.Find("TabButtonLinkToText").GetComponent<Text>().text).position);
+                        ds.EncounterData.Sections[tm.getCurrentSection()].GetTabInfo (t.Find ("TabButtonDisplayText").GetComponent<TextMeshProUGUI> ().text).SetPosition (t.GetSiblingIndex ());
 					} else {
 						if (!t.name.Equals ("AddSectionButton")) {
-							ds.GetData (t.Find ("SectionLinkToText").GetComponent<TextMeshProUGUI> ().text).SetPosition (t.GetSiblingIndex ());
+                            ds.EncounterData.Sections[t.Find ("SectionLinkToText").GetComponent<TextMeshProUGUI> ().text].SetPosition (t.GetSiblingIndex ());
 						}
 					}
 				}

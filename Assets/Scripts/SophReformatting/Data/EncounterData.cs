@@ -51,8 +51,6 @@ namespace SimEncounters
             
             if (Sections.Count > 0)
                 encounterData.AppendChild(Sections.GetXml());
-            if (Images.Count > 0)
-                encounterData.AppendChild(Images.GetXml());
 
             if (EncounterBools.Count > 0)
                 encounterData.AppendChild(EncounterBools.GetXml());
@@ -63,6 +61,15 @@ namespace SimEncounters
                 encounterData.AppendChild(BoolConditions.GetXml());
             if (IntConditions.Count > 0)
                 encounterData.AppendChild(IntConditions.GetXml());
+
+            return encounterData;
+        }
+
+        public virtual XmlElement GetImageXml()
+        {
+            var encounterData = XmlHelper.CreateElement("encounter");
+            if (Images.Count > 0)
+                encounterData.AppendChild(Images.GetXml());
 
             return encounterData;
         }

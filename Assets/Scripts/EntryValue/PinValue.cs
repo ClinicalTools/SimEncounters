@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using SimEncounters;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -15,7 +16,7 @@ namespace EntryValue
 		[SerializeField]
 		private PinType pinType;
 
-		DataScript ds => DataScript.instance;
+		WriterHandler ds => WriterHandler.WriterInstance;
 		private string pinKey = "";
 		private string oldPinKey = "";
 		private string tabName;
@@ -76,7 +77,7 @@ namespace EntryValue
 						if (!ds.GetDialogues().ContainsKey(pinKey)) {
 							ds.GetDialogues().Remove(oldPinKey);
 						}
-						ds.correctlyOrderedDialogues.Add(pinKey, dialogueXML.Replace(oldPinKey, pinKey));
+						ds.CorrectlyOrderedDialogues.Add(pinKey, dialogueXML.Replace(oldPinKey, pinKey));
 
 						return dialogueXML.Replace(oldPinKey, pinKey);
 					}
@@ -90,10 +91,10 @@ namespace EntryValue
 						if (!ds.GetQuizes().ContainsKey(pinKey)) {
 							ds.GetQuizes().Remove(oldPinKey);
 						}
-						if (!ds.correctlyOrderedQuizes.ContainsKey(pinKey)) {
-							ds.correctlyOrderedQuizes.Add(pinKey, quizXML.Replace(oldPinKey, pinKey));
+						if (!ds.CorrectlyOrderedQuizes.ContainsKey(pinKey)) {
+							ds.CorrectlyOrderedQuizes.Add(pinKey, quizXML.Replace(oldPinKey, pinKey));
 						} else {
-							ds.correctlyOrderedQuizes[pinKey] = quizXML.Replace(oldPinKey, pinKey);
+							ds.CorrectlyOrderedQuizes[pinKey] = quizXML.Replace(oldPinKey, pinKey);
 						}
 						return quizXML.Replace(oldPinKey, pinKey);
 					}

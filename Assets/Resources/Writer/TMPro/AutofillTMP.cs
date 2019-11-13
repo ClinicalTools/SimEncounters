@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Linq;
 using System.IO;
 using TMPro;
+using SimEncounters;
 
 
 //Should be parented to the SaveCaseBG Gameobject
@@ -481,7 +482,7 @@ public class AutofillTMP : MonoBehaviour
                 enteredTags.Add(matchingTags[0]);
                 selectedTags[selectedTags.Count - 1] = matchingTags[0];
                 justAdded = true;
-                if (this.isDynamic == false) {
+                if (!isDynamic) {
                     input.text = string.Join("; ", selectedTags.ToArray()) + "";
                 } else {
                     input.text = string.Join("; ", selectedTags.ToArray()) + "; ";
@@ -489,13 +490,15 @@ public class AutofillTMP : MonoBehaviour
                 updateCursor(input);
                 Debug.Log(matchingTags[0]);
                 tagObjs.Clear();
-                tagInputField.Find("CloseSuggestions")?.gameObject.SetActive(false);
+                var closeSuggestions = tagInputField.Find("CloseSuggestions");
+                if (closeSuggestions != null)
+                    closeSuggestions.gameObject.SetActive(false);
                 tagInputField.Find("Suggestions").gameObject.SetActive(false);
                 return;
             } else {
                 if (!string.IsNullOrWhiteSpace(tagInput)) {
                     Debug.Log("No Matching tags found. Please enter another");
-                    GameObject.Find("GaudyBG").GetComponent<DataScript>().ShowMessage("No Matching tags found. Please enter another");
+                    GameObject.Find("GaudyBG").GetComponent<WriterHandler>().ShowMessage("No Matching tags found. Please enter another");
                 }
                 selectedTags[selectedTags.Count - 1] = "";
                 if (name == "SaveCaseBG") {

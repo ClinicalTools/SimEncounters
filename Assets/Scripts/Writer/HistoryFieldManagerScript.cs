@@ -9,8 +9,10 @@ using System.Linq;
 using System.Text;
 using TMPro;
 using UnityEngine.Networking;
+using SimEncounters;
 
-public class HistoryFieldManagerScript : MonoBehaviour {
+public class HistoryFieldManagerScript : MonoBehaviour
+{
 
     public GameObject[] loadedPrefabs;
     public String[] loadedPrefabsDisplayNames;
@@ -18,7 +20,7 @@ public class HistoryFieldManagerScript : MonoBehaviour {
     public GameObject parentTab;
     private XmlDocument xmlDoc;
     private TabManager tm;
-    private DataScript ds;
+    private WriterHandler ds => WriterHandler.WriterInstance;
     public bool isNested;
     public bool isQuizPanel;
     public bool isStatic;
@@ -43,7 +45,6 @@ public class HistoryFieldManagerScript : MonoBehaviour {
         entryList = new List<LabEntryScript>();
         BG = GameObject.Find("GaudyBG");
         tm = BG.GetComponent<TabManager>();
-        ds = BG.GetComponent<DataScript>();
     }
 
 
@@ -56,7 +57,6 @@ public class HistoryFieldManagerScript : MonoBehaviour {
         populating = false;
         GameObject BG = GameObject.Find("GaudyBG");
         tm = BG.GetComponent<TabManager>();
-        ds = BG.GetComponent<DataScript>();
 
         if (isQuizPanel && quizPin == null) {
             return;
@@ -186,7 +186,7 @@ public class HistoryFieldManagerScript : MonoBehaviour {
         RefreshUniquePath();
 
         if (!isQuizPanel) {
-            text = ds.GetData(tm.getCurrentSection(), tm.getCurrentTab()); //+ parentTab.GetComponent<Text> ().text);
+            text = ds.GetTabData(tm.getCurrentSection(), tm.getCurrentTab()); //+ parentTab.GetComponent<Text> ().text);
         } else {
             string topLevelPath = Regex.Split(uniquePath, "::")[0];
             if (GetComponentInParent<DialogueManagerScript>()) {
@@ -230,30 +230,8 @@ public class HistoryFieldManagerScript : MonoBehaviour {
         if (isNested) {
             //Finds the unique parent
             Transform uniqueParent = transform;
-            /*path = "";
-			while (uniqueParent.parent != null && !uniqueParent.parent.name.Equals ("Content")) {
-				if (uniqueParent.parent.GetComponent<HistoryFieldManagerScript> () != null) {
-					break;
-				}
-				uniqueParent = uniqueParent.parent;
-			}
-			pos = uniqueParent.GetSiblingIndex (); //The transform position of the unique parent (so 0 if the data is going to be in the first entry)
 
-			bool fullNested = false;
-			//This should set the path to point to Context aka the parent of the unique parent
-			if (uniqueParent.parent.GetComponent<HistoryFieldManagerScript> () != null) {
-				uniqueParent = uniqueParent.parent;
-				fullNested = true;
-			}
-			path = uniqueParent.name;
-			while (!uniqueParent.parent.name.Equals (parentTab.name)) {
-				uniqueParent = uniqueParent.parent;
-				path = uniqueParent.name + "/" + path;
-			}
-			//----------------------------------------------------------
-			if (isQuizPanel && isNested && quizPin.GetComponentInParent<HistoryFieldManagerScript>()) {
-				path = uniquePath + "::" + transform.GetComponentsInParent<Transform>().ToList().Find((Transform x) => x.name.StartsWith("LabEntry:")).name;
-			}*/
+
             bool fullNested = false;
             //This should set the path to point to Context aka the parent of the unique parent
             if (uniqueParent.parent.GetComponent<HistoryFieldManagerScript>() != null) {
@@ -270,7 +248,7 @@ public class HistoryFieldManagerScript : MonoBehaviour {
                     }
                 } else {
                     if (tempNode.Name.Equals("Parent")) {
-                        //Debug.Log (transform.name + ", " + tempNode.InnerText + ", " + path);
+
                         if (tempNode.InnerText.Equals(path) && tempNode.NextSibling != null) { //If tempNode is currently pointing at the parent of the unique parent
                                                                                                //Debug.Log ("Name: " + tempNode.Name + ": " + tempNode.InnerXml);
                             if (fullNested) { //If this is a fully nested entry, we must account for the <Parent> tab being the first sibling
@@ -425,88 +403,88 @@ public class HistoryFieldManagerScript : MonoBehaviour {
                     continue;
                 }
 
-				//New code for EntryValue
-				EntryValue.EntryValue ev;
-				if ((ev = child.GetComponent<EntryValue.EntryValue>()) != null) {
-					print("Loading entry value for " + child.name);
-					//This checks the amount of xml tags with the name of the child we're populating and handles things accordingly
-					int pos = 0;
-					if (element.GetElementsByTagName(ev.GetTag()).Count == 0) {
-						continue;
-					} else if (element.GetElementsByTagName(ev.GetTag()).Count > 1) {
-						//If there is more than one match, find where the current child sits compared to its siblings which share the same name
-						List<EntryValue.EntryValue> sameValues = new List<EntryValue.EntryValue>(labNodee.gObject.GetComponentsInChildren<EntryValue.EntryValue>());
-						sameValues = sameValues.FindAll((EntryValue.EntryValue val) => val.GetTag().Equals(ev.GetTag()));
-						pos = sameValues.FindIndex((EntryValue.EntryValue val) => val.Equals(ev));
-						/*
+                //New code for EntryValue
+                EntryValue.EntryValue ev;
+                if ((ev = child.GetComponent<EntryValue.EntryValue>()) != null) {
+                    print("Loading entry value for " + child.name);
+                    //This checks the amount of xml tags with the name of the child we're populating and handles things accordingly
+                    int pos = 0;
+                    if (element.GetElementsByTagName(ev.GetTag()).Count == 0) {
+                        continue;
+                    } else if (element.GetElementsByTagName(ev.GetTag()).Count > 1) {
+                        //If there is more than one match, find where the current child sits compared to its siblings which share the same name
+                        List<EntryValue.EntryValue> sameValues = new List<EntryValue.EntryValue>(labNodee.gObject.GetComponentsInChildren<EntryValue.EntryValue>());
+                        sameValues = sameValues.FindAll((EntryValue.EntryValue val) => val.GetTag().Equals(ev.GetTag()));
+                        pos = sameValues.FindIndex((EntryValue.EntryValue val) => val.Equals(ev));
+                        /*
 						List<Transform> sameNames = allChildrenn.FindAll((Transform obj) => obj.name.Equals(child.name));
 						pos = sameNames.FindIndex((Transform obj) => obj.Equals(child));
 						print(child.name + ", " + pos + ", " + labNodee.panelType);*/
-					}
+                    }
 
-					//Assign the value in the XML to a string to make the code easier to read
-					string xmlValue = element.GetElementsByTagName(ev.GetTag()).Item(pos)?.InnerText;
+                    //Assign the value in the XML to a string to make the code easier to read
+                    string xmlValue = element.GetElementsByTagName(ev.GetTag()).Item(pos)?.InnerText;
 
-					//Set the data. Value is unescaped by the EntryValue type if needed
-					ev.SetValue(xmlValue);
-				} else {
-					//Check to see if the child is actually something we need to populate with data.
-					if (child.tag.Equals("Value") || child.tag.Equals("Image") || child.name.EndsWith("Value") || child.name.ToLower().EndsWith("toggle")) {
-						//This checks the amount of xml tags with the name of the child we're populating and handles things accordingly
-						int pos = 0;
-						if (element.GetElementsByTagName(child.name).Count == 0) {
-							continue;
-						} else if (element.GetElementsByTagName(child.name).Count > 1) {
-							//If there is more than one match, find where the current child sits compared to its siblings which share the same name
-							List<Transform> sameNames = allChildrenn.FindAll((Transform obj) => obj.name.Equals(child.name));
-							pos = sameNames.FindIndex((Transform obj) => obj.Equals(child));
-							print(child.name + ", " + pos + ", " + labNodee.panelType);
-						}
+                    //Set the data. Value is unescaped by the EntryValue type if needed
+                    ev.SetValue(xmlValue);
+                } else {
+                    //Check to see if the child is actually something we need to populate with data.
+                    if (child.tag.Equals("Value") || child.tag.Equals("Image") || child.name.EndsWith("Value") || child.name.ToLower().EndsWith("toggle")) {
+                        //This checks the amount of xml tags with the name of the child we're populating and handles things accordingly
+                        int pos = 0;
+                        if (element.GetElementsByTagName(child.name).Count == 0) {
+                            continue;
+                        } else if (element.GetElementsByTagName(child.name).Count > 1) {
+                            //If there is more than one match, find where the current child sits compared to its siblings which share the same name
+                            List<Transform> sameNames = allChildrenn.FindAll((Transform obj) => obj.name.Equals(child.name));
+                            pos = sameNames.FindIndex((Transform obj) => obj.Equals(child));
+                            print(child.name + ", " + pos + ", " + labNodee.panelType);
+                        }
 
-						//Assign the value in the XML to a string to make the code easier to read
-						string xmlValue = element.GetElementsByTagName(child.name).Item(pos).InnerText;
-						if (child.name.Equals("characterName")) {
-							//int INeedABreakpoint = 0;
-						}
-						//Set the data according to the type of data field
-						if (child.gameObject.GetComponent<InputField>() != null) {
-							child.gameObject.GetComponent<InputField>().text = UnityWebRequest.UnEscapeURL(xmlValue);
-							if (child.GetComponent<InputFieldResizer>()) {
-								child.GetComponent<InputFieldResizer>().ResizeField();
-							}
-						} else if (child.gameObject.GetComponent<Dropdown>() != null) {
-							int indexValue = 0;
-							foreach (Dropdown.OptionData myOptionData in child.gameObject.GetComponent<Dropdown>().options) {
-								if (myOptionData.text.Equals(UnityWebRequest.UnEscapeURL(xmlValue))) {
-									break;
-								}
-								indexValue++;
-							}
-							child.gameObject.GetComponent<Dropdown>().value = indexValue;
-						} else if (child.gameObject.GetComponent<Toggle>() != null && xmlValue != null && !xmlValue.Equals("")) {
-							child.gameObject.GetComponent<Toggle>().isOn = bool.Parse(xmlValue);
-						} else if (child.gameObject.GetComponent<Text>() != null) {
-							child.gameObject.GetComponent<Text>().text = UnityWebRequest.UnEscapeURL(xmlValue);
-						} else if (child.gameObject.GetComponent<TMP_InputField>() != null) {
-							child.gameObject.GetComponent<TMP_InputField>().text = UnityWebRequest.UnEscapeURL(xmlValue);
-							child.gameObject.GetComponent<TMP_InputField>().onEndEdit.Invoke(UnityWebRequest.UnEscapeURL(xmlValue));
-						} else if (child.gameObject.GetComponent<TextMeshProUGUI>() != null) {
-							child.gameObject.GetComponent<TextMeshProUGUI>().text = UnityWebRequest.UnEscapeURL(xmlValue);
-						} else if (child.gameObject.GetComponent<TMP_Dropdown>() != null) {
-							int indexValue = 0;
-							foreach (TMP_Dropdown.OptionData myOptionData in child.gameObject.GetComponent<TMP_Dropdown>().options) {
-								if (myOptionData.text.Equals(UnityWebRequest.UnEscapeURL(xmlValue))) {
-									break;
-								}
-								indexValue++;
-							}
-							child.gameObject.GetComponent<TMP_Dropdown>().value = indexValue;
-						} else if (child.name.Equals("Image") && child.GetComponent<OpenImageUploadPanelScript>()) {
-							Debug.Log("LOADING IMAGE: " + xmlValue);
-							child.GetComponent<OpenImageUploadPanelScript>().SetGuid(xmlValue);
-							child.GetComponent<OpenImageUploadPanelScript>().LoadData(xmlValue);
+                        //Assign the value in the XML to a string to make the code easier to read
+                        string xmlValue = element.GetElementsByTagName(child.name).Item(pos).InnerText;
+                        if (child.name.Equals("characterName")) {
+                            //int INeedABreakpoint = 0;
+                        }
+                        //Set the data according to the type of data field
+                        if (child.gameObject.GetComponent<InputField>() != null) {
+                            child.gameObject.GetComponent<InputField>().text = UnityWebRequest.UnEscapeURL(xmlValue);
+                            if (child.GetComponent<InputFieldResizer>()) {
+                                child.GetComponent<InputFieldResizer>().ResizeField();
+                            }
+                        } else if (child.gameObject.GetComponent<Dropdown>() != null) {
+                            int indexValue = 0;
+                            foreach (Dropdown.OptionData myOptionData in child.gameObject.GetComponent<Dropdown>().options) {
+                                if (myOptionData.text.Equals(UnityWebRequest.UnEscapeURL(xmlValue))) {
+                                    break;
+                                }
+                                indexValue++;
+                            }
+                            child.gameObject.GetComponent<Dropdown>().value = indexValue;
+                        } else if (child.gameObject.GetComponent<Toggle>() != null && xmlValue != null && !xmlValue.Equals("")) {
+                            child.gameObject.GetComponent<Toggle>().isOn = bool.Parse(xmlValue);
+                        } else if (child.gameObject.GetComponent<Text>() != null) {
+                            child.gameObject.GetComponent<Text>().text = UnityWebRequest.UnEscapeURL(xmlValue);
+                        } else if (child.gameObject.GetComponent<TMP_InputField>() != null) {
+                            child.gameObject.GetComponent<TMP_InputField>().text = UnityWebRequest.UnEscapeURL(xmlValue);
+                            child.gameObject.GetComponent<TMP_InputField>().onEndEdit.Invoke(UnityWebRequest.UnEscapeURL(xmlValue));
+                        } else if (child.gameObject.GetComponent<TextMeshProUGUI>() != null) {
+                            child.gameObject.GetComponent<TextMeshProUGUI>().text = UnityWebRequest.UnEscapeURL(xmlValue);
+                        } else if (child.gameObject.GetComponent<TMP_Dropdown>() != null) {
+                            int indexValue = 0;
+                            foreach (TMP_Dropdown.OptionData myOptionData in child.gameObject.GetComponent<TMP_Dropdown>().options) {
+                                if (myOptionData.text.Equals(UnityWebRequest.UnEscapeURL(xmlValue))) {
+                                    break;
+                                }
+                                indexValue++;
+                            }
+                            child.gameObject.GetComponent<TMP_Dropdown>().value = indexValue;
+                        } else if (child.name.Equals("Image") && child.GetComponent<OpenImageUploadPanelScript>()) {
+                            Debug.Log("LOADING IMAGE: " + xmlValue);
+                            child.GetComponent<OpenImageUploadPanelScript>().SetGuid(xmlValue);
+                            child.GetComponent<OpenImageUploadPanelScript>().LoadData(xmlValue);
 
-							/*
+                            /*
 							Image img = child.GetComponent<Image>();
 							img.sprite = null;
 
@@ -522,9 +500,9 @@ public class HistoryFieldManagerScript : MonoBehaviour {
 								img.transform.parent.GetComponent<Image>().enabled = false;
 							}
 							*/
-						}
-					}
-				}
+                        }
+                    }
+                }
 
                 //If the PinArea is found, add pin objects as appropriate
                 if (child.name.Equals("PinArea")) {
@@ -632,7 +610,7 @@ public class HistoryFieldManagerScript : MonoBehaviour {
 
             //print(ds.GetData(tm.getCurrentSection()).GetCurrentTab().type + ", " + labNodee.gObject.transform.GetSiblingIndex());
             if (!isQuizPanel && labNodee.gObject.transform.GetSiblingIndex() == 0) {
-                if (ds.GetData(tm.getCurrentSection()).GetCurrentTab().type.Equals("Personal Info")) {
+                if (ds.EncounterData.Sections[tm.getCurrentSection()].GetCurrentTab().type.Equals("Personal Info")) {
                     if (GlobalData.caseObj.recordNumber != null && !GlobalData.caseObj.recordNumber.Equals("") && !GlobalData.fileName.StartsWith("[CHECKFORDUPLICATE]")) {
                         //print(GlobalData.caseObj.recordNumber);
                         labNodee.gObject.transform.Find("Row0/RecordValue").GetComponent<TextMeshProUGUI>().text = GlobalData.caseObj.recordNumber;
@@ -777,13 +755,12 @@ public class HistoryFieldManagerScript : MonoBehaviour {
     {
         int idx = entry.transform.GetSiblingIndex();
 
-        List<string> keys = ds.GetImageKeys();
         string data = getData(idx);
         Debug.Log("Removing data: " + data);
-        foreach (string key in keys) {
+        foreach (string key in ds.EncounterData.Images.Keys) {
             if (data.Contains("<Image>" + key + "</Image>")) {
                 Debug.Log("Removing Image: " + key);
-                ds.RemoveImage(key);
+                ds.EncounterData.Images.Remove(key);
             }
         }
 
@@ -798,9 +775,9 @@ public class HistoryFieldManagerScript : MonoBehaviour {
                 LES.gObject.GetComponentInChildren<MoveableObjectCursorScript>().RemoveFromEntryList(entry.transform);
         }
         ds.GetDialogues().Remove(uniquePath + entry.name);
-        ds.correctlyOrderedDialogues.Remove(uniquePath + entry.name);
+        ds.CorrectlyOrderedDialogues.Remove(uniquePath + entry.name);
         ds.GetQuizes().Remove(uniquePath + entry.name);
-        ds.correctlyOrderedQuizes.Remove(uniquePath + entry.name);
+        ds.CorrectlyOrderedQuizes.Remove(uniquePath + entry.name);
         if (entry.GetComponent<DiagnosisCountScript>()) {
             NextFrame.Function(ReorderDiagnosisEntries);
         }
@@ -882,7 +859,7 @@ public class HistoryFieldManagerScript : MonoBehaviour {
     public void OpenAddEntryPanel()
     {
         addData = false;
-        string tabType = ds.GetData(tm.getCurrentSection()).GetCurrentTab()?.type;
+        string tabType = ds.EncounterData.Sections[tm.getCurrentSection()].GetCurrentTab()?.type;
         if (tabType == null)
             return;
 
@@ -996,7 +973,7 @@ public class HistoryFieldManagerScript : MonoBehaviour {
         if (PrefabName == null || PrefabName.Equals("") || loadedPrefabs.Length == 1) {
             newEntryObject = Instantiate(loadedPrefabs[0], transform);
             LabEntryScript newEntry;
-            newEntry = new LabEntryScript(entryList.Count, null, null, newEntryObject, loadedPrefabs[0].name);
+            newEntry = new LabEntryScript(entryList.Count, newEntryObject, loadedPrefabs[0].name);
             entryList.Add(newEntry);
             newEntryObject.name = "LabEntry: " + newEntry.GetPosition();
         } else {
@@ -1010,7 +987,7 @@ public class HistoryFieldManagerScript : MonoBehaviour {
                 }
                 newEntryObject = Instantiate(loadedPrefabs[idx], transform);
                 LabEntryScript newEntry;
-                newEntry = new LabEntryScript(entryList.Count, null, null, newEntryObject, PrefabName);
+                newEntry = new LabEntryScript(entryList.Count, newEntryObject, PrefabName);
                 entryList.Add(newEntry);
                 newEntryObject.name = "LabEntry: " + newEntry.GetPosition();
             }
@@ -1021,7 +998,7 @@ public class HistoryFieldManagerScript : MonoBehaviour {
                 if (PrefabName.Equals(entry.name)) {
                     newEntryObject = Instantiate(entry, transform);
                     LabEntryScript newEntry;
-                    newEntry = new LabEntryScript(entryList.Count, null, null, newEntryObject, PrefabName);
+                    newEntry = new LabEntryScript(entryList.Count, newEntryObject, PrefabName);
                     entryList.Add(newEntry);
                     newEntryObject.name = "LabEntry: " + newEntry.GetPosition();
                 }
@@ -1065,7 +1042,7 @@ public class HistoryFieldManagerScript : MonoBehaviour {
             if (PrefabName.Equals(entry.name)) {
                 newEntryObject = Instantiate(entry, transform);
                 LabEntryScript newEntry;
-                newEntry = new LabEntryScript(entryList.Count, null, null, newEntryObject, PrefabName);
+                newEntry = new LabEntryScript(entryList.Count, newEntryObject, PrefabName);
                 entryList.Add(newEntry);
                 newEntryObject.name = "LabEntry: " + newEntry.GetPosition();
             }
@@ -1155,56 +1132,12 @@ public class HistoryFieldManagerScript : MonoBehaviour {
     public void AddToDictionary()
     {
         if (parentTab != null) {
-            ds.AddData(tm.getCurrentSection(), parentTab.name.Substring(0, parentTab.name.Length - 3), getData());// + parentTab.GetComponent<Text> ().text, getData ());
+            ds.AddSectionTabData(tm.getCurrentSection(), parentTab.name.Substring(0, parentTab.name.Length - 3), getData());// + parentTab.GetComponent<Text> ().text, getData ());
             ReorderDictionaries();
             //ReorderImages ();
         }
     }
 
-    /**
-	 * Used for rearranding quiz images to keep them assigned to the correct quiz
-	 * Called after other dictionaries have already been handled
-	 */
-    /*
-	private void ReorderImages() {
-		ds.correctlyOrderedImages.Clear ();
-		foreach(LabEntryScript entry in entryList) {
-			Transform temp = entry.gObject.transform;
-			string oldPath = "";
-			string newPath = "";
-			while (temp != null) {
-				if (temp.name.StartsWith ("LabEntry:")) {
-					//uniquePath = "LabEntry: " + tempPin.GetSiblingIndex() + uniquePath;
-					oldPath = temp.name;
-					newPath = "LabEntry: " + entry.GetPosition ();
-				}
-				if (temp.name.EndsWith ("Tab")) {
-					oldPath = temp.name + "." + oldPath;
-					newPath = temp.name + "." + newPath;
-				}
-				temp = temp.parent;
-			}
-			oldPath = tm.getCurrentSection () + "." + oldPath;
-			newPath = tm.getCurrentSection () + "." + newPath;
-
-			foreach (string key in ds.GetImages().Keys.ToList()) {
-				if (key.Contains (oldPath + "::") && !ds.correctlyOrderedImages.ContainsKey (key.Replace (oldPath, newPath))) {
-					SpriteHolderScript tempImg = new SpriteHolderScript(new Sprite());
-					tempImg.sprite = ds.GetImages () [key].sprite;
-					ds.correctlyOrderedImages.Add (key.Replace (oldPath, newPath), ds.GetImages () [key]);
-					ds.GetImages ().Remove (key);
-				}
-			}
-		}
-
-		foreach (string key in ds.correctlyOrderedImages.Keys.ToList()) {
-			ds.GetImages().Remove (key);
-			ds.AddImg (key, ds.correctlyOrderedImages [key].sprite);
-		}
-		ds.correctlyOrderedImages.Clear ();
-
-	}
-	*/
 
     /**
 	 * Saves the quiz data to the quiz dictionary
@@ -1255,50 +1188,24 @@ public class HistoryFieldManagerScript : MonoBehaviour {
 	 */
     public void ReorderDictionaries()
     {
-        foreach (string key in ds.correctlyOrderedDialogues.Keys) {
+        foreach (string key in ds.CorrectlyOrderedDialogues.Keys) {
             //Debug.Log ("Dialogue key: " + key);
-            ds.AddDialogue(key, ds.correctlyOrderedDialogues[key]);
+            ds.AddDialogue(key, ds.CorrectlyOrderedDialogues[key]);
         }
-        ds.correctlyOrderedDialogues.Clear();
+        ds.CorrectlyOrderedDialogues.Clear();
 
-        foreach (string key in ds.correctlyOrderedQuizes.Keys) {
+        foreach (string key in ds.CorrectlyOrderedQuizes.Keys) {
             //Debug.Log ("Quiz key: " + key);
-            ds.AddQuiz(key, ds.correctlyOrderedQuizes[key]);
+            ds.AddQuiz(key, ds.CorrectlyOrderedQuizes[key]);
         }
-        ds.correctlyOrderedQuizes.Clear();
+        ds.CorrectlyOrderedQuizes.Clear();
 
-        foreach (string key in ds.correctlyOrderedFlags.Keys) {
+        foreach (string key in ds.CorrectlyOrderedFlags.Keys) {
             //Debug.Log ("Flag key: " + key);
-            ds.AddFlag(key, ds.correctlyOrderedFlags[key]);
+            ds.AddFlag(key, ds.CorrectlyOrderedFlags[key]);
         }
-        ds.correctlyOrderedFlags.Clear();
+        ds.CorrectlyOrderedFlags.Clear();
     }
-
-    // Need to setup a different method to get the unique path
-    // rather than by Lab Entry. This script is not located in
-    // the same part of the hierarchy as quiz & dialogue.
-    /* 
-     public void AddToFlagDictionary()
-     {
-         string uniquePath = "";
-         while (tempPin != null)
-         {
-             if (tempPin.name.StartsWith("LabEntry:"))
-             {
-                 //uniquePath = "LabEntry: " + tempPin.GetSiblingIndex() + uniquePath;
-                 uniquePath = tempPin.name;
-             }
-             if (tempPin.name.EndsWith("Tab"))
-             {
-                 uniquePath = tempPin.name + "." + uniquePath;
-             }
-             tempPin = tempPin.parent;
-         }
-         uniquePath = tm.getCurrentSection() + "." + uniquePath;
-         Debug.Log("Unique path added to dictionary: " + uniquePath);
-         ds.AddQuiz(uniquePath, getData());
-     }
-     */
 
     /**
 	 * Called when loading quiz data
@@ -1311,20 +1218,6 @@ public class HistoryFieldManagerScript : MonoBehaviour {
         Start();
     }
 
-    /*
-    //Handles event pin color
-    public void EventCompare(bool compare)
-    {
-        if (compare == true)
-        {
-            currentPin.GetComponent<Image>().color = new Color(94f / 255f, 175f / 255f, 172f / 255f);
-        }
-        else
-        {
-            currentPin.GetComponent<Image>().color = new Color(1f, 0f, 0f);
-        }
-    }
-    */
     // Grabs the pin associated with the panel (dialogue, quiz, event, etc)
     public void GrabPin(Transform pin)
     {
@@ -1488,45 +1381,6 @@ public class HistoryFieldManagerScript : MonoBehaviour {
             }
 
             foreach (Transform child in allChildren) {
-
-
-                /*if (child.tag.Equals ("Image")) {
-					string startingUID = "";
-					HistoryFieldManagerScript hfm = child.GetComponentInParent<HistoryFieldManagerScript> ();
-					Transform tempChild = child.transform;
-					if (hfm != null && hfm.isQuizPanel) {
-						//tempChild = hfm.GetPin ().transform; //Might have to do this??? Dont think it'll cause problems but i'm not sure
-					}
-					while (tempChild != null) {
-						if (tempChild.name.StartsWith("LabEntry:")) {
-							startingUID = tempChild.name + startingUID;
-						}
-						if (tempChild.name.EndsWith("Tab")) {
-							startingUID = tempChild.name + "Tab." + startingUID;
-						}
-						tempChild = tempChild.parent;
-					}
-					//Debug.Log (startingUID);
-					//Debug.Log (ds.transform.GetComponent<TabManager> ().getCurrentSection ());
-					//Debug.Log (ds.transform.GetComponent<TabManager> ().getTabName ());
-					startingUID = ds.transform.GetComponent<TabManager> ().getCurrentSection () + "." + ds.transform.GetComponent<TabManager> ().getTabName () + "Tab." + startingUID;
-					if (hfm != null && hfm.isQuizPanel) {
-						//startingUID = startingUID + "::QuizPin.LabEntry:";
-					}
-					//Debug.Log ("Saved image: " + startingUID);
-
-					if (ds.GetImages ().ContainsKey (startingUID)) {
-						child.GetComponent<Image> ().sprite = ds.GetImages () [startingUID].sprite;
-						child.GetComponent<CanvasGroup> ().alpha = 1f;
-						child.transform.parent.GetComponent<Image> ().enabled = false;
-					}
-
-					continue;
-				}*/
-
-                //if (node == null && !addDialogue && !addQuiz)
-                //break;
-
                 // Check for input values and pins
                 if (node != null && (child.name.Equals(node.ParentNode.Name) || (child.name.Equals(node.Name) && node.InnerXml.Equals("")))) {
                     try {
@@ -1558,8 +1412,8 @@ public class HistoryFieldManagerScript : MonoBehaviour {
                                 Image img = child.GetComponent<Image>();
                                 img.sprite = null;
 
-                                if (tm.transform.GetComponent<DataScript>().GetImageKeys().Contains(node.Value)) { //Load image
-                                    img.sprite = tm.transform.GetComponent<DataScript>().GetImage(node.Value).sprite;
+                                if (ds.EncounterData.Images.ContainsKey(node.Value)) { //Load image
+                                    img.sprite = ds.EncounterData.Images[node.Value].sprite;
                                 }
 
                                 if (img.sprite == null) {
@@ -1638,7 +1492,6 @@ public class HistoryFieldManagerScript : MonoBehaviour {
                         pinObj = Instantiate(pinObj, child);
                         Button b = pinObj.AddComponent<Button>();
                         b.onClick.AddListener(delegate {
-                            /*b.onClick.AddListener(delegate {*/
                             ButtonListenerFunctionsScript.OpenDialogueEditor(b); //});
                         });
                         pinObj.tag = "Value";
@@ -1651,7 +1504,6 @@ public class HistoryFieldManagerScript : MonoBehaviour {
                         pinObj = Instantiate(pinObj, child);
                         Button b = pinObj.AddComponent<Button>();
                         b.onClick.AddListener(delegate {
-                            /* b.onClick.AddListener(delegate {*/
                             ButtonListenerFunctionsScript.OpenQuizEditor(b, instantiatePanel("QuizEditorBG")); //});
                         });
                         pinObj.tag = "Value";
@@ -1708,8 +1560,6 @@ public class HistoryFieldManagerScript : MonoBehaviour {
             bool newEntry = false;
             //Navigate to the next entry's data
             while (node != null && !node.Name.Equals("PanelData")) {
-                //Debug.Log("NODE NAME: " + node.Name);
-
                 node = xmlDoc.AdvNode(node);
                 newEntry = true;
 
@@ -1723,8 +1573,6 @@ public class HistoryFieldManagerScript : MonoBehaviour {
                 continue;
             }
             while (node != null && node.Value == null) {
-                //Debug.Log("NODE NAME: " + node.Name);
-
                 node = xmlDoc.AdvNode(node);
 
                 if (node == null) {

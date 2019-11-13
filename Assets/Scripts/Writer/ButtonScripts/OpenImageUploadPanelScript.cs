@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using SimEncounters;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -86,9 +87,11 @@ public class OpenImageUploadPanelScript : MonoBehaviour
         var img = GetComponent<Image>();
         img.sprite = null;
 
-        if (tm.GetComponent<DataScript>().GetImageKeys().Contains(guid)) { //Load image
-            img.sprite = tm.transform.GetComponent<DataScript>().GetImage(guid).sprite;
+        var images = WriterHandler.WriterInstance.EncounterData.Images;
+        if (images.ContainsKey(guid)) { //Load image
+            img.sprite = images[guid].sprite;
         }
+
         if (img.sprite == null) {
             img.color = Color.clear;
             transform.parent.GetComponent<Image>().enabled = true;
@@ -100,9 +103,6 @@ public class OpenImageUploadPanelScript : MonoBehaviour
 
     public void OpenImagePanel()
     {
-        if (sserial.GetSerial() == null || sserial.GetSerial().Equals("")) {
-            print(sserial.GenerateSerial(GameObject.Find("GaudyBG").GetComponent<DataScript>().GetImageKeys()));
-        }
         GameObject panel = Instantiate(Resources.Load("Writer/Prefabs/Panels/ImageUploadBG"), GameObject.Find("GaudyBG").transform) as GameObject;
         panel.name = "ImageUploadBG";
         panel.transform.Find("ImageUploadPanel/Content/Row1/Toggle").gameObject.SetActive(canSetPatientImage);

@@ -9,6 +9,7 @@ using System.Text;
 using System;
 using TMPro;
 using UnityEngine.Networking;
+using SimEncounters;
 
 /**
  * Handles submitting all information to an XML file
@@ -19,7 +20,7 @@ public class SubmitToXML : MonoBehaviour
     private string path = "";               //Default XML path
     public string fileName = "";            //Chosen filename for current XML file.
     public int minutesBetweenSaves;         //Minutes between autosaves
-    private DataScript ds;                  //Data Manager
+    private WriterHandler ds;                  //Data Manager
     private TabManager TabManager;			//Section and Tab manager
     private GameObject BG;
     private bool autosaving;
@@ -30,7 +31,7 @@ public class SubmitToXML : MonoBehaviour
         //fileName.text = "test.txt";
         BG = GameObject.Find("GaudyBG");
         TabManager = BG.GetComponentInChildren<TabManager>();
-        ds = BG.GetComponentInChildren<DataScript>();
+        ds = WriterHandler.WriterInstance;
         fileName = GlobalData.fileName;
         path = GlobalData.filePath;
         if (GlobalData.demo) {
@@ -132,7 +133,7 @@ public class SubmitToXML : MonoBehaviour
         if (TabManager == null) {
             BG = GameObject.Find("GaudyBG");
             TabManager = BG.GetComponentInChildren<TabManager>();
-            ds = BG.GetComponentInChildren<DataScript>();
+            ds = WriterHandler.WriterInstance;
             fileName = GlobalData.fileName;
             path = GlobalData.filePath;
         }
@@ -148,7 +149,7 @@ public class SubmitToXML : MonoBehaviour
         fileName = GlobalData.fileName;
         string tempFileName = fileName.Remove(fileName.Length - 3);
 
-        string data = "<body>" + ds.GetData() + "</body>";
+        string data = "<body>" + ds.GetXml() + "</body>";
         Debug.Log(data);
         XmlDocument xmlDoc = new XmlDocument();
         xmlDoc.LoadXml(data);
@@ -174,7 +175,7 @@ public class SubmitToXML : MonoBehaviour
 
             //Easy to read images (For testing)
             sw = new StreamWriter(path + "ImageTest" + tempFileName + "xml", false);
-            xmlDoc.LoadXml(ds.GetImagesXML());
+            xmlDoc.LoadXml(ds.GetImagesXml());
             xmlDoc.Save(sw);
             sw.Close();
             sw.Dispose();
@@ -196,7 +197,7 @@ public class SubmitToXML : MonoBehaviour
         //sw.WriteLine (ds.GetImagesXML ());
         sw.Close();
         sw.Dispose();
-        File.WriteAllBytes(path + tempFileName + imgDataExtension, EncryptStringToBytes_Aes(ds.GetImagesXML()));
+        File.WriteAllBytes(path + tempFileName + imgDataExtension, EncryptStringToBytes_Aes(ds.GetImagesXml()));
 
         //Update the caseObj to create the menu file
         Transform content = transform.Find("SaveCasePanel/Content");
@@ -423,10 +424,11 @@ public class SubmitToXML : MonoBehaviour
 
         TabManager.sameTab = true;
         TabManager.AddToDictionary();
-        foreach (string key in ds.getKeys()) {
-            foreach (string tabKey in ds.GetData(key).GetTabList()) {
-                if (ds.GetData(key).GetTabInfo(tabKey).persistant) {
-                    tis.Add(ds.GetData(key).GetTabInfo(tabKey));
+        // TODO: don't iterate through keys
+        foreach (string key in ds.EncounterData.Sections.Keys) {
+            foreach (string tabKey in ds.EncounterData.Sections[key].GetTabList()) {
+                if (ds.EncounterData.Sections[key].GetTabInfo(tabKey).persistant) {
+                    tis.Add(ds.EncounterData.Sections[key].GetTabInfo(tabKey));
                 }
             }
         }

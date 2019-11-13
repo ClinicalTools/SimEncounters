@@ -1301,7 +1301,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
         if (PrefabName == null || PrefabName.Equals("") || loadedPrefabs.Length == 1) {
             newEntryObject = Instantiate(loadedPrefabs[0], transform);
             LabEntryScript newEntry;
-            newEntry = new LabEntryScript(entryList.Count, null, null, newEntryObject, loadedPrefabs[0].name);
+            newEntry = new LabEntryScript(entryList.Count, newEntryObject, loadedPrefabs[0].name);
             entryList.Add(newEntry);
             newEntryObject.name = "LabEntry: " + newEntry.GetPosition();
         } else {
@@ -1315,7 +1315,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
                 }
                 newEntryObject = Instantiate(loadedPrefabs[idx], transform);
                 LabEntryScript newEntry;
-                newEntry = new LabEntryScript(entryList.Count, null, null, newEntryObject, PrefabName);
+                newEntry = new LabEntryScript(entryList.Count, newEntryObject, PrefabName);
                 entryList.Add(newEntry);
                 newEntryObject.name = "LabEntry: " + newEntry.GetPosition();
             } else {
@@ -1326,7 +1326,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
                     if (PrefabName.Equals(entry.name)) {
                         newEntryObject = Instantiate(entry, transform);
                         LabEntryScript newEntry;
-                        newEntry = new LabEntryScript(entryList.Count, null, null, newEntryObject, PrefabName);
+                        newEntry = new LabEntryScript(entryList.Count, newEntryObject, PrefabName);
                         entryList.Add(newEntry);
                         newEntryObject.name = "LabEntry: " + newEntry.GetPosition();
                     }
@@ -1365,7 +1365,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
             if (PrefabName.Equals(entry.name)) {
                 newEntryObject = Instantiate(entry, transform);
                 LabEntryScript newEntry;
-                newEntry = new LabEntryScript(entryList.Count, null, null, newEntryObject, PrefabName);
+                newEntry = new LabEntryScript(entryList.Count, newEntryObject, PrefabName);
                 entryList.Add(newEntry);
                 newEntryObject.name = "LabEntry: " + newEntry.GetPosition();
                 if (UnityWebRequest.UnEscapeURL(CharacterName).Equals("Instructor")) {

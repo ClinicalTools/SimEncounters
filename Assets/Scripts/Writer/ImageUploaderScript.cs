@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System;
 using System.IO;
 using Crosstales.FB;
+using SimEncounters;
 
 public class ImageUploaderScript : MonoBehaviour
 {
@@ -11,7 +12,8 @@ public class ImageUploaderScript : MonoBehaviour
     private Image displayImage;
     private Transform row0;
     private Texture2D texture;
-    private DataScript ds;
+    private WriterHandler ds;
+    private SpriteHolderScript PatientImg => ds.EncounterData.Images[GlobalData.patientImageID];
     private Image currentImage;
     private bool openingFileExpolorer;
     private string[] extensions = new string[] { "png", "jpg", "jpeg" };
@@ -33,7 +35,7 @@ public class ImageUploaderScript : MonoBehaviour
         patientCamera = GameObject.Find("CharacterCamera").GetComponent<Camera>();
         row0 = transform.Find("ImageUploadPanel/Content/Row0");
         displayImage = transform.Find("ImageUploadPanel/Content/Row0/WithImage/ImageGoesHere").GetComponent<Image>();
-        ds = GameObject.Find("GaudyBG").GetComponent<DataScript>();
+        ds = WriterHandler.WriterInstance;
         openingFileExpolorer = false;
 
         sserial = new SerialScript();
@@ -57,19 +59,20 @@ public class ImageUploaderScript : MonoBehaviour
         if (isPatientImage) {
             print(GlobalData.patientImageID);
             //if (GlobalData.patientImageID == null || GlobalData.patientImageID.Equals("")) {
-            if (ds.GetImage(GlobalData.patientImageID) == null) {
+            if (PatientImg == null) {
                 //No patient image set. Wait until Apply to set one
-            } else if (displayImage?.sprite != null && !currentImage.GetComponent<OpenImageUploadPanelScript>().GetIsPatientImage()) {
+            } else if (displayImage?.sprite != null &&
+                !currentImage.GetComponent<OpenImageUploadPanelScript>().GetIsPatientImage()) {
                 //Ask to replace current image with patient image or replace patient image with current
                 AskAboutReplace();
             } else {
                 //Displayed image is null. Replace it with patient image
                 if (updateThumbnail)
-                    currentImage.sprite = ds.GetImage(GlobalData.patientImageID).sprite;
-                LoadImage(ds.GetImage(GlobalData.patientImageID).sprite);
+                    currentImage.sprite = PatientImg.sprite;
+                LoadImage(PatientImg.sprite);
             }
         } else {
-            LoadImage(ds.GetImage(GetGuid())?.sprite);
+            LoadImage(ds.EncounterData.Images[GetGuid()]?.sprite);
         }
 
         //transform.Find("ImageUploadPanel/Content/Row1/Toggle").GetComponent<Toggle>().isOn = isPatientImage;
@@ -77,7 +80,7 @@ public class ImageUploaderScript : MonoBehaviour
 
     public void AskAboutReplace()
     {
-        if (ds.GetImage(GlobalData.patientImageID) == null) {
+        if (PatientImg == null) {
             ReplacePatientImage();
             return;
         }
@@ -86,7 +89,8 @@ public class ImageUploaderScript : MonoBehaviour
         Image keep, replace;
         int max = (int)transform.Find("ChooseImage/Content/Row0").GetComponent<LayoutElement>().preferredHeight;
 
-        (keep = transform.Find("ChooseImage/Content/Row0/KeepImage/Image").GetComponent<Image>()).sprite = ds.GetImage(GlobalData.patientImageID).sprite;
+        keep = transform.Find("ChooseImage/Content/Row0/KeepImage/Image").GetComponent<Image>();
+        keep.sprite = PatientImg.sprite;
         keep.GetComponent<LayoutElement>().preferredHeight = Math.Min(max, keep.sprite.texture.height);
         keep.GetComponent<LayoutElement>().preferredWidth = Math.Min(max, keep.sprite.texture.width);
 
@@ -100,7 +104,7 @@ public class ImageUploaderScript : MonoBehaviour
     /// </summary>
     public void ReplacePatientImage()
     {
-        ds.AddImg(GlobalData.patientImageID, displayImage.sprite);
+        ds.EncounterData.Images[GlobalData.patientImageID].sprite = displayImage.sprite;
 
         patientCamera.transform.GetChild(0).gameObject.SetActive(true);
         Image i = patientCamera.transform.Find("Canvas/Image").GetComponent<Image>();
@@ -109,7 +113,7 @@ public class ImageUploaderScript : MonoBehaviour
 
     public void RemovePatientImage()
     {
-        ds.RemoveImage(GlobalData.patientImageID);
+        ds.EncounterData.Images.Remove(GlobalData.patientImageID);
         patientCamera.transform.GetChild(0).gameObject.SetActive(false);
     }
 
@@ -118,11 +122,11 @@ public class ImageUploaderScript : MonoBehaviour
     /// </summary>
     public void KeepPatientImage()
     {
-        displayImage.sprite = ds.GetImage(GlobalData.patientImageID).sprite;
+        displayImage.sprite = PatientImg.sprite;
     }
 
-	public bool useMipmaps = false;
-	public TextureFormat tFormat = TextureFormat.RGBA32;
+    public bool useMipmaps = false;
+    public TextureFormat tFormat = TextureFormat.RGBA32;
     private IEnumerator Testing2(string filePath)
     {
         Cursor.visible = true;
@@ -136,22 +140,22 @@ public class ImageUploaderScript : MonoBehaviour
                 filePath = filePath.Remove(0, 8);
             }
             byte[] bytes = File.ReadAllBytes(filePath);
-			print("Bytes: " + bytes.Length);
-			Texture2D newTexture;
-			if (useMipmaps) {
-				newTexture = new Texture2D(2, 2);
-			} else {
-				newTexture = new Texture2D(2, 2, tFormat, false);
-			}
+            print("Bytes: " + bytes.Length);
+            Texture2D newTexture;
+            if (useMipmaps) {
+                newTexture = new Texture2D(2, 2);
+            } else {
+                newTexture = new Texture2D(2, 2, tFormat, false);
+            }
             newTexture.LoadImage(bytes);
-			print("Mip map count: " + newTexture.mipmapCount);
-			print("Raw texture data: " + newTexture.GetRawTextureData().Length);
-			//Compress the image
-			//newTexture.LoadImage(newTexture.EncodeToJPG());
-			//print(newTexture.GetRawTextureData().Length);
-			
-			//Scale to max file size
-			if (newTexture.height > previewMaxHeight) {
+            print("Mip map count: " + newTexture.mipmapCount);
+            print("Raw texture data: " + newTexture.GetRawTextureData().Length);
+            //Compress the image
+            //newTexture.LoadImage(newTexture.EncodeToJPG());
+            //print(newTexture.GetRawTextureData().Length);
+
+            //Scale to max file size
+            if (newTexture.height > previewMaxHeight) {
                 float heightRatio = (float)previewMaxHeight / newTexture.height;
                 var width = (int)Math.Floor(newTexture.width * heightRatio);
                 if (width > 0) {
@@ -171,12 +175,12 @@ public class ImageUploaderScript : MonoBehaviour
                     yield break;
                 }
             }
-			print("Raw texture data: " + newTexture.GetRawTextureData().Length);
-			if (newTexture.format != TextureFormat.DXT1 && newTexture.format != TextureFormat.DXT5) {
-				print("Base64: " + Convert.ToBase64String(newTexture.EncodeToPNG()).Length);
-			}
+            print("Raw texture data: " + newTexture.GetRawTextureData().Length);
+            if (newTexture.format != TextureFormat.DXT1 && newTexture.format != TextureFormat.DXT5) {
+                print("Base64: " + Convert.ToBase64String(newTexture.EncodeToPNG()).Length);
+            }
 
-			texture = newTexture;
+            texture = newTexture;
             row0.Find("NoImage").gameObject.SetActive(false);
             row0.Find("UploadingImage").gameObject.SetActive(true);
 
@@ -192,72 +196,72 @@ public class ImageUploaderScript : MonoBehaviour
             row0.Find("UploadingImage").gameObject.SetActive(false);
             row0.Find("WithImage").gameObject.SetActive(true);
 
-            if (isPatientImage && ds.GetImage(GlobalData.patientImageID) != null) {
+            if (isPatientImage && PatientImg != null) {
                 AskAboutReplace();
             }
         }
         yield break;
     }
 
-	public void Compress()
-	{
-		byte[] bytes;
-		if (texture.format != TextureFormat.DXT1 && texture.format != TextureFormat.DXT5) {
-			if (texture.format == TextureFormat.RGB24) {
-				bytes = texture.EncodeToJPG();
-			} else {
-				bytes = texture.EncodeToPNG();
-			}
-			string imageData = Convert.ToBase64String(bytes);
-			/*print("Bytes: " + bytes.Length);
+    public void Compress()
+    {
+        byte[] bytes;
+        if (texture.format != TextureFormat.DXT1 && texture.format != TextureFormat.DXT5) {
+            if (texture.format == TextureFormat.RGB24) {
+                bytes = texture.EncodeToJPG();
+            } else {
+                bytes = texture.EncodeToPNG();
+            }
+            string imageData = Convert.ToBase64String(bytes);
+            /*print("Bytes: " + bytes.Length);
 			print("Raw Texture Data: " + texture.GetRawTextureData().Length);
 			print("Base64: " + imageData.Length);*/
-		}
+        }
 
-		texture.Compress(true);
+        texture.Compress(true);
 
-		/*Texture2D decomp = Decompress(texture);
+        /*Texture2D decomp = Decompress(texture);
 		print("Raw Texture Data (Decompress): " + decomp.GetRawTextureData().Length);
 
 		bytes = decomp.EncodeToPNG();
 		print("Base64 (Decompress): " + Convert.ToBase64String(bytes).Length);
 		*/
-		//bytes = texture.GetRawTextureData();
+        //bytes = texture.GetRawTextureData();
 
-		Sprite newSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0), 100);
-		displayImage.sprite = newSprite;
-	}
+        Sprite newSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0), 100);
+        displayImage.sprite = newSprite;
+    }
 
-	/// <summary>
-	/// https://stackoverflow.com/questions/51315918/how-to-encodetopng-compressed-textures-in-unity
-	/// </summary>
-	/// <param name="source"></param>
-	/// <returns></returns>
-	public Texture2D Decompress(Texture2D source)
-	{
-		RenderTexture renderTex = RenderTexture.GetTemporary(
-					source.width,
-					source.height,
-					0,
-					RenderTextureFormat.Default,
-					RenderTextureReadWrite.Linear);
+    /// <summary>
+    /// https://stackoverflow.com/questions/51315918/how-to-encodetopng-compressed-textures-in-unity
+    /// </summary>
+    /// <param name="source"></param>
+    /// <returns></returns>
+    public Texture2D Decompress(Texture2D source)
+    {
+        RenderTexture renderTex = RenderTexture.GetTemporary(
+                    source.width,
+                    source.height,
+                    0,
+                    RenderTextureFormat.Default,
+                    RenderTextureReadWrite.Linear);
 
-		Graphics.Blit(source, renderTex);
-		RenderTexture previous = RenderTexture.active;
-		RenderTexture.active = renderTex;
-		Texture2D readableText = new Texture2D(source.width, source.height);
-		readableText.ReadPixels(new Rect(0, 0, renderTex.width, renderTex.height), 0, 0);
-		readableText.Apply();
-		RenderTexture.active = previous;
-		RenderTexture.ReleaseTemporary(renderTex);
-		return readableText;
-	}
+        Graphics.Blit(source, renderTex);
+        RenderTexture previous = RenderTexture.active;
+        RenderTexture.active = renderTex;
+        Texture2D readableText = new Texture2D(source.width, source.height);
+        readableText.ReadPixels(new Rect(0, 0, renderTex.width, renderTex.height), 0, 0);
+        readableText.Apply();
+        RenderTexture.active = previous;
+        RenderTexture.ReleaseTemporary(renderTex);
+        return readableText;
+    }
 
-	public void CheckImage()
-	{
-		Texture2D t = Resources.Load("Image") as Texture2D;
-		print(t.GetRawTextureData().Length);
-	}
+    public void CheckImage()
+    {
+        Texture2D t = Resources.Load("Image") as Texture2D;
+        print(t.GetRawTextureData().Length);
+    }
 
     public void SetGuid(string s)
     {
@@ -396,13 +400,14 @@ public class ImageUploaderScript : MonoBehaviour
                 //GlobalData.patientImageID = "";
             } else {
                 Debug.Log("Removing Image: " + guid);
-                ds.RemoveImage(guid);
+                ds.EncounterData.Images.Remove(guid);
             }
         } else {
             if (isPatientImage) {
                 ReplacePatientImage();
             } else {
-                ds.AddImg(guid, displayImage.sprite);
+                var newSpriteScript = new SpriteHolderScript(displayImage.sprite);
+                ds.EncounterData.Images.Add(newSpriteScript);
             }
         }
     }

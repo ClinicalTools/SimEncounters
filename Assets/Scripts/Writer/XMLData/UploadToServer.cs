@@ -8,12 +8,13 @@ using UnityEngine.UI;
 using System.Text;
 using System.Security.Cryptography;
 using UnityEngine.Networking;
+using SimEncounters;
 
 public class UploadToServer : MonoBehaviour
 {
     //private WWW www;
     //private WWW w2;
-    private DataScript ds;
+    private WriterHandler ds;
     private string fileName;
     private string path;
     private string shrunkCharacterImageData;
@@ -21,7 +22,7 @@ public class UploadToServer : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        ds = transform.GetComponent<DataScript>();
+        ds = WriterHandler.WriterInstance;
         fileName = GlobalData.fileName;
         path = GlobalData.filePath;
     }
@@ -46,7 +47,7 @@ public class UploadToServer : MonoBehaviour
         string serverURL = GlobalData.serverAddress + "Test.php";
         string urlParams = "?webfilename=" + fileName + "&webusername=clinical&webpassword=encounters&mode=download";
         string wwwText = "";
-        string imagesXML = ds.GetImagesXML();
+        string imagesXML = ds.GetImagesXml();
         int i = -1;
         int MAP = 0;
         do {
@@ -59,7 +60,7 @@ public class UploadToServer : MonoBehaviour
 
             //form.AddField ("column", "xmlData");
 
-            byte[] fileBytes = GetFileAsByteArray("<body>" + ds.GetData() + "</body>");
+            byte[] fileBytes = GetFileAsByteArray("<body>" + ds.GetXml() + "</body>");
             Debug.Log("Case file size (in bytes): " + fileBytes.Length);
             form.AddBinaryData("xmlData", fileBytes, fileName, "text/xml");
 
@@ -319,11 +320,12 @@ public class UploadToServer : MonoBehaviour
 			}
 
 			//Get the loading screen and progress slider
-			Transform loadingScreen;
+			Transform loadingScreen = null;
 			if (ds == null) {
 				loadingScreen = GetComponent<ReaderDataScript>().loadingScreen.transform;
 			} else {
-				loadingScreen = ds.loadingScreen.transform;
+                // TODO: handle loading screen
+				//loadingScreen = ds.loadingScreen.transform;
 			}
 			loadingScreen.transform.Find("LoadingBar").gameObject.SetActive(true);
 			Slider slider = loadingScreen.GetComponentInChildren<Slider>();
@@ -387,7 +389,7 @@ public class UploadToServer : MonoBehaviour
         fileName = GlobalData.fileName;
         string tempFileName = fileName.Remove(fileName.Length - 3);
 
-        string data = "<body>" + ds.GetData() + "</body>";
+        string data = "<body>" + ds.GetXml() + "</body>";
         Debug.Log(data);
 
 
@@ -412,7 +414,7 @@ public class UploadToServer : MonoBehaviour
         //sw.WriteLine (ds.GetImagesXML ());
         sw.Close();
         sw.Dispose();
-        File.WriteAllBytes(path + tempFileName + "cei", EncryptStringToBytes_Aes(ds.GetImagesXML()));
+        File.WriteAllBytes(path + tempFileName + "cei", EncryptStringToBytes_Aes(ds.GetImagesXml()));
 
         /* Non-encrypted local saving
 		//Outputting regular file

@@ -1,16 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class GetPatientNameScript : MonoBehaviour {
 
     public InputField firstName, lastName;
-    public DataScript ds;
 	// Use this for initialization
-	void Start () {
-        ds = GameObject.Find("GaudyBG").GetComponent<DataScript>();
-        
+	void Start () {        
         firstName.onValueChanged.AddListener(delegate { changeFirstName(); });
         lastName.onValueChanged.AddListener(delegate { changeLastName(); });
     }

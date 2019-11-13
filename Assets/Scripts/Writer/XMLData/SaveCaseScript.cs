@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using System.Text.RegularExpressions;
 using System.Linq;
 using System.IO;
+using SimEncounters;
 
 
 //Should be parented to the SaveCaseBG Gameobject
@@ -442,7 +443,7 @@ public class SaveCaseScript : MonoBehaviour {
 				return;
 			} else {
 				Debug.Log ("No Matching tags found. Please enter another");
-				GameObject.Find("GaudyBG").GetComponent<DataScript>().ShowMessage ("No Matching tags found. Please enter another");
+				EncounterHandler.Instance.ShowMessage("No Matching tags found. Please enter another");
 				selectedTags [selectedTags.Count - 1] = "";
                 if (this.name == "SaveCaseBG")
                 {

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using SimEncounters;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -70,7 +71,7 @@ public class RemoveEntryScript : MonoBehaviour {
 		//pDrop.AddOptions (new List<Dropdown.OptionData>(){new Dropdown.OptionData ("Quiz", pin.transform.Find ("ItemIcon").GetComponent<Image> ().sprite)});
 		//pDrop.GetComponent<PinTabScript>().myOptions.Add (pin.name.Remove (pin.name.Length - "pin".Length));
 
-		DataScript ds = GameObject.Find ("GaudyBG").GetComponent<DataScript> ();
+		WriterHandler ds = WriterHandler.WriterInstance;
 		string uniquePath = "";
         Debug.Log(pin.transform.name);
 		Transform tempPin = pin.transform;
@@ -123,7 +124,7 @@ public class RemoveEntryScript : MonoBehaviour {
 				}
 				ds.GetQuizes ().Remove (uniquePath);
 				List<string> imagesToRemove = new List<string> ();
-				foreach (string key in ds.GetImageKeys()) {
+				foreach (string key in ds.EncounterData.Images.Keys) {
 					if (quizData.Contains ("<Image>" + key + "</Image>")) {
 						Debug.Log ("Removing image: " + key);
 						imagesToRemove.Add (key);

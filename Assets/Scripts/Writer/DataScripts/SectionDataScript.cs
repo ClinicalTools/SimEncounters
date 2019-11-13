@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System.Text.RegularExpressions;
+using SimEncounters;
 
 /**
  * This holds all of the data for each Section. This includes the XML strings,
@@ -10,7 +11,7 @@ using System.Text.RegularExpressions;
  */
 public class SectionDataScript
 {
-    private readonly DataScript ds;
+    private readonly WriterHandler ds;
 
     private Dictionary<string, TabInfoScript> Dict;     //Dictionary holding each Tab's information. Key=TabName. Value=TabData.
     private TabInfoScript currentTab;                   //Current/last tab the user was on in this section
@@ -30,12 +31,9 @@ public class SectionDataScript
         Dict = new Dictionary<string, TabInfoScript>();
         tabList = new List<string>();
         count = 0;
-        this.position = 0;
+        position = 0;
 
-
-        var bg = GameObject.Find("GaudyBG");
-        if (bg != null)
-            ds = bg.GetComponent<DataScript>();
+        ds = WriterHandler.WriterInstance;
     }
     /**
 	 * Initiates the script variables (to make sure)

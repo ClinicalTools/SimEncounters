@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System;
 using TMPro;
+using SimEncounters;
 
 public class EditTabScript : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class EditTabScript : MonoBehaviour
     GameObject tabEditPrefab;
     TextMeshProUGUI tabName;
     GameObject BG, parentBG;
-    DataScript ds;
+    WriterHandler ds;
     TabManager tm;
     private TextMeshProUGUI inputText;
     private string TitleValuePath;
@@ -24,7 +25,7 @@ public class EditTabScript : MonoBehaviour
     {
         parentBG = GameObject.Find("GaudyBG");
         BG = transform.gameObject;
-        ds = transform.GetComponent<DataScript>();
+        ds = WriterHandler.WriterInstance;
         tm = transform.GetComponent<TabManager>();
         TitleValuePath = "TabEditorPanel/Content/Row0/TMPInputField/TitleValue";
     }
@@ -90,7 +91,8 @@ public class EditTabScript : MonoBehaviour
             //ds.ShowMessage ("Tab name not valid. Cannot use:\n*, &, <, >, or //", true);
             throw new Exception("Name not valid: Please choose a new name for your tab.");
         } else if (!newName.Equals(tabName.text)) {
-            ds.EditTab(tabName.text, newName);
+            // TODO: make sure this didn't mess anything up
+            //ds.EditTab(tabName.text, newName);
             string formattedNewName = newName;//.Replace(" ", "_") + "Tab";
             tabName.transform.parent.Find("TabButtonDisplayText").GetComponent<TextMeshProUGUI>().text = newName;
             //tObject.transform.parent.Find ("TabButtonLinkToText").GetComponent<Text> ().text = formattedNewName;
@@ -111,8 +113,8 @@ public class EditTabScript : MonoBehaviour
     {
         //Debug.Log (tObject.text);
         tm.AddToDictionary();
-        string tabData = ds.GetData(tm.getCurrentSection(), tabName.text);
-        ds.RemoveTab(tabName.text);
+        string tabData = ds.EncounterData.Sections[tm.getCurrentSection()].GetData(tabName.text);
+        ds.EncounterData.Sections[tm.getCurrentSection()].Remove(tabName.text);
         tm.DestroyCurrentTab();
         tm.TabButtonContentPar.transform.Find(tabName.text + "TabButton");
         if (!tabName.text.Contains("/")) {
@@ -125,10 +127,11 @@ public class EditTabScript : MonoBehaviour
                 }
             }
         }
-        if (ds.GetData(tm.getCurrentSection()).GetTabList().Count != 0) {
-            TabInfoScript newTabInfo = ds.GetData(tm.getCurrentSection()).GetTabInfo(ds.GetData(tm.getCurrentSection()).GetTabList()[0]);
+        if (ds.EncounterData.Sections[tm.getCurrentSection()].GetTabList().Count != 0) {
+            TabInfoScript newTabInfo = ds.EncounterData.Sections[tm.getCurrentSection()]
+                .GetTabInfo(ds.EncounterData.Sections[tm.getCurrentSection()].GetTabList()[0]);
             tm.setTabName(newTabInfo.customName);
-            tm.SwitchTab(ds.GetData(tm.getCurrentSection()).GetTabList()[0]);
+            tm.SwitchTab(ds.EncounterData.Sections[tm.getCurrentSection()].GetTabList()[0]);
         } else {
             //BG.transform.Find ("TabSelectorBG").gameObject.SetActive (true);
             GameObject tabSelectorPrefab = Instantiate(Resources.Load("Writer/Prefabs/Panels/TabSelectorBG")) as GameObject;
@@ -147,11 +150,11 @@ public class EditTabScript : MonoBehaviour
 
         Destroy(tabEditPrefab);
 
-        List<string> keyList = ds.GetImageKeys();//  ds.GetImages ().Keys.ToList();
-        foreach (string key in keyList) {
+        List<string> keyList;
+        foreach (string key in ds.EncounterData.Images.Keys) {
             if (tabData.Contains("<Image>" + key + "</Image>")) {
                 Debug.Log("Removing Image: " + key);
-                ds.RemoveImage(key);
+                ds.EncounterData.Images.Remove(key);
                 //ds.GetImages ().Remove (key);
             }
         }
@@ -178,15 +181,15 @@ public class EditTabScript : MonoBehaviour
     public void removeTab(string tabName)
     {
         bool isCurrentTab = false;
-        if (ds.GetData(tm.getCurrentSection()).GetTabInfo(tabName).customName.Equals(tm.getCurrentTab())) {
+        if (ds.EncounterData.Sections[tm.getCurrentSection()].GetTabInfo(tabName).customName.Equals(tm.getCurrentTab())) {
             isCurrentTab = true;
         }
-        ds.RemoveTab(tabName);
+        ds.EncounterData.Sections[tm.getCurrentSection()].Remove(tabName);
         tm.RemoveTab(tabName);
         Destroy(tm.TabButtonContentPar.transform.Find(tabName.Replace(" ", "_") + "Button").gameObject);
         if (isCurrentTab) {
-            if (ds.GetData(tm.getCurrentSection()).GetTabList().Count != 0) {
-                tm.SwitchTab(ds.GetData(tm.getCurrentSection()).GetTabList()[0]);
+            if (ds.EncounterData.Sections[tm.getCurrentSection()].GetTabList().Count != 0) {
+                tm.SwitchTab(ds.EncounterData.Sections[tm.getCurrentSection()].GetTabList()[0]);
                 UpdateTabPos();
             } else {
                 BG.transform.Find("TabSelectorBG").gameObject.SetActive(true);
@@ -209,7 +212,7 @@ public class EditTabScript : MonoBehaviour
         }
 
         foreach (Transform t in buttons) {
-            ds.GetData(tm.getCurrentSection()).GetTabInfo(t.Find("TabButtonLinkToText").GetComponent<TextMeshProUGUI>().text).SetPosition(t.GetSiblingIndex());
+            ds.EncounterData.Sections[tm.getCurrentSection()].GetTabInfo(t.Find("TabButtonLinkToText").GetComponent<TextMeshProUGUI>().text).SetPosition(t.GetSiblingIndex());
         }
     }
 }

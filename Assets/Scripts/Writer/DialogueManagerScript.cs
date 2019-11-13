@@ -7,6 +7,7 @@ using System.Xml;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine.Networking;
+using SimEncounters;
 
 public class DialogueManagerScript : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class DialogueManagerScript : MonoBehaviour
     public List<DialogueEntryScript> entries;   //The list of dialogue entries
     public Transform baseParent;                //The highest level parent for dialogue
     public DialogueEntryScript mostRecentEntry; //Used for adding more dialogue purposes
-    public DataScript ds;
+    public WriterHandler ds;
     public TabManager tm;
     public Dictionary<string, Color> charColors;//Dictionary to hold the character colors. Stores by character name
     public Transform characterParent;           //The parent of the character buttons
@@ -402,163 +403,6 @@ public class DialogueManagerScript : MonoBehaviour
 
         GetComponentInChildren<HistoryFieldManagerScript>().PopulateQuiz(button);
         return;
-
-        /*
-		//GetComponentInChildren<HistoryFieldManagerScript>().FindUniqueParent();
-		if (!hasStarted) { //Wait for the dialogue to load fully the first time it's opened
-			return;
-		}
-
-		//Reload character options
-		characterPanelDropdown.ClearOptions ();
-		characterPanelDropdown.AddOptions (defaultCharacters);
-        float[] cVals = new float[4];
-
-        Color c = new Color();
-
-        //Destroy any previous dialogues when re-enabling the dialogue panel
-        int childCount = baseParent.childCount;
-		for(int i = 0; i < childCount; i++) {
-			Destroy (baseParent.GetChild (i).gameObject);
-		}
-
-		entries = new List<DialogueEntryScript> ();
-		DiscardDialogue ();
-
-		//Add the default character (if any exist)
-		List<Transform> startingChildren = new List<Transform> ();
-		for (int i = 0; i < characterParent.childCount; i++) {
-			if (characterParent.GetChild(i).name.EndsWith("Default")) {
-				startingChildren.Add(characterParent.GetChild(i));
-			} else if (characterParent.GetChild(i).name.EndsWith("Panel")) {
-				Destroy(characterParent.GetChild(i).gameObject);
-			}
-		}
-		foreach(Transform t in startingChildren) {
-			if (t.name.StartsWith ("CharacterEntry") && t.gameObject.activeInHierarchy) {
-				if (!charColors.ContainsKey (t.GetComponentInChildren<Text> ().text)) {
-					Debug.Log ("Adding color for " + t.GetComponentInChildren<Text> ().text);
-					charColors.Add (t.GetComponentInChildren<Text> ().text, t.Find("CharacterImage").GetComponentInChildren<Image> ().color);
-					currentCharacters.Add (t.GetComponentInChildren<Text> ().text); //Add name to current characters
-				}
-			}
-		}
-
-
-
-		//Get the UID for this dialogue session.
-		UID = GetUID();
-
-		//Get the data for this UID
-		string text = "<dialogue></dialogue>";//ds.GetData (tm.getCurrentSection (), tis.customName);
-		if (ds.GetDialogues ().ContainsKey (UID)) {
-			text = ds.GetDialogues () [UID];
-		}
-
-
-		//Load in the XML data
-		xmlDocc = new XmlDocument();
-		xmlDocc.LoadXml(text);
-		XmlNode node = xmlDocc.FirstChild;
-
-		while (node != null && !node.InnerText.Equals (UID)) {
-			node = AdvNode (node);
-		}
-		if (node == null) {
-			return;
-		}
-		Debug.Log (node.ParentNode.OuterXml);
-		if (!node.Name.Equals ("uid")) {
-			Debug.Log ("No existing dialogue data to load");
-			return;
-		}
-		node = AdvNode (node); //into characters
-		bool inData = false;
-		List<DialogueEntryScript> parents = new List<DialogueEntryScript> ();
-		List<XmlNode> nodesOfParents = new List<XmlNode> ();
-		//parents.Add (baseParent);
-		//nodesOfParents.Add (null);
-		int idx = 0;
-		if (charColors == null) {
-			charColors = new Dictionary<string, Color> ();
-		}
-		while (node != null) {
-            if (node.Name.Equals ("character")) { //load in character data
-				node = xmlDoc.AdvNode(node);
-
-				if (!charColors.ContainsKey (node.InnerText)) {
-					string name = WWW.UnEscapeURL(node.InnerText);
-					node = node.NextSibling;
-					string colorText = node.InnerText;
-					string[] colorComponents = Regex.Split (colorText, ",");
-					c = new Color (float.Parse (colorComponents [0]), float.Parse (colorComponents [1]), float.Parse (colorComponents [2]));
-					AddCharacter (name, c);
-					characterPanelDropdown.options.RemoveAll (((Dropdown.OptionData obj) => obj.text == name));
-					characterPanelDropdown.captionText.text = characterPanelDropdown.options [characterPanelDropdown.value].text;
-					Debug.Log (characterPanelDropdown.options.Count);
-					if (characterPanelDropdown.options.Count == 0) {
-						Debug.Log (characterPanel.transform.parent.GetComponent<Button> () == null);
-						characterPanel.transform.parent.GetComponent<Button> ().interactable = false;
-					}
-				}
-			} else if (inData || node.Name.Equals("data")) {
-				inData = true;
-				if (node.Name.Equals ("dialogueEntry")) {
-					if (node.PreviousSibling != null && nodesOfParents.IndexOf(node.PreviousSibling) >= 0 ) {//== nodesOfParents [parents.Count - 1]) {
-						//parents.RemoveAt (parents.Count - 1);
-						//nodesOfParents.RemoveAt (parents.Count - 1);
-
-						int indexOf = nodesOfParents.IndexOf (node.PreviousSibling);
-						int range = parents.Count - nodesOfParents.IndexOf (node.PreviousSibling);
-						parents.RemoveRange (indexOf, range);
-						nodesOfParents.RemoveRange (indexOf, range);
-
-					}
-					node = AdvNode (node);  //To character name
-					GameObject dialogue = Resources.Load(GlobalData.resourcePath + "/Prefabs/DialogueEntry") as GameObject;
-					if (parents.Count == 0) {
-						dialogue = Instantiate (dialogue, baseParent);
-					} else {
-						//NESTED swap the commented lines below to restore nesting
-						dialogue = Instantiate(dialogue, baseParent);
-						//dialogue = Instantiate (dialogue, parents [parents.Count - 1].childrenParent);
-					}
-					DialogueEntryScript des = dialogue.transform.GetComponent<DialogueEntryScript> ();
-					des.characterName = WWW.UnEscapeURL(node.InnerText);
-					des.index = idx;
-					if (parents.Count > 0) {
-						des.parentEntry = parents [parents.Count - 1];
-						des.parentEntry.children.Add (des);
-					}
-					idx++;
-
-                    node = node.NextSibling;
-                    Debug.Log(node.InnerText);
-
-                    cVals = ParseColor(node.InnerText);
-                    des.charColor = new Color(cVals[0], cVals[1], cVals[2], cVals[3]);
-                    dialogue.GetComponentInChildren<Image>().color = des.charColor;
-
-					node = node.NextSibling;  //To dialogue
-					des.dialogue = WWW.UnEscapeURL(node.InnerText);
-					dialogue.GetComponentInChildren<InputField> ().text = des.dialogue;
-					if (node.NextSibling != null) {
-						node = node.NextSibling;  //To children
-						if (node.InnerText != null && !node.InnerText.Equals("")) { //if Children exist
-							parents.Add(des);
-							nodesOfParents.Add(node.ParentNode);
-						}
-					}
-
-					entries.Add (des);
-				}
-			}
-			node = AdvNode (node);
-			if (node != null && node.PreviousSibling != null && node.PreviousSibling.Name.Equals ("dialogue")) {
-				break;
-			}
-		}
-		*/
     }
 
     private float[] ParseColor(string color)

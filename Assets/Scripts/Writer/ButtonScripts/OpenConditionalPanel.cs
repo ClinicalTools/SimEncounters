@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using SimEncounters;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class OpenConditionalPanel : MonoBehaviour
@@ -9,6 +10,7 @@ public class OpenConditionalPanel : MonoBehaviour
     private bool isPatientImage;
     public bool updateThumbnail = true;
 
+    // TODO: change how serial is handled
     // Use this for initialization
     void Start()
     {
@@ -33,17 +35,10 @@ public class OpenConditionalPanel : MonoBehaviour
         return sserial.GetSerial();
     }
 
-    public void LoadData(string guid)
-    {
-        if (tm.GetComponent<DataScript>().GetImageKeys().Contains(guid)) { //Load image
-            //img.sprite = tm.transform.GetComponent<DataScript>().GetImage(guid).sprite;
-        }
-    }
-
     public void OpenImagePanel()
     {
         if (sserial.GetSerial() == null || sserial.GetSerial().Equals("")) {
-            print(sserial.GenerateSerial(GameObject.Find("GaudyBG").GetComponent<DataScript>().GetImageKeys()));
+            //print(sserial.GenerateSerial(WriterHandler.WriterInstance.));
         }
         GameObject panel = Instantiate(Resources.Load("Writer/Prefabs/Panels/ImageUploadBG"), GameObject.Find("GaudyBG").transform) as GameObject;
         panel.name = "ImageUploadBG";
