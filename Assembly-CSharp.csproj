@@ -199,20 +199,38 @@
     <Compile Include="Assets\Scripts\SophReformatting\Data\Collection\ImgCollection.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Data\Collection\IntCollection.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Data\Collection\IntConditionalCollection.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Data\Collection\OldSectionCollection.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Data\Collection\OrderedCollection.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Data\Collection\SectionCollection.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Data\Collection\SimCollection.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Data\Collection\TabCollection.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Data\EncounterData.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Data\EncounterHandler.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\EncounterXml.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Data\GetEncounter\DownloadEncounter.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Data\GetEncounter\ReadEncounterFile.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Data\KeyedCollection.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Data\OrderedDictionary.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Data\ReaderHandler.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Data\Serialized\Section.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Data\Serialized\Tab.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Data\SimAsyncOperation.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Data\SophGlobalData.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Data\WriterHandler.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\XmlHelper.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\EncounterXml.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\IXmlSerializable.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\NodeFinder.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\old\Abc.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\old\ListXmlHandler.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\old\SectionXmlHandler.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\old\TabXmlHandler.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\old\XmlHandler.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\XmlDeserializer.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\XmlHelper.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\XmlSerializer.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\old\OldDataScript.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Writer\SectionCreator.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Writer\SectionManager.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Writer\TabCreator.cs" />
     <Compile Include="Assets\Scripts\TMProLinks.cs" />
     <Compile Include="Assets\Scripts\UpdateStars.cs" />
     <Compile Include="Assets\Scripts\VarData.cs" />
@@ -966,6 +984,10 @@
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
       <Project>{83AC76B0-2076-994D-0F68-16685BD2FAF1}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
+    <ProjectReference Include="Maintainer.Editor.csproj">
+      <Project>{5C33F07B-D817-0870-97D1-79AC898FF82B}</Project>
+      <Name>Maintainer.Editor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

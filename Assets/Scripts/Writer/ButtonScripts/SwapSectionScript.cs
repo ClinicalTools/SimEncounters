@@ -7,18 +7,33 @@ using TMPro;
 /**
  * Script to be called when using the section buttons
  */
-public class SwapSectionScript : MonoBehaviour {
+public class SwapSectionScript : MonoBehaviour
+{
+    [SerializeField] private TextMeshProUGUI sectionName; //Provided section name
 
-	private TabManager BG;
-	public TextMeshProUGUI sectionName;	//Provided section name
+    protected string SectionKey { get; set; }
+    public virtual void ChangeSection()
+    {
+        if (SectionKey == null)
+            TabManager.Instance.SwitchSection(sectionName.text);
+        else
+            TabManager.Instance.SwitchSection(SectionKey);
+    }
 
-	// Use this for initialization
-	void Start () {
-		BG = GameObject.Find ("GaudyBG").GetComponentInChildren<TabManager> ();
-	}
+    public virtual void Initialize(string name, string key)
+    {
+        sectionName.text = name;
+        SectionKey = key;
+    }
 
-	public void ChangeSection() {
-		BG.SwitchSection(sectionName.text);
-        //GetComponent<Button>().interactable = false;
-	}
+    public virtual void SetImage(Color color)
+    {
+        GetComponent<Image>().color = color;
+    }
+
+    [SerializeField] private Image icon;
+    public virtual void SetSprite(Sprite sprite)
+    {
+        icon.sprite = sprite;
+    }
 }

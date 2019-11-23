@@ -1,24 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using TMPro;
 
-public class TabEditorScript : MonoBehaviour {
+public class TabEditorScript : MonoBehaviour
+{
 
-	GameObject BG;
-	EditTabScript ets;
-	TMP_InputField titleValue;
+    GameObject BG;
+    EditTabScript ets;
+    TMP_InputField titleValue;
 
-	// Use this for initialization
-	void Start () {
-		BG = GameObject.Find ("GaudyBG");
-		ets = BG.GetComponent<EditTabScript> ();
-		if (transform.Find ("TabEditorPanel/Content/Row0/TMPInputField/TitleValue")) {
-			titleValue = transform.Find ("TabEditorPanel/Content/Row0/TMPInputField/TitleValue").GetComponent<TMP_InputField> ();
-			titleValue.text = BG.GetComponent<TabManager> ().getCurrentTab ();
-		}
-	}
+    // Use this for initialization
+    void Start()
+    {
+        BG = GameObject.Find("GaudyBG");
+        ets = BG.GetComponent<EditTabScript>();
+        if (transform.Find("TabEditorPanel/Content/Row0/TMPInputField/TitleValue")) {
+            titleValue = transform.Find("TabEditorPanel/Content/Row0/TMPInputField/TitleValue").GetComponent<TMP_InputField>();
+            titleValue.text = BG.GetComponent<TabManager>().getCurrentTab();
+        }
+    }
 
     public void enableTabSelection()
     {
@@ -37,15 +36,18 @@ public class TabEditorScript : MonoBehaviour {
         Destroy(this.gameObject);
     }
 
-    public void OpenTabEditor(TextMeshProUGUI t) {
-		ets.OpenTabPanel (t);
-	}
+    public void OpenTabEditor(TextMeshProUGUI t)
+    {
+        ets.OpenTabPanel(t);
+    }
 
-	public void Submit() {
-		ets.SubmitChanges ();
-	}
+    public void Submit()
+    {
+        ets.SubmitChanges();
+    }
 
-	public void Remove() {
-		ets.removeTab ();
-	}
+    public void Remove()
+    {
+        ets.removeTab();
+    }
 }

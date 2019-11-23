@@ -59,7 +59,7 @@ namespace SimEncounters
             transform.Find("SaveCaseBG").GetComponent<SubmitToXML>().Autosave();
         }
 
-        protected override void ProcessSections(SectionCollection sections, ImgCollection imageCollection)
+        protected override void ProcessSections(OldSectionCollection sections, ImgCollection imageCollection)
         {
             base.ProcessSections(sections, imageCollection);
             // TODO: default section

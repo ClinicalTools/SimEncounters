@@ -51,7 +51,7 @@ namespace EntryValue
 			}
 
 			string sectionAndTab =
-				ds.transform.GetComponent<TabManager>().getCurrentSection() +
+				ds.transform.GetComponent<TabManager>().GetCurrentSectionKey() +
 				"/" + tabName + "/";
 
 			pinKey = sectionAndTab + pinKey;

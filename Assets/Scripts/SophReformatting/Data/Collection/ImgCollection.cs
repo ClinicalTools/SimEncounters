@@ -22,6 +22,24 @@ namespace SimEncounters
         public ImgCollection() : base() { }
         public ImgCollection(XmlNode encounterNode) : base(encounterNode) { }
 
+
+        /// <summary>
+        /// Adds or sets an image with a key matching a section's key.
+        /// </summary>
+        /// <param name="sectionKey">The key of the section of this image</param>
+        /// <param name="image">Image value to set</param>
+        /// <remarks>
+        /// Section images should ideally be a property of the section, not an image in the collection, 
+        /// but supporting legacy data might make that hard to implement.
+        /// </remarks>
+        public virtual void AddSectionImg(string sectionKey, SpriteHolderScript image)
+        {
+            if (Collection.ContainsKey(sectionKey))
+                Remove(sectionKey);
+
+            Add(sectionKey, image);
+        }
+
         // Legacy versions stored images directly in the root node.
         protected override XmlNode GetLegacyCollectionNode(XmlNode encounterNode)
         {

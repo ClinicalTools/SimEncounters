@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace SimEncounters
@@ -9,33 +10,47 @@ namespace SimEncounters
     /// <typeparam name="T">
     /// Type of the values in the collection. Type cannot be a string or an int.
     /// </typeparam>
-    public abstract class OrderedCollection<T> : SimCollection<T>
+    public abstract class OrderedCollection<T> : SimCollection<T>, IEnumerable<KeyValuePair<string, T>>
     {
-        // An ordered list of sections
+        // An ordered list of values
         protected virtual List<T> ValueList { get; set; } = new List<T>();
+        // An ordered list of the key value pairs
+        // This could be made to use less memory, but both parts may be used frequently, so this is simpler
+        protected virtual List<KeyValuePair<string, T>> PairList { get; set; } = new List<KeyValuePair<string, T>>();
+
         /// <summary>
         /// Ordered array of values in the collection.
         /// </summary>
         public virtual T[] ValueArr => ValueList.ToArray();
         public override IEnumerable<T> Values => ValueList;
 
+        public virtual KeyValuePair<string, T> this[int index] => Get(index);
+
         public OrderedCollection() : base() { }
         public OrderedCollection(XmlNode encounterNode) : base(encounterNode) { }
 
         protected override void Add(string key, T value)
         {
-            base.Add(key, value);
-            ValueList.Add(value);
+            var pair = new KeyValuePair<string, T>(key, value);
+            Add(pair);
+        }
+        protected override void Add(KeyValuePair<string, T> pair)
+        {
+            base.Add(pair);
+            PairList.Add(pair);
+            ValueList.Add(pair.Value);
         }
 
         public override void Remove(string key)
         {
-            var item = Collection[key];
-            ValueList.Remove(item);
+            var index = ValueList.IndexOf(Collection[key]);
+            ValueList.RemoveAt(index);
+            PairList.RemoveAt(index);
+            
             base.Remove(key);
         }
-        
-        public virtual T Get(int val) => ValueList[val];
+
+        public virtual KeyValuePair<string, T> Get(int val) => PairList[val];
 
         public virtual void MoveValue(int newIndex, int currentIndex)
         {
@@ -50,5 +65,8 @@ namespace SimEncounters
             ValueList.Remove(value);
             ValueList.Insert(newIndex, value);
         }
+
+        IEnumerator IEnumerable.GetEnumerator() => Collection.GetEnumerator();
+        public override IEnumerator<KeyValuePair<string, T>> GetEnumerator() => PairList.GetEnumerator();
     }
 }

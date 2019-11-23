@@ -425,10 +425,10 @@ public class SubmitToXML : MonoBehaviour
         TabManager.sameTab = true;
         TabManager.AddToDictionary();
         // TODO: don't iterate through keys
-        foreach (string key in ds.EncounterData.Sections.Keys) {
-            foreach (string tabKey in ds.EncounterData.Sections[key].GetTabList()) {
-                if (ds.EncounterData.Sections[key].GetTabInfo(tabKey).persistant) {
-                    tis.Add(ds.EncounterData.Sections[key].GetTabInfo(tabKey));
+        foreach (string key in ds.EncounterData.OldSections.Keys) {
+            foreach (string tabKey in ds.EncounterData.OldSections[key].GetTabList()) {
+                if (ds.EncounterData.OldSections[key].GetTabInfo(tabKey).persistant) {
+                    tis.Add(ds.EncounterData.OldSections[key].GetTabInfo(tabKey));
                 }
             }
         }

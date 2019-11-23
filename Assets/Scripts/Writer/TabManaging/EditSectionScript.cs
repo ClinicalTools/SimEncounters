@@ -51,7 +51,7 @@ public class EditSectionScript : MonoBehaviour
         if (BG == null) {
             Start();
         }
-        var section = ds.EncounterData.Sections[tm.getCurrentSection()];
+        var section = ds.EncounterData.OldSections[tm.GetCurrentSectionKey()];
 
 
         tObject = t;
@@ -239,7 +239,7 @@ public class EditSectionScript : MonoBehaviour
 
         // Set conditions
         var condGroup = sectionEditPrefab.GetComponentInChildren<CondGroup>();
-        var conditions = condGroup.ConditionSerials();
+        //var conditions = condGroup.ConditionSerials();
         // Update conditionals
         //ds.UpdateSectionConds(sectionLinkTo, conditions);
 
@@ -305,7 +305,7 @@ public class EditSectionScript : MonoBehaviour
 
         //Spawns/Removes the Background Info tab as needed
         bool spawn = sectionEditPrefab.transform.Find("SectionEditorPanel/Content/MainGroup/Row1").GetComponentInChildren<Toggle>().isOn;
-        string tabName = ds.EncounterData.Sections[tm.getCurrentSection()].GetTabList().Find((string obj) => obj.StartsWith("Background_InfoTab"));
+        string tabName = ds.EncounterData.OldSections[tm.GetCurrentSectionKey()].GetTabList().Find((string obj) => obj.StartsWith("Background_InfoTab"));
         bool tabExists = true;
         if (tabName == null || tabName.Equals("")) {
             tabExists = false;
@@ -346,8 +346,8 @@ public class EditSectionScript : MonoBehaviour
                 }
             }
         }
-        string sectionData = ds.EncounterData.Sections[removedSection].GetAllData();
-        ds.EncounterData.Sections.Remove(removedSection);
+        string sectionData = ds.EncounterData.OldSections[removedSection].GetAllData();
+        ds.EncounterData.OldSections.Remove(removedSection);
         //editSectionPanel.gameObject.SetActive (false);
         tm.RemoveCurrentSection();
 
@@ -414,7 +414,7 @@ public class EditSectionScript : MonoBehaviour
             Debug.Log("Cannot load tab prefab");
             return;
         }
-        ds.AddSectionTabData(tm.getCurrentSection(), xmlTabName, tabCustomName, xml);
+        ds.AddSectionTabData(tm.GetCurrentSectionKey(), xmlTabName, tabCustomName, xml);
 
 
         GameObject newTab = Resources.Load(gData.resourcesPath + "/Prefabs/TabButton") as GameObject;
@@ -446,7 +446,7 @@ public class EditSectionScript : MonoBehaviour
         }
 
         foreach (Transform t in buttons) {
-            ds.EncounterData.Sections[tm.getCurrentSection()].GetTabInfo(t.Find("TabButtonLinkToText").GetComponent<TextMeshProUGUI>().text).SetPosition(t.GetSiblingIndex());
+            ds.EncounterData.OldSections[tm.GetCurrentSectionKey()].GetTabInfo(t.Find("TabButtonLinkToText").GetComponent<TextMeshProUGUI>().text).SetPosition(t.GetSiblingIndex());
         }
     }
 }

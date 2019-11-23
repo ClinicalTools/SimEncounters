@@ -29,7 +29,7 @@ namespace SimEncounters
         // There should only ever be one data script in the scene, so it's safe to use a static instance
         public static SophData Instance { get; private set; }
 
-        private SectionCollection sectionData;
+        private OldSectionCollection sectionData;
         private ImgCollection imgData;
         // These need to not be static so their methods can be overridden
         // private CondData condData;
@@ -960,7 +960,7 @@ namespace SimEncounters
          */
         public void EditTab(string oldName, string newName)
         {
-            string Section = transform.GetComponent<TabManager>().getCurrentSection();
+            string Section = transform.GetComponent<TabManager>().GetCurrentSectionKey();
             Debug.Log("SWAPPING TEXT NAME. OLDNAME: " + oldName + ", NEWNAME: " + newName);
             if (Dict[Section].ContainsKey(oldName)) {
                 Dict[Section].Replace(oldName, newName);
@@ -971,7 +971,7 @@ namespace SimEncounters
                 foreach (string imgName in imgDict.Keys.ToArray()) {
                     string[] splitKey = imgName.Split('.');
                     if (splitKey.Count() >= 3) {
-                        if (splitKey[0].Equals(tm.getCurrentSection())) {
+                        if (splitKey[0].Equals(tm.GetCurrentSectionKey())) {
                             if (splitKey[1].Equals(oldName + "Tab")) {
                                 string newImgName = imgName.Replace(splitKey[1], newName + "Tab");
                                 imgDict.Add(newImgName, imgDict[imgName]);
@@ -983,7 +983,7 @@ namespace SimEncounters
 
                 Dictionary<string, string> tempDict = dialogueDict;
                 foreach (string key in tempDict.Keys.ToList()) {
-                    if (key.StartsWith(tm.getCurrentSection() + "/" + oldName + "Tab")) {
+                    if (key.StartsWith(tm.GetCurrentSectionKey() + "/" + oldName + "Tab")) {
                         string newDialogue = dialogueDict[key].Replace(oldName + "Tab", newName + "Tab");
                         dialogueDict.Remove(key);
                         dialogueDict.Add(key.Replace(oldName + "Tab", newName + "Tab"), newDialogue);
@@ -992,7 +992,7 @@ namespace SimEncounters
 
                 tempDict = quizDict;
                 foreach (string key in tempDict.Keys.ToList()) {
-                    if (key.StartsWith(tm.getCurrentSection() + "/" + oldName + "Tab")) {
+                    if (key.StartsWith(tm.GetCurrentSectionKey() + "/" + oldName + "Tab")) {
                         string newQuiz = quizDict[key].Replace(oldName + "Tab", newName + "Tab");
                         quizDict.Remove(key);
                         quizDict.Add(key.Replace(oldName + "Tab", newName + "Tab"), newQuiz);
@@ -1082,7 +1082,7 @@ namespace SimEncounters
          */
         public void RemoveTab(string Tab)
         {
-            Dict[transform.GetComponent<TabManager>().getCurrentSection()].Remove(Tab);
+            Dict[transform.GetComponent<TabManager>().GetCurrentSectionKey()].Remove(Tab);
         }
 
         /**
@@ -1179,7 +1179,7 @@ namespace SimEncounters
         {
             Debug.Log(GetData());
             Debug.Log(GetImagesXML());
-            Debug.Log(GetData(transform.GetComponent<TabManager>().getCurrentSection()).GetAllPositions());
+            Debug.Log(GetData(transform.GetComponent<TabManager>().GetCurrentSectionKey()).GetAllPositions());
         }
 
         public void Reload()

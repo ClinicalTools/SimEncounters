@@ -129,7 +129,7 @@ public class LabEntryScript
                                 }
                                 tempChild = tempChild.parent;
                             }
-                            newUID = ds.transform.GetComponent<TabManager>().getCurrentSection() + "/" + newUID;
+                            newUID = ds.transform.GetComponent<TabManager>().GetCurrentSectionKey() + "/" + newUID;
 
                             startingUID = newUID.Remove(newUID.LastIndexOf("/") + 1) + startingUID;
                             //Debug.Log ("starting: " + startingUID + ", new: " + newUID);

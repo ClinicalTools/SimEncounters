@@ -55,8 +55,10 @@ namespace SimEncounters
             if (collectionNode == null) {
                 collectionNode = GetLegacyCollectionNode(encounterNode);
 
-                if (collectionNode == null)
+                if (collectionNode == null) {
+                    Debug.LogError("Invalid collection node.");
                     return;
+                }
             }
 
             foreach (XmlNode valNode in collectionNode)
@@ -168,6 +170,12 @@ namespace SimEncounters
             return key;
         }
 
+        protected virtual void Add(KeyValuePair<string, T> pair)
+        {
+            Collection.Add(pair);
+            KeyCollection.Add(pair.Value, pair.Key);
+        }
+
         protected virtual void Add(string key, T value)
         {
             Collection.Add(key, value);
@@ -239,7 +247,7 @@ namespace SimEncounters
         protected abstract void WriteValueElem(XmlElement valueElement, T value);
 
 
-        IEnumerator IEnumerable.GetEnumerator() => Collection.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         public virtual IEnumerator<KeyValuePair<string, T>> GetEnumerator() => Collection.GetEnumerator();
     }
 }

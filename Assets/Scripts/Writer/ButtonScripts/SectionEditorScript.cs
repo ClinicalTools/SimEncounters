@@ -23,7 +23,7 @@ public class SectionEditorScript : MonoBehaviour
         ess = BG.GetComponent<EditSectionScript>();
         if (transform.Find("SectionEditorPanel/Content/Row0/TMPInputField/TitleValue")) {
             titleValue = transform.Find("SectionEditorPanel/Content/Row0/TMPInputField/TitleValue").GetComponent<TMP_InputField>();
-            string currentSection = BG.GetComponent<TabManager>().getCurrentSection();
+            string currentSection = BG.GetComponent<TabManager>().GetCurrentSectionKey();
             titleValue.text = currentSection.Replace("_", " ").Remove(currentSection.Length - 7);
         }
     }

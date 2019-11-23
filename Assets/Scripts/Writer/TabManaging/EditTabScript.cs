@@ -113,8 +113,8 @@ public class EditTabScript : MonoBehaviour
     {
         //Debug.Log (tObject.text);
         tm.AddToDictionary();
-        string tabData = ds.EncounterData.Sections[tm.getCurrentSection()].GetData(tabName.text);
-        ds.EncounterData.Sections[tm.getCurrentSection()].Remove(tabName.text);
+        string tabData = ds.EncounterData.OldSections[tm.GetCurrentSectionKey()].GetData(tabName.text);
+        ds.EncounterData.OldSections[tm.GetCurrentSectionKey()].Remove(tabName.text);
         tm.DestroyCurrentTab();
         tm.TabButtonContentPar.transform.Find(tabName.text + "TabButton");
         if (!tabName.text.Contains("/")) {
@@ -127,11 +127,11 @@ public class EditTabScript : MonoBehaviour
                 }
             }
         }
-        if (ds.EncounterData.Sections[tm.getCurrentSection()].GetTabList().Count != 0) {
-            TabInfoScript newTabInfo = ds.EncounterData.Sections[tm.getCurrentSection()]
-                .GetTabInfo(ds.EncounterData.Sections[tm.getCurrentSection()].GetTabList()[0]);
+        if (ds.EncounterData.OldSections[tm.GetCurrentSectionKey()].GetTabList().Count != 0) {
+            TabInfoScript newTabInfo = ds.EncounterData.OldSections[tm.GetCurrentSectionKey()]
+                .GetTabInfo(ds.EncounterData.OldSections[tm.GetCurrentSectionKey()].GetTabList()[0]);
             tm.setTabName(newTabInfo.customName);
-            tm.SwitchTab(ds.EncounterData.Sections[tm.getCurrentSection()].GetTabList()[0]);
+            tm.SwitchTab(ds.EncounterData.OldSections[tm.GetCurrentSectionKey()].GetTabList()[0]);
         } else {
             //BG.transform.Find ("TabSelectorBG").gameObject.SetActive (true);
             GameObject tabSelectorPrefab = Instantiate(Resources.Load("Writer/Prefabs/Panels/TabSelectorBG")) as GameObject;
@@ -161,14 +161,14 @@ public class EditTabScript : MonoBehaviour
 
         keyList = ds.GetDialogues().Keys.ToList();
         foreach (string key in keyList) {
-            if (key.StartsWith(tm.getCurrentSection() + "/" + tabName.text + "Tab")) {
+            if (key.StartsWith(tm.GetCurrentSectionKey() + "/" + tabName.text + "Tab")) {
                 ds.GetDialogues().Remove(key);
             }
         }
 
         keyList = ds.GetQuizes().Keys.ToList();
         foreach (string key in keyList) {
-            if (key.StartsWith(tm.getCurrentSection() + "/" + tabName.text + "Tab")) {
+            if (key.StartsWith(tm.GetCurrentSectionKey() + "/" + tabName.text + "Tab")) {
                 ds.GetQuizes().Remove(key);
             }
         }
@@ -181,15 +181,15 @@ public class EditTabScript : MonoBehaviour
     public void removeTab(string tabName)
     {
         bool isCurrentTab = false;
-        if (ds.EncounterData.Sections[tm.getCurrentSection()].GetTabInfo(tabName).customName.Equals(tm.getCurrentTab())) {
+        if (ds.EncounterData.OldSections[tm.GetCurrentSectionKey()].GetTabInfo(tabName).customName.Equals(tm.getCurrentTab())) {
             isCurrentTab = true;
         }
-        ds.EncounterData.Sections[tm.getCurrentSection()].Remove(tabName);
+        ds.EncounterData.OldSections[tm.GetCurrentSectionKey()].Remove(tabName);
         tm.RemoveTab(tabName);
         Destroy(tm.TabButtonContentPar.transform.Find(tabName.Replace(" ", "_") + "Button").gameObject);
         if (isCurrentTab) {
-            if (ds.EncounterData.Sections[tm.getCurrentSection()].GetTabList().Count != 0) {
-                tm.SwitchTab(ds.EncounterData.Sections[tm.getCurrentSection()].GetTabList()[0]);
+            if (ds.EncounterData.OldSections[tm.GetCurrentSectionKey()].GetTabList().Count != 0) {
+                tm.SwitchTab(ds.EncounterData.OldSections[tm.GetCurrentSectionKey()].GetTabList()[0]);
                 UpdateTabPos();
             } else {
                 BG.transform.Find("TabSelectorBG").gameObject.SetActive(true);
@@ -212,7 +212,7 @@ public class EditTabScript : MonoBehaviour
         }
 
         foreach (Transform t in buttons) {
-            ds.EncounterData.Sections[tm.getCurrentSection()].GetTabInfo(t.Find("TabButtonLinkToText").GetComponent<TextMeshProUGUI>().text).SetPosition(t.GetSiblingIndex());
+            ds.EncounterData.OldSections[tm.GetCurrentSectionKey()].GetTabInfo(t.Find("TabButtonLinkToText").GetComponent<TextMeshProUGUI>().text).SetPosition(t.GetSiblingIndex());
         }
     }
 }

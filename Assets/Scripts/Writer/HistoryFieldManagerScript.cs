@@ -130,7 +130,7 @@ public class HistoryFieldManagerScript : MonoBehaviour
                 }
                 uniquePath = uniqueParent.name + "/" + uniquePath;
             }
-            uniquePath = tm.getCurrentSection() + "/" + uniquePath;
+            uniquePath = tm.GetCurrentSectionKey() + "/" + uniquePath;
         } else {
             while (tempPin != null) {
                 if (tempPin.name.StartsWith("LabEntry:")) {
@@ -152,7 +152,7 @@ public class HistoryFieldManagerScript : MonoBehaviour
                 }
                 tempPin = tempPin.parent;
             }
-            uniquePath = tm.getCurrentSection() + "/" + uniquePath;
+            uniquePath = tm.GetCurrentSectionKey() + "/" + uniquePath;
         }
 
         if (isQuizPanel && isNested) {
@@ -186,7 +186,7 @@ public class HistoryFieldManagerScript : MonoBehaviour
         RefreshUniquePath();
 
         if (!isQuizPanel) {
-            text = ds.GetTabData(tm.getCurrentSection(), tm.getCurrentTab()); //+ parentTab.GetComponent<Text> ().text);
+            text = ds.GetTabData(tm.GetCurrentSectionKey(), tm.getCurrentTab()); //+ parentTab.GetComponent<Text> ().text);
         } else {
             string topLevelPath = Regex.Split(uniquePath, "::")[0];
             if (GetComponentInParent<DialogueManagerScript>()) {
@@ -536,7 +536,7 @@ public class HistoryFieldManagerScript : MonoBehaviour
                             });
                             pinObj.tag = "Value";
                             pinObj.name = "Dialogue" + "Pin";
-                        } else if (pinObj && DialogueManagerScript.GetUID(tm.getCurrentSection(), pinObj.transform) == uid) {
+                        } else if (pinObj && DialogueManagerScript.GetUID(tm.GetCurrentSectionKey(), pinObj.transform) == uid) {
                             //Change dialogue pin color
                             pinObj.transform.Find("Item Background Off").gameObject.SetActive(false);
                             pinObj.transform.Find("Item Background On").gameObject.SetActive(true);
@@ -558,7 +558,7 @@ public class HistoryFieldManagerScript : MonoBehaviour
                             });
                             pinObj.tag = "Value";
                             pinObj.name = "Quiz" + "Pin";
-                        } else if (pinObj && DialogueManagerScript.GetUID(tm.getCurrentSection(), pinObj.transform) == quizId) {
+                        } else if (pinObj && DialogueManagerScript.GetUID(tm.GetCurrentSectionKey(), pinObj.transform) == quizId) {
                             pinObj = child.Find("QuizPin").gameObject;
                             pinObj.transform.Find("Item Background Off").gameObject.SetActive(false);
                             pinObj.transform.Find("Item Background On").gameObject.SetActive(true);
@@ -610,7 +610,7 @@ public class HistoryFieldManagerScript : MonoBehaviour
 
             //print(ds.GetData(tm.getCurrentSection()).GetCurrentTab().type + ", " + labNodee.gObject.transform.GetSiblingIndex());
             if (!isQuizPanel && labNodee.gObject.transform.GetSiblingIndex() == 0) {
-                if (ds.EncounterData.Sections[tm.getCurrentSection()].GetCurrentTab().type.Equals("Personal Info")) {
+                if (ds.EncounterData.OldSections[tm.GetCurrentSectionKey()].GetCurrentTab().type.Equals("Personal Info")) {
                     if (GlobalData.caseObj.recordNumber != null && !GlobalData.caseObj.recordNumber.Equals("") && !GlobalData.fileName.StartsWith("[CHECKFORDUPLICATE]")) {
                         //print(GlobalData.caseObj.recordNumber);
                         labNodee.gObject.transform.Find("Row0/RecordValue").GetComponent<TextMeshProUGUI>().text = GlobalData.caseObj.recordNumber;
@@ -859,7 +859,7 @@ public class HistoryFieldManagerScript : MonoBehaviour
     public void OpenAddEntryPanel()
     {
         addData = false;
-        string tabType = ds.EncounterData.Sections[tm.getCurrentSection()].GetCurrentTab()?.type;
+        string tabType = ds.EncounterData.OldSections[tm.GetCurrentSectionKey()].GetCurrentTab()?.type;
         if (tabType == null)
             return;
 
@@ -1132,7 +1132,7 @@ public class HistoryFieldManagerScript : MonoBehaviour
     public void AddToDictionary()
     {
         if (parentTab != null) {
-            ds.AddSectionTabData(tm.getCurrentSection(), parentTab.name.Substring(0, parentTab.name.Length - 3), getData());// + parentTab.GetComponent<Text> ().text, getData ());
+            ds.AddSectionTabData(tm.GetCurrentSectionKey(), parentTab.name.Substring(0, parentTab.name.Length - 3), getData());// + parentTab.GetComponent<Text> ().text, getData ());
             ReorderDictionaries();
             //ReorderImages ();
         }
@@ -1157,7 +1157,7 @@ public class HistoryFieldManagerScript : MonoBehaviour
                 uniqueParent = uniqueParent.parent;
                 path = uniqueParent.name + "/" + path;
             }
-            uniquePath = tm.getCurrentSection() + "/" + path;
+            uniquePath = tm.GetCurrentSectionKey() + "/" + path;
         } else {
             while (tempPin != null) {
                 if (tempPin.name.StartsWith("LabEntry:")) {
@@ -1169,7 +1169,7 @@ public class HistoryFieldManagerScript : MonoBehaviour
                 }
                 tempPin = tempPin.parent;
             }
-            uniquePath = tm.getCurrentSection() + "/" + uniquePath;
+            uniquePath = tm.GetCurrentSectionKey() + "/" + uniquePath;
         }
 
         RefreshUniquePath(); //maybe??

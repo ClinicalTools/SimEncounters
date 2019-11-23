@@ -22,6 +22,7 @@ using UnityEditor;
  */
 public class TabManager : MonoBehaviour
 {
+    public static TabManager Instance;
 
     private Transform[] allChildren;    //Used to hold all transform children when loading and saving.
     private WriterHandler ds;          //Reference to DataScript
@@ -185,7 +186,7 @@ public class TabManager : MonoBehaviour
                                     uniqueParent = uniqueParent.parent;
                                     path = uniqueParent.name + "/" + path;
                                 }
-                                path = getCurrentSection() + "/" + path;
+                                path = GetCurrentSectionKey() + "/" + path;
 
                                 //If the dialogue entry has been moved, adjust the dictionary accordingly
                                 if (child.name.Equals("DialoguePin") && ds.GetDialogues().ContainsKey(path)) {
@@ -294,10 +295,10 @@ public class TabManager : MonoBehaviour
         TabInfoScript tabScript = null;
         //int n = -1;
         if (tabName == null || tabName.Equals("")) { //If no provided tab name
-            tabScript = ds.EncounterData.Sections[section].GetCurrentTab(); //Check to see if there were any active tabs for the current section
+            tabScript = ds.EncounterData.OldSections[section].GetCurrentTab(); //Check to see if there were any active tabs for the current section
             if (tabScript == null || tabScript.type == "") { //If no active tab
                                                              //n = 0;
-                SectionDataScript sds = ds.EncounterData.Sections[section];
+                SectionDataScript sds = ds.EncounterData.OldSections[section];
                 if (sds.GetTabList().Count > 0) { //If the section has any tabs at all
                     string tempTabName = sds.GetTabList()[0];
                     tempTabName = tempTabName.Replace('_', ' ').Substring(0, tempTabName.Length - "Tab".Length);
@@ -352,7 +353,7 @@ public class TabManager : MonoBehaviour
                 }
             }
             //Debug.Log(string.Join(",", ds.GetData (currentSection).GetTabList().ToArray()));
-            tabType = ds.EncounterData.Sections[currentSection].GetTabInfo(tabName).type;
+            tabType = ds.EncounterData.OldSections[currentSection].GetTabInfo(tabName).type;
             if (tabType.ToLower().EndsWith("tab")) { //Remove the "Tab" from the end of the type
                 tabType = tabType.Substring(0, tabType.Length - 3);
             }
@@ -397,17 +398,17 @@ public class TabManager : MonoBehaviour
         newTab.name = name + "Tab";
         //newTab.AddComponent<Text> ().text = "" + n;
         currentTab = newTab;
-        ds.EncounterData.Sections[section].SetCurrentTab(name);
+        ds.EncounterData.OldSections[section].SetCurrentTab(name);
 
-        if (newTab.transform.Find("AddFieldButton") && ds.EncounterData.Images[getCurrentSection()] != null) {
-            newTab.transform.Find("AddFieldButton").GetComponent<Image>().color = ds.EncounterData.Images[getCurrentSection()].color;
+        if (newTab.transform.Find("AddFieldButton") && ds.EncounterData.Images[GetCurrentSectionKey()] != null) {
+            newTab.transform.Find("AddFieldButton").GetComponent<Image>().color = ds.EncounterData.Images[GetCurrentSectionKey()].color;
         }
 
         //Adjust the buttons
         tName = currentTab.name/*.Replace (" ", "_")*/ + "Button";
         foreach (Transform t in tabButtonsList) {
             if (t.name.Equals(tName)) {
-                if (!ds.EncounterData.Sections[currentSection].IsPersistant(name)) {
+                if (!ds.EncounterData.OldSections[currentSection].IsPersistant(name)) {
                     t.GetChild(t.childCount - 1).gameObject.SetActive(true);
                 }
                 t.GetComponent<Button>().interactable = false;
@@ -420,7 +421,7 @@ public class TabManager : MonoBehaviour
 
         if (addTabButton != null) {
             addTabButton.transform.SetAsLastSibling();
-            if (ds.EncounterData.Sections[currentSection].GetTabList().Count >= 8) {
+            if (ds.EncounterData.OldSections[currentSection].GetTabList().Count >= 8) {
                 addTabButton.SetActive(false);
             } else {
                 addTabButton.SetActive(true);
@@ -429,6 +430,12 @@ public class TabManager : MonoBehaviour
 
         //Debug.Log(ds.GetData(getCurrentSection()).GetAllData());
         Resources.UnloadUnusedAssets();
+    }
+    
+    // temporary
+    public void SetCurrent(string sectionName)
+    {
+        currentSection = sectionName;
     }
 
     /**
@@ -516,8 +523,8 @@ public class TabManager : MonoBehaviour
 
         //Load in the Tab buttons for each tab
         List<string> sectionTabs = null;
-        if (ds.EncounterData.Sections[currentSection] != null) {
-            sectionTabs = ds.EncounterData.Sections[currentSection].GetTabList();
+        if (ds.EncounterData.OldSections[currentSection] != null) {
+            sectionTabs = ds.EncounterData.OldSections[currentSection].GetTabList();
         }
         int i = 0;
         if (sectionTabs == null || sectionTabs.Count == 0) { //Spawn a default tab
@@ -529,22 +536,6 @@ public class TabManager : MonoBehaviour
             if (savePrefab.transform.Find("TabSelectorPanel/RowTitle/CancelButton")) {
                 savePrefab.transform.Find("TabSelectorPanel/RowTitle/CancelButton").gameObject.SetActive(false);
             }
-            //This code spawns in the default tab listed in DefaultDataScript
-            /*string tabName = ID.defaultTab;
-			GameObject newTab = Resources.Load (gData.resourcesPath + "/Prefabs/TabButton") as GameObject;
-			Text[] children = newTab.GetComponentsInChildren<Text> ();
-			foreach (Text child in children) {
-				if (child.name.Equals ("TabButtonLinkToText")) { //Where the button links to
-					child.text = tabName.Replace (" ", "_") + "Tab" + i;
-				} else if (child.name.Equals ("TabButtonDisplayText")) { //What the button displays
-					child.text = tabName;
-				}
-			}
-			//The button's position
-			newTab = Instantiate (newTab, TabButtonContentPar.transform);
-			newTab.name = tabName + "Button";
-			ds.GetData (currentSection).AddData (tabName.Replace (" ", "_") + "Tab" + i, null);
-			ds.GetData (currentSection).SetCurrentTab (new TabInfoScript (i, tabName.Replace (" ", "_") + "Tab"));*/
         } else {
             //Spawn in the section's tab buttons
             Debug.Log("TABS = " + string.Join(",", sectionTabs.ToArray()));
@@ -555,7 +546,7 @@ public class TabManager : MonoBehaviour
                     if (child.name.Equals("TabButtonLinkToText")) { //Where the button links to
                         child.text = tabName;
                     } else if (child.name.Equals("TabButtonDisplayText")) { //What the button displays
-                        string customName = ds.EncounterData.Sections[currentSection].GetTabInfo(tabName).customName;
+                        string customName = ds.EncounterData.OldSections[currentSection].GetTabInfo(tabName).customName;
                         if (customName != null) {// && customName != tabName) {
                             child.text = customName;
                         } else {
@@ -564,7 +555,7 @@ public class TabManager : MonoBehaviour
                                 //child.text = child.text.Replace(" ", "_") + "Tab";
                             }
                             child.text = tabName;
-                            ds.EncounterData.Sections[currentSection].GetTabInfo(tabName).customName = child.text;
+                            ds.EncounterData.OldSections[currentSection].GetTabInfo(tabName).customName = child.text;
                         }
                     }
                 }
@@ -596,17 +587,17 @@ public class TabManager : MonoBehaviour
         addTabButton.transform.SetAsLastSibling();
 
         //Switch to the default/last active tab of the new section
-        TabInfoScript tab = ds.EncounterData.Sections[currentSection].GetCurrentTab();
+        TabInfoScript tab = ds.EncounterData.OldSections[currentSection].GetCurrentTab();
         if (tab != null) {
             string formattedName = tab.customName;//.Replace (" ", "_") + "Tab";
                                                   //Debug.Log ("CUSTOM NAME: " + tab.customName);
             setTabName(formattedName);
             SwitchTab(formattedName);
-        } else if (ds.EncounterData.Sections[getCurrentSection()].GetTabList().Count <= 0) {
+        } else if (ds.EncounterData.OldSections[GetCurrentSectionKey()].GetTabList().Count <= 0) {
             return;
         } else {
             //Debug.Log (string.Join (",", ds.GetData (getCurrentSection ()).GetTabList ().ToArray ()));
-            TabInfoScript newTabInfo = ds.EncounterData.Sections[getCurrentSection()].GetTabInfo(ds.EncounterData.Sections[getCurrentSection()].GetTabList()[0]);
+            TabInfoScript newTabInfo = ds.EncounterData.OldSections[GetCurrentSectionKey()].GetTabInfo(ds.EncounterData.OldSections[GetCurrentSectionKey()].GetTabList()[0]);
             string formattedName = newTabInfo.customName;//.Replace (" ", "_") + "Tab";
                                                          //Debug.Log ("DEFAULT'S CUSTOM NAME: " + newTabInfo.customName);
             setTabName(formattedName);
@@ -621,7 +612,7 @@ public class TabManager : MonoBehaviour
 	 */
     public void updateTabButtons()
     {
-        List<string> sectionTabs = ds.EncounterData.Sections[currentSection].GetTabList();
+        List<string> sectionTabs = ds.EncounterData.OldSections[currentSection].GetTabList();
         Debug.Log(sectionTabs.Count + ", " + string.Join(", ", sectionTabs.ToArray()));
         foreach (string tabName in sectionTabs) {
             GameObject newTab = Resources.Load(GlobalData.resourcePath + "/Prefabs/TabButton") as GameObject;
@@ -631,7 +622,7 @@ public class TabManager : MonoBehaviour
                     child.text = tabName;
                 } else if (child.name.Equals("TabButtonDisplayText")) { //What the button displays
                     child.text = tabName.Replace("_", " ").Substring(0, Regex.Split(tabName, "[0-9]*$")[0].Length - "Tab".Length);
-                    ds.EncounterData.Sections[currentSection].GetTabInfo(tabName).customName = child.text;
+                    ds.EncounterData.OldSections[currentSection].GetTabInfo(tabName).customName = child.text;
                 }
             }
             //The button's position
@@ -676,11 +667,19 @@ public class TabManager : MonoBehaviour
     }
 
     /**
-	 * Returns the current section name
+	 * Returns the current section key
 	 */
-    public string getCurrentSection()
+    public string GetCurrentSectionKey()
     {
         return currentSection;
+    }
+    
+    /**
+     * Returns the current section name
+     */
+    public SectionDataScript GetCurrentSection()
+    {
+        return EncounterHandler.Instance.EncounterData.OldSections[currentSection];
     }
 
     // Sets the tab button's name on tab switch
@@ -725,21 +724,21 @@ public class TabManager : MonoBehaviour
             if (tabData.Contains("<Image>" + key + "</Image>")) {
                 Debug.Log("Removing Image: " + key);
                 ds.EncounterData.Images.Remove(key);
-            } else if (key.StartsWith(getCurrentSection() + "." + tabName + "Tab")) {
+            } else if (key.StartsWith(GetCurrentSectionKey() + "." + tabName + "Tab")) {
                 ds.EncounterData.Images.Remove(key);
             }
         }
 
         var keyList = ds.GetDialogues().Keys.ToList();
         foreach (string key in keyList) {
-            if (key.StartsWith(getCurrentSection() + "/" + tabName + "Tab")) {
+            if (key.StartsWith(GetCurrentSectionKey() + "/" + tabName + "Tab")) {
                 ds.GetDialogues().Remove(key);
             }
         }
 
         keyList = ds.GetQuizes().Keys.ToList();
         foreach (string key in keyList) {
-            if (key.StartsWith(getCurrentSection() + "/" + tabName + "Tab")) {
+            if (key.StartsWith(GetCurrentSectionKey() + "/" + tabName + "Tab")) {
                 ds.GetQuizes().Remove(key);
             }
         }

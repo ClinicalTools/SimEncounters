@@ -7,6 +7,7 @@ namespace SimEncounters
         protected const string VARS_NODE_NAME = "vars";
         protected const string CONDS_NODE_NAME = "conditionals";
 
+        public virtual OldSectionCollection OldSections { get; }
         public virtual SectionCollection Sections { get; }
         public virtual ImgCollection Images { get; }
 
@@ -17,7 +18,9 @@ namespace SimEncounters
 
         public EncounterData()
         {
+            OldSections = new OldSectionCollection();
             Sections = new SectionCollection();
+
             Images = new ImgCollection();
 
             EncounterBools = new BoolCollection();
@@ -26,11 +29,13 @@ namespace SimEncounters
             BoolConditions = new BoolConditionalCollection();
             IntConditions = new IntConditionalCollection();
 
-            Sections = new SectionCollection();
+            OldSections = new OldSectionCollection();
         }
         public EncounterData(XmlNode cedNode, XmlNode ceiNode)
         {
+            OldSections = new OldSectionCollection(cedNode);
             Sections = new SectionCollection(cedNode);
+
             Images = new ImgCollection(ceiNode);
 
             var caseVarsNode = cedNode[VARS_NODE_NAME];
@@ -41,7 +46,7 @@ namespace SimEncounters
             BoolConditions = new BoolConditionalCollection(conditionalsNode);
             IntConditions = new IntConditionalCollection(conditionalsNode);
 
-            Sections = new SectionCollection(cedNode);
+            OldSections = new OldSectionCollection(cedNode);
         }
 
 

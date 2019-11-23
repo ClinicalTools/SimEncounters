@@ -129,12 +129,14 @@ public class CondGroup : MonoBehaviour
                 condRow.SetBoolCond(CondData.GetBoolCond(key));
             } else if (type == VarType.Int) {
                 condRow.SetIntCond(CondData.GetIntCond(key));
+
             }
         }
     }
 
     public void Apply()
     {
+        /*
         foreach (var serial in delBoolConds)
             CondData.RemoveBoolCond(serial);
 
@@ -143,5 +145,6 @@ public class CondGroup : MonoBehaviour
 
         foreach (var condRow in CondRows)
             condRow.Apply();
+        */
     }
 }

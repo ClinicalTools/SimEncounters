@@ -1349,7 +1349,7 @@ public class DataScript : MonoBehaviour
      */
     public void EditTab(string oldName, string newName)
     {
-        string Section = transform.GetComponent<TabManager>().getCurrentSection();
+        string Section = transform.GetComponent<TabManager>().GetCurrentSectionKey();
         Debug.Log("SWAPPING TEXT NAME. OLDNAME: " + oldName + ", NEWNAME: " + newName);
         if (Dict[Section].ContainsKey(oldName)) {
             //Debug.Log ("MATCH FOUND");
@@ -1363,7 +1363,7 @@ public class DataScript : MonoBehaviour
             foreach (string imgName in imgDict.Keys.ToArray()) {
                 string[] splitKey = imgName.Split('.');
                 if (splitKey.Count() >= 3) {
-                    if (splitKey[0].Equals(tm.getCurrentSection())) {
+                    if (splitKey[0].Equals(tm.GetCurrentSectionKey())) {
                         if (splitKey[1].Equals(oldName + "Tab")) {
                             string newImgName = imgName.Replace(splitKey[1], newName + "Tab");//tm.getCurrentSection () + "." + newName + "." + splitKey [2];
                             imgDict.Add(newImgName, imgDict[imgName]);
@@ -1377,7 +1377,7 @@ public class DataScript : MonoBehaviour
             foreach (string key in tempDict.Keys.ToList()) {
                 //Debug.Log ("Key     : " + key);
                 //Debug.Log ("Matching: " + oldName + "Tab");
-                if (key.StartsWith(tm.getCurrentSection() + "/" + oldName + "Tab")) {
+                if (key.StartsWith(tm.GetCurrentSectionKey() + "/" + oldName + "Tab")) {
                     string newDialogue = dialogueDict[key].Replace(oldName + "Tab", newName + "Tab");
                     dialogueDict.Remove(key);
                     dialogueDict.Add(key.Replace(oldName + "Tab", newName + "Tab"), newDialogue);
@@ -1386,7 +1386,7 @@ public class DataScript : MonoBehaviour
 
             tempDict = quizDict;
             foreach (string key in tempDict.Keys.ToList()) {
-                if (key.StartsWith(tm.getCurrentSection() + "/" + oldName + "Tab")) {
+                if (key.StartsWith(tm.GetCurrentSectionKey() + "/" + oldName + "Tab")) {
                     string newQuiz = quizDict[key].Replace(oldName + "Tab", newName + "Tab");
                     quizDict.Remove(key);
                     quizDict.Add(key.Replace(oldName + "Tab", newName + "Tab"), newQuiz);
@@ -1492,7 +1492,7 @@ public class DataScript : MonoBehaviour
      */
     public void RemoveTab(string Tab)
     {
-        Dict[transform.GetComponent<TabManager>().getCurrentSection()].Remove(Tab);
+        Dict[transform.GetComponent<TabManager>().GetCurrentSectionKey()].Remove(Tab);
     }
 
     /**
@@ -1615,7 +1615,7 @@ public class DataScript : MonoBehaviour
     {
         Debug.Log(GetData());
         Debug.Log(GetImagesXML());
-        Debug.Log(GetData(transform.GetComponent<TabManager>().getCurrentSection()).GetAllPositions());
+        Debug.Log(GetData(transform.GetComponent<TabManager>().GetCurrentSectionKey()).GetAllPositions());
     }
 
     public void Reload()

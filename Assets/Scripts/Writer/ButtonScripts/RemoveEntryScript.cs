@@ -94,7 +94,7 @@ public class RemoveEntryScript : MonoBehaviour {
 				}
 				uniquePath = uniqueParent.name + "/" + uniquePath;
 			}
-			uniquePath = ds.GetComponent<TabManager>().getCurrentSection () + "/" + uniquePath;
+			uniquePath = ds.GetComponent<TabManager>().GetCurrentSectionKey () + "/" + uniquePath;
 		} else {
 			while (tempPin != null) {
 				if (tempPin.name.StartsWith ("LabEntry:")) {
@@ -106,7 +106,7 @@ public class RemoveEntryScript : MonoBehaviour {
 				}
 				tempPin = tempPin.parent;
 			}
-			uniquePath = ds.GetComponent<TabManager>().getCurrentSection () + "/" + uniquePath;
+			uniquePath = ds.GetComponent<TabManager>().GetCurrentSectionKey () + "/" + uniquePath;
 		}
 		Debug.Log ("Removing: " + uniquePath);
         switch (pin.transform.name)

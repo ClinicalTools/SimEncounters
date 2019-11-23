@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -57,7 +56,7 @@ namespace SimEncounters
             transform.GetComponent<TabManager>().FirstTimeLoad();
 
             HideLoadingScreen();
-            ProcessSections(EncounterData.Sections, EncounterData.Images);
+            ProcessSections(EncounterData.OldSections, EncounterData.Images);
 
             #region TEMP
             // This stuff will be moved out to CE specific files
@@ -99,7 +98,7 @@ namespace SimEncounters
         protected virtual void StartLoadingScreen()
         {
             if (GlobalData.showLoading) {
-                LoadingScreen = GameObject.Find("LoadingScreenNew").GetComponent<CanvasGroup>();
+                LoadingScreen = GameObject.Find("LoadingScreenNew")?.GetComponent<CanvasGroup>();
                 if (LoadingScreen == null)
                     LoadingScreen = LoadingScreenManager.Instance.GetComponent<CanvasGroup>();
             } else if (LoadingScreen != null && GlobalData.showLoading) {
@@ -120,7 +119,7 @@ namespace SimEncounters
             }
         }
 
-        protected virtual void ProcessSections(SectionCollection sections, ImgCollection imageCollection)
+        protected virtual void ProcessSections(OldSectionCollection sections, ImgCollection imageCollection)
         {
             //Load in the section buttons
 
@@ -308,12 +307,12 @@ namespace SimEncounters
         {
             SectionDataScript section = new SectionDataScript();
             section.AddData(tabName, data);
-            EncounterData.Sections.Add(section);
+            EncounterData.OldSections.Add(section);
         }
 
         public void NewSectionWithTab(string key, string tabName, string data)
         {
-            var section = EncounterData.Sections[key];
+            var section = EncounterData.OldSections[key];
             section.AddData(tabName, data);
         }
 
@@ -324,12 +323,12 @@ namespace SimEncounters
         {
             SectionDataScript section = new SectionDataScript();
             section.AddData(tabName, customName, data);
-            EncounterData.Sections.Add(section);
+            EncounterData.OldSections.Add(section);
         }
 
         public void AddSectionTabData(string key, string tabName, string customName, string data)
         {
-            var section = EncounterData.Sections[key];
+            var section = EncounterData.OldSections[key];
             section.AddData(tabName, customName, data);
         }
 
@@ -338,7 +337,7 @@ namespace SimEncounters
          */
         public string GetTabData(string sectionKey, string tabName)
         {
-            var section = EncounterData.Sections[sectionKey];
+            var section = EncounterData.OldSections[sectionKey];
             if (section == null || !section.ContainsKey(tabName)) {
                 return null;
             }
@@ -349,13 +348,12 @@ namespace SimEncounters
         /**
          * Adds an image by image key and the name of the image file (a reference to images already saved)
          */
-        public string AddImg(string key, string imgRefName)
+        public void AddImg(string key, string imgRefName)
         {
             if (EncounterData.Images.ContainsKey(key)) {
                 EncounterData.Images[key].referenceName = imgRefName;
-                return key;
             } else {
-                return EncounterData.Images.Add(new SpriteHolderScript(imgRefName));
+                EncounterData.Images.AddSectionImg(key, new SpriteHolderScript(imgRefName));
             }
         }
 

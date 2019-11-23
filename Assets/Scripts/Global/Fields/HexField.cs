@@ -1,27 +1,32 @@
 ﻿using TMPro;
 using UnityEngine;
 
-public class HexField : MonoBehaviour {
-    private TMP_InputField input;
-
-    private void Awake()
+namespace SimEncounters
+{
+    public class HexField : MonoBehaviour
     {
-        input = GetComponent<TMP_InputField>();
-    }
+        private TMP_InputField input;
 
-    string hexChars = "0123456789abcdefABCDEF";
-    public void UpdateField()
-    {
-        if (!input)
-            return;
-
-        var text = "";
-
-        foreach (var ch in input.text) {
-            if (hexChars.Contains("" + ch))
-                text += ch;
+        private void Start()
+        {
+            input = GetComponent<TMP_InputField>();
+            input.onValueChanged.AddListener(UpdateField);
         }
 
-        input.text = text;
+        private readonly string hexChars = "0123456789abcdefABCDEF";
+        private void UpdateField(string text)
+        {
+            if (!input)
+                return;
+
+            var newText = "";
+
+            foreach (var ch in text) {
+                if (hexChars.Contains("" + ch))
+                    newText += ch;
+            }
+
+            input.text = newText;
+        }
     }
 }

@@ -153,7 +153,7 @@ public class DialogueManagerScript : MonoBehaviour
                     path = uniqueParent.name + "/" + path;
                 }
             }
-            path = tm.getCurrentSection() + "/" + path;
+            path = tm.GetCurrentSectionKey() + "/" + path;
             startingUID = path;
         } else {
             while (button != null) {
@@ -165,7 +165,7 @@ public class DialogueManagerScript : MonoBehaviour
                 }
                 button = button.parent;
             }
-            tempUID = tm.getCurrentSection() + "/" + tempUID;
+            tempUID = tm.GetCurrentSectionKey() + "/" + tempUID;
             startingUID = tempUID;//.Remove(tempUID.LastIndexOf("/")) + "/" + UIDToRemove;
         }
         Debug.Log("Dialogue UID: " + startingUID);

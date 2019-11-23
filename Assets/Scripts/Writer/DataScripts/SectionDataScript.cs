@@ -168,6 +168,9 @@ public class SectionDataScript
     //I replaced key with custom name below
     public void AddData(string key, string customName, string data, List<string> conditions = null)
     {
+        if (data == null)
+            data = "<data></data>";
+
         if (Dict.ContainsKey(customName)) {
             var tabInfo = Dict[customName];
             tabInfo.data = data;

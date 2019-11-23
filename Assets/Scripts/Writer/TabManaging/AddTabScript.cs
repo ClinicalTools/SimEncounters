@@ -36,10 +36,10 @@ public class AddTabScript : MonoBehaviour {
             TabButtonContentPar = BG.transform.Find("ContentPanel/TabButtonsPanel/Scroll View/Viewport/TabButtonContent").gameObject;
             SectionButtonContentPar = BG.transform.Find("ContentPanel/SectionButtonsPanel/Scroll View/Viewport/SectionButtonContent").gameObject;
         }
+        // ew
         if (transform.name.StartsWith("Section")) {
             UpdateColorChoice();
             transform.Find("SectionCreatorPanel/Content/ScrollView").GetComponent<ScrollRect>().verticalScrollbar.value = 1;
-
         }
         //BGInfoOption = ds.transform.Find ("TabSelectorBG/TabSelectorPanel/Content/ScrollView/Viewport/Content/BackgroundInfoTabPanel");
 
@@ -148,7 +148,7 @@ public class AddTabScript : MonoBehaviour {
         }
 
         string tabCustomName;
-        List<string> tempTabList = ds.EncounterData.Sections[tm.getCurrentSection()].GetTabList();
+        List<string> tempTabList = ds.EncounterData.OldSections[tm.GetCurrentSectionKey()].GetTabList();
         //Do not remove last compare below. It's looking for a zero width space (unicode 8203 / Alt+200B)
         if (tabName.text == null || tabName.text.Equals("") || tabName.text.ToCharArray()[0].Equals(GlobalData.EMPTY_WIDTH_SPACE)) {
             tabCustomName = tabTemplate.text;//.Replace(" ", "_") + "Tab";
@@ -198,7 +198,7 @@ public class AddTabScript : MonoBehaviour {
             return;
         }
         Debug.Log("-----: " + xmlTabName + ", " + tabCustomName);
-        ds.AddSectionTabData(tm.getCurrentSection(), xmlTabName, tabCustomName, xml);
+        ds.AddSectionTabData(tm.GetCurrentSectionKey(), xmlTabName, tabCustomName, xml);
 
 
         GameObject newTab = Resources.Load(GlobalData.resourcePath + "/Prefabs/TabButton") as GameObject;
@@ -252,13 +252,13 @@ public class AddTabScript : MonoBehaviour {
 
         //Try to add the section. Return if any errors
         try {
-            xmlSectionName = ds.EncounterData.Sections.Add(new SectionDataScript());
+            xmlSectionName = ds.EncounterData.OldSections.Add(new SectionDataScript());
         } catch (System.Exception e) {
             ds.ShowMessage("Cannot name two steps the same", true);
             Debug.Log(e.Message);
             return;
         }
-
+        //tm.SetCurrent(xmlSectionName);
         //Create the section button and link it accordingly
         GameObject newSection = Resources.Load(GlobalData.resourcePath + "/Prefabs/SectionButton") as GameObject;
         TextMeshProUGUI[] children = newSection.GetComponentsInChildren<TextMeshProUGUI>();
@@ -269,7 +269,7 @@ public class AddTabScript : MonoBehaviour {
                 child.text = sectionName.text;
             }
         }
-        newSection.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = sectionName.text;
+        newSection.GetComponentInChildren<TextMeshProUGUI>().text = sectionName.text;
 
         //Spawn in the section button
         newSection = Instantiate(newSection, SectionButtonContentPar.transform);
@@ -279,7 +279,7 @@ public class AddTabScript : MonoBehaviour {
 
         //Spawns/Removes the Background Info tab as needed
         bool spawn = transform.Find("SectionCreatorPanel/Content/Row1").GetComponentInChildren<Toggle>().isOn;
-        string tabName = ds.EncounterData.Sections[tm.getCurrentSection()].GetTabList().Find((string obj) => obj.StartsWith("Background_InfoTab"));
+        string tabName = ds.EncounterData.OldSections[tm.GetCurrentSectionKey()].GetTabList().Find((string obj) => obj.StartsWith("Background_InfoTab"));
         bool tabExists = true;
         if (tabName == null || tabName.Equals("")) {
             tabExists = false;
@@ -331,7 +331,7 @@ public class AddTabScript : MonoBehaviour {
         foreach (Toggle tog in colorButtons) {
             if (tog.isOn) {
                 newSection.transform.GetComponent<Image>().color = tog.GetComponent<Image>().color;
-                xmlSectionName = ds.AddImg(xmlSectionName, imgRefName);
+                ds.AddImg(xmlSectionName, imgRefName);
                 var img = ds.EncounterData.Images[xmlSectionName];
                 img.useColor = true;
                 img.color = tog.GetComponent<Image>().color;
@@ -491,7 +491,7 @@ public class AddTabScript : MonoBehaviour {
         }
 
         foreach (Transform t in buttons) {
-            ds.EncounterData.Sections[tm.getCurrentSection()].GetTabInfo(t.Find("TabButtonLinkToText").GetComponent<TextMeshProUGUI>().text).SetPosition(t.GetSiblingIndex());
+            ds.EncounterData.OldSections[tm.GetCurrentSectionKey()].GetTabInfo(t.Find("TabButtonLinkToText").GetComponent<TextMeshProUGUI>().text).SetPosition(t.GetSiblingIndex());
         }
     }
 
@@ -604,7 +604,7 @@ public class AddTabScript : MonoBehaviour {
         gameObject.SetActive(true);
 
         //Check to see if 8 sections already exist. If so, notify the user and prevent more from being added
-        if (ds.EncounterData.Sections.Count >= 8) {
+        if (ds.EncounterData.OldSections.Count >= 8) {
             transform.Find("SectionCreatorPanel/RowTitle/CreateButton").GetComponent<Button>().interactable = false;
             transform.Find("SectionCreatorPanel/Content/StepCountWarning").gameObject.SetActive(true);
         } else {
