@@ -1,6 +1,5 @@
 ﻿using SimEncounters.Data;
 using System;
-using UnityEngine;
 
 namespace SimEncounters.Xml
 {

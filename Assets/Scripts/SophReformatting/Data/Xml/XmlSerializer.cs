@@ -101,14 +101,14 @@ namespace SimEncounters.Xml
 
         public virtual void AddKeyValuePairs<T>(CollectionXmlInfo collectionInfo,
             IEnumerable<KeyValuePair<string, T>> list, ISerializationFactory<T> serializationFactory)
-            where T : IXmlSerializable
         {
             var listNode = CreateElement(collectionInfo.CollectionNode.Name, Node);
             foreach (var pair in list) {
                 var childNode = CreateElement(collectionInfo.ElementNode.Name, listNode);
                 childNode.SetAttribute(KeyAttributeName, pair.Key);
-                var deserializer = new XmlSerializer(childNode);
-                pair.Value.GetObjectData(deserializer);
+
+                var serializer = new XmlSerializer(childNode);
+                serializationFactory.Serialize(serializer, pair.Value);
             }
         }
     }

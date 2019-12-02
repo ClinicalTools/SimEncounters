@@ -18,7 +18,7 @@ namespace SimEncounters.Xml
         {
             serializer.AddString(TypeInfo, tab.Type);
             serializer.AddString(NameInfo, tab.Name);
-            serializer.AddList(PanelsInfo, tab.Panels, PanelFactory);
+            serializer.AddKeyValuePairs(PanelsInfo, tab.Panels, PanelFactory);
             serializer.AddStringList(ConditionsInfo, tab.Conditions);
         }
 

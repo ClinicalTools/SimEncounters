@@ -31,7 +31,7 @@ namespace SimEncounters
             var pair = new KeyValuePair<string, T>(key, value);
             Add(pair);
         }
-        protected override void Add(KeyValuePair<string, T> pair)
+        public override void Add(KeyValuePair<string, T> pair)
         {
             base.Add(pair);
             PairList.Add(pair);

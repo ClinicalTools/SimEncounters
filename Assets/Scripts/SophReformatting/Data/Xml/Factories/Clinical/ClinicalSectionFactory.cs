@@ -33,11 +33,11 @@ namespace HealthImpactStudio.Xml
                 NodeInfo.RootName,
                 new NodeInfo("Tab", TagComparison.NameEndsWith)
             );
-        protected override List<Tab> GetTabs(XmlDeserializer deserializer)
+        protected override List<KeyValuePair<string, Tab>> GetTabs(XmlDeserializer deserializer)
         {
             var tabs = base.GetTabs(deserializer);
             if (tabs == null || tabs.Count == 0)
-                tabs = deserializer.GetList(LegacyTabsInfo, TabFactory);
+                tabs = deserializer.GetKeyValuePairs(LegacyTabsInfo, TabFactory);
             return tabs;
         }
     }

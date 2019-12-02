@@ -18,7 +18,7 @@ namespace SimEncounters.Xml
             // As much as I'd love to store the icon directly in the section,  legacy data stores it in a seperate file.
             // I'd like to read both files concurrently, and I don't want to handle modern data too differently from legacy.
             serializer.AddString(IconKeyInfo, value.IconKey);
-            serializer.AddList(TabsInfo, value.Tabs, TabFactory);
+            serializer.AddKeyValuePairs(TabsInfo, value.Tabs, TabFactory);
             serializer.AddStringList(ConditionsInfo, value.Conditions);
         }
 
@@ -44,8 +44,8 @@ namespace SimEncounters.Xml
             return new Section(name, iconKey);
         }
 
-        protected virtual List<Tab> GetTabs(XmlDeserializer deserializer)
-            => deserializer.GetList(TabsInfo, TabFactory);
+        protected virtual List<KeyValuePair<string, Tab>> GetTabs(XmlDeserializer deserializer)
+            => deserializer.GetKeyValuePairs(TabsInfo, TabFactory);
         protected virtual void SetTabs(XmlDeserializer deserializer, Section section)
         {
             var tabs = GetTabs(deserializer);

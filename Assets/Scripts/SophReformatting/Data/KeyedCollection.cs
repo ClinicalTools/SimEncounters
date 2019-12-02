@@ -74,7 +74,7 @@ namespace SimEncounters
             return key;
         }
 
-        protected virtual void Add(KeyValuePair<string, T> pair)
+        public virtual void Add(KeyValuePair<string, T> pair)
         {
             Collection.Add(pair);
             KeyCollection.Add(pair.Value, pair.Key);
@@ -126,6 +126,7 @@ namespace SimEncounters
         }
 
         public virtual bool ContainsKey(string key) => Collection.ContainsKey(key);
+        public virtual bool Contains(T value) => KeyCollection.ContainsKey(value);
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         public virtual IEnumerator<KeyValuePair<string, T>> GetEnumerator() => Collection.GetEnumerator();

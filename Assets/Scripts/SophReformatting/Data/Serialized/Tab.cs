@@ -10,7 +10,7 @@ namespace SimEncounters.Data
         public virtual string Name { get; set; } //Display name, not formatted
         public virtual bool Persistent { get; } //If true, cannot change
         public virtual List<string> Conditions { get; set; } = new List<string>();
-        public virtual List<Panel> Panels { get; set; }
+        public virtual OrderedDictionary<Panel> Panels { get; } = new OrderedDictionary<Panel>();
 
 
         public Tab(string type)

@@ -16,7 +16,7 @@ namespace SimEncounters.Xml
         {
             serializer.AddString(TypeInfo, panel.Type);
             serializer.AddStringKeyValuePairs(DataInfo, panel.Data);
-            serializer.AddList(ChildPanelsInfo, panel.ChildPanels, ChildPanelFactory);
+            serializer.AddKeyValuePairs(ChildPanelsInfo, panel.ChildPanels, ChildPanelFactory);
         }
 
         public virtual Panel Deserialize(XmlDeserializer deserializer)

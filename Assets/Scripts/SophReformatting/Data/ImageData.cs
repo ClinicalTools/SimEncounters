@@ -8,9 +8,5 @@ namespace SimEncounters.Data
         public virtual KeyedCollection<Icon> Icons { get; } = new KeyedCollection<Icon>();
 
         public ImageData() { }
-        public ImageData(KeyedCollection<Sprite> sprites, KeyedCollection<Icon> icons) {
-            Sprites = sprites;
-            Icons = icons;
-        }
     }
 }

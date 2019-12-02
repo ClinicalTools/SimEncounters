@@ -11,7 +11,7 @@ namespace SimEncounters.Data
 
         public virtual string IconKey { get; }
         public virtual Icon Icon { get; }
-        public virtual List<Tab> Tabs { get; } = new List<Tab>();
+        public virtual OrderedDictionary<Tab> Tabs { get; } = new OrderedDictionary<Tab>();
         public virtual List<string> Conditions { get; set; }
 
         public Section(string name, string iconKey)
