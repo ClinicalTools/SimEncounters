@@ -4,7 +4,7 @@ using System.Xml;
 
 namespace SimEncounters
 {
-    public class SectionCollection : OrderedCollection<Section>
+    public class SectionCollection : OrderedCollection<SectionDataScript>
     {
         public override string CollectionNodeName => "sections";
 
@@ -22,7 +22,7 @@ namespace SimEncounters
         protected virtual void CreateDefaultSections()
         {
             DefaultDataScript dds = new DefaultDataScript();
-            Section sds = new Section(dds.defaultTab);
+            SectionDataScript sds = new SectionDataScript();
             //sds.AddPersistingData(dds.defaultTab, "<data></data>");//.Replace(" ", "_") + "Tab", null); //Personal Info will always be saved
             //sds.AddPersistingData("Office Visit", "<data><EntryData><Parent></Parent><Entry0><PanelType>OfficeVisitPanel</PanelType><PanelData></PanelData></Entry0></EntryData></data>"); //office visit may never be visited, so construct null data
             //sds.SetCurrentTab(dds.defaultTab);
@@ -46,7 +46,7 @@ namespace SimEncounters
             return valueNodeName.EndsWith(ValueNodeName, StringComparison.OrdinalIgnoreCase);
         }
 
-        protected override Section ReadValueNode(XmlNode valueNode)
+        protected override SectionDataScript ReadValueNode(XmlNode valueNode)
         {
             var name = valueNode["name"]?.InnerText;
 
@@ -54,16 +54,16 @@ namespace SimEncounters
             if (name == null)
                 name = valueNode["sectionName"]?.InnerText;
             if (name == null)
-                name = ConvertNameFromXML(valueNode.Name);
+                name = "";// ConvertNameFromXML(valueNode.Name);
 
             List<string> conditions = null;
             var conditionalsNode = valueNode["conditionals"];
             if (conditionalsNode != null)
                 conditions = GetConditionalKeys(conditionalsNode);
 
-            var tabs = new TabCollection(valueNode);
+            //var tabs = new TabCollection(valueNode);
 
-            return new Section(name, conditions, tabs);
+            return new SectionDataScript();//name, conditions, tabs
         }
 
 
@@ -82,7 +82,7 @@ namespace SimEncounters
 
 
         // Write the XML
-        protected override void WriteValueElem(XmlElement valueElement, Section value)
+        protected override void WriteValueElem(XmlElement valueElement, SectionDataScript value)
         {
             throw new NotImplementedException();
         }

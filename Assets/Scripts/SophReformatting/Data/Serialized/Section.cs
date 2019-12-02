@@ -1,56 +1,34 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using SimEncounters.Xml;
 
-namespace SimEncounters
+namespace SimEncounters.Data
 {
-    public class Section : IXmlSerializable
+    public class Section
     {
         public Tab CurrentTab { get; protected set; }
 
         public virtual string Name { get; set; }
+
+        public virtual string IconKey { get; }
+        public virtual Icon Icon { get; }
+        public virtual List<Tab> Tabs { get; } = new List<Tab>();
         public virtual List<string> Conditions { get; set; }
-        public virtual SpriteHolderScript SpriteHolder { get; }
-        public virtual OrderedDictionary<Tab> Tabs { get; }
 
-        public Section(string name) {
-            Name = name;
-            Tabs = new OrderedDictionary<Tab>();
-        }
-        public Section(string name, List<string> conditions, OrderedDictionary<Tab> tabs)
+        public Section(string name, string iconKey)
         {
             Name = name;
-            Conditions = conditions;
-            Tabs = tabs;
-        }
-
-        public Section(XmlDeserializer deserializer)
-        {
-            Name = deserializer.GetString("name");
-            Conditions = deserializer.GetStringList("conditions", "condition");
-            var tabs = deserializer.GetKeyValuePairs<Tab>("tabs", "tab");
-            if (tabs == null)
-                Tabs = new OrderedDictionary<Tab>();
-            else
-                Tabs = new OrderedDictionary<Tab>(tabs);
-        }
-
-        public void GetObjectData(XmlSerializer serializer)
-        {
-            serializer.AddString("name", Name);
-            serializer.AddStringList("conditions", "condition", Conditions);
-            serializer.AddKeyValuePairs("tabs", "tab", Tabs);
+            IconKey = iconKey;
         }
 
         /**
          * Updates the current tab
          */
-        public void SetCurrentTab(string tabName)
+        public void SetCurrentTab(Tab tab)
         {
-            if (Tabs.ContainsKey(tabName))
-                CurrentTab = Tabs[tabName];
+            if (Tabs.Contains(tab))
+                CurrentTab = tab;
             else
-                Debug.LogError("Could not find " + tabName + " in Dict");
+                Debug.LogError("Could not find " + tab.Name + " in section tab list");
         }
 
     }

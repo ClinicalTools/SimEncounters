@@ -24,7 +24,7 @@ public class IntCondFields : CondFields<IntConditional, int>
     public override void Apply()
     {
         Cond.Value = int.Parse(valField.text);
-        Cond.Comparator = (IntConditionalOperator)comparatorDropdown.value;
+        Cond.Comparator = (IntComparator)comparatorDropdown.value;
 
         if (New)
             CondData.AddIntCond(Cond);

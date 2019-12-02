@@ -23,7 +23,7 @@ namespace SimEncounters.Xml
         }
 
         private const bool NODE_NAME_FIRST_LETTER_CAPITALIZED = false;
-        public virtual XmlElement CreateElement(string name, XmlNode parent)
+        protected virtual XmlElement CreateElement(string name, XmlNode parent)
         {
             if (NODE_NAME_FIRST_LETTER_CAPITALIZED && !char.IsUpper(name[0]))
                 Debug.LogWarning($"XML element name should be capitalized: {name}");
@@ -38,52 +38,75 @@ namespace SimEncounters.Xml
             return node;
         }
 
-        public virtual XmlElement CreateElement(string name, string value, XmlNode parent)
+        protected virtual XmlElement CreateElement(string name, string value, XmlNode parent)
         {
             var node = CreateElement(name, parent);
-            node.InnerText = value;
+            node.InnerText = UnityWebRequest.EscapeURL(value);
 
             return node;
         }
 
-        public virtual void AddString(string name, string value)
+        public virtual void AddString(NodeInfo nodeData, string value)
         {
-            XmlHelper.CreateElement(name, UnityWebRequest.EscapeURL(value), Node);
+            CreateElement(nodeData.Name, value, Node);
+        }
+        public virtual void AddBool(NodeInfo nodeData, bool value)
+        {
+            CreateElement(nodeData.Name, value.ToString(), Node);
+        }
+        public virtual void AddInt(NodeInfo nodeData, int value)
+        {
+            CreateElement(nodeData.Name, value.ToString(), Node);
+        }
+        public virtual void AddColor(NodeInfo nodeData, Color value)
+        {
+            CreateElement(nodeData.Name, $"{value.r},{value.g},{value.b},{value.a}", Node);
         }
 
-        public virtual void AddValue<T>(string name, T value)
-            where T : IXmlSerializable
+        public virtual void AddValue<T>(NodeInfo nodeData, T value, ISerializationFactory<T> serializationFactory)
         {
-            var element = XmlHelper.CreateElement(name, Node);
-            var deserializer = new XmlSerializer(element);
-            value.GetObjectData(deserializer);
+            var element = CreateElement(nodeData.Name, Node);
+            var serializer = new XmlSerializer(element);
+            serializationFactory.Serialize(serializer, value);
         }
 
-        public virtual void AddStringList(string name, string elementName, IEnumerable<string> list)
+        public virtual void AddStringList(CollectionXmlInfo collectionInfo, IEnumerable<string> list)
         {
-            var listNode = XmlHelper.CreateElement(name, Node);
+            var listNode = CreateElement(collectionInfo.CollectionNode.Name, Node);
             foreach (var value in list)
-                XmlHelper.CreateElement(elementName, UnityWebRequest.EscapeURL(value), listNode);
+                CreateElement(collectionInfo.ElementNode.Name, value, listNode);
         }
 
-        public virtual void AddList<T>(string name, string elementName, IEnumerable<T> list)
-            where T : IXmlSerializable
+        public virtual void AddList<T>(CollectionXmlInfo collectionInfo, IEnumerable<T> list,
+            ISerializationFactory<T> serializationFactory)
         {
-            var listNode = XmlHelper.CreateElement(name, Node);
+            var listNode = CreateElement(collectionInfo.CollectionNode.Name, Node);
             foreach (var value in list) {
-                var childNode = XmlHelper.CreateElement(elementName, listNode);
-                var deserializer = new XmlSerializer(childNode);
-                value.GetObjectData(deserializer);
+                var childNode = CreateElement(collectionInfo.ElementNode.Name, listNode);
+                var serializer = new XmlSerializer(childNode);
+                serializationFactory.Serialize(serializer, value);
             }
         }
-        public virtual void AddKeyValuePairs<T>(string name, string elementName,
-            IEnumerable<KeyValuePair<string, T>> list)
-             where T : IXmlSerializable
+
+        protected virtual string KeyAttributeName { get; } = "id";
+        public virtual void AddStringKeyValuePairs(CollectionXmlInfo collectionInfo,
+            IEnumerable<KeyValuePair<string, string>> list)
         {
-            var listNode = XmlHelper.CreateElement(name, Node);
+            var listNode = CreateElement(collectionInfo.CollectionNode.Name, Node);
             foreach (var pair in list) {
-                var childNode = XmlHelper.CreateElement(elementName, listNode);
-                childNode.SetAttribute("key", pair.Key);
+                var childNode = CreateElement(collectionInfo.ElementNode.Name, pair.Value, listNode);
+                childNode.SetAttribute(KeyAttributeName, pair.Key);
+            }
+        }
+
+        public virtual void AddKeyValuePairs<T>(CollectionXmlInfo collectionInfo,
+            IEnumerable<KeyValuePair<string, T>> list, ISerializationFactory<T> serializationFactory)
+            where T : IXmlSerializable
+        {
+            var listNode = CreateElement(collectionInfo.CollectionNode.Name, Node);
+            foreach (var pair in list) {
+                var childNode = CreateElement(collectionInfo.ElementNode.Name, listNode);
+                childNode.SetAttribute(KeyAttributeName, pair.Key);
                 var deserializer = new XmlSerializer(childNode);
                 pair.Value.GetObjectData(deserializer);
             }

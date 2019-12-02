@@ -47,7 +47,7 @@ namespace SimEncounters
         public virtual string CreateSection(string sectionName, Color color, Image icon)
         {
             var encounterData = WriterHandler.WriterInstance.EncounterData;
-            string sectionKey = encounterData.Sections.Add(new Section(sectionName, null, null));
+            string sectionKey = encounterData.Sections.Add(null); // TODO: this // new Section(sectionName, null, null));
 
             var sectionButton = CreateSectionButton(sectionName, sectionKey);
             sectionButton.SetImage(color);

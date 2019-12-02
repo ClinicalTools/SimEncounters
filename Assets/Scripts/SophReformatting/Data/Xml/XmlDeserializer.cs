@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
+using UnityEngine;
 
 namespace SimEncounters.Xml
 {
@@ -18,74 +19,109 @@ namespace SimEncounters.Xml
             return Node.Name;
         }
 
-        public virtual string GetString(string valueName)
-            => GetString(new NodeFinder(valueName));
-        public virtual string GetString(NodeFinder valueFinder)
+        public virtual string GetString(NodeInfo valueFinder)
         {
-            var valueNode = valueFinder.GetNode(Node);
-            var value = valueFinder.GetText(valueNode);
+            var value = valueFinder.FindNodeText(Node);
             if (string.IsNullOrWhiteSpace(value))
                 return null;
 
             return value;
         }
 
-        public virtual T GetValue<T>(string valueName) where T : IXmlSerializable
-            => GetValue<T>(new NodeFinder(valueName));
-        public virtual T GetValue<T>(NodeFinder valueFinder)
-            where T : IXmlSerializable
+        public virtual bool GetBool(NodeInfo valueFinder)
         {
-            var valueNode = valueFinder.GetNode(Node);
+            var boolStr = GetString(valueFinder);
+            if (boolStr == null)
+                return false;
+
+            boolStr = boolStr.Trim();
+
+            if (bool.TryParse(boolStr, out var value)) {
+                return value;
+            } else {
+                return false;
+            }
+        }
+
+        public virtual int GetInt(NodeInfo valueFinder)
+        {
+            var intStr = GetString(valueFinder);
+            if (intStr == null)
+                return -1;
+
+            intStr = intStr.Trim();
+
+            if (int.TryParse(intStr, out var value)) {
+                return value;
+            } else {
+                return -1;
+            }
+        }
+
+        public virtual Color GetColor(NodeInfo valueFinder)
+        {
+            var colorStr = GetString(valueFinder);
+            if (colorStr == null)
+                return Color.clear;
+
+            colorStr = colorStr.Trim();
+
+            var colorParts = colorStr.Split(',');
+            if (colorParts.Length != 4)
+                return Color.clear;
+
+            if (colorParts.Length == 4 && int.TryParse(colorParts[0], out var red) && int.TryParse(colorParts[1], out var green)
+                && int.TryParse(colorParts[2], out var blue) && int.TryParse(colorParts[3], out var alpha)) {
+
+                return new Color(red, green, blue, alpha);
+            } else {
+                return Color.clear;
+            }
+        }
+
+
+
+        public virtual T GetValue<T>(NodeInfo valueFinder, ISerializationFactory<T> serializationFactory)
+            => GetValue(Node, valueFinder, serializationFactory);
+
+        protected virtual T GetValue<T>(XmlNode node, NodeInfo valueFinder, ISerializationFactory<T> serializationFactory)
+        {
+            var valueNode = valueFinder.FindNode(Node);
             if (valueNode == null)
                 return default;
 
-            var serializationInfo = new XmlDeserializer(valueNode);
-            return (T)Activator.CreateInstance(typeof(T), serializationInfo);
+            return GetValue(valueNode, serializationFactory);
+        }
+        protected virtual T GetValue<T>(XmlNode valueNode, ISerializationFactory<T> serializationFactory)
+        {
+            var deserializer = new XmlDeserializer(valueNode);
+
+            try {
+                return serializationFactory.Deserialize(deserializer);
+            } catch (Exception ex) {
+                Debug.LogWarning(ex.Message);
+                return default;
+            }
         }
 
-        protected virtual IEnumerable<XmlNode> GetElementNodes(NodeFinder valueFinder,
-            NodeFinder elementFinder)
+        protected virtual IEnumerable<XmlNode> GetElementNodes(CollectionXmlInfo collectionInfo)
         {
-            var valueNode = valueFinder.GetNode(Node);
+            var valueNode = collectionInfo.CollectionNode.FindNode(Node);
             if (valueNode == null)
                 return null;
 
-            return elementFinder.GetNodeList(valueNode);
+            return collectionInfo.ElementNode.GetNodeList(valueNode);
         }
 
-        public virtual List<string> GetStringList(string valueName, string elementName)
-            => GetStringList(new NodeFinder(valueName), new NodeFinder(elementName));
-        public virtual List<string> GetStringList(NodeFinder valueFinder, NodeFinder elementFinder)
-
+        public virtual List<string> GetStringList(CollectionXmlInfo collectionInfo)
         {
-            var nodes = GetElementNodes(valueFinder, elementFinder);
+            var nodes = GetElementNodes(collectionInfo);
             if (nodes == null)
                 return null;
 
             var list = new List<string>();
             foreach (var node in nodes) {
-                var value = elementFinder.GetText(node);
-                if (value == null)
-                    list.Add(value);
-            }
-
-            return list;
-        }
-
-        public virtual List<T> GetList<T>(string valueName, string elementName)
-            where T : IXmlSerializable
-            => GetList<T>(new NodeFinder(valueName), new NodeFinder(elementName));
-        public virtual List<T> GetList<T>(NodeFinder valueFinder, NodeFinder elementFinder)
-            where T : IXmlSerializable
-        {
-            var nodes = GetElementNodes(valueFinder, elementFinder);
-            if (nodes == null)
-                return null;
-
-            var list = new List<T>();
-            foreach (var node in nodes) {
-                var childSerializationInfo = new XmlSerializationInfo(node);
-                var value = (T)Activator.CreateInstance(typeof(T), childSerializationInfo);
+                var value = collectionInfo.ElementNode.GetText(node);
                 if (value != null)
                     list.Add(value);
             }
@@ -93,29 +129,66 @@ namespace SimEncounters.Xml
             return list;
         }
 
-        protected readonly NodeFinder DefaultKeyFinder = new NodeFinder("key", TagComparison.AttributeNameEquals);
-        public virtual List<KeyValuePair<string, T>> GetKeyValuePairs<T>(string valueName, string elementName)
-            where T : IXmlSerializable
-            => GetKeyValuePairs<T>(new NodeFinder(valueName), new NodeFinder(elementName),
-                DefaultKeyFinder);
-        public virtual List<KeyValuePair<string, T>> GetKeyValuePairs<T>(
-            NodeFinder valueFinder, NodeFinder elementFinder,
-            NodeFinder keyFinder)
-            where T : IXmlSerializable
+        public virtual List<T> GetList<T>(CollectionXmlInfo collectionInfo, ISerializationFactory<T> serializationFactory)
         {
-            var elementNodes = GetElementNodes(valueFinder, elementFinder);
+            var nodes = GetElementNodes(collectionInfo);
+            if (nodes == null)
+                return null;
+
+            var list = new List<T>();
+            foreach (var node in nodes) {
+                var value = GetValue(node, serializationFactory);
+                if (value != null)
+                    list.Add(value);
+            }
+
+            return list;
+        }
+
+        public virtual List<KeyValuePair<string, string>> GetStringKeyValuePairs(CollectionXmlInfo collectionInfo)
+            => GetStringKeyValuePairs(collectionInfo, DefaultKeyValuePairInfo);
+        public virtual List<KeyValuePair<string, string>> GetStringKeyValuePairs(
+            CollectionXmlInfo collectionInfo, KeyValuePair<NodeInfo, NodeInfo> keyValuePairInfo)
+        {
+            var elementNodes = GetElementNodes(collectionInfo);
+            if (elementNodes == null)
+                return null;
+
+            var pairs = new List<KeyValuePair<string, string>>();
+            foreach (var node in elementNodes) {
+                var key = keyValuePairInfo.Key.FindNodeText(node);
+                if (string.IsNullOrWhiteSpace(key))
+                    continue;
+
+                var value = keyValuePairInfo.Value.FindNodeText(node);
+                if (value != null)
+                    pairs.Add(new KeyValuePair<string, string>(key, value));
+            }
+
+            return pairs;
+        }
+
+        protected virtual KeyValuePair<NodeInfo, NodeInfo> DefaultKeyValuePairInfo { get; } =
+            new KeyValuePair<NodeInfo, NodeInfo>(
+                new NodeInfo("id", TagComparison.AttributeNameEquals),
+                NodeInfo.RootValue
+            );
+        public virtual List<KeyValuePair<string, T>> GetKeyValuePairs<T>(CollectionXmlInfo collectionInfo, ISerializationFactory<T> serializationFactory)
+            => GetKeyValuePairs(collectionInfo, DefaultKeyValuePairInfo, serializationFactory);
+        public virtual List<KeyValuePair<string, T>> GetKeyValuePairs<T>(
+            CollectionXmlInfo collectionInfo, KeyValuePair<NodeInfo, NodeInfo> keyValuePairInfo, ISerializationFactory<T> serializationFactory)
+        {
+            var elementNodes = GetElementNodes(collectionInfo);
             if (elementNodes == null)
                 return null;
 
             var pairs = new List<KeyValuePair<string, T>>();
             foreach (var node in elementNodes) {
-                var keyNode = keyFinder.GetNode(node);
-                var key = keyFinder.GetText(keyNode);
+                var key = keyValuePairInfo.Key.FindNodeText(node);
                 if (string.IsNullOrWhiteSpace(key))
                     continue;
 
-                var childSerializationInfo = new XmlDeserializer(node);
-                var value = (T)Activator.CreateInstance(typeof(T), childSerializationInfo);
+                var value = GetValue(node, keyValuePairInfo.Value, serializationFactory);
                 if (value == null)
                     continue;
 

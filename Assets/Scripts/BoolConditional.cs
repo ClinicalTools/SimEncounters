@@ -1,4 +1,6 @@
 ﻿public class BoolConditional : CaseConditional<bool>
+
+
 {
     public override VarType VarType => VarType.Bool;
 

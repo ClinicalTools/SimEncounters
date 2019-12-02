@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-public enum IntConditionalOperator
+public enum IntComparator
 {
     Equals, NotEquals, LessThan, GreaterThan
 }
@@ -9,23 +9,23 @@ public class IntConditional : CaseConditional<int>
 {
     public override VarType VarType => VarType.Int;
 
-    public IntConditionalOperator Comparator { get; set; }
+    public IntComparator Comparator { get; set; }
 
     public IntConditional(string varSerial) : base(varSerial) { }
-    public IntConditional(string varSerial, int value, IntConditionalOperator op) : base(varSerial, value) {
+    public IntConditional(string varSerial, int value, IntComparator op) : base(varSerial, value) {
         Comparator = op;
     }
 
     protected override bool CheckVal(int val)
     {
         switch (Comparator) {
-            case IntConditionalOperator.Equals:
+            case IntComparator.Equals:
                 return val == Value;
-            case IntConditionalOperator.NotEquals:
+            case IntComparator.NotEquals:
                 return val != Value;
-            case IntConditionalOperator.LessThan:
+            case IntComparator.LessThan:
                 return val < Value;
-            case IntConditionalOperator.GreaterThan:
+            case IntComparator.GreaterThan:
                 return val > Value;
             default:
                 return true;
@@ -37,7 +37,7 @@ public class IntConditional : CaseConditional<int>
         throw new NotImplementedException();
     }
 
-    public static bool TryParseOperator(string val, out IntConditionalOperator result)
+    public static bool TryParseOperator(string val, out IntComparator result)
     {
         bool success = Enum.TryParse(val, out result);
         if (success)

@@ -79,7 +79,7 @@ namespace SimEncounters
                 }
             }
 
-            var tabs = new TabCollection(valueNode);
+            //var tabs = new TabCollection(valueNode);
 
             if (displayName == null)
                 displayName = section.Name;
