@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System;
 using TMPro;
-using SimEncounters;
+using ClinicalTools.SimEncounters;
 
 public class EditSectionScript : MonoBehaviour
 {

@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Linq;
 using System.IO;
 using TMPro;
-using SimEncounters;
+using ClinicalTools.SimEncounters;
 
 
 //Should be parented to the SaveCaseBG Gameobject

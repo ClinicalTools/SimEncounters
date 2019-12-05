@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using System.Text.RegularExpressions;
 using System.Linq;
 using TMPro;
-using SimEncounters;
+using ClinicalTools.SimEncounters;
 
 public class AddTabScript : MonoBehaviour {
 

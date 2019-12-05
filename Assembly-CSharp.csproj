@@ -85,8 +85,6 @@
     <Compile Include="Assets\Resources\Writer\TMPro\TMPInputFieldOverrideScript.cs" />
     <Compile Include="Assets\Scripts\ArmController.cs" />
     <Compile Include="Assets\Scripts\AutoTrim.cs" />
-    <Compile Include="Assets\Scripts\BoolConditional.cs" />
-    <Compile Include="Assets\Scripts\CaseConditional.cs" />
     <Compile Include="Assets\Scripts\CaseVariable.cs" />
     <Compile Include="Assets\Scripts\CondData.cs" />
     <Compile Include="Assets\Scripts\CorrectRows.cs" />
@@ -147,7 +145,6 @@
     <Compile Include="Assets\Scripts\Global\Tracker.cs" />
     <Compile Include="Assets\Scripts\Global\WrapTextScript.cs" />
     <Compile Include="Assets\Scripts\HideOnEmpty.cs" />
-    <Compile Include="Assets\Scripts\IntConditional.cs" />
     <Compile Include="Assets\Scripts\Menu Scripts\AccountDropdown.cs" />
     <Compile Include="Assets\Scripts\Menu Scripts\AccountSettingsScript.cs" />
     <Compile Include="Assets\Scripts\Menu Scripts\HideOnGuest.cs" />
@@ -192,66 +189,77 @@
     <Compile Include="Assets\Scripts\Reader\TMPClickableLinksScript.cs" />
     <Compile Include="Assets\Scripts\Reader\ToggleSetup.cs" />
     <Compile Include="Assets\Scripts\ResetCategories.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Collection\BoolCollection.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Collection\BoolConditionalCollection.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Collection\ConditionalCollection.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Collection\EncounterVarCollection.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Collection\ImgCollection.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Collection\IntCollection.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Collection\IntConditionalCollection.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Collection\OldSectionCollection.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Collection\OrderedCollection.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Collection\SectionCollection.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Collection\SimCollection.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\EncounterHandler.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\GetEncounter\DownloadEncounter.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\GetEncounter\ReadEncounterFile.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\ImageData.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\KeyedCollection.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\NewEncounterData.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\old\EncounterData.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\OrderedDictionary.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\ReaderHandler.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Serialized\Icon.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Serialized\Panel.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Serialized\Section.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Serialized\Tab.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\SimAsyncOperation.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\SophGlobalData.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\WriterHandler.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\ConditionData.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\EncounterXml.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\Factories\BoolConditionalFactory.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\Factories\Clinical\ClinicalPanelFactory.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\Factories\Clinical\ClinicalSectionFactory.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\Factories\Clinical\ClinicalTabFactory.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\Factories\CollectionXmlInfo.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\Factories\EncounterBoolFactory.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\Factories\EncounterIntFactory.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\Factories\IconFactory.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\Factories\ImageDataFactory.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\Factories\IntConditionalFactory.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\Factories\ISerializationFactory.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\Factories\PanelFactory.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\Factories\SectionFactory.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\Factories\SpriteFactory.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\Factories\TabFactory.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\NodeFinder.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\old\Abc.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\old\ListXmlHandler.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\old\XmlHandler.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\VariableData.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\XmlDeserializer.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\XmlHelper.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Data\Xml\XmlSerializer.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\SerializationFactories\ClinicalIconFactory.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\SerializationFactories\ClinicalImageDataFactory.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\SerializationFactories\Content\ClinicalEncounterDataFactory.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\SerializationFactories\Content\ClinicalPanelFactory.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\SerializationFactories\Content\ClinicalSectionFactory.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\SerializationFactories\Content\ClinicalTabFactory.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\old\Data\EncounterHandler.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\old\Data\GetEncounter\DownloadEncounter.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\old\Data\GetEncounter\ReadEncounterFile.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\old\Data\old\OldEncounterData.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\old\Data\ReaderHandler.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\old\Data\SimAsyncOperation.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\old\Data\SophGlobalData.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\old\Data\UniqueIdentifiers.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\old\Data\WriterHandler.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\old\OldDataScript.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Writer\SectionCreator.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Writer\SectionManager.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\Writer\TabCreator.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\old\Writer\SectionCreator.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\old\Writer\SectionManager.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\old\Writer\TabCreator.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Collection\KeyedCollection.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Collection\Old\BoolCollection.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Collection\Old\BoolConditionalCollection.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Collection\Old\ConditionalCollection.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Collection\Old\EncounterVarCollection.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Collection\Old\ImgCollection.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Collection\Old\IntCollection.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Collection\Old\IntConditionalCollection.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Collection\Old\OldOrderedCollection.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Collection\Old\OldSectionCollection.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Collection\Old\SectionCollection.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Collection\Old\SimCollection.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Collection\OrderedCollection.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Branching\Conditionals\BoolConditional.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Branching\Conditionals\CaseConditional.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Branching\Conditionals\ConditionData.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Branching\Conditionals\IntConditional.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Branching\Variables\VariableData.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Branching\Variables\VarType.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Content\EncounterData.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Content\Panel.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Content\Section.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Content\Tab.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Images\Icon.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Images\ImageData.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\SerializationFactories\Branching\Conditionals\BoolConditionalFactory.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\SerializationFactories\Branching\Conditionals\ConditionalDataFactory.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\SerializationFactories\Branching\Conditionals\IntConditionalFactory.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\SerializationFactories\Branching\Variables\EncounterBoolFactory.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\SerializationFactories\Branching\Variables\EncounterIntFactory.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\SerializationFactories\Branching\Variables\VariableDataFactory.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\SerializationFactories\Content\EncounterDataFactory.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\SerializationFactories\Content\PanelFactory.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\SerializationFactories\Content\SectionFactory.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\SerializationFactories\Content\TabFactory.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\SerializationFactories\Images\IconFactory.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\SerializationFactories\Images\ImageDataFactory.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\SerializationFactories\Images\SpriteFactory.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\XmlSerialization\CollectionInfo.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\XmlSerialization\ISerializationFactory.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\XmlSerialization\NodeFinder.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\XmlSerialization\old\Abc.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\XmlSerialization\old\EncounterXml.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\XmlSerialization\old\ListXmlHandler.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\XmlSerialization\old\XmlHandler.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\XmlSerialization\old\XmlHelper.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\XmlSerialization\XmlDeserializer.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\XmlSerialization\XmlSerializer.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Test.cs" />
     <Compile Include="Assets\Scripts\TMProLinks.cs" />
     <Compile Include="Assets\Scripts\UpdateStars.cs" />
     <Compile Include="Assets\Scripts\VarData.cs" />
-    <Compile Include="Assets\Scripts\VarType.cs" />
     <Compile Include="Assets\Scripts\VerticalFitOnScreen.cs" />
     <Compile Include="Assets\Scripts\ViewBtnCheck.cs" />
     <Compile Include="Assets\Scripts\VR\DialogueSelect.cs" />
@@ -627,12 +635,6 @@
     <Reference Include="UnityEngine.XRModule">
       <HintPath>D:/Unity/Editors/2019.2.11f1/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
     </Reference>
-    <Reference Include="FileBrowserWin">
-      <HintPath>D:/Projects/SimEncounters/Assets/Plugins/crosstales/FileBrowser/Native/Windows/FileBrowserWin.dll</HintPath>
-    </Reference>
-    <Reference Include="Ookii.Dialogs">
-      <HintPath>D:/Projects/SimEncounters/Assets/Plugins/crosstales/FileBrowser/Native/Windows/Ookii.Dialogs.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Analytics.Editor">
       <HintPath>D:/Projects/SimEncounters/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
@@ -998,10 +1000,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{83AC76B0-2076-994D-0F68-16685BD2FAF1}</Project>
-      <Name>Assembly-CSharp-firstpass</Name>
-    </ProjectReference>
     <ProjectReference Include="Maintainer.Editor.csproj">
       <Project>{5C33F07B-D817-0870-97D1-79AC898FF82B}</Project>
       <Name>Maintainer.Editor</Name>

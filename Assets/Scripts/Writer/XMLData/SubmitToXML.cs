@@ -9,7 +9,7 @@ using System.Text;
 using System;
 using TMPro;
 using UnityEngine.Networking;
-using SimEncounters;
+using ClinicalTools.SimEncounters;
 
 /**
  * Handles submitting all information to an XML file

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using System.Text.RegularExpressions;
 using System.Linq;
 using System.IO;
-using SimEncounters;
+using ClinicalTools.SimEncounters;
 
 
 //Should be parented to the SaveCaseBG Gameobject

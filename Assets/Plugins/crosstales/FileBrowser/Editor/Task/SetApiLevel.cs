@@ -17,9 +17,9 @@ namespace Crosstales.FB.EditorTask
             BuildTargetGroup group = BuildPipeline.GetBuildTargetGroup(target);
 
 #if UNITY_2018_2_OR_NEWER
-            ApiCompatibilityLevel level = ApiCompatibilityLevel.NET_4_6;
+            const ApiCompatibilityLevel level = ApiCompatibilityLevel.NET_4_6;
 #else
-            ApiCompatibilityLevel level = ApiCompatibilityLevel.NET_2_0;
+            const ApiCompatibilityLevel level = ApiCompatibilityLevel.NET_2_0;
 #endif
 /*
 #if UNITY_STANDALONE_WIN

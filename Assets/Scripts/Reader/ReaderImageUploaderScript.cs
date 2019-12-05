@@ -2,7 +2,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using Crosstales.FB;
 using UnityEngine.Networking;
 
 public class ReaderImageUploaderScript : MonoBehaviour
@@ -117,7 +116,7 @@ public class ReaderImageUploaderScript : MonoBehaviour
         if (sserial.GetSerial() == null || sserial.GetSerial().Equals("")) { //|| serial.text == null || serial.text.Equals ("")) {
             sserial.SetSerial(currentImage.GetComponent<ReaderOpenImageUploadPanelScript>().GetGuid());
         }
-        var fileName = FileBrowser.OpenSingleFile("Open case file", Application.persistentDataPath, extensions);
+        string fileName = null;// FileBrowser.OpenSingleFile("Open case file", Application.persistentDataPath, extensions);
         if (string.IsNullOrWhiteSpace(fileName)) {
             Debug.Log("[Open File] Canceled");
             Cursor.visible = false;

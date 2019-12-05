@@ -1,9 +1,9 @@
-﻿# FileBrowser 2019.4.1
+﻿# FileBrowser 2019.5.3
 
 Thank you for using our asset "File Browser"! 
 If you have any questions about this asset, send us an email at [fb@crosstales.com](mailto:fb@crosstales.com). 
 
-For Linux, UWP (WSA), Windows (IL2CPP), extended support, PlayMaker actions and also if you want to help the project to be kept alive, please consider buying the PRO edition:
+For async, Linux, UWP (WSA), Windows (IL2CPP), extended support, PlayMaker actions and also if you want to help the project to be kept alive, please consider buying the PRO edition:
 
 https://assetstore.unity.com/packages/slug/98713?aid=1011lNGT
 
@@ -27,9 +27,6 @@ A wrapper for native file dialogs on Windows, macOS, Linux (PRO only) and UWP (P
 * Unity 2018 and newer: .NET 4.6 api compatibility level required
 * Unity before 2018: .NET 2.0 api compatibility level required
 * IL2CPP is only supported in the PRO-version
-
-### macOS
-* Sync calls can throw exceptions in development builds after the panel loses and gains focus. Use async calls to avoid this.
 
 
 
@@ -81,4 +78,4 @@ CH-8002 Zürich
 * [macOS-Demo](https://www.crosstales.com/media/data/assets/FileBrowser/downloads/FileBrowser_mac.zip)
 
 
-`Version: 04.09.2019`
+`Version: 12.11.2019`

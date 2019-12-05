@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-namespace SimEncounters
+namespace ClinicalTools.SimEncounters
 {
     public class HexField : MonoBehaviour
     {

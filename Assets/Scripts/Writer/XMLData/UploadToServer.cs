@@ -8,7 +8,7 @@ using UnityEngine.UI;
 using System.Text;
 using System.Security.Cryptography;
 using UnityEngine.Networking;
-using SimEncounters;
+using ClinicalTools.SimEncounters;
 
 public class UploadToServer : MonoBehaviour
 {

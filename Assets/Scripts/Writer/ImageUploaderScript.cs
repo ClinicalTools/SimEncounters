@@ -3,8 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.IO;
-using Crosstales.FB;
-using SimEncounters;
+//using Crosstales.FB;
+using ClinicalTools.SimEncounters;
 
 public class ImageUploaderScript : MonoBehaviour
 {
@@ -323,7 +323,7 @@ public class ImageUploaderScript : MonoBehaviour
         if (sserial.GetSerial() == null || sserial.GetSerial().Equals("")) { //|| serial.text == null || serial.text.Equals ("")) {
             sserial.SetSerial(currentImage.GetComponent<OpenImageUploadPanelScript>().GetGuid());
         }
-        var fileName = FileBrowser.OpenSingleFile("Open case file", Application.persistentDataPath, extensions);
+        string fileName = //FileBrowser.OpenSingleFile("Open case file", Application.persistentDataPath, extensions);
         if (string.IsNullOrWhiteSpace(fileName)) {
             Debug.Log("[Open File] Canceled");
             Cursor.visible = false;

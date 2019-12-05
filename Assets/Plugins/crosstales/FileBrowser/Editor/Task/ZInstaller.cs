@@ -16,9 +16,9 @@ namespace Crosstales.FB.EditorTask
             string path = Application.dataPath + "/Plugins/crosstales/FileBrowser/FileBrowser.unitypackage";
             //string path = Application.dataPath;
             //string subpath = "/Plugins/crosstales/FileBrowser/FileBrowser.unitypackage";
-            
+
             //Debug.Log(path + subpath);
-            
+
             try
             {
                 if (System.IO.File.Exists(path))

@@ -1,5 +1,4 @@
-﻿using Crosstales.FB;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -58,7 +57,7 @@ public class FilePickerScript : MonoBehaviour
         Cursor.visible = true;
         GameObject.Find("BrowseFiles").GetComponent<Button>().interactable = false;
 
-        var filePath = FileBrowser.OpenSingleFile("Open case file", Application.persistentDataPath, extensions);
+        string filePath = null;// FileBrowser.OpenSingleFile("Open case file", Application.persistentDataPath, extensions);
         if (string.IsNullOrWhiteSpace(filePath)) {
             GlobalData.fileName = null;
             Debug.Log("[Open File] Canceled");
@@ -86,7 +85,7 @@ public class FilePickerScript : MonoBehaviour
     public void OpenFromWriter()
     {
         Cursor.visible = true;
-        var filePath = FileBrowser.OpenSingleFile("Open case file", Application.persistentDataPath, extensions);
+        string filePath = null;// FileBrowser.OpenSingleFile("Open case file", Application.persistentDataPath, extensions);
         if (string.IsNullOrWhiteSpace(filePath)) {
             GlobalData.fileName = null;
             Debug.Log("[Open File] Canceled");
@@ -130,7 +129,7 @@ public class FilePickerScript : MonoBehaviour
             GlobalData.newCase = true;
             ActivateScene();
         } else {
-            var filePath = FileBrowser.OpenSingleFile("Open case file", Application.persistentDataPath, extensions);
+            string filePath = null;// FileBrowser.OpenSingleFile("Open case file", Application.persistentDataPath, extensions);
             if (string.IsNullOrWhiteSpace(filePath)) {
                 GlobalData.fileName = "[Save File] Canceled";
                 Debug.Log("[Save File] Canceled");
@@ -378,7 +377,7 @@ public class FilePickerScript : MonoBehaviour
     public void ImportFile()
     {
         extensions = new string[] { "ced" };
-        var filePath = FileBrowser.OpenSingleFile("Open case file", Application.persistentDataPath, extensions);
+        string filePath = null; // FileBrowser.OpenSingleFile("Open case file", Application.persistentDataPath, extensions);
         if (string.IsNullOrWhiteSpace(filePath)) {
             GlobalData.fileName = "[Import] Canceled";
             Debug.Log("[Import] Canceled");
@@ -448,7 +447,7 @@ public class FilePickerScript : MonoBehaviour
     public void ExportFile(string filename)
     {
         extensions = new string[] { "ced" };
-        var filePath = FileBrowser.OpenSingleFile("Open case file", Application.persistentDataPath, extensions);
+        string filePath = null;// FileBrowser.OpenSingleFile("Open case file", Application.persistentDataPath, extensions);
         if (string.IsNullOrWhiteSpace(filePath)) {
             GlobalData.fileName = "[Save File] Canceled";
             Debug.Log("[Save File] Canceled");

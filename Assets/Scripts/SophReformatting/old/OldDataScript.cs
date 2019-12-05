@@ -22,7 +22,7 @@ using UnityEngine.UI;
  * "//! DIFF:" indicates an area of the code that does the same thing but in a different way depending on whether it's in the Reader or Writer.
  */
 
-namespace SimEncounters
+namespace ClinicalTools.SimEncounters
 {
     public class SophData : MonoBehaviour
     {

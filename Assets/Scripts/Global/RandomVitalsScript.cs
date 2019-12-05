@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using SimEncounters;
+using ClinicalTools.SimEncounters;
 
 public class RandomVitalsScript : MonoBehaviour
 {

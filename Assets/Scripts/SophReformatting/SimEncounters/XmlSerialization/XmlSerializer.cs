@@ -1,0 +1,135 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Xml;
+using UnityEngine;
+using UnityEngine.Networking;
+
+namespace ClinicalTools.SimEncounters.XmlSerialization
+{
+    public class XmlSerializer
+    {
+
+        protected virtual XmlNode Node { get; }
+
+        public const string DEFAULT_BASE_TAG_NAME = "data";
+        public XmlSerializer(XmlDocument xmlDocument)
+        {
+            Node = xmlDocument.DocumentElement;
+            if (Node == null) { 
+                Node = xmlDocument.CreateElement(DEFAULT_BASE_TAG_NAME);
+                xmlDocument.AppendChild(Node);
+            }
+        }
+
+        protected XmlSerializer(XmlNode node)
+        {
+            Node = node;
+        }
+
+        private const bool NODE_NAME_FIRST_LETTER_CAPITALIZED = false;
+        protected virtual XmlElement CreateElement(string name, XmlNode parent)
+        {
+            if (NODE_NAME_FIRST_LETTER_CAPITALIZED && !char.IsUpper(name[0]))
+                Debug.LogWarning($"XML element name should be capitalized: {name}");
+            if (!NODE_NAME_FIRST_LETTER_CAPITALIZED && char.IsUpper(name[0]))
+                Debug.LogWarning($"XML element name should not be capitalized: {name}");
+
+            var node = parent.OwnerDocument.CreateElement(name);
+            parent.AppendChild(node);
+
+            return node;
+        }
+
+        protected virtual XmlElement CreateElement(string name, string value, XmlNode parent)
+        {
+            var node = CreateElement(name, parent);
+            node.InnerText = UnityWebRequest.EscapeURL(value);
+
+            return node;
+        }
+
+        public virtual void AddString(NodeInfo nodeData, string value)
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+                CreateElement(nodeData.Name, value, Node);
+        }
+        public virtual void AddBool(NodeInfo nodeData, bool value)
+        {
+            CreateElement(nodeData.Name, value.ToString(), Node);
+        }
+        public virtual void AddInt(NodeInfo nodeData, int value)
+        {
+            CreateElement(nodeData.Name, value.ToString(), Node);
+        }
+        public virtual void AddColor(NodeInfo nodeData, Color value)
+        {
+            CreateElement(nodeData.Name, $"{value.r},{value.g},{value.b},{value.a}", Node);
+        }
+
+        public virtual void AddValue<T>(NodeInfo nodeData, T value, ISerializationFactory<T> serializationFactory)
+        {
+            if (!serializationFactory.ShouldSerialize(value))
+                return;
+
+            var element = CreateElement(nodeData.Name, Node);
+            var serializer = new XmlSerializer(element);
+            serializationFactory.Serialize(serializer, value);
+        }
+
+        public virtual void AddStringList(CollectionInfo collectionInfo, IEnumerable<string> list)
+        {
+            if (list.Count() == 0)
+                return;
+
+            var listNode = CreateElement(collectionInfo.CollectionNode.Name, Node);
+            foreach (var value in list.Where(value => !string.IsNullOrWhiteSpace(value)))
+                CreateElement(collectionInfo.ElementNode.Name, value, listNode);
+        }
+
+        public virtual void AddList<T>(CollectionInfo collectionInfo, IEnumerable<T> list,
+            ISerializationFactory<T> serializationFactory)
+        {
+            if (list.Count() == 0)
+                return;
+
+            var listNode = CreateElement(collectionInfo.CollectionNode.Name, Node);
+
+            foreach (var value in list.Where(value => serializationFactory.ShouldSerialize(value))) {
+                var childNode = CreateElement(collectionInfo.ElementNode.Name, listNode);
+                var serializer = new XmlSerializer(childNode);
+                serializationFactory.Serialize(serializer, value);
+            }
+        }
+
+        protected virtual string KeyAttributeName { get; } = "id";
+        public virtual void AddStringKeyValuePairs(CollectionInfo collectionInfo,
+            IEnumerable<KeyValuePair<string, string>> list)
+        {
+            if (list.Count() == 0)
+                return;
+
+            var listNode = CreateElement(collectionInfo.CollectionNode.Name, Node);
+
+            foreach (var pair in list.Where(pair => !string.IsNullOrWhiteSpace(pair.Value))) {
+                var childNode = CreateElement(collectionInfo.ElementNode.Name, pair.Value, listNode);
+                childNode.SetAttribute(KeyAttributeName, pair.Key);
+            }
+        }
+
+        public virtual void AddKeyValuePairs<T>(CollectionInfo collectionInfo,
+            IEnumerable<KeyValuePair<string, T>> list, ISerializationFactory<T> serializationFactory)
+        {
+            if (list.Count() == 0)
+                return;
+
+            var listNode = CreateElement(collectionInfo.CollectionNode.Name, Node);
+            foreach (var pair in list.Where(pair => serializationFactory.ShouldSerialize(pair.Value))) {
+                var childNode = CreateElement(collectionInfo.ElementNode.Name, listNode);
+                childNode.SetAttribute(KeyAttributeName, pair.Key);
+
+                var serializer = new XmlSerializer(childNode);
+                serializationFactory.Serialize(serializer, pair.Value);
+            }
+        }
+    }
+}
