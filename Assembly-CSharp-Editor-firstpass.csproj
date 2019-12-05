@@ -63,8 +63,29 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Plugins\crosstales\Common\Editor\Task\BaseCompileDefines.cs" />
+    <Compile Include="Assets\Plugins\crosstales\Common\Editor\Task\BaseSetupResources.cs" />
+    <Compile Include="Assets\Plugins\crosstales\Common\Editor\Task\NYCheck.cs" />
+    <Compile Include="Assets\Plugins\crosstales\Common\Editor\Task\SetupResources.cs" />
+    <Compile Include="Assets\Plugins\crosstales\Common\Editor\Util\BaseEditorHelper.cs" />
+    <Compile Include="Assets\Plugins\crosstales\Common\Editor\Util\BaseGAApi.cs" />
+    <Compile Include="Assets\Plugins\crosstales\FileBrowser\Editor\Integration\ConfigBase.cs" />
+    <Compile Include="Assets\Plugins\crosstales\FileBrowser\Editor\Integration\ConfigPreferences.cs" />
+    <Compile Include="Assets\Plugins\crosstales\FileBrowser\Editor\Integration\ConfigWindow.cs" />
+    <Compile Include="Assets\Plugins\crosstales\FileBrowser\Editor\Task\AAAConfigLoader.cs" />
+    <Compile Include="Assets\Plugins\crosstales\FileBrowser\Editor\Task\CompileDefines.cs" />
+    <Compile Include="Assets\Plugins\crosstales\FileBrowser\Editor\Task\Launch.cs" />
+    <Compile Include="Assets\Plugins\crosstales\FileBrowser\Editor\Task\ReminderCheck.cs" />
+    <Compile Include="Assets\Plugins\crosstales\FileBrowser\Editor\Task\ReminderCT.cs" />
     <Compile Include="Assets\Plugins\crosstales\FileBrowser\Editor\Task\SetApiLevel.cs" />
+    <Compile Include="Assets\Plugins\crosstales\FileBrowser\Editor\Task\SetupResources.cs" />
+    <Compile Include="Assets\Plugins\crosstales\FileBrowser\Editor\Task\Tracer.cs" />
+    <Compile Include="Assets\Plugins\crosstales\FileBrowser\Editor\Task\UpdateCheck.cs" />
     <Compile Include="Assets\Plugins\crosstales\FileBrowser\Editor\Task\ZInstaller.cs" />
+    <Compile Include="Assets\Plugins\crosstales\FileBrowser\Editor\Util\EditorConfig.cs" />
+    <Compile Include="Assets\Plugins\crosstales\FileBrowser\Editor\Util\EditorConstants.cs" />
+    <Compile Include="Assets\Plugins\crosstales\FileBrowser\Editor\Util\EditorHelper.cs" />
+    <Compile Include="Assets\Plugins\crosstales\FileBrowser\Editor\Util\GAApi.cs" />
     <Reference Include="UnityEditor.TestRunner">
       <HintPath>D:/Projects/SimEncounters/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
     </Reference>
@@ -319,6 +340,12 @@
     </Reference>
     <Reference Include="ReorderableArray">
       <HintPath>D:/Projects/SimEncounters/Assets/Addons/ReorderableArray/Editor/ReorderableArray.dll</HintPath>
+    </Reference>
+    <Reference Include="FileBrowserWin">
+      <HintPath>D:/Projects/SimEncounters/Assets/Plugins/crosstales/FileBrowser/Native/Windows/FileBrowserWin.dll</HintPath>
+    </Reference>
+    <Reference Include="Ookii.Dialogs">
+      <HintPath>D:/Projects/SimEncounters/Assets/Plugins/crosstales/FileBrowser/Native/Windows/Ookii.Dialogs.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
       <HintPath>D:/Projects/SimEncounters/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
@@ -691,6 +718,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{83AC76B0-2076-994D-0F68-16685BD2FAF1}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
     <ProjectReference Include="Maintainer.Editor.csproj">
       <Project>{5C33F07B-D817-0870-97D1-79AC898FF82B}</Project>
       <Name>Maintainer.Editor</Name>

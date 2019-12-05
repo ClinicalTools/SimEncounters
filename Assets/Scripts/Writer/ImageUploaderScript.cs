@@ -323,7 +323,7 @@ public class ImageUploaderScript : MonoBehaviour
         if (sserial.GetSerial() == null || sserial.GetSerial().Equals("")) { //|| serial.text == null || serial.text.Equals ("")) {
             sserial.SetSerial(currentImage.GetComponent<OpenImageUploadPanelScript>().GetGuid());
         }
-        string fileName = //FileBrowser.OpenSingleFile("Open case file", Application.persistentDataPath, extensions);
+        string fileName = null; //FileBrowser.OpenSingleFile("Open case file", Application.persistentDataPath, extensions);
         if (string.IsNullOrWhiteSpace(fileName)) {
             Debug.Log("[Open File] Canceled");
             Cursor.visible = false;
