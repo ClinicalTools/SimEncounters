@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ClinicalTools.SimEncounters.SerializationFactories
 {
-    public class EncounterDataFactory : ISerializationFactory<EncounterData>
+    public class EncounterDataFactory : ISerializationFactory<SectionsData>
     {
         protected virtual SectionFactory SectionFactory { get; } = new SectionFactory();
         protected virtual VariableDataFactory VariablesFactory { get; } = new VariableDataFactory();
@@ -14,15 +14,15 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
         protected virtual CollectionInfo SectionsInfo { get; } = new CollectionInfo("sections", "section");
 
 
-        public virtual bool ShouldSerialize(EncounterData value) => value != null;
+        public virtual bool ShouldSerialize(SectionsData value) => value != null;
 
-        public void Serialize(XmlSerializer serializer, EncounterData value)
+        public void Serialize(XmlSerializer serializer, SectionsData value)
         {
             serializer.AddValue(VariablesInfo, value.Variables, VariablesFactory);
             serializer.AddKeyValuePairs(SectionsInfo, value.Sections, SectionFactory);
         }
 
-        public EncounterData Deserialize(XmlDeserializer deserializer)
+        public SectionsData Deserialize(XmlDeserializer deserializer)
         {
             var encounterData = CreateEncounterData(deserializer);
 
@@ -33,16 +33,16 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
 
         protected virtual VariableData GetVariables(XmlDeserializer deserializer)
             => deserializer.GetValue(VariablesInfo, VariablesFactory);
-        protected virtual EncounterData CreateEncounterData(XmlDeserializer deserializer)
+        protected virtual SectionsData CreateEncounterData(XmlDeserializer deserializer)
         {
             var variables = GetVariables(deserializer);
 
-            return new EncounterData(variables);
+            return new SectionsData(variables);
         }
 
         protected virtual List<KeyValuePair<string, Section>> GetSections(XmlDeserializer deserializer)
             => deserializer.GetKeyValuePairs(SectionsInfo, SectionFactory);
-        protected virtual void AddSections(XmlDeserializer deserializer, EncounterData encounterData)
+        protected virtual void AddSections(XmlDeserializer deserializer, SectionsData encounterData)
         {
             var sectionPairs = GetSections(deserializer);
             if (sectionPairs == null)

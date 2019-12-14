@@ -1,4 +1,6 @@
-﻿namespace ClinicalTools.SimEncounters.Data
+﻿using ClinicalTools.SimEncounters.Collections;
+
+namespace ClinicalTools.SimEncounters.Data
 {
     public class Tab
     {

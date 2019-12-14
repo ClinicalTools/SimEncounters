@@ -63,6 +63,8 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
         }
         public virtual void AddColor(NodeInfo nodeData, Color value)
         {
+            // considered storing each value in their own tag, but individual panel fields must store their colors as a string
+            // later the serialization and deserialization for colors to and from a string should be moved out so panels can access it
             CreateElement(nodeData.Name, $"{value.r},{value.g},{value.b},{value.a}", Node);
         }
 

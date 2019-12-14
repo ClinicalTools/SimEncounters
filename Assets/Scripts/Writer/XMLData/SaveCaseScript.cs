@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Linq;
 using System.IO;
 using ClinicalTools.SimEncounters;
+using ClinicalTools.SimEncountersOld;
 
 
 //Should be parented to the SaveCaseBG Gameobject

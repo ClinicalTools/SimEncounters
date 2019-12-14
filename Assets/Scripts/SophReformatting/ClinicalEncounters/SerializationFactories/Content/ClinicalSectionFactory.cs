@@ -7,9 +7,13 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
 {
     public class ClinicalSectionFactory : SectionFactory
     {
-        protected override TabFactory TabFactory { get; } = new ClinicalTabFactory();
+        protected override TabFactory TabFactory { get; }
+        public ClinicalSectionFactory()
+        {
+            TabFactory = new ClinicalTabFactory(ConditionalDataFactory);
+        }
 
-        protected static NodeInfo LegacyNameFinder { get; } = new NodeInfo("sectionName");
+        protected NodeInfo LegacyNameFinder { get; } = new NodeInfo("sectionName");
         protected override string GetName(XmlDeserializer deserializer)
         {
             var name = base.GetName(deserializer);
@@ -31,12 +35,12 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
             return name;
         }
 
-        protected virtual CollectionInfo LegacyTabsInfo { get; } = 
+        protected CollectionInfo LegacyTabsInfo { get; } =
             new CollectionInfo(
                 NodeInfo.RootName,
                 new NodeInfo("Tab", TagComparison.NameEndsWith)
             );
-        protected virtual KeyValuePair<NodeInfo, NodeInfo> LegacyTabsKeyValueInfo { get; } =
+        protected KeyValuePair<NodeInfo, NodeInfo> LegacyTabsKeyValueInfo { get; } =
             new KeyValuePair<NodeInfo, NodeInfo>(
                 new NodeInfo("customTabName"),
                 NodeInfo.RootValue

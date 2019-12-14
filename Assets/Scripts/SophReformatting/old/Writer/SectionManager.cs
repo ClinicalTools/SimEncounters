@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ClinicalTools.SimEncountersOld;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -71,7 +72,8 @@ namespace ClinicalTools.SimEncounters
         protected virtual SwapSectionScript CreateSectionButton(string sectionName, string key)
         {
             //Create the section button and link it accordingly
-            GameObject newSection = Resources.Load(GlobalData.resourcePath + "/Prefabs/SectionButton") as GameObject;
+            // TODO: GlobalData.resourcePath + "/Prefabs/
+            GameObject newSection = Resources.Load("/Prefabs/SectionButton") as GameObject;
 
             //Spawn in the section button
             newSection = Instantiate(newSection, SectionButtonParent);

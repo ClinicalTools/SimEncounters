@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using ClinicalTools.SimEncounters;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ClinicalTools.SimEncounters
+namespace ClinicalTools.SimEncountersOld
 {
     public class WriterHandler : EncounterHandler
     {
@@ -16,7 +17,7 @@ namespace ClinicalTools.SimEncounters
         protected override IEnumerator Start()
         {
             yield return base.Start();
-
+            /*
             // TODO: Remove globaldata
             if (GlobalData.firstName != null && GlobalData.firstName.Equals("") && GlobalData.caseObj != null) {
                 if (!GlobalData.caseObj.patientName.Equals("")) {
@@ -29,7 +30,7 @@ namespace ClinicalTools.SimEncounters
                     GlobalData.firstName = "";
                     GlobalData.lastName = "";
                 }
-            }
+            }*/
 
             StartAutosave();
         }
@@ -44,11 +45,12 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void StartAutosave()
         {
+            /*
             int minutesBetweenSaves = GlobalData.autosaveRate; 
             if (GlobalData.caseObj != null && minutesBetweenSaves > 0 && GlobalData.enableAutoSave) {
                 print("Autosaving started. Saving every " + minutesBetweenSaves + " minutes.");
                 InvokeRepeating(nameof(Autosave), minutesBetweenSaves * 60, minutesBetweenSaves * 60);
-            }
+            }*/
         }
 
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClinicalTools.SimEncounters;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -22,7 +23,7 @@ using UnityEngine.UI;
  * "//! DIFF:" indicates an area of the code that does the same thing but in a different way depending on whether it's in the Reader or Writer.
  */
 
-namespace ClinicalTools.SimEncounters
+namespace ClinicalTools.SimEncountersOld
 {
     public class SophData : MonoBehaviour
     {

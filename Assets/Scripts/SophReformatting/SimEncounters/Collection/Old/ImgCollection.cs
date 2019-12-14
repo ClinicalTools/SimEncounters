@@ -53,7 +53,8 @@ namespace ClinicalTools.SimEncounters
             if (key == null)
                 return null;
 
-            key = key.Replace(GlobalData.EMPTY_WIDTH_SPACE + "", "");
+            // TODO: GlobalData.EMPTY_WIDTH_SPACE
+            key = key.Replace("", "");
             return key;
         }
 

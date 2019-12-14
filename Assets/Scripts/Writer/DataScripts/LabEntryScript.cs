@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine.Networking;
-using ClinicalTools.SimEncounters;
+using ClinicalTools.SimEncountersOld;
 
 public class LabEntryScript
 {

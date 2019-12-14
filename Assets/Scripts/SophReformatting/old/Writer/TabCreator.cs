@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ClinicalTools.SimEncountersOld;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -194,7 +195,8 @@ namespace ClinicalTools.SimEncounters.Writer
 
         public string GetCustomTabName(TextMeshProUGUI tabNameField)
         {
-            var tabName = tabNameField.text.Replace(GlobalData.EMPTY_WIDTH_SPACE + "", "");
+            // TODO: GlobalData.EMPTY_WIDTH_SPACE
+            var tabName = tabNameField.text.Replace("", "");
 
             // when I refactor tabs more, hopefully I can remove these restrictions
             var writer = WriterHandler.WriterInstance;
@@ -216,7 +218,8 @@ namespace ClinicalTools.SimEncounters.Writer
         public SwapTabScript CreateTabButton(string tabName)
         {
             // this can't be the only place tab buttons are loaded
-            GameObject newTab = Resources.Load(GlobalData.resourcePath + "/Prefabs/TabButton") as GameObject;
+            // TODO: GlobalData.resourcePath + "/Prefabs/
+            GameObject newTab = Resources.Load("/Prefabs/TabButton") as GameObject;
 
             // change to tab
             TabButtonContentPar = EncounterHandler.Instance.transform.Find("ContentPanel/TabButtonsPanel/Scroll View/Viewport/TabButtonContent").gameObject;

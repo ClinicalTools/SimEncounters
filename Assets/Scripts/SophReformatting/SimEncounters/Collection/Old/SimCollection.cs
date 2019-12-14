@@ -112,7 +112,8 @@ namespace ClinicalTools.SimEncounters
                 return null;
             }
 
-            key = key.Replace(GlobalData.EMPTY_WIDTH_SPACE + "", "");
+            // GlobalData.EMPTY_WIDTH_SPACE
+            key = key.Replace("", "");
             return key;
         }
 

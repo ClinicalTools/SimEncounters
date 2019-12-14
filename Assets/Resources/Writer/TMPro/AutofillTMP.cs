@@ -8,6 +8,7 @@ using System.Linq;
 using System.IO;
 using TMPro;
 using ClinicalTools.SimEncounters;
+using ClinicalTools.SimEncountersOld;
 
 
 //Should be parented to the SaveCaseBG Gameobject

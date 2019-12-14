@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System;
 using TMPro;
-using ClinicalTools.SimEncounters;
+using ClinicalTools.SimEncountersOld;
 
 public class EditTabScript : MonoBehaviour
 {

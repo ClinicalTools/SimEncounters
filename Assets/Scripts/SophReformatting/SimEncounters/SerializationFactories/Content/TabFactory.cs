@@ -6,14 +6,22 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
 {
     public class TabFactory : ISerializationFactory<Tab>
     {
-        protected virtual PanelFactory PanelFactory { get; } = new PanelFactory();
-        protected virtual ConditionalDataFactory ConditionalDataFactory { get; } = new ConditionalDataFactory();
+        protected virtual PanelFactory PanelFactory { get; }
+        // shared between sections, tabs, and panels
+        protected virtual ConditionalDataFactory ConditionalDataFactory { get; }
 
         protected virtual NodeInfo TypeInfo { get; } = new NodeInfo("type");
         protected virtual NodeInfo NameInfo { get; } = new NodeInfo("name");
         protected virtual NodeInfo ConditionsInfo { get; } = new NodeInfo("conditions");
 
         protected virtual CollectionInfo PanelsInfo { get; } = new CollectionInfo("panels", "panel");
+
+
+        public TabFactory(ConditionalDataFactory conditionalDataFactory)
+        {
+            ConditionalDataFactory = conditionalDataFactory;
+            PanelFactory = new PanelFactory(ConditionalDataFactory);
+        }
 
         public virtual bool ShouldSerialize(Tab value) => value != null;
 

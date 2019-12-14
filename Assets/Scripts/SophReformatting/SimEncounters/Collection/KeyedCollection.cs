@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace ClinicalTools.SimEncounters
+namespace ClinicalTools.SimEncounters.Collections
 {
     /// <summary>
     /// A bidirectional dictionary with automatically generated string keys.
@@ -12,6 +11,8 @@ namespace ClinicalTools.SimEncounters
     /// <typeparam name="T">Type of values stored in the collection</typeparam>
     public class KeyedCollection<T> : IEnumerable<KeyValuePair<string, T>>
     {
+        protected KeyGenerator KeyGenerator => KeyGenerator.Instance;
+
         /// <summary>
         /// Dictionary of values in the collection.
         /// This dictionary is bidirectional through the use of the Keys dictionary, 
@@ -32,25 +33,27 @@ namespace ClinicalTools.SimEncounters
         public int Count => Collection.Count;
 
         public KeyedCollection() { }
-        public KeyedCollection(IEnumerable<KeyValuePair<string, T>> keyValuePairs)
-        {
-            foreach (var pair in keyValuePairs)
-                Add(pair);
-        }
 
         /// <summary>
-        /// Creates a unique key for the collection item using Guid.NewGuid()
+        /// Creates a unique key for the collection item.
         /// </summary>
         /// <returns>The unique key</returns>
         protected virtual string GenerateKey()
         {
-            var key = Guid.NewGuid().ToString("N").Substring(0, 10);
-            //If duplicate, recalculate UID
-            if (Collection.Keys.Contains(key))
-                return GenerateKey();
+            return KeyGenerator.Generate();
+        }
+        /// <summary>
+        /// Creates a unique key for the collection item.
+        /// </summary>
+        /// <param name="seed">Seed used to generate the key</param>
+        /// <returns>The unique key</returns>
+        protected virtual string GenerateKey(string oldKey)
+        {
+            if (KeyGenerator.Contains(oldKey))
+                return KeyGenerator.Generate(oldKey);
 
-
-            return key;
+            KeyGenerator.AddKey(oldKey);
+            return oldKey;
         }
 
         /// <summary>
@@ -61,40 +64,43 @@ namespace ClinicalTools.SimEncounters
         /// <returns>The key of the added value, or null if unable to add the value</returns>
         public virtual string Add(T value)
         {
-            if (KeyCollection.ContainsKey(value)) {
-                Debug.LogError($"Value already exists in collection:\n" +
-                    $"{value.ToString()}");
-                return null;
-            }
-
             var key = GenerateKey();
+            if (AddKeyedValue(GenerateKey(), value))
+                return key;
 
-            Add(key, value);
-
-            return key;
+            return null;
         }
 
-        public virtual void Add(KeyValuePair<string, T> pair)
+        public virtual string Add(KeyValuePair<string, T> pair)
         {
-            Collection.Add(pair);
-            KeyCollection.Add(pair.Value, pair.Key);
+            var key = GenerateKey(pair.Key);
+            if (AddKeyedValue(key, pair.Value))
+                return key;
+
+            return null;
         }
 
-        public virtual void Add(string key, T value)
+        public virtual string Add(string key, T value)
         {
-            if (Collection.ContainsKey(key)) {
-                Debug.LogError($"Key already exists in collection:\n" +
-                    $"{value.ToString()}");
-                return;
-            }
+            key = GenerateKey(key);
+            if (AddKeyedValue(key, value))
+                return key;
+
+            return null;
+        }
+
+        protected virtual bool AddKeyedValue(string key, T value)
+        {
             if (KeyCollection.ContainsKey(value)) {
                 Debug.LogError($"Value already exists in collection:\n" +
                     $"{value.ToString()}");
-                return;
+                return false;
             }
 
             Collection.Add(key, value);
             KeyCollection.Add(value, key);
+
+            return true;
         }
 
         public virtual string GetKey(T value) => KeyCollection[value];

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
 using TMPro;
-using ClinicalTools.SimEncounters;
+using ClinicalTools.SimEncountersOld;
 
 public class TabAndSectionDragScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {

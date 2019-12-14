@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine.Networking;
-using ClinicalTools.SimEncounters;
+using ClinicalTools.SimEncountersOld;
 
 #if UNITY_EDITOR
 using UnityEditor;

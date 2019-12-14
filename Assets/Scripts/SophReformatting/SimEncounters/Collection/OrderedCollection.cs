@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace ClinicalTools.SimEncounters
+namespace ClinicalTools.SimEncounters.Collections
 {
     /// <summary>
     /// An ordered bidirectional dictionary with automatically generated string keys.
@@ -24,18 +24,15 @@ namespace ClinicalTools.SimEncounters
         public virtual KeyValuePair<string, T> this[int index] => Get(index);
 
         public OrderedCollection() : base() { }
-        public OrderedCollection(List<KeyValuePair<string, T>> keyValuePairs) : base(keyValuePairs) { }
 
-        public override void Add(string key, T value)
+        protected override bool AddKeyedValue(string key, T value)
         {
-            var pair = new KeyValuePair<string, T>(key, value);
-            Add(pair);
-        }
-        public override void Add(KeyValuePair<string, T> pair)
-        {
-            base.Add(pair);
-            PairList.Add(pair);
-            ValueList.Add(pair.Value);
+            if (!base.AddKeyedValue(key, value))
+                return false;
+
+            PairList.Add(new KeyValuePair<string, T>(key, value));
+            ValueList.Add(value);
+            return true;
         }
 
         public override void Remove(string key)
@@ -49,7 +46,7 @@ namespace ClinicalTools.SimEncounters
 
         public virtual KeyValuePair<string, T> Get(int val) => PairList[val];
 
-        public virtual void MoveValue(int newIndex, int currentIndex) 
+        public virtual void MoveValue(int newIndex, int currentIndex)
             => MoveValue(newIndex, ValueList[currentIndex]);
         public virtual void MoveValue(int newIndex, T value)
         {

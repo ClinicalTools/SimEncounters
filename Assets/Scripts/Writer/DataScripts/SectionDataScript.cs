@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System.Text.RegularExpressions;
-using ClinicalTools.SimEncounters;
+using ClinicalTools.SimEncountersOld;
 
 /**
  * This holds all of the data for each Section. This includes the XML strings,

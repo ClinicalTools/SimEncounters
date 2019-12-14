@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ClinicalTools.SimEncounters.Collections;
+using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Data
 {

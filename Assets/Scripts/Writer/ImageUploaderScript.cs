@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using System;
 using System.IO;
 //using Crosstales.FB;
-using ClinicalTools.SimEncounters;
+using ClinicalTools.SimEncountersOld;
 
 public class ImageUploaderScript : MonoBehaviour
 {

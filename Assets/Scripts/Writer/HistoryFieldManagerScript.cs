@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using TMPro;
 using UnityEngine.Networking;
-using ClinicalTools.SimEncounters;
+using ClinicalTools.SimEncountersOld;
 
 public class HistoryFieldManagerScript : MonoBehaviour
 {

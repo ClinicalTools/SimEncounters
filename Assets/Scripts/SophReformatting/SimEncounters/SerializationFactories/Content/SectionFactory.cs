@@ -6,13 +6,19 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
 {
     public class SectionFactory : ISerializationFactory<Section>
     {
-        protected virtual TabFactory TabFactory { get; } = new TabFactory();
+        protected virtual TabFactory TabFactory { get; }
         protected virtual ConditionalDataFactory ConditionalDataFactory { get; } = new ConditionalDataFactory();
 
         protected virtual NodeInfo NameInfo { get; set; } = new NodeInfo("name");
         protected virtual NodeInfo IconKeyInfo { get; } = new NodeInfo("icon");
         protected virtual NodeInfo ConditionsInfo { get; } = new NodeInfo("conditions");
         protected virtual CollectionInfo TabsInfo { get; } = new CollectionInfo("tabs", "tab");
+
+
+        public SectionFactory()
+        {
+            TabFactory = new TabFactory(ConditionalDataFactory);
+        }
 
         public virtual bool ShouldSerialize(Section value) => value != null;
 

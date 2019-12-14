@@ -29,7 +29,7 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
         {
             int width = GetWidth(deserializer);
             int height = GetHeight(deserializer);
-            string imageData = GetImageData(deserializer).Replace(' ', '+');
+            string imageData = GetImageData(deserializer);//.Replace(' ', '+');
 
             var imageRect = new Rect(0, 0, width, height);
             return GetSprite(imageRect, imageData);
@@ -37,8 +37,9 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
 
         protected virtual Sprite GetSprite(Rect imageRect, string imageData)
         {
+            var imageBytes = Convert.FromBase64String(imageData);
             Texture2D temp = new Texture2D(2, 2);
-            temp.LoadImage(Convert.FromBase64String(imageData));
+            temp.LoadImage(imageBytes);
             return Sprite.Create(temp, imageRect, Vector2.zero, 100);
         }
 

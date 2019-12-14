@@ -7,7 +7,7 @@ using System.Xml;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine.Networking;
-using ClinicalTools.SimEncounters;
+using ClinicalTools.SimEncountersOld;
 
 public class DialogueManagerScript : MonoBehaviour
 {
