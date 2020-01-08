@@ -1,40 +1,35 @@
 ﻿using ClinicalTools.SimEncounters.Writer;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class SceneManager
+    public class SceneManager : MonoBehaviour
     {
-        public static SceneManager Instance { get; } = new SceneManager();
-        protected virtual WriterManager WriterManager { get; }
+        public static SceneManager Instance { get; protected set; }
+        [field: SerializeField] protected virtual SceneUI SceneUI { get; set; }
 
-        public virtual void StartReader()
+        public virtual void Awake()
         {
-
+            if (Instance == null)
+                InitializeInstance();
+            else
+                SetInstanceVariables();
         }
 
-
-        public virtual async Task StartReaderScene(GameObject loadingScreen)
+        protected virtual void InitializeInstance()
         {
-            var loadingScene = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(2);
-            loadingScene.completed += ((AsyncOperation obj) => SetReaderValues(obj));
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
 
-        public Task<WriterManager> GetTheData()
+        protected virtual void SetInstanceVariables()
         {
-            TaskCompletionSource<WriterManager> tcs = new TaskCompletionSource<WriterManager>();
-            var worker = "";// new SomeObject();
-            //worker.WorkCompleted += result => tcs.SetResult(result);
-            //worker.DoWork();
-            return tcs.Task;
-        }
-
-        protected virtual void SetReaderValues(AsyncOperation obj)
-        {
-
+            Instance.SceneUI = SceneUI;
+            Destroy(gameObject);
         }
     }
 }

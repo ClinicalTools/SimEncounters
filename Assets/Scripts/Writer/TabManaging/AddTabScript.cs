@@ -9,7 +9,7 @@ using ClinicalTools.SimEncountersOld;
 
 public class AddTabScript : MonoBehaviour {
 
-    public WriterHandler ds;
+    public WriterHandler ds;  
     public TabManager tm;
     public GameObject TabButtonContentPar;
     public GameObject SectionButtonContentPar;

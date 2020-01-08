@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Collections;
+using System;
 using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Data
@@ -10,14 +11,17 @@ namespace ClinicalTools.SimEncounters.Data
         public virtual string Name { get; set; }
 
         public virtual string IconKey { get; }
-        public virtual Icon Icon { get; }
+        public virtual Icon Icon => throw new NotImplementedException();
+        public virtual Color Color { get; }
+
         public virtual OrderedCollection<Tab> Tabs { get; } = new OrderedCollection<Tab>();
         public virtual ConditionalData Conditions { get; set; }
 
-        public Section(string name, string iconKey)
+        public Section(string name, string iconKey, Color color)
         {
             Name = name;
             IconKey = iconKey;
+            Color = color;
         }
 
         /**

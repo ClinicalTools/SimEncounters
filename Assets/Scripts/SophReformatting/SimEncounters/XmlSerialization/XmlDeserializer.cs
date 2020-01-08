@@ -106,7 +106,8 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
             try {
                 return serializationFactory.Deserialize(deserializer);
             } catch (Exception ex) {
-                Debug.LogWarning(ex.Message);
+                Debug.LogWarning($"{ex.Message}\n{ex.StackTrace}");
+                //Debug.Log(ex.StackTrace);
                 return default;
             }
         }

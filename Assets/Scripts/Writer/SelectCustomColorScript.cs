@@ -4,20 +4,24 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SelectCustomColorScript : MonoBehaviour, IPointerDownHandler {
-	public Toggle customColorToggle;
+public class SelectCustomColorScript : MonoBehaviour, IPointerDownHandler
+{
+    public Toggle customColorToggle;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    // Use this for initialization
+    void Start()
+    {
 
-	public virtual void OnPointerDown(PointerEventData evenDate){
-		customColorToggle.isOn = true;
-	}
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    public virtual void OnPointerDown(PointerEventData evenDate)
+    {
+        customColorToggle.isOn = true;
+    }
 }

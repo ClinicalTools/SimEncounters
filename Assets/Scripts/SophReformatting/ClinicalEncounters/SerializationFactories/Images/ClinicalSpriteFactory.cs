@@ -8,11 +8,7 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
     {
         protected override Sprite GetSprite(Rect imageRect, string imageData)
         {
-            try {
-                return base.GetSprite(imageRect, imageData);
-            } catch (FormatException) {
-                return base.GetSprite(imageRect, imageData.Replace(' ', '+'));
-            }
+            return base.GetSprite(imageRect, imageData.Replace(' ', '+'));
         }
     }
 }

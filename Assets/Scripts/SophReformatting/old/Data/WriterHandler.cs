@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters;
+using ClinicalTools.SimEncounters.Loading;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;

@@ -1,6 +1,7 @@
 ﻿using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.XmlSerialization;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.SerializationFactories
 {
@@ -11,6 +12,7 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
 
         protected virtual NodeInfo NameInfo { get; set; } = new NodeInfo("name");
         protected virtual NodeInfo IconKeyInfo { get; } = new NodeInfo("icon");
+        protected virtual NodeInfo ColorInfo { get; } = new NodeInfo("color");
         protected virtual NodeInfo ConditionsInfo { get; } = new NodeInfo("conditions");
         protected virtual CollectionInfo TabsInfo { get; } = new CollectionInfo("tabs", "tab");
 
@@ -25,9 +27,8 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
         public virtual void Serialize(XmlSerializer serializer, Section value)
         {
             serializer.AddString(NameInfo, value.Name);
-            // As much as I'd love to store the icon directly in the section,  legacy data stores it in a seperate file.
-            // I'd like to read both files concurrently, and I don't want to handle modern data too differently from legacy.
             serializer.AddString(IconKeyInfo, value.IconKey);
+            serializer.AddColor(ColorInfo, value.Color);
             serializer.AddKeyValuePairs(TabsInfo, value.Tabs, TabFactory);
             serializer.AddValue(ConditionsInfo, value.Conditions, ConditionalDataFactory);
         }
@@ -46,12 +47,15 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
             => deserializer.GetString(NameInfo);
         protected virtual string GetIconKey(XmlDeserializer deserializer)
             => deserializer.GetString(IconKeyInfo);
+        protected virtual Color GetColor(XmlDeserializer deserializer)
+            => deserializer.GetColor(ColorInfo);
         protected virtual Section CreateSection(XmlDeserializer deserializer)
         {
             var name = GetName(deserializer);
             var iconKey = GetIconKey(deserializer);
+            var color = GetColor(deserializer);
 
-            return new Section(name, iconKey);
+            return new Section(name, iconKey, color);
         }
 
         protected virtual List<KeyValuePair<string, Tab>> GetTabs(XmlDeserializer deserializer)

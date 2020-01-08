@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters;
+using ClinicalTools.SimEncounters.Loading;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;

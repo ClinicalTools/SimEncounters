@@ -30,6 +30,8 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
             int width = GetWidth(deserializer);
             int height = GetHeight(deserializer);
             string imageData = GetImageData(deserializer);//.Replace(' ', '+');
+            if (imageData == null)
+                throw new Exception("No image data included.");
 
             var imageRect = new Rect(0, 0, width, height);
             return GetSprite(imageRect, imageData);

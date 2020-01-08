@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml;
 
-public static class Extensions
+public static class ExtensionsOld
 {
 
     /**
