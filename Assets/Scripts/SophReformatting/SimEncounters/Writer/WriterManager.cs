@@ -30,7 +30,7 @@ namespace ClinicalTools.SimEncounters.Writer
             var watch = Stopwatch.StartNew();
             var encounter = loader.ReadEncounter(demoXml.DataXml.Result, demoXml.ImagesXml.Result);
             watch.Stop();
-            UnityEngine.Debug.LogError(watch.ElapsedMilliseconds);
+            //UnityEngine.Debug.LogError(demoXml.DataXml.Result.OuterXml);// watch.ElapsedMilliseconds);
             new EncounterWriter(null, loadingScreen, encounter, (WriterUI)SceneUI);
         }
         //SaveCase

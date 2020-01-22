@@ -19,6 +19,9 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
 
             if (string.IsNullOrWhiteSpace(type))
                 type = deserializer.GetString(LegacyTypeFinder);
+            var suffix = "Tab";
+            if (type.EndsWith(suffix))
+                type = type.Substring(0, type.Length - suffix.Length);
 
             return type;
         }

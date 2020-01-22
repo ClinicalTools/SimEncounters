@@ -7,7 +7,7 @@ using System;
 using TMPro;
 using ClinicalTools.SimEncountersOld;
 
-public class TabAndSectionDragScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
+public class TabAndSectionDragScript : MonoBehaviour
 {
 
     public Sprite cursorPicture;                //Image of the standard mouse icon
@@ -35,7 +35,7 @@ public class TabAndSectionDragScript : MonoBehaviour, IPointerEnterHandler, IPoi
 
     /**
 	* Initialize most variables
-	*/
+	*
     void Awake()
     {
         hover = false;
@@ -77,7 +77,7 @@ public class TabAndSectionDragScript : MonoBehaviour, IPointerEnterHandler, IPoi
     /**
 	 * Use this for initialization of components if they did not exist previously
 	 * Also add all surrounding entries to the local list of sibling entries
-	 */
+	 *
     void Start()
     {
         if (transform.GetComponent<LayoutElement>() == null) {
@@ -96,7 +96,7 @@ public class TabAndSectionDragScript : MonoBehaviour, IPointerEnterHandler, IPoi
 
     /**
 	 * Removes an entry from the local list of entries
-	 */
+	 *
     public void RemoveFromEntryList(Transform t)
     {
         entries.Remove(t);
@@ -104,7 +104,7 @@ public class TabAndSectionDragScript : MonoBehaviour, IPointerEnterHandler, IPoi
 
     /**
 	 * Update/Refresh this entry's local list of entries
-	 */
+	 *
     public void UpdateEntryList()
     {
         entries.Clear();
@@ -117,7 +117,7 @@ public class TabAndSectionDragScript : MonoBehaviour, IPointerEnterHandler, IPoi
 
     /**
 	 * When the pointer enters the area above the dragable area
-	 */
+	 *
     public void OnPointerEnter(PointerEventData data)
     {
         if (!drag) {
@@ -129,7 +129,7 @@ public class TabAndSectionDragScript : MonoBehaviour, IPointerEnterHandler, IPoi
 
     /**
 	 * When the pointer exits the area above the dragable area
-	 */
+	 *
     public void OnPointerExit(PointerEventData data)
     {
         if (!drag) {
@@ -139,14 +139,14 @@ public class TabAndSectionDragScript : MonoBehaviour, IPointerEnterHandler, IPoi
 				PointerEventData pointer = new PointerEventData (EventSystem.current);
 				ExecuteEvents.Execute (transform.gameObject, pointer, ExecuteEvents.submitHandler);
 				clicked = false;
-			}*/
+			}*
         }
         hover = false;
     }
 
     /**
 	 * When the mouse is clicked
-	 */
+	 *
     public void OnPointerDown(PointerEventData data)
     {
         if (hover) {
@@ -159,7 +159,7 @@ public class TabAndSectionDragScript : MonoBehaviour, IPointerEnterHandler, IPoi
 
     /**
 	 * Run every frame. Determins the world position of the entry being held as well as the placeholder's location
-	 */
+	 *
     void Update()
     {
         if (clicked) {
@@ -244,7 +244,7 @@ public class TabAndSectionDragScript : MonoBehaviour, IPointerEnterHandler, IPoi
                     } /*else if (!linkToText.EndsWith("Section") && ds.GetData (tm.getCurrentSection ()).GetTabInfo (entry.Find ("TabButtonLinkToText").GetComponent<Text> ().text).persistant) {
 						//If you're to the left of a persistant tab
 						pos++;
-					}*/
+					}*
                 }
 
                 //Destroy the placeholder and set the entry to the correct new location
@@ -294,6 +294,5 @@ public class TabAndSectionDragScript : MonoBehaviour, IPointerEnterHandler, IPoi
                 ExecuteEvents.Execute(transform.gameObject, pointer, ExecuteEvents.pointerEnterHandler);
 
             }
-        }
-    }
+        }*/
 }

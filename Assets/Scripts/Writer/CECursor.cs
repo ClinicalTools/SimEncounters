@@ -21,6 +21,7 @@ public class CECursor : MonoBehaviour {
 	void Start () {
 		cursor = transform.Find ("Cursor").GetComponent<Image>();
 		cursor.transform.localPosition = new Vector2(0, 0);
+		/*
 		if (!GlobalData.GDS.isMobile) {
             transform.Find("Cursor").gameObject.SetActive(true);
             transform.Find("CursorMove")?.gameObject.SetActive(false);
@@ -37,7 +38,7 @@ public class CECursor : MonoBehaviour {
 			transform.Find("Cursor").gameObject.SetActive(false);
             transform.Find("CursorMove")?.gameObject.SetActive(false);
             GameObject.Find("MobileCursorOn")?.SetActive(true);
-		}
+		}*/
 	}
 	
 	/**

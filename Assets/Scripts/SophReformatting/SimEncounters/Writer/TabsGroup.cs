@@ -56,8 +56,10 @@ namespace ClinicalTools.SimEncounters.Writer
 
         protected virtual void Select(Tab tab)
         {
+            WriterTab?.Serialize();
             WriterTab = new WriterTab(TabsUI.TabContent, tab, Writer);
-            // tab changed event
+
+
         }
 
 

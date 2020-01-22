@@ -569,7 +569,7 @@ public class TabManager : MonoBehaviour
                 //foreach (string tabName in sectionTabs) {
                 //TabButtonContentPar.transform.Find (tabName/*.Replace (" ", "_")*/ + "TabButton").GetComponent<TabAndSectionDragScript> ().UpdateEntryList ();
                 if (!TabButtonContentPar.transform.GetChild(j).name.Equals("AddTabButton")) {
-                    TabButtonContentPar.transform.GetChild(j).GetComponent<TabAndSectionDragScript>().UpdateEntryList();
+                    //TabButtonContentPar.transform.GetChild(j).GetComponent<TabAndSectionDragScript>().UpdateEntryList();
                 }
             }
         }

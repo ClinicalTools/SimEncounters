@@ -82,7 +82,8 @@ public class HistoryFieldManagerScript : MonoBehaviour
         }
         parentManager = transform.parent.GetComponentInParent<HistoryFieldManagerScript>();
         addData = true;
-        FindUniqueParent();
+        Debug.LogError(name);
+        //FindUniqueParent();
     }
 
     /**
