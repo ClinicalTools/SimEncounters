@@ -62,7 +62,7 @@ public class ReaderDialogueManagerScript : MonoBehaviour
         //Remove the dialogue and it's children from the entries list
         entries.RemoveRange(temp.index, GetFinalChildIndex(temp) - temp.index + 1);
         //GameObject.Destroy (entry);
-        GetComponentInChildren<ReaderEntryManagerScript>().RemovePanelEntry(entry);
+        //GetComponentInChildren<ReaderEntryManagerScript>().RemovePanelEntry(entry);
 
         int i = 0;
         foreach (DialogueEntryScript des in entries) {
@@ -246,7 +246,7 @@ public class ReaderDialogueManagerScript : MonoBehaviour
         UID = GetUID();
         DiscardDialogue();
 
-        GetComponentInChildren<ReaderEntryManagerScript>().PopulatePanel(button);
+        //GetComponentInChildren<ReaderEntryManagerScript>().PopulatePanel(button);
         return;
     }
 
@@ -272,7 +272,7 @@ public class ReaderDialogueManagerScript : MonoBehaviour
     public void CancelClicked()
     {
         if (!ds.GetDialogues().ContainsKey(UID)) { //If the dialogue was never saved, remove the pin itself
-            Destroy(GetComponentInChildren<ReaderEntryManagerScript>().GetPin());
+            //Destroy(GetComponentInChildren<ReaderEntryManagerScript>().GetPin());
         }
         DiscardDialogue();
     }

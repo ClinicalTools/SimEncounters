@@ -5,6 +5,7 @@ using System.Diagnostics;
 
 namespace ClinicalTools.SimEncounters.Writer
 {
+
     public class WriterManager : EncounterSceneManager
     {
         public static WriterManager WriterInstance => (WriterManager)Instance;

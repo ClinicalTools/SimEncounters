@@ -18,8 +18,10 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
         {
             var type = base.GetType(deserializer);
 
-            if (string.IsNullOrWhiteSpace(type))
-                type = deserializer.GetString(LegacyTypeInfo);
+            if (!string.IsNullOrWhiteSpace(type))
+                return type;
+
+            type = deserializer.GetString(LegacyTypeInfo);
 
             return type;
         }

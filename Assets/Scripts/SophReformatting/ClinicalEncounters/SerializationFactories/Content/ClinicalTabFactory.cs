@@ -16,12 +16,14 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
         protected override string GetType(XmlDeserializer deserializer)
         {
             var type = base.GetType(deserializer);
+            if (!string.IsNullOrWhiteSpace(type))
+                return type;
 
-            if (string.IsNullOrWhiteSpace(type))
-                type = deserializer.GetString(LegacyTypeFinder);
+            type = deserializer.GetString(LegacyTypeFinder);
             var suffix = "Tab";
             if (type.EndsWith(suffix))
                 type = type.Substring(0, type.Length - suffix.Length);
+            type = type.Replace('_', ' ');
 
             return type;
         }

@@ -6,7 +6,7 @@ namespace ClinicalTools.SimEncounters.Writer
     {
         protected virtual object User { get; }
         public virtual Encounter Encounter { get; }
-        public virtual SectionsGroup SectionsGroup { get; }
+        public virtual WriterSectionGroup SectionsGroup { get; }
         protected WriterUI WriterUI { get; }
         public TabTypesInfo TabTypes { get; } = new TabTypesInfo();
 
@@ -19,7 +19,7 @@ namespace ClinicalTools.SimEncounters.Writer
 
             Encounter = encounter;
 
-            SectionsGroup = new SectionsGroup(WriterUI.Sections, Encounter.Content.Sections, this);
+            SectionsGroup = new WriterSectionGroup(this, WriterUI.Sections, Encounter.Content.Sections);
 
             AddListeners(WriterUI);
 

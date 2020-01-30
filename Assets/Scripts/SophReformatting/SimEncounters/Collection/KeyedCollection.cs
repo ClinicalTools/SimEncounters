@@ -38,10 +38,8 @@ namespace ClinicalTools.SimEncounters.Collections
         /// Creates a unique key for the collection item.
         /// </summary>
         /// <returns>The unique key</returns>
-        protected virtual string GenerateKey()
-        {
-            return KeyGenerator.Generate();
-        }
+        protected virtual string GenerateKey() => KeyGenerator.Generate();
+
         /// <summary>
         /// Creates a unique key for the collection item.
         /// </summary>
@@ -49,6 +47,8 @@ namespace ClinicalTools.SimEncounters.Collections
         /// <returns>The unique key</returns>
         protected virtual string GenerateKey(string oldKey)
         {
+            if (string.IsNullOrEmpty(oldKey))
+                return GenerateKey();
             if (KeyGenerator.Contains(oldKey))
                 return KeyGenerator.Generate(oldKey);
 

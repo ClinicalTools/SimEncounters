@@ -22,8 +22,19 @@ public class MoveableObjectCursorScript : MonoBehaviour, IPointerEnterHandler, I
 	private DragOverrideScript scrollScrollRect;//The ScrollRect this entry belongs to
 	private RectTransform rt;					//The RectTransform of this entry
 	private float dMPos;						//Difference between the mouse's height and the center of the entry being clicked
-	private Transform container;				//The entry we're moving.
+	private Transform container;                //The entry we're moving.
 
+	public void OnPointerDown(PointerEventData eventData)
+	{
+	}
+
+	public void OnPointerEnter(PointerEventData eventData)
+	{
+	}
+
+	public void OnPointerExit(PointerEventData eventData)
+	{
+	}
 
 	/**
 	 * Used for objects (mostly entries/panels used by HistoryFieldManagerScript) which need to move
@@ -32,7 +43,7 @@ public class MoveableObjectCursorScript : MonoBehaviour, IPointerEnterHandler, I
 
 	/**
 	 * Initialize most variables
-	 */
+	 *
 	void Awake() {
 		hover = false;
 		cursor = GameObject.Find("CursorContainer").GetComponent<CECursor>();
@@ -74,18 +85,18 @@ public class MoveableObjectCursorScript : MonoBehaviour, IPointerEnterHandler, I
 				scrollRectTransform = hm.parentTab.transform.Find("QuizEditorPanel/Content/ScrollView").GetComponent<RectTransform>();
 			}
 		} else {
-			scrollRectTransform = hm.parentTab.transform.Find ("Scroll View").GetComponent<RectTransform> ();
+			//scrollRectTransform = hm.parentTab.transform.Find ("Scroll View").GetComponent<RectTransform> ();
 		}
-		scrollScrollRect = scrollRectTransform.transform.GetComponent<DragOverrideScript> ();
-		rt = container.GetComponent<RectTransform>();
-		dMPos = 0;
+		//scrollScrollRect = scrollRectTransform.transform.GetComponent<DragOverrideScript> ();
+		//rt = container.GetComponent<RectTransform>();
+		//dMPos = 0;
 	}
 
 
 	/**
 	 * Use this for initialization of components if they did not exist previously
 	 * Also add all surrounding entries to the local list of sibling entries
-	 */
+	 *
 	void Start () {
 		if (container.GetComponent<LayoutElement> () == null) {
 			container.gameObject.AddComponent (typeof(LayoutElement));
@@ -103,14 +114,14 @@ public class MoveableObjectCursorScript : MonoBehaviour, IPointerEnterHandler, I
 
 	/**
 	 * Removes an entry from the local list of entries
-	 */
+	 *
 	public void RemoveFromEntryList(Transform t) {
 		entries.Remove (t);
 	}
 
 	/**
 	 * Update/Refresh this entry's local list of entries
-	 */
+	 *
 	public void UpdateEntryList() {
 		if (entries != null) {
 			entries.Clear ();
@@ -127,7 +138,7 @@ public class MoveableObjectCursorScript : MonoBehaviour, IPointerEnterHandler, I
 
 	/**
 	 * When the pointer enters the area above the dragable area
-	 */
+	 *
 	public void OnPointerEnter(PointerEventData data) {
 		if (!drag) {
             cursor.StartMoveCursor();
@@ -137,7 +148,7 @@ public class MoveableObjectCursorScript : MonoBehaviour, IPointerEnterHandler, I
 
 	/**
 	 * When the pointer exits the area above the dragable area
-	 */
+	 *
 	public void OnPointerExit(PointerEventData data) {
 		if (!drag) {
             cursor.StopMoveCursor();
@@ -148,7 +159,7 @@ public class MoveableObjectCursorScript : MonoBehaviour, IPointerEnterHandler, I
 
 	/**
 	 * When the mouse is clicked
-	 */
+	 *
 	public void OnPointerDown(PointerEventData data) {
 		if (hover && data.button.Equals(PointerEventData.InputButton.Left)) {
 			drag = true;
@@ -173,7 +184,7 @@ public class MoveableObjectCursorScript : MonoBehaviour, IPointerEnterHandler, I
 
 	/**
 	 * Run every frame. Determins the world position of the entry being held as well as the placeholder's location
-	 */
+	 *
 	void Update() {
 		if (drag) {
 			//container.GetComponent<LayoutElement> ().ignoreLayout = true;
@@ -234,5 +245,5 @@ public class MoveableObjectCursorScript : MonoBehaviour, IPointerEnterHandler, I
                 }
 			}
 		}
-	}
+	}*/
 }

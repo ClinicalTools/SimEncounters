@@ -7,7 +7,7 @@ using TMPro;
 public class SetGenderScript : MonoBehaviour {
 	public void setGender()
 	{
-		GlobalDataScript gData = GameObject.Find("Canvas").GetComponent<GlobalDataScript>();
-		gData.setCharacter (this.GetComponentInChildren<TextMeshProUGUI>().text);
+		//GlobalDataScript gData = GameObject.Find("Canvas").GetComponent<GlobalDataScript>();
+		//gData.setCharacter (this.GetComponentInChildren<TextMeshProUGUI>().text);
 	}
 }

@@ -82,7 +82,6 @@ public class HistoryFieldManagerScript : MonoBehaviour
         }
         parentManager = transform.parent.GetComponentInParent<HistoryFieldManagerScript>();
         addData = true;
-        Debug.LogError(name);
         //FindUniqueParent();
     }
 
@@ -772,8 +771,8 @@ public class HistoryFieldManagerScript : MonoBehaviour
                 LES.SetPosition(siblingIdx - 1);
             }
 
-            if (LES.gObject.GetComponentInChildren<MoveableObjectCursorScript>())
-                LES.gObject.GetComponentInChildren<MoveableObjectCursorScript>().RemoveFromEntryList(entry.transform);
+            //if (LES.gObject.GetComponentInChildren<MoveableObjectCursorScript>())
+                //LES.gObject.GetComponentInChildren<MoveableObjectCursorScript>().RemoveFromEntryList(entry.transform);
         }
         ds.GetDialogues().Remove(uniquePath + entry.name);
         ds.CorrectlyOrderedDialogues.Remove(uniquePath + entry.name);
@@ -896,8 +895,8 @@ public class HistoryFieldManagerScript : MonoBehaviour
         AddEntry(name, true);
         MoveableObjectCursorScript move;
         foreach (LabEntryScript entry in entryList) {
-            if ((move = entry.gObject.GetComponentInChildren<MoveableObjectCursorScript>()) != null)
-                move.UpdateEntryList();
+            //if ((move = entry.gObject.GetComponentInChildren<MoveableObjectCursorScript>()) != null)
+                //move.UpdateEntryList();
         }
 
         if (!willScroll && !isNested) {
@@ -929,8 +928,8 @@ public class HistoryFieldManagerScript : MonoBehaviour
         AddEntry(ddc.GetComponentInChildren<TextMeshProUGUI>().text, true);
         MoveableObjectCursorScript move;
         foreach (LabEntryScript entry in entryList) {
-            if ((move = entry.gObject.GetComponentInChildren<MoveableObjectCursorScript>()) != null)
-                move.UpdateEntryList();
+            //if ((move = entry.gObject.GetComponentInChildren<MoveableObjectCursorScript>()) != null)
+                //move.UpdateEntryList();
         }
         transform.GetComponentInParent<ScrollRect>().GraphicUpdateComplete();
 
@@ -951,8 +950,8 @@ public class HistoryFieldManagerScript : MonoBehaviour
         AddEntry(PrefabName, true);
         MoveableObjectCursorScript move;
         foreach (LabEntryScript entry in entryList) {
-            if ((move = entry.gObject.GetComponentInChildren<MoveableObjectCursorScript>()) != null)
-                move.UpdateEntryList();
+            //if ((move = entry.gObject.GetComponentInChildren<MoveableObjectCursorScript>()) != null)
+                //move.UpdateEntryList();
         }
         NextFrame.Function(ScrollToEntry);
     }
@@ -1068,8 +1067,8 @@ public class HistoryFieldManagerScript : MonoBehaviour
 
         MoveableObjectCursorScript move;
         foreach (LabEntryScript entry in entryList) {
-            if ((move = entry.gObject.GetComponentInChildren<MoveableObjectCursorScript>()) != null)
-                move.UpdateEntryList();
+            //if ((move = entry.gObject.GetComponentInChildren<MoveableObjectCursorScript>()) != null)
+                //move.UpdateEntryList();
         }
 
         NextFrame.Function(ScrollToEntry);

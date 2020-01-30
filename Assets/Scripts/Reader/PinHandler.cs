@@ -83,7 +83,7 @@ public class PinHandler : MonoBehaviour
             Transform t = Instantiate(Resources.Load(GlobalData.resourcePath + "/Prefabs/Panels/QuizPopUp") as GameObject, DS.transform).transform;
             t.gameObject.SetActive(true);
             t.GetComponentInChildren<ReaderEntryManagerScript>().SetPin(b.transform);
-            t.GetComponentInChildren<ReaderEntryManagerScript>().PopulatePanel(b.transform);
+            //t.GetComponentInChildren<ReaderEntryManagerScript>().PopulatePanel(b.transform);
             t.Find("Image").GetComponent<Image>().color = DS.GetImage(TM.getCurrentSection()).color;
         });
         pinObj.tag = "Value";

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224226189416474634}
   - component: {fileID: 222918151437746722}
+  - component: {fileID: 6843227115963637476}
   m_Layer: 5
   m_Name: DiagnosisTab
   m_TagString: Untagged
@@ -46,6 +47,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1259622345092878}
   m_CullTransparentMesh: 0
+--- !u!114 &6843227115963637476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1259622345092878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57dee0f5fb32d4946be8726d0642bea5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelsParent: {fileID: 224185943192572544}
+  panelOptions:
+  - label: Diagnosis Entry
+    panelUI: {fileID: 3129345645338062819, guid: 6209e00430ba666439154adf105e85b2,
+      type: 3}
+  addPanelButton: {fileID: 114623178555366252}
 --- !u!1 &1281135334082092
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,8 +240,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
@@ -281,8 +298,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.Scrollbar+ScrollEvent, UnityEngine.UI, Version=1.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114901912120212302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -372,8 +387,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.ScrollRect+ScrollRectEvent, UnityEngine.UI, Version=1.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1894272285892812
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,8 +486,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
@@ -563,8 +574,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 1
   m_PreserveAspect: 0
@@ -582,11 +591,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 224226189416474634}
     m_Modifications:
-    - target: {fileID: 2004375125498185732, guid: abaa22fea553cc347bcad149db9652ae,
-        type: 3}
-      propertyPath: m_Name
-      value: AddFieldButton
-      objectReference: {fileID: 0}
     - target: {fileID: 1786113821872611002, guid: abaa22fea553cc347bcad149db9652ae,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -697,6 +701,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 114451688045231674}
+    - target: {fileID: 2004375125498185732, guid: abaa22fea553cc347bcad149db9652ae,
+        type: 3}
+      propertyPath: m_Name
+      value: AddFieldButton
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abaa22fea553cc347bcad149db9652ae, type: 3}
 --- !u!224 &224736290223460046 stripped
@@ -705,3 +714,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 2006320072377323636}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &114623178555366252 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1891749705815739160, guid: abaa22fea553cc347bcad149db9652ae,
+    type: 3}
+  m_PrefabInstance: {fileID: 2006320072377323636}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

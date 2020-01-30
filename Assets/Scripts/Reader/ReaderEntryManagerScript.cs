@@ -36,7 +36,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
     /**
 	 * This script is used to manage any tab that has addable entries/panels to it. These can be nested as well
 	 * (nested has only been tested one level deep)
-	 */
+	 *
 
 
     void Awake()
@@ -89,7 +89,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
 
     /**
 	 * returns the pin that was clicked to open the quiz dialogue
-	 */
+	 *
     public GameObject GetPin()
     {
         return panelPin.gameObject;
@@ -97,7 +97,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
 
     /**
 	 * Call this to refresh the uniquePath variable. Useful when renaming sections/tabs
-	 */
+	 *
     public string RefreshUniquePath()
     {
         uniquePath = "";
@@ -171,7 +171,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
     /**
 	 * Used when loading to find the correct set of XML data to load
 	 * Will also be used to load every new quiz that's opened
-	 */
+	 *
     public IEnumerator FindUniqueParent()
     {
         //Gets the xml data for this tab
@@ -296,7 +296,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
 							AddEntry("DialogueEntryLeft", false);
 						} else {
 							AddEntry("DialogueEntryRight", false);
-						}*/
+						}*
                     } else {
                         AddEntry(a.InnerText, false);
                     }
@@ -326,7 +326,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
 				totalPages += ds.GetData(section).GetTabList().Count;
 			}
 			page += tabPos;
-			*/
+			*
 
             //Neater way to do this
             int page = GetCurrentPage();
@@ -383,7 +383,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
 
     /**
 	 * Loads the data from XMl
-	 */
+	 *
     private void Load(XmlNode uniqueParent)
     {
         if (entryList.Count == 0) {
@@ -439,7 +439,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
 					findParent = AdvNode (findParent);
 				}
 				ds.AddQuiz (findParent.InnerText, tempNodee.InnerXml);
-				tempNodee.ParentNode.RemoveChild (tempNodee);*/
+				tempNodee.ParentNode.RemoveChild (tempNodee);*
                 //CreateQuestions (tempNodee.OuterXml); //Tests loading quiz pins into easy to reference objects.
                 //Could just load straight into the quizes if desired too. 
 
@@ -605,7 +605,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
 							img.transform.parent.GetComponent<Image>().enabled = false;
 							child.parent.gameObject.SetActive(true); //Set the image's parent active
 							img.GetComponent<ReaderOpenImageUploadPanelScript>().ForceStart();
-						}*/
+						}*
                     }
                 }
             }
@@ -660,7 +660,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
                         gaudyBG.alpha = 0.0f;
                         gaudyBG.interactable = false;
                         gaudyBG.blocksRaycasts = false;
-                        */
+                        *
                     });
                     pinObj.tag = "Value";
                     pinObj.name = "Dialogue" + "Pin";
@@ -766,7 +766,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
 					cVals = ParseColor(des.transform.Find("TextContainer/BGFitter/Image/charColor").GetComponent<Text>().text);
 				} else {
 					cVals = ParseColor(des.transform.Find("TextContainer/Image/charColor").GetComponent<Text>().text);
-				}*/
+				}*
                 des.SetReaderColor(new Color(cVals[0], cVals[1], cVals[2], 1f));
                 GetComponentInParent<ReaderDialogueManagerScript>().AddEntry(des);
             }
@@ -864,7 +864,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
     /**
 	 * Parses through a quiz pin's xml to create an easy to use quiz question object list
 	 * This is just a proof of concept right now, but will be useful in the reader
-	 */
+	 *
     public void CreateQuestions(string xml)
     {
         XmlDocument quiz = new XmlDocument();
@@ -955,7 +955,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
 
     /**
 	 * Spawns the feedback for quiz questions
-	 */
+	 *
     public void CheckQuizAnswers(Transform answerParent)
     {
         if (isNested) {
@@ -1031,7 +1031,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
     private FeedbackScript feedback = null;
     /**
 	 * Spawns the feedback for treatment questions
-	 */
+	 *
     public void CheckTreatmentAnswers(Transform answerParent)
     {
         TreatmentFeedback feedback = (TreatmentFeedback)this.feedback;
@@ -1080,7 +1080,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
     }
     /**
 	 * Spawns the feedback for questions where the entry is shown below the option
-	 */
+	 *
     public void CheckAnswers(Transform answerParent)
     {
         Toggle[] togs = answerParent.GetComponentsInChildren<Toggle>();
@@ -1137,7 +1137,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
 
     /**
 	 * Expands the first entry to make accessing data more easy
-	 */
+	 *
     void ToggleEntry(int n)
     {
         Toggle[] entryToggles = entryList[n].gObject.transform.GetComponentsInChildren<Toggle>();
@@ -1148,7 +1148,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
 
     /**
 	 * Checks whether or not to add data for the given entry
-	 */
+	 *
     public bool CheckAddData()
     {
         return addData;
@@ -1156,7 +1156,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
 
     /**
 	 * Removes an entry from the entry list and Destroy's the game object
-	 */
+	 *
     public void RemovePanelEntry(GameObject entry)
     {
         int idx = entry.transform.GetSiblingIndex();
@@ -1177,7 +1177,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
             if (idx < siblingIdx) {
                 LES.SetPosition(siblingIdx - 1);
             }
-            LES.gObject.GetComponentInChildren<MoveableObjectCursorScript>().RemoveFromEntryList(entry.transform);
+            //LES.gObject.GetComponentInChildren<MoveableObjectCursorScript>().RemoveFromEntryList(entry.transform);
         }
         ds.GetDialogues().Remove(uniquePath + entry.name);
         ds.correctlyOrderedDialogues.Remove(uniquePath + entry.name);
@@ -1194,7 +1194,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
 
     /**
 	 * Opens the panel for the user to choose which kind of entry they'd like to add
-	 */
+	 *
     public void OpenAddEntryPanel()
     {
         addData = false;
@@ -1224,15 +1224,15 @@ public class ReaderEntryManagerScript : MonoBehaviour
 
     /**
 	 * Adds a specified entry from the AddEntryPanel
-	 */
+	 *
     public void AddEntryFromPanel(string name)
     {
         addData = false;
         AddEntry(name, true);
         MoveableObjectCursorScript move;
         foreach (LabEntryScript entry in entryList) {
-            if ((move = entry.gObject.GetComponentInChildren<MoveableObjectCursorScript>()) != null)
-                move.UpdateEntryList();
+            //if ((move = entry.gObject.GetComponentInChildren<MoveableObjectCursorScript>()) != null)
+                //move.UpdateEntryList();
         }
 
         if (!willScroll && !isNested) {
@@ -1244,7 +1244,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
 
     /**
 	 * Adds an entry when no name is specified (aka from the create button on the panel)
-	 */
+	 *
     public void AddEntryFromPanel()
     {
         addData = false;
@@ -1263,8 +1263,8 @@ public class ReaderEntryManagerScript : MonoBehaviour
         AddEntry(ddc.GetComponentInChildren<TMPro.TextMeshProUGUI>().text, true);
         MoveableObjectCursorScript move;
         foreach (LabEntryScript entry in entryList) {
-            if ((move = entry.gObject.GetComponentInChildren<MoveableObjectCursorScript>()) != null)
-                move.UpdateEntryList();
+            //if ((move = entry.gObject.GetComponentInChildren<MoveableObjectCursorScript>()) != null)
+                //move.UpdateEntryList();
         }
         transform.GetComponentInParent<ScrollRect>().GraphicUpdateComplete();
 
@@ -1279,7 +1279,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
 
     /**
 	 * Adds an entry from a button.
-	 */
+	 *
     public void AddEntryFromButton(string PrefabName)
     {
         AddEntry(PrefabName, true);
@@ -1294,7 +1294,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
 
     /**
 	 * Adds an entry with the given prefab name
-	 */
+	 *
     public void AddEntry(string PrefabName, bool isNew)
     {
         GameObject newEntryObject = null;
@@ -1395,7 +1395,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
 
     /**
 	 * 	Returns the data of a single entry, marked by its position
-	 */
+	 *
     public string getData(int position)
     {
         foreach (LabEntryScript entry in entryList) {
@@ -1411,7 +1411,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
 
     /**
 	 * 	Returns all data for all entries
-	 */
+	 *
     public string getData()
     {
         //string data = "<" + parentTab.name + "><data>";
@@ -1447,7 +1447,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
 
     /**
 	 * Adds data to the DataScript
-	 */
+	 *
     public void AddToDictionary()
     {
         if (parentTab != null) {
@@ -1504,7 +1504,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
 
     /**
 	 * Saves the quiz data to the quiz dictionary
-	 */
+	 *
     public void AddToQuizDictionary()
     {
         string uniquePath = "";
@@ -1543,7 +1543,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
 
     /**
 	 * Call this after all data has been retrieved/dealt with
-	 */
+	 *
     public void ReorderDictionaries()
     {
         foreach (string key in ds.correctlyOrderedDialogues.Keys) {
@@ -1593,7 +1593,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
 
     /**
 	 * Called when loading quiz data
-	 */
+	 *
     public void PopulatePanel(Transform pin)
     {
         panelPin = pin;

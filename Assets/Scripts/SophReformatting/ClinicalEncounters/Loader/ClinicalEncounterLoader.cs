@@ -1,5 +1,4 @@
 ﻿using ClinicalTools.ClinicalEncounters.SerializationFactories;
-using ClinicalTools.SimEncounters;
 using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.Loader;
 using ClinicalTools.SimEncounters.SerializationFactories;

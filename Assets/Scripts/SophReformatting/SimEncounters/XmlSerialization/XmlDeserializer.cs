@@ -109,6 +109,7 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
                 Debug.LogWarning($"{ex.Message}\n{ex.StackTrace}");
                 //Debug.Log(ex.StackTrace);
                 return default;
+
             }
         }
 

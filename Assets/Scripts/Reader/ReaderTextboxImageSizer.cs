@@ -11,7 +11,7 @@ public class ReaderTextboxImageSizer : MonoBehaviour
     int count = 0;
     int runs = 20;
     public bool limit = false;
-    // Use this for initialization
+    /*/ Use this for initialization
     void Start()
     {
         thisText = GetComponent<TMPro.TextMeshProUGUI>();
@@ -90,4 +90,5 @@ public class ReaderTextboxImageSizer : MonoBehaviour
         referenceText.fontSize--;
         count++;
     }
+    */
 }

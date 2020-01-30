@@ -86,13 +86,13 @@ namespace ClinicalTools.Layout
 
         protected override void Awake()
         {
-            LateUpdate();
+            Initialize();
 
             base.Awake();
         }
         protected override void Start()
         {
-            Initialize();
+            LateUpdate();
 
             base.Start();
         }
@@ -166,6 +166,10 @@ namespace ClinicalTools.Layout
                     RectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (float)Width.Preferred);
                 if (Height.Preferred != null)
                     RectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, (float)Height.Preferred);
+
+                if (RectTransform.rect.width == 0 && RectTransform.rect.height == 0)
+                    Canvas.ForceUpdateCanvases();
+                
                 UpdateSize(RectTransform.rect.width, RectTransform.rect.height);
                 Dirty = false;
             }

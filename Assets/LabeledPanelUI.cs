@@ -9,7 +9,7 @@ namespace ClinicalTools.SimEncounters.Writer
         [SerializeField] private string label;
         public string Label { get => label; set => label = value; }
 
-        [SerializeField] private PanelUI panelUI;
-        public PanelUI PanelUI { get => panelUI; set => panelUI = value; }
+        [SerializeField] private WriterPanelUI panelUI;
+        public WriterPanelUI PanelUI { get => panelUI; set => panelUI = value; }
     }
 }

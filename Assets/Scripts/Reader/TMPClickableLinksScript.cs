@@ -14,12 +14,12 @@ public class TMPClickableLinksScript : MonoBehaviour, IPointerClickHandler {
 	void Awake () {
 		tmp = gameObject.GetComponent<TextMeshProUGUI>();
 		if (tmp.isLinkedTextComponent) {
-			foreach(TextMeshProUGUI ugui in GetComponentInParent<ReaderEntryManagerScript>().GetComponentsInChildren<TextMeshProUGUI>()) {
+			/*foreach(TextMeshProUGUI ugui in GetComponentInParent<ReaderEntryManagerScript>().GetComponentsInChildren<TextMeshProUGUI>()) {
 				if (!ugui.isLinkedTextComponent) {
 					parent = ugui;
 					break;
 				}
-			}
+			}*/
 		}
 	}
 

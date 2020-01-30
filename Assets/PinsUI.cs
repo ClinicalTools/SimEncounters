@@ -2,8 +2,7 @@
 
 namespace ClinicalTools.SimEncounters.Writer
 {
-    public class PanelUI : MonoBehaviour
+    public class PinsUI : MonoBehaviour
     {
-
     }
 }

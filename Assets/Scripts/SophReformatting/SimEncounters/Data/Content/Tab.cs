@@ -9,13 +9,6 @@ namespace ClinicalTools.SimEncounters.Data
         public virtual ConditionalData Conditions { get; set; }
         public virtual OrderedCollection<Panel> Panels { get; } = new OrderedCollection<Panel>();
 
-
-        public Tab(string type)
-        {
-            Type = type;
-            Name = type;
-        }
-
         /**
          * Data script to hold info for every tab. Stored in SectionDataScript.Dict
          */

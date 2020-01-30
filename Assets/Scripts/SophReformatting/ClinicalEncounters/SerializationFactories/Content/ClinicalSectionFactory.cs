@@ -24,15 +24,12 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
             if (!string.IsNullOrWhiteSpace(name))
                 return name;
 
-
             // Some legacy names were stored in the tag name using the following format:
             // <_Name_Of_The_SectionSection>
             name = deserializer.GetName();
-            name.Remove(name.Length - "Section".Length)
-                .Replace('_', ' ')
-                .Trim();
-
-            return name;
+            return name.Remove(name.Length - "Section".Length)
+                       .Replace('_', ' ')
+                       .Trim();
         }
 
         protected CollectionInfo LegacyTabsInfo { get; } =

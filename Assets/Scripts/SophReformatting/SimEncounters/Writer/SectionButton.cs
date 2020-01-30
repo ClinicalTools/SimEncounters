@@ -4,7 +4,7 @@ namespace ClinicalTools.SimEncounters.Writer
 {
     public class SectionButton : EncounterButton<Section>
     {
-        public SectionButton(SectionButtonUI sectionButtonUI, Section section, EncounterWriter writer) : base(sectionButtonUI.SelectButton, section)
+        public SectionButton(EncounterWriter writer, SectionButtonUI sectionButtonUI, Section section) : base(sectionButtonUI.SelectButton, section)
         {
             sectionButtonUI.NameLabel.text = section.Name;
         }

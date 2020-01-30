@@ -55,7 +55,7 @@ namespace ClinicalTools.Layout
 
         protected override IDimensionLayout GetHeightDimensionLayout()
         {
-            if (GroupWidth.FitChild)
+            if (GroupHeight.FitChild)
                 return new FitterPrimaryDimension(GroupHeight.DimensionLayout, VerticalPadding, ChildHeights);
             else
                 return GroupHeight.DimensionLayout;

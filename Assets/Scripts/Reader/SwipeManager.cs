@@ -15,7 +15,7 @@ public class SwipeManager : MonoBehaviour
     void Start()
     {
         ds = GameObject.Find("GaudyBG").GetComponent<ReaderDataScript>();
-        tm = ds.GetComponent<ReaderTabManager>();
+        //tm = ds.GetComponent<ReaderTabManager>();
     }
 
     private void Update()
