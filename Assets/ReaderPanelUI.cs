@@ -43,6 +43,13 @@ namespace ClinicalTools.SimEncounters.Reader
                 else
                     valueField.Initialize();
             }
+            var readerValueFields = GetComponentsInChildren<IReaderValueField>();
+            foreach (var valueField in readerValueFields) {
+                if (panel.Data.ContainsKey(valueField.Name))
+                    valueField.Initialize(reader, panel.Data[valueField.Name]);
+                else
+                    valueField.Initialize(reader);
+            }
 
             return valueFields;
         }
