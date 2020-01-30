@@ -8,11 +8,13 @@ namespace ClinicalTools.SimEncounters
         public string Name => name;
         public string Value => Toggle.isOn ? true.ToString() : null;
 
-        protected Toggle Toggle { get; set; }
-
-        protected virtual void Awake()
-        {
-            Toggle = GetComponent<Toggle>();
+        private Toggle toggle;
+        protected Toggle Toggle {
+            get {
+                if (toggle == null)
+                    toggle = GetComponent<Toggle>();
+                return toggle;
+            }
         }
 
         public virtual void Initialize() { }

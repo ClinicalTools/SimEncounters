@@ -8,11 +8,13 @@ namespace ClinicalTools.SimEncounters.Reader
         public string Name => name;
         public string Value { get; protected set; }
 
-        protected Image Image { get; set; }
-
-        protected virtual void Awake()
-        {
-            Image = GetComponent<Image>();
+        private Image image;
+        protected Image Image {
+            get {
+                if (image == null)
+                    image = GetComponent<Image>();
+                return image;
+            }
         }
 
         public virtual void Initialize(EncounterReader reader) { }

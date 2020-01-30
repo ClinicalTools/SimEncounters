@@ -20,7 +20,7 @@ namespace ClinicalTools.SimEncounters.Reader
         {
             List<ReaderPanelUI> writerPanels = new List<ReaderPanelUI>();
             foreach (var panel in panels) {
-                var writerPanel = AddPanel(panelPrefab, panel);
+                var writerPanel = Deserialize(panel, panelPrefab);
                 writerPanels.Add(writerPanel);
             }
 
@@ -35,7 +35,7 @@ namespace ClinicalTools.SimEncounters.Reader
             List<ReaderPanelUI> writerPanels = new List<ReaderPanelUI>();
             foreach (var panel in panels) {
                 var panelPrefab = GetPanelPrefab(panel.Value.Type, panelOptions);
-                var writerPanel = AddPanel(panelPrefab, panel);
+                var writerPanel = Deserialize(panel, panelPrefab);
                 writerPanels.Add(writerPanel);
             }
 
@@ -56,7 +56,7 @@ namespace ClinicalTools.SimEncounters.Reader
             return null;
         }
         
-        protected ReaderPanelUI AddPanel(ReaderPanelUI panelPrefab, KeyValuePair<string, Panel> keyedPanel)
+        public ReaderPanelUI Deserialize(KeyValuePair<string, Panel> keyedPanel, ReaderPanelUI panelPrefab)
         {
             var writerPanel = UnityEngine.Object.Instantiate(panelPrefab, ChildPanelsParent);
             writerPanel.Initialize(Reader, keyedPanel);

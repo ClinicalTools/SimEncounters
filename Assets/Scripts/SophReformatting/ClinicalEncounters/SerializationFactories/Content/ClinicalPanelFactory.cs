@@ -22,6 +22,8 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
                 return type;
 
             type = deserializer.GetString(LegacyTypeInfo);
+            if (type == "OtherPastTestEntryPanel")
+                return "Other Past Medical Tests";
 
             return type;
         }

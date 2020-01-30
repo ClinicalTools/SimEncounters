@@ -12,11 +12,13 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private List<GameObject> controlledObjects;
         public List<GameObject> ControlledObjects { get => controlledObjects; set => controlledObjects = value; }
 
-        protected TextMeshProUGUI Label { get; set; }
-
-        protected virtual void Awake()
-        {
-            Label = GetComponent<TextMeshProUGUI>();
+        private TextMeshProUGUI label;
+        protected TextMeshProUGUI Label {
+            get {
+                if (label == null) 
+                    label = GetComponent<TextMeshProUGUI>();
+                return label;
+            }
         }
 
         public void Initialize() {

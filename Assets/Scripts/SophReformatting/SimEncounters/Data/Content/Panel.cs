@@ -15,5 +15,10 @@ namespace ClinicalTools.SimEncounters.Data
         {
             Type = type;
         }
+        public Panel(string type, OrderedCollection<Panel> panels)
+        {
+            Type = type;
+            ChildPanels = panels;
+        }
     }
 }

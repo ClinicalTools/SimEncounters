@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
+
     public class ReaderPanelUI : MonoBehaviour
     {
         [SerializeField] private string type;
@@ -22,7 +23,7 @@ namespace ClinicalTools.SimEncounters.Reader
         protected List<ReaderPanelUI> ChildPanels { get; set; }
         protected IValueField[] ValueFields { get; set; }
 
-        public void Initialize(EncounterReader reader, KeyValuePair<string, Panel> keyedPanel)
+        public virtual void Initialize(EncounterReader reader, KeyValuePair<string, Panel> keyedPanel)
         {
             Key = keyedPanel.Key;
             Panel = keyedPanel.Value;
@@ -36,14 +37,14 @@ namespace ClinicalTools.SimEncounters.Reader
 
         public IValueField[] InitializePanelValueFields(EncounterReader reader, Panel panel)
         {
-            var valueFields = GetComponentsInChildren<IValueField>();
+            var valueFields = GetComponentsInChildren<IValueField>(true);
             foreach (var valueField in valueFields) {
                 if (panel.Data.ContainsKey(valueField.Name))
                     valueField.Initialize(panel.Data[valueField.Name]);
                 else
                     valueField.Initialize();
             }
-            var readerValueFields = GetComponentsInChildren<IReaderValueField>();
+            var readerValueFields = GetComponentsInChildren<IReaderValueField>(true);
             foreach (var valueField in readerValueFields) {
                 if (panel.Data.ContainsKey(valueField.Name))
                     valueField.Initialize(reader, panel.Data[valueField.Name]);
