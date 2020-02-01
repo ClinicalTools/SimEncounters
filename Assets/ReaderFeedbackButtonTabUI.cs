@@ -1,11 +1,10 @@
 ﻿using ClinicalTools.SimEncounters.Data;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
-    public class ReaderFeedbackButtonPanelUI : ReaderPanelUI
+    public class ReaderFeedbackButtonTabUI : ReaderTabUI
     {
         [SerializeField] private Button getFeedbackButton;
         public virtual Button GetFeedbackButton { get => getFeedbackButton; set => getFeedbackButton = value; }
@@ -13,9 +12,9 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private Transform feedbackParent;
         public virtual Transform FeedbackParent { get => feedbackParent; set => feedbackParent = value; }
 
-        public override void Initialize(EncounterReader reader, KeyValuePair<string, Panel> keyedPanel)
+        public override void Initialize(EncounterReader reader, string tabFolder, Tab tab)
         {
-            base.Initialize(reader, keyedPanel);
+            base.Initialize(reader, tabFolder, tab);
 
             if (FeedbackParent != null)
                 SetFeedbacksParent();
@@ -25,7 +24,7 @@ namespace ClinicalTools.SimEncounters.Reader
 
         protected virtual void SetFeedbacksParent()
         {
-            foreach (var child in ChildPanels) {
+            foreach (var child in ReaderPanels) {
                 if (!(child is ReaderFeedbackOptionPanelUI))
                     continue;
 
@@ -36,7 +35,7 @@ namespace ClinicalTools.SimEncounters.Reader
 
         protected virtual void GetFeedback()
         {
-            foreach (var child in ChildPanels) {
+            foreach (var child in ReaderPanels) {
                 if (!(child is ReaderFeedbackOptionPanelUI))
                     continue;
 

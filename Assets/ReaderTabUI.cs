@@ -16,7 +16,7 @@ namespace ClinicalTools.SimEncounters.Reader
         protected ReaderPanelCreator ReaderPanelCreator { get; private set; }
         protected List<ReaderPanelUI> ReaderPanels { get; set; }
 
-        public void Initialize(EncounterReader reader, string tabFolder, Tab tab)
+        public virtual void Initialize(EncounterReader reader, string tabFolder, Tab tab)
         {
             Tab = tab;
             ReaderPanelCreator = new ReaderPanelCreator(reader, PanelsParent);
