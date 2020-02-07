@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
@@ -10,7 +11,10 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private Transform tabContent;
         public virtual Transform TabContent { get => tabContent; set => tabContent = value; }
 
-        [SerializeField] private ReaderTabButtonUI tabButtonPrefab;
-        public virtual ReaderTabButtonUI TabButtonPrefab { get => tabButtonPrefab; set => tabButtonPrefab = value; }
+        [SerializeField] private ReaderTabToggleUI tabButtonPrefab;
+        public virtual ReaderTabToggleUI TabButtonPrefab { get => tabButtonPrefab; set => tabButtonPrefab = value; }
+
+        [field: SerializeField] private ToggleGroup tabsToggleGroup;
+        public virtual ToggleGroup TabsToggleGroup { get => tabsToggleGroup; set => tabsToggleGroup = value; }
     }
 }

@@ -14,7 +14,8 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
 
         public void Serialize(XmlSerializer serializer, Icon icon)
         {
-            serializer.AddColor(ColorInfo, icon.Color);
+            // Icon color is never actually used for anything beyond Clinical Encounter legacy support, so it isn't serialized
+            // Icons will remain their own class to allow easier support for custom icons if that ever becomes necessary in the future
             serializer.AddString(ReferenceInfo, icon.Reference);
         }
 

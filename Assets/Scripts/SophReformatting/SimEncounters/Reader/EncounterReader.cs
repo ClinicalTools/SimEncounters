@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
@@ -6,8 +7,10 @@ namespace ClinicalTools.SimEncounters.Reader
     {
         protected virtual object User { get; }
         public virtual Encounter Encounter { get; }
-        public virtual ReaderSectionGroup SectionsGroup { get; }
+        public virtual ReaderSectionsGroup SectionsGroup { get; }
         protected ReaderUI ReaderUI { get; }
+        public virtual ReaderPinManager Pins { get; }
+
 
         // combine user/loading screen and maybe encounter?
         public EncounterReader(object user, LoadingScreen loadingScreen, Encounter encounter, ReaderUI readerUI)
@@ -15,15 +18,18 @@ namespace ClinicalTools.SimEncounters.Reader
         {
             User = user;
             ReaderUI = readerUI;
-
             Encounter = encounter;
 
-            SectionsGroup = new ReaderSectionGroup(this, ReaderUI.Sections, Encounter.Content.Sections);
+            Pins = CreatePinsManager();
+            SectionsGroup = CreateSectionsGroup();
 
             AddListeners(ReaderUI);
 
             loadingScreen.Stop();
         }
+
+        protected virtual ReaderSectionsGroup CreateSectionsGroup() => new ReaderSectionsGroup(this, ReaderUI.Sections, Encounter.Content.Sections);
+        protected virtual ReaderPinManager CreatePinsManager() => new ReaderPinManager(this, ReaderUI.Pins);
 
 
         protected virtual void AddListeners(ReaderUI readerUI)

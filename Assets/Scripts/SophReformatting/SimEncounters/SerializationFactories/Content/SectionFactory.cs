@@ -16,7 +16,6 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
         protected virtual NodeInfo ConditionsInfo { get; } = new NodeInfo("conditions");
         protected virtual CollectionInfo TabsInfo { get; } = new CollectionInfo("tabs", "tab");
 
-
         public SectionFactory()
         {
             TabFactory = new TabFactory(ConditionalDataFactory);

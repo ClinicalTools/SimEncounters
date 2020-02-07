@@ -11,7 +11,7 @@ public class NoUnselectGroup : ToggleGroup
 
     protected virtual void Update()
     {
-        if (AnyTogglesOn()) {
+        if (allowSwitchOff && AnyTogglesOn()) {
             allowSwitchOff = false;
         }
     }

@@ -3,18 +3,28 @@ using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.Loader;
 using ClinicalTools.SimEncounters.SerializationFactories;
 using ClinicalTools.SimEncounters.XmlSerialization;
+using System.Xml;
 
 namespace ClinicalTools.ClinicalEncounters.Loader
 {
     public class ClinicalEncounterLoader : EncounterLoader
     {
-        protected override EncounterDataFactory EncounterDataFactory => new ClinicalEncounterDataFactory();
-        protected override ImageDataFactory ImageDataFactory => new ClinicalImageDataFactory();
+        private EncounterDataFactory encounterDataFactory;
+        protected override EncounterDataFactory EncounterDataFactory => encounterDataFactory;
+        protected override ImageDataFactory ImageDataFactory  => new ClinicalImageDataFactory();
 
         protected NodeInfo LegacyContentInfo { get; } = NodeInfo.RootValue;
         protected NodeInfo LegacyImagesInfo { get; } = NodeInfo.RootValue;
 
-        protected override SectionsData DeserializeSectionsData(XmlDeserializer deserializer)
+        public override Encounter ReadEncounter(XmlDocument dataXml, XmlDocument imagesXml)
+        {
+            var images = GetImagesData(imagesXml);
+            encounterDataFactory = new ClinicalEncounterDataFactory(images);
+            var content = GetSectionsData(dataXml);
+            return new Encounter(content, images);
+    }
+
+    protected override SectionsData DeserializeSectionsData(XmlDeserializer deserializer)
         {
             var sectionsData = base.DeserializeSectionsData(deserializer);
             if (sectionsData != null)

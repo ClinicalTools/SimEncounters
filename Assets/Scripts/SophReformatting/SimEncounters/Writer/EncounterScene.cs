@@ -11,7 +11,7 @@ namespace ClinicalTools.SimEncounters
             SceneUI = sceneUI;
         }
 
-        public virtual T OpenPanel<T>(T panel) where T : MonoBehaviour
-            => Object.Instantiate(panel, SceneUI.PopupsParent);
+        public virtual T OpenPopup<T>(T popup) where T : MonoBehaviour
+            => Object.Instantiate(popup, SceneUI.PopupsParent);
     }
 }

@@ -7,13 +7,16 @@ namespace ClinicalTools.SimEncounters
     {
         public string Name => name;
         public string Value => (Dropdown.value >= 0) ? Dropdown.options[Dropdown.value].text : null;
-
-        protected TMP_Dropdown Dropdown { get; set; }
-
-        protected virtual void Awake()
-        {
-            Dropdown = GetComponent<TMP_Dropdown>();
+        
+        private TMP_Dropdown dropdown;
+        protected TMP_Dropdown Dropdown {
+            get {
+                if (dropdown == null)
+                    dropdown = GetComponent<TMP_Dropdown>();
+                return dropdown;
+            }
         }
+
         public void Initialize() { }
 
         public void Initialize(string value)

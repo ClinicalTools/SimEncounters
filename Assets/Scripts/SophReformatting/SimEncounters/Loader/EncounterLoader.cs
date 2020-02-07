@@ -33,6 +33,5 @@ namespace ClinicalTools.SimEncounters.Loader
             return DeserializeImagesData(deserializer);
         }
         protected virtual ImagesData DeserializeImagesData(XmlDeserializer deserializer) => deserializer.GetValue(ImagesInfo, ImageDataFactory);
-
     }
 }

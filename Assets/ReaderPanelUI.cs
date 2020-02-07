@@ -4,11 +4,10 @@ using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
-
-    public class ReaderPanelUI : MonoBehaviour
+    public class ReaderPanelUI : BaseReaderPanelUI
     {
         [SerializeField] private string type;
-        public virtual string Type { get => type; set => type = value; }
+        public override string Type { get => type; set => type = value; }
 
         [SerializeField] private Transform childrenParent;
         public virtual Transform ChildrenParent { get => childrenParent; set => childrenParent = value; }
@@ -16,48 +15,25 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private List<ReaderPanelUI> childPanelOptions;
         public virtual List<ReaderPanelUI> ChildPanelOptions { get => childPanelOptions; set => childPanelOptions = value; }
 
-
-        protected string Key { get; private set; }
-        protected Panel Panel { get; private set; }
         protected ReaderPanelCreator ReaderPanelCreator { get; private set; }
         protected List<ReaderPanelUI> ChildPanels { get; set; }
         protected IValueField[] ValueFields { get; set; }
 
-        public virtual void Initialize(EncounterReader reader, KeyValuePair<string, Panel> keyedPanel)
+        public override void Initialize(EncounterReader reader, KeyValuePair<string, Panel> keyedPanel)
         {
-            Key = keyedPanel.Key;
-            Panel = keyedPanel.Value;
+            base.Initialize(reader, keyedPanel);
+            var panel = keyedPanel.Value;
+
+            CreatePinButtons(reader, panel);
+
+            var valueFieldInitializer = new ReaderValueFieldInitializer(reader);
+            ValueFields = valueFieldInitializer.InitializePanelValueFields(gameObject, panel);
+
             ReaderPanelCreator = new ReaderPanelCreator(reader, ChildrenParent);
-
-            if (Panel.ChildPanels.Count > 0)
-                ChildPanels = ReaderPanelCreator.Deserialize(Panel.ChildPanels, ChildPanelOptions);
-
-            ValueFields = InitializePanelValueFields(reader, Panel);
+            ChildPanels = ReaderPanelCreator.Deserialize(panel.ChildPanels, ChildPanelOptions);
         }
 
-        public IValueField[] InitializePanelValueFields(EncounterReader reader, Panel panel)
-        {
-            var valueFields = GetComponentsInChildren<IValueField>(true);
-            foreach (var valueField in valueFields) {
-                if (panel.Data.ContainsKey(valueField.Name))
-                    valueField.Initialize(panel.Data[valueField.Name]);
-                else
-                    valueField.Initialize();
-            }
-            var readerValueFields = GetComponentsInChildren<IReaderValueField>(true);
-            foreach (var valueField in readerValueFields) {
-                if (panel.Data.ContainsKey(valueField.Name))
-                    valueField.Initialize(reader, panel.Data[valueField.Name]);
-                else
-                    valueField.Initialize(reader);
-            }
+        protected virtual ReaderPinsGroup CreatePinButtons(EncounterReader reader, Panel panel) => reader.Pins.CreateButtons(panel.Pins, transform);
 
-            return valueFields;
-        }
-
-        public void Destroy()
-        {
-            Destroy(gameObject);
-        }
     }
 }

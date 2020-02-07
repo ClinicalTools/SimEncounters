@@ -16,9 +16,10 @@ namespace ClinicalTools.SimEncounters.Reader
             ChildPanelsParent = childPanelsParent;
         }
 
-        public List<ReaderPanelUI> Deserialize(OrderedCollection<Panel> panels, ReaderPanelUI panelPrefab)
+        public List<T> Deserialize<T>(OrderedCollection<Panel> panels, T panelPrefab)
+            where T : BaseReaderPanelUI
         {
-            List<ReaderPanelUI> writerPanels = new List<ReaderPanelUI>();
+            List<T> writerPanels = new List<T>();
             foreach (var panel in panels) {
                 var writerPanel = Deserialize(panel, panelPrefab);
                 writerPanels.Add(writerPanel);
@@ -27,12 +28,13 @@ namespace ClinicalTools.SimEncounters.Reader
             return writerPanels;
         }
 
-        public List<ReaderPanelUI> Deserialize(OrderedCollection<Panel> panels, List<ReaderPanelUI> panelOptions)
+        public List<T> Deserialize<T>(OrderedCollection<Panel> panels, List<T> panelOptions)
+            where T : BaseReaderPanelUI
         {
-            if (panelOptions.Count == 0)
+            if (panelOptions == null || panelOptions.Count == 0)
                 return null;
 
-            List<ReaderPanelUI> writerPanels = new List<ReaderPanelUI>();
+            List<T> writerPanels = new List<T>();
             foreach (var panel in panels) {
                 var panelPrefab = GetPanelPrefab(panel.Value.Type, panelOptions);
                 var writerPanel = Deserialize(panel, panelPrefab);
@@ -42,7 +44,8 @@ namespace ClinicalTools.SimEncounters.Reader
             return writerPanels;
         }
 
-        protected ReaderPanelUI GetPanelPrefab(string panelType, List<ReaderPanelUI> panelOptions)
+        protected T GetPanelPrefab<T>(string panelType, List<T> panelOptions)
+            where T : BaseReaderPanelUI
         {
             if (panelOptions.Count == 1)
                 return panelOptions[0];
@@ -56,7 +59,8 @@ namespace ClinicalTools.SimEncounters.Reader
             return null;
         }
         
-        public ReaderPanelUI Deserialize(KeyValuePair<string, Panel> keyedPanel, ReaderPanelUI panelPrefab)
+        public T Deserialize<T>(KeyValuePair<string, Panel> keyedPanel, T panelPrefab)
+            where T : BaseReaderPanelUI
         {
             var writerPanel = UnityEngine.Object.Instantiate(panelPrefab, ChildPanelsParent);
             writerPanel.Initialize(Reader, keyedPanel);

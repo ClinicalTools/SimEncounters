@@ -9,10 +9,10 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private Transform panelsParent;
         public virtual Transform PanelsParent { get => panelsParent; set => panelsParent = value; }
 
-        [SerializeField] private ReaderPanelUI multipleChoicePanel;
-        protected ReaderPanelUI MultipleChoicePanel { get => multipleChoicePanel; set => multipleChoicePanel = value; }
-        [SerializeField] private ReaderPanelUI checkBoxPanel;
-        protected ReaderPanelUI CheckBoxPanel { get => checkBoxPanel; set => checkBoxPanel = value; }
+        [SerializeField] private BaseReaderPanelUI multipleChoicePanel;
+        public BaseReaderPanelUI MultipleChoicePanel { get => multipleChoicePanel; set => multipleChoicePanel = value; }
+        [SerializeField] private BaseReaderPanelUI checkBoxPanel;
+        public BaseReaderPanelUI CheckBoxPanel { get => checkBoxPanel; set => checkBoxPanel = value; }
 
         protected Tab Tab { get; private set; }
         protected ReaderPanelCreator ReaderPanelCreator { get; private set; }

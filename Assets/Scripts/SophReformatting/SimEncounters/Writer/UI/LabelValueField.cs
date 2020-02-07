@@ -8,11 +8,13 @@ namespace ClinicalTools.SimEncounters.Writer
         public string Name => name;
         public string Value => Label.text;
 
-        protected TextMeshProUGUI Label { get; set; }
-
-        protected virtual void Awake()
-        {
-            Label = GetComponent<TextMeshProUGUI>();
+        private TextMeshProUGUI label;
+        protected TextMeshProUGUI Label {
+            get {
+                if (label == null)
+                    label = GetComponent<TextMeshProUGUI>();
+                return label;
+            }
         }
 
         public void Initialize() { }

@@ -14,7 +14,7 @@ public class Test : MonoBehaviour
 {
 
     NodeInfo LegacyEncounterDataInfo = NodeInfo.RootValue;
-    EncounterDataFactory EncounterDataFactory => new ClinicalEncounterDataFactory();
+    EncounterDataFactory EncounterDataFactory => null;// new ClinicalEncounterDataFactory();
     ImageDataFactory ImageDataFactory => new ClinicalImageDataFactory();
     NodeInfo NewEncounterDataInfo = new NodeInfo("new");
 

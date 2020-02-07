@@ -9,10 +9,8 @@ namespace ClinicalTools.SimEncounters.Data
         public Tab CurrentTab { get; protected set; }
 
         public virtual string Name { get; set; }
-
-        public virtual string IconKey { get; }
-        public virtual Icon Icon => throw new NotImplementedException();
-        public virtual Color Color { get; }
+        public virtual string IconKey { get; set; }
+        public virtual Color Color { get; set; }
 
         public virtual OrderedCollection<Tab> Tabs { get; } = new OrderedCollection<Tab>();
         public virtual ConditionalData Conditions { get; set; }

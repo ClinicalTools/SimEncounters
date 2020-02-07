@@ -2,15 +2,31 @@
 using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.SerializationFactories;
 using ClinicalTools.SimEncounters.XmlSerialization;
+using UnityEngine;
 
 namespace ClinicalTools.ClinicalEncounters.SerializationFactories
 {
     public class ClinicalSectionFactory : SectionFactory
     {
         protected override TabFactory TabFactory { get; }
-        public ClinicalSectionFactory()
+        protected ImagesData Images { get; }
+        public ClinicalSectionFactory(ImagesData images)
         {
+            Images = images;
             TabFactory = new ClinicalTabFactory(ConditionalDataFactory);
+        }
+
+        public override Section Deserialize(XmlDeserializer deserializer)
+        {
+            var section = base.Deserialize(deserializer);
+            // legacy Clinical Encounters saves serialized section color in the icon information
+            if (section != null && section.Color == Color.clear && Images.LegacyIconsInfo.ContainsKey(section.IconKey)) {
+                var iconInfo = Images.LegacyIconsInfo[section.IconKey];
+                section.Color = iconInfo.Color;
+                section.IconKey = iconInfo.Reference;
+            }
+
+            return section;
         }
 
         protected NodeInfo LegacyNameFinder { get; } = new NodeInfo("sectionName");
@@ -30,6 +46,21 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
             return name.Remove(name.Length - "Section".Length)
                        .Replace('_', ' ')
                        .Trim();
+        }
+
+        protected NodeInfo LegacyIconKeyFinder { get; } = NodeInfo.RootName;
+        protected override string GetIconKey(XmlDeserializer deserializer)
+        {
+            var iconKey = base.GetIconKey(deserializer);
+            if (iconKey != null)
+                return iconKey;
+            iconKey = deserializer.GetString(LegacyIconKeyFinder);
+            if (iconKey == null || iconKey.Length == 0)
+                return null;
+
+            if (iconKey[0] == '_')
+                iconKey = iconKey.Substring(1);
+            return iconKey;
         }
 
         protected CollectionInfo LegacyTabsInfo { get; } =

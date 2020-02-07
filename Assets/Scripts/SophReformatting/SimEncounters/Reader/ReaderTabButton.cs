@@ -2,12 +2,12 @@
 
 namespace ClinicalTools.SimEncounters.Reader
 {
-    public class ReaderTabButton : EncounterButton<Tab>
+    public class ReaderTabButton : EncounterToggle<Tab>
     {
-        public ReaderTabButton(EncounterReader reader, ReaderTabButtonUI tabButtonUI, Tab tab) 
-            : base(tabButtonUI.SelectButton, tab)
+        public ReaderTabButton(EncounterReader reader, ReaderTabToggleUI tabToggleUI, Tab tab) 
+            : base(tabToggleUI.SelectToggle, tab)
         {
-            tabButtonUI.NameLabel.text = tab.Name;
+            tabToggleUI.NameLabel.text = tab.Name;
         }
     }
 }

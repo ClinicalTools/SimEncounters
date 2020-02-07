@@ -12,23 +12,38 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private List<GameObject> controlledObjects;
         public List<GameObject> ControlledObjects { get => controlledObjects; set => controlledObjects = value; }
 
+        [SerializeField] private string prefix;
+        public string Prefix { get => prefix; set => prefix = value; }
+
         private TextMeshProUGUI label;
         protected TextMeshProUGUI Label {
             get {
-                if (label == null) 
+                if (label == null)
                     label = GetComponent<TextMeshProUGUI>();
                 return label;
             }
         }
 
-        public void Initialize() {
+        public void Initialize()
+        {
             HideControlledObjects();
         }
         public void Initialize(string value)
         {
-            Label.text = value;
+            SetText(value);
+
             if (string.IsNullOrWhiteSpace(value))
                 HideControlledObjects();
+        }
+
+        protected void SetText(string value)
+        {
+            var text = "";
+            if (Prefix != null)
+                text += Prefix;
+            if (value != null)
+                text += value;
+            Label.text = text;
         }
 
         protected void HideControlledObjects()

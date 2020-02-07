@@ -17,7 +17,7 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
 
         public void Serialize(XmlSerializer serializer, ImagesData value)
         {
-            serializer.AddKeyValuePairs(IconsInfo, value.Icons, IconFactory);
+            serializer.AddKeyValuePairs(IconsInfo, value.LegacyIconsInfo, IconFactory);
             serializer.AddKeyValuePairs(SpritesInfo, value.Sprites, SpriteFactory);
         }
 
@@ -43,7 +43,7 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
                 return;
 
             foreach (var iconPair in iconPairs)
-                imageData.Icons.Add(iconPair.Key, iconPair.Value);
+                imageData.LegacyIconsInfo.Add(iconPair.Key, iconPair.Value);
         }
 
 

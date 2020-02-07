@@ -756,6 +756,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlledObjects: []
+  prefix: 
 --- !u!1 &1799573574273807724
 GameObject:
   m_ObjectHideFlags: 0
@@ -926,6 +927,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlledObjects: []
+  prefix: 
 --- !u!1 &1955115078512340565
 GameObject:
   m_ObjectHideFlags: 0
@@ -941,6 +943,7 @@ GameObject:
   - component: {fileID: 8822590507634191350}
   - component: {fileID: 7805701032299877363}
   - component: {fileID: 9129810979559429581}
+  - component: {fileID: 524905729249744848}
   m_Layer: 5
   m_Name: Image
   m_TagString: Image
@@ -1099,6 +1102,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canSetPatientImage: 0
   updateThumbnail: 1
+--- !u!114 &524905729249744848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955115078512340565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b4668240028c0d4abc5d43721fff1f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imageGroup: {fileID: 3925737357427178636}
+  expandToMax: 0
+  maxWidth: 512
+  maxHeight: -1
+  layoutElement: {fileID: 289634012579074263}
 --- !u!1 &2149052073021649349
 GameObject:
   m_ObjectHideFlags: 0
@@ -1269,6 +1289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlledObjects: []
+  prefix: 
 --- !u!1 &2344808456872065374
 GameObject:
   m_ObjectHideFlags: 0
@@ -1973,7 +1994,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2542,6 +2563,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlledObjects: []
+  prefix: 
 --- !u!1 &5068582079438219486
 GameObject:
   m_ObjectHideFlags: 0
@@ -2924,6 +2946,7 @@ MonoBehaviour:
   controlledObjects:
   - {fileID: 8535324121993083439}
   - {fileID: 5200886402074621992}
+  prefix: 
 --- !u!1 &5941116061982743940
 GameObject:
   m_ObjectHideFlags: 0
@@ -3537,7 +3560,6 @@ MonoBehaviour:
   childPanelOptions:
   - {fileID: 5555388191348386841, guid: 2f0184cd13a9a0440988475fce4f974c, type: 3}
   feedback: {fileID: 1906176944274887368}
-  feedbackOnlyIfSelected: 0
   optionToggle: {fileID: 7126560951930718019}
 --- !u!1 &6871697951098876004
 GameObject:

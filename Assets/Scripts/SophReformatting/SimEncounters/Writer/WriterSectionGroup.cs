@@ -29,7 +29,7 @@ namespace ClinicalTools.SimEncounters.Writer
 
         protected virtual void OpenAddSectionPopup()
         {
-            var sectionCreatorUI = Writer.OpenPanel(SectionsUI.AddSectionPrefab);
+            var sectionCreatorUI = Writer.OpenPopup(SectionsUI.AddSectionPrefab);
             IApply<Section> sectionCreator = new SectionCreator(sectionCreatorUI, Writer);
             sectionCreator.Apply += Add;
         }

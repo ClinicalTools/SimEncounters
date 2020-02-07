@@ -19,11 +19,12 @@ namespace ClinicalTools.SimEncounters.Reader
 
             CreateInitialButtons(tabs);
         }
-        
+
         protected override ISelectable<Tab> AddButton(Tab tab)
         {
             var tabButtonUI = Object.Instantiate(TabsUI.TabButtonPrefab, TabsUI.TabButtonsParent);
-            ISelectable<Tab> tabButton = new ReaderTabButton(Reader, tabButtonUI, tab);
+            var tabButton = new ReaderTabButton(Reader, tabButtonUI, tab);
+            tabButtonUI.SelectToggle.group = TabsUI.TabsToggleGroup;
             return tabButton;
         }
 

@@ -30,7 +30,7 @@ namespace ClinicalTools.SimEncounters.Writer
 
         protected virtual void OpenAddTabPopup()
         {
-            var addTabPopup = Writer.OpenPanel(TabsUI.AddTabPopup);
+            var addTabPopup = Writer.OpenPopup(TabsUI.AddTabPopup);
             IApply<Tab> tabCreator = new TabCreator(addTabPopup, Writer);
             tabCreator.Apply += Add;
         }

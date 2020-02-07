@@ -74,8 +74,8 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
             if (colorParts.Length != 4)
                 return Color.clear;
 
-            if (colorParts.Length == 4 && int.TryParse(colorParts[0], out var red) && int.TryParse(colorParts[1], out var green)
-                && int.TryParse(colorParts[2], out var blue) && int.TryParse(colorParts[3], out var alpha)) {
+            if (colorParts.Length == 4 && float.TryParse(colorParts[0], out var red) && float.TryParse(colorParts[1], out var green)
+                && float.TryParse(colorParts[2], out var blue) && float.TryParse(colorParts[3], out var alpha)) {
 
                 return new Color(red, green, blue, alpha);
             } else {

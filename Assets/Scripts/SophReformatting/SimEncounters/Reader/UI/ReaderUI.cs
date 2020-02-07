@@ -19,5 +19,8 @@ namespace ClinicalTools.SimEncounters.Reader
 
         [SerializeField] private ReaderSectionsUI sections;
         public virtual ReaderSectionsUI Sections { get => sections; set => sections = value; }
+
+        [SerializeField] private ReaderPinsUI pins;
+        public virtual ReaderPinsUI Pins { get => pins; set => pins = value; }
     }
 }
