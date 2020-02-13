@@ -2,7 +2,7 @@
 using UnityEngine;
 using ClinicalTools.SimEncounters.Loader;
 using ClinicalTools.SimEncounters.Writer;
-
+using ClinicalTools.SimEncounters.Data;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -29,7 +29,8 @@ namespace ClinicalTools.SimEncounters
                 yield return null;
 
             var loader = new EncounterLoader();
-            var encounter = loader.ReadEncounter(encounterXml.DataXml.Result, encounterXml.ImagesXml.Result);
+            var encounterInfo = new EncounterInfo();
+            var encounter = loader.ReadEncounter(encounterInfo, encounterXml.DataXml.Result, encounterXml.ImagesXml.Result);
 
             new EncounterWriter(user, loadingScreen, encounter, (WriterUI)SceneUI);
         }

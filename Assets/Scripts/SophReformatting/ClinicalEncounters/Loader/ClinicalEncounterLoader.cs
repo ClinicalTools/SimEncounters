@@ -16,12 +16,12 @@ namespace ClinicalTools.ClinicalEncounters.Loader
         protected NodeInfo LegacyContentInfo { get; } = NodeInfo.RootValue;
         protected NodeInfo LegacyImagesInfo { get; } = NodeInfo.RootValue;
 
-        public override Encounter ReadEncounter(XmlDocument dataXml, XmlDocument imagesXml)
+        public override Encounter ReadEncounter(EncounterInfo info, XmlDocument dataXml, XmlDocument imagesXml)
         {
             var images = GetImagesData(imagesXml);
             encounterDataFactory = new ClinicalEncounterDataFactory(images);
             var content = GetSectionsData(dataXml);
-            return new Encounter(content, images);
+            return new Encounter(info, content, images);
     }
 
     protected override SectionsData DeserializeSectionsData(XmlDeserializer deserializer)

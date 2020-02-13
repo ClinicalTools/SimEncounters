@@ -8,6 +8,8 @@ namespace ClinicalTools.SimEncounters.Loading
     {
         public Task<XmlDocument> DataXml { get; }
         public Task<XmlDocument> ImagesXml { get; }
+        public XmlDocument DataXmlSync { get; }
+        public XmlDocument ImagesXmlSync { get; }
         protected virtual ReadEncounterXml ReadXml { get; } = new ReadEncounterXml();
         protected virtual FilePathManager FilePaths { get; } = new FilePathManager();
 
@@ -16,8 +18,10 @@ namespace ClinicalTools.SimEncounters.Loading
 
         public DemoXml()
         {
-            DataXml = Task.Run(() => GetDataXml(DemoPath));
-            ImagesXml = Task.Run(() => GetImagesXml(DemoPath));
+            //DataXml = Task.Run(() => GetDataXmlSync(DemoPath));
+            //ImagesXml = Task.Run(() => GetImagesXmlSync(DemoPath));
+            DataXmlSync = GetDataXmlSync(DemoPath);
+            ImagesXmlSync = GetImagesXmlSync(DemoPath);
         }
 
         protected virtual async Task<XmlDocument> GetDataXml(string filePath)
@@ -30,6 +34,17 @@ namespace ClinicalTools.SimEncounters.Loading
         {
             var imageFilePath = FilePaths.ImageFilePath(filePath);
             return await ReadXml.ReadXml(imageFilePath);
+        }
+        protected virtual XmlDocument GetDataXmlSync(string filePath)
+        {
+            var dataFilePath = FilePaths.DataFilePath(filePath);
+            return ReadXml.ReadXmlSync(dataFilePath);
+        }
+
+        protected virtual XmlDocument GetImagesXmlSync(string filePath)
+        {
+            var imageFilePath = FilePaths.ImageFilePath(filePath);
+            return ReadXml.ReadXmlSync(imageFilePath);
         }
     }
 }

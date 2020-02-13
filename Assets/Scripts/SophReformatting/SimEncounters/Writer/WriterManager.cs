@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.ClinicalEncounters.Loader;
+using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.Loading;
 using System.Collections;
 using System.Diagnostics;
@@ -29,7 +30,8 @@ namespace ClinicalTools.SimEncounters.Writer
 
             var loader = new ClinicalEncounterLoader();
             var watch = Stopwatch.StartNew();
-            var encounter = loader.ReadEncounter(demoXml.DataXml.Result, demoXml.ImagesXml.Result);
+            var encounterInfo = new EncounterInfo();
+            var encounter = loader.ReadEncounter(encounterInfo, demoXml.DataXml.Result, demoXml.ImagesXml.Result);
             watch.Stop();
             //UnityEngine.Debug.LogError(demoXml.DataXml.Result.OuterXml);// watch.ElapsedMilliseconds);
             new EncounterWriter(null, loadingScreen, encounter, (WriterUI)SceneUI);

@@ -10,6 +10,9 @@ namespace ClinicalTools.SimEncounters.Reader
         public virtual ReaderSectionsGroup SectionsGroup { get; }
         protected ReaderUI ReaderUI { get; }
         public virtual ReaderPinManager Pins { get; }
+        public virtual ReaderPopupManager Popups { get; }
+        public virtual ReaderFooter Footer { get; }
+        public MouseInput Mouse { get; internal set; }
 
 
         // combine user/loading screen and maybe encounter?
@@ -20,21 +23,26 @@ namespace ClinicalTools.SimEncounters.Reader
             ReaderUI = readerUI;
             Encounter = encounter;
 
-            Pins = CreatePinsManager();
+            Pins = CreatePinManager();
+            Popups = CreatePopupManager();
+            Footer = CreateFooter();
             SectionsGroup = CreateSectionsGroup();
+            Mouse = readerUI.Mouse;
+            var encounterInfo = new ReaderEncounterInfo(this, ReaderUI.EncounterInfo, encounter.Info);
 
             AddListeners(ReaderUI);
 
             loadingScreen.Stop();
         }
 
-        protected virtual ReaderSectionsGroup CreateSectionsGroup() => new ReaderSectionsGroup(this, ReaderUI.Sections, Encounter.Content.Sections);
-        protected virtual ReaderPinManager CreatePinsManager() => new ReaderPinManager(this, ReaderUI.Pins);
+        protected virtual ReaderSectionsGroup CreateSectionsGroup() => new ReaderSectionsGroup(this, ReaderUI.Sections, Encounter.Content);
+        protected virtual ReaderPinManager CreatePinManager() => new ReaderPinManager(this, ReaderUI.Pins);
+        protected virtual ReaderPopupManager CreatePopupManager() => new ReaderPopupManager(this, ReaderUI.Popups);
+        protected virtual ReaderFooter CreateFooter() => new ReaderFooter(this, ReaderUI.Footer, Encounter.Content.Sections);
 
 
         protected virtual void AddListeners(ReaderUI readerUI)
         {
-            //writerUI.HelpButton.onClick.AddListener(Help);
             readerUI.MainMenuButton.onClick.AddListener(ShowMainMenu);
         }
 

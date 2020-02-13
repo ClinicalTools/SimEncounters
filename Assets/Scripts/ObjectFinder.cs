@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-
+/*
 public class ObjectFinder : MonoBehaviour
 {
 	public GameObject target;
@@ -141,3 +141,4 @@ public class ObjectFinderEditor : Editor
 		}
 	}
 }
+*/

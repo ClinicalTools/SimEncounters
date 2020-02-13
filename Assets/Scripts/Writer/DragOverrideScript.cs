@@ -14,23 +14,29 @@ public class DragOverrideScript : CEScrollRect
         base.Start();
     }
 
+    protected virtual bool CanDrag()
+    {
+        return false;
+        return GlobalData.GDS != null && GlobalData.GDS.isMobile && content.rect.height > viewport.rect.height;
+    }
+
     public override void OnBeginDrag(PointerEventData data)
     {
-        if (GlobalData.GDS != null && GlobalData.GDS.isMobile && content.rect.height > viewport.rect.height) {
+        if (CanDrag()) {
             base.OnBeginDrag(data);
         }
     }
 
     public override void OnDrag(PointerEventData data)
     {
-        if (GlobalData.GDS != null && GlobalData.GDS.isMobile && content.rect.height > viewport.rect.height) {
+        if (CanDrag()) {
             base.OnDrag(data);
         }
     }
 
     public override void OnEndDrag(PointerEventData data)
     {
-        if (GlobalData.GDS != null && GlobalData.GDS.isMobile && content.rect.height > viewport.rect.height) {
+        if (CanDrag()) {
             base.OnEndDrag(data);
         }
     }

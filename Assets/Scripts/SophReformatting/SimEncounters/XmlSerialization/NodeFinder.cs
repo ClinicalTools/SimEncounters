@@ -164,29 +164,31 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
         /// <returns>The string value in the node</returns>
         public virtual string GetText(XmlNode textNode)
         {
-            if (textNode == null)
-                return null;
-
-            string text;
-            switch (XmlFinder) {
-                // Root is used to get the name of the root node
-                case TagComparison.RootName:
-                    text = textNode.Name;
-                    break;
-                // Value is used for the attribute value
-                case TagComparison.AttributeNameEquals:
-                    text = textNode.Value;
-                    break;
-                // InnerText is used for all other search methods
-                default:
-                    text = textNode.InnerText;
-                    break;
-            }
-
+            var text = GetEscapedText(textNode);
             if (text == null)
                 return null;
 
-            return UnityWebRequest.UnEscapeURL(text);
+            text = UnityWebRequest.UnEscapeURL(text)
+                            .Replace("\r.", ".");
+            return text;
+        }
+
+        protected virtual string GetEscapedText(XmlNode textNode)
+        {
+            if (textNode == null)
+                return null;
+
+            switch (XmlFinder) {
+                // Root is used to get the name of the root node
+                case TagComparison.RootName:
+                    return textNode.Name;
+                // Value is used for the attribute value
+                case TagComparison.AttributeNameEquals:
+                    return textNode.Value;
+                // InnerText is used for all other search methods
+                default:
+                    return textNode.InnerText;
+            }
         }
 
         /// <summary>

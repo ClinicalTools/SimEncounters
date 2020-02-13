@@ -21,6 +21,9 @@ namespace ClinicalTools.SimEncounters.Collections
         public virtual T[] ValueArr => ValueList.ToArray();
         public override IEnumerable<T> Values => ValueList;
 
+        public virtual int IndexOf(T value) => ValueList.IndexOf(value);
+
+
         public virtual KeyValuePair<string, T> this[int index] => Get(index);
 
         public OrderedCollection() : base() { }
@@ -37,7 +40,7 @@ namespace ClinicalTools.SimEncounters.Collections
 
         public override void Remove(string key)
         {
-            var index = ValueList.IndexOf(Collection[key]);
+            var index = IndexOf(Collection[key]);
             ValueList.RemoveAt(index);
             PairList.RemoveAt(index);
 

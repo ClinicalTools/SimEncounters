@@ -71,6 +71,7 @@ public class ChangeSceneScript : MonoBehaviour {
 	}
 
 	public void ApprovedSceneChange(object[] sceneName) {
-		SceneManager.LoadScene (sceneName[0].ToString());
+		Application.Quit();
+		//SceneManager.LoadScene (sceneName[0].ToString());
 	}
 }

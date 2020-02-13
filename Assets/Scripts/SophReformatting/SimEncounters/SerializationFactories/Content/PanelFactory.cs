@@ -1,6 +1,7 @@
 ﻿using ClinicalTools.SimEncounters.XmlSerialization;
 using ClinicalTools.SimEncounters.Data;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.SerializationFactories
 {
@@ -63,8 +64,14 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
         {
             var dataPairs = GetDataPairs(deserializer);
             if (dataPairs != null) {
-                foreach (var pair in dataPairs)
-                    panel.Data.Add(pair);
+                {
+                    foreach (var pair in dataPairs) {
+                        if (panel.Data.ContainsKey(pair.Key))
+                            Debug.LogWarning($"{panel.Type} panel has duplicate data key (Key:\"{pair.Key}\"; Value1:\"{panel.Data[pair.Key]}\"; Value2:\"{pair.Value}\")");
+                        else
+                            panel.Data.Add(pair);
+                    }
+                }
             }
         }
 

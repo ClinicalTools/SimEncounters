@@ -13,11 +13,11 @@ namespace ClinicalTools.SimEncounters.Loader
         protected virtual EncounterDataFactory EncounterDataFactory => new EncounterDataFactory();
         protected virtual ImageDataFactory ImageDataFactory => new ImageDataFactory();
 
-        public virtual Encounter ReadEncounter(XmlDocument dataXml, XmlDocument imagesXml)
+        public virtual Encounter ReadEncounter(EncounterInfo info, XmlDocument dataXml, XmlDocument imagesXml)
         {
             var content = GetSectionsData(dataXml);
             var images = GetImagesData(imagesXml);
-            return new Encounter(content, images);
+            return new Encounter(info, content, images);
         }
 
         protected virtual SectionsData GetSectionsData(XmlDocument dataXml)

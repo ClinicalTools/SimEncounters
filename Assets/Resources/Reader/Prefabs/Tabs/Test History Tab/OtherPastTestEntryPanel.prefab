@@ -989,7 +989,6 @@ GameObject:
   - component: {fileID: 225883054371215574}
   - component: {fileID: 114895634311302562}
   - component: {fileID: 114388083897490838}
-  - component: {fileID: 114904950317215774}
   - component: {fileID: 6444723148301365314}
   m_Layer: 5
   m_Name: Image
@@ -1107,34 +1106,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114895634311302562}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114904950317215774}
-        m_MethodName: OpenImagePanel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &114904950317215774
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1224008676035326}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 288c22d448b41e349959b847465bc7c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  previewMinWidth: 0
-  previewMinHeight: 0
-  previewMaxWidth: 720
-  previewMaxHeight: 500
+      m_Calls: []
 --- !u!114 &6444723148301365314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1152,6 +1124,7 @@ MonoBehaviour:
   maxWidth: 720
   maxHeight: 500
   layoutElement: {fileID: 114413781973845090}
+  enlargeImageButton: {fileID: 114388083897490838}
 --- !u!1 &1246673247296610
 GameObject:
   m_ObjectHideFlags: 0

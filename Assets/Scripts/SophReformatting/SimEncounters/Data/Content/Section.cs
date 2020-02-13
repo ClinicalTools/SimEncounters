@@ -1,12 +1,11 @@
 ﻿using ClinicalTools.SimEncounters.Collections;
-using System;
 using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Data
 {
     public class Section
     {
-        public Tab CurrentTab { get; protected set; }
+        public int CurrentTabIndex { get; set; }
 
         public virtual string Name { get; set; }
         public virtual string IconKey { get; set; }
@@ -22,16 +21,17 @@ namespace ClinicalTools.SimEncounters.Data
             Color = color;
         }
 
-        /**
-         * Updates the current tab
-         */
-        public void SetCurrentTab(Tab tab)
+        public int MoveToNextTab()
         {
-            if (Tabs.Contains(tab))
-                CurrentTab = tab;
-            else
-                Debug.LogError("Could not find " + tab.Name + " in section tab list");
+            if (CurrentTabIndex < Tabs.Count - 1)
+                CurrentTabIndex++;
+            return CurrentTabIndex;
         }
-
+        public int MoveToPreviousTab()
+        {
+            if (CurrentTabIndex > 0)
+                CurrentTabIndex--;
+            return CurrentTabIndex;
+        }
     }
 }

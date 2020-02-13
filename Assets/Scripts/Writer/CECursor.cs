@@ -13,7 +13,7 @@ public class CECursor : MonoBehaviour {
 		if (GetComponent<CanvasGroup>()) {
 			GetComponent<CanvasGroup>().alpha = 1f;
 		}
-		Cursor.visible = false;
+		//Cursor.visible = false;
 	}
 
 
@@ -44,7 +44,7 @@ public class CECursor : MonoBehaviour {
 	/**
 	 * Calculates the position of tool tip box
 	 */
-	void Update () {
+	void OnGUI () {
 		Vector3 mPos = Input.mousePosition;
 
 
