@@ -1,26 +1,41 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
-
-    public class ReaderSectionButton : EncounterToggle<Section>
+    public class ReaderSectionButton : EncounterToggle<KeyValuePair<string, Section>>
     {
         protected virtual EncounterReader Reader { get; }
         protected virtual ReaderSectionToggleUI SectionToggleUI { get; }
         protected virtual Section Section { get; }
-        public ReaderSectionButton(EncounterReader reader, ReaderSectionToggleUI sectionToggleUI, Section section) : base(sectionToggleUI.SelectToggle, section)
+        public ReaderSectionButton(EncounterReader reader, ReaderSectionToggleUI sectionToggleUI, KeyValuePair<string, Section> keyedSection) : base(sectionToggleUI.SelectToggle, keyedSection)
         {
             Reader = reader;
-            Section = section;
+            Section = keyedSection.Value;
             SectionToggleUI = sectionToggleUI;
 
-            sectionToggleUI.NameLabel.text = section.Name;
+            sectionToggleUI.NameLabel.text = Section.Name;
 
-            SetColor(sectionToggleUI, section.Color, false);
+            SetColor(sectionToggleUI, Section.Color, false);
             var icons = reader.Encounter.Images.Icons;
-            if (icons.ContainsKey(section.IconKey))
-                sectionToggleUI.Icon.sprite = icons[section.IconKey];
+            if (icons.ContainsKey(Section.IconKey))
+                sectionToggleUI.Icon.sprite = icons[Section.IconKey];
+
+            Unselected += CheckRead;
+            CheckRead(keyedSection);
+        }
+
+        public virtual void CheckRead(KeyValuePair<string, Section> keyedSection)
+        {
+            var isRead = true;
+            foreach (var tab in keyedSection.Value.Tabs) {
+                if (Reader.ReadTabs.Contains(tab.Key))
+                    continue;
+                isRead = false;
+                break;
+            }
+            SectionToggleUI.Visited.SetActive(isRead);
         }
 
         public override void Select() => SectionToggleUI.SelectToggle.isOn = true;

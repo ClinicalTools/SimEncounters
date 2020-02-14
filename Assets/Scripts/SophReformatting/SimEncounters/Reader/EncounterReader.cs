@@ -1,4 +1,6 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Reader
@@ -13,6 +15,8 @@ namespace ClinicalTools.SimEncounters.Reader
         public virtual ReaderPopupManager Popups { get; }
         public virtual ReaderFooter Footer { get; }
         public MouseInput Mouse { get; internal set; }
+
+        public HashSet<string> ReadTabs { get; } = new HashSet<string>();
 
 
         // combine user/loading screen and maybe encounter?
@@ -31,7 +35,6 @@ namespace ClinicalTools.SimEncounters.Reader
             var encounterInfo = new ReaderEncounterInfo(this, ReaderUI.EncounterInfo, encounter.Info);
 
             AddListeners(ReaderUI);
-
             loadingScreen.Stop();
         }
 

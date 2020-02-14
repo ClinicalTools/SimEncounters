@@ -1,5 +1,6 @@
 ﻿using ClinicalTools.SimEncounters.Collections;
 using ClinicalTools.SimEncounters.Data;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Writer
@@ -34,17 +35,19 @@ namespace ClinicalTools.SimEncounters.Writer
             sectionCreator.Apply += Add;
         }
 
-        protected override ISelectable<Section> AddButton(Section section)
+        protected virtual void Add(Section section) { }
+
+        protected override ISelectable<KeyValuePair<string, Section>> AddButton(KeyValuePair<string, Section> keyedSection)
         {
             var sectionButtonUI = Object.Instantiate(SectionsUI.SectionButtonPrefab, SectionsUI.SectionButtonsParent);
-            ISelectable<Section> sectionButton = new SectionButton(Writer, sectionButtonUI, section);
+            ISelectable<KeyValuePair<string, Section>> sectionButton = new SectionButton(Writer, sectionButtonUI, keyedSection);
             return sectionButton;
         }
 
-        protected override void Select(Section section)
+        protected override void Select(KeyValuePair<string, Section> keyedSection)
         {
             Tabs?.Delete();
-            Tabs = new WriterTabGroup(Writer, SectionsUI.Tabs, section.Tabs);
+            Tabs = new WriterTabGroup(Writer, SectionsUI.Tabs, keyedSection.Value.Tabs);
         }
     }
 }

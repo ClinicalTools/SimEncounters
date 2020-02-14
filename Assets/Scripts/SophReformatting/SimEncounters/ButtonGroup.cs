@@ -7,7 +7,7 @@ namespace ClinicalTools.SimEncounters
     {
         protected virtual OrderedCollection<T> Values { get; }
 
-        protected virtual List<ISelectable<T>> SelectButtons { get; } = new List<ISelectable<T>>();
+        protected virtual List<ISelectable<KeyValuePair<string, T>>> SelectButtons { get; } = new List<ISelectable<KeyValuePair<string, T>>>();
 
         protected virtual int FirstButtonIndex => 0;
 
@@ -22,27 +22,27 @@ namespace ClinicalTools.SimEncounters
         protected virtual void CreateInitialButtons(OrderedCollection<T> values)
         {
             foreach (var value in values)
-                SelectButtons.Add(AddSelectButton(value.Value));
+                SelectButtons.Add(AddSelectButton(value));
 
             if (SelectButtons.Count > 0)
                 SelectButtons[FirstButtonIndex].Select();
         }
 
-        protected virtual void Add(T value)
+        protected virtual void Add(KeyValuePair<string, T> value)
         {
             Values.Add(value);
             SelectButtons.Add(AddSelectButton(value));
         }
 
-        protected virtual ISelectable<T> AddSelectButton(T value)
+        protected virtual ISelectable<KeyValuePair<string, T>> AddSelectButton(KeyValuePair<string, T> value)
         {
             var sectionButton = AddButton(value);
             sectionButton.Selected += Select;
             return sectionButton;
         }
 
-        protected abstract ISelectable<T> AddButton(T value);
+        protected abstract ISelectable<KeyValuePair<string, T>> AddButton(KeyValuePair<string, T> value);
 
-        protected abstract void Select(T value);
+        protected abstract void Select(KeyValuePair<string, T> value);
     }
 }

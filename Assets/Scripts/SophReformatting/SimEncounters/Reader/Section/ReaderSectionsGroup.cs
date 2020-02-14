@@ -1,5 +1,6 @@
 ﻿using ClinicalTools.SimEncounters.Collections;
 using ClinicalTools.SimEncounters.Data;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Reader
@@ -25,16 +26,17 @@ namespace ClinicalTools.SimEncounters.Reader
             CreateInitialButtons(sectionsData.Sections);
         }
 
-        protected override ISelectable<Section> AddButton(Section section)
+        protected override ISelectable<KeyValuePair<string, Section>> AddButton(KeyValuePair<string, Section> keyedSection)
         {
             var sectionButtonUI = Object.Instantiate(SectionsUI.SectionButtonPrefab, SectionsUI.SectionButtonsParent);
             sectionButtonUI.SelectToggle.group = SectionsUI.SectionsToggleGroup;
-            var sectionButton = new ReaderSectionButton(Reader, sectionButtonUI, section);
+            var sectionButton = new ReaderSectionButton(Reader, sectionButtonUI, keyedSection);
             return sectionButton;
         }
 
-        protected override void Select(Section section)
+        protected override void Select(KeyValuePair<string, Section> keyedSection)
         {
+            var section = keyedSection.Value;
             foreach (var sectionBorder in SectionsUI.SectionBorders)
                 sectionBorder.color = section.Color;
 

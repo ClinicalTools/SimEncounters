@@ -12,17 +12,7 @@ namespace ClinicalTools.SimEncounters
         public EncounterButton(Button button, T value)
         {
             Value = value;
-            button.onClick.AddListener(() => Selected?.Invoke(value));
-        }
-        public EncounterButton(Toggle toggle, T value)
-        {
-            Value = value;
-            toggle.onValueChanged.AddListener(
-                (selected) => {
-                    if (selected)
-                        Selected?.Invoke(value);
-                }
-            );
+            button.onClick.AddListener(() => Selected?.Invoke(Value));
         }
 
         public virtual void Select() => Selected?.Invoke(Value);

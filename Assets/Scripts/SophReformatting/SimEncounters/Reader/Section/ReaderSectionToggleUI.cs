@@ -18,5 +18,8 @@ namespace ClinicalTools.SimEncounters.Reader
 
         [SerializeField] private TextMeshProUGUI nameLabel;
         public TextMeshProUGUI NameLabel { get => nameLabel; set => nameLabel = value; }
+
+        [SerializeField] private GameObject visited;
+        public GameObject Visited { get => visited; set => visited = value; }
     }
 }

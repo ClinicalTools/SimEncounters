@@ -1,5 +1,6 @@
 ﻿using ClinicalTools.SimEncounters.Collections;
 using ClinicalTools.SimEncounters.Data;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Writer
@@ -35,7 +36,12 @@ namespace ClinicalTools.SimEncounters.Writer
             tabCreator.Apply += Add;
         }
         
-        protected override ISelectable<Tab> AddButton(Tab tab)
+        protected virtual void Add(Tab tab)
+        {
+
+        }
+
+        protected ISelectable<Tab> AddButton(Tab tab)
         {
             var tabButtonUI = Object.Instantiate(TabsUI.TabButtonPrefab, TabsUI.TabButtonsParent);
             ISelectable<Tab> tabButton = new WriterTabButton(Writer, tabButtonUI, tab);
@@ -43,8 +49,10 @@ namespace ClinicalTools.SimEncounters.Writer
         }
 
 
-        protected override void Select(Tab tab)
+        protected override void Select(KeyValuePair<string, Tab> keyedTab)
         {
+            var tab = keyedTab.Value;
+
             WriterTab?.Destroy();
 
             var tabFolder = $"Writer/Prefabs/Tabs/{tab.Type} Tab/";
@@ -60,6 +68,11 @@ namespace ClinicalTools.SimEncounters.Writer
 
             foreach (Transform child in TabsUI.TabButtonsParent)
                 Object.Destroy(child.gameObject);
+        }
+
+        protected override ISelectable<KeyValuePair<string, Tab>> AddButton(KeyValuePair<string, Tab> value)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
