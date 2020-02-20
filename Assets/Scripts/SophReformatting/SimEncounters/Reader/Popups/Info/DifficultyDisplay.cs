@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -7,10 +8,16 @@ namespace ClinicalTools.SimEncounters
         public DifficultyDisplay(DifficultyUI difficultyUI, Difficulty difficulty)
         {
             difficultyUI.Label.text = difficulty.ToString();
-            difficultyUI.BeginnerImage.gameObject.SetActive(difficulty == Difficulty.Beginner);
-            difficultyUI.IntermediateImage.gameObject.SetActive(difficulty == Difficulty.Intermediate);
-            difficultyUI.AdvancedImage.gameObject.SetActive(difficulty == Difficulty.Advanced);
-
+            Sprite sprite;
+            if (difficulty == Difficulty.Beginner)
+                sprite = difficultyUI.BeginnerSprite;
+            else if (difficulty == Difficulty.Intermediate)
+                sprite = difficultyUI.IntermediateSprite;
+            else if (difficulty == Difficulty.Advanced)
+                sprite = difficultyUI.AdvancedSprite;
+            else
+                sprite = null;
+            difficultyUI.Image.sprite = sprite;
         }
     }
 }

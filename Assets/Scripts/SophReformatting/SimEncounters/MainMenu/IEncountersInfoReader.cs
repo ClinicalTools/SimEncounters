@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public interface ICasesInfoReader
+    public interface IEncountersInfoReader
     {
         bool IsDone { get; }
         List<EncounterInfoGroup> Results { get; }

@@ -15,7 +15,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             MainMenu = mainMenu;
             EncountersUI = encountersUI;
 
-            var casesDownloader = new CasesInfoReader();
+            var casesDownloader = new EncountersInfoReader();
             EncountersUI = encountersUI;
             casesDownloader.Completed += EncountersRetrieved;
             casesDownloader.GetEncounterInfos(mainMenu.User);
@@ -90,11 +90,11 @@ namespace ClinicalTools.SimEncounters.MainMenu
             if (encounterInfo == null)
                 UnityEngine.Debug.Log($"A{encounterInfoUI == null} B {encounterInfo == null}");
             SetLabelText(encounterInfoUI.AudienceLabel, encounterInfo.Audience);
-            SetLabelText(encounterInfoUI.AuthorLabel, encounterInfo.AuthorName);
             SetLabelText(encounterInfoUI.DescriptionLabel, encounterInfo.Description);
             SetLabelText(encounterInfoUI.SubtitleLabel, encounterInfo.Subtitle);
-            SetLabelText(encounterInfoUI.TitleLabel, encounterInfo.Title);
 
+            SetAutor(encounterInfoUI.AuthorLabel, encounterInfo.AuthorName);
+            SetTitle(encounterInfoUI.TitleLabel, encounterInfo.Title);
             SetDifficulty(encounterInfoUI.Difficulty, encounterInfo.Difficulty);
             SetDateModified(encounterInfoUI.DateModifiedLabel, encounterInfo.DateModified);
             SetCategories(encounterInfoUI.CategoriesLabel, encounterInfo.Categories);
@@ -105,18 +105,28 @@ namespace ClinicalTools.SimEncounters.MainMenu
             if (difficultyUI != null)
                 new DifficultyDisplay(difficultyUI, difficulty);
         }
-        protected virtual void SetDateModified(TextMeshProUGUI dateModifiedLabel, long date)
+        protected virtual void SetTitle(TextMeshProUGUI label, string title)
         {
-            if (dateModifiedLabel == null)
+            if (label != null)
+                label.text = title.Replace('_', ' ').Trim();
+        }
+        protected virtual void SetAutor(TextMeshProUGUI label, string author)
+        {
+            if (label != null)
+                label.text = $"by {author.Replace('_', ' ').Trim()}";
+        }
+        protected virtual void SetDateModified(TextMeshProUGUI label, long dateModified)
+        {
+            if (label == null)
                 return;
-            var time = new DateTime(date);
-            dateModifiedLabel.text = time.ToString();
+            var time = new DateTime(dateModified);
+            label.text = time.ToString();
         }
         protected virtual string CategoryConcatenator => ", ";
-        protected virtual void SetCategories(TextMeshProUGUI categoriesLabel, IEnumerable<string> categories)
+        protected virtual void SetCategories(TextMeshProUGUI label, IEnumerable<string> categories)
         {
-            if (categoriesLabel != null)
-                categoriesLabel.text = string.Join(CategoryConcatenator, categories);
+            if (label != null)
+                label.text = string.Join(CategoryConcatenator, categories);
         }
 
         protected virtual void SetLabelText(TextMeshProUGUI label, string text)

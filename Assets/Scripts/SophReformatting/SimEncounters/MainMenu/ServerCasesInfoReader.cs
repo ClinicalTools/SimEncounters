@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public class ServerCasesInfoReader : ICasesInfoReader
+    public class ServerCasesInfoReader : IEncountersInfoReader
     {
         public event Action<List<EncounterInfoGroup>> Completed;
         public List<EncounterInfoGroup> Results { get; protected set; }

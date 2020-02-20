@@ -9,13 +9,16 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private TextMeshProUGUI label;
         public virtual TextMeshProUGUI Label { get => label; set => label = value; }
 
-        [SerializeField] private Image beginnerImage;
-        public virtual Image BeginnerImage { get => beginnerImage; set => beginnerImage = value; }
+        [SerializeField] private Image image;
+        public virtual Image Image { get => image; set => image = value; }
 
-        [SerializeField] private Image intermediateImage;
-        public virtual Image IntermediateImage { get => intermediateImage; set => intermediateImage = value; }
+        [SerializeField] private Sprite beginnerSprite;
+        public virtual Sprite BeginnerSprite { get => beginnerSprite; set => beginnerSprite = value; }
 
-        [SerializeField] private Image advancedImage;
-        public virtual Image AdvancedImage { get => advancedImage; set => advancedImage = value; }
+        [SerializeField] private Sprite intermediateSprite;
+        public virtual Sprite IntermediateSprite { get => intermediateSprite; set => intermediateSprite = value; }
+
+        [SerializeField] private Sprite advancedSprite;
+        public virtual Sprite AdvancedSprite { get => advancedSprite; set => advancedSprite = value; }
     }
 }

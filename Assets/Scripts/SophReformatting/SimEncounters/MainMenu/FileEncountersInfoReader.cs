@@ -5,14 +5,14 @@ using System.IO;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public class FileCasesInfoReader : ICasesInfoReader
+    public class FileEncountersInfoReader : IEncountersInfoReader
     {
         public event Action<List<EncounterInfoGroup>> Completed;
         public List<EncounterInfoGroup> Results { get; protected set; }
         public bool IsDone { get; protected set; }
 
         public EncounterInfoParser EncounterInfoParser { get; }
-        public FileCasesInfoReader()
+        public FileEncountersInfoReader()
         {
             EncounterInfoParser = new EncounterInfoParser();
         }

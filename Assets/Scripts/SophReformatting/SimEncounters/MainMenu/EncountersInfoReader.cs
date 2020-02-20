@@ -4,17 +4,17 @@ using System.Collections.Generic;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public class CasesInfoReader : ICasesInfoReader
+    public class EncountersInfoReader : IEncountersInfoReader
     {
         public event Action<List<EncounterInfoGroup>> Completed;
         public List<EncounterInfoGroup> Results { get; protected set; }
         public bool IsDone { get; protected set; }
 
-        protected virtual ICasesInfoReader FileReader { get; }
-        protected virtual ICasesInfoReader ServerReader { get; }
-        public CasesInfoReader()
+        protected virtual IEncountersInfoReader FileReader { get; }
+        protected virtual IEncountersInfoReader ServerReader { get; }
+        public EncountersInfoReader()
         {
-            FileReader = new FileCasesInfoReader();
+            FileReader = new FileEncountersInfoReader();
             ServerReader = new ServerCasesInfoReader();
         }
 
@@ -32,8 +32,11 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 return;
 
             var encounters = ServerReader.Results;
-            foreach (var localEncounter in FileReader.Results)
-                AddLocalEncounter(encounters, localEncounter);
+            if (FileReader.Results != null)
+            {
+                foreach (var localEncounter in FileReader.Results)
+                    AddLocalEncounter(encounters, localEncounter);
+            }
 
             Results = encounters;
             IsDone = true;
@@ -45,7 +48,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
             if (string.IsNullOrWhiteSpace(localEncounter.RecordNumber))
                 encounters.Add(localEncounter);
 
-            foreach (var listEncounter in encounters) {
+            foreach (var listEncounter in encounters)
+            {
                 if (listEncounter.RecordNumber != localEncounter.RecordNumber)
                     continue;
                 listEncounter.LocalInfo = localEncounter.LocalInfo;

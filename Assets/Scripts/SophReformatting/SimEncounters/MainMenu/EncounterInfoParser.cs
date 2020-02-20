@@ -112,6 +112,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected Difficulty GetDifficulty(string difficulty)
         {
+            if (difficulty == "Intermediate")
+                return Difficulty.Intermediate;
+            else if (difficulty == "Beginner")
+                return Difficulty.Beginner;
+            else if (difficulty == "Advanced")
+                return Difficulty.Advanced;
             return Difficulty.None;
         }
     }
