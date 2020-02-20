@@ -42,12 +42,12 @@ namespace ClinicalTools.SimEncounters.Reader
             }
         }
 
-        public virtual void Initialize(EncounterReader reader)
+        public virtual void Initialize(ReaderScene reader)
         {
             HideImage();
         }
 
-        public virtual void Initialize(EncounterReader reader, string value)
+        public virtual void Initialize(ReaderScene reader, string value)
         {
             var sprites = reader.Encounter.Images.Sprites;
             if (sprites.ContainsKey(value))
@@ -62,7 +62,7 @@ namespace ClinicalTools.SimEncounters.Reader
                 ImageGroup.SetActive(false);
         }
 
-        public virtual void SetSprite(EncounterReader reader, Sprite sprite)
+        public virtual void SetSprite(ReaderScene reader, Sprite sprite)
         {
             var spriteHeight = sprite.rect.height;
             var spriteWidth = sprite.rect.width;

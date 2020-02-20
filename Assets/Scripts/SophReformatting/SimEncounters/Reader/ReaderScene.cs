@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
-    public class EncounterReader : EncounterScene
+    public class ReaderScene : EncounterScene
     {
         protected virtual object User { get; }
         public virtual Encounter Encounter { get; }
@@ -20,7 +20,7 @@ namespace ClinicalTools.SimEncounters.Reader
 
 
         // combine user/loading screen and maybe encounter?
-        public EncounterReader(object user, LoadingScreen loadingScreen, Encounter encounter, ReaderUI readerUI)
+        public ReaderScene(User user, LoadingScreen loadingScreen, Encounter encounter, ReaderUI readerUI)
             : base(readerUI)
         {
             User = user;

@@ -7,11 +7,11 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderDialoguePopup : ReaderPopup
     {
-        protected EncounterReader Reader { get; }
+        protected ReaderScene Reader { get; }
         protected ReaderPanelCreator ReaderPanelCreator { get; }
         protected ReaderDialoguePopupUI DialoguePopupUI { get; }
 
-        public ReaderDialoguePopup(EncounterReader reader, ReaderDialoguePopupUI dialoguePopupUI, DialoguePin pin) : base(reader, dialoguePopupUI)
+        public ReaderDialoguePopup(ReaderScene reader, ReaderDialoguePopupUI dialoguePopupUI, DialoguePin pin) : base(reader, dialoguePopupUI)
         {
             Reader = reader;
             DialoguePopupUI = dialoguePopupUI;

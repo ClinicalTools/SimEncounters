@@ -10,7 +10,7 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private Button getFeedbackButton;
         public virtual Button GetFeedbackButton { get => getFeedbackButton; set => getFeedbackButton = value; }
 
-        public override void Initialize(EncounterReader reader, KeyValuePair<string, Panel> keyedPanel)
+        public override void Initialize(ReaderScene reader, KeyValuePair<string, Panel> keyedPanel)
         {
             base.Initialize(reader, keyedPanel);
 

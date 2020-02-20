@@ -4,9 +4,9 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderPopupManager
     {
-        protected EncounterReader Reader { get; }
+        protected ReaderScene Reader { get; }
         protected ReaderPopupsUI PopupsUI { get; }
-        public ReaderPopupManager(EncounterReader reader, ReaderPopupsUI popupsUI)
+        public ReaderPopupManager(ReaderScene reader, ReaderPopupsUI popupsUI)
         {
             Reader = reader;
             PopupsUI = popupsUI;

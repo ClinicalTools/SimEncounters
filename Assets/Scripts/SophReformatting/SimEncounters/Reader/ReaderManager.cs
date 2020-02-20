@@ -46,17 +46,9 @@ namespace ClinicalTools.SimEncounters.Reader
             var encounter = loader.ReadEncounter(encounterInfo, demoXml.DataXmlSync, demoXml.ImagesXmlSync);
             //var encounter = loader.ReadEncounter(encounterInfo, demoXml.DataXml.Result, demoXml.ImagesXml.Result);
             //UnityEngine.Debug.LogError(demoXml.DataXml.Result.OuterXml);// watch.ElapsedMilliseconds);
-            new EncounterReader(null, loadingScreen, encounter, (ReaderUI)SceneUI);
+            new ReaderScene(User.Guest, loadingScreen, encounter, (ReaderUI)SceneUI);
             //NextFrame.Function(() => debugField.text = watch.ElapsedMilliseconds.ToString());
             yield return null;
         }
-        //SaveCase
-
-        // loading case
-        // save and view button
-        // exit to main menu button
-        // add section button
-        // section buttons
-        // help button
     }
 }

@@ -6,10 +6,10 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderSectionButton : EncounterToggle<KeyValuePair<string, Section>>
     {
-        protected virtual EncounterReader Reader { get; }
+        protected virtual ReaderScene Reader { get; }
         protected virtual ReaderSectionToggleUI SectionToggleUI { get; }
         protected virtual Section Section { get; }
-        public ReaderSectionButton(EncounterReader reader, ReaderSectionToggleUI sectionToggleUI, KeyValuePair<string, Section> keyedSection) : base(sectionToggleUI.SelectToggle, keyedSection)
+        public ReaderSectionButton(ReaderScene reader, ReaderSectionToggleUI sectionToggleUI, KeyValuePair<string, Section> keyedSection) : base(sectionToggleUI.SelectToggle, keyedSection)
         {
             Reader = reader;
             Section = keyedSection.Value;

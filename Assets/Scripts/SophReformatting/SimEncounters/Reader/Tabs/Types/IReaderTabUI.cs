@@ -7,7 +7,7 @@ namespace ClinicalTools.SimEncounters.Reader
     {
         Transform PanelsParent { get; set; }
 
-        void Initialize(EncounterReader reader, string tabFolder, Tab tab);
+        void Initialize(ReaderScene reader, string tabFolder, Tab tab);
         void Serialize();
         void Destroy();
     }

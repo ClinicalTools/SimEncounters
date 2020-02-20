@@ -7,7 +7,7 @@ namespace ClinicalTools.SimEncounters.Reader
     {
 
         private const string patientImageKey = "patientImage";
-        public override void Initialize(EncounterReader reader)
+        public override void Initialize(ReaderScene reader)
         {
             Initialize(reader, patientImageKey);
         }

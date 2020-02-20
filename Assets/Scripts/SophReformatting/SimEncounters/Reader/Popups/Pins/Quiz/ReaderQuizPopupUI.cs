@@ -2,7 +2,7 @@
 
 namespace ClinicalTools.SimEncounters.Reader
 {
-    public class ReaderQuizPopupUI : ReaderPopupUI
+    public class ReaderQuizPopupUI : PopupUI
     {
         [SerializeField] private Transform panelsParent;
         public virtual Transform PanelsParent { get => panelsParent; set => panelsParent = value; }

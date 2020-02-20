@@ -10,7 +10,7 @@ namespace ClinicalTools.SimEncounters.Reader
 
         public KeyValuePair<string, Panel> KeyedPanel { get; private set; }
 
-        public virtual void Initialize(EncounterReader reader, KeyValuePair<string, Panel> keyedPanel) {
+        public virtual void Initialize(ReaderScene reader, KeyValuePair<string, Panel> keyedPanel) {
             KeyedPanel = keyedPanel;
         }
     }

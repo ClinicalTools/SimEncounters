@@ -5,9 +5,9 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderPinManager
     {
-        protected EncounterReader Reader { get; }
+        protected ReaderScene Reader { get; }
         protected ReaderPinsUI PinsUI { get; }
-        public ReaderPinManager(EncounterReader reader, ReaderPinsUI pinsUI)
+        public ReaderPinManager(ReaderScene reader, ReaderPinsUI pinsUI)
         {
             Reader = reader;
             PinsUI = pinsUI;

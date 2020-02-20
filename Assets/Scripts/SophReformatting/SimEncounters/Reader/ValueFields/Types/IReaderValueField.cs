@@ -4,7 +4,7 @@
     {
         string Name { get; }
         string Value { get; }
-        void Initialize(EncounterReader reader);
-        void Initialize(EncounterReader reader, string value);
+        void Initialize(ReaderScene reader);
+        void Initialize(ReaderScene reader, string value);
     }
 }

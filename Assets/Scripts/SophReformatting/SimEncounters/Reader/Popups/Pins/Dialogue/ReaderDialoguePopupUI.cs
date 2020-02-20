@@ -2,7 +2,7 @@
 
 namespace ClinicalTools.SimEncounters.Reader
 {
-    public class ReaderDialoguePopupUI : ReaderPopupUI
+    public class ReaderDialoguePopupUI : PopupUI
     {
         [SerializeField] private ReaderDialogueEntryUI dialogueEntryLeft;
         public ReaderDialogueEntryUI DialogueEntryLeft { get => dialogueEntryLeft; set => dialogueEntryLeft = value; }

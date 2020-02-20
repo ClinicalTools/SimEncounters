@@ -6,7 +6,7 @@ namespace ClinicalTools.SimEncounters.Reader
     {
         protected virtual FeedbackColorInfo FeedbackColorInfo { get; } = new FeedbackColorInfo();
         protected ReaderFeedbackUI ReaderFeedbackUI { get; }
-        public ReaderFeedback(EncounterReader reader, ReaderFeedbackUI readerFeedbackUI)
+        public ReaderFeedback(ReaderScene reader, ReaderFeedbackUI readerFeedbackUI)
         {
             ReaderFeedbackUI = readerFeedbackUI;
 

@@ -16,7 +16,7 @@ namespace ClinicalTools.SimEncounters.Reader
         protected int PageCount { get; }
         protected virtual string GetPageInfoText(int pageNumber, int pageCount) => $"Page: {pageNumber}/{pageCount}";
 
-        public ReaderFooter(EncounterReader reader, ReaderFooterUI footerUI, OrderedCollection<Section> sections)
+        public ReaderFooter(ReaderScene reader, ReaderFooterUI footerUI, OrderedCollection<Section> sections)
         {
             Sections = sections;
             FooterUI = footerUI;

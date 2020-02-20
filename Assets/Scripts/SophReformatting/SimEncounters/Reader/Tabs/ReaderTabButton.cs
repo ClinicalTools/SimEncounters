@@ -5,11 +5,11 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderTabButton : EncounterToggle<KeyValuePair<string, Tab>>
     {
-        protected virtual EncounterReader Reader { get; }
+        protected virtual ReaderScene Reader { get; }
         protected virtual ReaderTabToggleUI TabToggleUI { get; }
         protected virtual KeyValuePair<string, Tab> KeyedTab { get; }
         protected virtual bool IsRead { get; set; }
-        public ReaderTabButton(EncounterReader reader, ReaderTabToggleUI tabToggleUI, KeyValuePair<string, Tab> keyedTab)
+        public ReaderTabButton(ReaderScene reader, ReaderTabToggleUI tabToggleUI, KeyValuePair<string, Tab> keyedTab)
             : base(tabToggleUI.SelectToggle, keyedTab)
         {
             Reader = reader;

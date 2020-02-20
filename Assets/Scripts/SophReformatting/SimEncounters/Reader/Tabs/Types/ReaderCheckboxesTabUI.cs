@@ -12,7 +12,7 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private Transform feedbackParent;
         public virtual Transform FeedbackParent { get => feedbackParent; set => feedbackParent = value; }
 
-        public override void Initialize(EncounterReader reader, string tabFolder, Tab tab)
+        public override void Initialize(ReaderScene reader, string tabFolder, Tab tab)
         {
             base.Initialize(reader, tabFolder, tab);
 

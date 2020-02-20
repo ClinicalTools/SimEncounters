@@ -36,7 +36,7 @@ namespace ClinicalTools.SimEncounters.Reader
 
         protected ReaderPanelCreator ReaderPanelCreator { get; set; }
 
-        public override void Initialize(EncounterReader reader, KeyValuePair<string, Panel> keyedPanel)
+        public override void Initialize(ReaderScene reader, KeyValuePair<string, Panel> keyedPanel)
         {
             base.Initialize(reader, keyedPanel);
 

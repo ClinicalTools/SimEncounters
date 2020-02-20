@@ -5,8 +5,8 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderValueFieldInitializer
     {
-        protected EncounterReader Reader { get; }
-        public ReaderValueFieldInitializer(EncounterReader reader)
+        protected ReaderScene Reader { get; }
+        public ReaderValueFieldInitializer(ReaderScene reader)
         {
             Reader = reader;
         }

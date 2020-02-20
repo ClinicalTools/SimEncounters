@@ -8,9 +8,9 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderPanelCreator
     {
-        protected EncounterReader Reader { get; }
+        protected ReaderScene Reader { get; }
         protected Transform ChildPanelsParent { get; }
-        public ReaderPanelCreator(EncounterReader reader, Transform childPanelsParent)
+        public ReaderPanelCreator(ReaderScene reader, Transform childPanelsParent)
         {
             Reader = reader;
             ChildPanelsParent = childPanelsParent;

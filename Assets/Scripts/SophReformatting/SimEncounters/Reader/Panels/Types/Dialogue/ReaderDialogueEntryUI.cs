@@ -20,7 +20,7 @@ namespace ClinicalTools.SimEncounters.Reader
         private const string colorKey = "charColor";
         private const string characterKey = "characterName";
         protected virtual ColorConverter ColorConverter { get; } = new ColorConverter();
-        public override void Initialize(EncounterReader reader, KeyValuePair<string, Panel> keyedPanel)
+        public override void Initialize(ReaderScene reader, KeyValuePair<string, Panel> keyedPanel)
         {
             base.Initialize(reader, keyedPanel);
 

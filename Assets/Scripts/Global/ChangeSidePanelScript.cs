@@ -1,60 +1,52 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
-public class ChangeSidePanelScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
+public class ChangeSidePanelScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+{
+    private Toggle toggle;
+    protected Toggle Toggle {
+        get {
+            if (toggle == null)
+                toggle = GetComponent<Toggle>();
+            return toggle;
+        }
+    }
+    public TextMeshProUGUI myText;
+    public Color myOnText;
+    public Color myOffText;
+    public Color myHoverText;
 
-	public CanvasGroup myPanel;
-	private Button myButton;
-	public TMPro.TextMeshProUGUI myText;
-	public Color myOnText;
-	public Color myOffText;
-	public Color myHoverText;
+    // Use this for initialization
+    void Start()
+    {
+        Toggle.onValueChanged.AddListener((isOn) => ToggleThis(isOn));
+        ToggleThis(Toggle.isOn);
+    }
 
-	// Use this for initialization
-	void Start () {
-		myButton = GetComponent<Button> ();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public void ToggleThis(bool isOn)
+    {
+        // 195 dark and 115 light
+        if (isOn) {
+            Toggle.interactable = false;
+            myText.color = myOnText;
+        } else {
+            Toggle.interactable = true;
+            myText.color = myOffText;
+        }
+    }
 
+    public void OnPointerEnter(PointerEventData data)
+    {
+        if (!Toggle.isOn)
+            myText.color = myHoverText;
+    }
 
-	public void ToggleThis(bool toggle){
-		if (myButton == null) {
-			Start();
-		}
-
-		// 195 dark and 115 light
-		if (toggle) {
-			/*myPanel.alpha = 1.0f;
-			myPanel.interactable = true;
-			myPanel.blocksRaycasts = true;*/
-			myButton.interactable = false;
-			myText.color = myOnText;
-		} else {
-			/*myPanel.alpha = 0.0f;
-			myPanel.interactable = false;
-			myPanel.blocksRaycasts = false;*/
-			myButton.interactable = true;
-			myText.color = myOffText;
-		}
-	}
-
-	public void OnPointerEnter(PointerEventData data){
-		if (myButton.interactable) {
-			myText.color = myHoverText;
-		}
-	}
-
-	public void OnPointerExit(PointerEventData data){
-		if (myButton.interactable) {
-			myText.color = myOffText;
-		}
-	}
+    public void OnPointerExit(PointerEventData data)
+    {
+        if (!Toggle.isOn)
+            myText.color = myOffText;
+    }
 
 }

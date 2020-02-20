@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
-    public class ReaderInfoPopupUI : ReaderPopupUI
+    public class ReaderInfoPopupUI : PopupUI
     {
         [SerializeField] private TextMeshProUGUI title;
         public virtual TextMeshProUGUI Title { get => title; set => title = value; }
@@ -20,7 +20,7 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private TextMeshProUGUI audience;
         public virtual TextMeshProUGUI Audience { get => audience; set => audience = value; }
 
-        [SerializeField] private ReaderDifficultyUI difficulty;
-        public virtual ReaderDifficultyUI Difficulty { get => difficulty; set => difficulty = value; }
+        [SerializeField] private DifficultyUI difficulty;
+        public virtual DifficultyUI Difficulty { get => difficulty; set => difficulty = value; }
     }
 }

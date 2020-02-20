@@ -27,10 +27,10 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private List<Image> coloredImages;
         public List<Image> ColoredImages { get => coloredImages; set => coloredImages = value; }
 
-        protected EncounterReader Reader { get; set; }
+        protected ReaderScene Reader { get; set; }
         protected IValueField[] ValueFields { get; set; }
 
-        public override void Initialize(EncounterReader reader, KeyValuePair<string, Panel> keyedPanel)
+        public override void Initialize(ReaderScene reader, KeyValuePair<string, Panel> keyedPanel)
         {
             base.Initialize(reader, keyedPanel);
             Reader = reader;

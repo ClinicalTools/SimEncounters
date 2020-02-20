@@ -2,9 +2,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ClinicalTools.SimEncounters.Reader
+namespace ClinicalTools.SimEncounters
 {
-    public class ReaderDifficultyUI : MonoBehaviour
+    public class DifficultyUI : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI label;
         public virtual TextMeshProUGUI Label { get => label; set => label = value; }

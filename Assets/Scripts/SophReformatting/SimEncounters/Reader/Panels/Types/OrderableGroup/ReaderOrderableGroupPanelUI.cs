@@ -26,7 +26,7 @@ namespace ClinicalTools.SimEncounters.Reader
         protected List<ReaderOrderableItemPanelUI> ChildPanels { get; set; }
         protected IValueField[] ValueFields { get; set; }
 
-        public override void Initialize(EncounterReader reader, KeyValuePair<string, Panel> keyedPanel)
+        public override void Initialize(ReaderScene reader, KeyValuePair<string, Panel> keyedPanel)
         {
             base.Initialize(reader, keyedPanel);
             var panel = keyedPanel.Value;
@@ -91,6 +91,6 @@ namespace ClinicalTools.SimEncounters.Reader
                 return OptionType.Incorrect;
         }
 
-        protected virtual ReaderPinsGroup CreatePinButtons(EncounterReader reader, Panel panel) => reader.Pins.CreateButtons(panel.Pins, transform);
+        protected virtual ReaderPinsGroup CreatePinButtons(ReaderScene reader, Panel panel) => reader.Pins.CreateButtons(panel.Pins, transform);
     }
 }
