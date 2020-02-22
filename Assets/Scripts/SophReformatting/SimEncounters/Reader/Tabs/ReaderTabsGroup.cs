@@ -9,7 +9,7 @@ namespace ClinicalTools.SimEncounters.Reader
     {
         protected virtual ReaderTabsUI TabsUI { get; }
 
-        protected virtual IReaderTabUI ReaderTab { get; set; }
+        protected virtual IReaderTabDisplay ReaderTabDisplay { get; set; }
         protected virtual ReaderScene Reader { get; set; }
         protected virtual Section Section { get; set; }
 
@@ -37,14 +37,15 @@ namespace ClinicalTools.SimEncounters.Reader
 
         protected override void Select(KeyValuePair<string, Tab> keyedTab)
         {
-            ReaderTab?.Destroy();
+            ReaderTabDisplay?.Destroy();
 
             var tab = keyedTab.Value;
             var tabFolder = $"Reader/Prefabs/Tabs/{tab.Type} Tab/";
             var tabPrefabPath = $"{tabFolder}{tab.Type.Replace(" ", string.Empty)}Tab";
             var tabPrefabGameObject = Resources.Load(tabPrefabPath) as GameObject;
-            ReaderTab = Object.Instantiate(tabPrefabGameObject, TabsUI.TabContent).GetComponent<IReaderTabUI>();
-            ReaderTab.Initialize(Reader, tabFolder, tab);
+            var readerTabUI = Object.Instantiate(tabPrefabGameObject, TabsUI.TabContent).GetComponent<IReaderTabUI>();
+            
+            ReaderTabDisplay = Reader.TabDisplayFactory.CreateTab(readerTabUI, keyedTab);
 
             Section.CurrentTabIndex = Section.Tabs.IndexOf(tab);
             Reader.Footer.SetTab(Section);
@@ -52,7 +53,7 @@ namespace ClinicalTools.SimEncounters.Reader
 
         public virtual void Delete()
         {
-            ReaderTab?.Destroy();
+            ReaderTabDisplay?.Destroy();
             Reader.Footer.NextTab -= MoveToNextTab;
 
             foreach (Transform child in TabsUI.TabButtonsParent)

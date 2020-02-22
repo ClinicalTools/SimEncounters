@@ -6,9 +6,5 @@ namespace ClinicalTools.SimEncounters.Reader
     public interface IReaderTabUI
     {
         Transform PanelsParent { get; set; }
-
-        void Initialize(ReaderScene reader, string tabFolder, Tab tab);
-        void Serialize();
-        void Destroy();
     }
 }

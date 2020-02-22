@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
+
     public class ReaderDialogueEntryUI : BaseReaderPanelUI
     {
         [SerializeField] private string type;

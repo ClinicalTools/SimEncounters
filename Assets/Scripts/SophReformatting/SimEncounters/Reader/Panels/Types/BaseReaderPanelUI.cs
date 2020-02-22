@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
-    public abstract class BaseReaderPanelUI : MonoBehaviour
+    public abstract class BaseReaderPanelUI : MonoBehaviour, IReaderPanelUI
     {
         public abstract string Type { get; set; }
 
@@ -13,5 +13,11 @@ namespace ClinicalTools.SimEncounters.Reader
         public virtual void Initialize(ReaderScene reader, KeyValuePair<string, Panel> keyedPanel) {
             KeyedPanel = keyedPanel;
         }
+    }
+
+    public interface IReaderPanelUI
+    {
+        string Type { get; }
+        KeyValuePair<string, Panel> KeyedPanel { get; }
     }
 }

@@ -4,4 +4,7 @@
     {
         void Destroy();
     }
+    public interface IReaderPanelDisplay
+    {
+    }
 }
