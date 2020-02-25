@@ -13,25 +13,36 @@ namespace ClinicalTools.SimEncounters.Reader
 
         public IReaderPanelDisplay CreatePanel(IReaderPanelUI panelUI, KeyValuePair<string, Panel> keyedPanel)
         {
-            if (panelUI is ReaderCheckboxesPanelUI)
-                return new ReaderCheckboxesPanelDisplay(Reader, (ReaderCheckboxesPanelUI)panelUI, keyedPanel);
-            else if (panelUI is ReaderMultipleChoicePanelUI)
-                return new ReaderMultipleChoicePanelDisplay(Reader, (ReaderMultipleChoicePanelUI)panelUI, keyedPanel);
-            else if (panelUI is ReaderOrderableGroupPanelUI)
-                return new ReaderOrderableGroupPanelDisplay(Reader, (ReaderOrderableGroupPanelUI)panelUI, keyedPanel);
-            else if (panelUI is ReaderOrderableItemPanelUI)
-                return new ReaderOrderableItemPanelDisplay(Reader, (ReaderOrderableItemPanelUI)panelUI, keyedPanel);
-            else if (panelUI is ReaderDialogueChoiceUI)
-                return new ReaderDialogueChoiceDisplay(Reader, (ReaderDialogueChoiceUI)panelUI, keyedPanel);
-            else if (panelUI is ReaderDialogueChoiceOptionUI)
-                return new ReaderDialogueChoiceOptionDisplay(Reader, (ReaderDialogueChoiceOptionUI)panelUI, keyedPanel);
-            else if (panelUI is ReaderPanelUI)
-                return new ReaderPanelDisplay(Reader, (ReaderPanelUI)panelUI, keyedPanel);
+            if (panelUI is ReaderCheckboxesPanelUI checkboxesPanelUI)
+                return new ReaderCheckboxesPanelDisplay(Reader, checkboxesPanelUI, keyedPanel);
+            else if (panelUI is ReaderCheckboxOptionUI checkboxOptionUI)
+                return new ReaderCheckboxOptionDisplay(Reader, checkboxOptionUI, keyedPanel);
+            else if (panelUI is ReaderMultipleChoicePanelUI multipleChoicePanelUI)
+                return new ReaderMultipleChoicePanelDisplay(Reader, multipleChoicePanelUI, keyedPanel);
+            else if (panelUI is ReaderMultipleChoiceOptionUI multipleChoiceOptionUI)
+                return new ReaderMultipleChoiceOptionDisplay(Reader, multipleChoiceOptionUI, keyedPanel);
+            else if (panelUI is ReaderOrderableGroupPanelUI orderableGroupPanelUI)
+                return new ReaderOrderableGroupPanelDisplay(Reader, orderableGroupPanelUI, keyedPanel);
+            else if (panelUI is ReaderOrderableItemPanelUI orderableItemPanelUI)
+                return new ReaderOrderableItemPanelDisplay(Reader, orderableItemPanelUI, keyedPanel);
+            else if (panelUI is ReaderDialogueEntryUI dialogueEntryUI)
+                return new ReaderDialogueEntryDisplay(Reader, dialogueEntryUI, keyedPanel);
+            else if (panelUI is ReaderDialogueChoiceUI dialogueChoiceUI)
+                return new ReaderDialogueChoiceDisplay(Reader, dialogueChoiceUI, keyedPanel);
+            else if (panelUI is ReaderDialogueChoiceOptionUI dialogueChoiceOptionUI)
+                return new ReaderDialogueChoiceOptionDisplay(Reader, dialogueChoiceOptionUI, keyedPanel);
+            else if (panelUI is ReaderPanelUI basicPanelUI)
+                return new ReaderPanelDisplay(Reader, basicPanelUI, keyedPanel);
             else
                 return default;
         }
         public ReaderCheckboxesPanelDisplay CreateCheckboxesPanel(ReaderCheckboxesPanelUI panelUI, KeyValuePair<string, Panel> keyedPanel)
             => new ReaderCheckboxesPanelDisplay(Reader, panelUI, keyedPanel);
+        public ReaderCheckboxOptionDisplay CreateCheckboxOptionPanel(ReaderCheckboxOptionUI panelUI, KeyValuePair<string, Panel> keyedPanel)
+            => new ReaderCheckboxOptionDisplay(Reader, panelUI, keyedPanel);
+
+        public ReaderMultipleChoiceOptionDisplay CreateMultipleChoiceOptionPanel(ReaderMultipleChoiceOptionUI panelUI, KeyValuePair<string, Panel> keyedPanel)
+            => new ReaderMultipleChoiceOptionDisplay(Reader, panelUI, keyedPanel);
 
         public ReaderMultipleChoicePanelDisplay CreateMultipleChoicePanel(ReaderMultipleChoicePanelUI panelUI, KeyValuePair<string, Panel> keyedPanel)
             => new ReaderMultipleChoicePanelDisplay(Reader, panelUI, keyedPanel);
@@ -41,6 +52,9 @@ namespace ClinicalTools.SimEncounters.Reader
 
         public ReaderOrderableItemPanelDisplay CreateOrderableItemPanel(ReaderOrderableItemPanelUI panelUI, KeyValuePair<string, Panel> keyedPanel)
             => new ReaderOrderableItemPanelDisplay(Reader, panelUI, keyedPanel);
+
+        public ReaderDialogueEntryDisplay CreateDialogueEntryPanel(ReaderDialogueEntryUI panelUI, KeyValuePair<string, Panel> keyedPanel)
+            => new ReaderDialogueEntryDisplay(Reader, panelUI, keyedPanel);
 
         public ReaderDialogueChoiceDisplay CreateDialogueChoicePanel(ReaderDialogueChoiceUI panelUI, KeyValuePair<string, Panel> keyedPanel)
             => new ReaderDialogueChoiceDisplay(Reader, panelUI, keyedPanel);
