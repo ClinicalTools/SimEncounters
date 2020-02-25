@@ -17,8 +17,12 @@ namespace ClinicalTools.SimEncounters.Reader
             Tab = keyedTab.Value;
             ReaderPanelCreator = new ReaderPanelCreator(reader, tabUI.PanelsParent);
 
-            if (Tab.Panels.Count > 0)
-                ReaderPanels = ReaderPanelCreator.Deserialize(Tab.Panels, tabUI.PanelOptions);
+            if (Tab.Panels.Count > 0) {
+                foreach (var keyedPanel in Tab.Panels) {
+                    var panelUI = ReaderPanelCreator.Deserialize(keyedPanel, tabUI.PanelOptions);
+                    reader.PanelDisplayFactory.CreatePanel(panelUI, keyedPanel);
+                }
+            }
         }
 
         public void Destroy()

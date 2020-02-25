@@ -11,6 +11,8 @@ namespace ClinicalTools.SimEncounters
 
     public class MouseInput : MonoBehaviour
     {
+        public static MouseInput Instance { get; private set; }
+
         [SerializeField] private Image cursorImage;
         public Image CursorImage { get => cursorImage; set => cursorImage = value; }
         [SerializeField] private Sprite normalCursorSprite;
@@ -65,6 +67,7 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void Awake()
         {
+            Instance = this;
             UpdateCursor();
         }
 

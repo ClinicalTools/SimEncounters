@@ -21,10 +21,32 @@ namespace ClinicalTools.SimEncounters.Reader
                 return new ReaderOrderableGroupPanelDisplay(Reader, (ReaderOrderableGroupPanelUI)panelUI, keyedPanel);
             else if (panelUI is ReaderOrderableItemPanelUI)
                 return new ReaderOrderableItemPanelDisplay(Reader, (ReaderOrderableItemPanelUI)panelUI, keyedPanel);
+            else if (panelUI is ReaderDialogueChoiceUI)
+                return new ReaderDialogueChoiceDisplay(Reader, (ReaderDialogueChoiceUI)panelUI, keyedPanel);
+            else if (panelUI is ReaderDialogueChoiceOptionUI)
+                return new ReaderDialogueChoiceOptionDisplay(Reader, (ReaderDialogueChoiceOptionUI)panelUI, keyedPanel);
             else if (panelUI is ReaderPanelUI)
                 return new ReaderPanelDisplay(Reader, (ReaderPanelUI)panelUI, keyedPanel);
             else
                 return default;
         }
+        public ReaderCheckboxesPanelDisplay CreateCheckboxesPanel(ReaderCheckboxesPanelUI panelUI, KeyValuePair<string, Panel> keyedPanel)
+            => new ReaderCheckboxesPanelDisplay(Reader, panelUI, keyedPanel);
+
+        public ReaderMultipleChoicePanelDisplay CreateMultipleChoicePanel(ReaderMultipleChoicePanelUI panelUI, KeyValuePair<string, Panel> keyedPanel)
+            => new ReaderMultipleChoicePanelDisplay(Reader, panelUI, keyedPanel);
+
+        public ReaderOrderableGroupPanelDisplay CreateOrderableGroupPanel(ReaderOrderableGroupPanelUI panelUI, KeyValuePair<string, Panel> keyedPanel)
+            => new ReaderOrderableGroupPanelDisplay(Reader, panelUI, keyedPanel);
+
+        public ReaderOrderableItemPanelDisplay CreateOrderableItemPanel(ReaderOrderableItemPanelUI panelUI, KeyValuePair<string, Panel> keyedPanel)
+            => new ReaderOrderableItemPanelDisplay(Reader, panelUI, keyedPanel);
+
+        public ReaderDialogueChoiceDisplay CreateDialogueChoicePanel(ReaderDialogueChoiceUI panelUI, KeyValuePair<string, Panel> keyedPanel)
+            => new ReaderDialogueChoiceDisplay(Reader, panelUI, keyedPanel);
+
+        public ReaderDialogueChoiceOptionDisplay CreateDialogueChoiceOptionPanel(ReaderDialogueChoiceOptionUI panelUI, KeyValuePair<string, Panel> keyedPanel)
+            => new ReaderDialogueChoiceOptionDisplay(Reader, panelUI, keyedPanel);
+
     }
 }

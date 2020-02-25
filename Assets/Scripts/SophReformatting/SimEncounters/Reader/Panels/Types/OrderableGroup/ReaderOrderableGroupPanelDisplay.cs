@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using ClinicalTools.SimEncounters.Extensions;
 using ClinicalTools.SimEncounters.Collections;
 using System;
+using System.Linq;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderOrderableGroupPanelDisplay : IReaderPanelDisplay
     {
+        protected ReaderScene Reader { get; }
         protected ReaderOrderableGroupPanelUI PanelUI { get; }
         protected virtual FeedbackColorInfo FeedbackColorInfo { get; } = new FeedbackColorInfo();
         protected ReaderPanelCreator ReaderPanelCreator { get; private set; }
-        protected List<ReaderOrderableItemPanelUI> ChildPanels { get; set; }
+        protected List<ReaderOrderableItemPanelDisplay> ChildPanels { get; set; } = new List<ReaderOrderableItemPanelDisplay>();
         protected IValueField[] ValueFields { get; set; }
         public KeyValuePair<string, Panel> KeyedPanel { get; }
 
         public ReaderOrderableGroupPanelDisplay(ReaderScene reader, ReaderOrderableGroupPanelUI panelUI, KeyValuePair<string, Panel> keyedPanel)
         {
+            Reader = reader;
             PanelUI = panelUI;
             KeyedPanel = keyedPanel;
             var panel = keyedPanel.Value;
@@ -32,23 +35,29 @@ namespace ClinicalTools.SimEncounters.Reader
                     shuffeledPanels.Shuffle();
             }
 
-            ReaderPanelCreator = new ReaderPanelCreator(reader, panelUI.DraggableGroupUI.ChildrenParent);
-            ChildPanels = ReaderPanelCreator.Deserialize(shuffeledPanels, panelUI.OrderableItemOptions);
-
-            var verticalDraggableGroup = new VerticalDraggableGroup(reader.Mouse, panelUI.DraggableGroupUI);
-            foreach (var childPanel in ChildPanels)
-                verticalDraggableGroup.Add(childPanel);
-            verticalDraggableGroup.OrderChanged += OrderChanged;
+            ReaderPanelCreator = new ReaderPanelCreator(Reader, PanelUI.DraggableGroupUI.ChildrenParent);
+            DeserializeChildren(shuffeledPanels);
         }
 
+        public void DeserializeChildren(IEnumerable<KeyValuePair<string, Panel>> panels)
+        {
+            var verticalDraggableGroup = new VerticalDraggableGroup(Reader.Mouse, PanelUI.DraggableGroupUI);
+            foreach (var keyedPanel in panels) {
+                var panelUI = ReaderPanelCreator.Deserialize(keyedPanel, PanelUI.OrderableItemOptions);
+                var panelDisplay = Reader.PanelDisplayFactory.CreateOrderableItemPanel(panelUI, keyedPanel);
+                verticalDraggableGroup.Add(panelUI);
+                ChildPanels.Add(panelDisplay);
+            }
+            verticalDraggableGroup.OrderChanged += OrderChanged;
+        }
         private void OrderChanged(List<IDraggable> draggableObjects)
         {
             var allCorrect = true;
             for (int i = 0; i < draggableObjects.Count; i++) {
-                var orderableItem = draggableObjects[i] as ReaderOrderableItemPanelUI;
+                //var orderableItem = draggableObjects[i] as ReaderOrderableItemPanelUI;
+                var orderableItem = ChildPanels.FirstOrDefault(panelDisplay => draggableObjects[i] == panelDisplay.PanelUI);
                 if (orderableItem == null)
                     continue;
-
                 var actualIndex = KeyedPanel.Value.ChildPanels.IndexOf(orderableItem.KeyedPanel.Value);
                 var distanceFromCorrect = Math.Abs(actualIndex - i);
                 var optionType = GetOptionType(distanceFromCorrect);

@@ -10,7 +10,7 @@ namespace ClinicalTools.SimEncounters.Reader
     {
         public event Action<ReaderDialogueChoiceOptionDisplay> CorrectlySelected;
 
-        protected ReaderFeedback ReaderFeedback { get; }
+        public ReaderFeedback Feedback { get; }
         protected ReaderDialogueChoiceOptionUI OptionUI { get; }
         protected Color OffColor { get; }
         protected Color OnColor { get; }
@@ -25,7 +25,7 @@ namespace ClinicalTools.SimEncounters.Reader
             var valueFieldInitializer = new ReaderValueFieldInitializer(reader);
             valueFieldInitializer.InitializePanelValueFields(optionUI.gameObject, keyedPanel.Value);
 
-            ReaderFeedback = new ReaderFeedback(reader, optionUI.Feedback);
+            Feedback = new ReaderFeedback(reader, optionUI.Feedback);
             optionUI.Toggle.onValueChanged.AddListener(GetFeedback);
         }
 
@@ -34,14 +34,14 @@ namespace ClinicalTools.SimEncounters.Reader
             if (isOn)
             {
                 OptionUI.Border.color = OnColor;
-                ReaderFeedback.ShowFeedback(isOn);
+                Feedback.ShowFeedback(isOn);
                 if (OptionUI.Feedback.OptionType == OptionType.Correct)
                     CorrectlySelected?.Invoke(this);
             }
             else
             {
                 OptionUI.Border.color = OffColor;
-                ReaderFeedback.CloseFeedback();
+                Feedback.CloseFeedback();
             }
         }
 
@@ -50,5 +50,6 @@ namespace ClinicalTools.SimEncounters.Reader
             OptionUI.Toggle.group = group;
         }
 
+        public void SetActive(bool active) => OptionUI.gameObject.SetActive(active);
     }
 }

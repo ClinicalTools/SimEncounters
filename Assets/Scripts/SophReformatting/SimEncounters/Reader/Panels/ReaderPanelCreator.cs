@@ -16,32 +16,16 @@ namespace ClinicalTools.SimEncounters.Reader
             ChildPanelsParent = childPanelsParent;
         }
 
-        public List<T> Deserialize<T>(IEnumerable<KeyValuePair<string, Panel>> panels, T panelPrefab)
-            where T : BaseReaderPanelUI
-        {
-            List<T> writerPanels = new List<T>();
-            foreach (var panel in panels) {
-                var writerPanel = Deserialize(panel, panelPrefab);
-                writerPanels.Add(writerPanel);
-            }
 
-            return writerPanels;
-        }
-
-        public List<T> Deserialize<T>(IEnumerable<KeyValuePair<string, Panel>> panels, List<T> panelOptions)
+        public T Deserialize<T>(KeyValuePair<string, Panel> panel, List<T> panelOptions)
             where T : BaseReaderPanelUI
         {
             if (panelOptions == null || panelOptions.Count == 0)
                 return null;
 
-            List<T> writerPanels = new List<T>();
-            foreach (var panel in panels) {
-                var panelPrefab = GetPanelPrefab(panel.Value.Type, panelOptions);
-                var writerPanel = Deserialize(panel, panelPrefab);
-                writerPanels.Add(writerPanel);
-            }
-
-            return writerPanels;
+            var panelPrefab = GetPanelPrefab(panel.Value.Type, panelOptions);
+            
+            return Deserialize(panelPrefab);
         }
 
         protected T GetPanelPrefab<T>(string panelType, List<T> panelOptions)
@@ -59,12 +43,10 @@ namespace ClinicalTools.SimEncounters.Reader
             return null;
         }
         
-        public T Deserialize<T>(KeyValuePair<string, Panel> keyedPanel, T panelPrefab)
+        public T Deserialize<T>(T panelPrefab)
             where T : BaseReaderPanelUI
         {
-            var writerPanel = UnityEngine.Object.Instantiate(panelPrefab, ChildPanelsParent);
-            writerPanel.Initialize(Reader, keyedPanel);
-            return writerPanel;
+            return UnityEngine.Object.Instantiate(panelPrefab, ChildPanelsParent);
         }
     }
 }

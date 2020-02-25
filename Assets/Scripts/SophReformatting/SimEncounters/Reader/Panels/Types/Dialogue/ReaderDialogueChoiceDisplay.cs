@@ -9,8 +9,9 @@ namespace ClinicalTools.SimEncounters.Reader
     {
         public event Action Completed;
 
-        protected List<ReaderDialogueChoiceOptionUI> Options { get; }
+        protected List<ReaderDialogueChoiceOptionDisplay> Options { get; }
 
+        protected ReaderScene Reader { get; }
         protected ReaderPanelCreator ReaderPanelCreator { get; }
         protected ReaderDialogueChoiceUI ChoiceUI { get; }
 
@@ -26,27 +27,29 @@ namespace ClinicalTools.SimEncounters.Reader
 
             ChoiceUI.ShowOptionsButton.onClick.AddListener(ShowOptions);
         }
-        protected virtual List<ReaderDialogueChoiceOptionUI> DeserializeChildren(OrderedCollection<Panel> panels)
+        protected virtual List<ReaderDialogueChoiceOptionDisplay> DeserializeChildren(OrderedCollection<Panel> panels)
         {
-            var options = new List<ReaderDialogueChoiceOptionUI>();
+            var options = new List<ReaderDialogueChoiceOptionDisplay>();
             foreach (var panel in panels)
                 options.Add(CreateOption(panel));
 
             return options;
         }
-        protected virtual ReaderDialogueChoiceOptionUI CreateOption(KeyValuePair<string, Panel> panel)
+        protected virtual ReaderDialogueChoiceOptionDisplay CreateOption(KeyValuePair<string, Panel> panel)
         {
-            var option = ReaderPanelCreator.Deserialize(panel, ChoiceUI.OptionPrefab);
+            var optionUI = ReaderPanelCreator.Deserialize(ChoiceUI.OptionPrefab);
+            var option = Reader.PanelDisplayFactory.CreateDialogueChoiceOptionPanel(optionUI, panel);
+
             option.CorrectlySelected += CorrectlySelected;
             option.SetGroup(ChoiceUI.OptionGroup);
-            option.Feedback.transform.SetParent(ChoiceUI.FeedbackParent);
+            option.Feedback.SetParent(ChoiceUI.FeedbackParent);
             return option;
         }
-        protected virtual void CorrectlySelected(ReaderDialogueChoiceOptionUI panel)
+        protected virtual void CorrectlySelected(ReaderDialogueChoiceOptionDisplay panel)
         {
             foreach (var option in Options)
                 if (option != panel)
-                    option.gameObject.SetActive(false);
+                    option.SetActive(false);
 
             ChoiceUI.Instructions.SetActive(false);
             ChoiceUI.ShowOptionsButton.gameObject.SetActive(true);
@@ -56,7 +59,7 @@ namespace ClinicalTools.SimEncounters.Reader
         protected virtual void ShowOptions()
         {
             foreach (var option in Options)
-                option.gameObject.SetActive(true);
+                option.SetActive(true);
 
             ChoiceUI.Instructions.SetActive(true);
             ChoiceUI.ShowOptionsButton.gameObject.SetActive(false);

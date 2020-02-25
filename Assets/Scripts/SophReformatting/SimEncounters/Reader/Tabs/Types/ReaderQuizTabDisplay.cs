@@ -7,6 +7,7 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderQuizTabDisplay : IReaderTabDisplay
     {
+        protected ReaderScene Reader { get; }
         protected Tab Tab { get; private set; }
         protected ReaderPanelCreator ReaderPanelCreator { get; private set; }
         protected List<BaseReaderPanelUI> ReaderPanels { get; set; }
@@ -26,10 +27,12 @@ namespace ClinicalTools.SimEncounters.Reader
             foreach (var panel in panels)
             {
                 var panelData = panel.Value.Data;
+                BaseReaderPanelUI panelUI;
                 if (panelData.ContainsKey("OptionTypeValue") && panelData["OptionTypeValue"] == "Multiple Choice")
-                    ReaderPanelCreator.Deserialize(panel, QuizTabUI.MultipleChoicePanel);
+                    panelUI = ReaderPanelCreator.Deserialize(QuizTabUI.MultipleChoicePanel);
                 else
-                    ReaderPanelCreator.Deserialize(panel, QuizTabUI.CheckBoxPanel);
+                    panelUI = ReaderPanelCreator.Deserialize(QuizTabUI.CheckBoxPanel);
+                Reader.PanelDisplayFactory.CreatePanel(panelUI, panel);
             }
         }
 

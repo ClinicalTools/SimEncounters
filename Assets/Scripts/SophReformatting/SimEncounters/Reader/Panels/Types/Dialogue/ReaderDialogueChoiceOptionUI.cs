@@ -25,37 +25,5 @@ namespace ClinicalTools.SimEncounters.Reader
         
         [SerializeField] private ReaderFeedbackUI feedback;
         public virtual ReaderFeedbackUI Feedback { get => feedback; set => feedback = value; }
-
-        protected ReaderFeedback ReaderFeedback { get; set; }
-
-        public override void Initialize(ReaderScene reader, KeyValuePair<string, Panel> keyedPanel)
-        {
-            base.Initialize(reader, keyedPanel);
-            OffColor = Border.color;
-
-            var valueFieldInitializer = new ReaderValueFieldInitializer(reader);
-            valueFieldInitializer.InitializePanelValueFields(gameObject, keyedPanel.Value);
-
-            ReaderFeedback = new ReaderFeedback(reader, Feedback);
-            Toggle.onValueChanged.AddListener(GetFeedback);
-        }
-
-        protected virtual void GetFeedback(bool isOn)
-        {
-            if (isOn) {
-                Border.color = OnColor;
-                ReaderFeedback.ShowFeedback(isOn);
-                if (Feedback.OptionType == OptionType.Correct)
-                    CorrectlySelected?.Invoke(this);
-            } else {
-                Border.color = OffColor;
-                ReaderFeedback.CloseFeedback();
-            }
-        }
-
-        public void SetGroup(ToggleGroup group)
-        {
-            Toggle.group = group;
-        }
     }
 }

@@ -1,24 +1,31 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderOrderableItemPanelDisplay : IReaderPanelDisplay
     {
         protected ReaderScene Reader { get; set; }
-        protected ReaderOrderableItemPanelUI PanelUI { get; set; }
+        public KeyValuePair<string, Panel> KeyedPanel { get; }
+        public ReaderOrderableItemPanelUI PanelUI { get; }
+        public RectTransform RectTransform => PanelUI.RectTransform;
+        public LayoutElement LayoutElement => PanelUI.LayoutElement;
+
         protected IValueField[] ValueFields { get; set; }
+
 
         public ReaderOrderableItemPanelDisplay(ReaderScene reader, ReaderOrderableItemPanelUI panelUI, KeyValuePair<string, Panel> keyedPanel)
         {
             Reader = reader;
             PanelUI = panelUI;
-            var panel = keyedPanel.Value;
+            KeyedPanel = keyedPanel;
 
             var valueFieldInitializer = new ReaderValueFieldInitializer(reader);
-            ValueFields = valueFieldInitializer.InitializePanelValueFields(PanelUI.gameObject, panel);
+            ValueFields = valueFieldInitializer.InitializePanelValueFields(PanelUI.gameObject, keyedPanel.Value);
         }
 
         public void SetColor(Color color)
@@ -27,31 +34,5 @@ namespace ClinicalTools.SimEncounters.Reader
             foreach (var image in PanelUI.ColoredImages)
                 image.color = color;
         }
-
-        public void StartDrag(Vector3 mousePosition)
-        {
-            PanelUI.DragHandle.interactable = false;
-        }
-
-        public void EndDrag(Vector3 mousePosition)
-        {
-            PanelUI.DragHandle.interactable = true;
-        }
-
-        public void OnPointerDown(PointerEventData eventData)
-        {
-            Reader.Mouse.RegisterDraggable(PanelUI);
-        }
-
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            Reader.Mouse.SetCursorState(CursorState.Draggable);
-        }
-
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            Reader.Mouse.RemoveCursorState(CursorState.Draggable);
-        }
-
     }
 }

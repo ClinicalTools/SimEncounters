@@ -16,6 +16,7 @@ namespace ClinicalTools.SimEncounters.Reader
         public virtual ReaderFooter Footer { get; }
         public MouseInput Mouse { get; internal set; }
         public ReaderTabDisplayFactory TabDisplayFactory { get; }
+        public ReaderPanelDisplayFactory PanelDisplayFactory { get; }
 
         public HashSet<string> ReadTabs { get; } = new HashSet<string>();
 
@@ -28,6 +29,7 @@ namespace ClinicalTools.SimEncounters.Reader
             ReaderUI = readerUI;
             Encounter = encounter; 
             TabDisplayFactory = new ReaderTabDisplayFactory(this);
+            PanelDisplayFactory = new ReaderPanelDisplayFactory(this);
 
             Pins = CreatePinManager();
             Popups = CreatePopupManager();

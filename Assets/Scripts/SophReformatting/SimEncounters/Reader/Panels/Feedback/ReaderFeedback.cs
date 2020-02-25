@@ -45,6 +45,9 @@ namespace ClinicalTools.SimEncounters.Reader
 
         protected virtual bool ShowStripes(OptionType optionType, bool isOn) => optionType == OptionType.Correct && !isOn;
 
+        public virtual void SetParent(Transform parent)
+            => ReaderFeedbackUI.transform.SetParent(parent);
+
         public virtual void CloseFeedback()
         {
             ReaderFeedbackUI.gameObject.SetActive(false);
