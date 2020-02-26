@@ -6,33 +6,30 @@ namespace ClinicalTools.SimEncounters.Reader
     public class ReaderMultipleChoicePanelDisplay : ReaderPanelDisplay
     {
         protected ReaderMultipleChoicePanelUI MultipleChoicePanelUI { get; }
+        protected List<ReaderMultipleChoiceOptionDisplay> Options { get; } = new List<ReaderMultipleChoiceOptionDisplay>();
         public ReaderMultipleChoicePanelDisplay(ReaderScene reader, ReaderMultipleChoicePanelUI multipleChoicePanelUI)
             : base(reader, multipleChoicePanelUI)
         {
             MultipleChoicePanelUI = multipleChoicePanelUI;
-            // TODO
-            UpdateChildren();
-
+            
             multipleChoicePanelUI.GetFeedbackButton.onClick.AddListener(GetFeedback);
         }
 
-        protected virtual void UpdateChildren()
+        protected override IReaderPanelDisplay DeserializeChild(KeyValuePair<string, Panel> keyedPanel)
         {
-            // TODO 
-            foreach (var child in new List<ReaderMultipleChoiceOptionDisplay>())
-                if (child is ReaderMultipleChoiceOptionDisplay option) {
-                    option.SetToggleGroup(MultipleChoicePanelUI.ToggleGroup);
-                    option.Feedback.SetParent(MultipleChoicePanelUI.FeedbackParent);
-                }
+            var panelDisplay = base.DeserializeChild(keyedPanel);
+            if (panelDisplay is ReaderMultipleChoiceOptionDisplay option) {
+                Options.Add(option);
+                option.SetToggleGroup(MultipleChoicePanelUI.ToggleGroup);
+                option.Feedback.SetParent(MultipleChoicePanelUI.FeedbackParent);
+            }
+            return panelDisplay;
         }
 
         protected virtual void GetFeedback()
         {
-            // TODO 
-            foreach (var child in new List<ReaderMultipleChoiceOptionDisplay>()) {
-                if (child is ReaderMultipleChoiceOptionDisplay option)
-                    option.GetFeedback();
-            }
+            foreach (var option in Options)
+                option.GetFeedback();
         }
     }
 }

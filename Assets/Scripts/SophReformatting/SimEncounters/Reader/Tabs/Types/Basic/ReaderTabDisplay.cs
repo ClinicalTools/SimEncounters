@@ -6,25 +6,34 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderTabDisplay : IReaderTabDisplay
     {
-        protected Tab Tab { get; private set; }
         protected ReaderPanelCreator ReaderPanelCreator { get; }
-        protected List<IReaderPanelDisplay> ReaderPanels { get; } = new List<IReaderPanelDisplay>();
+        protected ReaderScene Reader { get; }
         protected ReaderTabUI TabUI { get; }
 
-        public ReaderTabDisplay(ReaderScene reader, ReaderTabUI tabUI, KeyValuePair<string, Tab> keyedTab)
+        public ReaderTabDisplay(ReaderScene reader, ReaderTabUI tabUI)
         {
+            Reader = reader;
             TabUI = tabUI;
-            Tab = keyedTab.Value;
             ReaderPanelCreator = new ReaderPanelCreator(reader, tabUI.PanelsParent);
+        }
 
-            if (Tab.Panels.Count > 0) {
-                foreach (var keyedPanel in Tab.Panels) {
-                    var panelUI = ReaderPanelCreator.Deserialize(keyedPanel, tabUI.PanelOptions);
-                    var panelDisplay = reader.PanelDisplayFactory.CreatePanel(panelUI);
-                    panelDisplay.Display(keyedPanel);
-                    ReaderPanels.Add(panelDisplay);
-                }
-            }
+        public virtual void Display(KeyValuePair<string, Tab> keyedTab)
+        {
+            DeserializeChildren(keyedTab.Value.Panels);
+        }
+
+        protected virtual void DeserializeChildren(IEnumerable<KeyValuePair<string, Panel>> panels)
+        {
+            foreach (var keyedPanel in panels)
+                DeserializeChild(keyedPanel);
+        }
+
+        protected virtual IReaderPanelDisplay DeserializeChild(KeyValuePair<string, Panel> keyedPanel)
+        {
+            var panelUI = ReaderPanelCreator.Deserialize(keyedPanel, TabUI.PanelOptions);
+            var panelDisplay = Reader.PanelDisplayFactory.CreatePanel(panelUI);
+            panelDisplay.Display(keyedPanel);
+            return panelDisplay;
         }
 
         public void Destroy() => Object.Destroy(TabUI.GameObject);

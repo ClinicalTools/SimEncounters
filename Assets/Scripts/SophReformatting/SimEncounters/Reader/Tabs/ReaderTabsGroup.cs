@@ -45,7 +45,8 @@ namespace ClinicalTools.SimEncounters.Reader
             var tabPrefabGameObject = Resources.Load(tabPrefabPath) as GameObject;
             var readerTabUI = Object.Instantiate(tabPrefabGameObject, TabsUI.TabContent).GetComponent<IReaderTabUI>();
             
-            ReaderTabDisplay = Reader.TabDisplayFactory.CreateTab(readerTabUI, keyedTab);
+            ReaderTabDisplay = Reader.TabDisplayFactory.CreateTab(readerTabUI);
+            ReaderTabDisplay.Display(keyedTab);
 
             Section.CurrentTabIndex = Section.Tabs.IndexOf(tab);
             Reader.Footer.SetTab(Section);

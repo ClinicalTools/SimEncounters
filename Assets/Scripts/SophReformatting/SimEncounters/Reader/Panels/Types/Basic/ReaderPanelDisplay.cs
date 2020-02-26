@@ -30,11 +30,12 @@ namespace ClinicalTools.SimEncounters.Reader
             foreach (var keyedPanel in panels)
                 DeserializeChild(keyedPanel);
         }
-        protected virtual void DeserializeChild(KeyValuePair<string, Panel> keyedPanel)
+        protected virtual IReaderPanelDisplay DeserializeChild(KeyValuePair<string, Panel> keyedPanel)
         {
             var panelUI = ReaderPanelCreator.Deserialize(keyedPanel, PanelUI.ChildPanelOptions);
             var panelDisplay = Reader.PanelDisplayFactory.CreatePanel(panelUI);
             panelDisplay.Display(keyedPanel);
+            return panelDisplay;
         }
 
         protected virtual IValueField[] InitializeValueFields(KeyValuePair<string, Panel> keyedPanel) => Reader.ValueFieldInitializer.InitializePanelValueFields(PanelUI.gameObject, keyedPanel.Value);

@@ -7,32 +7,37 @@ namespace ClinicalTools.SimEncounters.Reader
     public class ReaderQuizTabDisplay : IReaderTabDisplay
     {
         protected ReaderScene Reader { get; }
-        protected Tab Tab { get; }
         protected ReaderPanelCreator ReaderPanelCreator { get; }
         protected ReaderQuizTabUI QuizTabUI { get; }
 
-        public ReaderQuizTabDisplay(ReaderScene reader, ReaderQuizTabUI quizTabUI, KeyValuePair<string, Tab> keyedTab)
+        public ReaderQuizTabDisplay(ReaderScene reader, ReaderQuizTabUI quizTabUI)
         {
             Reader = reader;
-            Tab = keyedTab.Value;
             QuizTabUI = quizTabUI;
             ReaderPanelCreator = new ReaderPanelCreator(reader, quizTabUI.PanelsParent);
-
-            DeserializeChildren(Tab.Panels);
         }
 
-        public void DeserializeChildren(IEnumerable<KeyValuePair<string,Panel>> panels)
+        public virtual void Display(KeyValuePair<string, Tab> keyedTab)
         {
-            foreach (var keyedPanel in panels) {
-                var panelData = keyedPanel.Value.Data;
-                BaseReaderPanelUI panelUI;
-                if (panelData.ContainsKey("OptionTypeValue") && panelData["OptionTypeValue"] == "Multiple Choice")
-                    panelUI = ReaderPanelCreator.Deserialize(QuizTabUI.MultipleChoicePanel);
-                else
-                    panelUI = ReaderPanelCreator.Deserialize(QuizTabUI.CheckBoxPanel);
-                var panelDisplay = Reader.PanelDisplayFactory.CreatePanel(panelUI);
-                panelDisplay.Display(keyedPanel);
-            }
+            DeserializeChildren(keyedTab.Value.Panels);
+        }
+
+        protected virtual void DeserializeChildren(IEnumerable<KeyValuePair<string, Panel>> panels)
+        {
+            foreach (var keyedPanel in panels)
+                DeserializeChild(keyedPanel);
+        }
+
+        protected virtual void DeserializeChild(KeyValuePair<string, Panel> keyedPanel)
+        {
+            var panelData = keyedPanel.Value.Data;
+            BaseReaderPanelUI panelUI;
+            if (panelData.ContainsKey("OptionTypeValue") && panelData["OptionTypeValue"] == "Multiple Choice")
+                panelUI = ReaderPanelCreator.Deserialize(QuizTabUI.MultipleChoicePanel);
+            else
+                panelUI = ReaderPanelCreator.Deserialize(QuizTabUI.CheckBoxPanel);
+            var panelDisplay = Reader.PanelDisplayFactory.CreatePanel(panelUI);
+            panelDisplay.Display(keyedPanel);
         }
 
         public void Destroy() => Object.Destroy(QuizTabUI.GameObject);

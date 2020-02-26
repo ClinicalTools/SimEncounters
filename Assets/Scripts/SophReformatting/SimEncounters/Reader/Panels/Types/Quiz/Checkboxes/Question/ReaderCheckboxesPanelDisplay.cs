@@ -6,6 +6,7 @@ namespace ClinicalTools.SimEncounters.Reader
     public class ReaderCheckboxesPanelDisplay : ReaderPanelDisplay
     {
         protected ReaderCheckboxesPanelUI CheckboxesPanelUI { get; }
+        protected List<ReaderCheckboxOptionDisplay> Options { get; } = new List<ReaderCheckboxOptionDisplay>();
         public ReaderCheckboxesPanelDisplay(ReaderScene reader, ReaderCheckboxesPanelUI checkboxesPanelUI)
             : base(reader, checkboxesPanelUI)
         {
@@ -13,14 +14,17 @@ namespace ClinicalTools.SimEncounters.Reader
             CheckboxesPanelUI.GetFeedbackButton.onClick.AddListener(GetFeedback);
         }
 
+        protected override IReaderPanelDisplay DeserializeChild(KeyValuePair<string, Panel> keyedPanel)
+        {
+            var panelDisplay = base.DeserializeChild(keyedPanel);
+            if (panelDisplay is ReaderCheckboxOptionDisplay option)
+                Options.Add(option);
+            return panelDisplay;
+        }
         protected virtual void GetFeedback()
         {
-            // TODO 
-            foreach (var child in new List<ReaderCheckboxOptionDisplay>())
-            {
-                if (child is ReaderCheckboxOptionDisplay feedbackChild)
-                    feedbackChild.GetFeedback();
-            }
+            foreach (var option in Options)
+                option.GetFeedback();
         }
     }
 }

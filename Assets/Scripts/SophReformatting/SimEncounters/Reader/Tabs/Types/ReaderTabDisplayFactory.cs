@@ -10,14 +10,14 @@ namespace ClinicalTools.SimEncounters.Reader
             Reader = reader;
         }
 
-        public IReaderTabDisplay CreateTab(IReaderTabUI tabUI, KeyValuePair<string, Tab> keyedTab)
+        public IReaderTabDisplay CreateTab(IReaderTabUI tabUI)
         {
             if (tabUI is ReaderCheckboxesTabUI checkboxesTabUI)
-                return new ReaderCheckboxesTabDisplay(Reader, checkboxesTabUI, keyedTab);
+                return new ReaderCheckboxesTabDisplay(Reader, checkboxesTabUI);
             else if (tabUI is ReaderQuizTabUI quizTabUI)
-                return new ReaderQuizTabDisplay(Reader, quizTabUI, keyedTab);
+                return new ReaderQuizTabDisplay(Reader, quizTabUI);
             else if (tabUI is ReaderTabUI basicTabUI)
-                return new ReaderTabDisplay(Reader, basicTabUI, keyedTab);
+                return new ReaderTabDisplay(Reader, basicTabUI);
             else
                 return default;
         }
