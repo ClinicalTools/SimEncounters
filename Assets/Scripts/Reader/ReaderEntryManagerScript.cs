@@ -12,27 +12,15 @@ using UnityEngine.Networking;
 public class ReaderEntryManagerScript : MonoBehaviour
 {
 
-    public GameObject[] loadedPrefabs;
-    public String[] loadedPrefabsDisplayNames;
-    private List<LabEntryScript> entryList;
-    public GameObject parentTab;
-    private XmlDocument xmlDoc;
-    private ReaderTabManager tm;
-    private ReaderDataScript ds;
-    public bool isNested;
-    public bool isQuizPanel;
-    public bool isStatic;
-    public bool isPuzzle;
-    private Transform panelPin;
-    private bool populating;
-    private string uniquePath;
-    private bool willScroll = false;
-    private GameObject BG;
-    private string uid;
-    private bool addData;
-    private ReaderEntryManagerScript parentManager;
-    private List<QuizQuestionScript> questionList;
-
+    public GameObject[] loadedPrefabs = null;
+    public String[] loadedPrefabsDisplayNames = null;
+    private List<LabEntryScript> entryList = null;
+    public GameObject parentTab = null;
+    public bool isNested = false;
+    public bool isQuizPanel = false;
+    public bool isStatic = false;
+    public bool isPuzzle = false;
+    
     /**
 	 * This script is used to manage any tab that has addable entries/panels to it. These can be nested as well
 	 * (nested has only been tested one level deep)
@@ -1624,7 +1612,7 @@ public class ReaderEntryManagerScript : MonoBehaviour
     // Grabs the pin associated with the panel (dialogue, quiz, event, etc)
     public void SetPin(Transform pin)
     {
-        panelPin = pin;
+        //panelPin = pin;
     }
 
     /**

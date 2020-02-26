@@ -9,7 +9,7 @@ using TMPro;
  */
 public class SwapSectionScript : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI sectionName; //Provided section name
+    [SerializeField] private TextMeshProUGUI sectionName = null; //Provided section name
 
     protected string SectionKey { get; set; }
     public virtual void ChangeSection()
@@ -31,7 +31,7 @@ public class SwapSectionScript : MonoBehaviour
         GetComponent<Image>().color = color;
     }
 
-    [SerializeField] private Image icon;
+    [SerializeField] private Image icon = null;
     public virtual void SetSprite(Sprite sprite)
     {
         icon.sprite = sprite;

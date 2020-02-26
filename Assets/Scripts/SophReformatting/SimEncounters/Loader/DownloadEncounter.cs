@@ -7,19 +7,19 @@ namespace ClinicalTools.SimEncounters
 {
     public class DownloadEncounter : SimAsyncOperation<XmlDocument>
     {
-        private readonly string address;
+        private readonly string address = "";
 
         UnityWebRequest webRequest;
         public DownloadEncounter(string fileName, string column) : base()
         {
-            fileName = fileName.Replace(" ", "_");
+            //fileName = fileName.Replace(" ", "_");
             // Phenomenal php file name
             // TODO: rename PHP file
             //string serverURL = GlobalData.serverAddress + "Test.php";
-            string serverURL = "Test.php";
+            //string serverURL = "Test.php";
             // This is literally (at the time of writing this) a public file on github and has a username and password in plaintext very cool
             // TODO: change login and don't make login details publicly available
-            string urlParams = "?webfilename=" + fileName + "&webusername=clinical&webpassword=encounters&mode=download";
+            //string urlParams = "?webfilename=" + fileName + "&webusername=clinical&webpassword=encounters&mode=download";
             //address = serverURL + urlParams + "&column=" + column + "&accountId=" + GlobalData.caseObj.accountId;
         }
 

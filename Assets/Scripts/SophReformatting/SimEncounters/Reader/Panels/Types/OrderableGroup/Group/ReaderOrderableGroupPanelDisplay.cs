@@ -59,7 +59,7 @@ namespace ClinicalTools.SimEncounters.Reader
             var allCorrect = true;
             for (int i = 0; i < draggableObjects.Count; i++) {
                 //var orderableItem = draggableObjects[i] as ReaderOrderableItemPanelUI;
-                var orderableItem = ChildPanels.FirstOrDefault(panelDisplay => draggableObjects[i] == panelDisplay.PanelUI);
+                var orderableItem = ChildPanels.FirstOrDefault(panelDisplay => (draggableObjects[i] as ReaderOrderableItemPanelUI) == panelDisplay.PanelUI);
                 if (orderableItem == null)
                     continue;
                 var actualIndex = keyedPanel.Value.ChildPanels.IndexOf(orderableItem.KeyedPanel.Value);

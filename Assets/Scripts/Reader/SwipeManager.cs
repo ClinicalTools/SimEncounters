@@ -2,8 +2,8 @@
 
 public class SwipeManager : MonoBehaviour
 {
-    private ReaderDataScript ds;
-    private ReaderTabManager tm;
+    private ReaderDataScript ds = null;
+    private ReaderTabManager tm = null;
 
     // Amount angle can be from straight to count as a swipe
     private const float ANGLE_TOLERANCE = 15f;
@@ -119,7 +119,7 @@ public class SwipeManager : MonoBehaviour
     public void SwipeLeft()
     {
         if (!OnValidScreen())
-            return;
+            return; 
 
         TabInfoScript currentTab = ds.GetData(tm.getCurrentSection()).GetTabInfo(tm.getCurrentTab());
 

@@ -7,7 +7,7 @@ public class OpenConditionalPanel : MonoBehaviour
     public SerialScript sserial;
     private TabManager tm;
     public bool canSetPatientImage = false;
-    private bool isPatientImage;
+    private bool isPatientImage = false;
     public bool updateThumbnail = true;
 
     // TODO: change how serial is handled

@@ -7,7 +7,7 @@ namespace EntryValue
 	public abstract class EntryValue : MonoBehaviour
 	{
 		[SerializeField]
-		private string valueTag;
+		private string valueTag = null;
 		
 		/// <summary>
 		/// Sets the value of this entry

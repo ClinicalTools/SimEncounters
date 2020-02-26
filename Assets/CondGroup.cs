@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CondGroup : MonoBehaviour
 {
-    [SerializeField] private GameObject rowPrefab;
+    [SerializeField] private GameObject rowPrefab = null;
     public GameObject RowPrefab => rowPrefab;
 
     public Transform Transform { get; set; }

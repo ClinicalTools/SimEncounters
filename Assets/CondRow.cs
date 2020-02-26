@@ -4,11 +4,11 @@ using UnityEngine;
 public class CondRow : MonoBehaviour
 {
 
-    [SerializeField] private GameObject boolFieldsPrefab, intFieldsPrefab;
-    [SerializeField] private Transform typeFieldsLoc;
+    [SerializeField] private GameObject boolFieldsPrefab = null, intFieldsPrefab = null;
+    [SerializeField] private Transform typeFieldsLoc = null;
     private BoolCondFields boolFields;
     private IntCondFields intFields;
-    [SerializeField] private TMP_Dropdown varDropdown;
+    [SerializeField] private TMP_Dropdown varDropdown = null;
     private VarType type;
     private CondGroup condGroup;
 

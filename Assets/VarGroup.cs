@@ -5,7 +5,7 @@ public abstract class VarGroup<T, U, V> : MonoBehaviour
     where T : VarRow<U, V>
     where U : EncounterVariable<V>
 {
-    [SerializeField] private GameObject rowPrefab;
+    [SerializeField] private GameObject rowPrefab = null;
     public virtual GameObject RowPrefab => rowPrefab;
     public virtual Transform Group => transform;
 

@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class BoolRow : VarRow<EncounterBool, bool>
 {
-    [SerializeField] private TMP_InputField nameField;
-    [SerializeField] private TMP_Dropdown valDropdown;
+    [SerializeField] private TMP_InputField nameField = null;
+    [SerializeField] private TMP_Dropdown valDropdown = null;
 
 
     public override void NewVal()

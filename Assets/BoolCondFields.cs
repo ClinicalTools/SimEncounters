@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BoolCondFields : CondFields<BoolConditional, bool>
 {
-    [SerializeField] private TMP_Dropdown valDropdown;
+    [SerializeField] private TMP_Dropdown valDropdown = null;
     
     public override void Init(CondGroup condGroup, string varSerial)
     {

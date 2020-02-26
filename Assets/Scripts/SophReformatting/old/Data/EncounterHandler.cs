@@ -189,7 +189,6 @@ namespace ClinicalTools.SimEncountersOld
 
 
         private GameObject notification;
-        private bool fade;
         /**
          * Use this to show a confirmation that the case was saved successfully
          */
@@ -207,13 +206,13 @@ namespace ClinicalTools.SimEncountersOld
                 notification.name = "ErrorPanel";
             }
             CancelInvoke("Fade");
-            fade = false;
+            //fade = false;
             notification.GetComponent<CanvasGroup>().alpha = 1;
             notification.SetActive(true);
             TextMeshProUGUI messageText = notification.transform.Find("BG/Message").GetComponent<TextMeshProUGUI>();
             messageText.text = message;
             Invoke("Fade", 5f);
-            NextFrame.Function(delegate { fade = true; });
+            //NextFrame.Function(delegate { fade = true; });
 
         }
 

@@ -33,13 +33,13 @@ namespace ClinicalTools.SimEncounters.Loading
 
             try {
                 xmlDoc.LoadXml(text); //this loads the local file
-                                     // Decrypt the data
-           } catch (XmlException) {
+                                      // Decrypt the data
+            } catch (XmlException) {
                 Debug.Log(text.Substring(0, 50));
                 throw;
                 //text = await DecryptXml(path);
-               //xmlDoc.LoadXml(text);
-           }
+                //xmlDoc.LoadXml(text);
+            }
 
             return xmlDoc;
         }
@@ -64,12 +64,12 @@ namespace ClinicalTools.SimEncounters.Loading
 
             Debug.Log(text);
             //try {
-                xmlDoc.LoadXml(text); //this loads the local file
-             /*                         // Decrypt the data
-            } catch (XmlException) {
-                text = await DecryptXml(path);
-                xmlDoc.LoadXml(text);
-            }*/
+            xmlDoc.LoadXml(text); //this loads the local file
+            /*                         // Decrypt the data
+           } catch (XmlException) {
+               text = await DecryptXml(path);
+               xmlDoc.LoadXml(text);
+           }*/
 
             return xmlDoc;
         }

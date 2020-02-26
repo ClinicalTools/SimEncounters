@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class IntRow : VarRow<EncounterInt, int>
 {
-    [SerializeField] private TMP_InputField nameField;
-    [SerializeField] private TMP_InputField valField;
+    [SerializeField] private TMP_InputField nameField = null;
+    [SerializeField] private TMP_InputField valField = null;
 
     public override void NewVal()
     {

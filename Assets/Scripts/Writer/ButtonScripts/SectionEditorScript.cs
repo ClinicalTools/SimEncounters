@@ -10,7 +10,7 @@ public class SectionEditorScript : MonoBehaviour
     GameObject BG;
     EditSectionScript ess;
     TMP_InputField titleValue;
-    [SerializeField] private CondGroup condGroup;
+    [SerializeField] private CondGroup condGroup = null;
 
     /**
 	 * Script for buttons to use/call when editing a section

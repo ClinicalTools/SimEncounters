@@ -27,7 +27,7 @@ namespace ClinicalTools.SimEncounters
             }
         }
 
-        private string currentSectionKey;
+        private string currentSectionKey = null;
         /**
          * Returns the current section key
          */

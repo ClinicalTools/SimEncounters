@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class IntCondFields : CondFields<IntConditional, int>
 {
-    [SerializeField] private TMP_InputField valField;
-    [SerializeField] private TMP_Dropdown comparatorDropdown;
+    [SerializeField] private TMP_InputField valField = null;
+    [SerializeField] private TMP_Dropdown comparatorDropdown = null;
 
     public override void Init(CondGroup condGroup, string varSerial)
     {

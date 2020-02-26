@@ -893,7 +893,6 @@ public class HistoryFieldManagerScript : MonoBehaviour
     {
         addData = false;
         AddEntry(name, true);
-        MoveableObjectCursorScript move;
         foreach (LabEntryScript entry in entryList) {
             //if ((move = entry.gObject.GetComponentInChildren<MoveableObjectCursorScript>()) != null)
                 //move.UpdateEntryList();
@@ -926,7 +925,7 @@ public class HistoryFieldManagerScript : MonoBehaviour
 
         TMP_Dropdown ddc = tm.transform.Find("EntrySelectorBG").GetComponentInChildren<TMP_Dropdown>();
         AddEntry(ddc.GetComponentInChildren<TextMeshProUGUI>().text, true);
-        MoveableObjectCursorScript move;
+        //MoveableObjectCursorScript move;
         foreach (LabEntryScript entry in entryList) {
             //if ((move = entry.gObject.GetComponentInChildren<MoveableObjectCursorScript>()) != null)
                 //move.UpdateEntryList();
@@ -948,7 +947,7 @@ public class HistoryFieldManagerScript : MonoBehaviour
     public void AddEntryFromButton(string PrefabName)
     {
         AddEntry(PrefabName, true);
-        MoveableObjectCursorScript move;
+        //MoveableObjectCursorScript move;
         foreach (LabEntryScript entry in entryList) {
             //if ((move = entry.gObject.GetComponentInChildren<MoveableObjectCursorScript>()) != null)
                 //move.UpdateEntryList();
@@ -959,7 +958,7 @@ public class HistoryFieldManagerScript : MonoBehaviour
     public void RemoveEntries(Transform parent)
     {
         foreach (Transform child in parent) {
-            GameObject.Destroy(child.gameObject);
+            Destroy(child.gameObject);
         }
         entryList.Clear();
     }
@@ -1065,7 +1064,6 @@ public class HistoryFieldManagerScript : MonoBehaviour
 
         GetComponentInParent<DialogueManagerScript>().AddEntry(newEntryObject.GetComponent<DialogueEntryScript>());
 
-        MoveableObjectCursorScript move;
         foreach (LabEntryScript entry in entryList) {
             //if ((move = entry.gObject.GetComponentInChildren<MoveableObjectCursorScript>()) != null)
                 //move.UpdateEntryList();

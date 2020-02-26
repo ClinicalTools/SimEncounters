@@ -54,8 +54,6 @@ namespace ClinicalTools.SimEncountersOld
         public Dictionary<string, string> correctlyOrderedFlags = new Dictionary<string, string>();
         public List<Transform> newTabs;                     //
         public Transform characterPanel;                    //
-        private string serverCaseData = "";                      //Variable to hold loaded case data from the server
-        private string serverImageData = "";                     //Variable to hold loaded image data from the server	
 
         public UploadToServer ServerUploader;
         public CanvasGroup loadingScreen;
@@ -461,11 +459,10 @@ namespace ClinicalTools.SimEncountersOld
             XmlNode node = xmlDoc.FirstChild;
             node = xmlDoc.AdvNode(node);
             string sectionName = null;
-            string tabName = null;
+            
             SectionDataScript xmlDict = new SectionDataScript();
             xmlDict.Initiate();
             xmlDict.SetPosition(0);
-            string customTabName = null;
             bool inSections = false;
 
 

@@ -77,9 +77,9 @@ namespace ClinicalTools.SimEncounters.Writer
                 return new TabInfo(category, display, prefab);
         }
 
-        [SerializeField] private ToggleGroup categoryGroup;
+        [SerializeField] private ToggleGroup categoryGroup = null;
         protected virtual ToggleGroup CategoryGroup => categoryGroup;
-        [SerializeField] private ToggleGroup tabGroup;
+        [SerializeField] private ToggleGroup tabGroup = null;
         protected virtual ToggleGroup TabGroup => tabGroup;
 
         // what does "tab template" mean???
@@ -132,7 +132,7 @@ namespace ClinicalTools.SimEncounters.Writer
         }
 
         protected virtual TabInfo SelectedTabInfo { get; set; }
-        [SerializeField] private TextMeshProUGUI tabDescriptionLabel;
+        [SerializeField] private TextMeshProUGUI tabDescriptionLabel = null;
         protected virtual TextMeshProUGUI TabDescriptionLabel => tabDescriptionLabel;
         public void ExpandCategory(Toggle categoryToggle, string category, List<TabInfo> tabInfoList)
         {
