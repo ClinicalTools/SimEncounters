@@ -8,7 +8,7 @@ namespace ClinicalTools.SimEncounters.Reader
         public ReaderFeedback Feedback { get; }
         protected ReaderCheckboxOptionUI OptionUI { get; }
 
-        public ReaderCheckboxOptionDisplay(ReaderScene reader, ReaderCheckboxOptionUI optionUI, KeyValuePair<string, Panel> keyedPanel) : base(reader, optionUI, keyedPanel)
+        public ReaderCheckboxOptionDisplay(ReaderScene reader, ReaderCheckboxOptionUI optionUI) : base(reader, optionUI)
         {
             OptionUI = optionUI;
             Feedback = new ReaderFeedback(reader, optionUI.Feedback);

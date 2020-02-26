@@ -40,22 +40,25 @@ namespace ClinicalTools.SimEncounters.Reader
 
         private const string characterNameKey = "characterName";
         private const string providerName = "Provider";
-        protected virtual ReaderDialogueEntryDisplay CreateEntry(KeyValuePair<string, Panel> panel)
+        protected virtual ReaderDialogueEntryDisplay CreateEntry(KeyValuePair<string, Panel> keyedPanel)
         {
             ReaderDialogueEntryUI entryPrefab;
-            if (panel.Value.Data.ContainsKey(characterNameKey) && panel.Value.Data[characterNameKey] == providerName)
+            if (keyedPanel.Value.Data.ContainsKey(characterNameKey) && keyedPanel.Value.Data[characterNameKey] == providerName)
                 entryPrefab = DialoguePopupUI.DialogueEntryRight;
             else
                 entryPrefab = DialoguePopupUI.DialogueEntryLeft;
 
             var panelUI = ReaderPanelCreator.Deserialize(entryPrefab);
-            return Reader.PanelDisplayFactory.CreateDialogueEntryPanel(panelUI, panel);
+            var panelDisplay = Reader.PanelDisplayFactory.CreateDialogueEntryPanel(panelUI);
+            panelDisplay.Display(keyedPanel);
+            return panelDisplay;
         }
 
         protected virtual ReaderDialogueChoiceDisplay CreateChoice(OrderedCollection<Panel> panels, int panelIndex)
         {
             var panelUI = ReaderPanelCreator.Deserialize(DialoguePopupUI.DialogueChoice);
-            var panelDisplay = Reader.PanelDisplayFactory.CreateDialogueChoicePanel(panelUI, panels[panelIndex]);
+            var panelDisplay = Reader.PanelDisplayFactory.CreateDialogueChoicePanel(panelUI);
+            panelDisplay.Display(panels[panelIndex]);
 
             panelDisplay.Completed += () => DeserializeChildren(panels, panelIndex + 1);
             return panelDisplay;

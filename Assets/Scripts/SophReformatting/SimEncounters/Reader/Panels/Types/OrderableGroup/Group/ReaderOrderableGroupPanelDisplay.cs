@@ -15,19 +15,22 @@ namespace ClinicalTools.SimEncounters.Reader
         protected ReaderPanelCreator ReaderPanelCreator { get; }
         protected List<ReaderOrderableItemPanelDisplay> ChildPanels { get; } = new List<ReaderOrderableItemPanelDisplay>();
         protected IValueField[] ValueFields { get; }
-        public KeyValuePair<string, Panel> KeyedPanel { get; }
 
-        public ReaderOrderableGroupPanelDisplay(ReaderScene reader, ReaderOrderableGroupPanelUI panelUI, KeyValuePair<string, Panel> keyedPanel)
+        public ReaderOrderableGroupPanelDisplay(ReaderScene reader, ReaderOrderableGroupPanelUI panelUI)
         {
             Reader = reader;
             PanelUI = panelUI;
-            KeyedPanel = keyedPanel;
+
+            ReaderPanelCreator = new ReaderPanelCreator(Reader, PanelUI.DraggableGroupUI.ChildrenParent);
+        }
+
+        public void Display(KeyValuePair<string, Panel> keyedPanel)
+        {
+            CreatePinButtons(keyedPanel);
+
             var panel = keyedPanel.Value;
 
-            CreatePinButtons(reader, panel);
-
-            var valueFieldInitializer = new ReaderValueFieldInitializer(reader);
-            ValueFields = valueFieldInitializer.InitializePanelValueFields(panelUI.gameObject, panel);
+            Reader.ValueFieldInitializer.InitializePanelValueFields(PanelUI.gameObject, panel);
 
             var shuffeledPanels = new List<KeyValuePair<string, Panel>>(panel.ChildPanels);
             if (panel.ChildPanels.Count > 1) {
@@ -35,22 +38,23 @@ namespace ClinicalTools.SimEncounters.Reader
                     shuffeledPanels.Shuffle();
             }
 
-            ReaderPanelCreator = new ReaderPanelCreator(Reader, PanelUI.DraggableGroupUI.ChildrenParent);
-            DeserializeChildren(shuffeledPanels);
+            var childrenGroup = DeserializeChildren(shuffeledPanels);
+            childrenGroup.OrderChanged += (draggableObjects) => OrderChanged(draggableObjects, keyedPanel);
         }
 
-        public void DeserializeChildren(IEnumerable<KeyValuePair<string, Panel>> panels)
+        public VerticalDraggableGroup DeserializeChildren(IEnumerable<KeyValuePair<string, Panel>> panels)
         {
-            var verticalDraggableGroup = new VerticalDraggableGroup(Reader.Mouse, PanelUI.DraggableGroupUI);
+            var childrenGroup = new VerticalDraggableGroup(Reader.Mouse, PanelUI.DraggableGroupUI);
             foreach (var keyedPanel in panels) {
                 var panelUI = ReaderPanelCreator.Deserialize(keyedPanel, PanelUI.OrderableItemOptions);
-                var panelDisplay = Reader.PanelDisplayFactory.CreateOrderableItemPanel(panelUI, keyedPanel);
-                verticalDraggableGroup.Add(panelUI);
+                var panelDisplay = Reader.PanelDisplayFactory.CreateOrderableItemPanel(panelUI);
+                panelDisplay.Display(keyedPanel);
+                childrenGroup.Add(panelUI);
                 ChildPanels.Add(panelDisplay);
             }
-            verticalDraggableGroup.OrderChanged += OrderChanged;
+            return childrenGroup;
         }
-        private void OrderChanged(List<IDraggable> draggableObjects)
+        private void OrderChanged(List<IDraggable> draggableObjects, KeyValuePair<string, Panel> keyedPanel)
         {
             var allCorrect = true;
             for (int i = 0; i < draggableObjects.Count; i++) {
@@ -58,7 +62,7 @@ namespace ClinicalTools.SimEncounters.Reader
                 var orderableItem = ChildPanels.FirstOrDefault(panelDisplay => draggableObjects[i] == panelDisplay.PanelUI);
                 if (orderableItem == null)
                     continue;
-                var actualIndex = KeyedPanel.Value.ChildPanels.IndexOf(orderableItem.KeyedPanel.Value);
+                var actualIndex = keyedPanel.Value.ChildPanels.IndexOf(orderableItem.KeyedPanel.Value);
                 var distanceFromCorrect = Math.Abs(actualIndex - i);
                 var optionType = GetOptionType(distanceFromCorrect);
                 if (optionType != OptionType.Correct)
@@ -90,6 +94,6 @@ namespace ClinicalTools.SimEncounters.Reader
                 return OptionType.Incorrect;
         }
 
-        protected virtual ReaderPinsGroup CreatePinButtons(ReaderScene reader, Panel panel) => reader.Pins.CreateButtons(panel.Pins, PanelUI.transform);
+        protected virtual ReaderPinsGroup CreatePinButtons(KeyValuePair<string, Panel> keyedPanel) => Reader.Pins.CreateButtons(keyedPanel.Value.Pins, PanelUI.transform);
     }
 }

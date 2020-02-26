@@ -20,15 +20,16 @@ namespace ClinicalTools.SimEncounters.Reader
 
         public void DeserializeChildren(OrderedCollection<Panel> panels)
         {
-            foreach (var panel in panels) {
-                var panelData = panel.Value.Data;
+            foreach (var keyedPanel in panels) {
+                var panelData = keyedPanel.Value.Data;
 
                 ReaderPanelUI panelUI;
                 if (panelData.ContainsKey("OptionTypeValue") && panelData["OptionTypeValue"] == "Multiple Choice")
                     panelUI = ReaderPanelCreator.Deserialize(QuizPopupUI.MultipleChoicePanel);
                 else
                     panelUI = ReaderPanelCreator.Deserialize(QuizPopupUI.CheckBoxPanel);
-                Reader.PanelDisplayFactory.CreatePanel(panelUI, panel);
+                var panelDisplay = Reader.PanelDisplayFactory.CreatePanel(panelUI);
+                panelDisplay.Display(keyedPanel);
             }
         }
     }

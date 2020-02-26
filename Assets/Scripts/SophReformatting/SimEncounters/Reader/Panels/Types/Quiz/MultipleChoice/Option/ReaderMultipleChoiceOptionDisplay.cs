@@ -9,8 +9,8 @@ namespace ClinicalTools.SimEncounters.Reader
         public ReaderFeedback Feedback { get; }
         protected ReaderMultipleChoiceOptionUI MultipleChoiceOptionUI { get; }
 
-        public ReaderMultipleChoiceOptionDisplay(ReaderScene reader, ReaderMultipleChoiceOptionUI multipleChoiceOptionUI, KeyValuePair<string, Panel> keyedPanel)
-            : base(reader, multipleChoiceOptionUI, keyedPanel)
+        public ReaderMultipleChoiceOptionDisplay(ReaderScene reader, ReaderMultipleChoiceOptionUI multipleChoiceOptionUI)
+            : base(reader, multipleChoiceOptionUI)
         {
             MultipleChoiceOptionUI = multipleChoiceOptionUI;
             Feedback = new ReaderFeedback(reader, multipleChoiceOptionUI.Feedback);

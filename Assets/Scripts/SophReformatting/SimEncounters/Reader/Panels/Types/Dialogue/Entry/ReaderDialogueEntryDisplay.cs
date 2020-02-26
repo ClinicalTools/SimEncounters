@@ -5,22 +5,26 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderDialogueEntryDisplay : IReaderPanelDisplay
     {
+        protected ReaderScene Reader { get; }
         protected ReaderDialogueEntryUI EntryUI { get; }
+        protected virtual ColorConverter ColorConverter { get; } = new ColorConverter();
+        public ReaderDialogueEntryDisplay(ReaderScene reader, ReaderDialogueEntryUI entryUI)
+        {
+            Reader = reader;
+            EntryUI = entryUI;
+        }
+
         private const string colorKey = "charColor";
         private const string characterKey = "characterName";
-        protected virtual ColorConverter ColorConverter { get; } = new ColorConverter();
-        public ReaderDialogueEntryDisplay(ReaderScene reader, ReaderDialogueEntryUI entryUI, KeyValuePair<string, Panel> keyedPanel)
+        public void Display(KeyValuePair<string, Panel> keyedPanel)
         {
-            EntryUI = entryUI;
-
             var data = keyedPanel.Value.Data;
             if (data.ContainsKey(colorKey))
                 EntryUI.Border.color = ColorConverter.StringToColor(data[colorKey]);
             if (data.ContainsKey(characterKey))
                 SetCharacterImage(data[characterKey]);
 
-            var valueFieldInitializer = new ReaderValueFieldInitializer(reader);
-            valueFieldInitializer.InitializePanelValueFields(EntryUI.gameObject, keyedPanel.Value);
+            Reader.ValueFieldInitializer.InitializePanelValueFields(EntryUI.gameObject, keyedPanel.Value);
         }
 
         protected virtual void SetCharacterImage(string characterName)

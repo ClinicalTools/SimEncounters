@@ -10,23 +10,27 @@ namespace ClinicalTools.SimEncounters.Reader
     {
         public event Action<ReaderDialogueChoiceOptionDisplay> CorrectlySelected;
 
-        public ReaderFeedback Feedback { get; }
+        public ReaderFeedback Feedback { get; protected set; }
+        protected ReaderScene Reader { get; }
         protected ReaderDialogueChoiceOptionUI OptionUI { get; }
         protected Color OffColor { get; }
         protected Color OnColor { get; }
 
-        public ReaderDialogueChoiceOptionDisplay(ReaderScene reader, ReaderDialogueChoiceOptionUI optionUI, KeyValuePair<string, Panel> keyedPanel)
+        public ReaderDialogueChoiceOptionDisplay(ReaderScene reader, ReaderDialogueChoiceOptionUI optionUI)
         {
+            Reader = reader;
             OptionUI = optionUI;
 
             OffColor = optionUI.Border.color;
             OnColor = optionUI.OnColor;
 
-            var valueFieldInitializer = new ReaderValueFieldInitializer(reader);
-            valueFieldInitializer.InitializePanelValueFields(optionUI.gameObject, keyedPanel.Value);
+            Feedback = new ReaderFeedback(Reader, OptionUI.Feedback);
+        }
 
-            Feedback = new ReaderFeedback(reader, optionUI.Feedback);
-            optionUI.Toggle.onValueChanged.AddListener(GetFeedback);
+        public void Display(KeyValuePair<string, Panel> keyedPanel)
+        {
+            Reader.ValueFieldInitializer.InitializePanelValueFields(OptionUI.gameObject, keyedPanel.Value);
+            OptionUI.Toggle.onValueChanged.AddListener(GetFeedback);
         }
 
         protected virtual void GetFeedback(bool isOn)

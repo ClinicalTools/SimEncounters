@@ -6,8 +6,8 @@ namespace ClinicalTools.SimEncounters.Reader
     public class ReaderCheckboxesPanelDisplay : ReaderPanelDisplay
     {
         protected ReaderCheckboxesPanelUI CheckboxesPanelUI { get; }
-        public ReaderCheckboxesPanelDisplay(ReaderScene reader, ReaderCheckboxesPanelUI checkboxesPanelUI, KeyValuePair<string, Panel> keyedPanel)
-            : base(reader, checkboxesPanelUI, keyedPanel)
+        public ReaderCheckboxesPanelDisplay(ReaderScene reader, ReaderCheckboxesPanelUI checkboxesPanelUI)
+            : base(reader, checkboxesPanelUI)
         {
             CheckboxesPanelUI = checkboxesPanelUI;
             CheckboxesPanelUI.GetFeedbackButton.onClick.AddListener(GetFeedback);
@@ -15,7 +15,8 @@ namespace ClinicalTools.SimEncounters.Reader
 
         protected virtual void GetFeedback()
         {
-            foreach (var child in ChildPanels)
+            // TODO 
+            foreach (var child in new List<ReaderCheckboxOptionDisplay>())
             {
                 if (child is ReaderCheckboxOptionDisplay feedbackChild)
                     feedbackChild.GetFeedback();

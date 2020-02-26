@@ -17,6 +17,7 @@ namespace ClinicalTools.SimEncounters.Reader
         public MouseInput Mouse { get; internal set; }
         public ReaderTabDisplayFactory TabDisplayFactory { get; }
         public ReaderPanelDisplayFactory PanelDisplayFactory { get; }
+        public ReaderValueFieldInitializer ValueFieldInitializer { get; }
 
         public HashSet<string> ReadTabs { get; } = new HashSet<string>();
 
@@ -27,21 +28,27 @@ namespace ClinicalTools.SimEncounters.Reader
         {
             User = user;
             ReaderUI = readerUI;
-            Encounter = encounter; 
-            TabDisplayFactory = new ReaderTabDisplayFactory(this);
-            PanelDisplayFactory = new ReaderPanelDisplayFactory(this);
+            Encounter = encounter;
+
+            TabDisplayFactory = CreateTabDisplayFactory();
+            PanelDisplayFactory = CreatePanelDisplayFactory();
+            ValueFieldInitializer = CreateValueFieldInitializer();
 
             Pins = CreatePinManager();
             Popups = CreatePopupManager();
             Footer = CreateFooter();
             SectionsGroup = CreateSectionsGroup();
             Mouse = readerUI.Mouse;
-            var encounterInfo = new ReaderEncounterInfo(this, ReaderUI.EncounterInfo, encounter.Info);
+            var encounterInfo = CreateEncounterInfo();
 
             AddListeners(ReaderUI);
             loadingScreen.Stop();
         }
 
+        protected virtual ReaderTabDisplayFactory CreateTabDisplayFactory() => new ReaderTabDisplayFactory(this);
+        protected virtual ReaderPanelDisplayFactory CreatePanelDisplayFactory() => new ReaderPanelDisplayFactory(this);
+        protected virtual ReaderValueFieldInitializer CreateValueFieldInitializer() => new ReaderValueFieldInitializer(this);
+        protected virtual ReaderEncounterInfo CreateEncounterInfo() => new ReaderEncounterInfo(this, ReaderUI.EncounterInfo, Encounter.Info);
         protected virtual ReaderSectionsGroup CreateSectionsGroup() => new ReaderSectionsGroup(this, ReaderUI.Sections, Encounter.Content);
         protected virtual ReaderPinManager CreatePinManager() => new ReaderPinManager(this, ReaderUI.Pins);
         protected virtual ReaderPopupManager CreatePopupManager() => new ReaderPopupManager(this, ReaderUI.Popups);

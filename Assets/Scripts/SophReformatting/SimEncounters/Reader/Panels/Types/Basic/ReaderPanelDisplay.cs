@@ -7,33 +7,37 @@ namespace ClinicalTools.SimEncounters.Reader
     {
         protected ReaderScene Reader { get; }
         protected ReaderPanelUI PanelUI { get; }
-        protected ReaderPanelCreator ReaderPanelCreator { get; }
-        protected List<IReaderPanelDisplay> ChildPanels { get; } = new List<IReaderPanelDisplay>();
-        protected IValueField[] ValueFields { get; }
 
-        public ReaderPanelDisplay(ReaderScene reader, ReaderPanelUI panelUI, KeyValuePair<string, Panel> keyedPanel)
+        protected ReaderPanelCreator ReaderPanelCreator { get; }
+
+        public ReaderPanelDisplay(ReaderScene reader, ReaderPanelUI panelUI)
         {
             Reader = reader;
             PanelUI = panelUI;
-            var panel = keyedPanel.Value;
-
-            CreatePinButtons(reader, panel);
-
-            var valueFieldInitializer = new ReaderValueFieldInitializer(reader);
-            ValueFields = valueFieldInitializer.InitializePanelValueFields(PanelUI.gameObject, panel);
 
             ReaderPanelCreator = new ReaderPanelCreator(reader, PanelUI.ChildrenParent);
-            DeserializeChildren(panel.ChildPanels);;
         }
 
-        public void DeserializeChildren(IEnumerable<KeyValuePair<string, Panel>> panels)
+        public virtual void Display(KeyValuePair<string, Panel> keyedPanel)
         {
-            foreach (var keyedPanel in panels) {
-                var panelUI = ReaderPanelCreator.Deserialize(keyedPanel, PanelUI.ChildPanelOptions);
-                ChildPanels.Add(Reader.PanelDisplayFactory.CreatePanel(panelUI, keyedPanel));
-            }
+            CreatePinButtons(keyedPanel);
+            InitializeValueFields(keyedPanel);
+            DeserializeChildren(keyedPanel.Value.ChildPanels);
         }
 
-        protected virtual ReaderPinsGroup CreatePinButtons(ReaderScene reader, Panel panel) => reader.Pins.CreateButtons(panel.Pins, PanelUI.transform);
+        protected virtual void DeserializeChildren(IEnumerable<KeyValuePair<string, Panel>> panels)
+        {
+            foreach (var keyedPanel in panels)
+                DeserializeChild(keyedPanel);
+        }
+        protected virtual void DeserializeChild(KeyValuePair<string, Panel> keyedPanel)
+        {
+            var panelUI = ReaderPanelCreator.Deserialize(keyedPanel, PanelUI.ChildPanelOptions);
+            var panelDisplay = Reader.PanelDisplayFactory.CreatePanel(panelUI);
+            panelDisplay.Display(keyedPanel);
+        }
+
+        protected virtual IValueField[] InitializeValueFields(KeyValuePair<string, Panel> keyedPanel) => Reader.ValueFieldInitializer.InitializePanelValueFields(PanelUI.gameObject, keyedPanel.Value);
+        protected virtual ReaderPinsGroup CreatePinButtons(KeyValuePair<string, Panel> keyedPanel) => Reader.Pins.CreateButtons(keyedPanel.Value.Pins, PanelUI.transform);
     }
 }

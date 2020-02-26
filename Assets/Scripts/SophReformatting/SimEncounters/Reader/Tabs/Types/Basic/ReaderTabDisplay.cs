@@ -20,7 +20,8 @@ namespace ClinicalTools.SimEncounters.Reader
             if (Tab.Panels.Count > 0) {
                 foreach (var keyedPanel in Tab.Panels) {
                     var panelUI = ReaderPanelCreator.Deserialize(keyedPanel, tabUI.PanelOptions);
-                    var panelDisplay = reader.PanelDisplayFactory.CreatePanel(panelUI, keyedPanel);
+                    var panelDisplay = reader.PanelDisplayFactory.CreatePanel(panelUI);
+                    panelDisplay.Display(keyedPanel);
                     ReaderPanels.Add(panelDisplay);
                 }
             }

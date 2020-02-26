@@ -9,25 +9,27 @@ namespace ClinicalTools.SimEncounters.Reader
     {
         public event Action Completed;
 
-        protected List<ReaderDialogueChoiceOptionDisplay> Options { get; }
+        protected List<ReaderDialogueChoiceOptionDisplay> Options { get; set; }
 
         protected ReaderScene Reader { get; }
         protected ReaderPanelCreator ReaderPanelCreator { get; }
         protected ReaderDialogueChoiceUI ChoiceUI { get; }
 
-        public  ReaderDialogueChoiceDisplay(ReaderScene reader, ReaderDialogueChoiceUI choiceUI, KeyValuePair<string, Panel> keyedPanel)
+        public  ReaderDialogueChoiceDisplay(ReaderScene reader, ReaderDialogueChoiceUI choiceUI)
         {
             Reader = reader;
             ReaderPanelCreator = new ReaderPanelCreator(reader, choiceUI.OptionsParent);
             ChoiceUI = choiceUI;
 
-            var valueFieldInitializer = new ReaderValueFieldInitializer(reader);
-            valueFieldInitializer.InitializePanelValueFields(ChoiceUI.gameObject, keyedPanel.Value);
-
-            Options = DeserializeChildren(keyedPanel.Value.ChildPanels);
-
             ChoiceUI.ShowOptionsButton.onClick.AddListener(ShowOptions);
         }
+
+        public void Display(KeyValuePair<string, Panel> keyedPanel)
+        {
+            Reader.ValueFieldInitializer.InitializePanelValueFields(ChoiceUI.gameObject, keyedPanel.Value);
+            Options = DeserializeChildren(keyedPanel.Value.ChildPanels);
+        }
+
         protected virtual List<ReaderDialogueChoiceOptionDisplay> DeserializeChildren(OrderedCollection<Panel> panels)
         {
             var options = new List<ReaderDialogueChoiceOptionDisplay>();
@@ -36,16 +38,19 @@ namespace ClinicalTools.SimEncounters.Reader
 
             return options;
         }
+
         protected virtual ReaderDialogueChoiceOptionDisplay CreateOption(KeyValuePair<string, Panel> panel)
         {
             var optionUI = ReaderPanelCreator.Deserialize(ChoiceUI.OptionPrefab);
-            var option = Reader.PanelDisplayFactory.CreateDialogueChoiceOptionPanel(optionUI, panel);
+            var option = Reader.PanelDisplayFactory.CreateDialogueChoiceOptionPanel(optionUI);
+            option.Display(panel);
 
             option.CorrectlySelected += CorrectlySelected;
             option.SetGroup(ChoiceUI.OptionGroup);
             option.Feedback.SetParent(ChoiceUI.FeedbackParent);
             return option;
         }
+
         protected virtual void CorrectlySelected(ReaderDialogueChoiceOptionDisplay panel)
         {
             foreach (var option in Options)
@@ -57,6 +62,7 @@ namespace ClinicalTools.SimEncounters.Reader
 
             Completed?.Invoke();
         }
+
         protected virtual void ShowOptions()
         {
             foreach (var option in Options)
@@ -65,6 +71,5 @@ namespace ClinicalTools.SimEncounters.Reader
             ChoiceUI.Instructions.SetActive(true);
             ChoiceUI.ShowOptionsButton.gameObject.SetActive(false);
         }
-
     }
 }
