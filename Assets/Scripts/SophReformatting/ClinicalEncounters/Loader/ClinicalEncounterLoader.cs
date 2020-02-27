@@ -11,7 +11,7 @@ namespace ClinicalTools.ClinicalEncounters.Loader
     {
         private EncounterDataFactory encounterDataFactory;
         protected override EncounterDataFactory EncounterDataFactory => encounterDataFactory;
-        protected override ImageDataFactory ImageDataFactory  => new ClinicalImageDataFactory();
+        protected override ImageDataFactory ImageDataFactory => new ClinicalImageDataFactory();
 
         protected NodeInfo LegacyContentInfo { get; } = NodeInfo.RootValue;
         protected NodeInfo LegacyImagesInfo { get; } = NodeInfo.RootValue;
@@ -22,9 +22,9 @@ namespace ClinicalTools.ClinicalEncounters.Loader
             encounterDataFactory = new ClinicalEncounterDataFactory(images);
             var content = GetSectionsData(dataXml);
             return new Encounter(info, content, images);
-    }
+        }
 
-    protected override SectionsData DeserializeSectionsData(XmlDeserializer deserializer)
+        protected override SectionsData DeserializeSectionsData(XmlDeserializer deserializer)
         {
             var sectionsData = base.DeserializeSectionsData(deserializer);
             if (sectionsData != null)
@@ -38,7 +38,7 @@ namespace ClinicalTools.ClinicalEncounters.Loader
             var imagesData = base.DeserializeImagesData(deserializer);
             if (imagesData != null)
                 return imagesData;
-            
+
             return deserializer.GetValue(LegacyImagesInfo, ImageDataFactory);
         }
     }

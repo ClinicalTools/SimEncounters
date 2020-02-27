@@ -1,10 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Xml;
 
 namespace ClinicalTools.SimEncounters.Loading
 {
     public class ServerEncounter : IEncounterXml
     {
+        public event Action<XmlDocument, XmlDocument> Completed;
+
         public Task<XmlDocument> DataXml { get; }
         public Task<XmlDocument> ImagesXml { get; }
         protected virtual ReadEncounterXml ReadXml { get; } = new ReadEncounterXml();
@@ -15,6 +18,13 @@ namespace ClinicalTools.SimEncounters.Loading
             DataXml = Task.Run(() => GetDataXml(fileName));
             ImagesXml = Task.Run(() => GetImagesXml(fileName));
         }
+
+        public void GetEncounterXml()
+        {
+
+            throw new NotImplementedException();
+        }
+
         protected virtual async Task<XmlDocument> GetDataXml(string fileName)
         {
             var dataFilePath = FilePaths.DataFilePath(fileName);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ClinicalTools.SimEncounters.Data;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,5 +26,17 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         [SerializeField] private List<Button> hideOverviewButtons;
         public virtual List<Button> HideOverviewButtons { get => hideOverviewButtons; set => hideOverviewButtons = value; }
+    }
+
+    public class OverviewDisplay
+    {
+        public OverviewDisplay(MainMenuScene mainMenu, OverviewUI overviewUI, EncounterInfoGroup encounterInfo)
+        {
+
+            if (overviewUI.InfoViewer != null) {
+                new EncounterInfoDisplay(overviewUI.InfoViewer, encounterInfo.GetLatestInfo());
+            }
+        }
+
     }
 }

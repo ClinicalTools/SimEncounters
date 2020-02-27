@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Xml;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ namespace ClinicalTools.SimEncounters.Loading
 {
     public class DemoXml : IEncounterXml
     {
+        public event Action<XmlDocument, XmlDocument> Completed;
         public Task<XmlDocument> DataXml { get; }
         public Task<XmlDocument> ImagesXml { get; }
         public XmlDocument DataXmlSync { get; }
@@ -22,6 +24,14 @@ namespace ClinicalTools.SimEncounters.Loading
             //ImagesXml = Task.Run(() => GetImagesXmlSync(DemoPath));
             DataXmlSync = GetDataXmlSync(DemoPath);
             ImagesXmlSync = GetImagesXmlSync(DemoPath);
+
+        }
+
+        public void GetEncounterXml()
+        {
+            var dataXmlSync = GetDataXmlSync(DemoPath);
+            var imagesXmlSync = GetImagesXmlSync(DemoPath);
+            Completed?.Invoke(dataXmlSync, imagesXmlSync);
         }
 
         protected virtual async Task<XmlDocument> GetDataXml(string filePath)

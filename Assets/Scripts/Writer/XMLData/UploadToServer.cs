@@ -304,6 +304,7 @@ public class UploadToServer : MonoBehaviour
         string serverURL = GlobalData.serverAddress + "Test.php";
         string urlParams = "?webfilename=" + fileName + "&webusername=clinical&webpassword=encounters&mode=download";
 		string address = serverURL + urlParams + "&column=" + column + "&accountId=" + GlobalData.caseObj.accountId;
+        Debug.LogError(address);
 		using (UnityWebRequest webRequest = UnityWebRequest.Get(address)) {
 			yield return webRequest.SendWebRequest();
 

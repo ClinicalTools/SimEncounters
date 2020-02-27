@@ -50,8 +50,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         private const int titleIndex = 3;
         private const int recordNumberIndex = 4;
         private const int difficultyIndex = 5;
-        private const int descriptionIndex = 6;
-        private const int subtitleIndex = 7;
+        private const int descriptionIndex = 7;
+        private const int subtitleIndex = 6;
         private const int tagsIndex = 8;
         private const int dateModifiedIndex = 9;
         private const int audienceIndex = 10;
