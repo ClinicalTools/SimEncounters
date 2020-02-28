@@ -3,6 +3,7 @@ using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.Loading;
 using System.Collections;
 using System.Diagnostics;
+using System.Xml;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
@@ -23,15 +24,23 @@ namespace ClinicalTools.SimEncounters.Reader
 
         public IEnumerator StartScene()
         {
-            var watch = Stopwatch.StartNew();
             var loadingScreen = new LoadingScreen();
-            var demoXml = new DemoXml();
-            /*
-            while (!demoXml.DataXml.IsCompleted || !demoXml.ImagesXml.IsCompleted)
-                yield return null;//*/
-            debugField.text = watch.ElapsedMilliseconds.ToString();
 
+            var demoXml = new DemoXml(new FilePathManager(), new FileXmlReader());
+            demoXml.Completed += ShowReader;
+
+            var encounterInfoGroup = new EncounterInfoGroup {
+                Filename = "Chad_Wright"
+            };
+            demoXml.GetEncounterXml(User.Guest, encounterInfoGroup);
+
+            yield return null;
+        }
+
+        public void ShowReader(XmlDocument dataXml, XmlDocument imagesXml)
+        {
             var loader = new ClinicalEncounterLoader();
+            var watch = Stopwatch.StartNew();
             var encounterInfo = new EncounterInfo() {
                 Title = "Chad Wright",
                 Subtitle = "Chronic Knee Pain",
@@ -42,13 +51,10 @@ namespace ClinicalTools.SimEncounters.Reader
                 Difficulty = Difficulty.Intermediate
             };
             encounterInfo.Categories.Add("Pain Management");
+            var encounter = loader.ReadEncounter(encounterInfo, dataXml, imagesXml);
+            watch.Stop();
 
-            var encounter = loader.ReadEncounter(encounterInfo, demoXml.DataXmlSync, demoXml.ImagesXmlSync);
-            //var encounter = loader.ReadEncounter(encounterInfo, demoXml.DataXml.Result, demoXml.ImagesXml.Result);
-            //UnityEngine.Debug.LogError(demoXml.DataXml.Result.OuterXml);// watch.ElapsedMilliseconds);
-            new ReaderScene(User.Guest, loadingScreen, encounter, (ReaderUI)SceneUI);
-            //NextFrame.Function(() => debugField.text = watch.ElapsedMilliseconds.ToString());
-            yield return null;
+            new ReaderScene(User.Guest, null, encounter, (ReaderUI)SceneUI);
         }
     }
 }

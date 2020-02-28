@@ -3,6 +3,7 @@ using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.Loading;
 using System.Collections;
 using System.Diagnostics;
+using System.Xml;
 
 namespace ClinicalTools.SimEncounters.Writer
 {
@@ -24,17 +25,27 @@ namespace ClinicalTools.SimEncounters.Writer
         public IEnumerator StartScene()
         {
             var loadingScreen = new LoadingScreen();
-            var demoXml = new DemoXml();
-            while (!demoXml.DataXml.IsCompleted || !demoXml.ImagesXml.IsCompleted)
-                yield return null;
 
+            var demoXml = new DemoXml(new FilePathManager(), new FileXmlReader());
+            demoXml.Completed += ShowReader;
+
+            var encounterInfoGroup = new EncounterInfoGroup {
+                Filename = "Chad_Wright"
+            };
+            demoXml.GetEncounterXml(User.Guest, encounterInfoGroup);
+
+            yield return null;
+        }
+
+        public void ShowReader(XmlDocument dataXml, XmlDocument imagesXml)
+        {
             var loader = new ClinicalEncounterLoader();
             var watch = Stopwatch.StartNew();
             var encounterInfo = new EncounterInfo();
-            var encounter = loader.ReadEncounter(encounterInfo, demoXml.DataXml.Result, demoXml.ImagesXml.Result);
+            var encounter = loader.ReadEncounter(encounterInfo, dataXml, imagesXml);
             watch.Stop();
-            //UnityEngine.Debug.LogError(demoXml.DataXml.Result.OuterXml);// watch.ElapsedMilliseconds);
-            new EncounterWriter(null, loadingScreen, encounter, (WriterUI)SceneUI);
+
+            new EncounterWriter(null, null, encounter, (WriterUI)SceneUI);
         }
         //SaveCase
 

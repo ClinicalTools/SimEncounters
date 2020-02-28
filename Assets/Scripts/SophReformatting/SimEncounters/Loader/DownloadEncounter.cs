@@ -1,76 +1,66 @@
-﻿using System.Threading.Tasks;
+﻿using System;
 using System.Xml;
-using UnityEngine;
 using UnityEngine.Networking;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class DownloadEncounter : SimAsyncOperation<XmlDocument>
+    public class DownloadEncounter
     {
-        private readonly string address = "";
+        public IWebAddress WebAddress { get; }
 
-        UnityWebRequest webRequest;
-        public DownloadEncounter(string fileName, string column) : base()
+        public event Action<XmlDocument> Completed;
+
+        private const string downloadPhp = "Test.php";
+        private const string filenameArgument = "webfilename";
+        protected virtual string GetWebAddress(string column)
         {
-            //fileName = fileName.Replace(" ", "_");
-            // Phenomenal php file name
-            // TODO: rename PHP file
-            //string serverURL = GlobalData.serverAddress + "Test.php";
-            //string serverURL = "Test.php";
-            // This is literally (at the time of writing this) a public file on github and has a username and password in plaintext very cool
-            // TODO: change login and don't make login details publicly available
-            //string urlParams = "?webfilename=" + fileName + "&webusername=clinical&webpassword=encounters&mode=download";
-            //address = serverURL + urlParams + "&column=" + column + "&accountId=" + GlobalData.caseObj.accountId;
+            WebAddress.AddArgument(filenameArgument, "494350Aaron_Limbaco.ced");
+            WebAddress.AddArgument("webusername", "clinical");
+            WebAddress.AddArgument("webpassword", "encounters");
+            WebAddress.AddArgument("mode", "download");
+            WebAddress.AddArgument("column", column);
+            WebAddress.AddArgument("accountId", "25");
+            return WebAddress.GetUrl(downloadPhp);
         }
 
-        public async Task<XmlDocument> Run()
+        public DownloadEncounter(IWebAddress webAddress) : base()
         {
-            UpdateProgress(0, "Downloading the case.");
-            webRequest = await GetStartedWebRequest(address);
+            WebAddress = webAddress;
+        }
 
-            //Show progress in the slider
-            while (!webRequest.isDone) {
-                if (Progress != webRequest.downloadProgress)
-                    UpdateProgress(webRequest.downloadProgress, "Downloading the case.");
+        public void GetXml(string column)
+        {
+            UnityWebRequest webRequest = UnityWebRequest.Get(GetWebAddress(column));
+            var requestOperation = webRequest.SendWebRequest();
+            requestOperation.completed += (asyncOperation) => ProcessWebrequest(webRequest);
+        }
 
-                await Task.Delay(25);
-            }
-
-            string text = webRequest.downloadHandler.text;
+        protected void ProcessWebrequest(UnityWebRequest webRequest)
+        {
+            var text = GetWebRequestText(webRequest);
             webRequest.Dispose();
 
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(text);
-            Done(xmlDoc);
-
-            return xmlDoc;
+            var Results = ReadServerXml(text);
+            Completed?.Invoke(Results);
         }
 
-        protected async virtual Task<UnityWebRequest> GetStartedWebRequest(string address)
+        protected string GetWebRequestText(UnityWebRequest webRequest)
         {
-            UnityWebRequest webRequest = UnityWebRequest.Get("");
-
-            var send = webRequest.SendWebRequest();
-            while (!send.isDone)
-                await Task.Delay(25);
-
-            if (webRequest.error != null) {
-                Debug.LogError("Error: " + webRequest.error);
-
-                // TODO: add max attempts
-                if (webRequest.error.Equals("Error: Cannot connect to destination host")) {
-                    webRequest?.Dispose();
-                    return await GetStartedWebRequest(address);
-                }
-            }
-
-            return webRequest;
+            if (!webRequest.isDone)
+                return null;
+            else if (webRequest.isNetworkError || webRequest.isHttpError)
+                return null;
+            else if (!webRequest.downloadHandler.isDone)
+                return null;
+            else
+                return webRequest.downloadHandler.text;
         }
 
-
-        public override void Dispose()
+        protected XmlDocument ReadServerXml(string text)
         {
-            webRequest?.Dispose();
+            var xmlDocument = new XmlDocument();
+            xmlDocument.LoadXml(text);
+            return xmlDocument;
         }
     }
 }

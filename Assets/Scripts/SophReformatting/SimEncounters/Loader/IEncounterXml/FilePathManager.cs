@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Loading
 {
-    public class FilePathManager
+    public class FilePathManager : IFilePathManager
     {
         protected virtual string LocalSavesPath => Application.persistentDataPath + "\\LocalSaves\\";
 
@@ -18,11 +18,11 @@ namespace ClinicalTools.SimEncounters.Loading
         ///Returns a truncated md5 hash to represent unique folders for users. This returns only the folder
         ///</summary>
         ///<param name="accountId">User account id</param>
-        public virtual string GetLocalFolder(int accountId)
+        public virtual string GetLocalFolder(User user)
         {
             string accountStr;
             using (MD5 md5 = MD5.Create()) {
-                byte[] bytes = md5.ComputeHash(Encoding.UTF8.GetBytes(accountId.ToString()));
+                byte[] bytes = md5.ComputeHash(Encoding.UTF8.GetBytes(user.AccountId.ToString()));
                 StringBuilder sb = new StringBuilder();
                 foreach (var b in bytes)
                     sb.Append(b.ToString("x2"));

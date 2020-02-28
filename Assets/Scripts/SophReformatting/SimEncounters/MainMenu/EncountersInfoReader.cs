@@ -15,7 +15,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public EncountersInfoReader()
         {
             FileReader = new FileEncountersInfoReader();
-            ServerReader = new ServerCasesInfoReader();
+            ServerReader = new ServerCasesInfoReader(new WebAddress());
         }
 
         public void GetEncounterInfos(User user)

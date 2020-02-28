@@ -1,33 +1,41 @@
-﻿using System.Threading.Tasks;
+﻿using ClinicalTools.SimEncounters.Data;
+using System;
 using System.Xml;
 
 namespace ClinicalTools.SimEncounters.Loading
 {
     public class FileXml : IEncounterXml
     {
-        public Task<XmlDocument> DataXml { get; }
+        public event Action<XmlDocument, XmlDocument> Completed;
 
-        public Task<XmlDocument> ImagesXml { get; }
-        protected virtual ReadEncounterXml ReadXml { get; } = new ReadEncounterXml();
-        protected virtual FilePathManager FilePaths { get; } = new FilePathManager();
+        protected virtual IXmlReader XmlReader { get; }
+        protected virtual IFilePathManager FilePaths { get; }
 
-        public FileXml(int accountId, string fileName)
+        public FileXml(IFilePathManager filePaths, IXmlReader xmlReader)
         {
-            var filePath = FilePaths.GetLocalFolder(accountId) + fileName;
-
-            DataXml = Task.Run(() => GetDataXml(filePath));
-            ImagesXml = Task.Run(() => GetImagesXml(filePath));
+            FilePaths = filePaths;
+            XmlReader = xmlReader;
         }
 
-        protected virtual async Task<XmlDocument> GetDataXml(string filePath)
+        public virtual void GetEncounterXml(User user, EncounterInfoGroup encounterInfoGroup)
+        {
+            var filePath = FilePaths.GetLocalFolder(user) + encounterInfoGroup.Filename;
+            var dataXml = GetDataXml(filePath);
+            var imagesXml = GetImagesXml(filePath);
+            Completed?.Invoke(dataXml, imagesXml);
+        }
+
+
+        protected virtual XmlDocument GetDataXml(string filePath)
         {
             var dataFilePath = FilePaths.DataFilePath(filePath);
-            return await ReadXml.ReadXml(dataFilePath);
+            return XmlReader.ReadXml(dataFilePath);
         }
-        protected virtual async Task<XmlDocument> GetImagesXml(string filePath)
+
+        protected virtual XmlDocument GetImagesXml(string filePath)
         {
             var imageFilePath = FilePaths.ImageFilePath(filePath);
-            return await ReadXml.ReadXml(imageFilePath);
+            return XmlReader.ReadXml(imageFilePath);
         }
     }
 }

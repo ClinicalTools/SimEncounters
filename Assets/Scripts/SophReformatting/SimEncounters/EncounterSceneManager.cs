@@ -3,6 +3,7 @@ using UnityEngine;
 using ClinicalTools.SimEncounters.Loader;
 using ClinicalTools.SimEncounters.Writer;
 using ClinicalTools.SimEncounters.Data;
+using System.Xml;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -15,24 +16,27 @@ namespace ClinicalTools.SimEncounters
         protected virtual string ReaderScenePath => "";
         protected virtual string MainMenuScenePath => "";
 
-        public static void StartWriter(object user, LoadingScreen loadingScreen, IEncounterXml encounterXml)
+        public static void StartWriter(User user, LoadingScreen loadingScreen, IEncounterXml encounterXml)
             => EncounterInstance.StartWriterScene(user, loadingScreen, encounterXml);
-        protected virtual void StartWriterScene(object user, LoadingScreen loadingScreen, IEncounterXml encounterXml)
+        protected virtual void StartWriterScene(User user, LoadingScreen loadingScreen, IEncounterXml encounterXml)
         {
             var loading = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(ReaderScenePath);
-            loading.completed += (asyncOperation) => StartCoroutine(InitializeWriterScene(user, loadingScreen, encounterXml));
+            loading.completed += (asyncOperation) => InitializeWriterScene(user, loadingScreen, encounterXml);
         }
 
-        protected virtual IEnumerator InitializeWriterScene(object user, LoadingScreen loadingScreen, IEncounterXml encounterXml)
+        private void EncounterXml_Completed(User user, XmlDocument dataXml, XmlDocument imagesXml)
         {
-            while (!encounterXml.ImagesXml.IsCompleted || !encounterXml.DataXml.IsCompleted)
-                yield return null;
-
             var loader = new EncounterLoader();
             var encounterInfo = new EncounterInfo();
-            var encounter = loader.ReadEncounter(encounterInfo, encounterXml.DataXml.Result, encounterXml.ImagesXml.Result);
+            var encounter = loader.ReadEncounter(encounterInfo, dataXml, imagesXml);
 
-            new EncounterWriter(user, loadingScreen, encounter, (WriterUI)SceneUI);
+            new EncounterWriter(user, null, encounter, (WriterUI)SceneUI);
+        }
+
+        protected virtual void InitializeWriterScene(User user, LoadingScreen loadingScreen, IEncounterXml encounterXml)
+        {
+            encounterXml.Completed += (dataXml, imagesXml) => EncounterXml_Completed(user, dataXml, imagesXml);
+            encounterXml.GetEncounterXml(user, new EncounterInfoGroup());
         }
     }
 }

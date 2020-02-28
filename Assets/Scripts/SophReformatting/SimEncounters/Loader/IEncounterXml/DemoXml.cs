@@ -1,5 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using ClinicalTools.SimEncounters.Data;
+using System;
 using System.Xml;
 using UnityEngine;
 
@@ -8,53 +8,36 @@ namespace ClinicalTools.SimEncounters.Loading
     public class DemoXml : IEncounterXml
     {
         public event Action<XmlDocument, XmlDocument> Completed;
-        public Task<XmlDocument> DataXml { get; }
-        public Task<XmlDocument> ImagesXml { get; }
-        public XmlDocument DataXmlSync { get; }
-        public XmlDocument ImagesXmlSync { get; }
-        protected virtual ReadEncounterXml ReadXml { get; } = new ReadEncounterXml();
-        protected virtual FilePathManager FilePaths { get; } = new FilePathManager();
 
-        protected virtual string DemoCase => "Chad_Wright";
-        protected virtual string DemoPath => Application.streamingAssetsPath + "/DemoCases/" + DemoCase;
+        protected virtual IXmlReader XmlReader { get; }
+        protected virtual IFilePathManager FilePaths { get; }
+        protected virtual string DemoDirectory => Application.streamingAssetsPath + "/DemoCases/";
 
-        public DemoXml()
+        public DemoXml(IFilePathManager filePaths, IXmlReader xmlReader)
         {
-            //DataXml = Task.Run(() => GetDataXmlSync(DemoPath));
-            //ImagesXml = Task.Run(() => GetImagesXmlSync(DemoPath));
-            DataXmlSync = GetDataXmlSync(DemoPath);
-            ImagesXmlSync = GetImagesXmlSync(DemoPath);
-
+            FilePaths = filePaths;
+            XmlReader = xmlReader;
         }
 
-        public void GetEncounterXml()
+        public virtual void GetEncounterXml(User user, EncounterInfoGroup encounterInfoGroup)
         {
-            var dataXmlSync = GetDataXmlSync(DemoPath);
-            var imagesXmlSync = GetImagesXmlSync(DemoPath);
-            Completed?.Invoke(dataXmlSync, imagesXmlSync);
+            var filePath = DemoDirectory + encounterInfoGroup.Filename;
+            var dataXml = GetDataXml(filePath);
+            var imagesXml = GetImagesXml(filePath);
+            Completed?.Invoke(dataXml, imagesXml);
         }
 
-        protected virtual async Task<XmlDocument> GetDataXml(string filePath)
+
+        protected virtual XmlDocument GetDataXml(string filePath)
         {
             var dataFilePath = FilePaths.DataFilePath(filePath);
-            return await ReadXml.ReadXml(dataFilePath);
+            return XmlReader.ReadXml(dataFilePath);
         }
 
-        protected virtual async Task<XmlDocument> GetImagesXml(string filePath)
+        protected virtual XmlDocument GetImagesXml(string filePath)
         {
             var imageFilePath = FilePaths.ImageFilePath(filePath);
-            return await ReadXml.ReadXml(imageFilePath);
-        }
-        protected virtual XmlDocument GetDataXmlSync(string filePath)
-        {
-            var dataFilePath = FilePaths.DataFilePath(filePath);
-            return ReadXml.ReadXmlSync(dataFilePath);
-        }
-
-        protected virtual XmlDocument GetImagesXmlSync(string filePath)
-        {
-            var imageFilePath = FilePaths.ImageFilePath(filePath);
-            return ReadXml.ReadXmlSync(imageFilePath);
+            return XmlReader.ReadXml(imageFilePath);
         }
     }
 }

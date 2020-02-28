@@ -13,12 +13,13 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public bool IsDone { get; protected set; }
 
         public EncounterInfoParser EncounterInfoParser { get; }
-        public ServerCasesInfoReader()
+        public IWebAddress WebAddress { get; }
+        public ServerCasesInfoReader(IWebAddress webAddress)
         {
+            WebAddress = webAddress;
             EncounterInfoParser = new EncounterInfoParser();
         }
 
-        private const string serverAddress = "https://takecontrolgame.com/docs/games/CECreator/PHP/";
         private const string menuPhp = "Menu.php";
         private const string modeVariable = "mode";
         private const string getMenuCasesMode = "downloadForOneAccount";
@@ -26,9 +27,11 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected string GetMenuCasesUrl(string accountId) => MenuModeUrl(getMenuCasesMode, accountId);
         protected string MenuModeUrl(string mode, string accountId)
-            => $"{serverAddress}{menuPhp}?{UrlVarString(modeVariable, mode)}{UrlVarString(accountVariable, accountId)}";
-        protected string UrlVarString(string varName, string varValue) => $"&{varName}={varValue}";
-
+        {
+            WebAddress.AddArgument(modeVariable, mode);
+            WebAddress.AddArgument(accountVariable, accountId);
+            return WebAddress.GetUrl(menuPhp);
+        }
 
         /**
          * Downloads all available and applicable menu files to display on the main manu.
@@ -80,6 +83,5 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
             return encounters;
         }
-
     }
 }

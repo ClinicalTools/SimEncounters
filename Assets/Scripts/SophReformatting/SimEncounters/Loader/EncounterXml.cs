@@ -28,11 +28,12 @@ namespace ClinicalTools.SimEncounters.Loading
             var dataFilePath = DataFilePath(fileName);
             var imageFilePath = ImageFilePath(fileName);
 
+            /*
             using (DownloadEncounter cedDownloader = new DownloadEncounter(dataFilePath, "xmlData"))
             using (DownloadEncounter ceiDownloader = new DownloadEncounter(imageFilePath, "imgData")) {
                 CurrentEncounterCed = cedDownloader.Run();
                 CurrentEncounterCei = Task.Run(ceiDownloader.Run);
-            }
+            }*/
         }
 
         public virtual void GetFileEncounter(int accountId, string fileName)
@@ -58,9 +59,9 @@ namespace ClinicalTools.SimEncounters.Loading
 
         protected virtual void GetEncounterByFile(string cedFilePath, string ceiFilePath)
         {
-            var readXml = new ReadEncounterXml();
-            CurrentEncounterCed = readXml.ReadXml(cedFilePath);
-            CurrentEncounterCei = readXml.ReadXml(ceiFilePath);
+            var readXml = new FileXmlReader();
+            //CurrentEncounterCed = readXml.ReadXml(cedFilePath);
+            //CurrentEncounterCei = readXml.ReadXml(ceiFilePath);
         }
 
 

@@ -1,5 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using ClinicalTools.SimEncounters.Data;
+using System;
 using System.Xml;
 
 namespace ClinicalTools.SimEncounters.Loading
@@ -8,35 +8,45 @@ namespace ClinicalTools.SimEncounters.Loading
     {
         public event Action<XmlDocument, XmlDocument> Completed;
 
-        public Task<XmlDocument> DataXml { get; }
-        public Task<XmlDocument> ImagesXml { get; }
-        protected virtual ReadEncounterXml ReadXml { get; } = new ReadEncounterXml();
-        protected virtual FilePathManager FilePaths { get; } = new FilePathManager();
+        protected DownloadEncounter DataDownloader { get; }
+        protected DownloadEncounter ImageDownloader { get; }
 
-        public ServerEncounter(string fileName)
+        public ServerEncounter(DownloadEncounter dataDownloader, DownloadEncounter imageDownloader)
         {
-            DataXml = Task.Run(() => GetDataXml(fileName));
-            ImagesXml = Task.Run(() => GetImagesXml(fileName));
+            DataDownloader = dataDownloader;
+            ImageDownloader = imageDownloader;
         }
 
-        public void GetEncounterXml()
+        public void GetEncounterXml(User user, EncounterInfoGroup encounterInfoGroup)
         {
-
-            throw new NotImplementedException();
+            DataDownloader.Completed += DataDownloader_Completed;
+            DataDownloader.GetXml("xmlData");
+            ImageDownloader.Completed += ImageDownloader_Completed;
+            ImageDownloader.GetXml("imgData");
         }
 
-        protected virtual async Task<XmlDocument> GetDataXml(string fileName)
+        protected bool DataDownloaded { get; set; }
+        protected bool ImagesDownloaded { get; set; }
+        protected XmlDocument DataXml { get; set; }
+        protected XmlDocument ImagesXml { get; set; }
+        private void DataDownloader_Completed(XmlDocument xmlDocument)
         {
-            var dataFilePath = FilePaths.DataFilePath(fileName);
-            using (DownloadEncounter dataDownloader = new DownloadEncounter(dataFilePath, "xmlData"))
-                return await dataDownloader.Run();
+            DataXml = xmlDocument;
+            DataDownloaded = true;
+            CheckIfCompleted();
         }
 
-        protected virtual async Task<XmlDocument> GetImagesXml(string fileName)
+        private void ImageDownloader_Completed(XmlDocument xmlDocument)
         {
-            var imageFilePath = FilePaths.ImageFilePath(fileName);
-            using (DownloadEncounter imagesDownloader = new DownloadEncounter(imageFilePath, "imgData"))
-                return await imagesDownloader.Run();
+            ImagesXml = xmlDocument;
+            ImagesDownloaded = true;
+            CheckIfCompleted();
+        }
+
+        protected virtual void CheckIfCompleted()
+        {
+            if (DataDownloaded && ImagesDownloaded)
+                Completed?.Invoke(DataXml, ImagesXml);
         }
     }
 }

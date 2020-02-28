@@ -73,8 +73,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         public void Show()
         {
-
+            
         }
+
         public void Hide()
         {
 

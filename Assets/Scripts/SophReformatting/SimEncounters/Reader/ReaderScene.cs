@@ -42,7 +42,7 @@ namespace ClinicalTools.SimEncounters.Reader
             var encounterInfo = CreateEncounterInfo();
 
             AddListeners(ReaderUI);
-            loadingScreen.Stop();
+            //loadingScreen.Stop();
         }
 
         protected virtual ReaderTabDisplayFactory CreateTabDisplayFactory() => new ReaderTabDisplayFactory(this);
