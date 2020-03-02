@@ -10,7 +10,7 @@ namespace ClinicalTools.SimEncounters
     /// <remarks>
     /// As much as I'd love to escape singletons, there isn't a great way to set variables in the editor and still pass classes between scenes.
     /// </remarks>
-    public class LoadingScreen
+    public class LoadingScreen : ILoadingScreen
     {
         public static LoadingScreen Instance { get; protected set; }
 
@@ -19,6 +19,10 @@ namespace ClinicalTools.SimEncounters
             Instance = this;
         }
 
+        public virtual void Show()
+        {
+
+        }
         public virtual void Stop()
         {
             Instance = null;

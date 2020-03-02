@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
@@ -136,6 +137,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         {
             if (label == null)
                 return;
+            if (dateModified < DateTime.MinValue.Ticks || dateModified > DateTime.MaxValue.Ticks)
+                dateModified = 0;
             var time = new DateTime(dateModified);
             label.text = time.ToString();
         }

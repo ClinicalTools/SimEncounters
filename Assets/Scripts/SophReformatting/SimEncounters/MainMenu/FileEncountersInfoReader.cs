@@ -17,15 +17,16 @@ namespace ClinicalTools.SimEncounters.MainMenu
             EncounterInfoParser = new EncounterInfoParser();
         }
 
-
-        string directory = @"C:\Users\tanner\AppData\LocalLow\Clinical Tools Inc\Clinical Encounters_ Learner\LocalSaves\594728bc39";
+        string directory = @"C:\Users\Nehipasta\AppData\LocalLow\Clinical Tools Inc\Clinical Encounters_ Learner\LocalSaves\594728bc39";
         string menuSearchTerm = "*menu.txt";
         public virtual void GetEncounterInfos(User user)
         {
             List<EncounterInfoGroup> encounters = new List<EncounterInfoGroup>();
 
-            if (!Directory.Exists(directory))
+            if (!Directory.Exists(directory)) { 
                 Complete(null);
+                return;
+            }
 
             var files = Directory.GetFiles(directory, menuSearchTerm);
             foreach (var file in files) {

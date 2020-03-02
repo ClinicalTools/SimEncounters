@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
@@ -18,6 +21,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         public IEnumerator StartScene()
         {
+            //new Login();
+
             new MainMenuScene(User.Guest, (MainMenuUI)SceneUI);
             yield return null;
         }
