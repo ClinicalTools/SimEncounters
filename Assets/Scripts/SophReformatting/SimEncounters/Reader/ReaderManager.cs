@@ -37,7 +37,7 @@ namespace ClinicalTools.SimEncounters.Reader
             yield return null;
         }
 
-        public void ShowReader(XmlDocument dataXml, XmlDocument imagesXml)
+        public void ShowReader(object sender, EncounterXmlRetrievedEventArgs e)
         {
             var loader = new ClinicalEncounterLoader();
             var watch = Stopwatch.StartNew();
@@ -50,8 +50,10 @@ namespace ClinicalTools.SimEncounters.Reader
                 "He now presents as a new patient requesting a prescription for opioids.",
                 Difficulty = Difficulty.Intermediate
             };
+            var encounterInfoGroup = new EncounterInfoGroup();
+            encounterInfoGroup.CurrentInfo = encounterInfo;
             encounterInfo.Categories.Add("Pain Management");
-            var encounter = loader.ReadEncounter(encounterInfo, dataXml, imagesXml);
+            var encounter = loader.ReadEncounter(encounterInfoGroup, e.DataXml, e.ImagesXml);
             watch.Stop();
 
             new ReaderScene(User.Guest, null, encounter, (ReaderUI)SceneUI);

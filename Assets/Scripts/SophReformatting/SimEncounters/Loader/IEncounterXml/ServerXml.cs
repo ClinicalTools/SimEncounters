@@ -4,14 +4,14 @@ using System.Xml;
 
 namespace ClinicalTools.SimEncounters.Loading
 {
-    public class ServerEncounter : IEncounterXml
+    public class ServerXml : IEncounterXml
     {
-        public event Action<XmlDocument, XmlDocument> Completed;
+        public event EncounterXmlRetrievedEventHandler Completed;
 
         protected DownloadEncounter DataDownloader { get; }
         protected DownloadEncounter ImageDownloader { get; }
 
-        public ServerEncounter(DownloadEncounter dataDownloader, DownloadEncounter imageDownloader)
+        public ServerXml(DownloadEncounter dataDownloader, DownloadEncounter imageDownloader)
         {
             DataDownloader = dataDownloader;
             ImageDownloader = imageDownloader;
@@ -46,7 +46,7 @@ namespace ClinicalTools.SimEncounters.Loading
         protected virtual void CheckIfCompleted()
         {
             if (DataDownloaded && ImagesDownloaded)
-                Completed?.Invoke(DataXml, ImagesXml);
+                Completed?.Invoke(this, new EncounterXmlRetrievedEventArgs(DataXml, ImagesXml));
         }
     }
 }

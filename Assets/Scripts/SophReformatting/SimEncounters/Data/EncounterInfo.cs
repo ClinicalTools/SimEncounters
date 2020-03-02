@@ -12,6 +12,7 @@ namespace ClinicalTools.SimEncounters.Data
         public float Rating { get; set; } = -1;
         public string Filename { get; set; }
 
+        public EncounterInfo CurrentInfo { get; set; }
         public EncounterInfo AutosaveInfo { get; set; }
         public EncounterInfo LocalInfo { get; set; }
         public EncounterInfo ServerInfo { get; set; }

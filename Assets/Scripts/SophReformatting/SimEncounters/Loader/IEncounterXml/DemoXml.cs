@@ -1,5 +1,4 @@
 ﻿using ClinicalTools.SimEncounters.Data;
-using System;
 using System.Xml;
 using UnityEngine;
 
@@ -7,7 +6,7 @@ namespace ClinicalTools.SimEncounters.Loading
 {
     public class DemoXml : IEncounterXml
     {
-        public event Action<XmlDocument, XmlDocument> Completed;
+        public event EncounterXmlRetrievedEventHandler Completed;
 
         protected virtual IXmlReader XmlReader { get; }
         protected virtual IFilePathManager FilePaths { get; }
@@ -24,9 +23,8 @@ namespace ClinicalTools.SimEncounters.Loading
             var filePath = DemoDirectory + encounterInfoGroup.Filename;
             var dataXml = GetDataXml(filePath);
             var imagesXml = GetImagesXml(filePath);
-            Completed?.Invoke(dataXml, imagesXml);
+            Completed?.Invoke(this, new EncounterXmlRetrievedEventArgs(dataXml, imagesXml));
         }
-
 
         protected virtual XmlDocument GetDataXml(string filePath)
         {

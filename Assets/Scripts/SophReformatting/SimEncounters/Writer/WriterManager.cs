@@ -37,12 +37,12 @@ namespace ClinicalTools.SimEncounters.Writer
             yield return null;
         }
 
-        public void ShowReader(XmlDocument dataXml, XmlDocument imagesXml)
+        public void ShowReader(object sender, EncounterXmlRetrievedEventArgs e)
         {
             var loader = new ClinicalEncounterLoader();
             var watch = Stopwatch.StartNew();
-            var encounterInfo = new EncounterInfo();
-            var encounter = loader.ReadEncounter(encounterInfo, dataXml, imagesXml);
+            var encounterInfo = new EncounterInfoGroup();
+            var encounter = loader.ReadEncounter(encounterInfo, e.DataXml, e.ImagesXml);
             watch.Stop();
 
             new EncounterWriter(null, null, encounter, (WriterUI)SceneUI);

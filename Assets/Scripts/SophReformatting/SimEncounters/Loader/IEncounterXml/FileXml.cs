@@ -6,10 +6,10 @@ namespace ClinicalTools.SimEncounters.Loading
 {
     public class FileXml : IEncounterXml
     {
-        public event Action<XmlDocument, XmlDocument> Completed;
+        public event EncounterXmlRetrievedEventHandler Completed;
 
-        protected virtual IXmlReader XmlReader { get; }
         protected virtual IFilePathManager FilePaths { get; }
+        protected virtual IXmlReader XmlReader { get; }
 
         public FileXml(IFilePathManager filePaths, IXmlReader xmlReader)
         {
@@ -22,7 +22,7 @@ namespace ClinicalTools.SimEncounters.Loading
             var filePath = FilePaths.GetLocalFolder(user) + encounterInfoGroup.Filename;
             var dataXml = GetDataXml(filePath);
             var imagesXml = GetImagesXml(filePath);
-            Completed?.Invoke(dataXml, imagesXml);
+            Completed?.Invoke(this, new EncounterXmlRetrievedEventArgs(dataXml, imagesXml));
         }
 
 

@@ -10,6 +10,6 @@
         public void AddArgument(string varName, string varValue) => Arguments += UrlArgument(varName, varValue);
         protected string UrlArgument(string varName, string varValue) => $"&{varName}={varValue}";
 
-        public virtual string GetUrl(string page) => $"{ServerAddress}{page}{Arguments}";
+        public virtual string GetUrl(string page) => $"{ServerAddress}{page}?{Arguments}";
     }
 }

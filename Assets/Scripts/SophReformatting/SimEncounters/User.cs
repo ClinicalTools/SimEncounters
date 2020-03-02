@@ -10,7 +10,8 @@ namespace ClinicalTools.SimEncounters
 
         public bool IsGuest { get; }
         public int AccountId { get; }
-        public string Email { get; }
+        public string Email { get; set; }
+        public string Username { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Honorific { get; set; }
@@ -21,10 +22,9 @@ namespace ClinicalTools.SimEncounters
             IsGuest = true;
         }
 
-        public User(int accountId, string email)
+        public User(int accountId)
         {
             AccountId = accountId;
-            Email = email;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using ClinicalTools.SimEncounters.Loading;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,13 +31,31 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
     public class OverviewDisplay
     {
+        public MainMenuScene MainMenu { get; }
+        public EncounterInfoGroup EncounterInfo { get; }
+
         public OverviewDisplay(MainMenuScene mainMenu, OverviewUI overviewUI, EncounterInfoGroup encounterInfo)
         {
+            MainMenu = mainMenu;
+            EncounterInfo = encounterInfo;
 
             if (overviewUI.InfoViewer != null) {
                 new EncounterInfoDisplay(overviewUI.InfoViewer, encounterInfo.GetLatestInfo());
             }
+
+            overviewUI.EncounterButtons.ReadButton.onClick.AddListener(ReadCase);
         }
 
+        protected void ReadCase()
+        {
+            IEncounterXml encounterXml = null;
+            if (EncounterInfo.LocalInfo != null) { 
+                encounterXml = new FileXml(new FilePathManager(), new FileXmlReader());
+            } else if (EncounterInfo.ServerInfo != null) {
+                var webAddress = new WebAddress();
+                encounterXml = new ServerXml(new DownloadEncounter(webAddress), new DownloadEncounter(webAddress));
+            }
+            EncounterSceneManager.StartReader(MainMenu.User, LoadingScreen.Instance, encounterXml);
+        }
     }
 }

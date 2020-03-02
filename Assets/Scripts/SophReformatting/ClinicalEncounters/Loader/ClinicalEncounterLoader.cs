@@ -16,7 +16,7 @@ namespace ClinicalTools.ClinicalEncounters.Loader
         protected NodeInfo LegacyContentInfo { get; } = NodeInfo.RootValue;
         protected NodeInfo LegacyImagesInfo { get; } = NodeInfo.RootValue;
 
-        public override Encounter ReadEncounter(EncounterInfo info, XmlDocument dataXml, XmlDocument imagesXml)
+        public override Encounter ReadEncounter(EncounterInfoGroup info, XmlDocument dataXml, XmlDocument imagesXml)
         {
             var images = GetImagesData(imagesXml);
             encounterDataFactory = new ClinicalEncounterDataFactory(images);
