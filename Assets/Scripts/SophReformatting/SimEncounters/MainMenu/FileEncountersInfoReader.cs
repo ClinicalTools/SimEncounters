@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
@@ -17,12 +18,15 @@ namespace ClinicalTools.SimEncounters.MainMenu
             EncounterInfoParser = new EncounterInfoParser();
         }
 
+        protected string GetDirectory(User user)
+            => $"{Application.persistentDataPath}/LocalSaves/594728bc39";
         string directory = @"C:\Users\Nehipasta\AppData\LocalLow\Clinical Tools Inc\Clinical Encounters_ Learner\LocalSaves\594728bc39";
         string menuSearchTerm = "*menu.txt";
         public virtual void GetEncounterInfos(User user)
         {
             List<EncounterInfoGroup> encounters = new List<EncounterInfoGroup>();
 
+            var directory = GetDirectory(user);
             if (!Directory.Exists(directory)) { 
                 Complete(null);
                 return;

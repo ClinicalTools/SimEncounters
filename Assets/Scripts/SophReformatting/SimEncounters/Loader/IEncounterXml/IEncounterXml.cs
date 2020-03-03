@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using ClinicalTools.SimEncounters.Loader;
 using ClinicalTools.SimEncounters.Loading;
 using System;
 using System.Xml;
@@ -24,40 +25,55 @@ namespace ClinicalTools.SimEncounters
         void GetEncounterXml(User user, EncounterInfoGroup encounterInfoGroup);
     }
 
-    public class EncounterGetter
+    public class EncounterGetter : IEncounterGetter
     {
+        public event Action<Encounter> Completed;
+        public bool IsDone { get; protected set; }
+        public Encounter Encounter { get; protected set; }
+
+        protected EncounterLoader EncounterLoader { get; set; }
         protected ServerXml ServerXml { get; set; }
         protected AutoSaveXml AutoSaveXml { get; set; }
         protected FileXml FileXml { get; set; }
 
-        public IEncounterXml EncounterXml { get; set; }
-
-        public EncounterGetter(ServerXml serverXml, AutoSaveXml autoSaveXml, FileXml fileXml)
+        public EncounterGetter(EncounterLoader encounterLoader, ServerXml serverXml, AutoSaveXml autoSaveXml, FileXml fileXml)
         {
+            EncounterLoader = encounterLoader;
             ServerXml = serverXml;
             FileXml = fileXml;
             AutoSaveXml = autoSaveXml;
         }
 
-        public void GetAutosaveEncounter(EncounterInfoGroup encounterInfoGroup)
+        public void GetAutosaveEncounter(User user, EncounterInfoGroup encounterInfoGroup)
         {
-            ServerXml.Completed += ServerXml_Completed;
-
+            encounterInfoGroup.CurrentInfo = encounterInfoGroup.AutosaveInfo;
+            GetEncounter(user, encounterInfoGroup, AutoSaveXml);
         }
 
-        private void ServerXml_Completed(object sender, EncounterXmlRetrievedEventArgs e)
+        public void GetLocalEncounter(User user, EncounterInfoGroup encounterInfoGroup)
         {
-            throw new NotImplementedException();
+            encounterInfoGroup.CurrentInfo = encounterInfoGroup.LocalInfo;
+            GetEncounter(user, encounterInfoGroup, FileXml);
         }
 
-        public void GetLocalEncounter(EncounterInfoGroup encounterInfoGroup)
+        public void GetServerEncounter(User user, EncounterInfoGroup encounterInfoGroup)
         {
-
+            encounterInfoGroup.CurrentInfo = encounterInfoGroup.ServerInfo;
+            GetEncounter(user, encounterInfoGroup, ServerXml);
         }
 
-        public void GetServerEncounter(EncounterInfoGroup encounterInfoGroup)
+        protected void GetEncounter(User user, EncounterInfoGroup encounterInfoGroup, IEncounterXml encounterXml)
         {
+            encounterXml.Completed += (sender, e) => EncounterXml_Completed(encounterInfoGroup, e);
+            encounterXml.GetEncounterXml(user, encounterInfoGroup);
+        }
 
+        private void EncounterXml_Completed(EncounterInfoGroup encounterInfoGroup, EncounterXmlRetrievedEventArgs e)
+        {
+            var encounter = EncounterLoader.ReadEncounter(encounterInfoGroup, e.DataXml, e.ImagesXml);
+            Encounter = encounter;
+            IsDone = true;
+            Completed?.Invoke(encounter);
         }
     }
 }

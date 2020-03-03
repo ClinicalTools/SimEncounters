@@ -1,4 +1,6 @@
-﻿using ClinicalTools.SimEncounters.Data;
+﻿using ClinicalTools.ClinicalEncounters.Loader;
+using ClinicalTools.SimEncounters.Data;
+using ClinicalTools.SimEncounters.Loader;
 using ClinicalTools.SimEncounters.Loading;
 using System.Collections.Generic;
 using UnityEngine;
@@ -48,14 +50,19 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected void ReadCase()
         {
-            IEncounterXml encounterXml = null;
-            if (EncounterInfo.LocalInfo != null) { 
-                encounterXml = new FileXml(new FilePathManager(), new FileXmlReader());
-            } else if (EncounterInfo.ServerInfo != null) {
-                var webAddress = new WebAddress();
-                encounterXml = new ServerXml(new DownloadEncounter(webAddress), new DownloadEncounter(webAddress));
-            }
-            EncounterSceneManager.StartReader(MainMenu.User, LoadingScreen.Instance, encounterXml);
+            EncounterGetter encounterGetter = 
+                new EncounterGetter(
+                    new ClinicalEncounterLoader(), 
+                    new ServerXml(new DownloadEncounter(new WebAddress()), new DownloadEncounter(new WebAddress())),
+                    new AutoSaveXml(new FilePathManager(), new FileXmlReader()),
+                    new FileXml(new FilePathManager(), new FileXmlReader()));
+
+            if (EncounterInfo.LocalInfo != null)
+                encounterGetter.GetLocalEncounter(MainMenu.User, EncounterInfo);
+            else if (EncounterInfo.ServerInfo != null)
+                encounterGetter.GetServerEncounter(MainMenu.User, EncounterInfo);
+
+            EncounterSceneManager.StartReader(MainMenu.User, encounterGetter);
         }
     }
 }

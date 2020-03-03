@@ -18,10 +18,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
             if (Instance != this)
                 return;
 
-            StartCoroutine(StartScene());
         }
 
-        public IEnumerator StartScene()
+        public void Start()
         {
             var webAddress = new WebAddress();
             var userParser = new UserParser();
@@ -33,8 +32,6 @@ namespace ClinicalTools.SimEncounters.MainMenu
             var login = new Login(autoLogin, manualLogin);
             login.LoggedIn += LoggedIn;
             login.Begin();
-
-            yield return null;
         }
 
         private void LoggedIn(object sender, LoggedInEventArgs e)

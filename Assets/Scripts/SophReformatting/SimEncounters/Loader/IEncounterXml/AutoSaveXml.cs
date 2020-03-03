@@ -14,7 +14,7 @@ namespace ClinicalTools.SimEncounters.Loading
 
         protected override XmlDocument GetImagesXml(string filePath)
         {
-            var imageFilePath = FilePaths.AutoSaveDataFilePath(filePath);
+            var imageFilePath = FilePaths.AutoSaveImageFilePath(filePath);
             return XmlReader.ReadXml(imageFilePath);
         }
     }

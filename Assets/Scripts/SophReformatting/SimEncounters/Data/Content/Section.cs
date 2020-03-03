@@ -9,7 +9,7 @@ namespace ClinicalTools.SimEncounters.Data
 
         public virtual string Name { get; set; }
         public virtual string IconKey { get; set; }
-        public virtual Color Color { get; set; }
+        public virtual Color Color { get; set; } 
 
         public virtual OrderedCollection<Tab> Tabs { get; } = new OrderedCollection<Tab>();
         public virtual ConditionalData Conditions { get; set; }

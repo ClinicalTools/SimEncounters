@@ -16,13 +16,17 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
             TabFactory = new ClinicalTabFactory(ConditionalDataFactory);
         }
 
+        private readonly Color defaultColor = new Color(.0784f, .694f, .639f);
         public override Section Deserialize(XmlDeserializer deserializer)
         {
             var section = base.Deserialize(deserializer);
             // legacy Clinical Encounters saves serialized section color in the icon information
             if (section != null && section.Color == Color.clear && Images.LegacyIconsInfo.ContainsKey(section.IconKey)) {
                 var iconInfo = Images.LegacyIconsInfo[section.IconKey];
-                section.Color = iconInfo.Color;
+                if (iconInfo.Color != Color.clear)
+                    section.Color = iconInfo.Color;
+                else
+                    section.Color = defaultColor;
                 section.IconKey = iconInfo.Reference;
             }
 

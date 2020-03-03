@@ -39,7 +39,6 @@ namespace ClinicalTools.SimEncounters.Reader
 
         public void ShowReader(object sender, EncounterXmlRetrievedEventArgs e)
         {
-            var loader = new ClinicalEncounterLoader();
             var watch = Stopwatch.StartNew();
             var encounterInfo = new EncounterInfo() {
                 Title = "Chad Wright",
@@ -53,6 +52,7 @@ namespace ClinicalTools.SimEncounters.Reader
             var encounterInfoGroup = new EncounterInfoGroup();
             encounterInfoGroup.CurrentInfo = encounterInfo;
             encounterInfo.Categories.Add("Pain Management");
+            var loader = new ClinicalEncounterLoader();
             var encounter = loader.ReadEncounter(encounterInfoGroup, e.DataXml, e.ImagesXml);
             watch.Stop();
 
