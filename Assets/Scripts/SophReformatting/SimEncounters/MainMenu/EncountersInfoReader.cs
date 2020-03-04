@@ -32,6 +32,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 return;
 
             var encounters = ServerReader.Results;
+            if (encounters == null)
+                encounters = new List<EncounterInfoGroup>();
             if (FileReader.Results != null)
             {
                 foreach (var localEncounter in FileReader.Results)

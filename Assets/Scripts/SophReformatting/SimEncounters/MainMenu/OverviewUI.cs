@@ -45,6 +45,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 new EncounterInfoDisplay(overviewUI.InfoViewer, encounterInfo.GetLatestInfo());
             }
 
+            overviewUI.EncounterButtons.ReadButton.onClick.RemoveAllListeners();
             overviewUI.EncounterButtons.ReadButton.onClick.AddListener(ReadCase);
         }
 
@@ -62,7 +63,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             else if (EncounterInfo.ServerInfo != null)
                 encounterGetter.GetServerEncounter(MainMenu.User, EncounterInfo);
 
-            EncounterSceneManager.StartReader(MainMenu.User, encounterGetter);
+            EncounterSceneManager.EncounterInstance.StartReaderScene(MainMenu.User, encounterGetter);
         }
     }
 }

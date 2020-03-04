@@ -7,7 +7,7 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderScene : EncounterScene
     {
-        protected virtual object User { get; }
+        protected virtual User User { get; }
         public virtual Encounter Encounter { get; }
         public virtual ReaderSectionsGroup SectionsGroup { get; }
         protected ReaderUI ReaderUI { get; }
@@ -67,7 +67,8 @@ namespace ClinicalTools.SimEncounters.Reader
 
         public void ShowMainMenu()
         {
-
+            EncounterSceneManager.EncounterInstance.StartMainMenuScene(User);
+            //Popups.ShowConfirmation();
         }
     }
 }

@@ -5,7 +5,8 @@ namespace ClinicalTools.SimEncounters
     public class SceneManager : MonoBehaviour
     {
         public static SceneManager Instance { get; protected set; }
-        [field: SerializeField] protected virtual SceneUI SceneUI { get; set; }
+        [SerializeField] private SceneUI sceneUI;
+        public virtual SceneUI SceneUI { get => sceneUI; set => sceneUI = value; }
 
         public virtual void Awake()
         {

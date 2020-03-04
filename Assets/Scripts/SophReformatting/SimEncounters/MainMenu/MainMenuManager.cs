@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
@@ -36,8 +34,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         private void LoggedIn(object sender, LoggedInEventArgs e)
         {
-            Debug.LogError(e.User);
-            new MainMenuScene(e.User, (MainMenuUI)SceneUI);
+            MainMenuSceneLoader.StartMainMenu(this, e.User);
         }
     }
 }

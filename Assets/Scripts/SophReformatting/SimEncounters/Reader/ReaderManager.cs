@@ -15,6 +15,10 @@ namespace ClinicalTools.SimEncounters.Reader
         public override void Awake()
         {
             base.Awake();
+        }
+
+        protected virtual void Start()
+        {
 
             if (Instance != this)
                 return;
@@ -56,7 +60,7 @@ namespace ClinicalTools.SimEncounters.Reader
             var encounter = loader.ReadEncounter(encounterInfoGroup, e.DataXml, e.ImagesXml);
             watch.Stop();
 
-            new ReaderScene(User.Guest, null, encounter, (ReaderUI)SceneUI);
+            ReaderSceneLoader.StartReader(this, User.Guest, encounter);
         }
     }
 }

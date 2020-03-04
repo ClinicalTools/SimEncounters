@@ -73,6 +73,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         private const string encounterDivider = "::";
         protected List<EncounterInfoGroup> ReadServerEncounters(string text)
         {
+            if (text == null)
+                return null;
             var items = text.Split(new string[] { encounterDivider }, StringSplitOptions.None);
             List<EncounterInfoGroup> encounters = new List<EncounterInfoGroup>(items.Length);
             foreach (string item in items) {
