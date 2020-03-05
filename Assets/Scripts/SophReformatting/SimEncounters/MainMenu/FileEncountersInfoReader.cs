@@ -27,7 +27,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             List<EncounterInfoGroup> encounters = new List<EncounterInfoGroup>();
 
             var directory = GetDirectory(user);
-            if (!Directory.Exists(directory)) { 
+            if (!Directory.Exists(directory)) {
                 Complete(null);
                 return;
             }
@@ -35,7 +35,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             var files = Directory.GetFiles(directory, menuSearchTerm);
             foreach (var file in files) {
                 var fileText = File.ReadAllText(file);
-                
+
                 var encounter = EncounterInfoParser.GetLocalEncounter(fileText);
                 if (encounter != null)
                     encounters.Add(encounter);
@@ -45,6 +45,52 @@ namespace ClinicalTools.SimEncounters.MainMenu
         }
 
         protected virtual void Complete(List<EncounterInfoGroup> results)
+        {
+            Results = results;
+            IsDone = true;
+            Completed?.Invoke(Results);
+        }
+    }
+
+    public class FileEncounterStatusesReader : IEncounterStatusesReader
+    {
+        public event Action<List<UserEncounterStatus>> Completed;
+        public List<UserEncounterStatus> Results { get; protected set; }
+        public bool IsDone { get; protected set; }
+
+        public EncounterStatusParser EncounterStatusParser { get; }
+        public FileEncounterStatusesReader()
+        {
+            EncounterStatusParser = new EncounterStatusParser();
+        }
+
+        protected string GetDirectory(User user)
+            => $"{Application.persistentDataPath}/";
+        string directory = @"C:\Users\Nehipasta\AppData\LocalLow\Clinical Tools Inc\Clinical Encounters_ Learner\";
+        string menuSearchTerm = "*menu.txt";
+        public virtual void GetEncounterStatuses(User user)
+        {
+            List<UserEncounterStatus> encounters = new List<UserEncounterStatus>();
+
+            var directory = GetDirectory(user);
+            if (!Directory.Exists(directory)) {
+                Complete(null);
+                return;
+            }
+
+            var files = Directory.GetFiles(directory, menuSearchTerm);
+            foreach (var file in files) {
+                var fileText = File.ReadAllText(file);
+
+                var encounter = EncounterStatusParser.GetEncounterStatus(fileText);
+                if (encounter != null)
+                    encounters.Add(encounter);
+            }
+
+            Complete(encounters);
+        }
+
+        protected virtual void Complete(List<UserEncounterStatus> results)
         {
             Results = results;
             IsDone = true;

@@ -13,4 +13,13 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         void GetEncounterInfos(User user);
     }
+    public interface IEncounterStatusesReader
+    {
+        bool IsDone { get; }
+        List<UserEncounterStatus> Results { get; }
+
+        event Action<List<UserEncounterStatus>> Completed;
+
+        void GetEncounterStatuses(User user);
+    }
 }

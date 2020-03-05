@@ -32,20 +32,20 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
 
 
-
+        protected InfoNeededForMainMenuTohappen CurrentData { get; set; }
         public virtual void Display(InfoNeededForMainMenuTohappen data)
         {
             GridView.Display(data, data.Categories["category"].Encounters);
             GridView.Selected += EncountersView_Selected;
 
-            EncountersUI.DownloadingCasesObject.SetActive(false);
-            EncountersUI.GridView.GameObject.SetActive(true);
+            DownloadingCasesObject.SetActive(false);
+            GridView.GameObject.SetActive(true);
 
         }
         private void EncountersView_Selected(EncounterDetail encounterInfo)
         {
-            EncountersUI.Overview.GameObject.SetActive(true);
-            new OverviewDisplay(MainMenu, EncountersUI.Overview, encounterInfo);
+            Overview.GameObject.SetActive(true);
+            Overview.Display(CurrentData, encounterInfo);
         }
     }
 }

@@ -29,6 +29,35 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         [SerializeField] private List<Button> hideOverviewButtons;
         public virtual List<Button> HideOverviewButtons { get => hideOverviewButtons; set => hideOverviewButtons = value; }
+
+        public virtual void Init()
+        {
+
+        }
+
+        protected EncounterDetail CurrentEncounterDetails { get; set; }
+        public virtual void Display(InfoNeededForMainMenuTohappen data, EncounterDetail encounterInfo)
+        {
+            CurrentEncounterDetails = encounterInfo;
+
+            if (InfoViewer != null) {
+                new EncounterInfoDisplay(InfoViewer, encounterInfo.EncounterInfoGroup.GetLatestInfo());
+            }
+
+            EncounterButtons.ReadButton.onClick.RemoveAllListeners();
+
+        }
+
+        public virtual void Awake()
+        {
+
+            EncounterButtons.ReadButton.onClick.AddListener(ReadCase);
+        }
+
+        public virtual void ReadCase()
+        {
+
+        }
     }
 
     public class OverviewDisplay
@@ -51,9 +80,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected void ReadCase()
         {
-            EncounterGetter encounterGetter = 
+            EncounterGetter encounterGetter =
                 new EncounterGetter(
-                    new ClinicalEncounterLoader(), 
+                    new ClinicalEncounterLoader(),
                     new ServerXml(new DownloadEncounter(new WebAddress()), new DownloadEncounter(new WebAddress())),
                     new AutoSaveXml(new FilePathManager(), new FileXmlReader()),
                     new FileXml(new FilePathManager(), new FileXmlReader()));
