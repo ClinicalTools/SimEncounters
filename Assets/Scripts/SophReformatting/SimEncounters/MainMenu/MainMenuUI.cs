@@ -9,5 +9,10 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         [SerializeField] private UserDropdownUI userDropdown;
         public UserDropdownUI UserDropdown { get => userDropdown; set => userDropdown = value; }
+
+        public virtual void Display(InfoNeededForMainMenuTohappen data)
+        {
+            Encounters.Display(data);
+        }
     }
 }

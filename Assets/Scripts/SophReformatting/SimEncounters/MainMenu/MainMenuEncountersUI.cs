@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ClinicalTools.SimEncounters.Data;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.MainMenu
@@ -28,5 +29,23 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         [SerializeField] private GameObject downloadingCases;
         public GameObject DownloadingCasesObject { get => downloadingCases; set => downloadingCases = value; }
+
+
+
+
+        public virtual void Display(InfoNeededForMainMenuTohappen data)
+        {
+            GridView.Display(data, data.Categories["category"].Encounters);
+            GridView.Selected += EncountersView_Selected;
+
+            EncountersUI.DownloadingCasesObject.SetActive(false);
+            EncountersUI.GridView.GameObject.SetActive(true);
+
+        }
+        private void EncountersView_Selected(EncounterDetail encounterInfo)
+        {
+            EncountersUI.Overview.GameObject.SetActive(true);
+            new OverviewDisplay(MainMenu, EncountersUI.Overview, encounterInfo);
+        }
     }
 }

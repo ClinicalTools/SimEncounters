@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using ClinicalTools.SimEncounters.Data;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.MainMenu
@@ -21,5 +24,13 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         [SerializeField] private MainMenuEncounterUI optionPrefab;
         public MainMenuEncounterUI OptionPrefab { get => optionPrefab; set => optionPrefab = value; }
+
+
+        public event Action<EncounterDetail> Selected;
+
+        public virtual void Display(InfoNeededForMainMenuTohappen data, List<EncounterDetail> encounters)
+        {
+
+        }
     }
 }
