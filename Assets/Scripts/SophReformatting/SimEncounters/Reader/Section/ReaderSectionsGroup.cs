@@ -44,17 +44,23 @@ namespace ClinicalTools.SimEncounters.Reader
 
             Tabs?.Delete();
             Tabs = new ReaderTabsGroup(Reader, SectionsUI.Tabs, section);
+            Tabs.MoveToPreviousSection += MoveToPreviousSection;
+            Tabs.MoveToNextSection += MoveToNextSection;
         }
 
         protected virtual void MoveToNextSection()
         {
+            var oldSectionIndex = SectionsData.CurrentSectionIndex;
             var sectionIndex = SectionsData.MoveToNextSection();
-            SelectButtons[sectionIndex].Select();
+            if (oldSectionIndex != sectionIndex)
+                SelectButtons[sectionIndex].Select();
         }
         protected virtual void MoveToPreviousSection()
         {
+            var oldSectionIndex = SectionsData.CurrentSectionIndex;
             var sectionIndex = SectionsData.MoveToPreviousSection();
-            SelectButtons[sectionIndex].Select();
+            if (oldSectionIndex != sectionIndex)
+                SelectButtons[sectionIndex].Select();
         }
     }
 }

@@ -12,21 +12,20 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public List<EncounterInfoGroup> Results { get; protected set; }
         public bool IsDone { get; protected set; }
 
-        public EncounterInfoParser EncounterInfoParser { get; }
-        public FileEncountersInfoReader()
+        protected IFilePathManager FilePathManager { get; }
+        protected EncounterInfoParser EncounterInfoParser { get; }
+        public FileEncountersInfoReader(IFilePathManager filePathManager)
         {
+            FilePathManager = filePathManager;
             EncounterInfoParser = new EncounterInfoParser();
         }
 
-        protected string GetDirectory(User user)
-            => $"{Application.persistentDataPath}/LocalSaves/594728bc39";
-        string directory = @"C:\Users\Nehipasta\AppData\LocalLow\Clinical Tools Inc\Clinical Encounters_ Learner\LocalSaves\594728bc39";
-        string menuSearchTerm = "*menu.txt";
+        private const string menuSearchTerm = "*menu.txt";
         public virtual void GetEncounterInfos(User user)
         {
             List<EncounterInfoGroup> encounters = new List<EncounterInfoGroup>();
 
-            var directory = GetDirectory(user);
+            var directory = FilePathManager.GetLocalSavesFolder(user);
             if (!Directory.Exists(directory)) {
                 Complete(null);
                 return;

@@ -1,5 +1,5 @@
-﻿using ClinicalTools.SimEncounters.Collections;
-using ClinicalTools.SimEncounters.Data;
+﻿using ClinicalTools.SimEncounters.Data;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +7,9 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderTabsGroup : ButtonGroup<Tab>
     {
+        public event Action MoveToPreviousSection;
+        public event Action MoveToNextSection;
+
         protected virtual ReaderTabsUI TabsUI { get; }
 
         protected virtual IReaderTabDisplay ReaderTabDisplay { get; set; }
@@ -24,16 +27,17 @@ namespace ClinicalTools.SimEncounters.Reader
 
             CreateInitialButtons(section.Tabs);
             Reader.Footer.NextTab += MoveToNextTab;
+            MouseInput.Instance.SwipeHandler.SwipeLeft += MoveToNextTab;
+            MouseInput.Instance.SwipeHandler.SwipeRight += MoveToPreviousTab;
         }
 
         protected override ISelectable<KeyValuePair<string, Tab>> AddButton(KeyValuePair<string, Tab> keyedTab)
         {
-            var tabButtonUI = Object.Instantiate(TabsUI.TabButtonPrefab, TabsUI.TabButtonsParent);
+            var tabButtonUI = UnityEngine.Object.Instantiate(TabsUI.TabButtonPrefab, TabsUI.TabButtonsParent);
             var tabButton = new ReaderTabButton(Reader, tabButtonUI, keyedTab);
             tabButtonUI.SelectToggle.group = TabsUI.TabsToggleGroup;
             return tabButton;
         }
-
 
         protected override void Select(KeyValuePair<string, Tab> keyedTab)
         {
@@ -43,7 +47,7 @@ namespace ClinicalTools.SimEncounters.Reader
             var tabFolder = $"Reader/Prefabs/Tabs/{tab.Type} Tab/";
             var tabPrefabPath = $"{tabFolder}{tab.Type.Replace(" ", string.Empty)}Tab";
             var tabPrefabGameObject = Resources.Load(tabPrefabPath) as GameObject;
-            var readerTabUI = Object.Instantiate(tabPrefabGameObject, TabsUI.TabContent).GetComponent<IReaderTabUI>();
+            var readerTabUI = UnityEngine.Object.Instantiate(tabPrefabGameObject, TabsUI.TabContent).GetComponent<IReaderTabUI>();
             
             ReaderTabDisplay = Reader.TabDisplayFactory.CreateTab(readerTabUI);
             ReaderTabDisplay.Display(keyedTab);
@@ -56,19 +60,29 @@ namespace ClinicalTools.SimEncounters.Reader
         {
             ReaderTabDisplay?.Destroy();
             Reader.Footer.NextTab -= MoveToNextTab;
+            MouseInput.Instance.SwipeHandler.SwipeLeft -= MoveToNextTab;
+            MouseInput.Instance.SwipeHandler.SwipeRight -= MoveToPreviousTab;
 
             foreach (Transform child in TabsUI.TabButtonsParent)
-                Object.Destroy(child.gameObject);
+                UnityEngine.Object.Destroy(child.gameObject);
         }
         protected virtual void MoveToNextTab()
         {
+            var oldTabIndex = Section.CurrentTabIndex;
             var tabIndex = Section.MoveToNextTab();
-            SelectButtons[tabIndex].Select();
+            if (oldTabIndex != tabIndex)
+                SelectButtons[tabIndex].Select();
+            else
+                MoveToNextSection?.Invoke();
         }
         protected virtual void MoveToPreviousTab()
         {
+            var oldTabIndex = Section.CurrentTabIndex;
             var tabIndex = Section.MoveToPreviousTab();
-            SelectButtons[tabIndex].Select();
+            if (oldTabIndex != tabIndex)
+                SelectButtons[tabIndex].Select();
+            else
+                MoveToPreviousSection?.Invoke();
         }
     }
 }

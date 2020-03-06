@@ -23,12 +23,11 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
             // legacy Clinical Encounters saves serialized section color in the icon information
             if (section != null && section.Color == Color.clear && Images.LegacyIconsInfo.ContainsKey(section.IconKey)) {
                 var iconInfo = Images.LegacyIconsInfo[section.IconKey];
-                if (iconInfo.Color != Color.clear)
-                    section.Color = iconInfo.Color;
-                else
-                    section.Color = defaultColor;
+                section.Color = iconInfo.Color;
                 section.IconKey = iconInfo.Reference;
             }
+            if (section.Color == Color.clear)
+                section.Color = defaultColor;
 
             return section;
         }

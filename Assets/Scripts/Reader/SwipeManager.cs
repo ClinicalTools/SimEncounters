@@ -20,78 +20,73 @@ public class SwipeManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.touches.Length == 1 || Input.GetMouseButton(0))
-        {
+        if (Input.touches.Length == 1 || Input.GetMouseButton(0)) {
             Vector2 newPos;
             if (Input.touches.Length == 1)
                 newPos = Input.touches[0].position;
             else
                 newPos = Input.mousePosition;
 
-            if (touchPos[0] == null)
-            {
-                touchPos[0] = newPos;
-            }
-            else
-            {
-                timeSinceLastPress += Time.deltaTime;
-                while (timeSinceLastPress > .01f)
-                {
-                    if (touchPos[touchPos.Length - 1] != null)
-                    {
-                        for (int i = 0; i < touchPos.Length - 1; i++)
-                            touchPos[i] = touchPos[i + 1];
-
-                        touchPos[touchPos.Length - 1] = newPos;
-                    }
-                    else
-                    {
-                        for (int i = 1; i < touchPos.Length; i++)
-                        {
-                            if (touchPos[i] == null)
-                            {
-                                touchPos[i] = newPos;
-                                break;
-                            }
-                        }
-                    }
-
-                    timeSinceLastPress -= .01f;
-                }
-            }
+            TouchPosition(newPos);
         }
         else if (touchPos[0] != null)
         {
-            Vector2 firstPoint = (Vector2)touchPos[0];
-            Vector2 lastPoint = firstPoint;
-            for (int i = touchPos.Length - 1; i >= 0; i--)
-            {
-                if (touchPos[i] != null)
-                {
-                    lastPoint = (Vector2)touchPos[i];
-                    break;
-                }
-            }
-
-            if (Mathf.Abs(firstPoint.x - lastPoint.x) > ANGLE_MIN_DIST)
-            {
-                var angle = Vector2.Angle(Vector2.left, firstPoint - lastPoint);
-                if (angle < ANGLE_TOLERANCE)
-                {
-                    SwipeRight();
-                }
-                else if (180 - angle < ANGLE_TOLERANCE)
-                {
-                    SwipeLeft();
-                }
-            }
-
-            touchPos = new Vector2?[touchPos.Length];
+            ReleaseTouch();
         }
+    }
+
+    public void TouchPosition(Vector2 newPos)
+    {
+        if (touchPos[0] == null) {
+            touchPos[0] = newPos;
+        } else {
+            timeSinceLastPress += Time.deltaTime;
+            while (timeSinceLastPress > .01f) {
+                if (touchPos[touchPos.Length - 1] != null) {
+                    for (int i = 0; i < touchPos.Length - 1; i++)
+                        touchPos[i] = touchPos[i + 1];
+
+                    touchPos[touchPos.Length - 1] = newPos;
+                } else {
+                    for (int i = 1; i < touchPos.Length; i++) {
+                        if (touchPos[i] == null) {
+                            touchPos[i] = newPos;
+                            break;
+                        }
+                    }
+                }
+
+                timeSinceLastPress -= .01f;
+            }
+        }
+    }
+
+    public void ReleaseTouch()
+    {
+        Vector2 firstPoint = (Vector2)touchPos[0];
+        Vector2 lastPoint = firstPoint;
+        for (int i = touchPos.Length - 1; i >= 0; i--) {
+            if (touchPos[i] != null) {
+                lastPoint = (Vector2)touchPos[i];
+                break;
+            }
+        }
+
+        if (Mathf.Abs(firstPoint.x - lastPoint.x) > ANGLE_MIN_DIST) {
+            var angle = Vector2.Angle(Vector2.left, firstPoint - lastPoint);
+            if (angle < ANGLE_TOLERANCE) {
+                SwipeRight();
+            } else if (180 - angle < ANGLE_TOLERANCE) {
+                SwipeLeft();
+            }
+        }
+
+        touchPos = new Vector2?[touchPos.Length];
     }
 
     public void SwipeRight()
     {
+        /*
         if (!OnValidScreen())
             return;
 
@@ -113,11 +108,12 @@ public class SwipeManager : MonoBehaviour
                 string lastSection = sectionList[nextSectionIndex];
                 tm.SwitchSection(lastSection, true);
             }
-        }
+        }*/
     }
 
     public void SwipeLeft()
     {
+        /*
         if (!OnValidScreen())
             return; 
 
@@ -138,7 +134,7 @@ public class SwipeManager : MonoBehaviour
                 string nextSection = ds.GetSectionsList()[nextSectionIndex];
                 tm.SwitchSection(nextSection);
 			}
-        }
+        }*/
     }
 
     // Ensure that there's not a popup being displayed by searching to see if there's an ongoing dim effect

@@ -13,6 +13,8 @@ namespace ClinicalTools.SimEncounters
     {
         public static MouseInput Instance { get; private set; }
 
+        public SwipeHandler SwipeHandler { get; set; } = new SwipeHandler();
+
         [SerializeField] private Image cursorImage;
         public Image CursorImage { get => cursorImage; set => cursorImage = value; }
         [SerializeField] private Sprite normalCursorSprite;
@@ -23,6 +25,8 @@ namespace ClinicalTools.SimEncounters
         public Texture2D NormalCursorTexture { get => normalCursorTexture; set => normalCursorTexture = value; }
         [SerializeField] private Texture2D draggableCursorTexture;
         public Texture2D DraggableCursorTexture { get => draggableCursorTexture; set => draggableCursorTexture = value; }
+
+        public virtual bool CanDrag => DraggedObjects.Count == 0;
 
         public virtual CursorState CurrentCursorState {
             get {
@@ -78,7 +82,16 @@ namespace ClinicalTools.SimEncounters
                     EndDrag(Input.mousePosition);
                 else
                     Drag(Input.mousePosition);
-            }
+                
+                return;
+            } 
+
+            if (Input.touches.Length == 1)
+                SwipeHandler.TouchPosition(Input.touches[0].position);
+            else if (Input.GetMouseButton(0))
+                SwipeHandler.TouchPosition(Input.mousePosition);
+            else if (SwipeHandler.IsSwiping)
+                SwipeHandler.ReleaseTouch();
         }
 
         public bool RegisterDraggable(IDraggable draggable)
@@ -87,7 +100,7 @@ namespace ClinicalTools.SimEncounters
                 return false;
 
             DraggedObjects.Add(draggable);
-            draggable.StartDrag(Input.mousePosition); 
+            draggable.StartDrag(Input.mousePosition);
             UpdateCursor();
             return true;
         }
@@ -102,7 +115,7 @@ namespace ClinicalTools.SimEncounters
         {
             foreach (var draggedObject in DraggedObjects)
                 draggedObject.EndDrag(mousePosition);
-            DraggedObjects.Clear(); 
+            DraggedObjects.Clear();
             UpdateCursor();
         }
     }

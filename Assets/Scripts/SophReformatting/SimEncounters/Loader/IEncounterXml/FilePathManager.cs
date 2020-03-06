@@ -2,7 +2,7 @@
 using System.Text;
 using UnityEngine;
 
-namespace ClinicalTools.SimEncounters.Loading
+namespace ClinicalTools.SimEncounters
 {
     public class FilePathManager : IFilePathManager
     {
@@ -18,7 +18,7 @@ namespace ClinicalTools.SimEncounters.Loading
         ///Returns a truncated md5 hash to represent unique folders for users. This returns only the folder
         ///</summary>
         ///<param name="accountId">User account id</param>
-        public virtual string GetLocalFolder(User user)
+        public virtual string GetLocalSavesFolder(User user)
         {
             string accountStr;
             using (MD5 md5 = MD5.Create()) {

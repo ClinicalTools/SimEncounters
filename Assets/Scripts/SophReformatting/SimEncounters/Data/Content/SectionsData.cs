@@ -21,18 +21,24 @@ namespace ClinicalTools.SimEncounters.Data
 
         public int MoveToNextSection()
         {
-            if (CurrentSectionIndex < Sections.Count - 1)
-                CurrentSectionIndex++;
+            if (CurrentSectionIndex >= Sections.Count - 1)
+                return CurrentSectionIndex;
+
+            CurrentSectionIndex++;
             var section = Sections[CurrentSectionIndex].Value;
             section.CurrentTabIndex = 0;
+
             return CurrentSectionIndex;
         }
         public int MoveToPreviousSection()
         {
-            if (CurrentSectionIndex > 0)
-                CurrentSectionIndex--;
+            if (CurrentSectionIndex <= 0)
+                return CurrentSectionIndex;
+
+            CurrentSectionIndex--;
             var section = Sections[CurrentSectionIndex].Value;
             section.CurrentTabIndex = section.Tabs.Count - 1;
+
             return CurrentSectionIndex;
         }
     }

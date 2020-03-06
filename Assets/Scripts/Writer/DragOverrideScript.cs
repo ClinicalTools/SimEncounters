@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ClinicalTools.SimEncounters;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -16,8 +17,7 @@ public class DragOverrideScript : CEScrollRect
 
     protected virtual bool CanDrag()
     {
-        return false;
-        //return GlobalData.GDS != null && GlobalData.GDS.isMobile && content.rect.height > viewport.rect.height;
+        return MouseInput.Instance.CanDrag && content.rect.height > viewport.rect.height;
     }
 
     public override void OnBeginDrag(PointerEventData data)
