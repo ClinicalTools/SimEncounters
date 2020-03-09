@@ -8,22 +8,22 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class FileEncountersInfoReader : IEncountersInfoReader
     {
-        public event Action<List<EncounterInfoGroup>> Completed;
-        public List<EncounterInfoGroup> Results { get; protected set; }
+        public event Action<List<EncounterDetail>> Completed;
+        public List<EncounterDetail> Result { get; protected set; }
         public bool IsDone { get; protected set; }
 
         protected IFilePathManager FilePathManager { get; }
-        protected EncounterInfoParser EncounterInfoParser { get; }
+        protected IParser<EncounterDetail> EncounterDetailParser { get; }
         public FileEncountersInfoReader(IFilePathManager filePathManager)
         {
             FilePathManager = filePathManager;
-            EncounterInfoParser = new EncounterInfoParser();
+            EncounterDetailParser = new EncounterDetailParser(new EncounterLocalInfoSetter());
         }
 
         private const string menuSearchTerm = "*menu.txt";
         public virtual void GetEncounterInfos(User user)
         {
-            List<EncounterInfoGroup> encounters = new List<EncounterInfoGroup>();
+            List<EncounterDetail> encounters = new List<EncounterDetail>();
 
             var directory = FilePathManager.GetLocalSavesFolder(user);
             if (!Directory.Exists(directory)) {
@@ -35,7 +35,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             foreach (var file in files) {
                 var fileText = File.ReadAllText(file);
 
-                var encounter = EncounterInfoParser.GetLocalEncounter(fileText);
+                var encounter = EncounterDetailParser.Parse(fileText);
                 if (encounter != null)
                     encounters.Add(encounter);
             }
@@ -43,57 +43,11 @@ namespace ClinicalTools.SimEncounters.MainMenu
             Complete(encounters);
         }
 
-        protected virtual void Complete(List<EncounterInfoGroup> results)
+        protected virtual void Complete(List<EncounterDetail> result)
         {
-            Results = results;
+            Result = result;
             IsDone = true;
-            Completed?.Invoke(Results);
-        }
-    }
-
-    public class FileEncounterStatusesReader : IEncounterStatusesReader
-    {
-        public event Action<List<UserEncounterStatus>> Completed;
-        public List<UserEncounterStatus> Results { get; protected set; }
-        public bool IsDone { get; protected set; }
-
-        public EncounterStatusParser EncounterStatusParser { get; }
-        public FileEncounterStatusesReader()
-        {
-            EncounterStatusParser = new EncounterStatusParser();
-        }
-
-        protected string GetDirectory(User user)
-            => $"{Application.persistentDataPath}/";
-        string directory = @"C:\Users\Nehipasta\AppData\LocalLow\Clinical Tools Inc\Clinical Encounters_ Learner\";
-        string menuSearchTerm = "*menu.txt";
-        public virtual void GetEncounterStatuses(User user)
-        {
-            List<UserEncounterStatus> encounters = new List<UserEncounterStatus>();
-
-            var directory = GetDirectory(user);
-            if (!Directory.Exists(directory)) {
-                Complete(null);
-                return;
-            }
-
-            var files = Directory.GetFiles(directory, menuSearchTerm);
-            foreach (var file in files) {
-                var fileText = File.ReadAllText(file);
-
-                var encounter = EncounterStatusParser.GetEncounterStatus(fileText);
-                if (encounter != null)
-                    encounters.Add(encounter);
-            }
-
-            Complete(encounters);
-        }
-
-        protected virtual void Complete(List<UserEncounterStatus> results)
-        {
-            Results = results;
-            IsDone = true;
-            Completed?.Invoke(Results);
+            Completed?.Invoke(Result);
         }
     }
 }

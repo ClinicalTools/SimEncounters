@@ -4,10 +4,16 @@ namespace ClinicalTools.SimEncounters
 {
     public class EncounterDetail
     {
-        public int EncounterNumber { get; }
+        public int RecordNumber { get; }
 
-        public UserEncounterStatus UserStatus { get; }
+        public EncounterInfoGroup InfoGroup { get; }
 
-        public EncounterInfoGroup EncounterInfoGroup { get; }
+        public UserEncounterStatus UserStatus { get; set; }
+
+        public EncounterDetail(int recordNumber, EncounterInfoGroup infoGroup)
+        {
+            RecordNumber = recordNumber;
+            InfoGroup = infoGroup;
+        }
     }
 }

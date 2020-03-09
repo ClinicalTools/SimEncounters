@@ -41,7 +41,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             CurrentEncounterDetails = encounterInfo;
 
             if (InfoViewer != null) {
-                new EncounterInfoDisplay(InfoViewer, encounterInfo.EncounterInfoGroup.GetLatestInfo());
+                new EncounterInfoDisplay(InfoViewer, encounterInfo.InfoGroup.GetLatestInfo());
             }
 
             EncounterButtons.ReadButton.onClick.RemoveAllListeners();

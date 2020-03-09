@@ -1,16 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public class EncounterStatusParser
+    public class EncounterStatusParser : IParser<KeyValuePair<string, UserEncounterStatus>>
     {
-        
         private const string caseInfoDivider = "--";
 
-        public UserEncounterStatus GetEncounterStatus(string text)
+        public KeyValuePair<string, UserEncounterStatus> Parse(string text)
         {
             var parsedText = GetParsedEncounterText(text);
-
 
             return GetEncounterStatus(parsedText);
         }
@@ -49,15 +48,15 @@ namespace ClinicalTools.SimEncounters.MainMenu
         }
 
         private const string categoryDivider = ", ";
-        protected UserEncounterStatus GetEncounterStatus(string[] parsedItem)
+        protected KeyValuePair<string, UserEncounterStatus> GetEncounterStatus(string[] parsedItem)
         {
             if (parsedItem.Length < encounterParts)
-                return null;
+                return new KeyValuePair<string, UserEncounterStatus>();
 
             var encounterInfo = new UserEncounterStatus();
 
             
-            return encounterInfo;
+            return new KeyValuePair<string, UserEncounterStatus>("", encounterInfo);
         }
     }
 }

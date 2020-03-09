@@ -17,7 +17,7 @@ namespace ClinicalTools.SimEncounters
 
         public void AddEncounterDetail(EncounterDetail encounterDetail)
         {
-            var categories = encounterDetail.EncounterInfoGroup.GetLatestInfo().Categories;
+            var categories = encounterDetail.InfoGroup.GetLatestInfo().Categories;
             foreach (var category in categories)
             {
                 if (Categories.ContainsKey(category))

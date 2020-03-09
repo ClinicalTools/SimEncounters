@@ -22,7 +22,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             casesDownloader.GetEncounterInfos(mainMenu.User);
         }
 
-        protected virtual void EncountersRetrieved(List<EncounterInfoGroup> encounters)
+        protected virtual void EncountersRetrieved(List<EncounterDetail> encounters)
         {
             var encountersView = new MainMenuEncountersViewDisplay(MainMenu, EncountersUI.GridView, encounters);
             encountersView.Selected += EncountersView_Selected;
@@ -44,7 +44,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         protected virtual MainMenuScene MainMenu { get; }
         public event Action<EncounterInfoGroup> Selected;
 
-        public MainMenuEncountersViewDisplay(MainMenuScene mainMenu, MainMenuEncountersViewUI encountersViewUI, List<EncounterInfoGroup> encounters)
+        public MainMenuEncountersViewDisplay(MainMenuScene mainMenu, MainMenuEncountersViewUI encountersViewUI, List<EncounterDetail> encounters)
         {
             MainMenu = mainMenu;
             EncountersViewUI = encountersViewUI;
@@ -53,14 +53,14 @@ namespace ClinicalTools.SimEncounters.MainMenu
         }
 
         List<MainMenuEncounterDisplay> EncounterDisplays = new List<MainMenuEncounterDisplay>();
-        public virtual void SetCases(List<EncounterInfoGroup> encounters)
+        public virtual void SetCases(List<EncounterDetail> encounters)
         {
             foreach (var encounter in encounters) {
-                if (encounter.GetLatestInfo().IsTemplate)
+                if (encounter.InfoGroup.GetLatestInfo().IsTemplate)
                     continue;
 
                 var encounterUI = UnityEngine.Object.Instantiate(EncountersViewUI.OptionPrefab, EncountersViewUI.OptionsParent);
-                var encounterDisplay = new MainMenuEncounterDisplay(MainMenu, encounterUI, encounter);
+                var encounterDisplay = new MainMenuEncounterDisplay(MainMenu, encounterUI, encounter.InfoGroup);
                 encounterDisplay.Selected += (selectedEncounter) => Selected?.Invoke(selectedEncounter);
                 EncounterDisplays.Add(encounterDisplay);
             }

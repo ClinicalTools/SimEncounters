@@ -1,36 +1,119 @@
 ﻿using ClinicalTools.SimEncounters.Data;
 using System;
+using System.Collections.Generic;
 using static MenuCase;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public class EncounterInfoParser
+    public class DictionaryParser<TKey, TValue> : IParser<Dictionary<TKey, TValue>>
     {
-        public virtual EncounterInfoGroup GetAutosaveEncounter(string text)
+        protected IStringSplitter StringSplitter { get; }
+        protected IParser<KeyValuePair<TKey, TValue>> PairParser { get; }
+        public DictionaryParser(IParser<KeyValuePair<TKey, TValue>> elementParser, IStringSplitter stringSplitter)
         {
-            var parsedItem = GetParsedEncounterText(text);
-            var encounter = GetEncounterInfoGroup(parsedItem);
-            if (encounter != null)
-                encounter.AutosaveInfo = GetEncounterInfo(parsedItem);
-            return encounter;
+            PairParser = elementParser;
+            StringSplitter = stringSplitter;
         }
 
-        public virtual EncounterInfoGroup GetLocalEncounter(string text)
+        public Dictionary<TKey, TValue> Parse(string text)
         {
-            var parsedItem = GetParsedEncounterText(text);
-            var encounter = GetEncounterInfoGroup(parsedItem);
-            if (encounter != null)
-                encounter.LocalInfo = GetEncounterInfo(parsedItem);
-            return encounter;
+            if (text == null)
+                return null;
+            var splitText = StringSplitter.Split(text);
+            if (splitText == null)
+                return null;
+
+            var dict = new Dictionary<TKey, TValue>();
+            foreach (var textElement in splitText)
+            {
+                var pair = PairParser.Parse(textElement);
+                if (pair.Value != null && !dict.ContainsKey(pair.Key))
+                    dict.Add(pair.Key, pair.Value);
+            }
+
+            return dict;
+        }
+    }
+    public class ListParser<T> : IParser<List<T>>
+    {
+        protected IStringSplitter StringSplitter { get; }
+        protected IParser<T> ElementParser { get; }
+        public ListParser(IParser<T> elementParser, IStringSplitter stringSplitter)
+        {
+            ElementParser = elementParser;
+            StringSplitter = stringSplitter;
         }
 
-        public virtual EncounterInfoGroup GetServerEncounter(string text)
+        public List<T> Parse(string text)
+        {
+            if (text == null)
+                return null;
+            var splitText = StringSplitter.Split(text);
+            if (splitText == null)
+                return null;
+
+            var list = new List<T>();
+            foreach (var textElement in splitText)
+            {
+                var element = ElementParser.Parse(textElement);
+                if (element != null)
+                    list.Add(element);
+            }
+
+            return list;
+        }
+    }
+
+    public interface IStringSplitter
+    {
+        string[] Split(string str);
+    }
+
+    public interface IEncounterInfoSetter
+    {
+        void SetEncounterInfo(EncounterInfoGroup group, EncounterInfo info);
+    }
+    public class EncounterAutosaveInfoSetter : IEncounterInfoSetter
+    {
+        public void SetEncounterInfo(EncounterInfoGroup group, EncounterInfo info) => group.AutosaveInfo = info;
+    }
+    public class EncounterLocalInfoSetter : IEncounterInfoSetter
+    {
+        public void SetEncounterInfo(EncounterInfoGroup group, EncounterInfo info) => group.LocalInfo = info;
+    }
+    public class EncounterServerInfoSetter : IEncounterInfoSetter
+    {
+        public void SetEncounterInfo(EncounterInfoGroup group, EncounterInfo info) => group.ServerInfo = info;
+    }
+
+    public class EncounterDetailParser : IParser<EncounterDetail>
+    {
+        protected IEncounterInfoSetter EncounterInfoSetter { get; }
+
+        public EncounterDetailParser(IEncounterInfoSetter encounterInfoSetter)
+        {
+            EncounterInfoSetter = encounterInfoSetter;
+        }
+
+        public virtual EncounterDetail Parse(string text)
         {
             var parsedItem = GetParsedEncounterText(text);
-            var encounter = GetEncounterInfoGroup(parsedItem);
-            if (encounter != null)
-                encounter.ServerInfo = GetEncounterInfo(parsedItem);
-            return encounter;
+            var infoGroup = GetInfoGroup(parsedItem);
+            if (infoGroup != null)
+                EncounterInfoSetter.SetEncounterInfo(infoGroup, GetInfo(parsedItem));
+
+            var recordNumber = GetRecordNumber(parsedItem);
+            return new EncounterDetail(recordNumber, infoGroup);
+        }
+
+        private const int recordNumberIndex = 4;
+        private int GetRecordNumber(string[] parsedItem)
+        {
+            if (parsedItem.Length <= recordNumberIndex)
+                if (int.TryParse(parsedItem[recordNumberIndex], out var recordNumber))
+                    return recordNumber;
+            
+            return 0;
         }
 
         private const string caseInfoDivider = "--";
@@ -48,7 +131,6 @@ namespace ClinicalTools.SimEncounters.MainMenu
         private const int filenameIndex = 1;
         private const int authorNameIndex = 2;
         private const int titleIndex = 3;
-        private const int recordNumberIndex = 4;
         private const int difficultyIndex = 5;
         private const int descriptionIndex = 7;
         private const int subtitleIndex = 6;
@@ -59,13 +141,13 @@ namespace ClinicalTools.SimEncounters.MainMenu
         private const int ratingIndex = 12;
         private const int caseTypeIndex = 13;
         private const string filenameExtension = ".ced";
-        public EncounterInfoGroup GetEncounterInfoGroup(string[] parsedItem)
+        public EncounterInfoGroup GetInfoGroup(string[] parsedItem)
         {
             if (parsedItem == null || parsedItem.Length < encounterParts)
                 return null;
 
-            var encounterInfoGroup = new EncounterInfoGroup {
-                RecordNumber = parsedItem[recordNumberIndex],
+            var encounterInfoGroup = new EncounterInfoGroup
+            {
                 Filename = GetFilename(parsedItem[filenameIndex])
             };
 
@@ -83,12 +165,13 @@ namespace ClinicalTools.SimEncounters.MainMenu
         }
 
         private const string categoryDivider = ", ";
-        public EncounterInfo GetEncounterInfo(string[] parsedItem)
+        public EncounterInfo GetInfo(string[] parsedItem)
         {
             if (parsedItem.Length < encounterParts)
                 return null;
 
-            var encounterInfo = new EncounterInfo() {
+            var encounterInfo = new EncounterInfo()
+            {
                 AuthorAccountId = int.Parse(parsedItem[authorAccountIdIndex]),
                 Title = parsedItem[titleIndex],
                 Difficulty = GetDifficulty(parsedItem[difficultyIndex]),
