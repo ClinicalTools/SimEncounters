@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
-using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
@@ -16,8 +15,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             MainMenu = mainMenu;
             EncountersUI = encountersUI;
 
-            var casesDownloader = new EncountersInfoReader();
-            EncountersUI = encountersUI;
+            var casesDownloader = new EncountersInfoReader(); 
             casesDownloader.Completed += EncountersRetrieved;
             casesDownloader.GetEncounterInfos(mainMenu.User);
         }

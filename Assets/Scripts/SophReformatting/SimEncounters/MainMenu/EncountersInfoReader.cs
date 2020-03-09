@@ -12,23 +12,27 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected virtual IEncountersInfoReader FileReader { get; }
         protected virtual IEncountersInfoReader ServerReader { get; }
+        protected virtual IEncounterStatusesReader StatusesReader { get; }
         public EncountersInfoReader()
         {
             FileReader = new FileEncountersInfoReader(new FilePathManager());
             ServerReader = new ServerCasesInfoReader(new WebAddress());
+            StatusesReader = new EncounterStatusesReader();
         }
 
         public void GetEncounterInfos(User user)
         {
             ServerReader.Completed += (results) => ProcessResults();
             FileReader.Completed += (results) => ProcessResults();
+            StatusesReader.Completed += (results) => ProcessResults();
             ServerReader.GetEncounterInfos(user);
+            StatusesReader.GetEncounterStatuses(user);
             FileReader.GetEncounterInfos(user);
         }
 
         protected virtual void ProcessResults()
         {
-            if (!FileReader.IsDone || !ServerReader.IsDone)
+            if (!FileReader.IsDone || !ServerReader.IsDone || !StatusesReader.IsDone)
                 return;
 
             var encounters = ServerReader.Result;
@@ -38,6 +42,15 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 foreach (var localEncounter in FileReader.Result)
                     AddLocalEncounter(encounters, localEncounter);
             }
+
+            var statuses = StatusesReader.Result;
+            if (statuses != null) {
+                foreach (var encounter in encounters) {
+                    if (statuses.ContainsKey(encounter.RecordNumber))
+                        encounter.UserStatus = statuses[encounter.RecordNumber];
+                }
+            }
+
 
             Result = encounters;
             IsDone = true;

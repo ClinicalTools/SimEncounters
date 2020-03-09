@@ -28,8 +28,6 @@ namespace ClinicalTools.SimEncounters.Reader
 
         public IEnumerator StartScene()
         {
-            var loadingScreen = new LoadingScreen();
-
             var demoXml = new DemoXml(new FilePathManager(), new FileXmlReader());
             demoXml.Completed += ShowReader;
 

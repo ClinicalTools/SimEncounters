@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public class EncounterStatusParser : IParser<KeyValuePair<string, UserEncounterStatus>>
+    public class EncounterStatusParser : IParser<KeyValuePair<int, UserEncounterStatus>>
     {
-        private const string caseInfoDivider = "--";
+        private const string caseInfoDivider = "::";
 
-        public KeyValuePair<string, UserEncounterStatus> Parse(string text)
+        public KeyValuePair<int, UserEncounterStatus> Parse(string text)
         {
             var parsedText = GetParsedEncounterText(text);
 
@@ -22,13 +22,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
             //Split each data string of the current MenuCase, each string divided by "--"
             return text.Split(new string[] { caseInfoDivider }, StringSplitOptions.None);
         }
-        private const int encounterParts = 14;
+        private const int encounterParts = 2;
 
-        private const int authorAccountIdIndex = 0;
+        private const int recordNumberIndex = 0;
         private const int filenameIndex = 1;
         private const int authorNameIndex = 2;
         private const int titleIndex = 3;
-        private const int recordNumberIndex = 4;
         private const int difficultyIndex = 5;
         private const int descriptionIndex = 7;
         private const int subtitleIndex = 6;
@@ -47,16 +46,19 @@ namespace ClinicalTools.SimEncounters.MainMenu
             return filename;
         }
 
-        private const string categoryDivider = ", ";
-        protected KeyValuePair<string, UserEncounterStatus> GetEncounterStatus(string[] parsedItem)
+        protected KeyValuePair<int, UserEncounterStatus> GetEncounterStatus(string[] parsedItem)
         {
-            if (parsedItem.Length < encounterParts)
-                return new KeyValuePair<string, UserEncounterStatus>();
+            if (parsedItem == null || parsedItem.Length < encounterParts)
+                return new KeyValuePair<int, UserEncounterStatus>();
 
             var encounterInfo = new UserEncounterStatus();
 
-            
-            return new KeyValuePair<string, UserEncounterStatus>("", encounterInfo);
+            if (!int.TryParse(parsedItem[recordNumberIndex], out var recordNumber))
+                return new KeyValuePair<int, UserEncounterStatus>();
+
+            return new KeyValuePair<int, UserEncounterStatus>(recordNumber, encounterInfo);
         }
+
+
     }
 }

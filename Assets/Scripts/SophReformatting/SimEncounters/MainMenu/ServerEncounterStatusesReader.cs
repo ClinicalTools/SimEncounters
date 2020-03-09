@@ -1,95 +1,53 @@
-﻿using ClinicalTools.SimEncounters.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public enum ServerOutcome
+    public class ServerEncounterStatusesReader : IEncounterStatusesReader
     {
-        Success, WebRequestNotDone, NetworkError, HttpError, DownloadNotDone, ParsingError
-    }
-    public class ServerResult<T> : EventArgs
-    {
-        public string Message { get; }
-        public ServerOutcome Outcome { get; }
-        public T Result { get; }
-
-        /// <summary>
-        /// Creates failed reader results.
-        /// </summary>
-        /// <param name="message">Error message</param>
-        public ServerResult(ServerOutcome outcome, string message)
-        {
-            Message = message;
-            Outcome = outcome;
-        }
-        /// <summary>
-        /// Creates successful reader results.
-        /// </summary>
-        /// <param name="result">Resulting value</param>
-        public ServerResult(T result)
-        {
-            Result = result;
-            Outcome = ServerOutcome.Success;
-        }
-    }
-
-    public interface IParser<T>
-    {
-        T Parse(string text);
-    }
-
-    public class ServerDataReader<T>
-    {
-        public delegate void CompletedEventHandler(object sender, ServerResult<T> e);
-        public event CompletedEventHandler Completed;
-        public ServerResult<T> Result { get; protected set; }
+        public event Action<Dictionary<int, UserEncounterStatus>> Completed;
+        public Dictionary<int, UserEncounterStatus> Result { get; protected set; }
         public bool IsDone { get; protected set; }
 
-        public IParser<T> Parser { get; }
-        public ServerDataReader(IParser<T> parser)
+        public IWebAddress WebAddress { get; }
+        protected ServerDataReader<Dictionary<int, UserEncounterStatus>> EncounterDataReader { get; }
+        public ServerEncounterStatusesReader(IWebAddress webAddress)
         {
-            Parser = parser;
+            WebAddress = webAddress;
+            var statusesParser = new DictionaryParser<int, UserEncounterStatus>(new EncounterStatusParser(), new DoubleTildeStringSplitter());
+            EncounterDataReader = new ServerDataReader<Dictionary<int, UserEncounterStatus>>(statusesParser);
         }
+
+        private const string menuPhp = "Track.php";
+        private const string actionVariable = "ACTION";
+        private const string downloadAction = "download";
+        private const string usernameVariable = "username";
 
         /**
          * Downloads all available and applicable menu files to display on the main manu.
          * Returns them as a MenuCase item
          */
-        public void Begin(UnityWebRequest webRequest)
+        public void GetEncounterStatuses(User user)
         {
-            var requestOperation = webRequest.SendWebRequest();
-            requestOperation.completed += (asyncOperation) => ProcessWebrequest(webRequest);
+            var url = WebAddress.GetUrl(menuPhp);
+            var form = new WWWForm();
+
+            form.AddField(actionVariable, downloadAction);
+            form.AddField(usernameVariable, user.Username);
+
+            var webRequest = UnityWebRequest.Post(url, form);
+            EncounterDataReader.Completed += EncounterDataReader_Completed;
+            EncounterDataReader.Begin(webRequest);
         }
 
-        protected void ProcessWebrequest(UnityWebRequest webRequest)
+        private void EncounterDataReader_Completed(object sender, ServerResult<Dictionary<int, UserEncounterStatus>> e)
         {
-            var text = GetResults(webRequest);
-            webRequest.Dispose();
-
-            Result = text;
+            Result = e.Result;
             IsDone = true;
-            Completed?.Invoke(this, Result);
-        }
-
-        protected ServerResult<T> GetResults(UnityWebRequest webRequest)
-        {
-            if (!webRequest.isDone)
-                return new ServerResult<T>(ServerOutcome.DownloadNotDone, webRequest.error);
-            else if (webRequest.isNetworkError)
-                return new ServerResult<T>(ServerOutcome.NetworkError, webRequest.error);
-            else if (webRequest.isHttpError)
-                return new ServerResult<T>(ServerOutcome.HttpError, webRequest.error);
-            else if (!webRequest.downloadHandler.isDone)
-                return new ServerResult<T>(ServerOutcome.DownloadNotDone, webRequest.error);
-
-            var results = Parser.Parse(webRequest.downloadHandler.text);
-            if (results == null)
-                return new ServerResult<T>(ServerOutcome.ParsingError, webRequest.downloadHandler.text);
-
-            return new ServerResult<T>(results);
+            Completed?.Invoke(Result);
         }
     }
 }

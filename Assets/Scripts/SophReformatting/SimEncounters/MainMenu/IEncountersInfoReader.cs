@@ -16,9 +16,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
     public interface IEncounterStatusesReader
     {
         bool IsDone { get; }
-        Dictionary<string, UserEncounterStatus> Result { get; }
+        Dictionary<int, UserEncounterStatus> Result { get; }
 
-        event Action<Dictionary<string, UserEncounterStatus>> Completed;
+        event Action<Dictionary<int, UserEncounterStatus>> Completed;
 
         void GetEncounterStatuses(User user);
     }

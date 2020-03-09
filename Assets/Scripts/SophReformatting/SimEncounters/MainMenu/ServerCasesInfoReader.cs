@@ -5,10 +5,15 @@ using UnityEngine.Networking;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
+    public class DoubleTildeStringSplitter : IStringSplitter
+    {
+        private const string divider = "~~";
+        public string[] Split(string str) => str.Split(new string[] { divider }, StringSplitOptions.None);
+    }
     public class DoubleColonStringSplitter : IStringSplitter
     {
-        private const string encounterDivider = "::";
-        public string[] Split(string str) => str.Split(new string[] { encounterDivider }, StringSplitOptions.None);
+        private const string divider = "::";
+        public string[] Split(string str) => str.Split(new string[] { divider }, StringSplitOptions.None);
     }
 
     public class ServerCasesInfoReader : IEncountersInfoReader
@@ -16,9 +21,6 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public event Action<List<EncounterDetail>> Completed;
         public List<EncounterDetail> Result { get; protected set; }
         public bool IsDone { get; protected set; }
-
-
-
 
         protected ServerDataReader<List<EncounterDetail>> EncounterDataReader { get; }
         protected IWebAddress WebAddress { get; }

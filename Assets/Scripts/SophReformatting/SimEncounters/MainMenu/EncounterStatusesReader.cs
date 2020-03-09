@@ -6,8 +6,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class EncounterStatusesReader : IEncounterStatusesReader
     {
-        public event Action<Dictionary<string, UserEncounterStatus>> Completed;
-        public Dictionary<string, UserEncounterStatus> Result { get; protected set; }
+        public event Action<Dictionary<int, UserEncounterStatus>> Completed;
+        public Dictionary<int, UserEncounterStatus> Result { get; protected set; }
         public bool IsDone { get; protected set; }
 
         protected virtual IEncounterStatusesReader FileReader { get; }
@@ -15,7 +15,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public EncounterStatusesReader()
         {
             FileReader = new FileEncounterStatusesReader();
-            ServerReader = new ServerEncounterStatusesReader0(new WebAddress());
+            ServerReader = new ServerEncounterStatusesReader(new WebAddress());
         }
 
         public void GetEncounterStatuses(User user)
@@ -33,7 +33,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
             var encounters = ServerReader.Result;
             if (encounters == null)
-                encounters = new Dictionary<string, UserEncounterStatus>();
+                encounters = new Dictionary<int, UserEncounterStatus>();
             if (FileReader.Result != null)
                 foreach (var encounterPair in FileReader.Result)
                     AddEncounter(encounters, encounterPair);
@@ -43,7 +43,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             Completed?.Invoke(Result);
         }
 
-        private void AddEncounter(Dictionary<string, UserEncounterStatus> encounters, KeyValuePair<string, UserEncounterStatus> encounterPair)
+        private void AddEncounter(Dictionary<int, UserEncounterStatus> encounters, KeyValuePair<int, UserEncounterStatus> encounterPair)
         {
             if (!encounters.ContainsKey(encounterPair.Key))
                 encounters.Add(encounterPair.Key, encounterPair.Value);
