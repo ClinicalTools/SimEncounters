@@ -36,7 +36,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         }
 
         protected EncounterDetail CurrentEncounterDetails { get; set; }
-        public virtual void Display(InfoNeededForMainMenuTohappen data, EncounterDetail encounterInfo)
+        public virtual void Display(InfoNeededForMainMenuToHappen data, EncounterDetail encounterInfo)
         {
             CurrentEncounterDetails = encounterInfo;
 
@@ -45,18 +45,29 @@ namespace ClinicalTools.SimEncounters.MainMenu
             }
 
             EncounterButtons.ReadButton.onClick.RemoveAllListeners();
-
+            EncounterButtons.ReadButton.onClick.AddListener(() => ReadCase(data.User, encounterInfo));
         }
 
         public virtual void Awake()
         {
 
-            EncounterButtons.ReadButton.onClick.AddListener(ReadCase);
         }
 
-        public virtual void ReadCase()
+        public virtual void ReadCase(User user, EncounterDetail encounterInfo)
         {
+            EncounterGetter encounterGetter =
+                new EncounterGetter(
+                    new ClinicalEncounterLoader(),
+                    new ServerXml(new DownloadEncounter(new WebAddress()), new DownloadEncounter(new WebAddress())),
+                    new AutoSaveXml(new FilePathManager(), new FileXmlReader()),
+                    new FileXml(new FilePathManager(), new FileXmlReader()));
 
+            if (encounterInfo.InfoGroup.LocalInfo != null)
+                encounterGetter.GetLocalEncounter(user, encounterInfo.InfoGroup);
+            else if (encounterInfo.InfoGroup.ServerInfo != null)
+                encounterGetter.GetServerEncounter(user, encounterInfo.InfoGroup);
+
+            EncounterSceneManager.EncounterInstance.StartReaderScene(user, encounterGetter);
         }
     }
 

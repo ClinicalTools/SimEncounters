@@ -847,6 +847,7 @@ GameObject:
   - component: {fileID: 114821338956336760}
   - component: {fileID: 114998795443374892}
   - component: {fileID: 1373136538030697194}
+  - component: {fileID: 8461324882692808842}
   m_Layer: 5
   m_Name: MobileTMPCaseListExample
   m_TagString: Untagged
@@ -995,7 +996,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectButton: {fileID: 114821338956336760}
   encounterButtons: {fileID: 0}
-  infoViewer: {fileID: 5740300335356622517}
+  infoViewer: {fileID: 8461324882692808842}
+--- !u!114 &8461324882692808842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1195346176045376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d1d5ce26fbce704bb07cff7e1240dcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  titleLabel: {fileID: 114655554466364360}
+  subtitleLabel: {fileID: 0}
+  tagsLabel: {fileID: 114485203033252606}
+  audienceLabel: {fileID: 114899797515494744}
+  descriptionLabel: {fileID: 0}
+  authorLabel: {fileID: 114395016816303084}
+  dateModifiedLabel: {fileID: 0}
+  difficulty: {fileID: 2498708701992080859}
 --- !u!1 &1210203288558876
 GameObject:
   m_ObjectHideFlags: 0
@@ -1563,8 +1584,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224118020726009424}
   - component: {fileID: 114878966585022260}
-  - component: {fileID: 1975500824532227096}
-  - component: {fileID: 5740300335356622517}
+  - component: {fileID: 2498708701992080859}
   m_Layer: 5
   m_Name: Display
   m_TagString: Untagged
@@ -1625,7 +1645,7 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &1975500824532227096
+--- !u!114 &2498708701992080859
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1638,29 +1658,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   label: {fileID: 114677657528246954}
-  beginnerImage: {fileID: 114920828379386840}
-  intermediateImage: {fileID: 114183294396961970}
-  advancedImage: {fileID: 114285774711036970}
---- !u!114 &5740300335356622517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1346040447163104}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9edf6c929bf7d6142ab5bb1bc3d077b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  titleLabel: {fileID: 114655554466364360}
-  subtitleLabel: {fileID: 0}
-  tagsLabel: {fileID: 114485203033252606}
-  audienceLabel: {fileID: 114899797515494744}
-  descriptionLabel: {fileID: 0}
-  authorLabel: {fileID: 114395016816303084}
-  dateModifiedLabel: {fileID: 0}
-  difficulty: {fileID: 1975500824532227096}
+  image: {fileID: 114183294396961970}
+  beginnerSprite: {fileID: 21300000, guid: 2af6116b6ae30244388aa9165899f8db, type: 3}
+  intermediateSprite: {fileID: 21300000, guid: 4d43b7b79e882e841b2e379617749b44, type: 3}
+  advancedSprite: {fileID: 21300000, guid: 968e08adc5c5add4c99eef407af92240, type: 3}
 --- !u!1 &1347711560015632
 GameObject:
   m_ObjectHideFlags: 0

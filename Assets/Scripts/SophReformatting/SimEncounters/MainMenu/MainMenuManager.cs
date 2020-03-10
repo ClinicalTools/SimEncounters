@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
@@ -8,6 +7,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public static MainMenuManager MainMenuInstance => (MainMenuManager)Instance;
 
         [SerializeField] private ManualLogin manualLogin;
+        public ManualLogin ManualLogin { get => manualLogin; set => manualLogin = value; }
 
         public override void Awake()
         {
@@ -15,11 +15,13 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
             if (Instance != this)
                 return;
-
         }
 
         public void Start()
         {
+            var mainMenuUI = (MainMenuUI)SceneUI;
+            mainMenuUI.Login.CreateNewLogin();
+            /*
             var webAddress = new WebAddress();
             var userParser = new UserParser();
             var deviceIdLogin = new DeviceIdLogin(webAddress, userParser);
@@ -29,7 +31,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
             var login = new Login(autoLogin, manualLogin);
             login.LoggedIn += LoggedIn;
-            login.Begin();
+            login.Begin();*/
         }
 
         private void LoggedIn(object sender, LoggedInEventArgs e)

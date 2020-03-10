@@ -4,26 +4,45 @@ using System.Collections.Generic;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class InfoNeededForMainMenuTohappen
+    public class InfoNeededForMainMenuToHappen
     {
         public User User { get; }
 
         public Dictionary<string, Category> Categories { get; } = new Dictionary<string, Category>();
 
-        public InfoNeededForMainMenuTohappen(User user)
+        public event Action<Dictionary<string, Category>> CategoriesLoaded;
+        public bool IsDone { get; protected set; }
+
+        public InfoNeededForMainMenuToHappen(User user, IEncountersInfoReader encountersInfoReader)
         {
             User = user;
+            encountersInfoReader.Completed += EncountersInfoReader_Completed;
+            encountersInfoReader.GetEncounterInfos(user);
+        }
+
+        private void EncountersInfoReader_Completed(List<EncounterDetail> encounterDetails)
+        {
+            foreach (var encounterDetail in encounterDetails)
+                AddEncounterDetail(encounterDetail);
+            IsDone = true;
+            CategoriesLoaded.Invoke(Categories);
         }
 
         public void AddEncounterDetail(EncounterDetail encounterDetail)
         {
-            var categories = encounterDetail.InfoGroup.GetLatestInfo().Categories;
-            foreach (var category in categories)
-            {
-                if (Categories.ContainsKey(category))
-                    Categories[category].Encounters.Add(encounterDetail);
-                else
+            var latestInfo = encounterDetail.InfoGroup.GetLatestInfo();
+            if (latestInfo.IsTemplate)
+                return;
+
+            var categories = latestInfo.Categories;
+            foreach (var category in categories) {
+                if (string.IsNullOrWhiteSpace(category))
+                    continue;
+
+                if (!Categories.ContainsKey(category))
                     Categories.Add(category, new Category());
+
+                Categories[category].Encounters.Add(encounterDetail);
             }
         }
     }

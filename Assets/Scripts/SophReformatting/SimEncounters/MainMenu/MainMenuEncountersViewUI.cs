@@ -1,5 +1,4 @@
-﻿using ClinicalTools.SimEncounters.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,11 +25,33 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public MainMenuEncounterUI OptionPrefab { get => optionPrefab; set => optionPrefab = value; }
 
 
+
         public event Action<EncounterDetail> Selected;
-
-        public virtual void Display(InfoNeededForMainMenuTohappen data, List<EncounterDetail> encounters)
+        protected InfoNeededForMainMenuToHappen CurrentData { get; set; }
+        public virtual void Display(InfoNeededForMainMenuToHappen data, List<EncounterDetail> encounters)
         {
+            CurrentData = data;
 
+            SetCases(encounters);
+        }
+
+        List<MainMenuEncounterUI> EncounterDisplays = new List<MainMenuEncounterUI>();
+        public virtual void SetCases(List<EncounterDetail> encounters)
+        {
+            foreach (MainMenuEncounterUI encounterDisplay in EncounterDisplays)
+                Destroy(encounterDisplay.gameObject);
+            EncounterDisplays.Clear();
+
+            foreach (var encounter in encounters) {
+                if (encounter.InfoGroup.GetLatestInfo().IsTemplate)
+                    continue;
+
+                var encounterUI = Instantiate(OptionPrefab, OptionsParent);
+                encounterUI.Selected += (selectedEncounter) => Selected?.Invoke(selectedEncounter);
+                encounterUI.Display(CurrentData, encounter);
+
+                EncounterDisplays.Add(encounterUI);
+            }
         }
     }
 }

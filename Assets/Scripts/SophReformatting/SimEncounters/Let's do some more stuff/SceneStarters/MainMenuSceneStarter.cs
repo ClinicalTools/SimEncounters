@@ -13,18 +13,18 @@ namespace ClinicalTools.SimEncounters.MainMenu
             ScenePathData = scenePathData;
         }
 
-        public virtual void StartScene(EncounterSceneManager sceneManager, InfoNeededForMainMenuTohappen data)
+        public virtual void StartScene(EncounterSceneManager sceneManager, InfoNeededForMainMenuToHappen data)
         {
             var loading = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(ScenePathData.MainMenuPath);
             loading.completed += (asyncOperation) => InitializeScene(sceneManager, data);
         }
 
-        protected virtual void InitializeScene(EncounterSceneManager sceneManager, InfoNeededForMainMenuTohappen data)
+        protected virtual void InitializeScene(EncounterSceneManager sceneManager, InfoNeededForMainMenuToHappen data)
         {
             StartMainMenu(sceneManager, data);
         }
 
-        public virtual void StartMainMenu(EncounterSceneManager sceneManager, InfoNeededForMainMenuTohappen data)
+        public virtual void StartMainMenu(EncounterSceneManager sceneManager, InfoNeededForMainMenuToHappen data)
         {
             var mainMenuUI = sceneManager.SceneUI as MainMenuUI;
             if (mainMenuUI == null)

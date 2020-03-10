@@ -15,18 +15,26 @@ namespace ClinicalTools.SimEncounters.MainMenu
             MainMenu = mainMenu;
             EncountersUI = encountersUI;
 
-            var casesDownloader = new EncountersInfoReader(); 
+            var casesDownloader = new EncountersInfoReader();
             casesDownloader.Completed += EncountersRetrieved;
             casesDownloader.GetEncounterInfos(mainMenu.User);
         }
 
         protected virtual void EncountersRetrieved(List<EncounterDetail> encounters)
         {
+            var info = new InfoNeededForMainMenuToHappen(MainMenu.User, null);
+            foreach (var encounter in encounters) {
+                if (!encounter.InfoGroup.GetLatestInfo().IsTemplate)
+                    info.AddEncounterDetail(encounter);
+            }
+            EncountersUI.Display(info);
+
+            /*
             var encountersView = new MainMenuEncountersViewDisplay(MainMenu, EncountersUI.GridView, encounters);
             encountersView.Selected += EncountersView_Selected;
             EncountersUI.DownloadingCasesObject.SetActive(false);
             EncountersUI.GridView.GameObject.SetActive(true);
-
+            */
         }
 
         private void EncountersView_Selected(EncounterInfoGroup encounterInfo)
@@ -72,7 +80,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         public void Show()
         {
-            
+
         }
 
         public void Hide()

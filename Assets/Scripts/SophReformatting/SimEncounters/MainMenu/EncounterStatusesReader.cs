@@ -1,5 +1,4 @@
-﻿using ClinicalTools.SimEncounters.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace ClinicalTools.SimEncounters.MainMenu
@@ -20,6 +19,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         public void GetEncounterStatuses(User user)
         {
+            if (user.IsGuest) {
+                IsDone = true;
+                Completed?.Invoke(null);
+                return;
+            }
+
             ServerReader.Completed += (results) => ProcessResults();
             FileReader.Completed += (results) => ProcessResults();
             ServerReader.GetEncounterStatuses(user);

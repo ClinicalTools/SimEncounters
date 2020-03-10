@@ -2,9 +2,12 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using System;
 
 public class ChangeSidePanelScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    public event Action Selected;
+
     private Toggle toggle;
     protected Toggle Toggle {
         get {
@@ -19,16 +22,17 @@ public class ChangeSidePanelScript : MonoBehaviour, IPointerEnterHandler, IPoint
     public Color myHoverText;
 
     // Use this for initialization
-    void Start()
+    protected void Start()
     {
         Toggle.onValueChanged.AddListener((isOn) => ToggleThis(isOn));
         ToggleThis(Toggle.isOn);
     }
 
-    public void ToggleThis(bool isOn)
+    protected void ToggleThis(bool isOn)
     {
         // 195 dark and 115 light
         if (isOn) {
+            Selected?.Invoke();
             Toggle.interactable = false;
             myText.color = myOnText;
         } else {
@@ -49,4 +53,20 @@ public class ChangeSidePanelScript : MonoBehaviour, IPointerEnterHandler, IPoint
             myText.color = myOffText;
     }
 
+    public void Select()
+    {
+        Toggle.isOn = true;
+    }
+
+    public void Show(string text)
+    {
+        myText.text = text;
+        gameObject.SetActive(true);
+        Select();
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+    }
 }

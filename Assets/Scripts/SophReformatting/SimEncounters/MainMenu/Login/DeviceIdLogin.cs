@@ -22,6 +22,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             form.AddField("ACTION", "checkSession");
             form.AddField("deviceid", DeviceId);
 
+            WebAddress.ClearArguments();
             var address = WebAddress.GetUrl("Login.php");
             var webRequest = UnityWebRequest.Post(address, form);
             var requestOperation = webRequest.SendWebRequest();

@@ -47,8 +47,10 @@ namespace ClinicalTools.SimEncounters.MainMenu
             else if (!webRequest.downloadHandler.isDone)
                 return new ServerResult<T>(ServerOutcome.DownloadNotDone, webRequest.error);
 
-            var results = Parser.Parse(webRequest.downloadHandler.text);
-            Debug.LogError(webRequest.downloadHandler.text);
+            var text = webRequest.downloadHandler.text;
+            text = text.Replace("â€™", "'");
+            var results = Parser.Parse(text);
+            Debug.LogError(text);
             if (results == null)
                 return new ServerResult<T>(ServerOutcome.ParsingError, webRequest.downloadHandler.text);
 

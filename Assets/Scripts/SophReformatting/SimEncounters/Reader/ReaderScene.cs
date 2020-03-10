@@ -1,6 +1,7 @@
 ﻿using ClinicalTools.SimEncounters.Data;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Reader
@@ -68,7 +69,6 @@ namespace ClinicalTools.SimEncounters.Reader
         public void ShowMainMenu()
         {
             EncounterSceneManager.EncounterInstance.StartMainMenuScene(User);
-            //Popups.ShowConfirmation();
         }
     }
 }
