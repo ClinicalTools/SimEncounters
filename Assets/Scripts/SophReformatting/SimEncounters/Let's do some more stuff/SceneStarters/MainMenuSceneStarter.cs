@@ -31,7 +31,6 @@ namespace ClinicalTools.SimEncounters.MainMenu
             {
                 Debug.LogError("Started scene UI is not Main Menu.");
                 return;
-
             }
 
             mainMenuUI.Display(data);

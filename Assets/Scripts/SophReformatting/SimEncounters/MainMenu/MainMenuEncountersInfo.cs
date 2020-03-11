@@ -28,19 +28,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
                     info.AddEncounterDetail(encounter);
             }
             EncountersUI.Display(info);
-
-            /*
-            var encountersView = new MainMenuEncountersViewDisplay(MainMenu, EncountersUI.GridView, encounters);
-            encountersView.Selected += EncountersView_Selected;
-            EncountersUI.DownloadingCasesObject.SetActive(false);
-            EncountersUI.GridView.GameObject.SetActive(true);
-            */
         }
 
         private void EncountersView_Selected(EncounterInfoGroup encounterInfo)
         {
-            EncountersUI.Overview.GameObject.SetActive(true);
-            new OverviewDisplay(MainMenu, EncountersUI.Overview, encounterInfo);
+            //EncountersUI.Overview.GameObject.SetActive(true);
+            //new OverviewDisplay(MainMenu, EncountersUI.Overview, encounterInfo);
         }
     }
 

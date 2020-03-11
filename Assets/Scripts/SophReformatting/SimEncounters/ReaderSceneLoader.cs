@@ -28,7 +28,7 @@ namespace ClinicalTools.SimEncounters
 
         public virtual void StartReader(EncounterSceneManager sceneManager, User user, Encounter encounter)
         {
-            new ReaderScene(User.Guest, null, encounter, (ReaderUI)sceneManager.SceneUI);
+            new ReaderScene(user, null, encounter, (ReaderUI)sceneManager.SceneUI);
         }
     }
 }

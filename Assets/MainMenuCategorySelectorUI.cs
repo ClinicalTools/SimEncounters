@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public class MainMenuCategoryUI : MonoBehaviour
+    public class MainMenuCategorySelectorUI : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI categoryLabel;
         public TextMeshProUGUI CategoryLabel { get => categoryLabel; set => categoryLabel = value; }

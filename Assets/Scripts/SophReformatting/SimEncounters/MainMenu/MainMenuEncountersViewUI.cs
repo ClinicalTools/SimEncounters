@@ -30,12 +30,22 @@ namespace ClinicalTools.SimEncounters.MainMenu
         protected InfoNeededForMainMenuToHappen CurrentData { get; set; }
         public virtual void Display(InfoNeededForMainMenuToHappen data, List<EncounterDetail> encounters)
         {
+            gameObject.SetActive(true);
             CurrentData = data;
 
             SetCases(encounters);
         }
 
-        List<MainMenuEncounterUI> EncounterDisplays = new List<MainMenuEncounterUI>();
+        public void Hide()
+        {
+            foreach (MainMenuEncounterUI encounterDisplay in EncounterDisplays)
+                Destroy(encounterDisplay.gameObject);
+            EncounterDisplays.Clear();
+
+            gameObject.SetActive(false);
+        }
+
+        protected List<MainMenuEncounterUI> EncounterDisplays { get; } = new List<MainMenuEncounterUI>();
         public virtual void SetCases(List<EncounterDetail> encounters)
         {
             foreach (MainMenuEncounterUI encounterDisplay in EncounterDisplays)

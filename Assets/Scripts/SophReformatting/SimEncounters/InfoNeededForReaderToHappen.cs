@@ -25,7 +25,7 @@ namespace ClinicalTools.SimEncounters
             foreach (var encounterDetail in encounterDetails)
                 AddEncounterDetail(encounterDetail);
             IsDone = true;
-            CategoriesLoaded.Invoke(Categories);
+            CategoriesLoaded?.Invoke(Categories);
         }
 
         public void AddEncounterDetail(EncounterDetail encounterDetail)

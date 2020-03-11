@@ -30,11 +30,6 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private List<Button> hideOverviewButtons;
         public virtual List<Button> HideOverviewButtons { get => hideOverviewButtons; set => hideOverviewButtons = value; }
 
-        public virtual void Init()
-        {
-
-        }
-
         protected EncounterDetail CurrentEncounterDetails { get; set; }
         public virtual void Display(InfoNeededForMainMenuToHappen data, EncounterDetail encounterInfo)
         {
@@ -46,11 +41,6 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
             EncounterButtons.ReadButton.onClick.RemoveAllListeners();
             EncounterButtons.ReadButton.onClick.AddListener(() => ReadCase(data.User, encounterInfo));
-        }
-
-        public virtual void Awake()
-        {
-
         }
 
         public virtual void ReadCase(User user, EncounterDetail encounterInfo)

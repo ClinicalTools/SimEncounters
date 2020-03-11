@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-using ClinicalTools.SimEncounters.Loader;
-using ClinicalTools.SimEncounters.Writer;
-using System.Xml;
+using ClinicalTools.SimEncounters.MainMenu;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -22,7 +20,9 @@ namespace ClinicalTools.SimEncounters
         }
         public virtual void StartMainMenuScene(User user)
         {
-            MainMenuSceneLoader.StartScene(this, user);
+            var x = new MainMenuSceneStarter(new MobileScenePathData());
+            var info = new InfoNeededForMainMenuToHappen(user, new EncountersInfoReader());
+            x.StartScene(this, info);
         }
     }
 }

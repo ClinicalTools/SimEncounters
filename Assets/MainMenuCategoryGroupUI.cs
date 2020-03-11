@@ -9,17 +9,18 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private Transform optionsParent;
         public Transform OptionsParent { get => optionsParent; set => optionsParent = value; }
 
-        [SerializeField] private MainMenuCategoryUI categoryPrefab;
-        public MainMenuCategoryUI CategoryPrefab { get => categoryPrefab; set => categoryPrefab = value; }
+        [SerializeField] private MainMenuCategorySelectorUI categoryPrefab;
+        public MainMenuCategorySelectorUI CategoryPrefab { get => categoryPrefab; set => categoryPrefab = value; }
 
 
         public event Action<string> CategorySelected;
 
-        public List<MainMenuCategoryUI> CategoryUIs = new List<MainMenuCategoryUI>();
+        protected List<MainMenuCategorySelectorUI> CategoryUIs { get; } = new List<MainMenuCategorySelectorUI>();
         public void Display(IEnumerable<string> categories)
         {
             foreach (var categoryUI in CategoryUIs)
                 Destroy(categoryUI.gameObject);
+            CategoryUIs.Clear();
 
             foreach (var category in categories) {
                 var categoryUI = Instantiate(CategoryPrefab, OptionsParent);
@@ -35,6 +36,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         {
             foreach (Transform option in OptionsParent)
                 Destroy(option.gameObject);
+            CategoryUIs.Clear();
         }
 
         public void Show()
