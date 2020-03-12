@@ -2,7 +2,8 @@
 {
     public class WebAddress : IWebAddress
     {
-        protected virtual string ServerAddress { get; } = @"https://takecontrolgame.com/docs/games/CECreator/PHP/";
+        protected virtual string ServerAddress { get; } = @"http://localhost/SimEncounters/";
+        //protected virtual string ServerAddress { get; } = @"https://takecontrolgame.com/docs/games/CECreator/PHP/";
 
         public WebAddress() { }
 

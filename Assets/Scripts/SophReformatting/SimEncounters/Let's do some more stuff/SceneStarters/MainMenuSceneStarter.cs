@@ -15,6 +15,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         public virtual void StartScene(EncounterSceneManager sceneManager, InfoNeededForMainMenuToHappen data)
         {
+            data.LoadingScreen?.Show();
             var loading = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(ScenePathData.MainMenuPath);
             loading.completed += (asyncOperation) => InitializeScene(sceneManager, data);
         }

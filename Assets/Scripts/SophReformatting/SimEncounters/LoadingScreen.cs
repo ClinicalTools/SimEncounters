@@ -14,17 +14,41 @@ namespace ClinicalTools.SimEncounters
     {
         public static LoadingScreen Instance { get; protected set; }
 
+        [SerializeField] private CanvasGroup canvasGroup;
+        public CanvasGroup CanvasGroup { get => canvasGroup; set => canvasGroup = value; }
+
         protected virtual void Awake()
         {
+            if (Instance != null) {
+                Destroy(gameObject);
+                return;
+            }
+
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
 
         public virtual void Show()
         {
-
+            gameObject.SetActive(true);
+            CanvasGroup.alpha = 1;
         }
+
         public virtual void Stop()
         {
+            if (gameObject.activeInHierarchy)
+                StartCoroutine(Hide());
         }
+
+        private const float FADE_TIME = 2;
+        public IEnumerator Hide()
+        {
+            while (CanvasGroup.alpha > 0) {
+                yield return null;
+                CanvasGroup.alpha -= Time.deltaTime / FADE_TIME;
+            }
+            gameObject.SetActive(false);
+        }
+
     }
 }

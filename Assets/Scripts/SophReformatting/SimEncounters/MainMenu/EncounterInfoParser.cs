@@ -3,6 +3,12 @@ using System.Collections.Generic;
 
 namespace ClinicalTools.SimEncounters
 {
+    public class StringParser : IParser<string>
+    {
+        protected IStringSplitter StringSplitter { get; }
+        
+        public string Parse(string text) => text;
+    }
     public class DictionaryParser<TKey, TValue> : IParser<Dictionary<TKey, TValue>>
     {
         protected IStringSplitter StringSplitter { get; }

@@ -57,7 +57,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             else if (encounterInfo.InfoGroup.ServerInfo != null)
                 encounterGetter.GetServerEncounter(user, encounterInfo.InfoGroup);
 
-            EncounterSceneManager.EncounterInstance.StartReaderScene(user, encounterGetter);
+            EncounterSceneManager.EncounterInstance.StartReaderScene(user, encounterInfo, encounterGetter);
         }
     }
 
@@ -93,7 +93,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             else if (EncounterInfo.ServerInfo != null)
                 encounterGetter.GetServerEncounter(MainMenu.User, EncounterInfo);
 
-            EncounterSceneManager.EncounterInstance.StartReaderScene(MainMenu.User, encounterGetter);
+            EncounterSceneManager.EncounterInstance.StartReaderScene(MainMenu.User, null, encounterGetter);
         }
     }
 }

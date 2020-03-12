@@ -28,10 +28,10 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public void Initialize()
         {
             CategoryGroup.Clear();
-            CategoryToggle.Hide();
+            DisplayCategories();
             CategoriesToggle.Select();
             DownloadingCasesObject.SetActive(true);
-            Category.Initialize();
+            Category.Initialize(); 
         }
 
         public virtual void Display(InfoNeededForMainMenuToHappen data)
@@ -45,15 +45,16 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected virtual void ShowCategories(InfoNeededForMainMenuToHappen data)
         {
+            data.LoadingScreen.Stop();
             DownloadingCasesObject.SetActive(false);
-            CategoriesToggle.Selected += CategoriesToggle_Selected;
+            CategoriesToggle.Selected += DisplayCategories;
 
             CurrentData = data;
             CategoryGroup.CategorySelected += CategorySelected;
             CategoryGroup.Display(data.Categories.Keys);
         }
 
-        private void CategoriesToggle_Selected()
+        private void DisplayCategories()
         {
             CategoryGroup.Show();
             CategoryToggle.Hide();

@@ -22,7 +22,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected virtual void EncountersRetrieved(List<EncounterDetail> encounters)
         {
-            var info = new InfoNeededForMainMenuToHappen(MainMenu.User, null);
+            var info = new InfoNeededForMainMenuToHappen(MainMenu.User, LoadingScreen.Instance, null);
             foreach (var encounter in encounters) {
                 if (!encounter.InfoGroup.GetLatestInfo().IsTemplate)
                     info.AddEncounterDetail(encounter);

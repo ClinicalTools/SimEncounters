@@ -34,9 +34,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         public void Initialize()
         {
+            EncounterViews[currentViewIndex].Hide();
             currentViewIndex = 0;
-            foreach (var encounterView in EncounterViews)
-                encounterView.GameObject.SetActive(false);
         }
 
         
@@ -47,6 +46,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
             CurrentCategory = category;
             CurrentData = data;
             ShowCategory();
+            Sidebar.Show();
+            ToggleViewButton.Show();
         }
 
         private void ShowCategory()
@@ -84,7 +85,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public void Hide()
         {
             EncounterViews[currentViewIndex].Hide();
-
+            ToggleViewButton.Hide();
+            Sidebar.Hide();
         }
     }
 }

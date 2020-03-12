@@ -19,33 +19,33 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         }
 
-        public void Logout()
+        public void Logout(ILoadingScreen loadingScreen)
         {
             var userParser = new UserParser();
             var passwordLogin = new PasswordLogin(new WebAddress(), userParser);
             var manualLogin = Instantiate(ManualLoginPrefab, LoginParent);
-            manualLogin.Init(LoadingScreen.Instance, passwordLogin);
-            manualLogin.LoggedIn += UserLoggedIn;
+            manualLogin.Init(loadingScreen, passwordLogin);
+            manualLogin.LoggedIn += (sender, e) => UserLoggedIn(loadingScreen, e);
             manualLogin.Begin();
         }
 
-        public void CreateNewLogin()
+        public void CreateNewLogin(ILoadingScreen loadingScreen)
         {
             var userParser = new UserParser();
             var deviceIdLogin = new DeviceIdLogin(new WebAddress(), userParser);
             var autoLogin = new AutoLogin(deviceIdLogin);
             var passwordLogin = new PasswordLogin(new WebAddress(), userParser);
             var manualLogin = Instantiate(ManualLoginPrefab, LoginParent);
-            manualLogin.Init(LoadingScreen.Instance, passwordLogin);
+            manualLogin.Init(loadingScreen, passwordLogin);
             var login = new Login(autoLogin, manualLogin);
-            login.LoggedIn += UserLoggedIn;
+            login.LoggedIn += (sender, e) => UserLoggedIn(loadingScreen, e);
             login.Begin();
         }
 
-        private void UserLoggedIn(object sender, LoggedInEventArgs e)
+        private void UserLoggedIn(ILoadingScreen loadingScreen, LoggedInEventArgs e)
         {
             var x = new MainMenuSceneStarter(new MobileScenePathData());
-            var info = new InfoNeededForMainMenuToHappen(e.User, new EncountersInfoReader());
+            var info = new InfoNeededForMainMenuToHappen(e.User, loadingScreen, new EncountersInfoReader());
 
             x.StartMainMenu(EncounterSceneManager.EncounterInstance, info);
             LoggedIn?.Invoke(e.User);

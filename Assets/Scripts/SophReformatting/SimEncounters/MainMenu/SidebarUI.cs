@@ -20,5 +20,15 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         [SerializeField] private Button quitButton;
         public Button QuitButton { get => quitButton; set => quitButton = value; }
+
+        public void Show()
+        {
+            ToggleOpenButton.interactable = true;
+        }
+
+        public void Hide()
+        {
+            ToggleOpenButton.interactable = false;
+        }
     }
 }

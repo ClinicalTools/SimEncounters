@@ -24,5 +24,15 @@ namespace ClinicalTools.SimEncounters.MainMenu
         {
             Button.onClick.AddListener(() => Selected?.Invoke());
         }
+
+        public void Show()
+        {
+            Button.interactable = true;
+        }
+
+        public void Hide()
+        {
+            Button.interactable = false;
+        }
     }
 }

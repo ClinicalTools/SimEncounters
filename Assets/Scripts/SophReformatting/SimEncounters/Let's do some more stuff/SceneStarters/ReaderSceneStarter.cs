@@ -1,11 +1,9 @@
 ﻿using ClinicalTools.SimEncounters.Reader;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderSceneStarter : MonoBehaviour
+    public class ReaderSceneStarter
     {
         protected IScenePathData ScenePathData { get; }
 
@@ -16,23 +14,29 @@ namespace ClinicalTools.SimEncounters
 
         public virtual void StartScene(EncounterSceneManager sceneManager, InfoNeededForReaderToHappen data)
         {
-            var loading = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(ScenePathData.MainMenuPath);
+            data.LoadingScreen?.Show();
+            var loading = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(ScenePathData.ReaderPath);
             loading.completed += (asyncOperation) => InitializeScene(sceneManager, data);
         }
 
         protected virtual void InitializeScene(EncounterSceneManager sceneManager, InfoNeededForReaderToHappen data)
         {
-            StartReader(sceneManager, data);
+
+            if (data.IsDone)
+                StartReader(sceneManager, data);
+            else
+                data.EncounterLoaded += (encounter) => StartReader(sceneManager, data);
         }
 
         public virtual void StartReader(EncounterSceneManager sceneManager, InfoNeededForReaderToHappen data)
         {
             var readerUI = sceneManager.SceneUI as ReaderUI;
             if (readerUI == null) {
-                Debug.LogError("Started scene UI is not Main Menu.");
+                Debug.LogError("Started scene UI is not Reader.");
                 return;
             }
 
+            new ReaderScene(data.User, data.LoadingScreen, data.Encounter, (ReaderUI)sceneManager.SceneUI);
             //readerUI.Display(data);
         }
     }

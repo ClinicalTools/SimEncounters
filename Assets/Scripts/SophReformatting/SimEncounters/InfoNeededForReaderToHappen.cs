@@ -7,15 +7,17 @@ namespace ClinicalTools.SimEncounters
     public class InfoNeededForMainMenuToHappen
     {
         public User User { get; }
+        public ILoadingScreen LoadingScreen { get; }
 
         public Dictionary<string, Category> Categories { get; } = new Dictionary<string, Category>();
 
         public event Action<Dictionary<string, Category>> CategoriesLoaded;
         public bool IsDone { get; protected set; }
 
-        public InfoNeededForMainMenuToHappen(User user, IEncountersInfoReader encountersInfoReader)
+        public InfoNeededForMainMenuToHappen(User user, ILoadingScreen loadingScreen, IEncountersInfoReader encountersInfoReader)
         {
             User = user;
+            LoadingScreen = loadingScreen;
             encountersInfoReader.Completed += EncountersInfoReader_Completed;
             encountersInfoReader.GetEncounterInfos(user);
         }
@@ -50,36 +52,44 @@ namespace ClinicalTools.SimEncounters
     public class InfoNeededForReaderToHappen
     {
         public User User { get; }
+        public ILoadingScreen LoadingScreen { get; }
 
         public EncounterDetail EncounterDetail { get; }
 
         public Encounter Encounter { get; private set; }
 
         public event Action<Encounter> EncounterLoaded;
+        public bool IsDone { get; protected set; }
 
 
         public List<EncounterDetail> SuggestedEncounters { get; } = new List<EncounterDetail>();
 
-        public InfoNeededForReaderToHappen(User user, EncounterDetail encounterDetail, Encounter encounter)
+        public InfoNeededForReaderToHappen(User user, ILoadingScreen loadingScreen, EncounterDetail encounterDetail, Encounter encounter)
         {
             User = user;
+            LoadingScreen = loadingScreen;
             EncounterDetail = encounterDetail;
             Encounter = encounter;
+            IsDone = true;
         }
 
-        public InfoNeededForReaderToHappen(User user, EncounterDetail encounterDetail, IEncounterGetter encounterGetter)
+        public InfoNeededForReaderToHappen(User user, ILoadingScreen loadingScreen, EncounterDetail encounterDetail, IEncounterGetter encounterGetter)
         {
             User = user;
+            LoadingScreen = loadingScreen;
             EncounterDetail = encounterDetail;
-            if (encounterGetter.IsDone)
+            if (encounterGetter.IsDone) {
                 Encounter = encounterGetter.Encounter;
-            else
+                IsDone = true;
+            } else {
                 encounterGetter.Completed += EncounterGetter_Completed;
+            }
         }
 
         private void EncounterGetter_Completed(Encounter encounter)
         {
             Encounter = encounter;
+            IsDone = true;
             EncounterLoaded?.Invoke(Encounter);
         }
     }

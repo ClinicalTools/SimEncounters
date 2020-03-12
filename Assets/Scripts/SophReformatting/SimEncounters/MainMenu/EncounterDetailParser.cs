@@ -91,7 +91,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
             var encounterInfo = new EncounterInfo() {
                 AuthorAccountId = int.Parse(parsedItem[authorAccountIdIndex]),
-                Title = parsedItem[titleIndex],
+                Title = parsedItem[titleIndex].Replace('_', ' '),
                 Difficulty = GetDifficulty(parsedItem[difficultyIndex]),
                 AuthorName = parsedItem[authorNameIndex],
                 Description = parsedItem[descriptionIndex],

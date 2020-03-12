@@ -19,12 +19,19 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected virtual void Awake()
         {
-            LogoutButton.onClick.AddListener(Login.Logout);
+            LogoutButton.onClick.AddListener(Logout);
         }
 
+        public InfoNeededForMainMenuToHappen CurrentData { get; set; }
         public virtual void Display(InfoNeededForMainMenuToHappen data)
         {
+            CurrentData = data;
             Encounters.Display(data);
+        }
+
+        protected virtual void Logout()
+        {
+            Login.Logout(CurrentData.LoadingScreen);
         }
     }
 }

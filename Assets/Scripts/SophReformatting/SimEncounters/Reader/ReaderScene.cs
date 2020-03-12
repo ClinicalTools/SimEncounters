@@ -8,6 +8,7 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderScene : EncounterScene
     {
+        protected virtual ILoadingScreen LoadingScreen { get; }
         protected virtual User User { get; }
         public virtual Encounter Encounter { get; }
         public virtual ReaderSectionsGroup SectionsGroup { get; }
@@ -24,12 +25,14 @@ namespace ClinicalTools.SimEncounters.Reader
 
 
         // combine user/loading screen and maybe encounter?
-        public ReaderScene(User user, LoadingScreen loadingScreen, Encounter encounter, ReaderUI readerUI)
+        public ReaderScene(User user, ILoadingScreen loadingScreen, Encounter encounter, ReaderUI readerUI)
             : base(readerUI)
         {
             User = user;
             ReaderUI = readerUI;
             Encounter = encounter;
+            LoadingScreen = loadingScreen;
+            LoadingScreen?.Stop();
 
             TabDisplayFactory = CreateTabDisplayFactory();
             PanelDisplayFactory = CreatePanelDisplayFactory();
@@ -43,7 +46,6 @@ namespace ClinicalTools.SimEncounters.Reader
             var encounterInfo = CreateEncounterInfo();
 
             AddListeners(ReaderUI);
-            //loadingScreen.Stop();
         }
 
         protected virtual ReaderTabDisplayFactory CreateTabDisplayFactory() => new ReaderTabDisplayFactory(this);
