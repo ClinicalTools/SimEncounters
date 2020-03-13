@@ -60,6 +60,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             CategoryToggle.Hide();
             Category.Hide();
             ScrollRect.content = (RectTransform)CategoryGroup.transform;
+            ScrollRect.verticalNormalizedPosition = 1;
         }
 
         private void CategorySelected(string category)

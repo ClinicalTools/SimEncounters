@@ -55,6 +55,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             var encounterView = EncounterViews[currentViewIndex];
             encounterView.Display(CurrentData, CurrentCategory.Encounters);
             ScrollRect.content = (RectTransform)encounterView.transform;
+            ScrollRect.verticalNormalizedPosition = 1;
         }
 
 

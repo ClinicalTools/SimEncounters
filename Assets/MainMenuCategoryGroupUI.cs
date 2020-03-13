@@ -22,14 +22,15 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 Destroy(categoryUI.gameObject);
             CategoryUIs.Clear();
 
-            foreach (var category in categories) {
+            var categoryList = new List<string>(categories);
+            categoryList.Sort();
+
+            foreach (var category in categoryList) {
                 var categoryUI = Instantiate(CategoryPrefab, OptionsParent);
                 categoryUI.Selected += () => CategorySelected?.Invoke(category);
                 categoryUI.Display(category);
                 CategoryUIs.Add(categoryUI);
             }
-
-            Show();
         }
 
         public void Clear()

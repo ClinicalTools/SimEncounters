@@ -77,6 +77,9 @@ namespace ClinicalTools.SimEncounters.Reader
                 LayoutElement.preferredHeight = LayoutElement.preferredWidth * spriteRatio;
             }
 
+            LayoutElement.minWidth = LayoutElement.preferredWidth;
+            LayoutElement.minHeight = LayoutElement.preferredHeight;
+
             if (EnlargeImageButton != null) {
                 EnlargeImageButton.onClick.RemoveAllListeners();
                 EnlargeImageButton.onClick.AddListener(() => reader.Popups.ShowImage(sprite));
