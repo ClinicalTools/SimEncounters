@@ -30,6 +30,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         public void Awake()
         {
+            PatientNameAscending.isOn = true;
+            Comparison = ComparePatientNameAscending;
+
             PatientNameAscending.AddOnSelectListener(() => SetComparer(ComparePatientNameAscending));
             PatientNameDescending.AddOnSelectListener(() => SetComparer(ComparePatientNameDescending));
             DatePublishedAscending.AddOnSelectListener(() => SetComparer(CompareDatePublishedAscending));

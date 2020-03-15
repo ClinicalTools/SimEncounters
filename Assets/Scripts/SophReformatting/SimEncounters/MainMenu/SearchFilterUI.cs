@@ -4,10 +4,10 @@ using TMPro;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public class SearchFilterUI : MonoBehaviour, IEncounterFilter
+    public class SearchFilterUI : EncounterFilterBehaviour
     {
-        public Filter<EncounterDetail> EncounterFilter => FilterSearchTerm;
-        public event Action<Filter<EncounterDetail>> FilterChanged;
+        public override Filter<EncounterDetail> EncounterFilter => FilterSearchTerm;
+        public override event Action<Filter<EncounterDetail>> FilterChanged;
 
 
         [SerializeField] private TMP_InputField searchField;
@@ -30,7 +30,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
             if (string.IsNullOrWhiteSpace(SearchTerm))
                 return true;
 
-            return encounter.InfoGroup.GetLatestInfo().Title.Contains(SearchTerm);
+            return encounter.InfoGroup.GetLatestInfo().Title.ToLower().Contains(SearchTerm.ToLower().Trim());
+        }
+
+        public override void Clear()
+        {
+            SearchField.text = "";
         }
     }
 }

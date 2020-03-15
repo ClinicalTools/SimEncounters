@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,7 +38,6 @@ namespace ClinicalTools.SimEncounters.MainMenu
             EncounterViews[currentViewIndex].Hide();
             currentViewIndex = 0;
         }
-
         
         protected InfoNeededForMainMenuToHappen CurrentData { get; set; }
         protected Category CurrentCategory { get; set; }
@@ -47,13 +47,24 @@ namespace ClinicalTools.SimEncounters.MainMenu
             CurrentData = data;
             ShowCategory();
             Sidebar.Show();
+            Sidebar.SearchStuff.SortingOrder.SortingOrderChanged += (sortingOrder) => ShowCategory();
+            Sidebar.SearchStuff.Filters.FilterChanged += (filter) => ShowCategory();
             ToggleViewButton.Show();
+        }
+
+        private IEnumerable<EncounterDetail> FilterEncounterDetails(IEnumerable<EncounterDetail> encounters)
+        {
+            var filter = Sidebar.SearchStuff.Filters.EncounterFilter;
+            return encounters.Where(e => filter(e));
         }
 
         private void ShowCategory()
         {
+            var encounters = new List<EncounterDetail>(FilterEncounterDetails(CurrentCategory.Encounters));
+            encounters.Sort(Sidebar.SearchStuff.SortingOrder.Comparison);
+
             var encounterView = EncounterViews[currentViewIndex];
-            encounterView.Display(CurrentData, CurrentCategory.Encounters);
+            encounterView.Display(CurrentData, encounters);
             ScrollRect.content = (RectTransform)encounterView.transform;
             ScrollRect.verticalNormalizedPosition = 1;
         }

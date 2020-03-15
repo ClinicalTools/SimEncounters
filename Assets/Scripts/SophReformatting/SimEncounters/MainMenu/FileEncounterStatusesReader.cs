@@ -19,7 +19,6 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected string GetDirectory(User user)
             => $"{Application.persistentDataPath}/";
-        string directory = @"C:\Users\Nehipasta\AppData\LocalLow\Clinical Tools Inc\Clinical Encounters_ Learner\";
         string menuSearchTerm = "*menu.txt";
         public virtual void GetEncounterStatuses(User user)
         {

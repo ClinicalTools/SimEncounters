@@ -6,7 +6,7 @@ using ClinicalTools.SimEncounters.Data;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public class DifficultyFilterUI : MonoBehaviour, IEncounterFilter
+    public class DifficultyFilterUI : EncounterFilterBehaviour
     {
         [SerializeField] private Toggle beginner;
         public Toggle Beginner { get => beginner; set => beginner = value; }
@@ -17,8 +17,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private Toggle advanced;
         public Toggle Advanced { get => advanced; set => advanced = value; }
 
-        public Filter<EncounterDetail> EncounterFilter => FilterDifficulty;
-        public event Action<Filter<EncounterDetail>> FilterChanged;
+        public override Filter<EncounterDetail> EncounterFilter => FilterDifficulty;
+        public override event Action<Filter<EncounterDetail>> FilterChanged;
 
         protected List<Difficulty> FilteredDifficulties { get; } = new List<Difficulty>();
 
@@ -45,6 +45,13 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 return true;
 
             return FilteredDifficulties.Contains(encounter.InfoGroup.GetLatestInfo().Difficulty);
+        }
+
+        public override void Clear()
+        {
+            Beginner.isOn = false;
+            Intermediate.isOn = false;
+            Advanced.isOn = false;
         }
     }
 }

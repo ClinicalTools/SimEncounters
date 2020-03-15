@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public class AudienceFilterUI : MonoBehaviour, IEncounterFilter
+    public class AudienceFilterUI : EncounterFilterBehaviour
     {
         [SerializeField] private List<LabeledToggle> audienceToggles;
         public List<LabeledToggle> AudienceToggles { get => audienceToggles; set => audienceToggles = value; }
 
-        public Filter<EncounterDetail> EncounterFilter => FilterAudience;
-        public event Action<Filter<EncounterDetail>> FilterChanged;
+        public override Filter<EncounterDetail> EncounterFilter => FilterAudience;
+        public override event Action<Filter<EncounterDetail>> FilterChanged;
 
         protected List<string> FilteredAudiences { get; } = new List<string>();
 
@@ -36,6 +36,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 return true;
 
             return FilteredAudiences.Contains(encounter.InfoGroup.GetLatestInfo().Audience);
+        }
+
+        public override void Clear()
+        {
+            foreach (var toggle in AudienceToggles)
+                toggle.Toggle.isOn = false;
         }
     }
 }

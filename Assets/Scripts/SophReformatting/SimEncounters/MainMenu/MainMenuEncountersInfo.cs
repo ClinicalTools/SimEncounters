@@ -23,7 +23,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         protected virtual void EncountersRetrieved(List<EncounterDetail> encounters)
         {
             var info = new InfoNeededForMainMenuToHappen(MainMenu.User, LoadingScreen.Instance, null);
-            foreach (var encounter in encounters) {
+            foreach (var encounter in encounters)
+            {
                 if (!encounter.InfoGroup.GetLatestInfo().IsTemplate)
                     info.AddEncounterDetail(encounter);
             }
@@ -54,7 +55,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         List<MainMenuEncounterDisplay> EncounterDisplays = new List<MainMenuEncounterDisplay>();
         public virtual void SetCases(List<EncounterDetail> encounters)
         {
-            foreach (var encounter in encounters) {
+            foreach (var encounter in encounters)
+            {
                 if (encounter.InfoGroup.GetLatestInfo().IsTemplate)
                     continue;
 
@@ -91,7 +93,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         {
             MainMenu = mainMenu;
 
-            if (encounterUI.InfoViewer != null) {
+            if (encounterUI.InfoViewer != null)
+            {
                 if (encounterInfo.GetLatestInfo() == null)
                     UnityEngine.Debug.Log("what");
                 new EncounterInfoDisplay(encounterUI.InfoViewer, encounterInfo.GetLatestInfo());
@@ -136,10 +139,17 @@ namespace ClinicalTools.SimEncounters.MainMenu
         {
             if (label == null)
                 return;
-            if (dateModified < DateTime.MinValue.Ticks || dateModified > DateTime.MaxValue.Ticks)
-                dateModified = 0;
-            var time = new DateTime(dateModified);
-            label.text = time.ToString();
+            var time = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            time = time.AddSeconds(dateModified);
+            if (time > DateTime.UtcNow || time.Year < 2015)
+            {
+                UnityEngine.Debug.LogError("Invalid time");
+                label.text = "";
+                return;
+            }
+
+            var timeString = time.ToLocalTime().ToString("MMMM d, yyyy");
+            label.text = $"Last updated: {timeString}";
         }
         protected virtual string CategoryConcatenator => ", ";
         protected virtual void SetCategories(TextMeshProUGUI label, IEnumerable<string> categories)

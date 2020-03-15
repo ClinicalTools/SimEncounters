@@ -4,16 +4,14 @@ using System.Collections.Generic;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public class FilterGroupsUI : MonoBehaviour, IEncounterFilter
+    public class FilterGroupUI : EncounterFilterBehaviour
     {
-        public Filter<EncounterDetail> EncounterFilter => FilterGroups;
+        public override Filter<EncounterDetail> EncounterFilter => FilterGroups;
 
-        public event Action<Filter<EncounterDetail>> FilterChanged;
+        public override event Action<Filter<EncounterDetail>> FilterChanged;
 
-        [SerializeField] private IEncounterFilter encounterFiltersaaaa;
-
-        [SerializeField] private List<IEncounterFilter> encounterFilters;
-        public List<IEncounterFilter> EncounterFilters { get => encounterFilters; set => encounterFilters = value; }
+        [SerializeField] private List<EncounterFilterBehaviour> encounterFilters;
+        public List<EncounterFilterBehaviour> EncounterFilters { get => encounterFilters; set => encounterFilters = value; }
 
         protected void Awake()
         {
@@ -29,6 +27,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
             }
 
             return true;
+        }
+
+        public override void Clear()
+        {
+            foreach (var encounterFilter in EncounterFilters)
+                encounterFilter.Clear();
         }
     }
 }

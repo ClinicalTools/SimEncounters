@@ -28,7 +28,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         public event Action<EncounterDetail> Selected;
         protected InfoNeededForMainMenuToHappen CurrentData { get; set; }
-        public virtual void Display(InfoNeededForMainMenuToHappen data, List<EncounterDetail> encounters)
+        public virtual void Display(InfoNeededForMainMenuToHappen data, IEnumerable<EncounterDetail> encounters)
         {
             gameObject.SetActive(true);
             CurrentData = data;
@@ -46,7 +46,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         }
 
         protected List<MainMenuEncounterUI> EncounterDisplays { get; } = new List<MainMenuEncounterUI>();
-        public virtual void SetCases(List<EncounterDetail> encounters)
+        public virtual void SetCases(IEnumerable<EncounterDetail> encounters)
         {
             foreach (MainMenuEncounterUI encounterDisplay in EncounterDisplays)
                 Destroy(encounterDisplay.gameObject);

@@ -1,14 +1,17 @@
 ﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
 
     public delegate bool Filter<in T>(T x);
-    public interface IEncounterFilter
+    public abstract class EncounterFilterBehaviour : MonoBehaviour
     {
-        Filter<EncounterDetail> EncounterFilter { get; }
+        public abstract Filter<EncounterDetail> EncounterFilter { get; }
+        
+        public abstract event Action<Filter<EncounterDetail>> FilterChanged;
 
-        event Action<Filter<EncounterDetail>> FilterChanged;
+        public abstract void Clear();
     }
 }
