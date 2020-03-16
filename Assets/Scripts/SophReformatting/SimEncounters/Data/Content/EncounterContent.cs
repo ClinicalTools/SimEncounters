@@ -2,19 +2,19 @@
 
 namespace ClinicalTools.SimEncounters.Data
 {
-    public class SectionsData
+    public class EncounterContent
     {
         public virtual int CurrentSectionIndex { get; set; }
 
         public virtual OrderedCollection<Section> Sections { get; } = new OrderedCollection<Section>();
         public virtual VariableData Variables { get; }
 
-        public SectionsData()
+        public EncounterContent()
         {
             Variables = new VariableData();
         }
 
-        public SectionsData(VariableData variables)
+        public EncounterContent(VariableData variables)
         {
             Variables = variables;
         }

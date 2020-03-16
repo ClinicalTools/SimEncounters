@@ -9,8 +9,8 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
     public class ClinicalSectionFactory : SectionFactory
     {
         protected override TabFactory TabFactory { get; }
-        protected ImagesData Images { get; }
-        public ClinicalSectionFactory(ImagesData images)
+        protected EncounterImageData Images { get; }
+        public ClinicalSectionFactory(EncounterImageData images)
         {
             Images = images;
             TabFactory = new ClinicalTabFactory(ConditionalDataFactory);

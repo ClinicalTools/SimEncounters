@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Data
 {
-    public class ImagesData
+    public class EncounterImageData
     {
         public virtual KeyedCollection<Sprite> Sprites { get; } = new KeyedCollection<Sprite>();
         public virtual KeyedCollection<Sprite> Icons { get; } = new KeyedCollection<Sprite>();
@@ -12,7 +12,7 @@ namespace ClinicalTools.SimEncounters.Data
 
         protected virtual string DefaultIconsFolder { get; } = "Section Icons";
 
-        public ImagesData()
+        public EncounterImageData()
         {
             var iconSprites = Resources.LoadAll<Sprite>(DefaultIconsFolder);
             foreach (var iconSprite in iconSprites) 

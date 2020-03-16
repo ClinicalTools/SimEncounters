@@ -8,17 +8,17 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class ServerEncounterStatusesReader : IEncounterStatusesReader
     {
-        public event Action<Dictionary<int, UserEncounterStatus>> Completed;
-        public Dictionary<int, UserEncounterStatus> Result { get; protected set; }
+        public event Action<Dictionary<int, EncounterBasicStatus>> Completed;
+        public Dictionary<int, EncounterBasicStatus> Result { get; protected set; }
         public bool IsDone { get; protected set; }
 
         public IWebAddress WebAddress { get; }
-        protected ServerDataReader<Dictionary<int, UserEncounterStatus>> EncounterDataReader { get; }
+        protected ServerDataReader<Dictionary<int, EncounterBasicStatus>> EncounterDataReader { get; }
         public ServerEncounterStatusesReader(IWebAddress webAddress)
         {
             WebAddress = webAddress;
-            var statusesParser = new DictionaryParser<int, UserEncounterStatus>(new EncounterStatusParser(), new DoubleTildeStringSplitter());
-            EncounterDataReader = new ServerDataReader<Dictionary<int, UserEncounterStatus>>(statusesParser);
+            var statusesParser = new DictionaryParser<int, EncounterBasicStatus>(new EncounterStatusParser(), new DoubleTildeStringSplitter());
+            EncounterDataReader = new ServerDataReader<Dictionary<int, EncounterBasicStatus>>(statusesParser);
         }
 
         private const string menuPhp = "Track.php";
@@ -47,7 +47,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             EncounterDataReader.Begin(webRequest);
         }
 
-        private void EncounterDataReader_Completed(object sender, ServerResult<Dictionary<int, UserEncounterStatus>> e)
+        private void EncounterDataReader_Completed(object sender, ServerResult<Dictionary<int, EncounterBasicStatus>> e)
         {
             Result = e.Result;
             IsDone = true;
@@ -77,7 +77,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
          * Downloads all available and applicable menu files to display on the main manu.
          * Returns them as a MenuCase item
          */
-        public void UPdateStatus(User user, UserEncounterStatus encounterStatus)
+        public void UPdateStatus(User user, EncounterBasicStatus encounterStatus)
         {
             var url = WebAddress.GetUrl(menuPhp);
             var form = new WWWForm();

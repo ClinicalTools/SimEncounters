@@ -17,8 +17,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private Toggle advanced;
         public Toggle Advanced { get => advanced; set => advanced = value; }
 
-        public override Filter<EncounterDetail> EncounterFilter => FilterDifficulty;
-        public override event Action<Filter<EncounterDetail>> FilterChanged;
+        public override Filter<EncounterInfo> EncounterFilter => FilterDifficulty;
+        public override event Action<Filter<EncounterInfo>> FilterChanged;
 
         protected List<Difficulty> FilteredDifficulties { get; } = new List<Difficulty>();
 
@@ -39,12 +39,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
             FilterChanged?.Invoke(EncounterFilter);
         }
 
-        protected bool FilterDifficulty(EncounterDetail encounter)
+        protected bool FilterDifficulty(EncounterInfo encounter)
         {
             if (FilteredDifficulties.Count == 0)
                 return true;
 
-            return FilteredDifficulties.Contains(encounter.InfoGroup.GetLatestInfo().Difficulty);
+            return FilteredDifficulties.Contains(encounter.MetaGroup.GetLatestInfo().Difficulty);
         }
 
         public override void Clear()

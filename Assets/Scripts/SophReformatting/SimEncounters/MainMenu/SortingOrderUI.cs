@@ -25,8 +25,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private Toggle authorDescending;
         public Toggle AuthorDescending { get => authorDescending; set => authorDescending = value; }
 
-        public Comparison<EncounterDetail> Comparison { get; protected set; }
-        public event Action<Comparison<EncounterDetail>> SortingOrderChanged;
+        public Comparison<EncounterInfo> Comparison { get; protected set; }
+        public event Action<Comparison<EncounterInfo>> SortingOrderChanged;
 
         public void Awake()
         {
@@ -41,23 +41,23 @@ namespace ClinicalTools.SimEncounters.MainMenu
             AuthorDescending.AddOnSelectListener(() => SetComparer(CompareAuthorDescending));
         }
 
-        protected void SetComparer(Comparison<EncounterDetail> comparison)
+        protected void SetComparer(Comparison<EncounterInfo> comparison)
         {
             Comparison = comparison;
             SortingOrderChanged?.Invoke(comparison);
         }
 
-        protected int ComparePatientNameAscending(EncounterDetail x, EncounterDetail y)
-            => x.InfoGroup.GetLatestInfo().Title.CompareTo(y.InfoGroup.GetLatestInfo().Title);
-        protected int ComparePatientNameDescending(EncounterDetail x, EncounterDetail y)
-            => y.InfoGroup.GetLatestInfo().Title.CompareTo(x.InfoGroup.GetLatestInfo().Title);
-        protected int CompareDatePublishedAscending(EncounterDetail x, EncounterDetail y)
-            => x.InfoGroup.GetLatestInfo().DateModified.CompareTo(y.InfoGroup.GetLatestInfo().DateModified);
-        protected int CompareDatePublishedDescending(EncounterDetail x, EncounterDetail y)
-            => y.InfoGroup.GetLatestInfo().DateModified.CompareTo(x.InfoGroup.GetLatestInfo().DateModified);
-        protected int CompareAuthorAscending(EncounterDetail x, EncounterDetail y)
-            => x.InfoGroup.GetLatestInfo().AuthorName.CompareTo(y.InfoGroup.GetLatestInfo().AuthorName);
-        protected int CompareAuthorDescending(EncounterDetail x, EncounterDetail y)
-            => y.InfoGroup.GetLatestInfo().AuthorName.CompareTo(x.InfoGroup.GetLatestInfo().AuthorName);
+        protected int ComparePatientNameAscending(EncounterInfo x, EncounterInfo y)
+            => x.MetaGroup.GetLatestInfo().Title.CompareTo(y.MetaGroup.GetLatestInfo().Title);
+        protected int ComparePatientNameDescending(EncounterInfo x, EncounterInfo y)
+            => y.MetaGroup.GetLatestInfo().Title.CompareTo(x.MetaGroup.GetLatestInfo().Title);
+        protected int CompareDatePublishedAscending(EncounterInfo x, EncounterInfo y)
+            => x.MetaGroup.GetLatestInfo().DateModified.CompareTo(y.MetaGroup.GetLatestInfo().DateModified);
+        protected int CompareDatePublishedDescending(EncounterInfo x, EncounterInfo y)
+            => y.MetaGroup.GetLatestInfo().DateModified.CompareTo(x.MetaGroup.GetLatestInfo().DateModified);
+        protected int CompareAuthorAscending(EncounterInfo x, EncounterInfo y)
+            => x.MetaGroup.GetLatestInfo().AuthorName.CompareTo(y.MetaGroup.GetLatestInfo().AuthorName);
+        protected int CompareAuthorDescending(EncounterInfo x, EncounterInfo y)
+            => y.MetaGroup.GetLatestInfo().AuthorName.CompareTo(x.MetaGroup.GetLatestInfo().AuthorName);
     }
 }

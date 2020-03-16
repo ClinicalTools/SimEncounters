@@ -29,7 +29,7 @@ namespace ClinicalTools.SimEncounters.Writer
             var demoXml = new DemoXml(new FilePathManager(), new FileXmlReader());
             demoXml.Completed += ShowReader;
 
-            var encounterInfoGroup = new EncounterInfoGroup {
+            var encounterInfoGroup = new EncounterMetaGroup {
                 Filename = "Chad_Wright"
             };
             demoXml.GetEncounterXml(User.Guest, encounterInfoGroup);
@@ -41,8 +41,8 @@ namespace ClinicalTools.SimEncounters.Writer
         {
             var loader = new ClinicalEncounterLoader();
             var watch = Stopwatch.StartNew();
-            var encounterInfo = new EncounterInfoGroup();
-            var encounter = loader.ReadEncounter(encounterInfo, e.DataXml, e.ImagesXml);
+            var encounterInfo = new EncounterMetaGroup();
+            var encounter = loader.ReadEncounter(e.DataXml, e.ImagesXml);
             watch.Stop();
 
             new EncounterWriter(null, null, encounter, (WriterUI)SceneUI);

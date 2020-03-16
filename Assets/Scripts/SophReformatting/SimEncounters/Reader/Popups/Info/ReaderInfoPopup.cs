@@ -4,7 +4,7 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderInfoPopup : ReaderPopup
     {
-        public ReaderInfoPopup(ReaderScene reader, ReaderInfoPopupUI infoPopupUI, EncounterInfo encounterInfo) : base(reader, infoPopupUI)
+        public ReaderInfoPopup(ReaderScene reader, ReaderInfoPopupUI infoPopupUI, EncounterMetadata encounterInfo) : base(reader, infoPopupUI)
         {
             infoPopupUI.Title.text = encounterInfo.Title;
             infoPopupUI.Subtitle.text = encounterInfo.Subtitle;

@@ -30,20 +30,20 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private List<Button> hideOverviewButtons;
         public virtual List<Button> HideOverviewButtons { get => hideOverviewButtons; set => hideOverviewButtons = value; }
 
-        protected EncounterDetail CurrentEncounterDetails { get; set; }
-        public virtual void Display(InfoNeededForMainMenuToHappen data, EncounterDetail encounterInfo)
+        protected EncounterInfo CurrentEncounterDetails { get; set; }
+        public virtual void Display(InfoNeededForMainMenuToHappen data, EncounterInfo encounterInfo)
         {
             CurrentEncounterDetails = encounterInfo;
 
             if (InfoViewer != null) {
-                new EncounterInfoDisplay(InfoViewer, encounterInfo.InfoGroup.GetLatestInfo());
+                new EncounterInfoDisplay(InfoViewer, encounterInfo.MetaGroup.GetLatestInfo());
             }
 
             EncounterButtons.ReadButton.onClick.RemoveAllListeners();
             EncounterButtons.ReadButton.onClick.AddListener(() => ReadCase(data.User, encounterInfo));
         }
 
-        public virtual void ReadCase(User user, EncounterDetail encounterInfo)
+        public virtual void ReadCase(User user, EncounterInfo encounterInfo)
         {
             EncounterGetter encounterGetter =
                 new EncounterGetter(
@@ -52,10 +52,10 @@ namespace ClinicalTools.SimEncounters.MainMenu
                     new AutoSaveXml(new FilePathManager(), new FileXmlReader()),
                     new FileXml(new FilePathManager(), new FileXmlReader()));
 
-            if (encounterInfo.InfoGroup.LocalInfo != null)
-                encounterGetter.GetLocalEncounter(user, encounterInfo.InfoGroup);
-            else if (encounterInfo.InfoGroup.ServerInfo != null)
-                encounterGetter.GetServerEncounter(user, encounterInfo.InfoGroup);
+            if (encounterInfo.MetaGroup.LocalInfo != null)
+                encounterGetter.GetLocalEncounter(user, encounterInfo.MetaGroup);
+            else if (encounterInfo.MetaGroup.ServerInfo != null)
+                encounterGetter.GetServerEncounter(user, encounterInfo.MetaGroup);
 
             EncounterSceneManager.EncounterInstance.StartReaderScene(user, encounterInfo, encounterGetter);
         }
@@ -64,9 +64,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
     public class OverviewDisplay
     {
         public MainMenuScene MainMenu { get; }
-        public EncounterInfoGroup EncounterInfo { get; }
+        public EncounterMetaGroup EncounterInfo { get; }
 
-        public OverviewDisplay(MainMenuScene mainMenu, OverviewUI overviewUI, EncounterInfoGroup encounterInfo)
+        public OverviewDisplay(MainMenuScene mainMenu, OverviewUI overviewUI, EncounterMetaGroup encounterInfo)
         {
             MainMenu = mainMenu;
             EncounterInfo = encounterInfo;

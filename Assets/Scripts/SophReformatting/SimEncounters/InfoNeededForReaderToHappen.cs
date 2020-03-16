@@ -22,7 +22,7 @@ namespace ClinicalTools.SimEncounters
             encountersInfoReader.GetEncounterInfos(user);
         }
 
-        private void EncountersInfoReader_Completed(List<EncounterDetail> encounterDetails)
+        private void EncountersInfoReader_Completed(List<EncounterInfo> encounterDetails)
         {
             foreach (var encounterDetail in encounterDetails)
                 AddEncounterDetail(encounterDetail);
@@ -30,9 +30,9 @@ namespace ClinicalTools.SimEncounters
             CategoriesLoaded?.Invoke(Categories);
         }
 
-        public void AddEncounterDetail(EncounterDetail encounterDetail)
+        public void AddEncounterDetail(EncounterInfo encounterDetail)
         {
-            var latestInfo = encounterDetail.InfoGroup.GetLatestInfo();
+            var latestInfo = encounterDetail.MetaGroup.GetLatestInfo();
             if (latestInfo.IsTemplate)
                 return;
 
@@ -53,40 +53,34 @@ namespace ClinicalTools.SimEncounters
     {
         public User User { get; }
         public ILoadingScreen LoadingScreen { get; }
-
-        public EncounterDetail EncounterDetail { get; }
-
         public Encounter Encounter { get; private set; }
 
         public event Action<Encounter> EncounterLoaded;
         public bool IsDone { get; protected set; }
 
+        public List<EncounterInfo> SuggestedEncounters { get; } = new List<EncounterInfo>();
 
-        public List<EncounterDetail> SuggestedEncounters { get; } = new List<EncounterDetail>();
-
-        public InfoNeededForReaderToHappen(User user, ILoadingScreen loadingScreen, EncounterDetail encounterDetail, Encounter encounter)
+        public InfoNeededForReaderToHappen(User user, ILoadingScreen loadingScreen, Encounter encounter)
         {
             User = user;
             LoadingScreen = loadingScreen;
-            EncounterDetail = encounterDetail;
             Encounter = encounter;
             IsDone = true;
         }
 
-        public InfoNeededForReaderToHappen(User user, ILoadingScreen loadingScreen, EncounterDetail encounterDetail, IEncounterGetter encounterGetter)
+        public InfoNeededForReaderToHappen(User user, ILoadingScreen loadingScreen, IEncounterReader encounterReader)
         {
             User = user;
             LoadingScreen = loadingScreen;
-            EncounterDetail = encounterDetail;
-            if (encounterGetter.IsDone) {
-                Encounter = encounterGetter.Encounter;
+            if (encounterReader.IsDone) {
+                Encounter = encounterReader.Encounter;
                 IsDone = true;
             } else {
-                encounterGetter.Completed += EncounterGetter_Completed;
+                encounterReader.Completed += EncounterRetrieved;
             }
         }
 
-        private void EncounterGetter_Completed(Encounter encounter)
+        private void EncounterRetrieved(Encounter encounter)
         {
             Encounter = encounter;
             IsDone = true;

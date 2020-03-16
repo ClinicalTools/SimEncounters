@@ -7,18 +7,18 @@ namespace ClinicalTools.SimEncounters
     public interface IEncountersInfoReader
     {
         bool IsDone { get; }
-        List<EncounterDetail> Result { get; }
+        List<EncounterInfo> Result { get; }
 
-        event Action<List<EncounterDetail>> Completed;
+        event Action<List<EncounterInfo>> Completed;
 
         void GetEncounterInfos(User user);
     }
     public interface IEncounterStatusesReader
     {
         bool IsDone { get; }
-        Dictionary<int, UserEncounterStatus> Result { get; }
+        Dictionary<int, EncounterBasicStatus> Result { get; }
 
-        event Action<Dictionary<int, UserEncounterStatus>> Completed;
+        event Action<Dictionary<int, EncounterBasicStatus>> Completed;
 
         void GetEncounterStatuses(User user);
     }

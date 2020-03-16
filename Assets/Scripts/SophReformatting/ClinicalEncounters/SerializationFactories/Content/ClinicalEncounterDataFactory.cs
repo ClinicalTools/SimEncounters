@@ -8,7 +8,7 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
     public class ClinicalEncounterDataFactory : EncounterDataFactory
     {
         protected override SectionFactory SectionFactory { get; } 
-        public ClinicalEncounterDataFactory(ImagesData images) : base()
+        public ClinicalEncounterDataFactory(EncounterImageData images) : base()
         {
             SectionFactory = new ClinicalSectionFactory(images);
         }

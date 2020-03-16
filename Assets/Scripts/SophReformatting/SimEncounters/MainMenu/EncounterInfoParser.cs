@@ -73,18 +73,18 @@ namespace ClinicalTools.SimEncounters
 
     public interface IEncounterInfoSetter
     {
-        void SetEncounterInfo(EncounterInfoGroup group, EncounterInfo info);
+        void SetEncounterInfo(EncounterMetaGroup group, EncounterMetadata info);
     }
     public class EncounterAutosaveInfoSetter : IEncounterInfoSetter
     {
-        public void SetEncounterInfo(EncounterInfoGroup group, EncounterInfo info) => group.AutosaveInfo = info;
+        public void SetEncounterInfo(EncounterMetaGroup group, EncounterMetadata info) => group.AutosaveInfo = info;
     }
     public class EncounterLocalInfoSetter : IEncounterInfoSetter
     {
-        public void SetEncounterInfo(EncounterInfoGroup group, EncounterInfo info) => group.LocalInfo = info;
+        public void SetEncounterInfo(EncounterMetaGroup group, EncounterMetadata info) => group.LocalInfo = info;
     }
     public class EncounterServerInfoSetter : IEncounterInfoSetter
     {
-        public void SetEncounterInfo(EncounterInfoGroup group, EncounterInfo info) => group.ServerInfo = info;
+        public void SetEncounterInfo(EncounterMetaGroup group, EncounterMetadata info) => group.ServerInfo = info;
     }
 }

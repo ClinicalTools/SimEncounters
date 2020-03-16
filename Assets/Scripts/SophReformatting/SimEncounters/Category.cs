@@ -4,6 +4,6 @@ namespace ClinicalTools.SimEncounters
 {
     public class Category
     {
-        public List<EncounterDetail> Encounters { get; } = new List<EncounterDetail>();
+        public List<EncounterInfo> Encounters { get; } = new List<EncounterInfo>();
     }
 }

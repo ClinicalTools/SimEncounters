@@ -18,7 +18,7 @@ namespace ClinicalTools.SimEncounters.Reader
             sectionToggleUI.NameLabel.text = Section.Name;
 
             SetColor(sectionToggleUI, Section.Color, false);
-            var icons = reader.Encounter.Images.Icons;
+            var icons = reader.EncounterData.Images.Icons;
             if (icons.ContainsKey(Section.IconKey))
                 sectionToggleUI.Icon.sprite = icons[Section.IconKey];
 

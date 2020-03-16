@@ -49,7 +49,7 @@ namespace ClinicalTools.SimEncounters.Reader
 
         public virtual void Initialize(ReaderScene reader, string value)
         {
-            var sprites = reader.Encounter.Images.Sprites;
+            var sprites = reader.EncounterData.Images.Sprites;
             if (sprites.ContainsKey(value))
                 SetSprite(reader, sprites[value]);
             else

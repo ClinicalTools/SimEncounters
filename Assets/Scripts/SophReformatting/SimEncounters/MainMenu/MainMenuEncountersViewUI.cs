@@ -26,9 +26,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
 
 
-        public event Action<EncounterDetail> Selected;
+        public event Action<EncounterInfo> Selected;
         protected InfoNeededForMainMenuToHappen CurrentData { get; set; }
-        public virtual void Display(InfoNeededForMainMenuToHappen data, IEnumerable<EncounterDetail> encounters)
+        public virtual void Display(InfoNeededForMainMenuToHappen data, IEnumerable<EncounterInfo> encounters)
         {
             gameObject.SetActive(true);
             CurrentData = data;
@@ -46,14 +46,14 @@ namespace ClinicalTools.SimEncounters.MainMenu
         }
 
         protected List<MainMenuEncounterUI> EncounterDisplays { get; } = new List<MainMenuEncounterUI>();
-        public virtual void SetCases(IEnumerable<EncounterDetail> encounters)
+        public virtual void SetCases(IEnumerable<EncounterInfo> encounters)
         {
             foreach (MainMenuEncounterUI encounterDisplay in EncounterDisplays)
                 Destroy(encounterDisplay.gameObject);
             EncounterDisplays.Clear();
 
             foreach (var encounter in encounters) {
-                if (encounter.InfoGroup.GetLatestInfo().IsTemplate)
+                if (encounter.MetaGroup.GetLatestInfo().IsTemplate)
                     continue;
 
                 var encounterUI = Instantiate(OptionPrefab, OptionsParent);

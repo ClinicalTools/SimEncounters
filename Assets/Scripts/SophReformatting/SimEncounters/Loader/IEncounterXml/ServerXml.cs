@@ -1,6 +1,4 @@
-﻿using ClinicalTools.SimEncounters.Data;
-using System;
-using System.Xml;
+﻿using System.Xml;
 
 namespace ClinicalTools.SimEncounters.Loading
 {
@@ -17,12 +15,12 @@ namespace ClinicalTools.SimEncounters.Loading
             ImageDownloader = imageDownloader;
         }
 
-        public void GetEncounterXml(User user, EncounterInfoGroup encounterInfoGroup)
+        public void GetEncounterXml(User user, EncounterInfo encounterInfo)
         {
             DataDownloader.Completed += DataDownloader_Completed;
-            DataDownloader.GetXml("xmlData");
+            DataDownloader.GetXml(user, encounterInfo, "xmlData");
             ImageDownloader.Completed += ImageDownloader_Completed;
-            ImageDownloader.GetXml("imgData");
+            ImageDownloader.GetXml(user, encounterInfo, "imgData");
         }
 
         protected bool DataDownloaded { get; set; }

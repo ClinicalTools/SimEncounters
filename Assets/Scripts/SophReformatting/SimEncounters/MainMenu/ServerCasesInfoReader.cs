@@ -18,18 +18,18 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
     public class ServerCasesInfoReader : IEncountersInfoReader
     {
-        public event Action<List<EncounterDetail>> Completed;
-        public List<EncounterDetail> Result { get; protected set; }
+        public event Action<List<EncounterInfo>> Completed;
+        public List<EncounterInfo> Result { get; protected set; }
         public bool IsDone { get; protected set; }
 
-        protected ServerDataReader<List<EncounterDetail>> EncounterDataReader { get; }
+        protected ServerDataReader<List<EncounterInfo>> EncounterDataReader { get; }
         protected IWebAddress WebAddress { get; }
         public ServerCasesInfoReader(IWebAddress webAddress)
         {
             WebAddress = webAddress;
             var encounterDetailParser = new EncounterDetailParser(new EncounterServerInfoSetter());
-            var listParser = new ListParser<EncounterDetail>(encounterDetailParser, new DoubleColonStringSplitter());
-            EncounterDataReader = new ServerDataReader<List<EncounterDetail>>(listParser);
+            var listParser = new ListParser<EncounterInfo>(encounterDetailParser, new DoubleColonStringSplitter());
+            EncounterDataReader = new ServerDataReader<List<EncounterInfo>>(listParser);
         }
 
         private const string menuPhp = "Menu.php";
@@ -60,7 +60,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             Debug.LogError(url);
         }
 
-        private void EncounterDataReader_Completed(object sender, ServerResult<List<EncounterDetail>> e)
+        private void EncounterDataReader_Completed(object sender, ServerResult<List<EncounterInfo>> e)
         {
             Result = e.Result;
             IsDone = true;

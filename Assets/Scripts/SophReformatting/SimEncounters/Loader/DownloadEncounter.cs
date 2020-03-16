@@ -12,7 +12,7 @@ namespace ClinicalTools.SimEncounters
 
         private const string downloadPhp = "Test.php";
         private const string filenameArgument = "webfilename";
-        protected virtual string GetWebAddress(string column)
+        protected virtual string GetWebAddress(User user, EncounterInfo encounterInfo, string column)
         {
             WebAddress.AddArgument(filenameArgument, "494350Aaron_Limbaco.ced");
             WebAddress.AddArgument("webusername", "clinical");
@@ -28,9 +28,9 @@ namespace ClinicalTools.SimEncounters
             WebAddress = webAddress;
         }
 
-        public void GetXml(string column)
+        public void GetXml(User user, EncounterInfo encounterInfo, string column)
         {
-            UnityWebRequest webRequest = UnityWebRequest.Get(GetWebAddress(column));
+            UnityWebRequest webRequest = UnityWebRequest.Get(GetWebAddress(user, encounterInfo, column));
             var requestOperation = webRequest.SendWebRequest();
             requestOperation.completed += (asyncOperation) => ProcessWebrequest(webRequest);
         }

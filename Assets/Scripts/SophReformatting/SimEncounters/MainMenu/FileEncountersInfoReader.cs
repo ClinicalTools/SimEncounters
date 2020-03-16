@@ -8,12 +8,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class FileEncountersInfoReader : IEncountersInfoReader
     {
-        public event Action<List<EncounterDetail>> Completed;
-        public List<EncounterDetail> Result { get; protected set; }
+        public event Action<List<EncounterInfo>> Completed;
+        public List<EncounterInfo> Result { get; protected set; }
         public bool IsDone { get; protected set; }
 
         protected IFilePathManager FilePathManager { get; }
-        protected IParser<EncounterDetail> EncounterDetailParser { get; }
+        protected IParser<EncounterInfo> EncounterDetailParser { get; }
         public FileEncountersInfoReader(IFilePathManager filePathManager)
         {
             FilePathManager = filePathManager;
@@ -23,7 +23,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         private const string menuSearchTerm = "*menu.txt";
         public virtual void GetEncounterInfos(User user)
         {
-            List<EncounterDetail> encounters = new List<EncounterDetail>();
+            List<EncounterInfo> encounters = new List<EncounterInfo>();
 
             var directory = FilePathManager.GetLocalSavesFolder(user);
             if (!Directory.Exists(directory)) {
@@ -43,7 +43,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             Complete(encounters);
         }
 
-        protected virtual void Complete(List<EncounterDetail> result)
+        protected virtual void Complete(List<EncounterInfo> result)
         {
             Result = result;
             IsDone = true;

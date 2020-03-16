@@ -36,7 +36,7 @@ namespace ClinicalTools.SimEncounters
                 return;
             }
 
-            new ReaderScene(data.User, data.LoadingScreen, data.Encounter, (ReaderUI)sceneManager.SceneUI);
+            new ReaderScene(data, (ReaderUI)sceneManager.SceneUI);
             //readerUI.Display(data);
         }
     }

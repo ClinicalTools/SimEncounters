@@ -18,7 +18,7 @@ namespace ClinicalTools.SimEncounters
         protected MainMenuSceneLoader MainMenuSceneLoader { get; set; } = new MainMenuSceneLoader(new MobileScenePathData());
 
 
-        public virtual void StartReaderScene(User user, EncounterDetail encounterDetail, IEncounterGetter encounterGetter)
+        public virtual void StartReaderScene(User user, EncounterInfo encounterDetail, IEncounterDataReader encounterGetter)
         {
             var x = new ReaderSceneStarter(new MobileScenePathData());
             var info = new InfoNeededForReaderToHappen(user, LoadingScreen, encounterDetail, encounterGetter);

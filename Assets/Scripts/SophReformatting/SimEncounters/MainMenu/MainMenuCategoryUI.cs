@@ -52,7 +52,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             ToggleViewButton.Show();
         }
 
-        private IEnumerable<EncounterDetail> FilterEncounterDetails(IEnumerable<EncounterDetail> encounters)
+        private IEnumerable<EncounterInfo> FilterEncounterDetails(IEnumerable<EncounterInfo> encounters)
         {
             var filter = Sidebar.SearchStuff.Filters.EncounterFilter;
             return encounters.Where(e => filter(e));
@@ -60,7 +60,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         private void ShowCategory()
         {
-            var encounters = new List<EncounterDetail>(FilterEncounterDetails(CurrentCategory.Encounters));
+            var encounters = new List<EncounterInfo>(FilterEncounterDetails(CurrentCategory.Encounters));
             encounters.Sort(Sidebar.SearchStuff.SortingOrder.Comparison);
 
             var encounterView = EncounterViews[currentViewIndex];
@@ -70,7 +70,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         }
 
 
-        private void EncountersView_Selected(EncounterDetail encounterInfo)
+        private void EncountersView_Selected(EncounterInfo encounterInfo)
         {
             Overview.GameObject.SetActive(true);
             Overview.Display(CurrentData, encounterInfo);

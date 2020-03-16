@@ -9,8 +9,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private List<LabeledToggle> audienceToggles;
         public List<LabeledToggle> AudienceToggles { get => audienceToggles; set => audienceToggles = value; }
 
-        public override Filter<EncounterDetail> EncounterFilter => FilterAudience;
-        public override event Action<Filter<EncounterDetail>> FilterChanged;
+        public override Filter<EncounterInfo> EncounterFilter => FilterAudience;
+        public override event Action<Filter<EncounterInfo>> FilterChanged;
 
         protected List<string> FilteredAudiences { get; } = new List<string>();
 
@@ -30,12 +30,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
             FilterChanged?.Invoke(EncounterFilter);
         }
 
-        protected bool FilterAudience(EncounterDetail encounter)
+        protected bool FilterAudience(EncounterInfo encounter)
         {
             if (FilteredAudiences.Count == 0)
                 return true;
 
-            return FilteredAudiences.Contains(encounter.InfoGroup.GetLatestInfo().Audience);
+            return FilteredAudiences.Contains(encounter.MetaGroup.GetLatestInfo().Audience);
         }
 
         public override void Clear()

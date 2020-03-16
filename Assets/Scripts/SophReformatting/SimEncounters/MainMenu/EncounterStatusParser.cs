@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public class EncounterStatusParser : IParser<KeyValuePair<int, UserEncounterStatus>>
+    public class EncounterStatusParser : IParser<KeyValuePair<int, EncounterBasicStatus>>
     {
         private const string caseInfoDivider = "::";
 
-        public KeyValuePair<int, UserEncounterStatus> Parse(string text)
+        public KeyValuePair<int, EncounterBasicStatus> Parse(string text)
         {
             var parsedText = GetParsedEncounterText(text);
 
@@ -46,17 +46,17 @@ namespace ClinicalTools.SimEncounters.MainMenu
             return filename;
         }
 
-        protected KeyValuePair<int, UserEncounterStatus> GetEncounterStatus(string[] parsedItem)
+        protected KeyValuePair<int, EncounterBasicStatus> GetEncounterStatus(string[] parsedItem)
         {
             if (parsedItem == null || parsedItem.Length < encounterParts)
-                return new KeyValuePair<int, UserEncounterStatus>();
+                return new KeyValuePair<int, EncounterBasicStatus>();
 
-            var encounterInfo = new UserEncounterStatus();
+            var encounterInfo = new EncounterBasicStatus();
 
             if (!int.TryParse(parsedItem[recordNumberIndex], out var recordNumber))
-                return new KeyValuePair<int, UserEncounterStatus>();
+                return new KeyValuePair<int, EncounterBasicStatus>();
 
-            return new KeyValuePair<int, UserEncounterStatus>(recordNumber, encounterInfo);
+            return new KeyValuePair<int, EncounterBasicStatus>(recordNumber, encounterInfo);
         }
 
 

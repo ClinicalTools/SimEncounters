@@ -2,15 +2,17 @@
 {
     public class Encounter
     {
-        public virtual EncounterInfoGroup Info { get; }
-        public virtual SectionsData Content { get; }
-        public virtual ImagesData Images { get; }
+        public EncounterData Data { get; }
+        public EncounterInfo Info { get; }
+        public EncounterDetailedStatus Status { get; }
+        public EncounterMetadata Metadata { get; }
 
-        public Encounter(EncounterInfoGroup info, SectionsData content, ImagesData images)
+        public Encounter(EncounterData data, EncounterInfo info, EncounterDetailedStatus status, EncounterMetadata metadata)
         {
+            Data = data;
             Info = info;
-            Content = content;
-            Images = images;
+            Status = status;
+            Metadata = metadata;
         }
     }
 }

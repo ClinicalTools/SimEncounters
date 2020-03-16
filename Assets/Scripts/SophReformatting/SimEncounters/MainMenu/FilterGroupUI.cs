@@ -6,9 +6,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class FilterGroupUI : EncounterFilterBehaviour
     {
-        public override Filter<EncounterDetail> EncounterFilter => FilterGroups;
+        public override Filter<EncounterInfo> EncounterFilter => FilterGroups;
 
-        public override event Action<Filter<EncounterDetail>> FilterChanged;
+        public override event Action<Filter<EncounterInfo>> FilterChanged;
 
         [SerializeField] private List<EncounterFilterBehaviour> encounterFilters;
         public List<EncounterFilterBehaviour> EncounterFilters { get => encounterFilters; set => encounterFilters = value; }
@@ -19,7 +19,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 encounterFilter.FilterChanged += (filter) => FilterChanged?.Invoke(EncounterFilter);
         }
 
-        protected bool FilterGroups(EncounterDetail encounter)
+        protected bool FilterGroups(EncounterInfo encounter)
         {
             foreach (var encounterFilter in EncounterFilters) {
                 if (!encounterFilter.EncounterFilter(encounter))

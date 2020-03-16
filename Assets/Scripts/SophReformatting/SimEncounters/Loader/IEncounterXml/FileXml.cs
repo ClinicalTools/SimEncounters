@@ -17,9 +17,9 @@ namespace ClinicalTools.SimEncounters.Loading
             XmlReader = xmlReader;
         }
 
-        public virtual void GetEncounterXml(User user, EncounterInfoGroup encounterInfoGroup)
+        public virtual void GetEncounterXml(User user, EncounterInfo encounterInfo)
         {
-            var filePath = FilePaths.GetLocalSavesFolder(user) + encounterInfoGroup.Filename.Replace('_', ' ');
+            var filePath = FilePaths.GetLocalSavesFolder(user) + encounterInfo.MetaGroup.Filename.Replace('_', ' ');
             var dataXml = GetDataXml(filePath);
             var imagesXml = GetImagesXml(filePath);
             Completed?.Invoke(this, new EncounterXmlRetrievedEventArgs(dataXml, imagesXml));

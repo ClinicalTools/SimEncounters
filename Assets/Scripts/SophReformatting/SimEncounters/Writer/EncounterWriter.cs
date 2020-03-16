@@ -5,13 +5,13 @@ namespace ClinicalTools.SimEncounters.Writer
     public class EncounterWriter : EncounterScene
     {
         protected virtual object User { get; }
-        public virtual Encounter Encounter { get; }
+        public virtual EncounterData Encounter { get; }
         public virtual WriterSectionGroup SectionsGroup { get; }
         protected WriterUI WriterUI { get; }
         public TabTypesInfo TabTypes { get; } = new TabTypesInfo();
 
         // combine user/loading screen and maybe encounter?
-        public EncounterWriter(object user, LoadingScreen loadingScreen, Encounter encounter, WriterUI writerUI) 
+        public EncounterWriter(object user, LoadingScreen loadingScreen, EncounterData encounter, WriterUI writerUI) 
             : base(writerUI)
         {
             User = user;

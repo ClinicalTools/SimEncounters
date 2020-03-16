@@ -20,18 +20,18 @@ namespace ClinicalTools.SimEncounters.MainMenu
             casesDownloader.GetEncounterInfos(mainMenu.User);
         }
 
-        protected virtual void EncountersRetrieved(List<EncounterDetail> encounters)
+        protected virtual void EncountersRetrieved(List<EncounterInfo> encounters)
         {
             var info = new InfoNeededForMainMenuToHappen(MainMenu.User, LoadingScreen.Instance, null);
             foreach (var encounter in encounters)
             {
-                if (!encounter.InfoGroup.GetLatestInfo().IsTemplate)
+                if (!encounter.MetaGroup.GetLatestInfo().IsTemplate)
                     info.AddEncounterDetail(encounter);
             }
             EncountersUI.Display(info);
         }
 
-        private void EncountersView_Selected(EncounterInfoGroup encounterInfo)
+        private void EncountersView_Selected(EncounterMetaGroup encounterInfo)
         {
             //EncountersUI.Overview.GameObject.SetActive(true);
             //new OverviewDisplay(MainMenu, EncountersUI.Overview, encounterInfo);
@@ -42,9 +42,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
     {
         protected virtual MainMenuEncountersViewUI EncountersViewUI { get; }
         protected virtual MainMenuScene MainMenu { get; }
-        public event Action<EncounterInfoGroup> Selected;
+        public event Action<EncounterMetaGroup> Selected;
 
-        public MainMenuEncountersViewDisplay(MainMenuScene mainMenu, MainMenuEncountersViewUI encountersViewUI, List<EncounterDetail> encounters)
+        public MainMenuEncountersViewDisplay(MainMenuScene mainMenu, MainMenuEncountersViewUI encountersViewUI, List<EncounterInfo> encounters)
         {
             MainMenu = mainMenu;
             EncountersViewUI = encountersViewUI;
@@ -53,21 +53,21 @@ namespace ClinicalTools.SimEncounters.MainMenu
         }
 
         List<MainMenuEncounterDisplay> EncounterDisplays = new List<MainMenuEncounterDisplay>();
-        public virtual void SetCases(List<EncounterDetail> encounters)
+        public virtual void SetCases(List<EncounterInfo> encounters)
         {
             foreach (var encounter in encounters)
             {
-                if (encounter.InfoGroup.GetLatestInfo().IsTemplate)
+                if (encounter.MetaGroup.GetLatestInfo().IsTemplate)
                     continue;
 
                 var encounterUI = UnityEngine.Object.Instantiate(EncountersViewUI.OptionPrefab, EncountersViewUI.OptionsParent);
-                var encounterDisplay = new MainMenuEncounterDisplay(MainMenu, encounterUI, encounter.InfoGroup);
+                var encounterDisplay = new MainMenuEncounterDisplay(MainMenu, encounterUI, encounter.MetaGroup);
                 encounterDisplay.Selected += (selectedEncounter) => Selected?.Invoke(selectedEncounter);
                 EncounterDisplays.Add(encounterDisplay);
             }
         }
 
-        protected virtual void EncountersRetrieved(List<EncounterInfoGroup> encounters)
+        protected virtual void EncountersRetrieved(List<EncounterMetaGroup> encounters)
         {
             EncountersViewUI.GameObject.SetActive(true);
 
@@ -86,10 +86,10 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
     public class MainMenuEncounterDisplay
     {
-        public event Action<EncounterInfoGroup> Selected;
+        public event Action<EncounterMetaGroup> Selected;
         protected MainMenuScene MainMenu { get; }
 
-        public MainMenuEncounterDisplay(MainMenuScene mainMenu, MainMenuEncounterUI encounterUI, EncounterInfoGroup encounterInfo)
+        public MainMenuEncounterDisplay(MainMenuScene mainMenu, MainMenuEncounterUI encounterUI, EncounterMetaGroup encounterInfo)
         {
             MainMenu = mainMenu;
 
@@ -105,7 +105,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
     public class EncounterInfoDisplay
     {
-        public EncounterInfoDisplay(EncounterInfoUI encounterInfoUI, EncounterInfo encounterInfo)
+        public EncounterInfoDisplay(EncounterInfoUI encounterInfoUI, EncounterMetadata encounterInfo)
         {
             if (encounterInfo == null)
                 UnityEngine.Debug.Log($"A{encounterInfoUI == null} B {encounterInfo == null}");

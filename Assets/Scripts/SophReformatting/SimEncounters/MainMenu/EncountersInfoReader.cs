@@ -6,8 +6,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class EncountersInfoReader : IEncountersInfoReader
     {
-        public event Action<List<EncounterDetail>> Completed;
-        public List<EncounterDetail> Result { get; protected set; }
+        public event Action<List<EncounterInfo>> Completed;
+        public List<EncounterInfo> Result { get; protected set; }
         public bool IsDone { get; protected set; }
 
         protected virtual IEncountersInfoReader FileReader { get; }
@@ -37,7 +37,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
             var encounters = ServerReader.Result;
             if (encounters == null)
-                encounters = new List<EncounterDetail>();
+                encounters = new List<EncounterInfo>();
             if (FileReader.Result != null) {
                 foreach (var localEncounter in FileReader.Result)
                     AddLocalEncounter(encounters, localEncounter);
@@ -57,7 +57,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             Completed?.Invoke(Result);
         }
 
-        protected virtual void AddLocalEncounter(List<EncounterDetail> encounters, EncounterDetail localEncounter)
+        protected virtual void AddLocalEncounter(List<EncounterInfo> encounters, EncounterInfo localEncounter)
         {
             if (localEncounter.RecordNumber < 0)
                 encounters.Add(localEncounter);
@@ -65,7 +65,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             foreach (var listEncounter in encounters) {
                 if (listEncounter.RecordNumber != localEncounter.RecordNumber)
                     continue;
-                listEncounter.InfoGroup.LocalInfo = localEncounter.InfoGroup.LocalInfo;
+                listEncounter.MetaGroup.LocalInfo = localEncounter.MetaGroup.LocalInfo;
 
                 return;
             }
@@ -73,7 +73,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             encounters.Add(localEncounter);
         }
 
-        protected virtual void UpdateFilePath(string oldPath, EncounterInfoGroup encounterInfo)
+        protected virtual void UpdateFilePath(string oldPath, EncounterMetaGroup encounterInfo)
         {
 
         }

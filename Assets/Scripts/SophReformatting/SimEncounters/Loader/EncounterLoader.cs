@@ -13,25 +13,25 @@ namespace ClinicalTools.SimEncounters.Loader
         protected virtual EncounterDataFactory EncounterDataFactory => new EncounterDataFactory();
         protected virtual ImageDataFactory ImageDataFactory => new ImageDataFactory();
 
-        public virtual Encounter ReadEncounter(EncounterInfoGroup info, XmlDocument dataXml, XmlDocument imagesXml)
+        public virtual EncounterData ReadEncounter(XmlDocument dataXml, XmlDocument imagesXml)
         {
             var content = GetSectionsData(dataXml);
             var images = GetImagesData(imagesXml);
-            return new Encounter(info, content, images);
+            return new EncounterData(content, images);
         }
 
-        protected virtual SectionsData GetSectionsData(XmlDocument dataXml)
+        protected virtual EncounterContent GetSectionsData(XmlDocument dataXml)
         {
             var deserializer = new XmlDeserializer(dataXml);
             return DeserializeSectionsData(deserializer);
         }
-        protected virtual SectionsData DeserializeSectionsData(XmlDeserializer deserializer) => deserializer.GetValue(ContentInfo, EncounterDataFactory);
+        protected virtual EncounterContent DeserializeSectionsData(XmlDeserializer deserializer) => deserializer.GetValue(ContentInfo, EncounterDataFactory);
 
-        protected virtual ImagesData GetImagesData(XmlDocument imagesXml)
+        protected virtual EncounterImageData GetImagesData(XmlDocument imagesXml)
         {
             var deserializer = new XmlDeserializer(imagesXml);
             return DeserializeImagesData(deserializer);
         }
-        protected virtual ImagesData DeserializeImagesData(XmlDeserializer deserializer) => deserializer.GetValue(ImagesInfo, ImageDataFactory);
+        protected virtual EncounterImageData DeserializeImagesData(XmlDeserializer deserializer) => deserializer.GetValue(ImagesInfo, ImageDataFactory);
     }
 }

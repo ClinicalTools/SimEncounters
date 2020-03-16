@@ -11,11 +11,11 @@ namespace ClinicalTools.SimEncounters.Reader
 
         protected virtual ReaderTabsGroup Tabs { get; set; }
         protected virtual ReaderScene Reader { get; set; }
-        protected virtual SectionsData SectionsData { get; set; }
+        protected virtual EncounterContent SectionsData { get; set; }
 
         protected override int FirstButtonIndex => SectionsData.CurrentSectionIndex;
 
-        public ReaderSectionsGroup(ReaderScene reader, ReaderSectionsUI sectionsUI, SectionsData sectionsData) 
+        public ReaderSectionsGroup(ReaderScene reader, ReaderSectionsUI sectionsUI, EncounterContent sectionsData) 
             : base(sectionsData.Sections)
         {
             Reader = reader;

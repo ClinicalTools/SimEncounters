@@ -8,7 +8,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class MainMenuEncounterUI : MonoBehaviour
     {
-        public event Action<EncounterDetail> Selected;
+        public event Action<EncounterInfo> Selected;
 
         [SerializeField] private Button selectButton;
         public virtual Button SelectButton { get => selectButton; set => selectButton = value; }
@@ -20,12 +20,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public virtual EncounterInfoUI InfoViewer { get => infoViewer; set => infoViewer = value; }
 
 
-        public void Display(InfoNeededForMainMenuToHappen data, EncounterDetail encounterInfo)
+        public void Display(InfoNeededForMainMenuToHappen data, EncounterInfo encounterInfo)
         {
             if (InfoViewer != null) {
-                if (encounterInfo.InfoGroup.GetLatestInfo() == null)
+                if (encounterInfo.MetaGroup.GetLatestInfo() == null)
                     Debug.Log("what");
-                new EncounterInfoDisplay(InfoViewer, encounterInfo.InfoGroup.GetLatestInfo());
+                new EncounterInfoDisplay(InfoViewer, encounterInfo.MetaGroup.GetLatestInfo());
             }
             SelectButton.onClick.AddListener(() => Selected?.Invoke(encounterInfo));
         }

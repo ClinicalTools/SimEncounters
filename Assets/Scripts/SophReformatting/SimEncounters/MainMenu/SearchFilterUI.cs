@@ -6,8 +6,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class SearchFilterUI : EncounterFilterBehaviour
     {
-        public override Filter<EncounterDetail> EncounterFilter => FilterSearchTerm;
-        public override event Action<Filter<EncounterDetail>> FilterChanged;
+        public override Filter<EncounterInfo> EncounterFilter => FilterSearchTerm;
+        public override event Action<Filter<EncounterInfo>> FilterChanged;
 
 
         [SerializeField] private TMP_InputField searchField;
@@ -25,12 +25,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
             FilterChanged?.Invoke(EncounterFilter);
         }
 
-        protected bool FilterSearchTerm(EncounterDetail encounter)
+        protected bool FilterSearchTerm(EncounterInfo encounter)
         {
             if (string.IsNullOrWhiteSpace(SearchTerm))
                 return true;
 
-            return encounter.InfoGroup.GetLatestInfo().Title.ToLower().Contains(SearchTerm.ToLower().Trim());
+            return encounter.MetaGroup.GetLatestInfo().Title.ToLower().Contains(SearchTerm.ToLower().Trim());
         }
 
         public override void Clear()

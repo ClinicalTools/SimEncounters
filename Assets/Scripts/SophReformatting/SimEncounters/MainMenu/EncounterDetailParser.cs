@@ -4,7 +4,7 @@ using static MenuCase;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public class EncounterDetailParser : IParser<EncounterDetail>
+    public class EncounterDetailParser : IParser<EncounterInfo>
     {
         protected IEncounterInfoSetter EncounterInfoSetter { get; }
 
@@ -13,7 +13,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             EncounterInfoSetter = encounterInfoSetter;
         }
 
-        public virtual EncounterDetail Parse(string text)
+        public virtual EncounterInfo Parse(string text)
         {
             var parsedItem = GetParsedEncounterText(text);
             var infoGroup = GetInfoGroup(parsedItem);
@@ -23,7 +23,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             EncounterInfoSetter.SetEncounterInfo(infoGroup, GetInfo(parsedItem));
 
             var recordNumber = GetRecordNumber(parsedItem);
-            return new EncounterDetail(recordNumber, infoGroup);
+            return new EncounterInfo(recordNumber, infoGroup);
         }
 
         private const int recordNumberIndex = 4;
@@ -61,12 +61,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
         private const int ratingIndex = 12;
         private const int caseTypeIndex = 13;
         private const string filenameExtension = ".ced";
-        public EncounterInfoGroup GetInfoGroup(string[] parsedItem)
+        public EncounterMetaGroup GetInfoGroup(string[] parsedItem)
         {
             if (parsedItem == null || parsedItem.Length < encounterParts)
                 return null;
 
-            var encounterInfoGroup = new EncounterInfoGroup {
+            var encounterInfoGroup = new EncounterMetaGroup {
                 Filename = GetFilename(parsedItem[filenameIndex])
             };
 
@@ -84,12 +84,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
         }
 
         private const string categoryDivider = ", ";
-        public EncounterInfo GetInfo(string[] parsedItem)
+        public EncounterMetadata GetInfo(string[] parsedItem)
         {
             if (parsedItem.Length < encounterParts)
                 return null;
 
-            var encounterInfo = new EncounterInfo() {
+            var encounterInfo = new EncounterMetadata() {
                 AuthorAccountId = int.Parse(parsedItem[authorAccountIdIndex]),
                 Title = parsedItem[titleIndex].Replace('_', ' '),
                 Difficulty = GetDifficulty(parsedItem[difficultyIndex]),

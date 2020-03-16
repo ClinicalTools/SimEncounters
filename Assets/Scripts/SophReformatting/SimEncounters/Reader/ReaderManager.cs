@@ -31,7 +31,7 @@ namespace ClinicalTools.SimEncounters.Reader
             var demoXml = new DemoXml(new FilePathManager(), new FileXmlReader());
             demoXml.Completed += ShowReader;
 
-            var encounterInfoGroup = new EncounterInfoGroup {
+            var encounterInfoGroup = new EncounterMetaGroup {
                 Filename = "Chad_Wright"
             };
             demoXml.GetEncounterXml(User.Guest, encounterInfoGroup);
@@ -42,7 +42,7 @@ namespace ClinicalTools.SimEncounters.Reader
         public void ShowReader(object sender, EncounterXmlRetrievedEventArgs e)
         {
             var watch = Stopwatch.StartNew();
-            var encounterInfo = new EncounterInfo() {
+            var encounterInfo = new EncounterMetadata() {
                 Title = "Chad Wright",
                 Subtitle = "Chronic Knee Pain",
                 Audience = "MD/DO/PA/NP",
@@ -51,11 +51,11 @@ namespace ClinicalTools.SimEncounters.Reader
                 "He now presents as a new patient requesting a prescription for opioids.",
                 Difficulty = Difficulty.Intermediate
             };
-            var encounterInfoGroup = new EncounterInfoGroup();
+            var encounterInfoGroup = new EncounterMetaGroup();
             encounterInfoGroup.CurrentInfo = encounterInfo;
             encounterInfo.Categories.Add("Pain Management");
             var loader = new ClinicalEncounterLoader();
-            var encounter = loader.ReadEncounter(encounterInfoGroup, e.DataXml, e.ImagesXml);
+            var encounter = loader.ReadEncounter(e.DataXml, e.ImagesXml);
             watch.Stop();
 
             ReaderSceneLoader.StartReader(this, User.Guest, encounter);

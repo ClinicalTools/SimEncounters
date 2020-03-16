@@ -7,8 +7,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class FileEncounterStatusesReader : IEncounterStatusesReader
     {
-        public event Action<Dictionary<int, UserEncounterStatus>> Completed;
-        public Dictionary<int, UserEncounterStatus> Result { get; protected set; }
+        public event Action<Dictionary<int, EncounterBasicStatus>> Completed;
+        public Dictionary<int, EncounterBasicStatus> Result { get; protected set; }
         public bool IsDone { get; protected set; }
 
         public EncounterStatusParser EncounterStatusParser { get; }
@@ -22,7 +22,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         string menuSearchTerm = "*menu.txt";
         public virtual void GetEncounterStatuses(User user)
         {
-            Dictionary<int, UserEncounterStatus> encounters = new Dictionary<int, UserEncounterStatus>();
+            Dictionary<int, EncounterBasicStatus> encounters = new Dictionary<int, EncounterBasicStatus>();
 
             var directory = GetDirectory(user);
             if (!Directory.Exists(directory)) {
@@ -42,7 +42,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             Complete(encounters);
         }
 
-        protected virtual void Complete(Dictionary<int, UserEncounterStatus> result)
+        protected virtual void Complete(Dictionary<int, EncounterBasicStatus> result)
         {
             Result = result;
             IsDone = true;
