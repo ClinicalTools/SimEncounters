@@ -1,5 +1,4 @@
-﻿using ClinicalTools.SimEncounters.Data;
-using System.Xml;
+﻿using System.Xml;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -15,7 +14,7 @@ namespace ClinicalTools.SimEncounters
             ImagesXml = imagesXml;
         }
     }
-    public interface IEncounterXml
+    public interface IEncounterXmlReader
     {
         event EncounterXmlRetrievedEventHandler Completed;
 

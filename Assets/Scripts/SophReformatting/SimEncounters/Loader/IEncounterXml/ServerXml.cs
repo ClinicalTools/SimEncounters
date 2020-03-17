@@ -2,7 +2,7 @@
 
 namespace ClinicalTools.SimEncounters.Loading
 {
-    public class ServerXml : IEncounterXml
+    public class ServerXml : IEncounterXmlReader
     {
         public event EncounterXmlRetrievedEventHandler Completed;
 

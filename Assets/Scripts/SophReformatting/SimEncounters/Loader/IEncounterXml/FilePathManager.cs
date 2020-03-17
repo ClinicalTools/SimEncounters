@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.IO;
+using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
 
@@ -30,7 +31,11 @@ namespace ClinicalTools.SimEncounters
                 accountStr = sb.ToString().Substring(7, 10); //Return a random 10 digit substring of the hash to represent the folder name
             }
 
-            return LocalSavesPath + accountStr + '\\';
+            var path = $"{LocalSavesPath}{accountStr}\\";
+            path = $"{LocalSavesPath}abc\\";
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+            return path;
         }
     }
 }

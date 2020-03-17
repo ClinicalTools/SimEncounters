@@ -12,9 +12,9 @@ namespace ClinicalTools.SimEncounters
         public EncounterData EncounterData { get; protected set; }
 
         protected EncounterLoader EncounterLoader { get; set; }
-        protected IEncounterXml EncounterXml { get; set; }
+        protected IEncounterXmlReader EncounterXml { get; set; }
 
-        public EncounterDataReader(EncounterLoader encounterLoader, IEncounterXml encounterXml)
+        public EncounterDataReader(EncounterLoader encounterLoader, IEncounterXmlReader encounterXml)
         {
             EncounterLoader = encounterLoader;
             EncounterXml = encounterXml;
@@ -56,23 +56,20 @@ namespace ClinicalTools.SimEncounters
 
         public void GetAutosaveEncounter(User user, EncounterMetaGroup encounterInfoGroup)
         {
-            encounterInfoGroup.CurrentInfo = encounterInfoGroup.AutosaveInfo;
             GetEncounter(user, encounterInfoGroup, AutoSaveXml);
         }
 
         public void GetLocalEncounter(User user, EncounterMetaGroup encounterInfoGroup)
         {
-            encounterInfoGroup.CurrentInfo = encounterInfoGroup.LocalInfo;
             GetEncounter(user, encounterInfoGroup, FileXml);
         }
 
         public void GetServerEncounter(User user, EncounterMetaGroup encounterInfoGroup)
         {
-            encounterInfoGroup.CurrentInfo = encounterInfoGroup.ServerInfo;
             GetEncounter(user, encounterInfoGroup, ServerXml);
         }
 
-        protected void GetEncounter(User user, EncounterMetaGroup encounterInfoGroup, IEncounterXml encounterXml)
+        protected void GetEncounter(User user, EncounterMetaGroup encounterInfoGroup, IEncounterXmlReader encounterXml)
         {
             encounterXml.Completed += (sender, e) => EncounterXml_Completed(encounterInfoGroup, e);
             encounterXml.GetEncounterXml(user, null);

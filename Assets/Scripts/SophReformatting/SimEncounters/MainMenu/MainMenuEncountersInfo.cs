@@ -105,19 +105,20 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
     public class EncounterInfoDisplay
     {
-        public EncounterInfoDisplay(EncounterInfoUI encounterInfoUI, EncounterMetadata encounterInfo)
+        public EncounterInfoDisplay(EncounterInfoUI encounterInfoUI, EncounterMetadata encounterMetadata)
         {
-            if (encounterInfo == null)
-                UnityEngine.Debug.Log($"A{encounterInfoUI == null} B {encounterInfo == null}");
-            SetLabelText(encounterInfoUI.AudienceLabel, encounterInfo.Audience);
-            SetLabelText(encounterInfoUI.DescriptionLabel, encounterInfo.Description);
-            SetLabelText(encounterInfoUI.SubtitleLabel, encounterInfo.Subtitle);
+            if (encounterMetadata == null)
+                UnityEngine.Debug.Log($"A{encounterInfoUI == null} B {encounterMetadata == null}");
+            SetLabelText(encounterInfoUI.AudienceLabel, encounterMetadata.Audience);
+            SetLabelText(encounterInfoUI.DescriptionLabel, encounterMetadata.Description);
+            SetLabelText(encounterInfoUI.SubtitleLabel, encounterMetadata.Subtitle);
 
-            SetAutor(encounterInfoUI.AuthorLabel, encounterInfo.AuthorName);
-            SetTitle(encounterInfoUI.TitleLabel, encounterInfo.Title);
-            SetDifficulty(encounterInfoUI.Difficulty, encounterInfo.Difficulty);
-            SetDateModified(encounterInfoUI.DateModifiedLabel, encounterInfo.DateModified);
-            SetCategories(encounterInfoUI.CategoriesLabel, encounterInfo.Categories);
+            // TODO: change to use encounter metagroup and metadata
+            SetAuthor(encounterInfoUI.AuthorLabel, "CTI Staff");
+            SetTitle(encounterInfoUI.TitleLabel, encounterMetadata.Title);
+            SetDifficulty(encounterInfoUI.Difficulty, encounterMetadata.Difficulty);
+            SetDateModified(encounterInfoUI.DateModifiedLabel, encounterMetadata.DateModified);
+            SetCategories(encounterInfoUI.CategoriesLabel, encounterMetadata.Categories);
         }
 
         protected virtual void SetDifficulty(DifficultyUI difficultyUI, Difficulty difficulty)
@@ -130,7 +131,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             if (label != null)
                 label.text = title.Replace('_', ' ').Trim();
         }
-        protected virtual void SetAutor(TextMeshProUGUI label, string author)
+        protected virtual void SetAuthor(TextMeshProUGUI label, string author)
         {
             if (label != null)
                 label.text = $"by {author.Replace('_', ' ').Trim()}";

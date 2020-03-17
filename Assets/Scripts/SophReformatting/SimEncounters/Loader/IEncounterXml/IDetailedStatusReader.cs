@@ -2,7 +2,7 @@
 
 namespace ClinicalTools.SimEncounters
 {
-    public interface IEncounterStatusReader
+    public interface IDetailedStatusReader
     {
         bool IsDone { get; }
         EncounterDetailedStatus DetailedStatus { get; }
@@ -12,7 +12,7 @@ namespace ClinicalTools.SimEncounters
         void DoStuff(User user, EncounterInfo info);
     }
 
-    public class LocalEncounterStatusReader : IEncounterStatusReader
+    public class LocalEncounterStatusReader : IDetailedStatusReader
     {
         public bool IsDone { get; protected set; }
 

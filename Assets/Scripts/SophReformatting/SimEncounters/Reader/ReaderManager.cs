@@ -3,7 +3,6 @@ using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.Loading;
 using System.Collections;
 using System.Diagnostics;
-using System.Xml;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
@@ -31,10 +30,11 @@ namespace ClinicalTools.SimEncounters.Reader
             var demoXml = new DemoXml(new FilePathManager(), new FileXmlReader());
             demoXml.Completed += ShowReader;
 
-            var encounterInfoGroup = new EncounterMetaGroup {
+            var encounterMetaGroup = new EncounterMetaGroup {
                 Filename = "Chad_Wright"
             };
-            demoXml.GetEncounterXml(User.Guest, encounterInfoGroup);
+            var encounterInfo = new EncounterInfo(0, encounterMetaGroup);
+            demoXml.GetEncounterXml(User.Guest, encounterInfo);
 
             yield return null;
         }
@@ -52,7 +52,6 @@ namespace ClinicalTools.SimEncounters.Reader
                 Difficulty = Difficulty.Intermediate
             };
             var encounterInfoGroup = new EncounterMetaGroup();
-            encounterInfoGroup.CurrentInfo = encounterInfo;
             encounterInfo.Categories.Add("Pain Management");
             var loader = new ClinicalEncounterLoader();
             var encounter = loader.ReadEncounter(e.DataXml, e.ImagesXml);

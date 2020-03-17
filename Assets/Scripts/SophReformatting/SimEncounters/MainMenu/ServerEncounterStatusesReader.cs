@@ -23,7 +23,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         private const string menuPhp = "Track.php";
         private const string actionVariable = "ACTION";
-        private const string downloadAction = "download2";
+        private const string downloadAction = "download";
         private const string usernameVariable = "username";
 
         private const string recordNumberVariable = "recordNumber";
@@ -58,11 +58,11 @@ namespace ClinicalTools.SimEncounters.MainMenu
     public class UpdateEncounterStatus
     {
         protected IWebAddress WebAddress { get; }
-        protected ServerDataReader<string> EncounterDataReader { get; }
+        protected ServerDataReader<string> StatusesReader { get; }
         public UpdateEncounterStatus(IWebAddress webAddress)
         {
             WebAddress = webAddress;
-            EncounterDataReader = new ServerDataReader<string>(new StringParser());
+            StatusesReader = new ServerDataReader<string>(new StringParser());
         }
 
         private const string menuPhp = "Track.php";
@@ -87,12 +87,60 @@ namespace ClinicalTools.SimEncounters.MainMenu
             form.AddField(recordNumberVariable, recordNumber);
 
             var webRequest = UnityWebRequest.Post(url, form);
-            EncounterDataReader.Completed += EncounterDataReader_Completed;
-            EncounterDataReader.Begin(webRequest);
+            StatusesReader.Completed += EncounterDataReader_Completed;
+            StatusesReader.Begin(webRequest);
         }
 
         private void EncounterDataReader_Completed(object sender, ServerResult<string> e)
         {
+        }
+    }
+
+    public class ServerDetailedStatusReader : IDetailedStatusReader
+    {
+        public event Action<EncounterDetailedStatus> Completed;
+        public EncounterDetailedStatus DetailedStatus { get; protected set; }
+        public bool IsDone { get; protected set; }
+
+        public IWebAddress WebAddress { get; }
+        protected ServerDataReader<EncounterDetailedStatus> StatusReader { get; }
+        public ServerDetailedStatusReader(IWebAddress webAddress)
+        {
+            WebAddress = webAddress;
+            var statusParser = new DetailedStatusParser();
+            StatusReader = new ServerDataReader<EncounterDetailedStatus>(statusParser);
+        }
+
+        private const string menuPhp = "Track2.php";
+        private const string actionVariable = "ACTION";
+        private const string downloadAction = "downloadDetails";
+        private const string usernameVariable = "username";
+
+        private const string recordNumberVariable = "recordNumber";
+
+        /**
+         * Downloads all available and applicable menu files to display on the main manu.
+         * Returns them as a MenuCase item
+         */
+        public void DoStuff(User user, EncounterInfo encounterInfo)
+        {
+            var url = WebAddress.GetUrl(menuPhp);
+            var form = new WWWForm();
+
+            form.AddField(actionVariable, downloadAction);
+            form.AddField(usernameVariable, user.Username);
+            form.AddField(recordNumberVariable, encounterInfo.MetaGroup.RecordNumber);
+
+            var webRequest = UnityWebRequest.Post(url, form);
+            StatusReader.Completed += EncounterDataReader_Completed;
+            StatusReader.Begin(webRequest);
+        }
+
+        private void EncounterDataReader_Completed(object sender, ServerResult<EncounterDetailedStatus> e)
+        {
+            DetailedStatus = e.Result;
+            IsDone = true;
+            Completed?.Invoke(DetailedStatus);
         }
     }
 }

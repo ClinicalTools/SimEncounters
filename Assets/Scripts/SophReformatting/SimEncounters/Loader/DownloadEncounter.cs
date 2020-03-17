@@ -14,12 +14,12 @@ namespace ClinicalTools.SimEncounters
         private const string filenameArgument = "webfilename";
         protected virtual string GetWebAddress(User user, EncounterInfo encounterInfo, string column)
         {
-            WebAddress.AddArgument(filenameArgument, "494350Aaron_Limbaco.ced");
+            WebAddress.AddArgument(filenameArgument, $"{encounterInfo.MetaGroup.Filename}.ced");
             WebAddress.AddArgument("webusername", "clinical");
             WebAddress.AddArgument("webpassword", "encounters");
             WebAddress.AddArgument("mode", "download");
             WebAddress.AddArgument("column", column);
-            WebAddress.AddArgument("accountId", "25");
+            WebAddress.AddArgument("accountId", encounterInfo.MetaGroup.AuthorAccountId.ToString());
             return WebAddress.GetUrl(downloadPhp);
         }
 
@@ -58,6 +58,8 @@ namespace ClinicalTools.SimEncounters
 
         protected XmlDocument ReadServerXml(string text)
         {
+            text = text.Replace("â€‹", "");
+            UnityEngine.Debug.Log(text);
             var xmlDocument = new XmlDocument();
             xmlDocument.LoadXml(text);
             return xmlDocument;

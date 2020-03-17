@@ -4,7 +4,7 @@ using System.Xml;
 
 namespace ClinicalTools.SimEncounters.Loading
 {
-    public class FileXml : IEncounterXml
+    public class FileXml : IEncounterXmlReader
     {
         public event EncounterXmlRetrievedEventHandler Completed;
 

@@ -56,8 +56,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         protected int CompareDatePublishedDescending(EncounterInfo x, EncounterInfo y)
             => y.MetaGroup.GetLatestInfo().DateModified.CompareTo(x.MetaGroup.GetLatestInfo().DateModified);
         protected int CompareAuthorAscending(EncounterInfo x, EncounterInfo y)
-            => x.MetaGroup.GetLatestInfo().AuthorName.CompareTo(y.MetaGroup.GetLatestInfo().AuthorName);
+            => x.MetaGroup.AuthorName.CompareTo(y.MetaGroup.AuthorName);
         protected int CompareAuthorDescending(EncounterInfo x, EncounterInfo y)
-            => y.MetaGroup.GetLatestInfo().AuthorName.CompareTo(x.MetaGroup.GetLatestInfo().AuthorName);
+            => y.MetaGroup.AuthorName.CompareTo(x.MetaGroup.AuthorName);
     }
 }

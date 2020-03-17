@@ -45,19 +45,49 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         public virtual void ReadCase(User user, EncounterInfo encounterInfo)
         {
-            EncounterGetter encounterGetter =
-                new EncounterGetter(
-                    new ClinicalEncounterLoader(),
-                    new ServerXml(new DownloadEncounter(new WebAddress()), new DownloadEncounter(new WebAddress())),
-                    new AutoSaveXml(new FilePathManager(), new FileXmlReader()),
-                    new FileXml(new FilePathManager(), new FileXmlReader()));
+            IEncounterReader encounterReader;
+            EncounterMetadata encounterMetadata;
+            if (encounterInfo.MetaGroup.LocalInfo != null) {
+                encounterReader = LocalEncounter();
+                encounterMetadata = encounterInfo.MetaGroup.LocalInfo;
+            } else if (encounterInfo.MetaGroup.ServerInfo != null) {
+                encounterReader = ServerEncounter();
+                encounterMetadata = encounterInfo.MetaGroup.ServerInfo;
+            } else {
+                encounterReader = AutosaveEncounter();
+                encounterMetadata = encounterInfo.MetaGroup.AutosaveInfo;
+            }
+            encounterReader.DoStuff(user, encounterInfo, encounterMetadata);
 
-            if (encounterInfo.MetaGroup.LocalInfo != null)
-                encounterGetter.GetLocalEncounter(user, encounterInfo.MetaGroup);
-            else if (encounterInfo.MetaGroup.ServerInfo != null)
-                encounterGetter.GetServerEncounter(user, encounterInfo.MetaGroup);
 
-            EncounterSceneManager.EncounterInstance.StartReaderScene(user, encounterInfo, encounterGetter);
+            EncounterSceneManager.EncounterInstance.StartReaderScene(user, encounterReader);
+        }
+
+        // Later these would be handled by a factory using Dependency Injection
+        protected virtual IEncounterReader LocalEncounter()
+        {
+            var encounterLoader = new ClinicalEncounterLoader();
+            IEncounterXmlReader encounterXml = new FileXml(new FilePathManager(), new FileXmlReader());
+            IEncounterDataReader dataReader = new EncounterDataReader(encounterLoader, encounterXml);
+            IDetailedStatusReader statusReader = new LocalEncounterStatusReader();
+            return new EncounterReader(dataReader, statusReader);
+        }
+        protected virtual IEncounterReader AutosaveEncounter()
+        {
+            var encounterLoader = new ClinicalEncounterLoader();
+            IEncounterXmlReader encounterXml = new AutoSaveXml(new FilePathManager(), new FileXmlReader());
+            IEncounterDataReader dataReader = new EncounterDataReader(encounterLoader, encounterXml);
+            IDetailedStatusReader statusReader = new LocalEncounterStatusReader();
+            return new EncounterReader(dataReader, statusReader);
+        }
+        protected virtual IEncounterReader ServerEncounter()
+        {
+            var encounterLoader = new ClinicalEncounterLoader();
+            IEncounterXmlReader encounterXml = new ServerXml(
+                new DownloadEncounter(new WebAddress()), new DownloadEncounter(new WebAddress()));
+            IEncounterDataReader dataReader = new EncounterDataReader(encounterLoader, encounterXml);
+            IDetailedStatusReader statusReader = new ServerDetailedStatusReader(new WebAddress());
+            return new EncounterReader(dataReader, statusReader);
         }
     }
 
@@ -93,7 +123,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             else if (EncounterInfo.ServerInfo != null)
                 encounterGetter.GetServerEncounter(MainMenu.User, EncounterInfo);
 
-            EncounterSceneManager.EncounterInstance.StartReaderScene(MainMenu.User, null, encounterGetter);
+            //EncounterSceneManager.EncounterInstance.StartReaderScene(MainMenu.User, null, encounterGetter);
         }
     }
 }

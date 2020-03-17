@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Loading
 {
-    public class DemoXml : IEncounterXml
+    public class DemoXml : IEncounterXmlReader
     {
         public event EncounterXmlRetrievedEventHandler Completed;
 

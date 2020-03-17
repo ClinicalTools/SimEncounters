@@ -21,8 +21,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 return null;
 
             EncounterInfoSetter.SetEncounterInfo(infoGroup, GetInfo(parsedItem));
-
+            
             var recordNumber = GetRecordNumber(parsedItem);
+            infoGroup.RecordNumber = recordNumber;
             return new EncounterInfo(recordNumber, infoGroup);
         }
 
@@ -67,7 +68,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 return null;
 
             var encounterInfoGroup = new EncounterMetaGroup {
-                Filename = GetFilename(parsedItem[filenameIndex])
+                Filename = GetFilename(parsedItem[filenameIndex]),
+                AuthorAccountId = int.Parse(parsedItem[authorAccountIdIndex]),
+                AuthorName = parsedItem[authorNameIndex],
             };
 
             if (float.TryParse(parsedItem[ratingIndex], out var rating))
@@ -90,10 +93,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 return null;
 
             var encounterInfo = new EncounterMetadata() {
-                AuthorAccountId = int.Parse(parsedItem[authorAccountIdIndex]),
                 Title = parsedItem[titleIndex].Replace('_', ' '),
                 Difficulty = GetDifficulty(parsedItem[difficultyIndex]),
-                AuthorName = parsedItem[authorNameIndex],
                 Description = parsedItem[descriptionIndex],
                 Subtitle = parsedItem[subtitleIndex],
                 DateModified = long.Parse(parsedItem[dateModifiedIndex]),

@@ -10,8 +10,6 @@ namespace ClinicalTools.SimEncounters.Data
     public class EncounterMetadata
     {
         public string Title { get; set; }
-        public string AuthorName { get; set; }
-        public int AuthorAccountId { get; set; }
         public long DateModified { get; set; }
         public string Subtitle { get; set; }
         public string Description { get; set; }
@@ -27,7 +25,6 @@ namespace ClinicalTools.SimEncounters.Data
         public EncounterMetadata(EncounterMetadata baseEncounterInfo)
         {
             Title = baseEncounterInfo.Title;
-            AuthorName = baseEncounterInfo.AuthorName;
             Categories.AddRange(baseEncounterInfo.Categories);
             DateModified = baseEncounterInfo.DateModified;
             Subtitle = baseEncounterInfo.Subtitle;

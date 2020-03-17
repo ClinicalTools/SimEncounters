@@ -3,9 +3,11 @@
     public class EncounterMetaGroup
     {
         public float Rating { get; set; } = -1;
+        public int RecordNumber { get; set; }
         public string Filename { get; set; }
+        public string AuthorName { get; set; }
+        public int AuthorAccountId { get; set; }
 
-        public EncounterMetadata CurrentInfo { get; set; }
         public EncounterMetadata AutosaveInfo { get; set; }
         public EncounterMetadata LocalInfo { get; set; }
         public EncounterMetadata ServerInfo { get; set; }

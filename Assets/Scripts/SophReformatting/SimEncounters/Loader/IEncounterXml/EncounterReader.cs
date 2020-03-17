@@ -12,9 +12,9 @@ namespace ClinicalTools.SimEncounters
         public event Action<Encounter> Completed;
 
         protected IEncounterDataReader DataReader { get; }
-        protected IEncounterStatusReader StatusReader { get; }
+        protected IDetailedStatusReader StatusReader { get; }
 
-        public EncounterReader(IEncounterDataReader dataReader, IEncounterStatusReader statusReader)
+        public EncounterReader(IEncounterDataReader dataReader, IDetailedStatusReader statusReader)
         {
             DataReader = dataReader;
             StatusReader = statusReader;
@@ -27,8 +27,8 @@ namespace ClinicalTools.SimEncounters
             this.info = info;
             this.metadata = metadata;
 
-            DataReader.Completed += (a) => Something();
-            StatusReader.Completed += (a) => Something();
+            DataReader.Completed += (data) => Something();
+            StatusReader.Completed += (status) => Something();
             DataReader.DoStuff(user, info);
             StatusReader.DoStuff(user, info);
         }
@@ -39,6 +39,8 @@ namespace ClinicalTools.SimEncounters
                 return;
 
             Encounter = new Encounter(DataReader.EncounterData, info, StatusReader.DetailedStatus, metadata);
+            IsDone = true;
+            Completed?.Invoke(Encounter);
         }
     }
 }

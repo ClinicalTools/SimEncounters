@@ -58,7 +58,44 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
             return new KeyValuePair<int, EncounterBasicStatus>(recordNumber, encounterInfo);
         }
+    }
+    public class DetailedStatusParser : IParser<EncounterDetailedStatus>
+    {
+        private const string caseInfoDivider = "::";
 
+        public EncounterDetailedStatus Parse(string text)
+        {
+            var parsedText = GetParsedEncounterText(text);
 
+            return GetEncounterStatus(parsedText);
+        }
+
+        protected virtual string[] GetParsedEncounterText(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return null;
+
+            //Split each data string of the current MenuCase, each string divided by "--"
+            return text.Split(new string[] { caseInfoDivider }, StringSplitOptions.None);
+        }
+        private const int encounterParts = 1;
+        private const int panelsIndex = 0;
+        protected EncounterDetailedStatus GetEncounterStatus(string[] parsedItem)
+        {
+            if (parsedItem == null || parsedItem.Length < encounterParts)
+                return null;
+
+            var encounterInfo = new EncounterDetailedStatus();
+            
+
+            return encounterInfo;
+        }
+
+        protected virtual void AddPanels(List<string> readPanels, string panelText)
+        {
+            var parsedPanels = panelText.Split(':');
+            foreach (var panel in parsedPanels)
+                readPanels.Add(panel);
+        }
     }
 }

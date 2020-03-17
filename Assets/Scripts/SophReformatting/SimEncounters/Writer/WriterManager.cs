@@ -29,10 +29,11 @@ namespace ClinicalTools.SimEncounters.Writer
             var demoXml = new DemoXml(new FilePathManager(), new FileXmlReader());
             demoXml.Completed += ShowReader;
 
-            var encounterInfoGroup = new EncounterMetaGroup {
+            var encounterMeta = new EncounterMetaGroup {
                 Filename = "Chad_Wright"
             };
-            demoXml.GetEncounterXml(User.Guest, encounterInfoGroup);
+            var encounterInfo = new EncounterInfo(0, encounterMeta);
+            demoXml.GetEncounterXml(User.Guest, encounterInfo);
 
             yield return null;
         }
