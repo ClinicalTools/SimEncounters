@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using ClinicalTools.SimEncounters.MainMenu;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -22,7 +23,16 @@ namespace ClinicalTools.SimEncounters.Reader
         public ReaderPanelDisplayFactory PanelDisplayFactory { get; }
         public ReaderValueFieldInitializer ValueFieldInitializer { get; }
 
-        public HashSet<string> ReadTabs { get; } = new HashSet<string>();
+        //public HashSet<string> ReadTabs { get; } = new HashSet<string>();
+        public bool IsTabRead(string tabKey)
+        {
+            return Data.Encounter.Status.ReadTabs.Contains(tabKey);
+        }
+        public void ReadTab(string tabKey)
+        {
+            if (!Data.Encounter.Status.ReadTabs.Contains(tabKey))
+                Data.Encounter.Status.ReadTabs.Add(tabKey);
+        }
 
 
         // combine user/loading screen and maybe encounter?
@@ -95,7 +105,21 @@ namespace ClinicalTools.SimEncounters.Reader
 
         public void ShowMainMenu()
         {
+            var x = new ServerDetailedStatusWriter(new WebAddress());
+            x.DoStuff(Data.User, Data.Encounter);
             EncounterSceneManager.EncounterInstance.StartMainMenuScene(User);
+        }
+
+        protected void SetCompleted()
+        {
+            foreach (var section in Data.Encounter.Data.Content.Sections.Values) {
+                foreach (var tab in section.Tabs) {
+                    if (!Data.Encounter.Status.ReadTabs.Contains(tab.Key))
+                        return;
+                }
+            }
+
+            Data.Encounter.Info.UserStatus.Completed = true;
         }
     }
 }

@@ -6,6 +6,28 @@ using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
+    public class FileDetailedStatusWriter : IDetailedStatusWriter
+    {
+        protected IFilePathManager FilePathManager { get; }
+        public FileDetailedStatusWriter(IFilePathManager filePathManager)
+        {
+            FilePathManager = filePathManager;
+        }
+        public void DoStuff(User user, Encounter encounter)
+        {
+            var directory = FilePathManager.GetLocalSavesFolder(user);
+            if (!Directory.Exists(directory)) {
+                return;
+            }
+
+            var encounterFilePath = FilePathManager.EncounterFilePath(user, encounter.Info);
+            var basicStatusFilePath = FilePathManager.StatusFilePath(encounterFilePath);
+            var detailedStatusFilePath = FilePathManager.DetailedStatusFilePath(encounterFilePath);
+
+            File.WriteAllText(basicStatusFilePath, "");
+            File.WriteAllText(detailedStatusFilePath, "");
+        }
+    }
     public class FileEncountersInfoReader : IEncountersInfoReader
     {
         public event Action<List<EncounterInfo>> Completed;

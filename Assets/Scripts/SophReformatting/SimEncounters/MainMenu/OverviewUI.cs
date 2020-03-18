@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.ClinicalEncounters.Loader;
+using ClinicalTools.SimEncounters.Collections;
 using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.Loader;
 using ClinicalTools.SimEncounters.Loading;
@@ -47,6 +48,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         {
             IEncounterReader encounterReader;
             EncounterMetadata encounterMetadata;
+            KeyGenerator.ResetKeyGenerator(encounterInfo.MetaGroup.RecordNumber);
             if (encounterInfo.MetaGroup.LocalInfo != null) {
                 encounterReader = LocalEncounter();
                 encounterMetadata = encounterInfo.MetaGroup.LocalInfo;

@@ -27,14 +27,14 @@ namespace ClinicalTools.SimEncounters.Reader
         {
             if (!IsRead) {
                 IsRead = true;
-                Reader.ReadTabs.Add(keyedTab.Key);
+                Reader.Data.Encounter.Status.ReadTabs.Add(keyedTab.Key);
                 TabToggleUI.Visited.SetActive(true);
             }
         }
 
         public virtual void CheckRead()
         {
-            IsRead = Reader.ReadTabs.Contains(KeyedTab.Key);
+            IsRead = Reader.Data.Encounter.Status.ReadTabs.Contains(KeyedTab.Key);
             TabToggleUI.Visited.SetActive(IsRead);
         }
     }

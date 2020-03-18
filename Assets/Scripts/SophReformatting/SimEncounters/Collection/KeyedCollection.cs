@@ -65,7 +65,7 @@ namespace ClinicalTools.SimEncounters.Collections
         public virtual string Add(T value)
         {
             var key = GenerateKey();
-            if (AddKeyedValue(GenerateKey(), value))
+            if (AddKeyedValue(key, value))
                 return key;
 
             return null;

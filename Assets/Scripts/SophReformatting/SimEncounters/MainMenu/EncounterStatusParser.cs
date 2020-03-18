@@ -79,23 +79,25 @@ namespace ClinicalTools.SimEncounters.MainMenu
             return text.Split(new string[] { caseInfoDivider }, StringSplitOptions.None);
         }
         private const int encounterParts = 1;
-        private const int panelsIndex = 0;
+        private const int readTabsIndex = 0;
         protected EncounterDetailedStatus GetEncounterStatus(string[] parsedItem)
         {
             if (parsedItem == null || parsedItem.Length < encounterParts)
                 return null;
 
             var encounterInfo = new EncounterDetailedStatus();
-            
+            AddReadTabs(encounterInfo.ReadTabs, parsedItem[readTabsIndex]);
 
             return encounterInfo;
         }
 
-        protected virtual void AddPanels(List<string> readPanels, string panelText)
+        protected virtual void AddReadTabs(HashSet<string> readTabs, string tabText)
         {
-            var parsedPanels = panelText.Split(':');
-            foreach (var panel in parsedPanels)
-                readPanels.Add(panel);
+            var parsedTabs = tabText.Split(':');
+            foreach (var tab in parsedTabs) { 
+                if (!readTabs.Contains(tab))
+                    readTabs.Add(tab);
+            }
         }
     }
 }

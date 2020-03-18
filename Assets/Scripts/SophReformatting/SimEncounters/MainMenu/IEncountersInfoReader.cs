@@ -22,4 +22,8 @@ namespace ClinicalTools.SimEncounters
 
         void GetEncounterStatuses(User user);
     }
+    public interface IDetailedStatusWriter
+    {
+        void DoStuff(User user, Encounter encounter);
+    }
 }

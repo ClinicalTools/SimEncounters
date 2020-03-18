@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ClinicalTools.SimEncounters.Collections
@@ -9,8 +10,8 @@ namespace ClinicalTools.SimEncounters.Collections
         public static void ResetKeyGenerator(int seed) => Instance = new KeyGenerator(seed);
 
 
-        protected int KeyByteLength { get; } = 5;
-        protected int KeyCharLength => KeyByteLength * 2;
+        protected int KeyByteLength { get; } = 3;
+        protected int KeyCharLength => 3;
 
         protected virtual HashSet<string> Keys { get; } = new HashSet<string>();
         protected virtual System.Random KeyRandomizer { get; set; }
@@ -39,24 +40,28 @@ namespace ClinicalTools.SimEncounters.Collections
 
         public virtual string Generate(string seed)
         {
-            var keyRandomizer = new System.Random(seed.GetHashCode());
+            var keyRandomizer = new Random(seed.GetHashCode());
 
             return Generate(keyRandomizer);
         }
 
-        protected virtual string Generate(System.Random keyRandomizer)
+        protected virtual string Generate(Random keyRandomizer)
         {
-            var bytes = new byte[5];
-            var encoding = new System.Text.UTF8Encoding();
+            var bytes = new byte[KeyByteLength];
             keyRandomizer.NextBytes(bytes);
-            // https://stackoverflow.com/a/623134
-            var key = string.Concat(bytes.Select(b => b.ToString("x2")).ToArray());
+            var key = Convert.ToBase64String(bytes);
+            key = key.Substring(0, KeyCharLength);
 
             if (Keys.Contains(key))
                 return Generate(keyRandomizer);
 
-
+            Keys.Add(key);
             return key;
+        }
+
+        public bool IsValidKey(string key)
+        {
+            return key.Length == KeyCharLength;
         }
     }
 }

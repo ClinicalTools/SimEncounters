@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ClinicalTools.SimEncounters.Collections;
 using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.SerializationFactories;
 using ClinicalTools.SimEncounters.XmlSerialization;
@@ -79,8 +80,16 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
         protected override List<KeyValuePair<string, Tab>> GetTabs(XmlDeserializer deserializer)
         {
             var tabs = base.GetTabs(deserializer);
-            if (tabs == null || tabs.Count == 0)
-                tabs = deserializer.GetKeyValuePairs(LegacyTabsInfo, LegacyTabsKeyValueInfo, TabFactory);
+            if (tabs != null && tabs.Count != 0)
+                return tabs;
+
+            tabs = deserializer.GetKeyValuePairs(LegacyTabsInfo, LegacyTabsKeyValueInfo, TabFactory);
+            for (int i = 0; i < tabs.Count; i++) {
+                var pair = tabs[i];
+                if (!KeyGenerator.Instance.IsValidKey(pair.Key))
+                    tabs[i] = new KeyValuePair<string, Tab>(KeyGenerator.Instance.Generate(pair.Key), pair.Value);
+            }
+
             return tabs;
         }
     }

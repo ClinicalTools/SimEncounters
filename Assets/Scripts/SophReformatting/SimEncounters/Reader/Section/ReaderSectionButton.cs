@@ -30,7 +30,7 @@ namespace ClinicalTools.SimEncounters.Reader
         {
             var isRead = true;
             foreach (var tab in keyedSection.Value.Tabs) {
-                if (Reader.ReadTabs.Contains(tab.Key))
+                if (Reader.Data.Encounter.Status.ReadTabs.Contains(tab.Key))
                     continue;
                 isRead = false;
                 break;

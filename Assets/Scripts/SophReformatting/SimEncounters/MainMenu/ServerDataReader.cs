@@ -49,6 +49,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
             var text = webRequest.downloadHandler.text;
             text = text.Replace("â€™", "'");
+            text = text.Replace("â€‹", ""); 
             var results = Parser.Parse(text);
             Debug.LogError(text);
             if (results == null)

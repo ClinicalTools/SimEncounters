@@ -13,6 +13,9 @@ namespace ClinicalTools.SimEncounters
         public virtual string ImageFilePath(string filePath) => filePath + ".cei";
         public virtual string AutoSaveDataFilePath(string filePath) => filePath + ".auto";
         public virtual string AutoSaveImageFilePath(string filePath) => filePath + ".iauto";
+        public virtual string StatusFilePath(string filePath) => filePath + ".ces";
+        public virtual string DetailedStatusFilePath(string filePath) => filePath + ".cesd";
+        public virtual string EncounterFilePath(User user, EncounterInfo encounterInfo) => GetLocalSavesFolder(user) + encounterInfo.MetaGroup.Filename.Replace('_', ' ');
 
 
         ///<summary>
