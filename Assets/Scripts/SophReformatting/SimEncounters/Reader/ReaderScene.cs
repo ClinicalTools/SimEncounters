@@ -105,8 +105,11 @@ namespace ClinicalTools.SimEncounters.Reader
 
         public void ShowMainMenu()
         {
-            var x = new ServerDetailedStatusWriter(new WebAddress());
-            x.DoStuff(Data.User, Data.Encounter);
+            SetCompleted();
+            var serverDetailedStatusWriter = new ServerDetailedStatusWriter(new WebAddress());
+            var fileDetailedStatusWriter = new FileDetailedStatusWriter(new FilePathManager());
+            var detailedStatusWriter = new DetailedStatusWriter(serverDetailedStatusWriter, fileDetailedStatusWriter);
+            detailedStatusWriter.DoStuff(Data.User, Data.Encounter);
             EncounterSceneManager.EncounterInstance.StartMainMenuScene(User);
         }
 

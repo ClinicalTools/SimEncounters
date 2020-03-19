@@ -11,32 +11,31 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public Dictionary<int, EncounterBasicStatus> Result { get; protected set; }
         public bool IsDone { get; protected set; }
 
-        public EncounterStatusParser EncounterStatusParser { get; }
-        public FileEncounterStatusesReader()
+        protected IFilePathManager FilePathManager { get; }
+        public KeyedEncounterStatusParser EncounterStatusParser { get; }
+        public FileEncounterStatusesReader(IFilePathManager filePathManager)
         {
-            EncounterStatusParser = new EncounterStatusParser();
+            FilePathManager = filePathManager;
+            EncounterStatusParser = new KeyedEncounterStatusParser();
         }
 
-        protected string GetDirectory(User user)
-            => $"{Application.persistentDataPath}/";
-        string menuSearchTerm = "*menu.txt";
+        private readonly string statusSearchTerm = "*.ces";
         public virtual void GetEncounterStatuses(User user)
         {
             Dictionary<int, EncounterBasicStatus> encounters = new Dictionary<int, EncounterBasicStatus>();
 
-            var directory = GetDirectory(user);
-            if (!Directory.Exists(directory)) {
-                Complete(null);
-                return;
-            }
-
-            var files = Directory.GetFiles(directory, menuSearchTerm);
+            var directory = FilePathManager.GetLocalSavesFolder(user);
+            var files = Directory.GetFiles(directory, statusSearchTerm);
             foreach (var file in files) {
                 var fileText = File.ReadAllText(file);
 
                 var keyedEncounter = EncounterStatusParser.Parse(fileText);
-                if (keyedEncounter.Value != null && !encounters.ContainsKey(keyedEncounter.Key))
+                if (keyedEncounter.Value != null && !encounters.ContainsKey(keyedEncounter.Key)) {
+                    var modifiedTime = File.GetLastWriteTimeUtc(file);
+                    DateTimeOffset dateTimeOffset = new DateTimeOffset(modifiedTime);
+                    keyedEncounter.Value.Timestamp = dateTimeOffset.ToUnixTimeSeconds();
                     encounters.Add(keyedEncounter.Key, keyedEncounter.Value);
+                }
             }
 
             Complete(encounters);

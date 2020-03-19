@@ -46,6 +46,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         public virtual void ReadCase(User user, EncounterInfo encounterInfo)
         {
+            if (encounterInfo.UserStatus == null)
+                encounterInfo.UserStatus = new EncounterBasicStatus();
+
             IEncounterReader encounterReader;
             EncounterMetadata encounterMetadata;
             KeyGenerator.ResetKeyGenerator(encounterInfo.MetaGroup.RecordNumber);
@@ -71,7 +74,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
             var encounterLoader = new ClinicalEncounterLoader();
             IEncounterXmlReader encounterXml = new FileXml(new FilePathManager(), new FileXmlReader());
             IEncounterDataReader dataReader = new EncounterDataReader(encounterLoader, encounterXml);
-            IDetailedStatusReader statusReader = new LocalEncounterStatusReader();
+            var serverStatusReader = new ServerDetailedStatusReader(new WebAddress());
+            var localStatusReader = new LocalDetailedStatusReader(new FilePathManager());
+            var statusReader = new DetailedStatusReader(serverStatusReader, localStatusReader);
             return new EncounterReader(dataReader, statusReader);
         }
         protected virtual IEncounterReader AutosaveEncounter()
@@ -79,7 +84,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
             var encounterLoader = new ClinicalEncounterLoader();
             IEncounterXmlReader encounterXml = new AutoSaveXml(new FilePathManager(), new FileXmlReader());
             IEncounterDataReader dataReader = new EncounterDataReader(encounterLoader, encounterXml);
-            IDetailedStatusReader statusReader = new LocalEncounterStatusReader();
+            var serverStatusReader = new ServerDetailedStatusReader(new WebAddress());
+            var localStatusReader = new LocalDetailedStatusReader(new FilePathManager());
+            var statusReader = new DetailedStatusReader(serverStatusReader, localStatusReader);
             return new EncounterReader(dataReader, statusReader);
         }
         protected virtual IEncounterReader ServerEncounter()
@@ -88,7 +95,10 @@ namespace ClinicalTools.SimEncounters.MainMenu
             IEncounterXmlReader encounterXml = new ServerXml(
                 new DownloadEncounter(new WebAddress()), new DownloadEncounter(new WebAddress()));
             IEncounterDataReader dataReader = new EncounterDataReader(encounterLoader, encounterXml);
-            IDetailedStatusReader statusReader = new ServerDetailedStatusReader(new WebAddress());
+
+            var serverStatusReader = new ServerDetailedStatusReader(new WebAddress());
+            var localStatusReader = new LocalDetailedStatusReader(new FilePathManager());
+            var statusReader = new DetailedStatusReader(serverStatusReader, localStatusReader);
             return new EncounterReader(dataReader, statusReader);
         }
     }

@@ -35,7 +35,7 @@ namespace ClinicalTools.SimEncounters
             }
 
             var path = $"{LocalSavesPath}{accountStr}\\";
-            path = $"{LocalSavesPath}abc\\";
+            //path = $"{LocalSavesPath}abc\\";
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
             return path;

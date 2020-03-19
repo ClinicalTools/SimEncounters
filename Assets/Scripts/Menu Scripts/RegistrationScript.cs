@@ -4,90 +4,86 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ClinicalTools.SimEncounters.MainMenu;
+using ClinicalTools.SimEncounters;
 
-public class RegistrationScript : MonoBehaviour {
+public class RegistrationScript : MonoBehaviour
+{
 
-	public TMP_InputField UName;
+    [SerializeField] private MessageHandler messageHandler;
+    public MessageHandler MessageHandler { get; set; }
+
+
+
+    public TMP_InputField UName;
     public TMP_InputField PWord;
     public TMP_InputField PWordConfirmation;
     public TMP_InputField EText;
 
-	public LoginManager lm;
-	public ServerControls server;
+    private void Start()
+    {
+        MessageHandler = MessageHandler.Instance;
+    }
 
-	private void Start()
-	{
-		if (lm == null) {
-			lm = GetComponent<LoginManager>();
-		}
-
-		if (server == null) {
-			server = GetComponent<ServerControls>();
-		}
-	}
-
-	/**
+    /**
 	 * @Logged out
 	 * Registers an account
 	 */
-	public void Register()
-	{
-		GlobalData.username = UName.text;
-		GlobalData.password = PWord.text;
-		Debug.Log(GlobalData.email);
-		GlobalData.email = EText.text;
-		Debug.Log(GlobalData.email);
+    public void Register()
+    {
+        GlobalData.username = UName.text;
+        GlobalData.password = PWord.text;
+        GlobalData.email = EText.text;
 
-        if (GlobalData.username.Equals("") || GlobalData.password.Equals("") || GlobalData.email.Equals(""))
-        {
-            print("Please enter credentials");
-            lm.ShowMessage("Please enter credentials", true);
+        if (GlobalData.username.Equals("") || GlobalData.password.Equals("") || GlobalData.email.Equals("")) {
+            MessageHandler.ShowMessage("Please enter credentials", true);
             return;
         }
 
-        if (GlobalData.password != PWordConfirmation.text)
-        {
-            lm.ShowMessage("Passwords do not match", true);
+        if (GlobalData.password != PWordConfirmation.text) {
+            MessageHandler.ShowMessage("Passwords do not match", true);
             return;
         }
 
-		if (!Regex.IsMatch(GlobalData.email, "^(.)+[@](.)+[.](.)+$")) {
-			lm.ShowMessage("Email not valid", true);
-			print("Email not valid");
-			return;
-		}
+        if (!Regex.IsMatch(GlobalData.email, "^(.)+[@](.)+[.](.)+$")) {
+            MessageHandler.ShowMessage("Email not valid", true);
+            return;
+        }
 
-		StartCoroutine(server.Register());
-	}
+        var registerUser = new RegisterUser(new WebAddress(), MessageHandler);
+        registerUser.Register(UName.text, PWord.text, EText.text);
+    }
 
-	/**
+    /**
 	 * @Logged out
 	 * Resends the account activation email
 	 */
-	public void ResendActivationEmail()
-	{
-		GlobalData.username = UName.text;
-		GlobalData.password = PWord.text;
-		GlobalData.email = EText.text;
-		StartCoroutine(server.ResendActivationEmail());
-	}
+    public void ResendActivationEmail()
+    {
+        GlobalData.username = UName.text;
+        GlobalData.password = PWord.text;
+        GlobalData.email = EText.text;
+        var resendEmail = new ResendEmail(new WebAddress(), MessageHandler);
+        resendEmail.Resend(EText.text);
+    }
 
-	public void ResendActivationEmail(Text email)
-	{
-		GlobalData.email = email.text;
-		StartCoroutine(server.ResendActivationEmail());
-	}
+    public void ResendActivationEmail(Text email)
+    {
+        GlobalData.email = email.text;
+        var resendEmail = new ResendEmail(new WebAddress(), MessageHandler);
+        resendEmail.Resend(email.text);
+    }
 
-	/**
+    /**
 	 * @Logged out
 	 * Call to send an email comtaining a remplacement password
 	 */
-	public void ForgotPassword()
-	{
-		GlobalData.username = UName.text;
-		GlobalData.email = EText.text;
-		StartCoroutine(server.ForgotPassword());
-	}
+    public void ForgotPassword()
+    {
+        GlobalData.username = UName.text;
+        GlobalData.email = EText.text;
+        //StartCoroutine(server.ForgotPassword());
+    }
 
     public void ResetFields()
     {
@@ -95,5 +91,5 @@ public class RegistrationScript : MonoBehaviour {
         PWord.text = "";
         PWordConfirmation.text = "";
         EText.text = "";
-}
+    }
 }

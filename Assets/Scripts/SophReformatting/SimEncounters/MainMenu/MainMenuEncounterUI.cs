@@ -19,6 +19,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private EncounterInfoUI infoViewer;
         public virtual EncounterInfoUI InfoViewer { get => infoViewer; set => infoViewer = value; }
 
+        [SerializeField] private GameObject inProgressObject;
+        public virtual GameObject InProgressObject { get => inProgressObject; set => inProgressObject = value; }
+
+        [SerializeField] private GameObject completedObject;
+        public virtual GameObject CompletedObject { get => completedObject; set => completedObject = value; }
+
 
         public void Display(InfoNeededForMainMenuToHappen data, EncounterInfo encounterInfo)
         {
@@ -28,6 +34,13 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 new EncounterInfoDisplay(InfoViewer, encounterInfo.MetaGroup.GetLatestInfo());
             }
             SelectButton.onClick.AddListener(() => Selected?.Invoke(encounterInfo));
+
+            if (encounterInfo.UserStatus != null) {
+                if (encounterInfo.UserStatus.Completed)
+                    CompletedObject.SetActive(true);
+                else
+                    InProgressObject.SetActive(true);
+            }
         }
     }
 }

@@ -13,7 +13,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         protected virtual IEncounterStatusesReader ServerReader { get; }
         public EncounterStatusesReader()
         {
-            FileReader = new FileEncounterStatusesReader();
+            FileReader = new FileEncounterStatusesReader(new FilePathManager());
             ServerReader = new ServerEncounterStatusesReader(new WebAddress());
         }
 
@@ -36,11 +36,11 @@ namespace ClinicalTools.SimEncounters.MainMenu
             if (!FileReader.IsDone || !ServerReader.IsDone)
                 return;
 
-            var encounters = ServerReader.Result;
+            var encounters = FileReader.Result;
             if (encounters == null)
                 encounters = new Dictionary<int, EncounterBasicStatus>();
-            if (FileReader.Result != null)
-                foreach (var encounterPair in FileReader.Result)
+            if (ServerReader.Result != null)
+                foreach (var encounterPair in ServerReader.Result)
                     AddEncounter(encounters, encounterPair);
 
             Result = encounters;

@@ -31,6 +31,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected virtual void Logout()
         {
+            PlayerPrefs.SetInt("StayLoggedIn", 0);
             Login.Logout(CurrentData.LoadingScreen);
         }
     }
