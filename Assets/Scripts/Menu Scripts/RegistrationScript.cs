@@ -11,9 +11,7 @@ public class RegistrationScript : MonoBehaviour
 {
 
     [SerializeField] private MessageHandler messageHandler;
-    public MessageHandler MessageHandler { get; set; }
-
-
+    public MessageHandler MessageHandler { get => messageHandler; set => messageHandler = value; }
 
     public TMP_InputField UName;
     public TMP_InputField PWord;
@@ -31,21 +29,17 @@ public class RegistrationScript : MonoBehaviour
 	 */
     public void Register()
     {
-        GlobalData.username = UName.text;
-        GlobalData.password = PWord.text;
-        GlobalData.email = EText.text;
-
-        if (GlobalData.username.Equals("") || GlobalData.password.Equals("") || GlobalData.email.Equals("")) {
+        if (string.IsNullOrWhiteSpace(UName.text) || string.IsNullOrWhiteSpace(PWord.text) || string.IsNullOrWhiteSpace(EText.text)) {
             MessageHandler.ShowMessage("Please enter credentials", true);
             return;
         }
 
-        if (GlobalData.password != PWordConfirmation.text) {
+        if (PWord.text != PWordConfirmation.text) {
             MessageHandler.ShowMessage("Passwords do not match", true);
             return;
         }
 
-        if (!Regex.IsMatch(GlobalData.email, "^(.)+[@](.)+[.](.)+$")) {
+        if (!Regex.IsMatch(EText.text, "^(.)+[@](.)+[.](.)+$")) {
             MessageHandler.ShowMessage("Email not valid", true);
             return;
         }
@@ -60,29 +54,30 @@ public class RegistrationScript : MonoBehaviour
 	 */
     public void ResendActivationEmail()
     {
-        GlobalData.username = UName.text;
-        GlobalData.password = PWord.text;
-        GlobalData.email = EText.text;
+        if (string.IsNullOrWhiteSpace(EText.text)) {
+            MessageHandler.ShowMessage("Please enter your email", true);
+            return;
+        }
         var resendEmail = new ResendEmail(new WebAddress(), MessageHandler);
         resendEmail.Resend(EText.text);
     }
-
-    public void ResendActivationEmail(Text email)
-    {
-        GlobalData.email = email.text;
-        var resendEmail = new ResendEmail(new WebAddress(), MessageHandler);
-        resendEmail.Resend(email.text);
-    }
-
+    
     /**
 	 * @Logged out
 	 * Call to send an email comtaining a remplacement password
 	 */
-    public void ForgotPassword()
+    public void ForgotPassword(TMP_InputField userField)
     {
-        GlobalData.username = UName.text;
-        GlobalData.email = EText.text;
-        //StartCoroutine(server.ForgotPassword());
+        if (string.IsNullOrWhiteSpace(userField.text) && string.IsNullOrWhiteSpace(userField.text)) {
+            MessageHandler.ShowMessage("Please enter your username or email", true);
+            return;
+        }
+
+        var resetPassword = new ResetPassword(new WebAddress(), MessageHandler);
+        if (Regex.IsMatch(userField.text, "^(.)+[@](.)+[.](.)+$"))
+            resetPassword.Reset(userField.text, "");
+        else
+            resetPassword.Reset("", userField.text);
     }
 
     public void ResetFields()

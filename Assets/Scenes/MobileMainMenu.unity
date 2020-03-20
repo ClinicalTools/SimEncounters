@@ -51999,7 +51999,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1062270188}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1777855571}
+        m_MethodName: ForgotPassword
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 136386033}
+          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1062270188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65163,6 +65174,7 @@ GameObject:
   - component: {fileID: 1308876291}
   - component: {fileID: 1308876294}
   - component: {fileID: 1308876293}
+  - component: {fileID: 1308876295}
   m_Layer: 5
   m_Name: BigLoginPanel
   m_TagString: Untagged
@@ -65286,6 +65298,23 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &1308876295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308876289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bf6bb85a2ed3794daeea891f841b820, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  notificationPrefab: {fileID: 1319625340462280, guid: 47afd064a0e372c4c87276c20d7b09ab,
+    type: 3}
+  errorNotificationPrefab: {fileID: 1449595409786334, guid: 83e8c09c22367f34d9cb2d7c5eb213aa,
+    type: 3}
+  notificationParent: {fileID: 1308876290}
 --- !u!1 &1316841956
 GameObject:
   m_ObjectHideFlags: 0
@@ -89489,7 +89518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5269c562bfa6efa42a21e486764e2b18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  messageHandler: {fileID: 0}
+  messageHandler: {fileID: 1308876295}
   UName: {fileID: 784859523}
   PWord: {fileID: 1607538630}
   PWordConfirmation: {fileID: 1892772435}
@@ -109393,7 +109422,6 @@ GameObject:
   - component: {fileID: 2125878966}
   - component: {fileID: 2125878965}
   - component: {fileID: 2125878964}
-  - component: {fileID: 2125878969}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -109502,23 +109530,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &2125878969
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2125878963}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bf6bb85a2ed3794daeea891f841b820, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  notificationPrefab: {fileID: 1319625340462280, guid: 47afd064a0e372c4c87276c20d7b09ab,
-    type: 3}
-  errorNotificationPrefab: {fileID: 1449595409786334, guid: 83e8c09c22367f34d9cb2d7c5eb213aa,
-    type: 3}
-  notificationParent: {fileID: 294154730}
 --- !u!1 &2127151791
 GameObject:
   m_ObjectHideFlags: 0

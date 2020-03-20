@@ -4,7 +4,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class UserParser
     {
-        private const int USER_PARTS = 8;
+        private const int USER_PARTS = 6;
         private const int ACCOUNT_ID_INDEX = 2;
         private const int USERNAME_INDEX = 3;
         private const int EMAIL_INDEX = 4;
@@ -22,9 +22,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
             return new User(accountId) {
                 Username = userParts[USERNAME_INDEX],
-                Email = userParts[EMAIL_INDEX],
-                FirstName = userParts[FIRST_NAME_INDEX],
-                LastName = userParts[LAST_NAME_INDEX]
+                Email = userParts[EMAIL_INDEX]
             };
         }
 

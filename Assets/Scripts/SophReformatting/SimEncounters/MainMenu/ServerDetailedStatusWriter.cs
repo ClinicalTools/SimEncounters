@@ -17,7 +17,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             EncounterDataReader = new ServerDataReader<string>(statusesParser);
         }
 
-        private const string phpFile = "Track2.php";
+        private const string phpFile = "Track.php";
         private const string actionVariable = "ACTION";
         private const string uploadAction = "upload2";
         private const string usernameVariable = "username";
@@ -25,7 +25,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         private const string recordNumberVariable = "recordNumber";
         private const string finishedVariable = "finished";
 
-        private const string readPanelsVariable = "readPanels";
+        private const string readTabsVariable = "readTabs";
         /**
          * Downloads all available and applicable menu files to display on the main manu.
          * Returns them as a MenuCase item
@@ -50,7 +50,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             form.AddField(actionVariable, uploadAction);
             form.AddField(usernameVariable, user.Username);
             form.AddField(recordNumberVariable, encounter.Info.MetaGroup.RecordNumber);
-            form.AddField(readPanelsVariable, string.Join(":", encounter.Status.ReadTabs));
+            form.AddField(readTabsVariable, string.Join(":", encounter.Status.ReadTabs));
             form.AddField(finishedVariable, encounter.Info.UserStatus.Completed ? 1 : 0);
 
             return form;

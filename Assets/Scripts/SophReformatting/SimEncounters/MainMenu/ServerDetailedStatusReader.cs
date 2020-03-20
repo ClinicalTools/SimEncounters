@@ -21,7 +21,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             StatusReader = new ServerDataReader<EncounterDetailedStatus>(statusParser);
         }
 
-        private const string menuPhp = "Track2.php";
+        private const string menuPhp = "Track.php";
         private const string actionVariable = "ACTION";
         private const string downloadAction = "downloadDetails";
         private const string usernameVariable = "username";
