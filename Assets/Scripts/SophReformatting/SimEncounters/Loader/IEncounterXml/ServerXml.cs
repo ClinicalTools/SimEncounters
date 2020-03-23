@@ -6,10 +6,10 @@ namespace ClinicalTools.SimEncounters.Loading
     {
         public event EncounterXmlRetrievedEventHandler Completed;
 
-        protected DownloadEncounter DataDownloader { get; }
-        protected DownloadEncounter ImageDownloader { get; }
+        protected IDownloadEncounter DataDownloader { get; }
+        protected IDownloadEncounter ImageDownloader { get; }
 
-        public ServerXml(DownloadEncounter dataDownloader, DownloadEncounter imageDownloader)
+        public ServerXml(IDownloadEncounter dataDownloader, IDownloadEncounter imageDownloader)
         {
             DataDownloader = dataDownloader;
             ImageDownloader = imageDownloader;
@@ -18,9 +18,9 @@ namespace ClinicalTools.SimEncounters.Loading
         public void GetEncounterXml(User user, EncounterInfo encounterInfo)
         {
             DataDownloader.Completed += DataDownloader_Completed;
-            DataDownloader.GetXml(user, encounterInfo, "xmlData");
+            DataDownloader.GetXml(user, encounterInfo, XmlType.Data);
             ImageDownloader.Completed += ImageDownloader_Completed;
-            ImageDownloader.GetXml(user, encounterInfo, "imgData");
+            ImageDownloader.GetXml(user, encounterInfo, XmlType.Image);
         }
 
         protected bool DataDownloaded { get; set; }

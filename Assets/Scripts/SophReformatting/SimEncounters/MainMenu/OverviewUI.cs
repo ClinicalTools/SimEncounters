@@ -61,6 +61,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
             } else if (encounterInfo.MetaGroup.ServerInfo != null) {
                 encounterReader = ServerEncounter();
                 encounterMetadata = encounterInfo.MetaGroup.ServerInfo;
+            } else if (encounterInfo.MetaGroup.DemoInfo != null) {
+                encounterReader = DemoEncounter();
+                encounterMetadata = encounterInfo.MetaGroup.DemoInfo;
             } else {
                 encounterReader = AutosaveEncounter();
                 encounterMetadata = encounterInfo.MetaGroup.AutosaveInfo;
@@ -81,6 +84,17 @@ namespace ClinicalTools.SimEncounters.MainMenu
             var localStatusReader = new LocalDetailedStatusReader(new FilePathManager());
             var statusReader = new DetailedStatusReader(serverStatusReader, localStatusReader);
             return new EncounterReader(dataReader, statusReader);
+        }
+        protected virtual IEncounterReader DemoEncounter()
+        {
+            var encounterLoader = new ClinicalEncounterLoader();
+            IEncounterXmlReader encounterXml = new ServerXml(
+                new DemoEncounter(new DemoPathManager()), new DemoEncounter(new DemoPathManager()));
+            IEncounterDataReader dataReader = new EncounterDataReader(encounterLoader, encounterXml);
+            //var serverStatusReader = new ServerDetailedStatusReader(new WebAddress());
+            var localStatusReader = new LocalDetailedStatusReader(new FilePathManager());
+            //var statusReader = new DetailedStatusReader(serverStatusReader, localStatusReader);
+            return new EncounterReader(dataReader, localStatusReader);
         }
         protected virtual IEncounterReader AutosaveEncounter()
         {

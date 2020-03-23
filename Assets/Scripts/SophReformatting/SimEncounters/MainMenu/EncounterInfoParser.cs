@@ -83,6 +83,10 @@ namespace ClinicalTools.SimEncounters
     {
         public void SetEncounterInfo(EncounterMetaGroup group, EncounterMetadata info) => group.LocalInfo = info;
     }
+    public class EncounterDemoInfoSetter : IEncounterInfoSetter
+    {
+        public void SetEncounterInfo(EncounterMetaGroup group, EncounterMetadata info) => group.DemoInfo = info;
+    }
     public class EncounterServerInfoSetter : IEncounterInfoSetter
     {
         public void SetEncounterInfo(EncounterMetaGroup group, EncounterMetadata info) => group.ServerInfo = info;

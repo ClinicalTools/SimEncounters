@@ -12,8 +12,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
         }
         public void DoStuff(User user, Encounter encounter)
         {
+            /*
             if (user.IsGuest)
-                return;
+                return;*/
 
             var directory = FilePathManager.GetLocalSavesFolder(user);
             if (!Directory.Exists(directory)) {

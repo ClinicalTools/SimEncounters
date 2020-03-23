@@ -20,7 +20,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public void Start()
         {
             var mainMenuUI = (MainMenuUI)SceneUI;
-            mainMenuUI.Login.CreateNewLogin(LoadingScreen);
+            //mainMenuUI.Login.CreateNewLogin(LoadingScreen);
+            mainMenuUI.Login.GuestLogin(LoadingScreen);
             /*
             var webAddress = new WebAddress();
             var userParser = new UserParser();

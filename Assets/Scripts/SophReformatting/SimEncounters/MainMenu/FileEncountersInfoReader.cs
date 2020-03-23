@@ -13,10 +13,10 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected IFilePathManager FilePathManager { get; }
         protected IParser<EncounterInfo> EncounterDetailParser { get; }
-        public FileEncountersInfoReader(IFilePathManager filePathManager)
+        public FileEncountersInfoReader(IFilePathManager filePathManager, IParser<EncounterInfo> encounterInfoParser)
         {
             FilePathManager = filePathManager;
-            EncounterDetailParser = new EncounterDetailParser(new EncounterLocalInfoSetter());
+            EncounterDetailParser = encounterInfoParser;
         }
 
         private const string menuSearchTerm = "*menu.txt";
@@ -25,15 +25,20 @@ namespace ClinicalTools.SimEncounters.MainMenu
             List<EncounterInfo> encounters = new List<EncounterInfo>();
 
             var directory = FilePathManager.GetLocalSavesFolder(user);
+
+            Debug.Log($"sophDirectoryA: {directory}");
             if (!Directory.Exists(directory)) {
+                Debug.Log($"sophDirectoryNotExists");
                 Complete(null);
                 return;
             }
 
             var files = Directory.GetFiles(directory, menuSearchTerm);
+            Debug.Log($"sophFileCount: {files.Length}");
             foreach (var file in files) {
                 var fileText = File.ReadAllText(file);
 
+                Debug.Log($"sophFileText: {fileText}");
                 var encounter = EncounterDetailParser.Parse(fileText);
                 if (encounter != null)
                     encounters.Add(encounter);

@@ -38,7 +38,11 @@ namespace ClinicalTools.SimEncounters
             if (!DataReader.IsDone || !StatusReader.IsDone)
                 return;
 
-            Encounter = new Encounter(DataReader.EncounterData, info, StatusReader.DetailedStatus, metadata);
+            var statusReader = StatusReader.DetailedStatus;
+            if (statusReader == null)
+                statusReader = new EncounterDetailedStatus();
+
+            Encounter = new Encounter(DataReader.EncounterData, info, statusReader, metadata);
             IsDone = true;
             Completed?.Invoke(Encounter);
         }

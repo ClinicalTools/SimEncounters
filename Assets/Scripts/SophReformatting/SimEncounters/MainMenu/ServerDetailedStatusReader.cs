@@ -1,10 +1,47 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
+    public class DemoCasesInfoReader : IEncountersInfoReader
+    {
+        public event Action<List<EncounterInfo>> Completed;
+        public List<EncounterInfo> Result { get; protected set; }
+        public bool IsDone { get; protected set; }
+
+        public IFilePathManager FilePathManager { get; }
+        protected ServerDataReader<List<EncounterInfo>> EncounterDataReader { get; }
+        public DemoCasesInfoReader(IFilePathManager filePathManager)
+        {
+            FilePathManager = filePathManager;
+            var encounterDetailParser = new EncounterDetailParser(new EncounterDemoInfoSetter());
+            var listParser = new ListParser<EncounterInfo>(encounterDetailParser, new DoubleColonStringSplitter());
+            EncounterDataReader = new ServerDataReader<List<EncounterInfo>>(listParser);
+        }
+
+        public void GetEncounterInfos(User user)
+        {
+            var filePath = FilePathManager.GetLocalSavesFolder(user);
+            filePath = Path.Combine(filePath, "encounters.txt");
+            Debug.LogError("SophPATH: " + filePath);
+            var webRequest = UnityWebRequest.Get(filePath);
+            EncounterDataReader.Completed += EncounterDataReader_Completed;
+            EncounterDataReader.Begin(webRequest);
+        }
+
+        private void EncounterDataReader_Completed(object sender, ServerResult<List<EncounterInfo>> e)
+        {
+            if (e.Outcome == ServerOutcome.HttpError)
+                Debug.LogError("SophOUTCOME: " + e.Outcome);
+            Result = e.Result;
+            IsDone = true;
+            Completed?.Invoke(Result);
+        }
+    }
 
     public class ServerDetailedStatusReader : IDetailedStatusReader
     {

@@ -15,6 +15,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             MainMenu = mainMenu;
             EncountersUI = encountersUI;
 
+            
             var casesDownloader = new EncountersInfoReader();
             casesDownloader.Completed += EncountersRetrieved;
             casesDownloader.GetEncounterInfos(mainMenu.User);
