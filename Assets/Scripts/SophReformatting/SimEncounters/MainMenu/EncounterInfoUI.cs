@@ -27,8 +27,13 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private TextMeshProUGUI dateModifiedLabel;
         public virtual TextMeshProUGUI DateModifiedLabel { get => dateModifiedLabel; set => dateModifiedLabel = value; }
 
-        // change to difficulty UI
         [SerializeField] private DifficultyUI difficulty;
         public virtual DifficultyUI Difficulty { get => difficulty; set => difficulty = value; }
+
+        [SerializeField] private RatingDisplayUI yourRating;
+        public virtual RatingDisplayUI YourRating { get => yourRating; set => yourRating = value; }
+
+        [SerializeField] private RatingDisplayUI averageRating;
+        public virtual RatingDisplayUI AverageRating { get => averageRating; set => averageRating = value; }
     }
 }

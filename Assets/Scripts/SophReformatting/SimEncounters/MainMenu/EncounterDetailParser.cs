@@ -1,5 +1,6 @@
 ﻿using ClinicalTools.SimEncounters.Data;
 using System;
+using System.Collections.Generic;
 using static MenuCase;
 
 namespace ClinicalTools.SimEncounters.MainMenu
@@ -102,14 +103,25 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 EditorVersion = parsedItem[editorVersionIndex]
             };
 
-            encounterInfo.Categories.AddRange(parsedItem[tagsIndex]
-                .Split(new string[] { categoryDivider }, StringSplitOptions.None));
+            AddCategories(encounterInfo.Categories, parsedItem[tagsIndex]);
 
             var caseType = (CaseType)int.Parse(parsedItem[caseTypeIndex]);
             encounterInfo.IsPublic = caseType == CaseType.publicCase || caseType == CaseType.publicTemplate;
             encounterInfo.IsTemplate = caseType == CaseType.publicTemplate || caseType == CaseType.privateTemplate;
 
             return encounterInfo;
+        }
+
+        protected void AddCategories(List<string> categories, string categoriesString)
+        {
+            var categoriesToAdd = categoriesString.Split(new string[] { categoryDivider }, StringSplitOptions.None);
+            foreach (var category in categoriesToAdd)
+            {
+                if (category == "Buprenorphine")
+                    categories.Add("Opioids");
+                else
+                    categories.Add(category);
+            }
         }
 
         protected Difficulty GetDifficulty(string difficulty)

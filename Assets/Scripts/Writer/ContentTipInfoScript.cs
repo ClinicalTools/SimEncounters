@@ -23,7 +23,7 @@ public class ContentTipInfoScript : MonoBehaviour, IPointerEnterHandler, IPointe
         } else {
             return;
         }
-
+        /*
         if (contentTipCanvas == null) {
             if (GlobalData.contentTip != null) {
                 contentTipCanvas = GlobalData.contentTip;
@@ -45,7 +45,7 @@ public class ContentTipInfoScript : MonoBehaviour, IPointerEnterHandler, IPointe
 
         if (GetComponent<Button>()) {
             GetComponent<Button>().onClick.AddListener(ClickedButton);
-        }
+        }*/
     }
 
     /**
@@ -65,21 +65,21 @@ public class ContentTipInfoScript : MonoBehaviour, IPointerEnterHandler, IPointe
 	 * Updates the text and resizes the tool tip before it is displayed
 	 */
     private void UpdateText()
-    {
+    {/*
         if (contentComp != null && !contentComp.Equals("")) {
             description.gameObject.SetActive(true);
             description.text = contentComp.text;
         }
 
         CancelInvoke();
-        InvokeRepeating("ShowPopup", delay - .25f, 5.0f);
+        InvokeRepeating("ShowPopup", delay - .25f, 5.0f);*/
     }
 
     private void ClickedButton()
     {
         CancelInvoke();
-        contentTipCanvas.alpha = 0;
-        description.gameObject.SetActive(false);
+        //contentTipCanvas.alpha = 0;
+        //description.gameObject.SetActive(false);
     }
 
     /**
@@ -91,8 +91,8 @@ public class ContentTipInfoScript : MonoBehaviour, IPointerEnterHandler, IPointe
             return;
 
         CancelInvoke();
-        contentTipCanvas.alpha = 0;
-        description.gameObject.SetActive(false);
+        //contentTipCanvas.alpha = 0;
+        //description.gameObject.SetActive(false);
     }
 
     /**

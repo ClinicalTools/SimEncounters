@@ -26,6 +26,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         private const int recordNumberIndex = 0;
         private const int completedIndex = 1;
+        private const int ratingIndex = 2;
+        private const int ratingIndex2 = 3;
 
         protected KeyValuePair<int, EncounterBasicStatus> GetEncounterStatus(string[] parsedItem)
         {
@@ -38,6 +40,10 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 return new KeyValuePair<int, EncounterBasicStatus>();
 
             encounterStatus.Completed = parsedItem[completedIndex] == "1";
+            if (parsedItem.Length > ratingIndex && int.TryParse(parsedItem[ratingIndex], out var rating))
+                encounterStatus.Rating = rating;
+            if (parsedItem.Length > ratingIndex2 && int.TryParse(parsedItem[ratingIndex2], out var rating2))
+                encounterStatus.Rating = rating2;
 
             return new KeyValuePair<int, EncounterBasicStatus>(recordNumber, encounterStatus);
         }
@@ -76,6 +82,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected virtual void AddReadTabs(HashSet<string> readTabs, string tabText)
         {
+            if (tabText.StartsWith("downloadDetails", StringComparison.InvariantCultureIgnoreCase))
+                return;
+
             var parsedTabs = tabText.Split(':');
             foreach (var tab in parsedTabs) {
                 if (tab.Length > 20)

@@ -16,19 +16,19 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public event Action<string> CategorySelected;
 
         protected List<MainMenuCategorySelectorUI> CategoryUIs { get; } = new List<MainMenuCategorySelectorUI>();
-        public void Display(IEnumerable<string> categories)
+        public void Display(Dictionary<string, Category> categories)
         {
             foreach (var categoryUI in CategoryUIs)
                 Destroy(categoryUI.gameObject);
             CategoryUIs.Clear();
 
-            var categoryList = new List<string>(categories);
-            categoryList.Sort();
+            var categoryNames = new List<string>(categories.Keys);
+            categoryNames.Sort();
 
-            foreach (var category in categoryList) {
+            foreach (var categoryName in categoryNames) {
                 var categoryUI = Instantiate(CategoryPrefab, OptionsParent);
-                categoryUI.Selected += () => CategorySelected?.Invoke(category);
-                categoryUI.Display(category);
+                categoryUI.Selected += () => CategorySelected?.Invoke(categoryName);
+                categoryUI.Display(categoryName, categories[categoryName]);
                 CategoryUIs.Add(categoryUI);
             }
         }

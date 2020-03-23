@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -724,6 +724,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   categoryLabel: {fileID: 979685310}
   selectButton: {fileID: 11292092}
+  inProgressObject: {fileID: 0}
+  completedObject: {fileID: 0}
 --- !u!114 &11292091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1747,7 +1749,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1809277007746110, guid: 39c48debf67d5324c8f6cdf092e2ac0e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114326602865120052, guid: 39c48debf67d5324c8f6cdf092e2ac0e,
         type: 3}
@@ -3206,6 +3208,7 @@ GameObject:
   - component: {fileID: 40492534}
   - component: {fileID: 40492536}
   - component: {fileID: 40492535}
+  - component: {fileID: 40492537}
   m_Layer: 5
   m_Name: AverageRating
   m_TagString: Untagged
@@ -3357,6 +3360,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 40492533}
   m_CullTransparentMesh: 0
+--- !u!114 &40492537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 40492533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6019bcd031d290b4084d607385be229f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stars:
+  - {fileID: 1197226160}
+  - {fileID: 776074790}
+  - {fileID: 468769274}
+  - {fileID: 1815514915}
+  - {fileID: 810231793}
 --- !u!1 &47382436
 GameObject:
   m_ObjectHideFlags: 0
@@ -7150,6 +7171,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   categoryLabel: {fileID: 160761730}
   selectButton: {fileID: 127092982}
+  inProgressObject: {fileID: 0}
+  completedObject: {fileID: 0}
 --- !u!114 &127092981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7910,6 +7933,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   categoryLabel: {fileID: 1949440106}
   selectButton: {fileID: 138847804}
+  inProgressObject: {fileID: 0}
+  completedObject: {fileID: 0}
 --- !u!114 &138847803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9940,6 +9965,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   categoryLabel: {fileID: 2095084599}
   selectButton: {fileID: 179584489}
+  inProgressObject: {fileID: 0}
+  completedObject: {fileID: 0}
 --- !u!114 &179584488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10470,6 +10497,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   categoryLabel: {fileID: 1891967681}
   selectButton: {fileID: 183555484}
+  inProgressObject: {fileID: 0}
+  completedObject: {fileID: 0}
 --- !u!114 &183555483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20424,6 +20453,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   categoryLabel: {fileID: 2043323139}
   selectButton: {fileID: 415112331}
+  inProgressObject: {fileID: 0}
+  completedObject: {fileID: 0}
 --- !u!114 &415112330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28958,6 +28989,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   categoryLabel: {fileID: 1343419131}
   selectButton: {fileID: 588192521}
+  inProgressObject: {fileID: 0}
+  completedObject: {fileID: 0}
 --- !u!114 &588192520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29389,6 +29422,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   categoryLabel: {fileID: 1486525628}
   selectButton: {fileID: 592018298}
+  inProgressObject: {fileID: 0}
+  completedObject: {fileID: 0}
 --- !u!114 &592018297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34692,6 +34727,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   categoryLabel: {fileID: 1166949320}
   selectButton: {fileID: 702846749}
+  inProgressObject: {fileID: 0}
+  completedObject: {fileID: 0}
 --- !u!114 &702846748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37254,6 +37291,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   categoryLabel: {fileID: 2028525051}
   selectButton: {fileID: 766189554}
+  inProgressObject: {fileID: 0}
+  completedObject: {fileID: 0}
 --- !u!114 &766189553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45637,6 +45676,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   categoryLabel: {fileID: 602923941}
   selectButton: {fileID: 945640880}
+  inProgressObject: {fileID: 0}
+  completedObject: {fileID: 0}
 --- !u!114 &945640879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56873,6 +56914,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   categoryLabel: {fileID: 1021999065}
   selectButton: {fileID: 1144708745}
+  inProgressObject: {fileID: 0}
+  completedObject: {fileID: 0}
 --- !u!114 &1144708744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59544,6 +59587,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   categoryLabel: {fileID: 2076723839}
   selectButton: {fileID: 1202397463}
+  inProgressObject: {fileID: 0}
+  completedObject: {fileID: 0}
 --- !u!114 &1202397462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64190,6 +64235,7 @@ GameObject:
   - component: {fileID: 1292712129}
   - component: {fileID: 1292712131}
   - component: {fileID: 1292712130}
+  - component: {fileID: 1292712132}
   m_Layer: 5
   m_Name: YourRating
   m_TagString: Untagged
@@ -64341,6 +64387,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1292712128}
   m_CullTransparentMesh: 0
+--- !u!114 &1292712132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1292712128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6019bcd031d290b4084d607385be229f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stars:
+  - {fileID: 1837621634}
+  - {fileID: 159463889}
+  - {fileID: 1170985704}
+  - {fileID: 92790327}
+  - {fileID: 590936920}
 --- !u!1 &1293061610
 GameObject:
   m_ObjectHideFlags: 0
@@ -65260,6 +65324,7 @@ MonoBehaviour:
   passwordField: {fileID: 1330138370}
   loginButton: {fileID: 2034692389}
   guestButton: {fileID: 358735818}
+  messageHandler: {fileID: 0}
 --- !u!23 &1308876294
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -70053,6 +70118,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   categoryLabel: {fileID: 1359528709}
   selectButton: {fileID: 1410110258}
+  inProgressObject: {fileID: 0}
+  completedObject: {fileID: 0}
 --- !u!114 &1410110257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72150,27 +72217,27 @@ PrefabInstance:
     - target: {fileID: 932577650080248913, guid: 85b94a20491c8b24d9595fd21868532d,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 932577650080248913, guid: 85b94a20491c8b24d9595fd21868532d,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 932577650080248913, guid: 85b94a20491c8b24d9595fd21868532d,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -18.61
       objectReference: {fileID: 0}
     - target: {fileID: 932577650080248913, guid: 85b94a20491c8b24d9595fd21868532d,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 128.22
       objectReference: {fileID: 0}
     - target: {fileID: 932577650080248913, guid: 85b94a20491c8b24d9595fd21868532d,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 27.220001
       objectReference: {fileID: 0}
     - target: {fileID: 932577651702211867, guid: 85b94a20491c8b24d9595fd21868532d,
         type: 3}
@@ -72281,6 +72348,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ContentTip
+      objectReference: {fileID: 0}
+    - target: {fileID: 932577651702211868, guid: 85b94a20491c8b24d9595fd21868532d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 85b94a20491c8b24d9595fd21868532d, type: 3}
@@ -84516,6 +84588,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   categoryLabel: {fileID: 238524404}
   selectButton: {fileID: 1667444610}
+  inProgressObject: {fileID: 0}
+  completedObject: {fileID: 0}
 --- !u!114 &1667444609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95366,6 +95440,8 @@ MonoBehaviour:
   authorLabel: {fileID: 1354525426}
   dateModifiedLabel: {fileID: 716464206}
   difficulty: {fileID: 1048222098}
+  yourRating: {fileID: 1292712132}
+  averageRating: {fileID: 40492537}
 --- !u!1 &1884085806
 GameObject:
   m_ObjectHideFlags: 0
@@ -101789,7 +101865,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2007666970
 RectTransform:
   m_ObjectHideFlags: 0

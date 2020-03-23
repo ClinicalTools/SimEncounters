@@ -24,6 +24,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         private const string recordNumberVariable = "recordNumber";
         private const string finishedVariable = "finished";
+        private const string ratingVariable = "rating";
 
         private const string readTabsVariable = "readTabs";
         /**
@@ -52,6 +53,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             form.AddField(recordNumberVariable, encounter.Info.MetaGroup.RecordNumber);
             form.AddField(readTabsVariable, string.Join(":", encounter.Status.ReadTabs));
             form.AddField(finishedVariable, encounter.Info.UserStatus.Completed ? 1 : 0);
+            form.AddField(ratingVariable, encounter.Info.UserStatus.Rating);
 
             return form;
         }

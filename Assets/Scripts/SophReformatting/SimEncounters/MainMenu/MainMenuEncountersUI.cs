@@ -51,7 +51,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
             CurrentData = data;
             CategoryGroup.CategorySelected += CategorySelected;
-            CategoryGroup.Display(data.Categories.Keys);
+            CategoryGroup.Display(data.Categories);
         }
 
         private void DisplayCategories()

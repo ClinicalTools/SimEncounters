@@ -38,6 +38,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
             if (InfoViewer != null) {
                 new EncounterInfoDisplay(InfoViewer, encounterInfo.MetaGroup.GetLatestInfo());
+                InfoViewer.AverageRating.SetRating((int)encounterInfo.MetaGroup.Rating);
+                if (encounterInfo.UserStatus != null)
+                    InfoViewer.YourRating.SetRating((int)encounterInfo.UserStatus.Rating);
             }
 
             EncounterButtons.ReadButton.onClick.RemoveAllListeners();

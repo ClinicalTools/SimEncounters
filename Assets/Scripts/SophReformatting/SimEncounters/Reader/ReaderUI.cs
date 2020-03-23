@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.Reader
@@ -14,8 +16,8 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private Button helpButton;
         public virtual Button HelpButton { get => helpButton; set => helpButton = value; }
 
-        [SerializeField] private Button mainMenuButton;
-        public virtual Button MainMenuButton { get => mainMenuButton; set => mainMenuButton = value; }
+        [SerializeField] private List<Button> mainMenuButtons;
+        public virtual List<Button> MainMenuButtons { get => mainMenuButtons; set => mainMenuButtons = value; }
 
         [SerializeField] private ReaderSectionsUI sections;
         public virtual ReaderSectionsUI Sections { get => sections; set => sections = value; }
@@ -34,5 +36,20 @@ namespace ClinicalTools.SimEncounters.Reader
 
         [SerializeField] private ReaderEncounterInfoUI encounterInfo;
         public virtual ReaderEncounterInfoUI EncounterInfo { get => encounterInfo; set => encounterInfo = value; }
+
+        [SerializeField] private ReaderRatingUI rating;
+        public virtual ReaderRatingUI Rating { get => rating; set => rating = value; }
+
+        public event Action GameClosed;
+
+        protected void OnApplicationPause(bool pauseStatus)
+        {
+            if (pauseStatus)
+                GameClosed?.Invoke();
+        }
+        protected void OnApplicationQuit()
+        {
+            GameClosed?.Invoke();
+        }
     }
 }

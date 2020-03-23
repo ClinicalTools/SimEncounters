@@ -95,21 +95,39 @@ namespace ClinicalTools.SimEncounters.Reader
 
         protected virtual void AddListeners(ReaderUI readerUI)
         {
-            readerUI.MainMenuButton.onClick.AddListener(ShowMainMenu);
+            foreach (var mainMenuButton in readerUI.MainMenuButtons)
+                mainMenuButton.onClick.AddListener(ShowMainMenu);
+
+            readerUI.Rating.SubmitRating += Rating_SubmitRating;
+            readerUI.GameClosed += Quitting;
+            readerUI.Rating.Rating = Data.Encounter.Info.UserStatus.Rating;
+        }
+
+        private void Rating_SubmitRating(int rating)
+        {
+            if (rating < 1 || rating > 5)
+                return;
+
+            Data.Encounter.Info.UserStatus.Rating = rating;
+
         }
 
         public void Help()
         {
 
         }
-
-        public void ShowMainMenu()
+        
+        public void Quitting()
         {
             SetCompleted();
             var serverDetailedStatusWriter = new ServerDetailedStatusWriter(new WebAddress());
             var fileDetailedStatusWriter = new FileDetailedStatusWriter(new FilePathManager());
             var detailedStatusWriter = new DetailedStatusWriter(serverDetailedStatusWriter, fileDetailedStatusWriter);
             detailedStatusWriter.DoStuff(Data.User, Data.Encounter);
+        }
+        public void ShowMainMenu()
+        {
+            Quitting();
             EncounterSceneManager.EncounterInstance.StartMainMenuScene(User);
         }
 

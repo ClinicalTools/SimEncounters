@@ -15,12 +15,22 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private Button selectButton;
         public Button SelectButton { get => selectButton; set => selectButton = value; }
 
+
+        [SerializeField] private GameObject inProgressObject;
+        public virtual GameObject InProgressObject { get => inProgressObject; set => inProgressObject = value; }
+
+        [SerializeField] private GameObject completedObject;
+        public virtual GameObject CompletedObject { get => completedObject; set => completedObject = value; }
+
         public event Action Selected;
 
-        public void Display(string category)
+        public void Display(string categoryName, Category category)
         {
-            CategoryLabel.text = category;
+            CategoryLabel.text = categoryName;
             SelectButton.onClick.AddListener(() => Selected?.Invoke());
+
+            if (category.IsCompleted())
+                CompletedObject.SetActive(true);
         }
     }
 }

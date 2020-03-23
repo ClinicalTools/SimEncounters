@@ -64,6 +64,11 @@ namespace ClinicalTools.SimEncounters.Reader
 
         public virtual void SetSprite(ReaderScene reader, Sprite sprite)
         {
+            if (sprite == null) {
+                Debug.LogError("Sprite is null");
+                return;
+            }
+
             var spriteHeight = sprite.rect.height;
             var spriteWidth = sprite.rect.width;
             var spriteRatio = spriteHeight / spriteWidth;
