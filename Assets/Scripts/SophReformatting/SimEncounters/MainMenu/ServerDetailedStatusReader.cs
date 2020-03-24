@@ -27,7 +27,6 @@ namespace ClinicalTools.SimEncounters.MainMenu
         {
             var filePath = FilePathManager.GetLocalSavesFolder(user);
             filePath = Path.Combine(filePath, "encounters.txt");
-            Debug.LogError("SophPATH: " + filePath);
             var webRequest = UnityWebRequest.Get(filePath);
             EncounterDataReader.Completed += EncounterDataReader_Completed;
             EncounterDataReader.Begin(webRequest);
@@ -35,8 +34,6 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         private void EncounterDataReader_Completed(object sender, ServerResult<List<EncounterInfo>> e)
         {
-            if (e.Outcome == ServerOutcome.HttpError)
-                Debug.LogError("SophOUTCOME: " + e.Outcome);
             Result = e.Result;
             IsDone = true;
             Completed?.Invoke(Result);

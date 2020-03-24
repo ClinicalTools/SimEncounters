@@ -34,13 +34,11 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected virtual void ProcessResults()
         {
-            UnityEngine.Debug.LogWarning("sophDebug1");
-            if (!FileReader.IsDone || 
+            if (!FileReader.IsDone ||
                 //!ServerReader.IsDone || 
                 !StatusesReader.IsDone)
                 return;
 
-            UnityEngine.Debug.LogWarning("sophDebug2");
             var encounters = FileReader.Result;
             /*
             if (encounters == null)
@@ -50,32 +48,17 @@ namespace ClinicalTools.SimEncounters.MainMenu
                     AddLocalEncounter(encounters, localEncounter);
             }*/
 
-            UnityEngine.Debug.LogWarning("sophDebug3");
-            UnityEngine.Debug.LogWarning("sophDebugaaaa");
             var statuses = StatusesReader.Result;
-            UnityEngine.Debug.LogWarning("sophDebugZ");
             if (statuses != null) {
                 foreach (var encounter in encounters) {
-                    if (encounter == null) {
-                        UnityEngine.Debug.LogWarning("sophDebugA");
-
-                        continue;
-                    }
-                    UnityEngine.Debug.LogWarning("sophDebugB");
-                    if (statuses.ContainsKey(encounter.RecordNumber)) {
-                        UnityEngine.Debug.LogWarning("sophDebugC");
+                    if (encounter != null && statuses.ContainsKey(encounter.RecordNumber))
                         encounter.UserStatus = statuses[encounter.RecordNumber];
-                    }
-                    UnityEngine.Debug.LogWarning("sophDebugD");
                 }
             }
 
-
-            UnityEngine.Debug.LogWarning("sophDebug4");
             Result = encounters;
             IsDone = true;
             Completed?.Invoke(Result);
-            UnityEngine.Debug.LogWarning("sophDebug5");
         }
 
         protected virtual void AddLocalEncounter(List<EncounterInfo> encounters, EncounterInfo localEncounter)

@@ -19,6 +19,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected virtual void Awake()
         {
+            Screen.fullScreen = false;
             LogoutButton.onClick.AddListener(Logout);
         }
 

@@ -50,6 +50,9 @@ namespace ClinicalTools.SimEncounters.Reader
 
         public virtual void CloseFeedback()
         {
+            Color color = new Color(0.9372549f, 0.9372549f, 0.9372549f, 1f);
+            foreach (var image in ReaderFeedbackUI.ColoredImages)
+                image.color = color;
             ReaderFeedbackUI.gameObject.SetActive(false);
         }
     }
