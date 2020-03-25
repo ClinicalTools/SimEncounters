@@ -31,7 +31,7 @@ namespace ClinicalTools.SimEncounters
         public virtual void Show()
         {
             gameObject.SetActive(true);
-            CanvasGroup.alpha = 1;
+            CanvasGroup.alpha = 0;
         }
 
         public virtual void Stop()

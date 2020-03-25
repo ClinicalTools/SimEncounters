@@ -16,5 +16,8 @@ namespace ClinicalTools.SimEncounters.Reader
 
         [field: SerializeField] private ToggleGroup tabsToggleGroup;
         public virtual ToggleGroup TabsToggleGroup { get => tabsToggleGroup; set => tabsToggleGroup = value; }
+
+        [field: SerializeField] private ScrollRect tabButtonsScroll;
+        public virtual ScrollRect TabButtonsScroll { get => tabButtonsScroll; set => tabButtonsScroll = value; }
     }
 }

@@ -49,6 +49,7 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
             name = deserializer.GetName();
             return name.Remove(name.Length - "Section".Length)
                        .Replace('_', ' ')
+                       .Replace(".2D.", " ")
                        .Trim();
         }
 

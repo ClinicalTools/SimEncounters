@@ -6,7 +6,7 @@ namespace ClinicalTools.SimEncounters.Reader
     public class ReaderTabButton : EncounterToggle<KeyValuePair<string, Tab>>
     {
         protected virtual ReaderScene Reader { get; }
-        protected virtual ReaderTabToggleUI TabToggleUI { get; }
+        public virtual ReaderTabToggleUI TabToggleUI { get; }
         protected virtual KeyValuePair<string, Tab> KeyedTab { get; }
         protected virtual bool IsRead { get; set; }
         public ReaderTabButton(ReaderScene reader, ReaderTabToggleUI tabToggleUI, KeyValuePair<string, Tab> keyedTab)

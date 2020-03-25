@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
@@ -29,6 +30,13 @@ namespace ClinicalTools.SimEncounters.Reader
             Reader.Footer.NextTab += MoveToNextTab;
             MouseInput.Instance.SwipeHandler.SwipeLeft += MoveToNextTab;
             MouseInput.Instance.SwipeHandler.SwipeRight += MoveToPreviousTab;
+
+            if (SelectButtons[Section.CurrentTabIndex] is ReaderTabButton tabButton) {
+                // Unity won't let you get the dimensions needed on the first frame after switching sections, 
+                // nor will it properly set the scroll position on the second frame, so the third must be used
+                // This creates an awkward jump, but a full solution would be too extensive to deal with right now
+                NextFrame.Function(() => NextFrame.Function(() => EnsureTabIsShowing(tabButton)));
+            }
         }
 
         protected override ISelectable<KeyValuePair<string, Tab>> AddButton(KeyValuePair<string, Tab> keyedTab)
@@ -54,6 +62,33 @@ namespace ClinicalTools.SimEncounters.Reader
 
             Section.CurrentTabIndex = Section.Tabs.IndexOf(tab);
             Reader.Footer.SetTab(Section);
+
+            if (SelectButtons[Section.CurrentTabIndex] is ReaderTabButton tabButton)
+                EnsureTabIsShowing(tabButton);
+        }
+
+        protected virtual void EnsureTabIsShowing(ReaderTabButton tabButton)
+        {
+            var tabButtonUI = tabButton.TabToggleUI;
+            ScrollRect scrollRect = TabsUI.TabButtonsScroll;
+            var tabTransform = ((RectTransform)tabButtonUI.transform).rect;
+            var tabX = tabButtonUI.transform.localPosition.x;
+            var tabParentWidth = ((RectTransform)TabsUI.TabButtonsParent).rect.width;
+            var tabViewportWidth = (scrollRect.viewport).rect.width;
+            if (tabViewportWidth < 0)
+                return;
+
+            var scrollableDistance = tabParentWidth - tabViewportWidth;
+            if (scrollableDistance < 0)
+                return;
+
+            var tabButtonStart = tabX / scrollableDistance;
+            var tabButtonEnd = (tabX + tabTransform.width - tabViewportWidth) / scrollableDistance;
+
+            if (scrollRect.horizontalNormalizedPosition > tabButtonStart)
+                scrollRect.horizontalNormalizedPosition = tabButtonStart;
+            else if (scrollRect.horizontalNormalizedPosition < tabButtonEnd)
+                scrollRect.horizontalNormalizedPosition = tabButtonEnd;
         }
 
         public virtual void Delete()

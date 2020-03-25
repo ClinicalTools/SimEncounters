@@ -35,7 +35,13 @@ namespace ClinicalTools.SimEncounters.MainMenu
             if (FilteredAudiences.Count == 0)
                 return true;
 
-            return FilteredAudiences.Contains(encounter.MetaGroup.GetLatestInfo().Audience);
+            var audience = encounter.MetaGroup.GetLatestInfo().Audience.ToUpper();
+            foreach (var filteredAudience in FilteredAudiences) {
+                if (audience.Contains(filteredAudience.ToUpper()))
+                    return true;
+            }
+
+            return false;
         }
 
         public override void Clear()
