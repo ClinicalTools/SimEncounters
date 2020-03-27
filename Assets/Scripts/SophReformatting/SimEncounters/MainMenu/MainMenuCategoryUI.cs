@@ -46,6 +46,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             CurrentCategory = category;
             CurrentData = data;
             ShowCategory();
+
             Sidebar.Show();
             Sidebar.SearchStuff.SortingOrder.SortingOrderChanged += (sortingOrder) => ShowCategory();
             Sidebar.SearchStuff.Filters.FilterChanged += (filter) => ShowCategory();
@@ -65,6 +66,10 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
             var encounterView = EncounterViews[currentViewIndex];
             encounterView.Display(CurrentData, encounters);
+            if (CurrentCategory.Name.Equals("Obesity", StringComparison.InvariantCultureIgnoreCase))
+                encounterView.HideMoreComingSoon();
+            else
+                encounterView.ShowMoreComingSoon();
             ScrollRect.content = (RectTransform)encounterView.transform;
             ScrollRect.verticalNormalizedPosition = 1;
         }

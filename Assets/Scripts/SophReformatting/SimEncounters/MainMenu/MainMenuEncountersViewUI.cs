@@ -24,7 +24,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private MainMenuEncounterUI optionPrefab;
         public MainMenuEncounterUI OptionPrefab { get => optionPrefab; set => optionPrefab = value; }
 
-
+        [SerializeField] private GameObject moreComingSoonObject;
+        public GameObject MoreComingSoonObject { get => moreComingSoonObject; set => moreComingSoonObject = value; }
 
         public event Action<EncounterInfo> Selected;
         protected InfoNeededForMainMenuToHappen CurrentData { get; set; }
@@ -43,6 +44,16 @@ namespace ClinicalTools.SimEncounters.MainMenu
             EncounterDisplays.Clear();
 
             gameObject.SetActive(false);
+        }
+
+        public void ShowMoreComingSoon()
+        {
+            MoreComingSoonObject.transform.SetSiblingIndex(transform.childCount - 1);
+            MoreComingSoonObject.SetActive(true);
+        }
+        public void HideMoreComingSoon()
+        {
+            MoreComingSoonObject.SetActive(false);
         }
 
         protected List<MainMenuEncounterUI> EncounterDisplays { get; } = new List<MainMenuEncounterUI>();

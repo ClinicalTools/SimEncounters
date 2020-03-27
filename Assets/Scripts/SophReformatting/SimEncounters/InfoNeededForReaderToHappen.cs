@@ -42,7 +42,7 @@ namespace ClinicalTools.SimEncounters
                     continue;
 
                 if (!Categories.ContainsKey(category))
-                    Categories.Add(category, new Category());
+                    Categories.Add(category, new Category(category));
 
                 Categories[category].Encounters.Add(encounterDetail);
             }
