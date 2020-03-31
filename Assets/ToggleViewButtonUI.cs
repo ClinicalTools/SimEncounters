@@ -27,11 +27,13 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         public void Show()
         {
+            gameObject.SetActive(true);
             Button.interactable = true;
         }
 
         public void Hide()
         {
+            gameObject.SetActive(false);
             Button.interactable = false;
         }
     }

@@ -31,6 +31,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private List<Button> hideOverviewButtons;
         public virtual List<Button> HideOverviewButtons { get => hideOverviewButtons; set => hideOverviewButtons = value; }
 
+        protected virtual void Awake()
+        {
+            foreach (var button in HideOverviewButtons)
+                button.onClick.AddListener(() => gameObject.SetActive(false));
+        }
+
         protected EncounterInfo CurrentEncounterDetails { get; set; }
         public virtual void Display(InfoNeededForMainMenuToHappen data, EncounterInfo encounterInfo)
         {
@@ -40,7 +46,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 new EncounterInfoDisplay(InfoViewer, encounterInfo.MetaGroup.GetLatestInfo());
                 InfoViewer.AverageRating.SetRating((int)encounterInfo.MetaGroup.Rating);
                 if (encounterInfo.UserStatus != null)
-                    InfoViewer.YourRating.SetRating((int)encounterInfo.UserStatus.Rating);
+                    InfoViewer.YourRating.SetRating(encounterInfo.UserStatus.Rating);
             }
 
             EncounterButtons.ReadButton.onClick.RemoveAllListeners();

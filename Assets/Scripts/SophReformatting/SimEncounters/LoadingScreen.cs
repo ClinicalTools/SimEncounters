@@ -26,18 +26,32 @@ namespace ClinicalTools.SimEncounters
 
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+
+            StartCoroutine(InitialHide());
+        }
+        public IEnumerator InitialHide()
+        {
+            yield return new WaitForSeconds(1.5f);
+
+            while (CanvasGroup.alpha > 0)
+            {
+                yield return null;
+                CanvasGroup.alpha -= Time.deltaTime / FADE_TIME;
+            }
+            gameObject.SetActive(false);
         }
 
         public virtual void Show()
         {
             gameObject.SetActive(true);
-            CanvasGroup.alpha = 0;
+            //CanvasGroup.alpha = 0;
         }
 
         public virtual void Stop()
         {
-            if (gameObject.activeInHierarchy)
-                StartCoroutine(Hide());
+            //if (gameObject.activeInHierarchy)
+                //StartCoroutine(Hide());
         }
 
         private const float FADE_TIME = 2;

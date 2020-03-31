@@ -20,6 +20,8 @@ namespace ClinicalTools.SimEncounters.Reader
                 controlledObject.SetActive(true);
 
             var optionType = ReaderFeedbackUI.OptionType;
+            foreach (var incorrectObject in ReaderFeedbackUI.IncorrectObjects)
+                incorrectObject.SetActive(optionType != OptionType.Correct);
 
             Color color = FeedbackColorInfo.GetColor(optionType);
             foreach (var image in ReaderFeedbackUI.ColoredImages)

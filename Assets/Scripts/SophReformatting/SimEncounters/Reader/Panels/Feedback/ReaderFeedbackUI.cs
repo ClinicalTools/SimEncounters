@@ -37,5 +37,8 @@ namespace ClinicalTools.SimEncounters.Reader
 
         [SerializeField] private List<GameObject> controlledObjects = new List<GameObject>();
         public List<GameObject> ControlledObjects { get => controlledObjects; set => controlledObjects = value; }
+
+        [SerializeField] private List<GameObject> incorrectObjects = new List<GameObject>();
+        public List<GameObject> IncorrectObjects { get => incorrectObjects; set => incorrectObjects = value; }
     }
 }

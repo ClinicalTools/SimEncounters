@@ -24,11 +24,13 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         public void Show()
         {
+            ToggleOpenButton.gameObject.SetActive(true);
             ToggleOpenButton.interactable = true;
         }
 
         public void Hide()
         {
+            ToggleOpenButton.gameObject.SetActive(false);
             ToggleOpenButton.interactable = false;
         }
     }
