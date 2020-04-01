@@ -29,7 +29,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             foreach (var encounterView in EncounterViews)
                 encounterView.Selected += EncountersView_Selected;
 
-            SetViewButton(EncounterViews[currentViewIndex]);
+            SetViewButton(GetNextView());
             ToggleViewButton.Selected += ChangeView;
         }
 
@@ -95,8 +95,14 @@ namespace ClinicalTools.SimEncounters.MainMenu
             if (currentViewIndex >= EncounterViews.Count)
                 currentViewIndex = 0;
 
-            SetViewButton(EncounterViews[currentViewIndex]);
+            SetViewButton(GetNextView());
             ShowCategory();
+        }
+
+        protected MainMenuEncountersViewUI GetNextView()
+        {
+            var viewIndex = (currentViewIndex + 1) % EncounterViews.Count;
+            return EncounterViews[viewIndex];
         }
 
         public void Hide()

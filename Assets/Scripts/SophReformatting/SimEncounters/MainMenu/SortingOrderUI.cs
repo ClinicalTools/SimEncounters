@@ -25,6 +25,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private Toggle authorDescending;
         public Toggle AuthorDescending { get => authorDescending; set => authorDescending = value; }
 
+        [SerializeField] private Toggle difficultyAscending;
+        public Toggle DifficultyAscending { get => difficultyAscending; set => difficultyAscending = value; }
+
+        [SerializeField] private Toggle difficultyDescending;
+        public Toggle DifficultyDescending { get => difficultyDescending; set => difficultyDescending = value; }
+
         public Comparison<EncounterInfo> Comparison { get; protected set; }
         public event Action<Comparison<EncounterInfo>> SortingOrderChanged;
 
@@ -39,6 +45,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
             DatePublishedDescending.AddOnSelectListener(() => SetComparer(CompareDatePublishedDescending));
             AuthorAscending.AddOnSelectListener(() => SetComparer(CompareAuthorAscending));
             AuthorDescending.AddOnSelectListener(() => SetComparer(CompareAuthorDescending));
+            DifficultyAscending.AddOnSelectListener(() => SetComparer(CompareDifficultyAscending));
+            DifficultyDescending.AddOnSelectListener(() => SetComparer(CompareDifficultyDescending));
         }
 
         protected void SetComparer(Comparison<EncounterInfo> comparison)
@@ -59,5 +67,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
             => x.MetaGroup.AuthorName.CompareTo(y.MetaGroup.AuthorName);
         protected int CompareAuthorDescending(EncounterInfo x, EncounterInfo y)
             => y.MetaGroup.AuthorName.CompareTo(x.MetaGroup.AuthorName);
+        protected int CompareDifficultyAscending(EncounterInfo x, EncounterInfo y)
+            => x.MetaGroup.GetLatestInfo().Difficulty.CompareTo(y.MetaGroup.GetLatestInfo().Difficulty);
+        protected int CompareDifficultyDescending(EncounterInfo x, EncounterInfo y)
+            => y.MetaGroup.GetLatestInfo().Difficulty.CompareTo(x.MetaGroup.GetLatestInfo().Difficulty);
     }
 }

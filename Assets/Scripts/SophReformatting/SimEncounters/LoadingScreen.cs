@@ -54,7 +54,7 @@ namespace ClinicalTools.SimEncounters
                 //StartCoroutine(Hide());
         }
 
-        private const float FADE_TIME = 2;
+        private const float FADE_TIME = 1;
         public IEnumerator Hide()
         {
             while (CanvasGroup.alpha > 0) {

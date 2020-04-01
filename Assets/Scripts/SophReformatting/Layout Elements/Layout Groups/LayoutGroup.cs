@@ -13,6 +13,11 @@ namespace ClinicalTools.Layout
 
         protected DrivenRectTransformTracker ChildController { get; }
 
+        protected override void OnRectTransformDimensionsChange()
+        {
+            base.OnRectTransformDimensionsChange();
+        }
+
         protected bool Dirty { get; set; } = true;
 
         [field: SerializeField] public virtual LayoutGroupDimension GroupWidth { get; set; } = new LayoutGroupDimension();
@@ -167,7 +172,7 @@ namespace ClinicalTools.Layout
                 if (Height.Preferred != null)
                     RectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, (float)Height.Preferred);
 
-                if (RectTransform.rect.width == 0 && RectTransform.rect.height == 0)
+                if (RectTransform.rect.width <= 0.001f || RectTransform.rect.height <= 0.001f)
                     Canvas.ForceUpdateCanvases();
                 
                 UpdateSize(RectTransform.rect.width, RectTransform.rect.height);
