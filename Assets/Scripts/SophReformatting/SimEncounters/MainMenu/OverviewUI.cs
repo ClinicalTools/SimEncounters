@@ -51,6 +51,22 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
             EncounterButtons.ReadButton.onClick.RemoveAllListeners();
             EncounterButtons.ReadButton.onClick.AddListener(() => ReadCase(data.User, encounterInfo));
+        
+            SetReadTextButton(encounterInfo);
+        }
+
+        public virtual void SetReadTextButton(EncounterInfo encounterInfo)
+        {
+            string text;
+
+            if (encounterInfo.UserStatus == null)
+                text = "Start Case";
+            else if (encounterInfo.UserStatus.Completed)
+                text = "Review Case";
+            else
+                text = "Continue Case";
+
+            EncounterButtons.ReadText.text = text;
         }
 
         public virtual void ReadCase(User user, EncounterInfo encounterInfo)

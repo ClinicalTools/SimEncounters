@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.MainMenu
@@ -9,6 +10,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         [SerializeField] private Button readButton;
         public virtual Button ReadButton { get => readButton; set => readButton = value; }
+
+        [SerializeField] private TextMeshProUGUI readText;
+        public virtual TextMeshProUGUI ReadText { get => readText; set => readText = value; }
 
         [SerializeField] private Button editButton;
         public virtual Button EditButton { get => editButton; set => editButton = value; }

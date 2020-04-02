@@ -15,6 +15,7 @@ namespace ClinicalTools.SimEncounters
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Honorific { get; set; }
+        public UserStatus Status { get; set; } = new UserStatus();
 
         // Creates guest user
         protected User()
