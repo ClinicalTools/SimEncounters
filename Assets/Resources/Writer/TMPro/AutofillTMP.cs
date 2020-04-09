@@ -1,14 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
-using System.Linq;
 using System.IO;
 using TMPro;
-using ClinicalTools.SimEncounters;
-using ClinicalTools.SimEncountersOld;
 
 
 //Should be parented to the SaveCaseBG Gameobject
@@ -499,7 +495,6 @@ public class AutofillTMP : MonoBehaviour
             } else {
                 if (!string.IsNullOrWhiteSpace(tagInput)) {
                     Debug.Log("No Matching tags found. Please enter another");
-                    GameObject.Find("GaudyBG").GetComponent<WriterHandler>().ShowMessage("No Matching tags found. Please enter another");
                 }
                 selectedTags[selectedTags.Count - 1] = "";
                 if (name == "SaveCaseBG") {

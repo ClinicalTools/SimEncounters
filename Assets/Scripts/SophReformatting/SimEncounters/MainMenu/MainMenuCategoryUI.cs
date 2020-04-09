@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClinicalTools.SimEncounters.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -39,12 +40,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
             currentViewIndex = 0;
         }
         
-        protected InfoNeededForMainMenuToHappen CurrentData { get; set; }
+        protected MenuSceneInfo SceneInfo { get; set; }
         protected Category CurrentCategory { get; set; }
-        public virtual void Display(InfoNeededForMainMenuToHappen data, Category category)
+        public virtual void Display(MenuSceneInfo sceneInfo, Category category)
         {
             CurrentCategory = category;
-            CurrentData = data;
+            SceneInfo = sceneInfo;
             ShowCategory();
 
             Sidebar.Show();
@@ -53,7 +54,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             ToggleViewButton.Show();
         }
 
-        private IEnumerable<EncounterInfo> FilterEncounterDetails(IEnumerable<EncounterInfo> encounters)
+        private IEnumerable<MenuEncounter> FilterEncounterDetails(IEnumerable<MenuEncounter> encounters)
         {
             var filter = Sidebar.SearchStuff.Filters.EncounterFilter;
             return encounters.Where(e => filter(e));
@@ -61,11 +62,11 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         private void ShowCategory()
         {
-            var encounters = new List<EncounterInfo>(FilterEncounterDetails(CurrentCategory.Encounters));
+            var encounters = new List<MenuEncounter>(FilterEncounterDetails(CurrentCategory.Encounters));
             encounters.Sort(Sidebar.SearchStuff.SortingOrder.Comparison);
 
             var encounterView = EncounterViews[currentViewIndex];
-            encounterView.Display(CurrentData, encounters);
+            encounterView.Display(SceneInfo, encounters);
             if (CurrentCategory.Name.Equals("Obesity", StringComparison.InvariantCultureIgnoreCase))
                 encounterView.HideMoreComingSoon();
             else
@@ -75,10 +76,10 @@ namespace ClinicalTools.SimEncounters.MainMenu
         }
 
 
-        private void EncountersView_Selected(EncounterInfo encounterInfo)
+        private void EncountersView_Selected(MenuEncounter encounterInfo)
         {
             Overview.GameObject.SetActive(true);
-            Overview.Display(CurrentData, encounterInfo);
+            Overview.Display(SceneInfo, encounterInfo);
         }
 
         protected void SetViewButton(MainMenuEncountersViewUI encountersViewUI)

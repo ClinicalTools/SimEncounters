@@ -59,7 +59,7 @@ namespace ClinicalTools.SimEncounters.Loading
 
         protected virtual void GetEncounterByFile(string cedFilePath, string ceiFilePath)
         {
-            var readXml = new FileXmlReader();
+            var readXml = new XmlParser();
             //CurrentEncounterCed = readXml.ReadXml(cedFilePath);
             //CurrentEncounterCei = readXml.ReadXml(ceiFilePath);
         }

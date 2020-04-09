@@ -8,9 +8,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
     public class ServerDetailedStatusWriter : IDetailedStatusWriter
     {
-        protected IWebAddress WebAddress { get; }
+        protected IUrlBuilder WebAddress { get; }
         protected ServerDataReader<string> EncounterDataReader { get; }
-        public ServerDetailedStatusWriter(IWebAddress webAddress)
+        public ServerDetailedStatusWriter(IUrlBuilder webAddress)
         {
             WebAddress = webAddress;
             var statusesParser = new StringParser();
@@ -31,12 +31,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
          * Downloads all available and applicable menu files to display on the main manu.
          * Returns them as a MenuCase item
          */
-        public void DoStuff(User user, Encounter encounter)
+        public void DoStuff(User user, FullEncounter encounter)
         {
             if (user.IsGuest)
                 return;
 
-            var url = WebAddress.GetUrl(phpFile);
+            var url = WebAddress.BuildUrl(phpFile);
             var form = CreateForm(user, encounter);
 
             var webRequest = UnityWebRequest.Post(url, form);
@@ -44,16 +44,16 @@ namespace ClinicalTools.SimEncounters.MainMenu
             EncounterDataReader.Begin(webRequest);
         }
 
-        public WWWForm CreateForm(User user, Encounter encounter)
+        public WWWForm CreateForm(User user, FullEncounter encounter)
         {
             var form = new WWWForm();
 
             form.AddField(actionVariable, uploadAction);
             form.AddField(usernameVariable, user.Username);
-            form.AddField(recordNumberVariable, encounter.Info.MetaGroup.RecordNumber);
+            form.AddField(recordNumberVariable, encounter.Metadata.RecordNumber);
             form.AddField(readTabsVariable, string.Join(":", encounter.Status.ReadTabs));
-            form.AddField(finishedVariable, encounter.Info.UserStatus.Completed ? 1 : 0);
-            form.AddField(ratingVariable, encounter.Info.UserStatus.Rating);
+            form.AddField(finishedVariable, encounter.Status.BasicStatus.Completed ? 1 : 0);
+            form.AddField(ratingVariable, encounter.Status.BasicStatus.Rating);
 
             return form;
         }

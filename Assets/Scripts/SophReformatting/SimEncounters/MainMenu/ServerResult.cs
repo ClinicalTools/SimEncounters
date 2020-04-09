@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ClinicalTools.SimEncounters.MainMenu
+namespace ClinicalTools.SimEncounters
 {
     public enum ServerOutcome
     {
@@ -31,6 +31,17 @@ namespace ClinicalTools.SimEncounters.MainMenu
         {
             Result = result;
             Outcome = ServerOutcome.Success;
+        }
+    }
+    public class ServerResult2 : EventArgs
+    {
+        public string Message { get; }
+        public ServerOutcome Outcome { get; }
+
+        public ServerResult2(ServerOutcome outcome, string message)
+        {
+            Message = message;
+            Outcome = outcome;
         }
     }
 }

@@ -6,10 +6,10 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class ResetPassword
     {
-        protected IWebAddress WebAddress { get; }
+        protected IUrlBuilder WebAddress { get; }
         protected MessageHandler MessageHandler { get; }
         protected ServerDataReader<string> ServerDataReader { get; }
-        public ResetPassword(IWebAddress webAddress, MessageHandler messageHandler)
+        public ResetPassword(IUrlBuilder webAddress, MessageHandler messageHandler)
         {
             WebAddress = webAddress;
             MessageHandler = messageHandler;
@@ -29,7 +29,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
          */
         public void Reset(string email, string username)
         {
-            var url = WebAddress.GetUrl(phpFile);
+            var url = WebAddress.BuildUrl(phpFile);
             var form = CreateForm(email, username);
 
             var webRequest = UnityWebRequest.Post(url, form);

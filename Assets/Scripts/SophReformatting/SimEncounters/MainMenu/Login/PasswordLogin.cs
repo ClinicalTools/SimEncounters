@@ -3,73 +3,67 @@ using UnityEngine.Networking;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public class PasswordLogin : IPasswordLogin
+    public class PasswordLogin : IPasswordLoginManager
     {
-        public event LoggedInEventHandler LoggedIn;
-
-        protected IWebAddress WebAddress { get; }
+        protected IServerReader ServerReader { get; }
+        protected IUrlBuilder WebAddress { get; }
         protected UserParser UserParser { get; }
 
-        public string Email { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-
-        public PasswordLogin(IWebAddress webAddress, UserParser userParser)
+        public PasswordLogin(IServerReader serverReader, IUrlBuilder webAddress, UserParser userParser)
         {
+            ServerReader = serverReader;
             WebAddress = webAddress;
             UserParser = userParser;
         }
 
 
-        protected virtual LoggedInEventArgs NoUsernameOrEmailArgs { get; } = new LoggedInEventArgs("No username or email provided.");
-        protected virtual LoggedInEventArgs NoPasswordArgs { get; } = new LoggedInEventArgs("No password provided.");
-        public void Begin()
+        protected virtual string NoUsernameOrEmailArgs { get; } = "No username or email provided.";
+        protected virtual string NoPasswordArgs { get; } = "No password provided.";
+        public WaitableResult<User> Login(string username, string email, string password)
         {
-            var form = CreateForm();
-            if (form == null)
-                return;
+            if (string.IsNullOrWhiteSpace(username) && string.IsNullOrWhiteSpace(email))
+                return new WaitableResult<User>(null, NoUsernameOrEmailArgs, true);
+            if (string.IsNullOrWhiteSpace(password))
+                return new WaitableResult<User>(null, NoPasswordArgs, true);
 
-            var address = WebAddress.GetUrl("Login.php");
+            var form = CreateForm(username, email, password);
+
+            var address = WebAddress.BuildUrl("Login.php");
             var webRequest = UnityWebRequest.Post(address, form);
-            var requestOperation = webRequest.SendWebRequest();
-            requestOperation.completed += (asyncOperation) => RequestOperation_completed(webRequest);
+            var serverResult = ServerReader.Begin(webRequest);
+
+            var user = new WaitableResult<User>();
+            serverResult.AddOnCompletedListener((result) => ProcessResults(user, result));
+
+            return user;
         }
 
-        protected virtual WWWForm CreateForm()
+        protected virtual WWWForm CreateForm(string username, string email, string password)
         {
-
-            if (string.IsNullOrWhiteSpace(Username) && string.IsNullOrWhiteSpace(Email)) {
-                LoggedIn?.Invoke(this, NoUsernameOrEmailArgs);
-                return null;
-            }
-            if (string.IsNullOrWhiteSpace(Password)) {
-                LoggedIn?.Invoke(this, NoPasswordArgs);
-                return null;
-            }
-
             WWWForm form = new WWWForm();
             form.AddField("ACTION", "login");
-            if (Email != null)
-                form.AddField("email", Email);
-            if (Username != null)
-                form.AddField("username", Username);
-            form.AddField("password", Password);
+            if (email != null)
+                form.AddField("email", email);
+            if (username != null)
+                form.AddField("username", username);
+            form.AddField("password", password);
 
             return form;
         }
 
-        private void RequestOperation_completed(UnityWebRequest webRequest)
+        private void ProcessResults(WaitableResult<User> result, ServerResult2 serverResult)
         {
-            if (!string.IsNullOrWhiteSpace(webRequest.error)) {
-                LoggedIn?.Invoke(this, new LoggedInEventArgs(webRequest.error));
+            if (serverResult.Outcome != ServerOutcome.Success)
+            {
+                result.SetError(serverResult.Message);
                 return;
             }
 
-            var user = UserParser.Parse(webRequest.downloadHandler.text);
+            var user = UserParser.Parse(serverResult.Message);
             if (user == null)
-                LoggedIn?.Invoke(this, new LoggedInEventArgs($"Could not parse user: {webRequest.downloadHandler.text}"));
+                result.SetError($"Could not parse user: {serverResult.Message}");
             else
-                LoggedIn?.Invoke(this, new LoggedInEventArgs(user));
+                result.SetResult(user);
         }
     }
 }

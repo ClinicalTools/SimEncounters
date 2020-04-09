@@ -8,13 +8,11 @@ using UnityEngine.UI;
 using System.Text;
 using System.Security.Cryptography;
 using UnityEngine.Networking;
-using ClinicalTools.SimEncountersOld;
 
 public class UploadToServer : MonoBehaviour
 {
     //private WWW www;
     //private WWW w2;
-    private WriterHandler ds;
     private string fileName;
     private string path;
     private string shrunkCharacterImageData;
@@ -22,7 +20,6 @@ public class UploadToServer : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        ds = WriterHandler.WriterInstance;
         fileName = GlobalData.fileName;
         path = GlobalData.filePath;
     }
@@ -47,68 +44,10 @@ public class UploadToServer : MonoBehaviour
         string serverURL = GlobalData.serverAddress + "Test.php";
         string urlParams = "?webfilename=" + fileName + "&webusername=clinical&webpassword=encounters&mode=download";
         string wwwText = "";
-        string imagesXML = ds.GetImagesXml();
         int i = -1;
         int MAP = 0;
-        do {
-            //For uploading
-            WWWForm form = new WWWForm();
-            form.AddField("mode", "upload");
-            form.AddField("fileN", fileName);
-            form.AddField("account_id", GlobalData.accountId);
-            form.AddField("index", i); //Used for segmenting image uploads
 
-            //form.AddField ("column", "xmlData");
-
-            byte[] fileBytes = GetFileAsByteArray("<body>" + ds.GetXml() + "</body>");
-            Debug.Log("Case file size (in bytes): " + fileBytes.Length);
-            form.AddBinaryData("xmlData", fileBytes, fileName, "text/xml");
-
-            if (MAP == 0) {
-                wwwText = imagesXML; //use "Placeholder" if trying to segment data;
-            } else if (MAP * i + MAP > imagesXML.Length) {
-                wwwText = imagesXML.Substring(MAP * i);
-            } else {
-                wwwText = imagesXML.Substring(MAP * i, MAP);
-            }
-            byte[] fileBytesImg = GetFileAsByteArray(wwwText);
-            Debug.Log("Image file size (in bytes): " + fileBytesImg.Length);
-            if (imagesXML.Length > 10000000) { //If the xml length is greater than max_allowed_packet
-                print("Error: Images exceed upload size limit");
-            } else {
-                form.AddBinaryData("imgData", fileBytesImg, fileName, "text/xml");
-            }
-
-			using (UnityWebRequest webRequest = UnityWebRequest.Post(serverURL, form)) {
-				yield return webRequest.SendWebRequest();
-				while (!webRequest.isDone) {
-					Debug.Log(webRequest.uploadProgress);
-					yield return new WaitForSeconds(0.5f);
-				}
-
-				if (webRequest.error != null) {
-					print("Error: " + webRequest.error);
-				} else {
-					if (webRequest.uploadProgress == 1 && webRequest.isDone) {
-						Debug.Log("Returned text from PHP: \n" + webRequest.downloadHandler.text);
-					}
-				}
-
-				try {
-					MAP = int.Parse(webRequest.downloadHandler.text);
-				} catch (Exception) {
-					//print ("Number was not returned in www.text");
-				}
-				i++;
-			}            
-        } while (false);//MAP * i < imagesXML.Length);
-        serverURL = GlobalData.serverAddress + "Test.php";
-
-        //Upload the truncated case preview for the main menu
-        yield return StartCoroutine(UploadMenuEntry());
-
-        //ShowConfirmation ("Upload finished!");
-        ds.ShowMessage("Upload finished!");
+        yield return null;
     }
 
 	/**
@@ -322,12 +261,6 @@ public class UploadToServer : MonoBehaviour
 
 			//Get the loading screen and progress slider
 			Transform loadingScreen = null;
-			if (ds == null) {
-				loadingScreen = GetComponent<ReaderDataScript>().loadingScreen.transform;
-			} else {
-                // TODO: handle loading screen
-				//loadingScreen = ds.loadingScreen.transform;
-			}
 			loadingScreen.transform.Find("LoadingBar").gameObject.SetActive(true);
 			Slider slider = loadingScreen.GetComponentInChildren<Slider>();
 
@@ -376,12 +309,6 @@ public class UploadToServer : MonoBehaviour
         print(GlobalData.caseObj.IsTemplate()); //Is template
                                                 //print(!overwriteToggle.isOn); //Overwrite template?
 
-        if (GlobalData.createCopy || GlobalData.fileName.StartsWith("[CHECKFORDUPLICATE]")) {
-            //if ((GlobalData.caseObj.caseType.GetHashCode() & GlobalData.caseObj.templateCompare) == GlobalData.caseObj.templateCompare &&
-            //!overwriteToggle.isOn) {
-            yield return StartCoroutine(ds.ServerUploader.AvoidServerDuplicates());
-            GlobalData.createCopy = false;
-        }
 
         //We set the case type to the new case type after we have handled any case relying on previous case type
 
@@ -389,84 +316,7 @@ public class UploadToServer : MonoBehaviour
 
         fileName = GlobalData.fileName;
         string tempFileName = fileName.Remove(fileName.Length - 3);
-
-        string data = "<body>" + ds.GetXml() + "</body>";
-        Debug.Log(data);
-
-
-
-        //Outputting regular file
-        StreamWriter sw = new StreamWriter(path + tempFileName + "ced", false);
-        //sw.WriteLine(data);
-        sw.Close();
-        sw.Dispose();
-        File.WriteAllBytes(path + tempFileName + "ced", EncryptStringToBytes_Aes(data));
-
-        //Formatted, easy to read version
-        sw = new StreamWriter(path + tempFileName + "xml", false);
-        XmlDocument xmlDoc = new XmlDocument();
-        xmlDoc.LoadXml(data);
-        xmlDoc.Save(sw);
-        sw.Close();
-        sw.Dispose();
-
-        //Images
-        sw = new StreamWriter(path + tempFileName + "cei", false);
-        //sw.WriteLine (ds.GetImagesXML ());
-        sw.Close();
-        sw.Dispose();
-        File.WriteAllBytes(path + tempFileName + "cei", EncryptStringToBytes_Aes(ds.GetImagesXml()));
-
-        /* Non-encrypted local saving
-		//Outputting regular file
-		StreamWriter sw = new StreamWriter(path + tempFileName + "ced", false);
-		sw.WriteLine(data);
-		sw.Close();
-		sw.Dispose ();
-
-		//Formatted, easy to read version
-		data = replaceValues(data);
-		XmlDocument xmlDoc = new XmlDocument();
-		//data = WWW.UnEscapeURL (data);
-		xmlDoc.LoadXml(data);
-
-		//XmlWriter xw = XmlWriter.Create(path + tempFileName + "xml");
-		sw = new StreamWriter(path + tempFileName + "xml", false);
-		xmlDoc.Save(sw);
-		sw.Close();
-		sw.Dispose ();
-
-		//Images
-		sw = new StreamWriter(path + tempFileName + "cei", false);
-		sw.WriteLine (ds.GetImagesXML());
-		sw.Close ();
-		sw.Dispose ();
-		*/
-
-
-        //Delete the menu text file since we will have the information up on the server
-        File.Delete(GlobalData.filePath + fileName.Remove(fileName.Length - 4) + " menu.txt");
-
-        //Delete the autosave as well
-        File.Delete(path + tempFileName + "auto");
-        File.Delete(path + tempFileName + "iauto");
-        ds.RestartAutosave();
-
-
-        DateTime unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-        DateTime localFileModified = File.GetLastWriteTime(GlobalData.filePath + GlobalData.fileName);
-
-        //GlobalData.caseObj.dateModified = (long) DateTime.UtcNow.Subtract (unixEpoch).TotalSeconds;// Old method
-        GlobalData.caseObj.dateModified = (long)localFileModified.ToUniversalTime().Subtract(unixEpoch).TotalSeconds;
-
-        Debug.Log("Saved: " + path + tempFileName);
-
-
-        //ShowConfirmation("Case saved locally! Uploading to server...");
-        ds.ShowMessage("Saved locally! Uploading to server...");
-        yield return StartCoroutine(Upload());
-        //b.interactable = false;
-        //Debug.Log("Data successfully submitted!");
+        yield return null;
     }
 
     public string GetMenuText()

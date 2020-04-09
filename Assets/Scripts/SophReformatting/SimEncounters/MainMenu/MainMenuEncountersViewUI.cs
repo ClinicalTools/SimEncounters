@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClinicalTools.SimEncounters.Data;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,14 +28,15 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private GameObject moreComingSoonObject;
         public GameObject MoreComingSoonObject { get => moreComingSoonObject; set => moreComingSoonObject = value; }
 
-        public event Action<EncounterInfo> Selected;
-        protected InfoNeededForMainMenuToHappen CurrentData { get; set; }
-        public virtual void Display(InfoNeededForMainMenuToHappen data, IEnumerable<EncounterInfo> encounters)
+
+        public event Action<MenuEncounter> Selected;
+        protected MenuSceneInfo CurrentSceneInfo { get; set; }
+        public virtual void Display(MenuSceneInfo sceneInfo, IEnumerable<MenuEncounter> encounters)
         {
             gameObject.SetActive(true);
-            CurrentData = data;
+            CurrentSceneInfo = sceneInfo;
 
-            SetCases(encounters);
+            SetEncounters(encounters);
         }
 
         public void Hide()
@@ -57,19 +59,19 @@ namespace ClinicalTools.SimEncounters.MainMenu
         }
 
         protected List<MainMenuEncounterUI> EncounterDisplays { get; } = new List<MainMenuEncounterUI>();
-        public virtual void SetCases(IEnumerable<EncounterInfo> encounters)
+        public virtual void SetEncounters(IEnumerable<MenuEncounter> encounters)
         {
             foreach (MainMenuEncounterUI encounterDisplay in EncounterDisplays)
                 Destroy(encounterDisplay.gameObject);
             EncounterDisplays.Clear();
 
             foreach (var encounter in encounters) {
-                if (encounter.MetaGroup.GetLatestInfo().IsTemplate)
+                if (encounter.GetLatestMetadata().IsTemplate)
                     continue;
 
                 var encounterUI = Instantiate(OptionPrefab, OptionsParent);
                 encounterUI.Selected += (selectedEncounter) => Selected?.Invoke(selectedEncounter);
-                encounterUI.Display(CurrentData, encounter);
+                encounterUI.Display(CurrentSceneInfo, encounter);
 
                 EncounterDisplays.Add(encounterUI);
             }

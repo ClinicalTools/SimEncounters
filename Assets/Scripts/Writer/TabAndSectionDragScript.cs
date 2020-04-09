@@ -1,37 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using System;
-using TMPro;
-using ClinicalTools.SimEncountersOld;
 
 public class TabAndSectionDragScript : MonoBehaviour
 {
 
     public Sprite cursorPicture;                //Image of the standard mouse icon
     public Sprite movePicture;                  //Image of the "You can move this" mouse cursor
-    private Image cursor;                       //Reference to the Cursor object
-    private bool hover;                         //Whether or not the mouse is hovering over the clickable area
-    private bool drag;                          //Whether or not the entry is being dragged
-    private GameObject placeholder;             //Placeholder object to show where the entry will go when dropped
-    private List<Transform> entries;            //Local list of sibling entries. Used for calculating positions/placeholder spot
-    private RectTransform scrollRectTransform;  //The RectTransform of the scroll bar
-    private ScrollRect scrollScrollRect;        //The ScrollRect this entry belongs to
-    private RectTransform rt;                   //The RectTransform of this entry
-    private float dMPos;                        //Difference between the mouse's height and the center of the entry being clicked
-    private bool clicked;
-    private TabManager tm;
-    private WriterHandler ds;
-    private float clickPoint;
-    private string linkToText;
-    private bool draggable;
-    private Color regularNormalColor;
-    /**
-	 * Used for tabs and sections
-	 * This script should be placed on the object that will be clicked on
-	 */
 
     /**
 	* Initialize most variables

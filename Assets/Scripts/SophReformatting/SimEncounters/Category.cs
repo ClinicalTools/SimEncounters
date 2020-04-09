@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using ClinicalTools.SimEncounters.Data;
+using System.Collections.Generic;
 
 namespace ClinicalTools.SimEncounters
 {
     public class Category
     {
         public string Name { get; }
-        public List<EncounterInfo> Encounters { get; } = new List<EncounterInfo>();
+        public List<MenuEncounter> Encounters { get; } = new List<MenuEncounter>();
 
         public Category(string name)
         {
@@ -15,7 +16,7 @@ namespace ClinicalTools.SimEncounters
         public bool IsCompleted()
         {
             foreach (var encounter in Encounters)
-                if (encounter.UserStatus == null || !encounter.UserStatus.Completed)
+                if (encounter.Status == null || !encounter.Status.Completed)
                     return false;
 
             return true;

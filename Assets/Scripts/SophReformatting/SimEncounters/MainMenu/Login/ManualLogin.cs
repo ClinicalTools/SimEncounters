@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public class ManualLogin : MonoBehaviour, ILogin
+    public class ManualLogin : MonoBehaviour, ILoginManager
     {     
         [SerializeField] private TMP_InputField usernameField;
         public TMP_InputField UsernameField { get => usernameField; set => usernameField = value; }
@@ -20,54 +20,65 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         [SerializeField] private MessageHandler messageHandler;
         public MessageHandler MessageHandler { get => messageHandler; set => messageHandler = value; }
-        public event LoggedInEventHandler LoggedIn;
 
         protected ILoadingScreen LoadingScreen { get; private set; }
-        protected IPasswordLogin PasswordLogin { get; private set; }
+        protected IPasswordLoginManager PasswordLoginHandler { get; private set; }
 
-        //[Inject]
-        public void Init(ILoadingScreen loadingScreen, IPasswordLogin passwordLogin)
+        public void Init(ILoadingScreen loadingScreen, IPasswordLoginManager passwordLoginHandler)
         {
             LoadingScreen = loadingScreen;
-            PasswordLogin = passwordLogin;
+            PasswordLoginHandler = passwordLoginHandler;
         }
 
-        public void Begin()
+        protected virtual WaitableResult<User> CurrentWaitableResult { get; set; }
+        public WaitableResult<User> Login()
         {
+            if (CurrentWaitableResult == null || CurrentWaitableResult.IsCompleted)
+                CurrentWaitableResult = new WaitableResult<User>();
+
             gameObject.SetActive(true);
 
             UsernameField.text = "";
             PasswordField.text = "";
             LoadingScreen.Stop();
-            LoginButton.onClick.AddListener(Login);
+            LoginButton.onClick.AddListener(PasswordLogin);
             GuestButton.onClick.AddListener(GuestLogin);
-            PasswordLogin.LoggedIn += PasswordLogin_LoggedIn;
+
+            return CurrentWaitableResult;
         }
 
         private void GuestLogin()
         {
-            LoggedIn?.Invoke(this, new LoggedInEventArgs(User.Guest));
+            if (CurrentWaitableResult?.IsCompleted == false)
+                CurrentWaitableResult.SetResult(User.Guest);
             gameObject.SetActive(false);
         }
 
-        private void PasswordLogin_LoggedIn(object sender, LoggedInEventArgs e)
+        private void PasswordLogin()
         {
-            if (e.User != null) {
-                LoggedIn?.Invoke(this, e);
-                gameObject.SetActive(false);
-                PlayerPrefs.SetInt("StayLoggedIn", 1);
-                PlayerPrefs.Save();
+            var username = UsernameField.text;
+            var email = UsernameField.text;
+            var password = PasswordField.text;
+            var user = PasswordLoginHandler.Login(username, email, password);
+            user.AddOnCompletedListener((result) => ServerUserResponse(user));
+        }
+
+        protected void ServerUserResponse(WaitableResult<User> waitableResult)
+        {
+            if (waitableResult.IsError)
+            {
+                // show message maybe?
                 return;
             }
+            if (!CurrentWaitableResult.IsCompleted)
+            {
+                // show message maybe?
+                return;
+            }
+            gameObject.SetActive(false);
+            PlayerPrefs.SetInt("StayLoggedIn", 1);
+            PlayerPrefs.Save();
+            CurrentWaitableResult.SetResult(waitableResult.Result, waitableResult.Message);
         }
-
-        protected virtual void Login()
-        {
-            PasswordLogin.Username = UsernameField.text;
-            PasswordLogin.Email = UsernameField.text;
-            PasswordLogin.Password = PasswordField.text;
-            PasswordLogin.Begin();
-        }
-
     }
 }

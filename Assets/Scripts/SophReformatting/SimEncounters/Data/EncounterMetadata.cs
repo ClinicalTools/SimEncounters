@@ -9,6 +9,11 @@ namespace ClinicalTools.SimEncounters.Data
 
     public class EncounterMetadata
     {
+        public float Rating { get; set; } = -1;
+        public int RecordNumber { get; set; }
+        public string Filename { get; set; }
+        public string AuthorName { get; set; }
+        public int AuthorAccountId { get; set; }
         public string Title { get; set; }
         public long DateModified { get; set; }
         public string Subtitle { get; set; }

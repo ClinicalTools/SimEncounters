@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System.Text.RegularExpressions;
-using ClinicalTools.SimEncountersOld;
 
 /**
  * This holds all of the data for each Section. This includes the XML strings,
@@ -11,7 +10,6 @@ using ClinicalTools.SimEncountersOld;
  */
 public class SectionDataScript
 {
-    private readonly WriterHandler ds;
 
     private Dictionary<string, TabInfoScript> Dict;     //Dictionary holding each Tab's information. Key=TabName. Value=TabData.
     private TabInfoScript currentTab;                   //Current/last tab the user was on in this section
@@ -33,7 +31,6 @@ public class SectionDataScript
         count = 0;
         position = 0;
 
-        ds = WriterHandler.WriterInstance;
     }
     /**
 	 * Initiates the script variables (to make sure)
@@ -267,7 +264,6 @@ public class SectionDataScript
                 Dict.Remove(oldName);
                 tabList[tabList.FindIndex(listIdxname => listIdxname == oldName)] = newName;
             } catch (System.Exception) {
-                ds.ShowMessage("Cannot have two tabs with matching names!", true);
                 throw new System.Exception("Cannot have two tabs with matching names!");
             }
         }

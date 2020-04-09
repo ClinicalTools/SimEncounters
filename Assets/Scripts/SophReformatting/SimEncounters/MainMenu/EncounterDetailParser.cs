@@ -5,38 +5,16 @@ using static MenuCase;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public class EncounterDetailParser : IParser<EncounterInfo>
+    public class EncounterDetailParser : IParser<EncounterMetadata>
     {
-        protected IEncounterInfoSetter EncounterInfoSetter { get; }
+        public EncounterDetailParser() { }
 
-        public EncounterDetailParser(IEncounterInfoSetter encounterInfoSetter)
-        {
-            EncounterInfoSetter = encounterInfoSetter;
-        }
-
-        public virtual EncounterInfo Parse(string text)
+        public virtual EncounterMetadata Parse(string text)
         {
             var parsedItem = GetParsedEncounterText(text);
-            var infoGroup = GetInfoGroup(parsedItem);
-            if (infoGroup == null)
-                return null;
-
-            EncounterInfoSetter.SetEncounterInfo(infoGroup, GetInfo(parsedItem));
-            
-            var recordNumber = GetRecordNumber(parsedItem);
-            infoGroup.RecordNumber = recordNumber;
-            return new EncounterInfo(recordNumber, infoGroup);
+            return GetMetadata(parsedItem);
         }
 
-        private const int recordNumberIndex = 4;
-        private int GetRecordNumber(string[] parsedItem)
-        {
-            if (parsedItem?.Length > recordNumberIndex)
-                if (int.TryParse(parsedItem[recordNumberIndex], out var recordNumber))
-                    return recordNumber;
-
-            return 0;
-        }
 
         private const string caseInfoDivider = "--";
         protected virtual string[] GetParsedEncounterText(string text)
@@ -53,6 +31,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         private const int filenameIndex = 1;
         private const int authorNameIndex = 2;
         private const int titleIndex = 3;
+        private const int recordNumberIndex = 4;
         private const int difficultyIndex = 5;
         private const int descriptionIndex = 7;
         private const int subtitleIndex = 6;
@@ -63,22 +42,6 @@ namespace ClinicalTools.SimEncounters.MainMenu
         private const int ratingIndex = 12;
         private const int caseTypeIndex = 13;
         private const string filenameExtension = ".ced";
-        public EncounterMetaGroup GetInfoGroup(string[] parsedItem)
-        {
-            if (parsedItem == null || parsedItem.Length < encounterParts)
-                return null;
-
-            var encounterInfoGroup = new EncounterMetaGroup {
-                Filename = GetFilename(parsedItem[filenameIndex]),
-                AuthorAccountId = int.Parse(parsedItem[authorAccountIdIndex]),
-                AuthorName = parsedItem[authorNameIndex],
-            };
-
-            if (float.TryParse(parsedItem[ratingIndex], out var rating))
-                encounterInfoGroup.Rating = rating;
-
-            return encounterInfoGroup;
-        }
 
         protected virtual string GetFilename(string filename)
         {
@@ -88,12 +51,17 @@ namespace ClinicalTools.SimEncounters.MainMenu
         }
 
         private const string categoryDivider = ", ";
-        public EncounterMetadata GetInfo(string[] parsedItem)
+        public EncounterMetadata GetMetadata(string[] parsedItem)
         {
             if (parsedItem.Length < encounterParts)
                 return null;
 
-            var encounterInfo = new EncounterMetadata() {
+            var metadata = new EncounterMetadata()
+            {
+                RecordNumber = int.Parse(parsedItem[recordNumberIndex]),
+                Filename = GetFilename(parsedItem[filenameIndex]),
+                AuthorAccountId = int.Parse(parsedItem[authorAccountIdIndex]),
+                AuthorName = parsedItem[authorNameIndex],
                 Title = parsedItem[titleIndex].Replace('_', ' '),
                 Difficulty = GetDifficulty(parsedItem[difficultyIndex]),
                 Description = parsedItem[descriptionIndex],
@@ -103,13 +71,15 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 EditorVersion = parsedItem[editorVersionIndex]
             };
 
-            AddCategories(encounterInfo.Categories, parsedItem[tagsIndex]);
+            if (float.TryParse(parsedItem[ratingIndex], out var rating))
+                metadata.Rating = rating;
+            AddCategories(metadata.Categories, parsedItem[tagsIndex]);
 
             var caseType = (CaseType)int.Parse(parsedItem[caseTypeIndex]);
-            encounterInfo.IsPublic = caseType == CaseType.publicCase || caseType == CaseType.publicTemplate;
-            encounterInfo.IsTemplate = caseType == CaseType.publicTemplate || caseType == CaseType.privateTemplate;
+            metadata.IsPublic = caseType == CaseType.publicCase || caseType == CaseType.publicTemplate;
+            metadata.IsTemplate = caseType == CaseType.publicTemplate || caseType == CaseType.privateTemplate;
 
-            return encounterInfo;
+            return metadata;
         }
 
         protected void AddCategories(List<string> categories, string categoriesString)

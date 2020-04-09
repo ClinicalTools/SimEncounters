@@ -8,7 +8,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class MainMenuEncounterUI : MonoBehaviour
     {
-        public event Action<EncounterInfo> Selected;
+        public event Action<MenuEncounter> Selected;
 
         [SerializeField] private Button selectButton;
         public virtual Button SelectButton { get => selectButton; set => selectButton = value; }
@@ -26,17 +26,14 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public virtual GameObject CompletedObject { get => completedObject; set => completedObject = value; }
 
 
-        public void Display(InfoNeededForMainMenuToHappen data, EncounterInfo encounterInfo)
+        public void Display(MenuSceneInfo sceneInfo, MenuEncounter encounter)
         {
-            if (InfoViewer != null) {
-                if (encounterInfo.MetaGroup.GetLatestInfo() == null)
-                    Debug.Log("what");
-                new EncounterInfoDisplay(InfoViewer, encounterInfo.MetaGroup.GetLatestInfo());
-            }
-            SelectButton.onClick.AddListener(() => Selected?.Invoke(encounterInfo));
+            if (InfoViewer != null)
+                InfoViewer.Display(encounter.GetLatestMetadata());
+            SelectButton.onClick.AddListener(() => Selected?.Invoke(encounter));
 
-            if (encounterInfo.UserStatus != null) {
-                if (encounterInfo.UserStatus.Completed)
+            if (encounter.Status != null) {
+                if (encounter.Status.Completed)
                     CompletedObject.SetActive(true);
                 else
                     InProgressObject.SetActive(true);

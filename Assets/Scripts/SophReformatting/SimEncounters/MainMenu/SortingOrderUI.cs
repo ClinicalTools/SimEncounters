@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System;
 using ClinicalTools.SimEncounters.Extensions;
+using ClinicalTools.SimEncounters.Data;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
@@ -31,8 +32,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private Toggle difficultyDescending;
         public Toggle DifficultyDescending { get => difficultyDescending; set => difficultyDescending = value; }
 
-        public Comparison<EncounterInfo> Comparison { get; protected set; }
-        public event Action<Comparison<EncounterInfo>> SortingOrderChanged;
+        public Comparison<MenuEncounter> Comparison { get; protected set; }
+        public event Action<Comparison<MenuEncounter>> SortingOrderChanged;
 
         public void Awake()
         {
@@ -49,27 +50,27 @@ namespace ClinicalTools.SimEncounters.MainMenu
             DifficultyDescending.AddOnSelectListener(() => SetComparer(CompareDifficultyDescending));
         }
 
-        protected void SetComparer(Comparison<EncounterInfo> comparison)
+        protected void SetComparer(Comparison<MenuEncounter> comparison)
         {
             Comparison = comparison;
             SortingOrderChanged?.Invoke(comparison);
         }
 
-        protected int ComparePatientNameAscending(EncounterInfo x, EncounterInfo y)
-            => x.MetaGroup.GetLatestInfo().Title.CompareTo(y.MetaGroup.GetLatestInfo().Title);
-        protected int ComparePatientNameDescending(EncounterInfo x, EncounterInfo y)
-            => y.MetaGroup.GetLatestInfo().Title.CompareTo(x.MetaGroup.GetLatestInfo().Title);
-        protected int CompareDatePublishedAscending(EncounterInfo x, EncounterInfo y)
-            => x.MetaGroup.GetLatestInfo().DateModified.CompareTo(y.MetaGroup.GetLatestInfo().DateModified);
-        protected int CompareDatePublishedDescending(EncounterInfo x, EncounterInfo y)
-            => y.MetaGroup.GetLatestInfo().DateModified.CompareTo(x.MetaGroup.GetLatestInfo().DateModified);
-        protected int CompareAuthorAscending(EncounterInfo x, EncounterInfo y)
-            => x.MetaGroup.AuthorName.CompareTo(y.MetaGroup.AuthorName);
-        protected int CompareAuthorDescending(EncounterInfo x, EncounterInfo y)
-            => y.MetaGroup.AuthorName.CompareTo(x.MetaGroup.AuthorName);
-        protected int CompareDifficultyAscending(EncounterInfo x, EncounterInfo y)
-            => x.MetaGroup.GetLatestInfo().Difficulty.CompareTo(y.MetaGroup.GetLatestInfo().Difficulty);
-        protected int CompareDifficultyDescending(EncounterInfo x, EncounterInfo y)
-            => y.MetaGroup.GetLatestInfo().Difficulty.CompareTo(x.MetaGroup.GetLatestInfo().Difficulty);
+        protected int ComparePatientNameAscending(MenuEncounter x, MenuEncounter y)
+            => x.GetLatestMetadata().Title.CompareTo(y.GetLatestMetadata().Title);
+        protected int ComparePatientNameDescending(MenuEncounter x, MenuEncounter y)
+            => y.GetLatestMetadata().Title.CompareTo(x.GetLatestMetadata().Title);
+        protected int CompareDatePublishedAscending(MenuEncounter x, MenuEncounter y)
+            => x.GetLatestMetadata().DateModified.CompareTo(y.GetLatestMetadata().DateModified);
+        protected int CompareDatePublishedDescending(MenuEncounter x, MenuEncounter y)
+            => y.GetLatestMetadata().DateModified.CompareTo(x.GetLatestMetadata().DateModified);
+        protected int CompareAuthorAscending(MenuEncounter x, MenuEncounter y)
+            => x.GetLatestMetadata().AuthorName.CompareTo(y.GetLatestMetadata().AuthorName);
+        protected int CompareAuthorDescending(MenuEncounter x, MenuEncounter y)
+            => y.GetLatestMetadata().AuthorName.CompareTo(x.GetLatestMetadata().AuthorName);
+        protected int CompareDifficultyAscending(MenuEncounter x, MenuEncounter y)
+            => x.GetLatestMetadata().Difficulty.CompareTo(y.GetLatestMetadata().Difficulty);
+        protected int CompareDifficultyDescending(MenuEncounter x, MenuEncounter y)
+            => y.GetLatestMetadata().Difficulty.CompareTo(x.GetLatestMetadata().Difficulty);
     }
 }

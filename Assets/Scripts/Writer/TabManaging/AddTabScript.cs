@@ -5,11 +5,8 @@ using UnityEngine.UI;
 using System.Text.RegularExpressions;
 using System.Linq;
 using TMPro;
-using ClinicalTools.SimEncountersOld;
 
 public class AddTabScript : MonoBehaviour {
-
-    public WriterHandler ds;  
     public TabManager tm;
     public GameObject TabButtonContentPar;
     public GameObject SectionButtonContentPar;
@@ -31,7 +28,6 @@ public class AddTabScript : MonoBehaviour {
     {
         BG = GameObject.Find("GaudyBG");
         if (BG != null) {
-            ds = WriterHandler.WriterInstance;
             tm = BG.GetComponent<TabManager>();
             TabButtonContentPar = BG.transform.Find("ContentPanel/TabButtonsPanel/Scroll View/Viewport/TabButtonContent").gameObject;
             SectionButtonContentPar = BG.transform.Find("ContentPanel/SectionButtonsPanel/Scroll View/Viewport/SectionButtonContent").gameObject;
@@ -136,102 +132,6 @@ public class AddTabScript : MonoBehaviour {
 	 */
     public void addTab(TextMeshProUGUI tabName)
     {
-        if (!ds.IsValidName(tabName.text, "Tab")) {
-            //ds.ShowMessage("Tab name not valid. Cannot use:\n*, &, <, >, or //", true);
-            ds.ShowMessage("Name not valid: Please rename your tab", true);
-            throw new System.Exception("Name not valid: Please rename your tab");
-        }
-        var tabTemplate = FindSelected();
-        if (tabTemplate == null) {
-            ds.ShowMessage("A tab template must be selected.", true);
-            throw new System.Exception("A tab template must be selected");
-        }
-
-        string tabCustomName;
-        List<string> tempTabList = ds.EncounterData.OldSections[tm.GetCurrentSectionKey()].GetTabList();
-        //Do not remove last compare below. It's looking for a zero width space (unicode 8203 / Alt+200B)
-        if (tabName.text == null || tabName.text.Equals("") || tabName.text.ToCharArray()[0].Equals(GlobalData.EMPTY_WIDTH_SPACE)) {
-            tabCustomName = tabTemplate.text;//.Replace(" ", "_") + "Tab";
-        } else {
-            if (tabToSpawn != null) {
-                tabName.text = tabToSpawn.text;
-            }
-            tabCustomName = tabName.text;//.Replace(" ", "_") + "Tab";
-        }
-        tabCustomName = tabCustomName.Replace(GlobalData.EMPTY_WIDTH_SPACE + "", "");
-        //Debug.Log(tabCustomName + "--------------");
-        //tabName = "Test History";
-
-        if (tempTabList.Contains(tabCustomName)) {
-            ds.ShowMessage("Cannot name two tabs the same in one step!", true);
-            throw new System.Exception("Cannot name two tabs the same in one step!");
-        }
-
-        string selected = tabTemplate.text;
-        string prefabName = selected;
-        print("Selected: " + selected);
-        System.IO.StreamReader reader = new System.IO.StreamReader(Application.streamingAssetsPath + "/Instructions/" + tabsFileName);
-        string[] split;
-        split = reader.ReadLine().Split(splitChar); //Skip the first line
-        while (!reader.EndOfStream) {
-            split = reader.ReadLine().Split(splitChar);
-            if (split.Length < 3) {
-                continue;
-            }
-            //print ("split 1: " + split[DISPLAY]);
-            if (split[DISPLAY].Equals(selected)) {
-                //print ("split 2: " + split[PREFAB]);
-                prefabName = split[PREFAB];
-                break;
-            }
-        }
-        reader.Close();
-
-        string xmlTabName = prefabName;//.Replace (" ", "_") + "Tab";
-        string xml = "<data></data>";
-
-        //Debug.Log (GlobalData.resourcePath + "Prefabs/Tabs/" + prefabName + " Tab" + "/" + prefabName.Replace (" ", string.Empty) + "Tab");
-        GameObject test = Resources.Load(GlobalData.resourcePath + "/Prefabs/Tabs/" + prefabName + " Tab" + "/" + prefabName.Replace(" ", string.Empty) + "Tab") as GameObject;
-        if (test == null) {
-            Debug.Log("Cannot load tab prefab " + prefabName);
-            Debug.Log(GlobalData.resourcePath + "Prefabs/Tabs/" + prefabName + " Tab" + "/" + prefabName.Replace(" ", string.Empty) + "Tab");
-            return;
-        }
-        Debug.Log("-----: " + xmlTabName + ", " + tabCustomName);
-        ds.AddSectionTabData(tm.GetCurrentSectionKey(), xmlTabName, tabCustomName, xml);
-
-
-        GameObject newTab = Resources.Load(GlobalData.resourcePath + "/Prefabs/TabButton") as GameObject;
-        TextMeshProUGUI[] children = newTab.GetComponentsInChildren<TextMeshProUGUI>();
-        foreach (TextMeshProUGUI child in children) {
-            if (child.name.Equals("TabButtonLinkToText")) { //Where the button links to
-                child.text = tabCustomName;
-            } else if (child.name.Equals("TabButtonDisplayText")) { //What the button displays
-                child.text = tabCustomName;//.Replace("_", " ").Substring(0, tabCustomName.Length - 3);
-                                           //This converts the custom name back to display format since tabName.text can be left blank
-            }
-        }
-        //The button's position
-        newTab = Instantiate(newTab, TabButtonContentPar.transform);
-        newTab.name = tabCustomName/*.Replace(" ", "_")*/ + "TabButton";
-        if (tabName.text.Equals("Background Info") || tabName.text.Equals("Case Overview")) {
-            newTab.transform.SetSiblingIndex(0);
-            if (!BGInfoOption) {
-                BGInfoOption = ds.transform.Find("TabSelectorBG/TabSelectorPanel/Content/ScrollView/Viewport/Content/BackgroundInfoTabPanel");
-            }
-
-            if (!OverviewInfoOption) {
-                OverviewInfoOption = ds.transform.Find("TabSelectorBG/TabSelectorPanel/Content/ScrollView/Viewport/Content/CaseOverviewTab");
-            }
-            BGInfoOption.gameObject.SetActive(false);
-            UpdateTabPos();
-            //tm.SwitchTab (xmlTabName + tabCount);
-        }
-        tm.setTabName(tabCustomName);
-        //Debug.Log (xmlTabName);
-        //tm.SwitchTab (xmlTabName);
-        tm.SwitchTab(tabCustomName);
-        Destroy(BG.transform.Find("TabSelectorBG(Clone)").gameObject);
     }
 
     /**
@@ -240,123 +140,6 @@ public class AddTabScript : MonoBehaviour {
 	 */
     public void addSection(TextMeshProUGUI sectionName)
     {
-        if (sectionName.text.Equals("") || sectionName.text.Length == 0) {
-            ds.ShowMessage("Cannot leave step name blank", true);
-            return;
-        }
-        if (!ds.IsValidName(sectionName.text, "Section")) {
-            //ds.ShowMessage ("Section name not valid. Cannot use:\n*, &, <, >, or //", true);
-            throw new System.Exception("Name not valid: Please rename your step");
-        }
-        string xmlSectionName = sectionName.text.Replace(" ", "_").Replace(GlobalData.EMPTY_WIDTH_SPACE + "", "") + "Section";
-
-        //Try to add the section. Return if any errors
-        try {
-            xmlSectionName = ds.EncounterData.OldSections.Add(new SectionDataScript());
-        } catch (System.Exception e) {
-            ds.ShowMessage("Cannot name two steps the same", true);
-            Debug.Log(e.Message);
-            return;
-        }
-        //tm.SetCurrent(xmlSectionName);
-        //Create the section button and link it accordingly
-        GameObject newSection = Resources.Load(GlobalData.resourcePath + "/Prefabs/SectionButton") as GameObject;
-        TextMeshProUGUI[] children = newSection.GetComponentsInChildren<TextMeshProUGUI>();
-        foreach (TextMeshProUGUI child in children) {
-            if (child.name.Equals("SectionLinkToText")) { //Where the button links to
-                child.text = xmlSectionName;
-            } else if (child.name.Equals("SectionDisplayText")) { //What the button displays
-                child.text = sectionName.text;
-            }
-        }
-        newSection.GetComponentInChildren<TextMeshProUGUI>().text = sectionName.text;
-
-        //Spawn in the section button
-        newSection = Instantiate(newSection, SectionButtonContentPar.transform);
-        newSection.name = xmlSectionName.Replace(" ", "_") + "Button";
-        SectionButtonContentPar.transform.Find("AddSectionButton").SetAsLastSibling();
-        SectionButtonContentPar.transform.Find("Filler").SetAsLastSibling();
-
-        //Spawns/Removes the Background Info tab as needed
-        bool spawn = transform.Find("SectionCreatorPanel/Content/Row1").GetComponentInChildren<Toggle>().isOn;
-        string tabName = ds.EncounterData.OldSections[tm.GetCurrentSectionKey()].GetTabList().Find((string obj) => obj.StartsWith("Background_InfoTab"));
-        bool tabExists = true;
-        if (tabName == null || tabName.Equals("")) {
-            tabExists = false;
-        }
-        if (BGInfoOption != null) {
-            if (!spawn && tabExists) {
-                ds.GetComponent<EditTabScript>().removeTab(tabName);
-
-                //reactivate the option to select BG Info from the TabSelector
-                BGInfoOption.gameObject.SetActive(true);
-            } else if (spawn && !tabExists) {
-                AddBGInfoTab("Background Info", xmlSectionName);
-
-                //deactivate the option to select BG Info from the TabSelector
-                BGInfoOption.gameObject.SetActive(false);
-            }
-        } else if (OverviewInfoOption != null) {
-            if (!spawn && tabExists) {
-                ds.GetComponent<EditTabScript>().removeTab(tabName);
-
-                //reactivate the option to select BG Info from the TabSelector
-                OverviewInfoOption.gameObject.SetActive(true);
-            } else if (spawn && !tabExists) {
-                AddBGInfoTab("Case Overview", xmlSectionName);
-
-                //deactivate the option to select BG Info from the TabSelector
-                OverviewInfoOption.gameObject.SetActive(false);
-            }
-        }
-
-        //Set the section button's icon as the user's choice
-        Sprite spr = null;
-        string imgRefName = "";
-        Transform[] sectionIcons = transform.Find("SectionCreatorPanel/Content/ScrollView/Viewport/Content").GetComponentsInChildren<Transform>();
-        foreach (Transform t in sectionIcons) {
-            Toggle tog;
-            if ((tog = t.GetComponent<Toggle>()) != null && tog.isOn) {
-                spr = t.Find("Icon").GetComponent<Image>().sprite;
-                imgRefName = t.Find("Icon").GetComponent<Image>().name;
-                break;
-            }
-        }
-        if (spr != null) {
-            newSection.transform.Find("Image").GetComponent<Image>().sprite = spr;
-        }
-
-        //Sets the section button's color as the selected color.
-        Toggle[] colorButtons = transform.Find("SectionCreatorPanel/Content/Row3/Column0").GetComponentsInChildren<Toggle>();
-        foreach (Toggle tog in colorButtons) {
-            if (tog.isOn) {
-                newSection.transform.GetComponent<Image>().color = tog.GetComponent<Image>().color;
-                ds.AddImg(xmlSectionName, imgRefName);
-                var img = ds.EncounterData.Images[xmlSectionName];
-                img.useColor = true;
-                img.color = tog.GetComponent<Image>().color;
-            }
-        }
-
-        //This script is parented to the add section panel, so let's disable it
-        gameObject.SetActive(false);
-
-        bool startEnabled = true; //Whether you want to switch to tabs upon creation or not
-
-
-        //Either switches to the newly created section or stays on the current section
-        if (startEnabled) {
-            tm.SwitchSection(xmlSectionName);
-        } else {
-            Transform[] components = newSection.GetComponentsInChildren<Transform>();
-            foreach (Transform c in components) {
-                if (!c.name.Equals(newSection.name)) {
-                    c.gameObject.SetActive(false);
-                }
-            }
-            newSection.transform.GetChild(0).gameObject.SetActive(true); //The image
-            newSection.GetComponent<Button>().interactable = true;
-        }
     }
 
     /**
@@ -458,8 +241,6 @@ public class AddTabScript : MonoBehaviour {
             Debug.Log("Cannot load tab prefab");
             return;
         }
-        ds.AddSectionTabData(sectionName, xmlTabName, tabCustomName, xml);
-
 
         GameObject newTab = Resources.Load(GlobalData.resourcePath + "/Prefabs/TabButton") as GameObject;
         newTab = Instantiate(newTab, tm.TabButtonContentPar.transform);
@@ -488,10 +269,6 @@ public class AddTabScript : MonoBehaviour {
             if (!TabButtonContentPar.transform.GetChild(i).name.Equals("placeholder") && !TabButtonContentPar.transform.GetChild(i).name.Equals("Filler")) {
                 buttons.Add(TabButtonContentPar.transform.GetChild(i));
             }
-        }
-
-        foreach (Transform t in buttons) {
-            ds.EncounterData.OldSections[tm.GetCurrentSectionKey()].GetTabInfo(t.Find("TabButtonLinkToText").GetComponent<TextMeshProUGUI>().text).SetPosition(t.GetSiblingIndex());
         }
     }
 
@@ -598,18 +375,5 @@ public class AddTabScript : MonoBehaviour {
 
     public void OpenAddSectionPanel()
     {
-        if (ds == null) {
-            Start();
-        }
-        gameObject.SetActive(true);
-
-        //Check to see if 8 sections already exist. If so, notify the user and prevent more from being added
-        if (ds.EncounterData.OldSections.Count >= 8) {
-            transform.Find("SectionCreatorPanel/RowTitle/CreateButton").GetComponent<Button>().interactable = false;
-            transform.Find("SectionCreatorPanel/Content/StepCountWarning").gameObject.SetActive(true);
-        } else {
-            transform.Find("SectionCreatorPanel/RowTitle/CreateButton").GetComponent<Button>().interactable = true;
-            transform.Find("SectionCreatorPanel/Content/StepCountWarning").gameObject.SetActive(false);
-        }
     }
 }

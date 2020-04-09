@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using ClinicalTools.SimEncounters.Data;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class FilterGroupUI : EncounterFilterBehaviour
     {
-        public override Filter<EncounterInfo> EncounterFilter => FilterGroups;
+        public override Filter<MenuEncounter> EncounterFilter => FilterGroups;
 
-        public override event Action<Filter<EncounterInfo>> FilterChanged;
+        public override event Action<Filter<MenuEncounter>> FilterChanged;
 
         [SerializeField] private List<EncounterFilterBehaviour> encounterFilters;
         public List<EncounterFilterBehaviour> EncounterFilters { get => encounterFilters; set => encounterFilters = value; }
@@ -19,7 +20,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 encounterFilter.FilterChanged += (filter) => FilterChanged?.Invoke(EncounterFilter);
         }
 
-        protected bool FilterGroups(EncounterInfo encounter)
+        protected bool FilterGroups(MenuEncounter encounter)
         {
             foreach (var encounterFilter in EncounterFilters) {
                 if (!encounterFilter.EncounterFilter(encounter))

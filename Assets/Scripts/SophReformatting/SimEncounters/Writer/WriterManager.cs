@@ -26,27 +26,11 @@ namespace ClinicalTools.SimEncounters.Writer
         {
             var loadingScreen = new LoadingScreen();
 
-            var demoXml = new DemoXml(new FilePathManager(), new FileXmlReader());
-            demoXml.Completed += ShowReader;
-
-            var encounterMeta = new EncounterMetaGroup {
-                Filename = "Chad_Wright"
-            };
-            var encounterInfo = new EncounterInfo(0, encounterMeta);
-            demoXml.GetEncounterXml(User.Guest, encounterInfo);
-
             yield return null;
         }
 
-        public void ShowReader(object sender, EncounterXmlRetrievedEventArgs e)
+        public void ShowReader(object sender)
         {
-            var loader = new ClinicalEncounterLoader();
-            var watch = Stopwatch.StartNew();
-            var encounterInfo = new EncounterMetaGroup();
-            var encounter = loader.ReadEncounter(e.DataXml, e.ImagesXml);
-            watch.Stop();
-
-            new EncounterWriter(null, null, encounter, (WriterUI)SceneUI);
         }
         //SaveCase
 

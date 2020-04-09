@@ -13,19 +13,19 @@ namespace ClinicalTools.SimEncounters.MainMenu
             ScenePathData = scenePathData;
         }
 
-        public virtual void StartScene(EncounterSceneManager sceneManager, InfoNeededForMainMenuToHappen data)
+        public virtual void StartScene(EncounterSceneManager sceneManager, LoadingMenuSceneInfo data)
         {
             data.LoadingScreen?.Show();
             var loading = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(ScenePathData.MainMenuPath);
             loading.completed += (asyncOperation) => InitializeScene(sceneManager, data);
         }
 
-        protected virtual void InitializeScene(EncounterSceneManager sceneManager, InfoNeededForMainMenuToHappen data)
+        protected virtual void InitializeScene(EncounterSceneManager sceneManager, LoadingMenuSceneInfo data)
         {
             StartMainMenu(sceneManager, data);
         }
 
-        public virtual void StartMainMenu(EncounterSceneManager sceneManager, InfoNeededForMainMenuToHappen data)
+        public virtual void StartMainMenu(EncounterSceneManager sceneManager, LoadingMenuSceneInfo data)
         {
             var mainMenuUI = sceneManager.SceneUI as MainMenuUI;
             if (mainMenuUI == null)
@@ -34,7 +34,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 return;
             }
 
-            mainMenuUI.Display(data);
+            //mainMenuUI.Display(data);
         }
     }
 }

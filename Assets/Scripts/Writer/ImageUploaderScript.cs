@@ -3,17 +3,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.IO;
-//using Crosstales.FB;
-using ClinicalTools.SimEncountersOld;
-
 public class ImageUploaderScript : MonoBehaviour
 {
     //string filePath;
     private Image displayImage;
     private Transform row0;
     private Texture2D texture;
-    private WriterHandler ds;
-    private SpriteHolderScript PatientImg => ds.EncounterData.Images[GlobalData.patientImageID];
     private Image currentImage;
     private bool openingFileExpolorer;
     private string[] extensions = new string[] { "png", "jpg", "jpeg" };
@@ -35,7 +30,6 @@ public class ImageUploaderScript : MonoBehaviour
         patientCamera = GameObject.Find("CharacterCamera").GetComponent<Camera>();
         row0 = transform.Find("ImageUploadPanel/Content/Row0");
         displayImage = transform.Find("ImageUploadPanel/Content/Row0/WithImage/ImageGoesHere").GetComponent<Image>();
-        ds = WriterHandler.WriterInstance;
         openingFileExpolorer = false;
 
         sserial = new SerialScript();
@@ -58,21 +52,7 @@ public class ImageUploaderScript : MonoBehaviour
         isPatientImage = b;
         if (isPatientImage) {
             print(GlobalData.patientImageID);
-            //if (GlobalData.patientImageID == null || GlobalData.patientImageID.Equals("")) {
-            if (PatientImg == null) {
-                //No patient image set. Wait until Apply to set one
-            } else if (displayImage?.sprite != null &&
-                !currentImage.GetComponent<OpenImageUploadPanelScript>().GetIsPatientImage()) {
-                //Ask to replace current image with patient image or replace patient image with current
-                AskAboutReplace();
-            } else {
-                //Displayed image is null. Replace it with patient image
-                if (updateThumbnail)
-                    currentImage.sprite = PatientImg.sprite;
-                LoadImage(PatientImg.sprite);
-            }
         } else {
-            LoadImage(ds.EncounterData.Images[GetGuid()]?.sprite);
         }
 
         //transform.Find("ImageUploadPanel/Content/Row1/Toggle").GetComponent<Toggle>().isOn = isPatientImage;
@@ -80,40 +60,20 @@ public class ImageUploaderScript : MonoBehaviour
 
     public void AskAboutReplace()
     {
-        if (PatientImg == null) {
-            ReplacePatientImage();
-            return;
-        }
-
-        transform.GetChild(1).gameObject.SetActive(true);
-        Image keep, replace;
-        int max = (int)transform.Find("ChooseImage/Content/Row0").GetComponent<LayoutElement>().preferredHeight;
-
-        keep = transform.Find("ChooseImage/Content/Row0/KeepImage/Image").GetComponent<Image>();
-        keep.sprite = PatientImg.sprite;
-        keep.GetComponent<LayoutElement>().preferredHeight = Math.Min(max, keep.sprite.texture.height);
-        keep.GetComponent<LayoutElement>().preferredWidth = Math.Min(max, keep.sprite.texture.width);
-
-        (replace = transform.Find("ChooseImage/Content/Row0/ReplaceImage/Image").GetComponent<Image>()).sprite = displayImage.sprite;
-        replace.GetComponent<LayoutElement>().preferredHeight = Math.Min(max, replace.sprite.texture.height);
-        replace.GetComponent<LayoutElement>().preferredWidth = Math.Min(max, replace.sprite.texture.width);
     }
 
     /// <summary>
     /// Replace the patient's image with the currently uploaded image
     /// </summary>
-    public void ReplacePatientImage()
-    {
-        ds.EncounterData.Images[GlobalData.patientImageID].sprite = displayImage.sprite;
-
+    public void ReplacePatientImage() 
+    { 
         patientCamera.transform.GetChild(0).gameObject.SetActive(true);
         Image i = patientCamera.transform.Find("Canvas/Image").GetComponent<Image>();
         i.sprite = displayImage.sprite;
     }
 
-    public void RemovePatientImage()
-    {
-        ds.EncounterData.Images.Remove(GlobalData.patientImageID);
+    public void RemovePatientImage() 
+    { 
         patientCamera.transform.GetChild(0).gameObject.SetActive(false);
     }
 
@@ -122,7 +82,6 @@ public class ImageUploaderScript : MonoBehaviour
     /// </summary>
     public void KeepPatientImage()
     {
-        displayImage.sprite = PatientImg.sprite;
     }
 
     public bool useMipmaps = false;
@@ -161,7 +120,6 @@ public class ImageUploaderScript : MonoBehaviour
                 if (width > 0) {
                     TextureScale.Bilinear(newTexture, width, previewMaxHeight);
                 } else {
-                    ds.ShowMessage("Invalid image width", true);
                     yield break;
                 }
             }
@@ -171,7 +129,6 @@ public class ImageUploaderScript : MonoBehaviour
                 if (height > 0) {
                     TextureScale.Bilinear(newTexture, previewMaxWidth, height);
                 } else {
-                    ds.ShowMessage("Invalid image height", true);
                     yield break;
                 }
             }
@@ -196,9 +153,6 @@ public class ImageUploaderScript : MonoBehaviour
             row0.Find("UploadingImage").gameObject.SetActive(false);
             row0.Find("WithImage").gameObject.SetActive(true);
 
-            if (isPatientImage && PatientImg != null) {
-                AskAboutReplace();
-            }
         }
         yield break;
     }
@@ -400,14 +354,11 @@ public class ImageUploaderScript : MonoBehaviour
                 //GlobalData.patientImageID = "";
             } else {
                 Debug.Log("Removing Image: " + guid);
-                ds.EncounterData.Images.Remove(guid);
             }
         } else {
             if (isPatientImage) {
                 ReplacePatientImage();
             } else {
-                var newSpriteScript = new SpriteHolderScript(displayImage.sprite);
-                ds.EncounterData.Images.Add(newSpriteScript);
             }
         }
     }

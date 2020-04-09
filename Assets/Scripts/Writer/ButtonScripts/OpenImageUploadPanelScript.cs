@@ -1,8 +1,4 @@
-﻿using ClinicalTools.SimEncounters;
-using ClinicalTools.SimEncountersOld;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class OpenImageUploadPanelScript : MonoBehaviour
@@ -74,32 +70,6 @@ public class OpenImageUploadPanelScript : MonoBehaviour
 
     public void LoadData(string guid)
     {
-        //Toggle represents isPatientImage. If it's missing, can't set patient image
-        Toggle t;
-        if ((t = transform.parent.GetComponentInChildren<Toggle>()) != null) {
-            if (t.isOn) {
-                guid = GlobalData.patientImageID;
-                isPatientImage = true;
-            }
-            canSetPatientImage = true;
-        }
-
-        print("Loading " + guid);
-        var img = GetComponent<Image>();
-        img.sprite = null;
-
-        var images = WriterHandler.WriterInstance.EncounterData.Images;
-        if (images.ContainsKey(guid)) { //Load image
-            img.sprite = images[guid].sprite;
-        }
-
-        if (img.sprite == null) {
-            img.color = Color.clear;
-            transform.parent.GetComponent<Image>().enabled = true;
-        } else {
-            img.color = Color.white;
-            transform.parent.GetComponent<Image>().enabled = false;
-        }
     }
 
     public void OpenImagePanel()

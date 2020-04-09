@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using ClinicalTools.SimEncounters.MainMenu;
+using System.Collections.Generic;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -13,23 +14,22 @@ namespace ClinicalTools.SimEncounters
 
         protected ILoadingScreen LoadingScreen => SimEncounters.LoadingScreen.Instance;
 
+        protected MainMenuSceneStarter MainMenuSceneStarter { get; private set; }
+        protected ReaderSceneStarter ReaderSceneStarter { get; private set; }
 
-        protected ReaderSceneLoader ReaderSceneLoader { get; set; } = new ReaderSceneLoader(new MobileScenePathData());
-        protected MainMenuSceneLoader MainMenuSceneLoader { get; set; } = new MainMenuSceneLoader(new MobileScenePathData());
-
-
-        public virtual void StartReaderScene(User user, IEncounterReader encounterGetter)
+        public void Initialize(MainMenuSceneStarter mainMenuSceneStarter, ReaderSceneStarter readerSceneStarter)
         {
-            var x = new ReaderSceneStarter(new MobileScenePathData());
-            var info = new InfoNeededForReaderToHappen(user, LoadingScreen, encounterGetter);
-            x.StartScene(this, info);
-            //ReaderSceneLoader.StartScene(this, user, encounterGetter);
+            MainMenuSceneStarter = mainMenuSceneStarter;
+            ReaderSceneStarter = readerSceneStarter;
         }
-        public virtual void StartMainMenuScene(User user)
+
+        public virtual void StartReaderScene(LoadingEncounterSceneInfo encounterSceneInfo)
         {
-            var x = new MainMenuSceneStarter(new MobileScenePathData());
-            var info = new InfoNeededForMainMenuToHappen(user, LoadingScreen, new EncountersInfoReader());
-            x.StartScene(this, info);
+            ReaderSceneStarter.StartScene(this, encounterSceneInfo);
+        }
+        public virtual void StartMainMenuScene(LoadingMenuSceneInfo menuSceneInfo)
+        {
+            MainMenuSceneStarter.StartScene(this, menuSceneInfo);
         }
     }
 }

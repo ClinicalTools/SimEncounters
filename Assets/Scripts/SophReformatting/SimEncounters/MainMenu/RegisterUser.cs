@@ -6,10 +6,10 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class RegisterUser
     {
-        protected IWebAddress WebAddress { get; }
+        protected IUrlBuilder WebAddress { get; }
         protected MessageHandler MessageHandler { get; }
         protected ServerDataReader<string> RegisterDataReader { get; }
-        public RegisterUser(IWebAddress webAddress, MessageHandler messageHandler)
+        public RegisterUser(IUrlBuilder webAddress, MessageHandler messageHandler)
         {
             WebAddress = webAddress;
             MessageHandler = messageHandler;
@@ -30,7 +30,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
          */
         public void Register(string username, string password, string email)
         {
-            var url = WebAddress.GetUrl(phpFile);
+            var url = WebAddress.BuildUrl(phpFile);
             var form = CreateForm(username, password, email);
 
             var webRequest = UnityWebRequest.Post(url, form);

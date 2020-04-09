@@ -9,7 +9,6 @@ using System.Text;
 using System;
 using TMPro;
 using UnityEngine.Networking;
-using ClinicalTools.SimEncountersOld;
 
 /**
  * Handles submitting all information to an XML file
@@ -20,7 +19,6 @@ public class SubmitToXML : MonoBehaviour
     private string path = "";               //Default XML path
     public string fileName = "";            //Chosen filename for current XML file.
     public int minutesBetweenSaves;         //Minutes between autosaves
-    private WriterHandler ds;                  //Data Manager
     private TabManager TabManager;			//Section and Tab manager
     private GameObject BG;
     private bool autosaving;
@@ -31,7 +29,6 @@ public class SubmitToXML : MonoBehaviour
         //fileName.text = "test.txt";
         BG = GameObject.Find("GaudyBG");
         TabManager = BG.GetComponentInChildren<TabManager>();
-        ds = WriterHandler.WriterInstance;
         fileName = GlobalData.fileName;
         path = GlobalData.filePath;
         if (GlobalData.demo) {
@@ -60,9 +57,6 @@ public class SubmitToXML : MonoBehaviour
     {
         print("Enabled");
         UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
-        if (ds == null) {
-            return;
-        }
         SetSaveCaseBGPatientName();
 
         if (gameObject.name == "SaveCaseBG") {
@@ -133,7 +127,6 @@ public class SubmitToXML : MonoBehaviour
         if (TabManager == null) {
             BG = GameObject.Find("GaudyBG");
             TabManager = BG.GetComponentInChildren<TabManager>();
-            ds = WriterHandler.WriterInstance;
             fileName = GlobalData.fileName;
             path = GlobalData.filePath;
         }
@@ -149,109 +142,6 @@ public class SubmitToXML : MonoBehaviour
         fileName = GlobalData.fileName;
         string tempFileName = fileName.Remove(fileName.Length - 3);
 
-        string data = "<body>" + ds.GetXml() + "</body>";
-        Debug.Log(data);
-        XmlDocument xmlDoc = new XmlDocument();
-        xmlDoc.LoadXml(data);
-
-        string textDataExtension = "ced";
-        if (autosaving) {
-            textDataExtension = "auto";
-        }
-
-        //Outputting regular file
-        StreamWriter sw = new StreamWriter(path + tempFileName + textDataExtension, false);
-        //sw.WriteLine(data);
-        sw.Close();
-        sw.Dispose();
-        File.WriteAllBytes(path + tempFileName + textDataExtension, EncryptStringToBytes_Aes(data));
-
-        if (!autosaving) { //Don't want to save images when autosaving, just text for now.
-                           //Formatted, easy to read version
-            sw = new StreamWriter(path + tempFileName + "xml", false);
-            xmlDoc.Save(sw);
-            sw.Close();
-            sw.Dispose();
-
-            //Easy to read images (For testing)
-            sw = new StreamWriter(path + "ImageTest" + tempFileName + "xml", false);
-            xmlDoc.LoadXml(ds.GetImagesXml());
-            xmlDoc.Save(sw);
-            sw.Close();
-            sw.Dispose();
-
-            File.Delete(path + tempFileName + "auto");
-            File.Delete(path + tempFileName + "iauto");
-            ds.RestartAutosave();
-        }
-
-        //Images
-        string imgDataExtension = "cei";
-        if (autosaving) {
-            textDataExtension = "iauto";
-
-            // Autosaving should have the most recent save
-            GlobalData.caseObj.dateModified = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-        }
-        sw = new StreamWriter(path + tempFileName + imgDataExtension, false);
-        //sw.WriteLine (ds.GetImagesXML ());
-        sw.Close();
-        sw.Dispose();
-        File.WriteAllBytes(path + tempFileName + imgDataExtension, EncryptStringToBytes_Aes(ds.GetImagesXml()));
-
-        //Update the caseObj to create the menu file
-        Transform content = transform.Find("SaveCasePanel/Content");
-        GlobalData.caseObj.description = content.Find("Row3/TMPInputField/DescriptionValue").GetComponent<TMP_InputField>().text;
-        GlobalData.caseObj.summary = content.Find("Row5/TMPInputField/SummaryValue").GetComponent<TMP_InputField>().text;
-        GlobalData.caseObj.tags = GetComponent<AutofillTMP>().enteredTags.ToArray();
-        GlobalData.caseObj.audience = content.Find("Row7/TargetAudienceValue").GetComponent<TMP_Dropdown>().captionText.text;
-        GlobalData.caseObj.difficulty = content.Find("Row7/DifficultyValue").GetComponent<TMP_Dropdown>().captionText.text;
-
-        DateTime unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-        DateTime localFileModified = File.GetLastWriteTime(GlobalData.filePath + GlobalData.fileName);
-
-        //GlobalData.caseObj.dateModified = (long) DateTime.UtcNow.Subtract (unixEpoch).TotalSeconds;// Old method
-        GlobalData.caseObj.dateModified = (long)localFileModified.ToUniversalTime().Subtract(unixEpoch).TotalSeconds;
-
-        File.WriteAllText(GlobalData.filePath + GlobalData.fileName.Remove(GlobalData.fileName.Length - 4) + " menu.txt", ds.ServerUploader.GetMenuText());
-
-        //Old demo menu appending system
-        /*if (GlobalData.demo) {
-			bool append = true;
-
-			StreamReader reader = new StreamReader(Application.streamingAssetsPath + GlobalData.filePath + GlobalData.fileName);
-			string fileText = reader.ReadToEnd();
-			string[] cases = fileText.Split(new string[] { "::" }, System.StringSplitOptions.RemoveEmptyEntries);
-			foreach (string s in cases) {
-				string[] caseSplit = s.Split(new string[] { "--" }, System.StringSplitOptions.None);
-				if (caseSplit[1].Equals(GlobalData.fileName)) {
-					caseSplit[3] = GlobalData.firstName + "_" + GlobalData.lastName;
-					fileText = fileText.Replace(s, string.Join("--", caseSplit));
-					append = false;
-					break;
-				}
-			}
-			reader.Close();
-			StreamWriter writer = new StreamWriter(Application.streamingAssetsPath + "/DemoCases/Cases/MenuCases/MenuCases.txt", append);
-			if (append) {
-				writer.Write("0--{0}--ECGC Guest--{1}--000000--Beginner--User Custom Case--This case was created by one of our guests!--N/A--0--ECGC Guests--1.0--N/A::", tempFileName + "ced", GlobalData.firstName + "_" + GlobalData.lastName);
-			} else {
-				writer.Write(fileText); //Write all of the cases including the edited one
-			}
-			writer.Close();
-		}*/
-
-        Debug.Log("Saved: " + path + tempFileName);
-
-        //b.interactable = false;
-        if (autosaving) {
-            autosaving = false;
-            Debug.Log("Data Autosaved!");
-            ds.ShowMessage("Data Autosaved!", false);
-        } else {
-            Debug.Log("Data successfully submitted!");
-            ds.ShowMessage("Data saved successfully!", false);
-        }
     }
 
     private string GetHexStringFromBytes(byte[] bytes)
@@ -325,11 +215,6 @@ public class SubmitToXML : MonoBehaviour
         TabManager.AddToDictionary();
         TabManager.GetSectionImages();
 
-        //Check to see if the entered tags are valid. safeToPublish will be false if they are not all correct
-        if (!transform.GetComponent<SaveCaseScript>().IsSafeToPublish()) {
-            ds.ShowMessage("One or more of your tags are invalid. Please fix before publishing!", true);
-            return;
-        }
         //SubmitToFile ();
         //ShowConfirmation ();
 
@@ -356,16 +241,6 @@ public class SubmitToXML : MonoBehaviour
         if (content.Find("Row1/TemplateToggle").GetComponent<Toggle>().isOn) {
             caseType = caseType | 0x02;
         }
-        ds.ServerUploader.SetNewCaseType(caseType);
-
-        if (autosaving) {
-            autosaving = false;
-            Debug.Log("Autosaving...");
-            ds.ShowMessage("Autosaving...", false);
-        }
-
-        ds.ServerUploader.StartUpload();
-        gameObject.SetActive(false);
     }
 
     private string GetMenuText()
@@ -424,14 +299,6 @@ public class SubmitToXML : MonoBehaviour
 
         TabManager.sameTab = true;
         TabManager.AddToDictionary();
-        // TODO: don't iterate through keys
-        foreach (string key in ds.EncounterData.OldSections.Keys) {
-            foreach (string tabKey in ds.EncounterData.OldSections[key].GetTabList()) {
-                if (ds.EncounterData.OldSections[key].GetTabInfo(tabKey).persistant) {
-                    tis.Add(ds.EncounterData.OldSections[key].GetTabInfo(tabKey));
-                }
-            }
-        }
         string name = "";
         foreach (TabInfoScript tab in tis) {
             if (tab.customName.Equals("Personal Info")) {

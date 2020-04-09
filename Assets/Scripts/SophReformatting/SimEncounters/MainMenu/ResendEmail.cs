@@ -6,10 +6,10 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class ResendEmail
     {
-        protected IWebAddress WebAddress { get; }
+        protected IUrlBuilder WebAddress { get; }
         protected MessageHandler MessageHandler { get; }
         protected ServerDataReader<string> ServerDataReader { get; }
-        public ResendEmail(IWebAddress webAddress, MessageHandler messageHandler)
+        public ResendEmail(IUrlBuilder webAddress, MessageHandler messageHandler)
         {
             WebAddress = webAddress;
             MessageHandler = messageHandler;
@@ -28,7 +28,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
          */
         public void Resend(string email)
         {
-            var url = WebAddress.GetUrl(phpFile);
+            var url = WebAddress.BuildUrl(phpFile);
             var form = CreateForm(email);
 
             var webRequest = UnityWebRequest.Post(url, form);

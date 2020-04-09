@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System;
 using TMPro;
-using ClinicalTools.SimEncountersOld;
 
 public class EditSectionScript : MonoBehaviour
 {
@@ -14,7 +13,6 @@ public class EditSectionScript : MonoBehaviour
     GameObject editSectionPanel;
     TextMeshProUGUI tObject; //SectionLinkToText Text component
     GameObject BG, parentBG;
-    WriterHandler ds;
     TabManager tm;
     private Text inputText;
     private string TitleValuePath;
@@ -33,7 +31,6 @@ public class EditSectionScript : MonoBehaviour
     {
         BG = transform.gameObject;
         parentBG = GameObject.Find("GaudyBG");
-        ds = WriterHandler.WriterInstance;
         tm = transform.GetComponent<TabManager>();
         //editSectionPanel = transform.Find ("SectionEditorBG").gameObject;
         TitleValuePath = "SectionEditorPanel/Content/Row0/TMPInputField/TitleValue/";
@@ -51,8 +48,6 @@ public class EditSectionScript : MonoBehaviour
         if (BG == null) {
             Start();
         }
-        var section = ds.EncounterData.OldSections[tm.GetCurrentSectionKey()];
-
 
         tObject = t;
 
@@ -77,80 +72,8 @@ public class EditSectionScript : MonoBehaviour
 
         //Check the Background Info box if the background info tab is already spawned
         //Debug.Log(string.Join(",", ds.GetData(tm.getCurrentSection()).GetTabList().ToArray()));
-        bool spawn = (section.GetTabList().Find((string obj) => obj.StartsWith("Background_InfoTab")) != null);
         Toggle bgInfoToggle = sectionEditPrefab.transform.Find("SectionEditorPanel/Content/MainGroup/Row1").GetComponentInChildren<Toggle>();
         bgInfoToggle.isOn = false;
-        if (spawn) {
-            bgInfoToggle.isOn = true;
-        }
-
-        //Set the selected section icon at the bottom to the section's current icon
-        SpriteHolderScript shs = ds.EncounterData.Images[tObject.text];
-        if (shs == null) {
-            sectionEditPrefab.transform.Find("SectionEditorPanel/Content/MainGroup/ScrollView/Viewport/Content").GetChild(0).GetComponentInChildren<Toggle>().isOn = true;
-        } else {
-            foreach (Toggle tog in sectionEditPrefab.transform.Find("SectionEditorPanel/Content/MainGroup/ScrollView/Viewport/Content").GetComponentsInChildren<Toggle>()) {
-                if (tog.name.Equals(shs.referenceName)) {
-                    tog.isOn = true;
-                } else {
-                    tog.isOn = false;
-                }
-            }
-        }
-
-        //Set the selected color to the section's current color
-        SpriteHolderScript temp;
-        if ((temp = ds.EncounterData.Images[tObject.text]) != null && temp.useColor) {
-            bool isColorCustom = true;
-            foreach (Toggle tog in colorPanelParent.GetChild(0).GetComponentsInChildren<Toggle>()) {
-                if (tog.transform.GetComponent<Image>().color == temp.color) {
-                    isColorCustom = false;
-                    tog.isOn = true;
-                } else {
-                    tog.isOn = false;
-                }
-            }
-            if (isColorCustom) {
-                customColorParent.parent.parent.GetChild(0).GetComponent<Image>().color = temp.color;
-                customColorParent.parent.parent.GetChild(0).GetComponent<Toggle>().isOn = true;
-
-                /*
-				//Set slider values
-				colorSlidersParent.Find ("Row0/RSlider").GetComponent<Slider> ().value = temp.color.r;
-				colorSlidersParent.Find ("Row1/GSlider").GetComponent<Slider> ().value = temp.color.g;
-				colorSlidersParent.Find ("Row2/BSlider").GetComponent<Slider> ().value = temp.color.b;
-				string newTextString = "";
-				newTextString += ((int)(temp.color.r*255)).ToString ("X").PadLeft (2, '0');
-				newTextString += ((int)(temp.color.g*255)).ToString ("X").PadLeft (2, '0');
-				newTextString += ((int)(temp.color.b*255)).ToString ("X").PadLeft (2, '0');
-				//Debug.Log (newTextString);
-				customColorParent.GetComponentInChildren<TextMeshProUGUI> ().text = newTextString;
-				*/
-            } else {
-                customColorParent.parent.parent.GetChild(0).GetComponent<Toggle>().isOn = false;
-            }
-
-            //Set the slider values to match the section's current color
-            colorSlidersParent.Find("Row0/RSlider").GetComponent<Slider>().value = temp.color.r;
-            colorSlidersParent.Find("Row1/GSlider").GetComponent<Slider>().value = temp.color.g;
-            colorSlidersParent.Find("Row2/BSlider").GetComponent<Slider>().value = temp.color.b;
-            string newTextString = "";
-            newTextString += ((int)(temp.color.r * 255)).ToString("X").PadLeft(2, '0');
-            newTextString += ((int)(temp.color.g * 255)).ToString("X").PadLeft(2, '0');
-            newTextString += ((int)(temp.color.b * 255)).ToString("X").PadLeft(2, '0');
-            //Debug.Log (newTextString);
-            customColorParent.GetComponentInChildren<TextMeshProUGUI>().text = newTextString;
-        }
-        //editSectionPanel.gameObject.SetActive (true);
-
-
-        // Import conditions
-        var conditions = section.Conditions;
-        if (conditions != null) {
-            var condGroup = sectionEditPrefab.GetComponent<SectionEditorScript>();
-
-            condGroup.SetConditions(conditions);
-        }
     }
 
     public void UpdateColorSlidersFromHex(TMP_InputField hex)
@@ -244,14 +167,6 @@ public class EditSectionScript : MonoBehaviour
         //ds.UpdateSectionConds(sectionLinkTo, conditions);
 
         string newName = sectionEditPrefab.transform.Find(TitleValuePath).GetComponent<TMP_InputField>().text;
-        if (newName.Equals("") || newName.Length == 0) {
-            ds.ShowMessage("Cannot leave section name blank");
-            return;
-        }
-        if (!ds.IsValidName(newName, "Section")) {
-            //ds.ShowMessage ("Section name not valid. Cannot use:\n*, &, <, >, or //", true);
-            throw new Exception("Name not valid: Please rename your section");
-        }
         Debug.Log("SECTIONEDITPREFAB: " + sectionEditPrefab.name);
         if (newName != null && !newName.Equals("")) {
             sectionLinkTo = newName.Replace(" ", "_") + "Section";
@@ -281,52 +196,12 @@ public class EditSectionScript : MonoBehaviour
             Toggle tog;
             if ((tog = t.GetComponent<Toggle>()) != null && tog.isOn) {
                 spr = t.Find("Icon").GetComponent<Image>().sprite;
-                ds.AddImg(sectionLinkTo, t.name);
                 break;
             }
         }
         if (spr != null) {
             tObject.transform.parent.Find("Image").GetComponent<Image>().sprite = spr;
         }
-
-
-        //Sets the section's color to the chosen one
-        foreach (Toggle t in colorPanelParent.GetChild(0).GetComponentsInChildren<Toggle>()) {
-            if (t.isOn) {
-                ds.EncounterData.Images[sectionLinkTo].color = t.transform.GetComponent<Image>().color;
-                ds.EncounterData.Images[sectionLinkTo].useColor = true;
-                break;
-            }
-        }
-        if (ds.EncounterData.Images[sectionLinkTo].useColor) {
-            tObject.transform.parent/*.Find ("Image")*/.GetComponent<Image>().color = ds.EncounterData.Images[sectionLinkTo].color;
-            GameObject.Find("TabButtonsPanel").GetComponent<Image>().color = ds.EncounterData.Images[sectionLinkTo].color;
-        }
-
-        //Spawns/Removes the Background Info tab as needed
-        bool spawn = sectionEditPrefab.transform.Find("SectionEditorPanel/Content/MainGroup/Row1").GetComponentInChildren<Toggle>().isOn;
-        string tabName = ds.EncounterData.OldSections[tm.GetCurrentSectionKey()].GetTabList().Find((string obj) => obj.StartsWith("Background_InfoTab"));
-        bool tabExists = true;
-        if (tabName == null || tabName.Equals("")) {
-            tabExists = false;
-        }
-
-        if (!spawn && tabExists) {
-            BG.GetComponent<EditTabScript>().removeTab(tabName);
-
-            //reactivate the option to select BG Info from the TabSelector
-            BGInfoOption.gameObject.SetActive(true);
-        } else if (spawn && !tabExists) {
-            AddTab("Background Info");
-
-            //deactivate the option to select BG Info from the TabSelector
-            BGInfoOption.gameObject.SetActive(false);
-        }
-
-        //Disable the editor tab and update the section button layout so the button size is correct
-        //sectionEditPrefab.gameObject.SetActive (false);
-        Destroy(sectionEditPrefab.gameObject);
-        tObject.transform.parent.GetComponent<ScriptButtonFixScript>().FixTab();
     }
 
     /**
@@ -344,32 +219,6 @@ public class EditSectionScript : MonoBehaviour
                     Destroy(tm.SectionContentPar.transform.GetChild(i).gameObject);
                     break;
                 }
-            }
-        }
-        string sectionData = ds.EncounterData.OldSections[removedSection].GetAllData();
-        ds.EncounterData.OldSections.Remove(removedSection);
-        //editSectionPanel.gameObject.SetActive (false);
-        tm.RemoveCurrentSection();
-
-        foreach (string key in ds.EncounterData.Images.Keys) {
-            if (key.StartsWith(tObject.text) || sectionData.Contains("<Image>" + key + "</Image>")) {
-                Debug.Log("Removing Image: " + key);
-                ds.EncounterData.Images.Remove(key);
-                //ds.GetImages ().Remove (key);
-            }
-        }
-
-        List<string> keyList = ds.GetDialogues().Keys.ToList();
-        foreach (string key in keyList) {
-            if (key.StartsWith(tObject.text)) {
-                ds.GetDialogues().Remove(key);
-            }
-        }
-
-        keyList = ds.GetQuizes().Keys.ToList();
-        foreach (string key in keyList) {
-            if (key.StartsWith(tObject.text)) {
-                ds.GetQuizes().Remove(key);
             }
         }
         string switchTo = "";
@@ -414,9 +263,6 @@ public class EditSectionScript : MonoBehaviour
             Debug.Log("Cannot load tab prefab");
             return;
         }
-        ds.AddSectionTabData(tm.GetCurrentSectionKey(), xmlTabName, tabCustomName, xml);
-
-
         GameObject newTab = Resources.Load(gData.resourcesPath + "/Prefabs/TabButton") as GameObject;
         TextMeshProUGUI[] children = newTab.GetComponentsInChildren<TextMeshProUGUI>();
         foreach (TextMeshProUGUI child in children) {
@@ -443,10 +289,6 @@ public class EditSectionScript : MonoBehaviour
             if (!tm.TabButtonContentPar.transform.GetChild(i).name.Equals("placeholder") && !tm.TabButtonContentPar.transform.GetChild(i).name.Equals("Filler")) {
                 buttons.Add(tm.TabButtonContentPar.transform.GetChild(i));
             }
-        }
-
-        foreach (Transform t in buttons) {
-            ds.EncounterData.OldSections[tm.GetCurrentSectionKey()].GetTabInfo(t.Find("TabButtonLinkToText").GetComponent<TextMeshProUGUI>().text).SetPosition(t.GetSiblingIndex());
         }
     }
 }

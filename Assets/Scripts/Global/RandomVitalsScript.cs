@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using ClinicalTools.SimEncountersOld;
 
 public class RandomVitalsScript : MonoBehaviour
 {
 
-    private WriterHandler ds;
     private TMP_InputField BPValue1;
     private TMP_InputField BPValue2;
     private TMP_InputField pulseValue;
@@ -19,7 +17,6 @@ public class RandomVitalsScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        ds = WriterHandler.WriterInstance;
         BPValue1 = transform.Find("TMPInputField/BPValue1").GetComponent<TMP_InputField>();
         BPValue2 = transform.Find("TMPInputField/BPValue2").GetComponent<TMP_InputField>();
         pulseValue = transform.Find("TMPInputField/PulseValue").GetComponent<TMP_InputField>();

@@ -5,31 +5,18 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class FileDetailedStatusWriter : IDetailedStatusWriter
     {
-        protected IFilePathManager FilePathManager { get; }
-        public FileDetailedStatusWriter(IFilePathManager filePathManager)
+        protected IFileManager FileManager { get; }
+        public FileDetailedStatusWriter(IFileManager fileManager)
         {
-            FilePathManager = filePathManager;
+            FileManager = fileManager;
         }
-        public void DoStuff(User user, Encounter encounter)
+        public void DoStuff(User user, FullEncounter encounter)
         {
-            /*
-            if (user.IsGuest)
-                return;*/
+            var basicStatusString = $"{encounter.Metadata.RecordNumber}::{(encounter.Status.BasicStatus.Completed ? 1 : 0)}::{encounter.Status.BasicStatus.Rating}";
+            FileManager.SetFileText(user, FileType.BasicStatus, encounter.Metadata, basicStatusString);
 
-            var directory = FilePathManager.GetLocalSavesFolder(user);
-            if (!Directory.Exists(directory)) {
-                return;
-            }
-
-            var encounterFilePath = FilePathManager.EncounterFilePath(user, encounter.Info);
-
-            var basicStatusFilePath = FilePathManager.StatusFilePath(encounterFilePath);
-            var basicStatusString = $"{encounter.Info.MetaGroup.RecordNumber}::{(encounter.Info.UserStatus.Completed ? 1 : 0)}::{encounter.Info.UserStatus.Rating}";
-            File.WriteAllText(basicStatusFilePath, basicStatusString);
-
-            var detailedStatusFilePath = FilePathManager.DetailedStatusFilePath(encounterFilePath);
             var detailedStatusString = $"{string.Join(":", encounter.Status.ReadTabs)}";
-            File.WriteAllText(detailedStatusFilePath, detailedStatusString);
+            FileManager.SetFileText(user, FileType.DetailedStatus, encounter.Metadata, detailedStatusString);
         }
     }
 }

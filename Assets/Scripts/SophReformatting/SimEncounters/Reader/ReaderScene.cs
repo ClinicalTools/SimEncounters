@@ -10,7 +10,7 @@ namespace ClinicalTools.SimEncounters.Reader
     public class ReaderScene : EncounterScene
     {
         protected virtual ILoadingScreen LoadingScreen { get; }
-        public virtual InfoNeededForReaderToHappen Data { get; }
+        public virtual EncounterSceneInfo SceneInfo { get; }
         protected virtual User User { get; }
         public virtual EncounterData EncounterData { get; }
         public virtual ReaderSectionsGroup SectionsGroup { get; }
@@ -26,24 +26,24 @@ namespace ClinicalTools.SimEncounters.Reader
         //public HashSet<string> ReadTabs { get; } = new HashSet<string>();
         public bool IsTabRead(string tabKey)
         {
-            return Data.Encounter.Status.ReadTabs.Contains(tabKey);
+            return SceneInfo.Encounter.Status.ReadTabs.Contains(tabKey);
         }
         public void ReadTab(string tabKey)
         {
-            if (!Data.Encounter.Status.ReadTabs.Contains(tabKey))
-                Data.Encounter.Status.ReadTabs.Add(tabKey);
+            if (!SceneInfo.Encounter.Status.ReadTabs.Contains(tabKey))
+                SceneInfo.Encounter.Status.ReadTabs.Add(tabKey);
         }
 
 
         // combine user/loading screen and maybe encounter?
-        public ReaderScene(InfoNeededForReaderToHappen data, ReaderUI readerUI)
+        public ReaderScene(EncounterSceneInfo sceneInfo, ReaderUI readerUI)
             : base(readerUI)
         {
-            Data = data;
-            User = data.User;
+            SceneInfo = sceneInfo;
+            User = sceneInfo.User;
             ReaderUI = readerUI;
-            EncounterData = data.Encounter.Data;
-            LoadingScreen = data.LoadingScreen;
+            EncounterData = sceneInfo.Encounter.Data;
+            LoadingScreen = sceneInfo.LoadingScreen;
             LoadingScreen?.Stop();
 
             TabDisplayFactory = CreateTabDisplayFactory();
@@ -86,7 +86,7 @@ namespace ClinicalTools.SimEncounters.Reader
         protected virtual ReaderTabDisplayFactory CreateTabDisplayFactory() => new ReaderTabDisplayFactory(this);
         protected virtual ReaderPanelDisplayFactory CreatePanelDisplayFactory() => new ReaderPanelDisplayFactory(this);
         protected virtual ReaderValueFieldInitializer CreateValueFieldInitializer() => new ReaderValueFieldInitializer(this);
-        protected virtual ReaderEncounterInfo CreateEncounterInfo() => new ReaderEncounterInfo(this, ReaderUI.EncounterInfo, Data.Encounter.Metadata);
+        protected virtual ReaderEncounterInfo CreateEncounterInfo() => new ReaderEncounterInfo(this, ReaderUI.EncounterInfo, SceneInfo.Encounter.Metadata);
         protected virtual ReaderSectionsGroup CreateSectionsGroup() => new ReaderSectionsGroup(this, ReaderUI.Sections, EncounterData.Content);
         protected virtual ReaderPinManager CreatePinManager() => new ReaderPinManager(this, ReaderUI.Pins);
         protected virtual ReaderPopupManager CreatePopupManager() => new ReaderPopupManager(this, ReaderUI.Popups);
@@ -100,7 +100,7 @@ namespace ClinicalTools.SimEncounters.Reader
 
             readerUI.Rating.SubmitRating += Rating_SubmitRating;
             readerUI.GameClosed += Quitting;
-            readerUI.Rating.Rating = Data.Encounter.Info.UserStatus.Rating;
+            readerUI.Rating.Rating = SceneInfo.Encounter.Status.BasicStatus.Rating;
         }
 
         private void Rating_SubmitRating(int rating)
@@ -108,7 +108,7 @@ namespace ClinicalTools.SimEncounters.Reader
             if (rating < 1 || rating > 5)
                 return;
 
-            Data.Encounter.Info.UserStatus.Rating = rating;
+            SceneInfo.Encounter.Status.BasicStatus.Rating = rating;
 
         }
 
@@ -120,27 +120,28 @@ namespace ClinicalTools.SimEncounters.Reader
         public void Quitting()
         {
             SetCompleted();
-            var serverDetailedStatusWriter = new ServerDetailedStatusWriter(new WebAddress());
-            var fileDetailedStatusWriter = new FileDetailedStatusWriter(new FilePathManager());
+            var serverDetailedStatusWriter = new ServerDetailedStatusWriter(new WebAddressBuilder());
+            var fileDetailedStatusWriter = new FileDetailedStatusWriter(new UserFileManager(new FileExtensionManager()));
             var detailedStatusWriter = new DetailedStatusWriter(serverDetailedStatusWriter, fileDetailedStatusWriter);
-            detailedStatusWriter.DoStuff(Data.User, Data.Encounter);
+            detailedStatusWriter.DoStuff(SceneInfo.User, SceneInfo.Encounter);
         }
         public void ShowMainMenu()
         {
             Quitting();
-            EncounterSceneManager.EncounterInstance.StartMainMenuScene(User);
+            //var menuSceneInfo = new LoadingMenuSceneInfo(user, loadingScreen, )
+            //EncounterSceneManager.EncounterInstance.StartMainMenuScene(User);
         }
 
         protected void SetCompleted()
         {
-            foreach (var section in Data.Encounter.Data.Content.Sections.Values) {
+            foreach (var section in SceneInfo.Encounter.Data.Content.Sections.Values) {
                 foreach (var tab in section.Tabs) {
-                    if (!Data.Encounter.Status.ReadTabs.Contains(tab.Key))
+                    if (!SceneInfo.Encounter.Status.ReadTabs.Contains(tab.Key))
                         return;
                 }
             }
 
-            Data.Encounter.Info.UserStatus.Completed = true;
+            SceneInfo.Encounter.Status.BasicStatus.Completed = true;
         }
     }
 }

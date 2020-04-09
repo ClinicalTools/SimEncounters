@@ -37,31 +37,30 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 button.onClick.AddListener(() => gameObject.SetActive(false));
         }
 
-        protected EncounterInfo CurrentEncounterDetails { get; set; }
-        public virtual void Display(InfoNeededForMainMenuToHappen data, EncounterInfo encounterInfo)
+        protected MenuEncounter CurrentEncounter { get; set; }
+        public virtual void Display(MenuSceneInfo sceneInfo, MenuEncounter menuEncounter)
         {
-            CurrentEncounterDetails = encounterInfo;
+            CurrentEncounter = menuEncounter;
 
             if (InfoViewer != null) {
-                new EncounterInfoDisplay(InfoViewer, encounterInfo.MetaGroup.GetLatestInfo());
-                InfoViewer.AverageRating.SetRating((int)encounterInfo.MetaGroup.Rating);
-                if (encounterInfo.UserStatus != null)
-                    InfoViewer.YourRating.SetRating(encounterInfo.UserStatus.Rating);
+                InfoViewer.Display(menuEncounter.GetLatestMetadata());
+                if (menuEncounter.Status != null)
+                    InfoViewer.YourRating.SetRating(menuEncounter.Status.Rating);
             }
 
             EncounterButtons.ReadButton.onClick.RemoveAllListeners();
-            EncounterButtons.ReadButton.onClick.AddListener(() => ReadCase(data.User, encounterInfo));
+            EncounterButtons.ReadButton.onClick.AddListener(() => ReadCase(sceneInfo, menuEncounter));
         
-            SetReadTextButton(encounterInfo);
+            SetReadTextButton(menuEncounter.Status);
         }
 
-        public virtual void SetReadTextButton(EncounterInfo encounterInfo)
+        public virtual void SetReadTextButton(EncounterBasicStatus basicStatus)
         {
             string text;
 
-            if (encounterInfo.UserStatus == null)
+            if (basicStatus == null)
                 text = "Start Case";
-            else if (encounterInfo.UserStatus.Completed)
+            else if (basicStatus.Completed)
                 text = "Review Case";
             else
                 text = "Continue Case";
@@ -69,112 +68,24 @@ namespace ClinicalTools.SimEncounters.MainMenu
             EncounterButtons.ReadText.text = text;
         }
 
-        public virtual void ReadCase(User user, EncounterInfo encounterInfo)
+        public virtual void ReadCase(MenuSceneInfo sceneInfo, MenuEncounter menuEncounter)
         {
-            if (encounterInfo.UserStatus == null)
-                encounterInfo.UserStatus = new EncounterBasicStatus();
+            if (menuEncounter.Status == null)
+                menuEncounter.Status = new EncounterBasicStatus();
 
-            IEncounterReader encounterReader;
-            EncounterMetadata encounterMetadata;
-            KeyGenerator.ResetKeyGenerator(encounterInfo.MetaGroup.RecordNumber);
-            if (encounterInfo.MetaGroup.LocalInfo != null) {
-                encounterReader = LocalEncounter();
-                encounterMetadata = encounterInfo.MetaGroup.LocalInfo;
-            } else if (encounterInfo.MetaGroup.ServerInfo != null) {
-                encounterReader = ServerEncounter();
-                encounterMetadata = encounterInfo.MetaGroup.ServerInfo;
-            } else if (encounterInfo.MetaGroup.DemoInfo != null) {
-                encounterReader = DemoEncounter();
-                encounterMetadata = encounterInfo.MetaGroup.DemoInfo;
-            } else {
-                encounterReader = AutosaveEncounter();
-                encounterMetadata = encounterInfo.MetaGroup.AutosaveInfo;
-            }
-            encounterReader.DoStuff(user, encounterInfo, encounterMetadata);
+            var metadata = menuEncounter.GetLatestTypedMetada();
+            KeyGenerator.ResetKeyGenerator(metadata.Value.RecordNumber);
+            IFullEncounterReader encounterReader = CreateEncounter(metadata.Key);
 
 
-            EncounterSceneManager.EncounterInstance.StartReaderScene(user, encounterReader);
+            var encounter = encounterReader.GetEncounter(sceneInfo.User, metadata.Value, menuEncounter.Status);
+            var encounterSceneInfo = new LoadingEncounterSceneInfo(sceneInfo.User, sceneInfo.LoadingScreen, encounter);
+            EncounterSceneManager.EncounterInstance.StartReaderScene(encounterSceneInfo);
         }
 
-        // Later these would be handled by a factory using Dependency Injection
-        protected virtual IEncounterReader LocalEncounter()
+        protected IFullEncounterReader CreateEncounter(SaveType saveType)
         {
-            var encounterLoader = new ClinicalEncounterLoader();
-            IEncounterXmlReader encounterXml = new FileXml(new FilePathManager(), new FileXmlReader());
-            IEncounterDataReader dataReader = new EncounterDataReader(encounterLoader, encounterXml);
-            var serverStatusReader = new ServerDetailedStatusReader(new WebAddress());
-            var localStatusReader = new LocalDetailedStatusReader(new FilePathManager());
-            var statusReader = new DetailedStatusReader(serverStatusReader, localStatusReader);
-            return new EncounterReader(dataReader, statusReader);
-        }
-        protected virtual IEncounterReader DemoEncounter()
-        {
-            var encounterLoader = new ClinicalEncounterLoader();
-            IEncounterXmlReader encounterXml = new ServerXml(
-                new DemoEncounter(new DemoPathManager()), new DemoEncounter(new DemoPathManager()));
-            IEncounterDataReader dataReader = new EncounterDataReader(encounterLoader, encounterXml);
-            //var serverStatusReader = new ServerDetailedStatusReader(new WebAddress());
-            var localStatusReader = new LocalDetailedStatusReader(new FilePathManager());
-            //var statusReader = new DetailedStatusReader(serverStatusReader, localStatusReader);
-            return new EncounterReader(dataReader, localStatusReader);
-        }
-        protected virtual IEncounterReader AutosaveEncounter()
-        {
-            var encounterLoader = new ClinicalEncounterLoader();
-            IEncounterXmlReader encounterXml = new AutoSaveXml(new FilePathManager(), new FileXmlReader());
-            IEncounterDataReader dataReader = new EncounterDataReader(encounterLoader, encounterXml);
-            var serverStatusReader = new ServerDetailedStatusReader(new WebAddress());
-            var localStatusReader = new LocalDetailedStatusReader(new FilePathManager());
-            var statusReader = new DetailedStatusReader(serverStatusReader, localStatusReader);
-            return new EncounterReader(dataReader, statusReader);
-        }
-        protected virtual IEncounterReader ServerEncounter()
-        {
-            var encounterLoader = new ClinicalEncounterLoader();
-            IEncounterXmlReader encounterXml = new ServerXml(
-                new DownloadEncounter(new WebAddress()), new DownloadEncounter(new WebAddress()));
-            IEncounterDataReader dataReader = new EncounterDataReader(encounterLoader, encounterXml);
-
-            var serverStatusReader = new ServerDetailedStatusReader(new WebAddress());
-            var localStatusReader = new LocalDetailedStatusReader(new FilePathManager());
-            var statusReader = new DetailedStatusReader(serverStatusReader, localStatusReader);
-            return new EncounterReader(dataReader, statusReader);
-        }
-    }
-
-    public class OverviewDisplay
-    {
-        public MainMenuScene MainMenu { get; }
-        public EncounterMetaGroup EncounterInfo { get; }
-
-        public OverviewDisplay(MainMenuScene mainMenu, OverviewUI overviewUI, EncounterMetaGroup encounterInfo)
-        {
-            MainMenu = mainMenu;
-            EncounterInfo = encounterInfo;
-
-            if (overviewUI.InfoViewer != null) {
-                new EncounterInfoDisplay(overviewUI.InfoViewer, encounterInfo.GetLatestInfo());
-            }
-
-            overviewUI.EncounterButtons.ReadButton.onClick.RemoveAllListeners();
-            overviewUI.EncounterButtons.ReadButton.onClick.AddListener(ReadCase);
-        }
-
-        protected void ReadCase()
-        {
-            EncounterGetter encounterGetter =
-                new EncounterGetter(
-                    new ClinicalEncounterLoader(),
-                    new ServerXml(new DownloadEncounter(new WebAddress()), new DownloadEncounter(new WebAddress())),
-                    new AutoSaveXml(new FilePathManager(), new FileXmlReader()),
-                    new FileXml(new FilePathManager(), new FileXmlReader()));
-
-            if (EncounterInfo.LocalInfo != null)
-                encounterGetter.GetLocalEncounter(MainMenu.User, EncounterInfo);
-            else if (EncounterInfo.ServerInfo != null)
-                encounterGetter.GetServerEncounter(MainMenu.User, EncounterInfo);
-
-            //EncounterSceneManager.EncounterInstance.StartReaderScene(MainMenu.User, null, encounterGetter);
+            return null;
         }
     }
 }

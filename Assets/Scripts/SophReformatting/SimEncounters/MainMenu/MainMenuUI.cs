@@ -23,17 +23,17 @@ namespace ClinicalTools.SimEncounters.MainMenu
             LogoutButton.onClick.AddListener(Logout);
         }
 
-        public InfoNeededForMainMenuToHappen CurrentData { get; set; }
-        public virtual void Display(InfoNeededForMainMenuToHappen data)
+        public LoadingMenuSceneInfo SceneInfo { get; set; }
+        public virtual void Display(LoadingMenuSceneInfo loadingSceneInfo)
         {
-            CurrentData = data;
-            Encounters.Display(data);
+            SceneInfo = loadingSceneInfo;
+            Encounters.Display(loadingSceneInfo);
         }
 
         protected virtual void Logout()
         {
             PlayerPrefs.SetInt("StayLoggedIn", 0);
-            Login.Logout(CurrentData.LoadingScreen);
+            Login.Logout(SceneInfo.LoadingScreen);
         }
     }
 }

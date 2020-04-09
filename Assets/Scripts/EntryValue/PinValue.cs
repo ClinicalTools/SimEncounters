@@ -1,8 +1,4 @@
-﻿using ClinicalTools.SimEncountersOld;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace EntryValue
 {
@@ -16,7 +12,6 @@ namespace EntryValue
 		[SerializeField]
 		private PinType pinType;
 
-		WriterHandler Ds => WriterHandler.WriterInstance;
 		private string pinKey = "";
 		private string oldPinKey = "";
 		private string tabName;
@@ -30,77 +25,14 @@ namespace EntryValue
 
 		private void Start()
 		{
-			tabName = Ds?.transform.GetComponent<TabManager>().getCurrentTab() + "Tab";
 		}
 		
 		private void InitKeys()
 		{
-			pinKey = "";
-			oldPinKey = "";
-			Transform tChild = pinObj;
-			while (tChild.parent) {
-				if (tChild.name.StartsWith("LabEntry")) {
-					pinKey = "LabEntry: " + tChild.GetSiblingIndex() + pinKey;
-					oldPinKey = tChild.name + oldPinKey;
-				} else if (tabName.Length == 0 && tChild.name.EndsWith("Tab")) {
-					//We need to do this because TabManager.getCurrentTab()
-					//Doesn't get the value we need. It can be updated
-					tabName = tChild.name;
-				}
-				tChild = tChild.parent;
-			}
-
-			string sectionAndTab =
-				Ds.transform.GetComponent<TabManager>().GetCurrentSectionKey() +
-				"/" + tabName + "/";
-
-			pinKey = sectionAndTab + pinKey;
-			oldPinKey = sectionAndTab + oldPinKey;
 		}
 
 		public override string GetValue()
 		{
-			//Get the new and old keys for the pin
-			if (pinKey == "" && oldPinKey == "") {
-				InitKeys();
-			}
-
-
-			//Save/Load data
-			switch (pinType) {
-				case PinType.Dialogue:
-					if (Ds.GetDialogues().ContainsKey(oldPinKey)) {
-						//Get dialogue xml
-						string dialogueXML = Ds.GetDialogues()[oldPinKey];
-
-						//Remove the old dialogue if needed
-						if (!Ds.GetDialogues().ContainsKey(pinKey)) {
-							Ds.GetDialogues().Remove(oldPinKey);
-						}
-						Ds.CorrectlyOrderedDialogues.Add(pinKey, dialogueXML.Replace(oldPinKey, pinKey));
-
-						return dialogueXML.Replace(oldPinKey, pinKey);
-					}
-					break;
-				case PinType.Quiz:
-					if (Ds.GetQuizes().ContainsKey(oldPinKey)) {
-						string quizXML = Ds.GetQuizes()[oldPinKey]; //Quiz data
-
-
-						//If there was no quiz where this quiz was moved to
-						if (!Ds.GetQuizes().ContainsKey(pinKey)) {
-							Ds.GetQuizes().Remove(oldPinKey);
-						}
-						if (!Ds.CorrectlyOrderedQuizes.ContainsKey(pinKey)) {
-							Ds.CorrectlyOrderedQuizes.Add(pinKey, quizXML.Replace(oldPinKey, pinKey));
-						} else {
-							Ds.CorrectlyOrderedQuizes[pinKey] = quizXML.Replace(oldPinKey, pinKey);
-						}
-						return quizXML.Replace(oldPinKey, pinKey);
-					}
-					break;
-			}
-
 			return "";
 		}
 
@@ -114,23 +46,6 @@ namespace EntryValue
 
 		public override string GetValueWithXML()
 		{
-			if (pinKey == "" && oldPinKey == "") {
-				InitKeys();
-			}
-
-			switch (pinType) {
-				case PinType.Dialogue:
-					if (Ds.GetDialogues().ContainsKey(oldPinKey)) {
-						return base.GetValueWithXML();
-					}
-					break;
-				case PinType.Quiz:
-					if (Ds.GetQuizes().ContainsKey(oldPinKey)) {
-						return base.GetValueWithXML();
-					}
-					break;
-			}
-
 			return "";
 		}
 

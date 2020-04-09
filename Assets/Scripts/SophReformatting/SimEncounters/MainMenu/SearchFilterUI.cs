@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using System;
 using TMPro;
+using ClinicalTools.SimEncounters.Data;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class SearchFilterUI : EncounterFilterBehaviour
     {
-        public override Filter<EncounterInfo> EncounterFilter => FilterSearchTerm;
-        public override event Action<Filter<EncounterInfo>> FilterChanged;
+        public override Filter<MenuEncounter> EncounterFilter => FilterSearchTerm;
+        public override event Action<Filter<MenuEncounter>> FilterChanged;
 
 
         [SerializeField] private TMP_InputField searchField;
@@ -25,12 +26,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
             FilterChanged?.Invoke(EncounterFilter);
         }
 
-        protected bool FilterSearchTerm(EncounterInfo encounter)
+        protected bool FilterSearchTerm(MenuEncounter encounter)
         {
             if (string.IsNullOrWhiteSpace(SearchTerm))
                 return true;
 
-            return encounter.MetaGroup.GetLatestInfo().Title.ToLower().Contains(SearchTerm.ToLower().Trim());
+            return encounter.GetLatestMetadata().Title.ToLower().Contains(SearchTerm.ToLower().Trim());
         }
 
         public override void Clear()

@@ -12,23 +12,19 @@ namespace ClinicalTools.SimEncounters
             ScenePathData = scenePathData;
         }
 
-        public virtual void StartScene(EncounterSceneManager sceneManager, InfoNeededForReaderToHappen data)
+        public virtual void StartScene(EncounterSceneManager sceneManager, LoadingEncounterSceneInfo data)
         {
             data.LoadingScreen?.Show();
             var loading = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(ScenePathData.ReaderPath);
             loading.completed += (asyncOperation) => InitializeScene(sceneManager, data);
         }
 
-        protected virtual void InitializeScene(EncounterSceneManager sceneManager, InfoNeededForReaderToHappen data)
+        protected virtual void InitializeScene(EncounterSceneManager sceneManager, LoadingEncounterSceneInfo data)
         {
-
-            if (data.IsDone)
-                StartReader(sceneManager, data);
-            else
-                data.EncounterLoaded += (encounter) => StartReader(sceneManager, data);
+            data.Result.AddOnCompletedListener((result) => StartReader(sceneManager, result));
         }
 
-        public virtual void StartReader(EncounterSceneManager sceneManager, InfoNeededForReaderToHappen data)
+        public virtual void StartReader(EncounterSceneManager sceneManager, EncounterSceneInfo data)
         {
             var readerUI = sceneManager.SceneUI as ReaderUI;
             if (readerUI == null) {
@@ -36,7 +32,7 @@ namespace ClinicalTools.SimEncounters
                 return;
             }
 
-            new ReaderScene(data, (ReaderUI)sceneManager.SceneUI);
+            //new ReaderScene(data, (ReaderUI)sceneManager.SceneUI);
             //readerUI.Display(data);
         }
     }

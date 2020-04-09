@@ -1,5 +1,4 @@
-﻿using ClinicalTools.SimEncounters.Data;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -69,26 +68,5 @@ namespace ClinicalTools.SimEncounters
     public interface IStringSplitter
     {
         string[] Split(string str);
-    }
-
-    public interface IEncounterInfoSetter
-    {
-        void SetEncounterInfo(EncounterMetaGroup group, EncounterMetadata info);
-    }
-    public class EncounterAutosaveInfoSetter : IEncounterInfoSetter
-    {
-        public void SetEncounterInfo(EncounterMetaGroup group, EncounterMetadata info) => group.AutosaveInfo = info;
-    }
-    public class EncounterLocalInfoSetter : IEncounterInfoSetter
-    {
-        public void SetEncounterInfo(EncounterMetaGroup group, EncounterMetadata info) => group.LocalInfo = info;
-    }
-    public class EncounterDemoInfoSetter : IEncounterInfoSetter
-    {
-        public void SetEncounterInfo(EncounterMetaGroup group, EncounterMetadata info) => group.DemoInfo = info;
-    }
-    public class EncounterServerInfoSetter : IEncounterInfoSetter
-    {
-        public void SetEncounterInfo(EncounterMetaGroup group, EncounterMetadata info) => group.ServerInfo = info;
     }
 }

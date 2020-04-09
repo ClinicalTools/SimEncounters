@@ -7,7 +7,6 @@ using System.Xml;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine.Networking;
-using ClinicalTools.SimEncountersOld;
 
 public class DialogueManagerScript : MonoBehaviour
 {
@@ -15,7 +14,6 @@ public class DialogueManagerScript : MonoBehaviour
     public List<DialogueEntryScript> entries;   //The list of dialogue entries
     public Transform baseParent;                //The highest level parent for dialogue
     public DialogueEntryScript mostRecentEntry; //Used for adding more dialogue purposes
-    public WriterHandler ds;
     public TabManager tm;
     public Dictionary<string, Color> charColors;//Dictionary to hold the character colors. Stores by character name
     public Transform characterParent;           //The parent of the character buttons
@@ -425,8 +423,6 @@ public class DialogueManagerScript : MonoBehaviour
 	 */
     public void SaveDialogue()
     {
-        //Before: Debug.Log (string.Join ("-----", ds.GetDialogues ().Select (x => x.Key + "DATA::::" + x.Value).ToArray()));
-        ds.AddDialogue(UID, GetData());
         Transform pin = GetComponentInChildren<HistoryFieldManagerScript>().GetPin().transform;
         if (pin.Find("Item Background Off")) {
             pin.Find("Item Background Off").gameObject.SetActive(false);
@@ -440,16 +436,7 @@ public class DialogueManagerScript : MonoBehaviour
 	 */
     public void CancelClicked()
     {
-        if (!ds.GetDialogues().ContainsKey(UID)) { //If the dialogue was never saved, remove the pin itself
-            GameObject pin = GetComponentInChildren<HistoryFieldManagerScript>().GetPin();
-            if (pin.transform.Find("Item Background Off")) {
-                pin.transform.Find("Item Background Off").gameObject.SetActive(true);
-                pin.transform.Find("Item Background On").gameObject.SetActive(false);
-            } else {
-                Destroy(pin);
-            }
-        }
-        DiscardDialogue();
+        
     }
 
     /**

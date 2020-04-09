@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using ClinicalTools.SimEncounters.Data;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
@@ -9,8 +10,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private List<LabeledToggle> audienceToggles;
         public List<LabeledToggle> AudienceToggles { get => audienceToggles; set => audienceToggles = value; }
 
-        public override Filter<EncounterInfo> EncounterFilter => FilterAudience;
-        public override event Action<Filter<EncounterInfo>> FilterChanged;
+        public override Filter<MenuEncounter> EncounterFilter => FilterAudience;
+        public override event Action<Filter<MenuEncounter>> FilterChanged;
 
         protected List<string> FilteredAudiences { get; } = new List<string>();
 
@@ -30,12 +31,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
             FilterChanged?.Invoke(EncounterFilter);
         }
 
-        protected bool FilterAudience(EncounterInfo encounter)
+        protected bool FilterAudience(MenuEncounter encounter)
         {
             if (FilteredAudiences.Count == 0)
                 return true;
 
-            var audience = encounter.MetaGroup.GetLatestInfo().Audience.ToUpper();
+            var audience = encounter.GetLatestMetadata().Audience.ToUpper();
             foreach (var filteredAudience in FilteredAudiences) {
                 if (audience.Contains(filteredAudience.ToUpper()))
                     return true;

@@ -22,8 +22,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         [SerializeField] private ScrollRect scrollRect;
         public ScrollRect ScrollRect { get => scrollRect; set => scrollRect = value; }
-
-        protected InfoNeededForMainMenuToHappen CurrentData { get; set; }
+        
+        public MenuSceneInfo SceneInfo { get; set; }
 
         public void Initialize()
         {
@@ -34,24 +34,27 @@ namespace ClinicalTools.SimEncounters.MainMenu
             Category.Initialize(); 
         }
 
-        public virtual void Display(InfoNeededForMainMenuToHappen data)
+        public virtual void Display(LoadingMenuSceneInfo loadingSceneInfo)
         {
             Initialize();
-            if (data.IsDone)
-                ShowCategories(data);
-            else
-                data.CategoriesLoaded += (categories) => ShowCategories(data);
+            ShowCasesLoading();
+            loadingSceneInfo.Result.AddOnCompletedListener(ShowCategories);
         }
 
-        protected virtual void ShowCategories(InfoNeededForMainMenuToHappen data)
+        protected virtual void ShowCasesLoading()
         {
-            data.LoadingScreen.Stop();
+            DownloadingCasesObject.SetActive(true);
+        }
+
+        protected virtual void ShowCategories(MenuSceneInfo sceneInfo)
+        {
+            sceneInfo.LoadingScreen.Stop();
             DownloadingCasesObject.SetActive(false);
             CategoriesToggle.Selected += DisplayCategories;
 
-            CurrentData = data;
+            SceneInfo = sceneInfo;
             CategoryGroup.CategorySelected += CategorySelected;
-            CategoryGroup.Display(data.Categories);
+            CategoryGroup.Display(sceneInfo.Categories);
         }
 
         private void DisplayCategories()
@@ -67,7 +70,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         {
             CategoryGroup.Hide();
             CategoryToggle.Show(category);
-            Category.Display(CurrentData, CurrentData.Categories[category]);
+            Category.Display(SceneInfo, SceneInfo.Categories[category]);
         }
     }
 }

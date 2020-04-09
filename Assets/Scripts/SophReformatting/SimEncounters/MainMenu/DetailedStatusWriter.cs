@@ -13,7 +13,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             FileDetailedStatusWriter = fileDetailedStatusWriter;
         }
 
-        public void DoStuff(User user, Encounter encounter)
+        public void DoStuff(User user, FullEncounter encounter)
         {
             ServerDetailedStatusWriter.DoStuff(user, encounter);
             FileDetailedStatusWriter.DoStuff(user, encounter);

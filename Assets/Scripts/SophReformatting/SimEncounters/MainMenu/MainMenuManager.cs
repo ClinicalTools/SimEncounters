@@ -34,10 +34,5 @@ namespace ClinicalTools.SimEncounters.MainMenu
             login.LoggedIn += LoggedIn;
             login.Begin();*/
         }
-
-        private void LoggedIn(object sender, LoggedInEventArgs e)
-        {
-            MainMenuSceneLoader.StartMainMenu(this, e.User);
-        }
     }
 }

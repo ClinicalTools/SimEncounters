@@ -44,7 +44,7 @@ public class RegistrationScript : MonoBehaviour
             return;
         }
 
-        var registerUser = new RegisterUser(new WebAddress(), MessageHandler);
+        var registerUser = new RegisterUser(new WebAddressBuilder(), MessageHandler);
         registerUser.Register(UName.text, PWord.text, EText.text);
     }
 
@@ -58,7 +58,7 @@ public class RegistrationScript : MonoBehaviour
             MessageHandler.ShowMessage("Please enter your email", true);
             return;
         }
-        var resendEmail = new ResendEmail(new WebAddress(), MessageHandler);
+        var resendEmail = new ResendEmail(new WebAddressBuilder(), MessageHandler);
         resendEmail.Resend(EText.text);
     }
     
@@ -73,7 +73,7 @@ public class RegistrationScript : MonoBehaviour
             return;
         }
 
-        var resetPassword = new ResetPassword(new WebAddress(), MessageHandler);
+        var resetPassword = new ResetPassword(new WebAddressBuilder(), MessageHandler);
         if (Regex.IsMatch(userField.text, "^(.)+[@](.)+[.](.)+$"))
             resetPassword.Reset(userField.text, "");
         else

@@ -4,87 +4,79 @@ using System.Collections.Generic;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class InfoNeededForMainMenuToHappen
+    public class LoadingEncounterSceneInfo
     {
         public User User { get; }
         public ILoadingScreen LoadingScreen { get; }
+        public WaitableResult<FullEncounter> Encounter { get; }
+        public List<MenuEncounter> SuggestedEncounters { get; } = new List<MenuEncounter>();
 
-        public Dictionary<string, Category> Categories { get; } = new Dictionary<string, Category>();
+        public WaitableResult<EncounterSceneInfo> Result { get; } = new WaitableResult<EncounterSceneInfo>();
 
-        public event Action<Dictionary<string, Category>> CategoriesLoaded;
-        public bool IsDone { get; protected set; }
-
-        public InfoNeededForMainMenuToHappen(User user, ILoadingScreen loadingScreen, IEncountersInfoReader encountersInfoReader)
+        public LoadingEncounterSceneInfo(User user, ILoadingScreen loadingScreen, WaitableResult<FullEncounter> encounter)
         {
             User = user;
             LoadingScreen = loadingScreen;
-            encountersInfoReader.Completed += EncountersInfoReader_Completed;
-            encountersInfoReader.GetEncounterInfos(user);
+            Encounter = encounter;
+            Encounter.AddOnCompletedListener(EncounterRetrieved);
         }
 
-        private void EncountersInfoReader_Completed(List<EncounterInfo> encounterDetails)
+        private void EncounterRetrieved(FullEncounter encounter)
         {
-            foreach (var encounterDetail in encounterDetails)
-                AddEncounterDetail(encounterDetail);
-            IsDone = true;
-            CategoriesLoaded?.Invoke(Categories);
-        }
-
-        public void AddEncounterDetail(EncounterInfo encounterDetail)
-        {
-            var latestInfo = encounterDetail.MetaGroup.GetLatestInfo();
-            if (latestInfo.IsTemplate)
-                return;
-
-            var categories = latestInfo.Categories;
-            foreach (var category in categories) {
-                if (string.IsNullOrWhiteSpace(category))
-                    continue;
-
-                if (!Categories.ContainsKey(category))
-                    Categories.Add(category, new Category(category));
-
-                Categories[category].Encounters.Add(encounterDetail);
-            }
+            var loadedInfo = new EncounterSceneInfo(this);
+            Result.SetResult(loadedInfo);
         }
     }
 
-    public class InfoNeededForReaderToHappen
+    public class EncounterSceneInfo
     {
         public User User { get; }
         public ILoadingScreen LoadingScreen { get; }
-        public Encounter Encounter { get; private set; }
+        public FullEncounter Encounter { get; }
+        public List<MenuEncounter> SuggestedEncounters { get; } = new List<MenuEncounter>();
 
-        public event Action<Encounter> EncounterLoaded;
-        public bool IsDone { get; protected set; }
+        public EncounterSceneInfo(LoadingEncounterSceneInfo loadingEncounterSceneInfo)
+        {
+            User = loadingEncounterSceneInfo.User;
+            LoadingScreen = loadingEncounterSceneInfo.LoadingScreen;
+            Encounter = loadingEncounterSceneInfo.Encounter.Result;
+            SuggestedEncounters = loadingEncounterSceneInfo.SuggestedEncounters;
+        }
+    }
 
-        public List<EncounterInfo> SuggestedEncounters { get; } = new List<EncounterInfo>();
+    public class LoadingMenuSceneInfo
+    {
+        public User User { get; }
+        public ILoadingScreen LoadingScreen { get; }
+        public WaitableResult<Dictionary<string, Category>> Categories { get; }
+        public WaitableResult<MenuSceneInfo> Result = new WaitableResult<MenuSceneInfo>();
 
-        public InfoNeededForReaderToHappen(User user, ILoadingScreen loadingScreen, Encounter encounter)
+        public LoadingMenuSceneInfo(User user, ILoadingScreen loadingScreen, WaitableResult<Dictionary<string, Category>> categories)
         {
             User = user;
             LoadingScreen = loadingScreen;
-            Encounter = encounter;
-            IsDone = true;
+            Categories = categories;
+            Categories.AddOnCompletedListener(CategoriesRetrieved);
         }
 
-        public InfoNeededForReaderToHappen(User user, ILoadingScreen loadingScreen, IEncounterReader encounterReader)
+        private void CategoriesRetrieved(Dictionary<string, Category> categories)
         {
-            User = user;
-            LoadingScreen = loadingScreen;
-            if (encounterReader.IsDone) {
-                Encounter = encounterReader.Encounter;
-                IsDone = true;
-            } else {
-                encounterReader.Completed += EncounterRetrieved;
-            }
+            var loadedInfo = new MenuSceneInfo(this);
+            Result.SetResult(loadedInfo);
         }
+    }
 
-        private void EncounterRetrieved(Encounter encounter)
+    public class MenuSceneInfo
+    {
+        public User User { get; }
+        public ILoadingScreen LoadingScreen { get; }
+        public Dictionary<string, Category> Categories { get; }
+
+        public MenuSceneInfo(LoadingMenuSceneInfo loadingMenuSceneInfo)
         {
-            Encounter = encounter;
-            IsDone = true;
-            EncounterLoaded?.Invoke(Encounter);
+            User = loadingMenuSceneInfo.User;
+            LoadingScreen = loadingMenuSceneInfo.LoadingScreen;
+            Categories = loadingMenuSceneInfo.Categories.Result;
         }
     }
 }
