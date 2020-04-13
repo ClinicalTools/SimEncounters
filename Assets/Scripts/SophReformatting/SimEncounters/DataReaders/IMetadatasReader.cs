@@ -8,7 +8,6 @@ namespace ClinicalTools.SimEncounters
     {
         WaitableResult<List<EncounterMetadata>> GetMetadatas(User user);
     }
-
     public class LocalMetadatasReader : IMetadatasReader
     {
         private readonly IFileManager fileManager;
@@ -86,7 +85,7 @@ namespace ClinicalTools.SimEncounters
         }
 
 
-        private void ProcessResults(WaitableResult<List<EncounterMetadata>> result, ServerResult2 serverOutput)
+        private void ProcessResults(WaitableResult<List<EncounterMetadata>> result, ServerResult serverOutput)
         {
             if (serverOutput == null || serverOutput.Outcome != ServerOutcome.Success)
             {

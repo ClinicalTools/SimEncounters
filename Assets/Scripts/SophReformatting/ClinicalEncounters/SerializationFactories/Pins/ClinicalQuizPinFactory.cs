@@ -1,12 +1,13 @@
 ﻿using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.SerializationFactories;
 using ClinicalTools.SimEncounters.XmlSerialization;
+using Zenject;
 
 namespace ClinicalTools.ClinicalEncounters.SerializationFactories
 {
     public class ClinicalQuizPinFactory : QuizPinFactory
     {
-        public ClinicalQuizPinFactory(PanelFactory panelFactory) : base(panelFactory) { }
+        public ClinicalQuizPinFactory(LazyInject<PanelFactory> panelFactory) : base(panelFactory) { }
 
         protected CollectionInfo LegacyQuestionsInfo { get; } =
             new CollectionInfo(
@@ -19,7 +20,7 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
             if (quizPin.Questions.Count != 0)
                 return;
 
-            var questions = deserializer.GetList(LegacyQuestionsInfo, PanelFactory);
+            var questions = deserializer.GetList(LegacyQuestionsInfo, PanelFactory.Value);
             if (questions == null)
                 return;
 

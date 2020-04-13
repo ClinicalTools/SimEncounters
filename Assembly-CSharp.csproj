@@ -73,6 +73,7 @@
     <Compile Include="Assets\BoolCondFields.cs" />
     <Compile Include="Assets\BoolGroup.cs" />
     <Compile Include="Assets\BoolRow.cs" />
+    <Compile Include="Assets\ClinicalSerializationFactoryInstaller.cs" />
     <Compile Include="Assets\CondFields.cs" />
     <Compile Include="Assets\CondGroup.cs" />
     <Compile Include="Assets\CondRow.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Assets\Resources\Writer\TMPro\InputFieldScrollOver.cs" />
     <Compile Include="Assets\Resources\Writer\TMPro\InputStartChanged.cs" />
     <Compile Include="Assets\Resources\Writer\TMPro\TMPInputFieldOverrideScript.cs" />
+    <Compile Include="Assets\SceneManagerInstaller.cs" />
     <Compile Include="Assets\Scripts\ArmController.cs" />
     <Compile Include="Assets\Scripts\AutoTrim.cs" />
     <Compile Include="Assets\Scripts\CaseVariable.cs" />
@@ -210,6 +212,7 @@
     <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\SerializationFactories\Pins\ClinicalDialoguePinFactory.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\SerializationFactories\Pins\ClinicalPinDataFactory.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\SerializationFactories\Pins\ClinicalQuizPinFactory.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Installers\DataReaderInstaller.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Layout Elements\DimensionLayout.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Layout Elements\IDimensionLayout.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Layout Elements\ILayoutElement.cs" />
@@ -317,10 +320,10 @@
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\DetailedStatusWriter.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\DifficultyFilterUI.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\EncounterButtonsUI.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\EncounterDetailParser.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\EncounterFilterBehaviour.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\EncounterInfoParser.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\EncounterInfoUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\EncounterMetadataParser.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\ExitButtonsUI.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\FileDetailedStatusWriter.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\FilterGroupUI.cs" />
@@ -355,13 +358,13 @@
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\ServerCasesInfoReader.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\ServerDataReader.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\ServerDetailedStatusWriter.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\ServerReader.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\ServerResult.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\ServerStringReader.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\SidebarUI.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\SortingOrderUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\UrlBuilder.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\UserDropdownUI.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\UserSettingsUI.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\WebAddressBuilder.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MobileScenePathData.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MouseInput.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\OptionType.cs" />
@@ -607,6 +610,8 @@
     <Compile Include="Assets\Scripts\Writer\XMLData\SaveCaseScript.cs" />
     <Compile Include="Assets\Scripts\Writer\XMLData\SubmitToXML.cs" />
     <Compile Include="Assets\Scripts\Writer\XMLData\UploadToServer.cs" />
+    <Compile Include="Assets\SerializationFactoryInstaller.cs" />
+    <Compile Include="Assets\Test.cs" />
     <Compile Include="Assets\ToggleViewButtonUI.cs" />
     <Compile Include="Assets\VarGroup.cs" />
     <Compile Include="Assets\VarRow.cs" />
@@ -862,6 +867,9 @@
     </Reference>
     <Reference Include="Ookii.Dialogs">
       <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Assets/Plugins/crosstales/FileBrowser/Native/Windows/Ookii.Dialogs.dll</HintPath>
+    </Reference>
+    <Reference Include="Zenject-usage">
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Assets/Plugins/Zenject/Source/Usage/Zenject-usage.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
       <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
@@ -1232,9 +1240,17 @@
       <Project>{83AC76B0-2076-994D-0F68-16685BD2FAF1}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
+    <ProjectReference Include="Zenject-Editor.csproj">
+      <Project>{73981B48-ABE6-7A21-AF08-92083228DE9F}</Project>
+      <Name>Zenject-Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="Maintainer.Editor.csproj">
       <Project>{5C33F07B-D817-0870-97D1-79AC898FF82B}</Project>
       <Name>Maintainer.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Zenject.csproj">
+      <Project>{CE0B8671-6AC7-4DBB-5034-211C2CF85E28}</Project>
+      <Name>Zenject</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

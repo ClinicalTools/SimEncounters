@@ -8,13 +8,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
     {
         protected IUrlBuilder WebAddress { get; }
         protected MessageHandler MessageHandler { get; }
-        protected ServerDataReader<string> ServerDataReader { get; }
-        public ResetPassword(IUrlBuilder webAddress, MessageHandler messageHandler)
+        protected IServerReader ServerReader { get; }
+        public ResetPassword(IUrlBuilder webAddress, MessageHandler messageHandler, IServerReader serverReader)
         {
             WebAddress = webAddress;
             MessageHandler = messageHandler;
-            var statusesParser = new StringParser();
-            ServerDataReader = new ServerDataReader<string>(statusesParser);
+            ServerReader = serverReader;
         }
 
         private const string phpFile = "Login.php";
@@ -33,8 +32,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
             var form = CreateForm(email, username);
 
             var webRequest = UnityWebRequest.Post(url, form);
-            ServerDataReader.Completed += Completed;
-            ServerDataReader.Begin(webRequest);
+            var serverResult = ServerReader.Begin(webRequest);
+            serverResult.AddOnCompletedListener(ProcessResults);
         }
 
         public WWWForm CreateForm(string email, string username)
@@ -50,18 +49,18 @@ namespace ClinicalTools.SimEncounters.MainMenu
         }
 
         private const string errorSuffix = "--Could not send email";
-        private void Completed(object sender, ServerResult<string> e)
+        private void ProcessResults(ServerResult serverResult)
         {
-            if (e.Outcome != ServerOutcome.Success) {
-                MessageHandler.ShowMessage(e.Message, true);
+            if (serverResult.Outcome != ServerOutcome.Success) {
+                MessageHandler.ShowMessage(serverResult.Message, true);
                 return;
             }
-            if (!e.Result.EndsWith(errorSuffix)) {
+            if (!serverResult.Message.EndsWith(errorSuffix)) {
                 MessageHandler.ShowMessage("Success. Please check email for verification", false);
                 return;
             }
 
-            var error = e.Result.Substring(0, e.Result.Length - errorSuffix.Length);
+            var error = serverResult.Message.Substring(0, serverResult.Message.Length - errorSuffix.Length);
             MessageHandler.ShowMessage("Unable to send email", true);
         }
     }

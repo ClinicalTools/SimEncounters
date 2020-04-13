@@ -6,11 +6,8 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
 {
     public class ClinicalTabFactory : TabFactory
     {
-        protected override PanelFactory PanelFactory { get; }
-        public ClinicalTabFactory(ConditionalDataFactory conditionalDataFactory) : base(conditionalDataFactory)
-        {
-            PanelFactory = new ClinicalPanelFactory(conditionalDataFactory);
-        }
+        public ClinicalTabFactory(ISerializationFactory<ConditionalData> conditionalsFactory, ISerializationFactory<Panel> panelFactory) 
+            : base(conditionalsFactory, panelFactory) { }
 
         protected NodeInfo LegacyTypeFinder { get; } = NodeInfo.RootName;
         protected override string GetType(XmlDeserializer deserializer)

@@ -2,15 +2,21 @@
 using ClinicalTools.SimEncounters.Data;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters.SerializationFactories
 {
     public class PanelFactory : ISerializationFactory<Panel>
     {
         protected virtual PanelFactory ChildPanelFactory => this;
-        protected virtual PinDataFactory PinDataFactory { get; }
-        // shared between sections, tabs, and panels
-        protected virtual ConditionalDataFactory ConditionalDataFactory { get; }
+
+        protected virtual ISerializationFactory<PinData> PinsFactory { get; }
+        protected virtual ISerializationFactory<ConditionalData> ConditionalsFactory { get; }
+        public PanelFactory(ISerializationFactory<PinData> pinsFactory, ISerializationFactory<ConditionalData> conditionalsFactory)
+        {
+            PinsFactory = pinsFactory;
+            ConditionalsFactory = conditionalsFactory;
+        }
 
 
         protected virtual NodeInfo TypeInfo { get; } = new NodeInfo("type");
@@ -20,11 +26,6 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
         protected virtual CollectionInfo DataInfo { get; } = new CollectionInfo("values", "value");
         protected virtual CollectionInfo ChildPanelsInfo { get; } = new CollectionInfo("panels", "panel");
 
-        public PanelFactory(ConditionalDataFactory conditionalDataFactory)
-        {
-            PinDataFactory = new PinDataFactory(this);
-            ConditionalDataFactory = conditionalDataFactory;
-        }
 
         public virtual bool ShouldSerialize(Panel value) => value != null;
 
@@ -33,8 +34,8 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
             serializer.AddString(TypeInfo, value.Type);
             serializer.AddStringKeyValuePairs(DataInfo, value.Data);
             serializer.AddKeyValuePairs(ChildPanelsInfo, value.ChildPanels, ChildPanelFactory);
-            serializer.AddValue(ConditionsInfo, value.Conditions, ConditionalDataFactory);
-            serializer.AddValue(PinsInfo, value.Pins, PinDataFactory);
+            serializer.AddValue(ConditionsInfo, value.Conditions, ConditionalsFactory);
+            serializer.AddValue(PinsInfo, value.Pins, PinsFactory);
         }
 
         public virtual Panel Deserialize(XmlDeserializer deserializer)
@@ -87,12 +88,12 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
         }
 
         protected virtual ConditionalData GetConditions(XmlDeserializer deserializer)
-            => deserializer.GetValue(ConditionsInfo, ConditionalDataFactory);
+            => deserializer.GetValue(ConditionsInfo, ConditionalsFactory);
         protected virtual void AddConditions(XmlDeserializer deserializer, Panel panel)
             => panel.Conditions = GetConditions(deserializer);
 
         protected virtual PinData GetPins(XmlDeserializer deserializer)
-            => deserializer.GetValue(PinsInfo, PinDataFactory);
+            => deserializer.GetValue(PinsInfo, PinsFactory);
         protected virtual void AddPins(XmlDeserializer deserializer, Panel panel)
             => panel.Pins = GetPins(deserializer);
     }

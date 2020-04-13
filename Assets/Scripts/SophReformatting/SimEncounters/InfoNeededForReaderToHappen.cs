@@ -48,10 +48,10 @@ namespace ClinicalTools.SimEncounters
     {
         public User User { get; }
         public ILoadingScreen LoadingScreen { get; }
-        public WaitableResult<Dictionary<string, Category>> Categories { get; }
+        public WaitableResult<List<Category>> Categories { get; }
         public WaitableResult<MenuSceneInfo> Result = new WaitableResult<MenuSceneInfo>();
 
-        public LoadingMenuSceneInfo(User user, ILoadingScreen loadingScreen, WaitableResult<Dictionary<string, Category>> categories)
+        public LoadingMenuSceneInfo(User user, ILoadingScreen loadingScreen, WaitableResult<List<Category>> categories)
         {
             User = user;
             LoadingScreen = loadingScreen;
@@ -59,7 +59,7 @@ namespace ClinicalTools.SimEncounters
             Categories.AddOnCompletedListener(CategoriesRetrieved);
         }
 
-        private void CategoriesRetrieved(Dictionary<string, Category> categories)
+        private void CategoriesRetrieved(List<Category> categories)
         {
             var loadedInfo = new MenuSceneInfo(this);
             Result.SetResult(loadedInfo);
@@ -70,7 +70,7 @@ namespace ClinicalTools.SimEncounters
     {
         public User User { get; }
         public ILoadingScreen LoadingScreen { get; }
-        public Dictionary<string, Category> Categories { get; }
+        public List<Category> Categories { get; }
 
         public MenuSceneInfo(LoadingMenuSceneInfo loadingMenuSceneInfo)
         {

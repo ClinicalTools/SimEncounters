@@ -45,6 +45,9 @@ namespace ClinicalTools.SimEncounters
 
         private void AddEncounterToCategories(Dictionary<string, Category> categories, MenuEncounter menuEncounter)
         {
+            if (menuEncounter.GetLatestMetadata().IsTemplate)
+                return;
+
             foreach (var categoryName in menuEncounter.GetLatestMetadata().Categories)
             {
                 Category category;

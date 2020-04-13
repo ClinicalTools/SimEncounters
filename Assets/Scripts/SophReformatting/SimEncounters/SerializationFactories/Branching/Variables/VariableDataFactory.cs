@@ -6,8 +6,13 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
 {
     public class VariableDataFactory : ISerializationFactory<VariableData>
     {
-        protected virtual EncounterBoolFactory BoolFactory { get; } = new EncounterBoolFactory();
-        protected virtual EncounterIntFactory IntFactory { get; } = new EncounterIntFactory();
+        protected virtual ISerializationFactory<EncounterBool> BoolFactory { get; }
+        protected virtual ISerializationFactory<EncounterInt> IntFactory { get; } = new EncounterIntFactory();
+        public VariableDataFactory(ISerializationFactory<EncounterBool> boolFactory, ISerializationFactory<EncounterInt> intFactory)
+        {
+            BoolFactory = boolFactory;
+            IntFactory = intFactory;
+        }
 
         protected virtual CollectionInfo BoolsInfo { get; } = new CollectionInfo("bools", "bool");
         protected virtual CollectionInfo IntsInfo { get; } = new CollectionInfo("ints", "int");

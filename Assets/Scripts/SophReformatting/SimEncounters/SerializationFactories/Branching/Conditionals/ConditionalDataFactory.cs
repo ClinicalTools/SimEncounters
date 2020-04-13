@@ -6,8 +6,15 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
 {
     public class ConditionalDataFactory : ISerializationFactory<ConditionalData>
     {
-        protected virtual BoolConditionalFactory BoolConditionalFactory { get; } = new BoolConditionalFactory();
-        protected virtual IntConditionalFactory IntConditionalFactory { get; } = new IntConditionalFactory();
+        protected ISerializationFactory<BoolConditional> BoolConditionalFactory { get; }
+        protected ISerializationFactory<IntConditional> IntConditionalFactory { get; }
+
+        public ConditionalDataFactory(ISerializationFactory<BoolConditional> boolConditonalFactory, 
+            ISerializationFactory<IntConditional> intConditonalFactory)
+        {
+            BoolConditionalFactory = boolConditonalFactory;
+            IntConditionalFactory = intConditonalFactory;
+        }
 
         protected virtual CollectionInfo BoolsInfo { get; } = new CollectionInfo("bools", "bool");
         protected virtual CollectionInfo IntsInfo { get; } = new CollectionInfo("ints", "int");

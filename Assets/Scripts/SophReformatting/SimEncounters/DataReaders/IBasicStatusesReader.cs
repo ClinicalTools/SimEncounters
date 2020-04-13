@@ -8,6 +8,65 @@ namespace ClinicalTools.SimEncounters
     {
         WaitableResult<Dictionary<int, EncounterBasicStatus>> GetBasicStatuses(User user);
     }
+
+    public class BasicStatusesReader : IBasicStatusesReader
+    {
+        private readonly List<IBasicStatusesReader> basicStatusesReaders;
+        public BasicStatusesReader(List<IBasicStatusesReader> basicStatusesReaders)
+        {
+            this.basicStatusesReaders = basicStatusesReaders;
+        }
+
+        public WaitableResult<Dictionary<int, EncounterBasicStatus>> GetBasicStatuses(User user)
+        {
+            var statuses = new WaitableResult<Dictionary<int, EncounterBasicStatus>>();
+
+            var results = new List<WaitableResult<Dictionary<int, EncounterBasicStatus>>>();
+            foreach (var basicStatusesReader in basicStatusesReaders)
+                results.Add(basicStatusesReader.GetBasicStatuses(user));
+
+            foreach (var result in results)
+                result.AddOnCompletedListener((statusesResult) => ProcessResults(statuses, results));
+
+            return statuses;
+        }
+
+        private void ProcessResults(WaitableResult<Dictionary<int, EncounterBasicStatus>> result,
+            List<WaitableResult<Dictionary<int, EncounterBasicStatus>>> listResults)
+        {
+            if (result.IsCompleted)
+                return;
+            foreach (var statusesResult in listResults) {
+                if (!statusesResult.IsCompleted)
+                    return;
+            }
+
+            var statuses = listResults[0].Result;
+            for (int i = 1; i < listResults.Count; i++)
+                statuses = CombineStatuses(statuses, listResults[i].Result);
+
+            result.SetResult(statuses);
+        }
+
+        private Dictionary<int, EncounterBasicStatus> CombineStatuses(
+            Dictionary<int, EncounterBasicStatus> statuses1, Dictionary<int, EncounterBasicStatus> statuses2)
+        {
+            if (statuses1 == null)
+                return statuses2;
+            else if (statuses2 == null)
+                return statuses1;
+
+            foreach (var status in statuses2) {
+                if (!statuses1.ContainsKey(status.Key)) {
+                    statuses1.Add(status.Key, status.Value);
+                } else if (statuses1[status.Key].Timestamp < status.Value.Timestamp){
+                    statuses1[status.Key] = status.Value;
+                }
+            }
+            return statuses1;
+        }
+    }
+
     public class LocalBasicStatusesReader : IBasicStatusesReader
     {
         private readonly IFileManager fileManager;
@@ -30,15 +89,13 @@ namespace ClinicalTools.SimEncounters
 
         private void ProcessResults(WaitableResult<Dictionary<int, EncounterBasicStatus>> result, string[] fileTexts)
         {
-            if (fileTexts == null)
-            {
+            if (fileTexts == null) {
                 result.SetError(null);
                 return;
             }
 
             var statuses = new Dictionary<int, EncounterBasicStatus>();
-            foreach (var fileText in fileTexts)
-            {
+            foreach (var fileText in fileTexts) {
                 var metadata = parser.Parse(fileText);
                 if (metadata.Value != null)
                     statuses.Add(metadata.Key, metadata.Value);
@@ -61,6 +118,9 @@ namespace ClinicalTools.SimEncounters
 
         public WaitableResult<Dictionary<int, EncounterBasicStatus>> GetBasicStatuses(User user)
         {
+            if (user.IsGuest)
+                return new WaitableResult<Dictionary<int, EncounterBasicStatus>>(null, "Guest user has no server statuses.", true);
+
             var webRequest = GetWebRequest(user);
             var serverOutput = serverReader.Begin(webRequest);
             var statuses = new WaitableResult<Dictionary<int, EncounterBasicStatus>>();
@@ -83,10 +143,9 @@ namespace ClinicalTools.SimEncounters
 
             return UnityWebRequest.Post(url, form);
         }
-        private void ProcessResults(WaitableResult<Dictionary<int, EncounterBasicStatus>> result, ServerResult2 serverOutput)
+        private void ProcessResults(WaitableResult<Dictionary<int, EncounterBasicStatus>> result, ServerResult serverOutput)
         {
-            if (serverOutput == null || serverOutput.Outcome != ServerOutcome.Success)
-            {
+            if (serverOutput == null || serverOutput.Outcome != ServerOutcome.Success) {
                 result.SetError(serverOutput?.Message);
                 return;
             }

@@ -1,9 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.MainMenu;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
@@ -120,7 +116,7 @@ namespace ClinicalTools.SimEncounters.Reader
         public void Quitting()
         {
             SetCompleted();
-            var serverDetailedStatusWriter = new ServerDetailedStatusWriter(new WebAddressBuilder());
+            var serverDetailedStatusWriter = new ServerDetailedStatusWriter(new UrlBuilder(), new ServerReader());
             var fileDetailedStatusWriter = new FileDetailedStatusWriter(new UserFileManager(new FileExtensionManager()));
             var detailedStatusWriter = new DetailedStatusWriter(serverDetailedStatusWriter, fileDetailedStatusWriter);
             detailedStatusWriter.DoStuff(SceneInfo.User, SceneInfo.Encounter);

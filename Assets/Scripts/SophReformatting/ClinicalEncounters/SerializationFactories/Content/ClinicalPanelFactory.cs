@@ -8,10 +8,8 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
 {
     public class ClinicalPanelFactory : PanelFactory
     {
-        protected override PinDataFactory PinDataFactory { get; }
-        public ClinicalPanelFactory(ConditionalDataFactory conditionalDataFactory) : base(conditionalDataFactory) { 
-            PinDataFactory = new ClinicalPinDataFactory(this);
-        }
+        public ClinicalPanelFactory(ISerializationFactory<PinData> pinsFactory, ISerializationFactory<ConditionalData> conditionalsFactory)
+            : base(pinsFactory, conditionalsFactory) { }
 
         protected NodeInfo LegacyTypeInfo { get; } = new NodeInfo("PanelType");
         protected override string GetType(XmlDeserializer deserializer)
@@ -80,7 +78,7 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
         {
             var pins = base.GetPins(deserializer);
             if (pins == null)
-                pins = deserializer.GetValue(LegacyPinsInfo, PinDataFactory);
+                pins = deserializer.GetValue(LegacyPinsInfo, PinsFactory);
             
             return pins;
         }

@@ -8,13 +8,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
     {
         protected IUrlBuilder WebAddress { get; }
         protected MessageHandler MessageHandler { get; }
-        protected ServerDataReader<string> ServerDataReader { get; }
-        public ResendEmail(IUrlBuilder webAddress, MessageHandler messageHandler)
+        protected IServerReader ServerReader { get; }
+        public ResendEmail(IUrlBuilder webAddress, MessageHandler messageHandler, IServerReader serverReader)
         {
             WebAddress = webAddress;
             MessageHandler = messageHandler;
-            var statusesParser = new StringParser();
-            ServerDataReader = new ServerDataReader<string>(statusesParser);
+            ServerReader = serverReader;
         }
 
         private const string phpFile = "Login.php";
@@ -32,8 +31,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
             var form = CreateForm(email);
 
             var webRequest = UnityWebRequest.Post(url, form);
-            ServerDataReader.Completed += EncounterDataReader_Completed;
-            ServerDataReader.Begin(webRequest);
+            var serverResult = ServerReader.Begin(webRequest);
+            serverResult.AddOnCompletedListener(ProcessResults);
         }
 
         public WWWForm CreateForm(string email)
@@ -48,18 +47,18 @@ namespace ClinicalTools.SimEncounters.MainMenu
         }
 
         private const string errorSuffix = "--Could not send email";
-        private void EncounterDataReader_Completed(object sender, ServerResult<string> e)
+        private void ProcessResults(ServerResult serverResult)
         {
-            if (e.Outcome != ServerOutcome.Success) { 
-                MessageHandler.ShowMessage(e.Message, true);
+            if (serverResult.Outcome != ServerOutcome.Success) { 
+                MessageHandler.ShowMessage(serverResult.Message, true);
                 return;
             } 
-            if (!e.Result.EndsWith(errorSuffix)) { 
-                MessageHandler.ShowMessage(e.Result, false);
+            if (!serverResult.Message.EndsWith(errorSuffix)) { 
+                MessageHandler.ShowMessage(serverResult.Message, false);
                 return;
             }
 
-            var error = e.Result.Substring(0, e.Result.Length - errorSuffix.Length);
+            var error = serverResult.Message.Substring(0, serverResult.Message.Length - errorSuffix.Length);
             MessageHandler.ShowMessage(error, true);
         }
     }

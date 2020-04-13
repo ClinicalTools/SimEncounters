@@ -6,14 +6,8 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
 {
     public class ClinicalPinDataFactory : PinDataFactory
     {
-        protected override DialoguePinFactory DialoguePinFactory { get; }
-        protected override QuizPinFactory QuizPinFactory { get; }
-
-        public ClinicalPinDataFactory(PanelFactory panelFactory) : base(panelFactory)
-        {
-            DialoguePinFactory = new ClinicalDialoguePinFactory(panelFactory);
-            QuizPinFactory = new ClinicalQuizPinFactory(panelFactory);
-        }
+        public ClinicalPinDataFactory(ISerializationFactory<DialoguePin> dialoguePinFactory, ISerializationFactory<QuizPin> quizPinFactory) 
+            : base(dialoguePinFactory, quizPinFactory) { }
 
         protected NodeInfo LegacyDialogueNode { get; } = new NodeInfo("DialoguePin", TagComparison.NameEquals, new NodeInfo("dialogue"));
         protected override DialoguePin GetDialogue(XmlDeserializer deserializer)

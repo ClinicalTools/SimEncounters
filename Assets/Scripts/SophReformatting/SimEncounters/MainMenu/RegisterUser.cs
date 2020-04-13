@@ -8,13 +8,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
     {
         protected IUrlBuilder WebAddress { get; }
         protected MessageHandler MessageHandler { get; }
-        protected ServerDataReader<string> RegisterDataReader { get; }
-        public RegisterUser(IUrlBuilder webAddress, MessageHandler messageHandler)
+        protected IServerReader ServerReader { get; }
+        public RegisterUser(IUrlBuilder webAddress, MessageHandler messageHandler, IServerReader serverReader)
         {
             WebAddress = webAddress;
             MessageHandler = messageHandler;
-            var statusesParser = new StringParser();
-            RegisterDataReader = new ServerDataReader<string>(statusesParser);
+            ServerReader = serverReader;
         }
 
         private const string phpFile = "Login.php";
@@ -34,8 +33,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
             var form = CreateForm(username, password, email);
 
             var webRequest = UnityWebRequest.Post(url, form);
-            RegisterDataReader.Completed += EncounterDataReader_Completed;
-            RegisterDataReader.Begin(webRequest);
+            var serverResult = ServerReader.Begin(webRequest);
+            serverResult.AddOnCompletedListener(ProcessResults);
         }
 
         public WWWForm CreateForm(string username, string password, string email)
@@ -51,18 +50,18 @@ namespace ClinicalTools.SimEncounters.MainMenu
             return form;
         }
 
-        private void EncounterDataReader_Completed(object sender, ServerResult<string> e)
+        private void ProcessResults(ServerResult serverResults)
         {
-            if (e.Outcome != ServerOutcome.Success) {
-                MessageHandler.ShowMessage(e.Message, true);
+            if (serverResults.Outcome != ServerOutcome.Success) {
+                MessageHandler.ShowMessage(serverResults.Message, true);
                 return;
             }
-            if (e.Result.StartsWith("Connection Granted")) {
+            if (serverResults.Message.StartsWith("Connection Granted")) {
                 MessageHandler.ShowMessage("Success. Please check email (or spam folder) for verification", false);
                 return;
             }
 
-            var error = e.Result.Split(new string[] { "--" }, System.StringSplitOptions.None)[0];
+            var error = serverResults.Message.Split(new string[] { "--" }, System.StringSplitOptions.None)[0];
             MessageHandler.ShowMessage(error, true);
         }
     }

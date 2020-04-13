@@ -9,12 +9,11 @@ namespace ClinicalTools.SimEncounters.MainMenu
     public class ServerDetailedStatusWriter : IDetailedStatusWriter
     {
         protected IUrlBuilder WebAddress { get; }
-        protected ServerDataReader<string> EncounterDataReader { get; }
-        public ServerDetailedStatusWriter(IUrlBuilder webAddress)
+        protected IServerReader ServerReader { get; }
+        public ServerDetailedStatusWriter(IUrlBuilder webAddress, IServerReader serverReader)
         {
             WebAddress = webAddress;
-            var statusesParser = new StringParser();
-            EncounterDataReader = new ServerDataReader<string>(statusesParser);
+            ServerReader = serverReader;
         }
 
         private const string phpFile = "Track.php";
@@ -40,8 +39,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
             var form = CreateForm(user, encounter);
 
             var webRequest = UnityWebRequest.Post(url, form);
-            EncounterDataReader.Completed += EncounterDataReader_Completed;
-            EncounterDataReader.Begin(webRequest);
+            var serverResults = ServerReader.Begin(webRequest);
+            serverResults.AddOnCompletedListener(ProcessResults);
         }
 
         public WWWForm CreateForm(User user, FullEncounter encounter)
@@ -58,7 +57,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             return form;
         }
 
-        private void EncounterDataReader_Completed(object sender, ServerResult<string> e)
+        private void ProcessResults(ServerResult serverResult)
         {
         }
     }

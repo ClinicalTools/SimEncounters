@@ -4,6 +4,6 @@ namespace ClinicalTools.SimEncounters
 {
     public interface IServerReader
     {
-        WaitableResult<ServerResult2> Begin(UnityWebRequest webRequest);
+        WaitableResult<ServerResult> Begin(UnityWebRequest webRequest);
     }
 }

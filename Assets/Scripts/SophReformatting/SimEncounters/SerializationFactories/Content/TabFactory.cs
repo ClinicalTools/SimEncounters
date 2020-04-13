@@ -6,22 +6,21 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
 {
     public class TabFactory : ISerializationFactory<Tab>
     {
-        protected virtual PanelFactory PanelFactory { get; }
+        protected virtual ISerializationFactory<Panel> PanelFactory { get; }
         // shared between sections, tabs, and panels
-        protected virtual ConditionalDataFactory ConditionalDataFactory { get; }
+        protected virtual ISerializationFactory<ConditionalData> ConditionalsFactory { get; }
+
+        public TabFactory(ISerializationFactory<ConditionalData> conditionalsFactory, ISerializationFactory<Panel> panelFactory)
+        {
+            ConditionalsFactory = conditionalsFactory;
+            PanelFactory = panelFactory;
+        }
 
         protected virtual NodeInfo TypeInfo { get; } = new NodeInfo("type");
         protected virtual NodeInfo NameInfo { get; } = new NodeInfo("name");
         protected virtual NodeInfo ConditionsInfo { get; } = new NodeInfo("conditions");
 
         protected virtual CollectionInfo PanelsInfo { get; } = new CollectionInfo("panels", "panel");
-
-
-        public TabFactory(ConditionalDataFactory conditionalDataFactory)
-        {
-            ConditionalDataFactory = conditionalDataFactory;
-            PanelFactory = new PanelFactory(ConditionalDataFactory);
-        }
 
         public virtual bool ShouldSerialize(Tab value) => value != null;
 
@@ -30,7 +29,7 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
             serializer.AddString(TypeInfo, value.Type);
             serializer.AddString(NameInfo, value.Name);
             serializer.AddKeyValuePairs(PanelsInfo, value.Panels, PanelFactory);
-            serializer.AddValue(ConditionsInfo, value.Conditions, ConditionalDataFactory);
+            serializer.AddValue(ConditionsInfo, value.Conditions, ConditionalsFactory);
         }
 
         public virtual Tab Deserialize(XmlDeserializer deserializer)
@@ -68,7 +67,7 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
         }
 
         protected virtual ConditionalData GetConditions(XmlDeserializer deserializer)
-            => deserializer.GetValue(ConditionsInfo, ConditionalDataFactory);
+            => deserializer.GetValue(ConditionsInfo, ConditionalsFactory);
         protected virtual void AddConditions(XmlDeserializer deserializer, Tab tab)
             => tab.Conditions = GetConditions(deserializer);
     }

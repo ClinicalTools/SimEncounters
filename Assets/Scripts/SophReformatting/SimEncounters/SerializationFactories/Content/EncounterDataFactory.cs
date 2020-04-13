@@ -6,8 +6,14 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
 {
     public class EncounterDataFactory : ISerializationFactory<EncounterContent>
     {
-        protected virtual SectionFactory SectionFactory { get; } = new SectionFactory();
-        protected virtual VariableDataFactory VariablesFactory { get; } = new VariableDataFactory();
+        protected virtual ISerializationFactory<Section> SectionFactory { get; }
+        protected virtual ISerializationFactory<VariableData> VariablesFactory { get; }
+
+        public EncounterDataFactory(ISerializationFactory<Section> sectionFactory, ISerializationFactory<VariableData> variablesFactory)
+        {
+            SectionFactory = sectionFactory;
+            VariablesFactory = variablesFactory;
+        }
 
         protected virtual NodeInfo VariablesInfo { get; } = new NodeInfo("variables");
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ClinicalTools.SimEncounters.MainMenu
+namespace ClinicalTools.SimEncounters
 {
     public class KeyedEncounterStatusParser : IParser<KeyValuePair<int, EncounterBasicStatus>>
     {

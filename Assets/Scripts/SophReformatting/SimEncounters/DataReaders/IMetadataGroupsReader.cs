@@ -1,5 +1,6 @@
 ﻿using ClinicalTools.SimEncounters.Data;
 using System.Collections.Generic;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -11,7 +12,11 @@ namespace ClinicalTools.SimEncounters
     public class MetadataGroupsReader : IMetadataGroupsReader
     {
         private readonly Dictionary<SaveType, IMetadatasReader> metadatasReaders = new Dictionary<SaveType, IMetadatasReader>();
-        public MetadataGroupsReader(IMetadatasReader autosaveMetadataReader, IMetadatasReader localMetadataReader, IMetadatasReader serverMetadatasReader, IMetadatasReader demoMetadatasReader)
+        public MetadataGroupsReader(
+            [Inject(Id = SaveType.Autosave)] IMetadatasReader autosaveMetadataReader,
+            [Inject(Id = SaveType.Demo)] IMetadatasReader demoMetadatasReader,
+            [Inject(Id = SaveType.Local)] IMetadatasReader localMetadataReader,
+            [Inject(Id = SaveType.Server)] IMetadatasReader serverMetadatasReader)
         {
             if (autosaveMetadataReader != null)
                 metadatasReaders.Add(SaveType.Autosave, autosaveMetadataReader);
@@ -32,9 +37,7 @@ namespace ClinicalTools.SimEncounters
             var metadataGroups = new WaitableResult<Dictionary<int, Dictionary<SaveType, EncounterMetadata>>>();
 
             foreach (var metadatasResult in metadatasResults)
-            {
                 metadatasResult.Value.AddOnCompletedListener((result) => ProcessResult(metadataGroups, metadatasResults));
-            }
 
             return metadataGroups;
         }

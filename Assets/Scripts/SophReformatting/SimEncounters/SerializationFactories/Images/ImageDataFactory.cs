@@ -7,8 +7,13 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
 {
     public class ImageDataFactory : ISerializationFactory<EncounterImageData>
     {
-        protected virtual IconFactory IconFactory { get; } = new IconFactory();
-        protected virtual SpriteFactory SpriteFactory { get; } = new SpriteFactory();
+        protected virtual ISerializationFactory<Icon>  IconFactory { get; }
+        protected virtual ISerializationFactory<Sprite> SpriteFactory { get; } 
+        public ImageDataFactory(ISerializationFactory<Icon> iconFactory, ISerializationFactory<Sprite> spriteFactory)
+        {
+            IconFactory = iconFactory;
+            SpriteFactory = spriteFactory;
+        }
 
         protected virtual CollectionInfo IconsInfo { get; } = new CollectionInfo("icons", "icon");
         protected virtual CollectionInfo SpritesInfo { get; } = new CollectionInfo("sprites", "sprite");

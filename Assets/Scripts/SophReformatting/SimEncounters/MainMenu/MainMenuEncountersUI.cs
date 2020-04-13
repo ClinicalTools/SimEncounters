@@ -16,7 +16,6 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         [SerializeField] private ChangeSidePanelScript categoriesToggle;
         public ChangeSidePanelScript CategoriesToggle { get => categoriesToggle; set => categoriesToggle = value; }
-
         [SerializeField] private ChangeSidePanelScript categoryToggle;
         public ChangeSidePanelScript CategoryToggle { get => categoryToggle; set => categoryToggle = value; }
 
@@ -66,11 +65,11 @@ namespace ClinicalTools.SimEncounters.MainMenu
             ScrollRect.verticalNormalizedPosition = 1;
         }
 
-        private void CategorySelected(string category)
+        private void CategorySelected(Category category)
         {
             CategoryGroup.Hide();
-            CategoryToggle.Show(category);
-            Category.Display(SceneInfo, SceneInfo.Categories[category]);
+            CategoryToggle.Show(category.Name);
+            Category.Display(SceneInfo, category);
         }
     }
 }

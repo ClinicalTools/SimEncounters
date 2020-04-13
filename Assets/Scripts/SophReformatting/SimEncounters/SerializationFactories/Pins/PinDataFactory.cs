@@ -5,16 +5,16 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
 {
     public class PinDataFactory : ISerializationFactory<PinData>
     {
-        protected virtual DialoguePinFactory DialoguePinFactory { get; }
-        protected virtual QuizPinFactory QuizPinFactory { get; }
+        protected virtual ISerializationFactory<DialoguePin> DialoguePinFactory { get; }
+        protected virtual ISerializationFactory<QuizPin> QuizPinFactory { get; }
 
         protected virtual NodeInfo DialogueInfo { get; } = new NodeInfo("dialogue");
         protected virtual NodeInfo QuizInfo { get; } = new NodeInfo("quiz");
 
-        public PinDataFactory(PanelFactory panelFactory)
+        public PinDataFactory(ISerializationFactory<DialoguePin> dialoguePinFactory, ISerializationFactory<QuizPin> quizPinFactory)
         {
-            DialoguePinFactory = new DialoguePinFactory(panelFactory);
-            QuizPinFactory = new QuizPinFactory(panelFactory);
+            DialoguePinFactory = dialoguePinFactory;
+            QuizPinFactory = quizPinFactory;
         }
 
         public virtual bool ShouldSerialize(PinData value) => value != null && (value.Dialogue != null || value.Quiz != null);

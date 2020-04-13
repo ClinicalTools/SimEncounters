@@ -1,6 +1,4 @@
-﻿using ClinicalTools.SimEncounters.Collections;
-using ClinicalTools.SimEncounters.Data;
-using ClinicalTools.SimEncounters.MainMenu;
+﻿using ClinicalTools.SimEncounters.Data;
 using System.Collections.Generic;
 using UnityEngine;
 

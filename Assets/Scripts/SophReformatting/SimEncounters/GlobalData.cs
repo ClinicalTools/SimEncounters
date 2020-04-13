@@ -11,8 +11,6 @@ namespace ClinicalTools.SimEncounters
     public class GlobalData 
     {
         public static GlobalData Instance;
-        public virtual EncounterLoader EncounterGetter { get; protected set; }
         public virtual LoadingScreen LoadingScreen { get; } //= new LoadingScreen();
-
     }
 }

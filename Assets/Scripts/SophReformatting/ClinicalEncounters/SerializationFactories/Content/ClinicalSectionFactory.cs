@@ -9,24 +9,13 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
 {
     public class ClinicalSectionFactory : SectionFactory
     {
-        protected override TabFactory TabFactory { get; }
-        protected EncounterImageData Images { get; }
-        public ClinicalSectionFactory(EncounterImageData images)
-        {
-            Images = images;
-            TabFactory = new ClinicalTabFactory(ConditionalDataFactory);
-        }
+        public ClinicalSectionFactory(ISerializationFactory<Tab> tabFactory, ISerializationFactory<ConditionalData> conditionalsFactory) 
+            : base(tabFactory, conditionalsFactory) { }
 
         private readonly Color defaultColor = new Color(.0784f, .694f, .639f);
         public override Section Deserialize(XmlDeserializer deserializer)
         {
             var section = base.Deserialize(deserializer);
-            // legacy Clinical Encounters saves serialized section color in the icon information
-            if (section != null && section.Color == Color.clear && Images.LegacyIconsInfo.ContainsKey(section.IconKey)) {
-                var iconInfo = Images.LegacyIconsInfo[section.IconKey];
-                section.Color = iconInfo.Color;
-                section.IconKey = iconInfo.Reference;
-            }
             if (section.Color == Color.clear)
                 section.Color = defaultColor;
 

@@ -39,7 +39,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             return UnityWebRequest.Post(address, form);
         }
 
-        private void ProcessResults(WaitableResult<User> result, ServerResult2 serverResult)
+        private void ProcessResults(WaitableResult<User> result, ServerResult serverResult)
         {
             if (serverResult.Outcome != ServerOutcome.Success)
             {

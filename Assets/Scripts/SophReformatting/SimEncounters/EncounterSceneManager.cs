@@ -2,6 +2,7 @@
 using UnityEngine;
 using ClinicalTools.SimEncounters.MainMenu;
 using System.Collections.Generic;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -14,8 +15,8 @@ namespace ClinicalTools.SimEncounters
 
         protected ILoadingScreen LoadingScreen => SimEncounters.LoadingScreen.Instance;
 
-        protected MainMenuSceneStarter MainMenuSceneStarter { get; private set; }
-        protected ReaderSceneStarter ReaderSceneStarter { get; private set; }
+        [Inject] protected MainMenuSceneStarter MainMenuSceneStarter { get; set; }
+        [Inject] protected ReaderSceneStarter ReaderSceneStarter { get; set; }
 
         public void Initialize(MainMenuSceneStarter mainMenuSceneStarter, ReaderSceneStarter readerSceneStarter)
         {

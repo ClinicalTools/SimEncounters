@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using ClinicalTools.SimEncounters.Data;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
-    public class ReaderSectionsUI : MonoBehaviour
+        public class ReaderSectionsUI : MonoBehaviour
     {
         [field: SerializeField] private Transform sectionButtonsParent;
         public virtual Transform SectionButtonsParent { get => sectionButtonsParent; set => sectionButtonsParent = value; }
@@ -20,5 +21,6 @@ namespace ClinicalTools.SimEncounters.Reader
 
         [field: SerializeField] private List<Image> sectionBorders;
         public virtual List<Image> SectionBorders { get => sectionBorders; set => sectionBorders = value; }
+
     }
 }

@@ -2,16 +2,16 @@
 
 namespace ClinicalTools.SimEncounters
 {
-    public interface IEncounterDataReaderNew
+    public interface IEncounterDataReader
     {
         WaitableResult<EncounterData> GetEncounterData(User user, EncounterMetadata metadata);
     }
 
-    public class EncounterDataReaderNew : IEncounterDataReaderNew
+    public class EncounterDataReader : IEncounterDataReader
     {
         private readonly IEncounterContentReader contentReader;
         private readonly IImageDataReader imageDataReader;
-        public EncounterDataReaderNew(IEncounterContentReader contentReader, IImageDataReader imageDataReader)
+        public EncounterDataReader(IEncounterContentReader contentReader, IImageDataReader imageDataReader)
         {
             this.contentReader = contentReader;
             this.imageDataReader = imageDataReader;

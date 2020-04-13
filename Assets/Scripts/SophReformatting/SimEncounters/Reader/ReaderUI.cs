@@ -42,6 +42,18 @@ namespace ClinicalTools.SimEncounters.Reader
 
         public event Action GameClosed;
 
+        protected LoadingEncounterSceneInfo LoadingSceneInfo { get; set; }
+        public void Display(LoadingEncounterSceneInfo loadingSceneInfo)
+        {
+            LoadingSceneInfo = loadingSceneInfo;
+            loadingSceneInfo.Result.AddOnCompletedListener(EncounterLoaded);
+        }
+
+        protected virtual void EncounterLoaded(EncounterSceneInfo sceneInfo)
+        {
+
+        }
+
         protected void OnApplicationPause(bool pauseStatus)
         {
             if (pauseStatus)

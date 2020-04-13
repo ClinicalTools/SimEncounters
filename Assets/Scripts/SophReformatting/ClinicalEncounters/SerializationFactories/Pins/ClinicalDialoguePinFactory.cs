@@ -1,12 +1,13 @@
 ﻿using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.SerializationFactories;
 using ClinicalTools.SimEncounters.XmlSerialization;
+using Zenject;
 
 namespace ClinicalTools.ClinicalEncounters.SerializationFactories
 {
     public class ClinicalDialoguePinFactory : DialoguePinFactory
     {
-        public ClinicalDialoguePinFactory(PanelFactory panelFactory) : base(panelFactory) { }
+        public ClinicalDialoguePinFactory(LazyInject<PanelFactory> panelFactory) : base(panelFactory) { }
 
         protected CollectionInfo LegacyConversationInfo { get; } =
             new CollectionInfo(
@@ -20,7 +21,7 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
             if (dialoguePin.Conversation.Count != 0)
                 return;
 
-            var conversation = deserializer.GetList(LegacyConversationInfo, PanelFactory);
+            var conversation = deserializer.GetList(LegacyConversationInfo, PanelFactory.Value);
             if (conversation == null)
                 return;
 

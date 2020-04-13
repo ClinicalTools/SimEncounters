@@ -4,7 +4,7 @@ namespace ClinicalTools.SimEncounters.Data
 {
     public enum SaveType
     {
-        Autosave, Local, Demo, Server
+        Autosave, Demo, Local, Server
     }
     public class MenuEncounter
     {

@@ -13,22 +13,21 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public MainMenuCategorySelectorUI CategoryPrefab { get => categoryPrefab; set => categoryPrefab = value; }
 
 
-        public event Action<string> CategorySelected;
+        public event Action<Category> CategorySelected;
 
         protected List<MainMenuCategorySelectorUI> CategoryUIs { get; } = new List<MainMenuCategorySelectorUI>();
-        public void Display(Dictionary<string, Category> categories)
+        public void Display(List<Category> categories)
         {
             foreach (var categoryUI in CategoryUIs)
                 Destroy(categoryUI.gameObject);
             CategoryUIs.Clear();
 
-            var categoryNames = new List<string>(categories.Keys);
-            categoryNames.Sort();
+            categories.Sort((c1, c2) => c1.Name.CompareTo(c2.Name));
 
-            foreach (var categoryName in categoryNames) {
+            foreach (var category in categories) {
                 var categoryUI = Instantiate(CategoryPrefab, OptionsParent);
-                categoryUI.Selected += () => CategorySelected?.Invoke(categoryName);
-                categoryUI.Display(categoryName, categories[categoryName]);
+                categoryUI.Selected += () => CategorySelected?.Invoke(category);
+                categoryUI.Display(category.Name, category);
                 CategoryUIs.Add(categoryUI);
             }
         }

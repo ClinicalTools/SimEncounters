@@ -7,11 +7,8 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
 {
     public class ClinicalEncounterDataFactory : EncounterDataFactory
     {
-        protected override SectionFactory SectionFactory { get; } 
-        public ClinicalEncounterDataFactory(EncounterImageData images) : base()
-        {
-            SectionFactory = new ClinicalSectionFactory(images);
-        }
+        public ClinicalEncounterDataFactory(ISerializationFactory<Section> sectionFactory, ISerializationFactory<VariableData> variablesFactory)
+            : base(sectionFactory, variablesFactory) { }
 
         protected virtual CollectionInfo LegacySectionsInfo { get; } =
             new CollectionInfo(

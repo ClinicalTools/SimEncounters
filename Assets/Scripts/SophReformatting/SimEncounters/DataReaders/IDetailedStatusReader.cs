@@ -13,6 +13,13 @@ namespace ClinicalTools.SimEncounters
     {
         EncounterDetailedStatus Parse(string text, EncounterBasicStatus basicStatus);
     }
+    public class DetailedStatusParser2 : IDetailedStatusParser
+    {
+        public EncounterDetailedStatus Parse(string text, EncounterBasicStatus basicStatus)
+        {
+            return null;
+        }
+    }
 
     public class LocalDetailedStatusReader : IDetailedStatusReader
     {
@@ -59,6 +66,8 @@ namespace ClinicalTools.SimEncounters
         public WaitableResult<EncounterDetailedStatus> GetDetailedStatus(User user,
             EncounterMetadata metadata, EncounterBasicStatus basicStatus)
         {
+            if (user.IsGuest)
+                return new WaitableResult<EncounterDetailedStatus>(new EncounterDetailedStatus());
 
             var webRequest = GetWebRequest(user, metadata);
             var serverOutput = serverReader.Begin(webRequest);
@@ -86,7 +95,7 @@ namespace ClinicalTools.SimEncounters
         }
 
         private void ProcessResults(WaitableResult<EncounterDetailedStatus> result,
-            ServerResult2 serverOutput, EncounterBasicStatus basicStatus)
+            ServerResult serverOutput, EncounterBasicStatus basicStatus)
         {
             if (serverOutput == null || serverOutput.Outcome != ServerOutcome.Success)
             {

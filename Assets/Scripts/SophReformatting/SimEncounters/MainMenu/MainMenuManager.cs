@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using ClinicalTools.SimEncounters.Data;
+using System.Collections.Generic;
+using UnityEngine;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
@@ -8,6 +11,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         [SerializeField] private ManualLogin manualLogin;
         public ManualLogin ManualLogin { get => manualLogin; set => manualLogin = value; }
+
+        [Inject]
+        protected ICategoriesReader CategoriesReader { get; set; }
 
         public override void Awake()
         {
@@ -21,7 +27,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
         {
             var mainMenuUI = (MainMenuUI)SceneUI;
             //mainMenuUI.Login.CreateNewLogin(LoadingScreen);
-            mainMenuUI.Login.GuestLogin(LoadingScreen);
+            //mainMenuUI.Login.GuestLogin(LoadingScreen);
+            var user = User.Guest;
+            var menuEncounters = CategoriesReader.GetCategories(user);
+            menuEncounters.AddOnCompletedListener(categoriesLoaded);
+            var menuSceneInfo = new LoadingMenuSceneInfo(User.Guest, LoadingScreen, menuEncounters);
+            mainMenuUI.Display(menuSceneInfo);
             /*
             var webAddress = new WebAddress();
             var userParser = new UserParser();
@@ -33,6 +44,11 @@ namespace ClinicalTools.SimEncounters.MainMenu
             var login = new Login(autoLogin, manualLogin);
             login.LoggedIn += LoggedIn;
             login.Begin();*/
+        }
+
+        private void categoriesLoaded(List<Category> categories)
+        {
+
         }
     }
 }

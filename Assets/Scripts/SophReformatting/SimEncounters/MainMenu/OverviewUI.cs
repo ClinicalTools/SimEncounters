@@ -6,6 +6,7 @@ using ClinicalTools.SimEncounters.Loading;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
@@ -30,6 +31,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         [SerializeField] private List<Button> hideOverviewButtons;
         public virtual List<Button> HideOverviewButtons { get => hideOverviewButtons; set => hideOverviewButtons = value; }
+
+        [Inject]
+        protected IEncounterReaderSelector EncounterReaderSelector { get; set; }
 
         protected virtual void Awake()
         {
@@ -75,17 +79,11 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
             var metadata = menuEncounter.GetLatestTypedMetada();
             KeyGenerator.ResetKeyGenerator(metadata.Value.RecordNumber);
-            IFullEncounterReader encounterReader = CreateEncounter(metadata.Key);
+            IFullEncounterReader encounterReader = EncounterReaderSelector.GetEncounterReader(metadata.Key);
 
-
-            var encounter = encounterReader.GetEncounter(sceneInfo.User, metadata.Value, menuEncounter.Status);
+            var encounter = encounterReader.GetFullEncounter(sceneInfo.User, metadata.Value, menuEncounter.Status);
             var encounterSceneInfo = new LoadingEncounterSceneInfo(sceneInfo.User, sceneInfo.LoadingScreen, encounter);
             EncounterSceneManager.EncounterInstance.StartReaderScene(encounterSceneInfo);
-        }
-
-        protected IFullEncounterReader CreateEncounter(SaveType saveType)
-        {
-            return null;
         }
     }
 }
