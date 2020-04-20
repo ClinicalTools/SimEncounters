@@ -43,7 +43,7 @@ namespace ClinicalTools.SimEncounters.Reader
         {
             var tabButtonUI = UnityEngine.Object.Instantiate(TabsUI.TabButtonPrefab, TabsUI.TabButtonsParent);
             var tabButton = new ReaderTabButton(Reader, tabButtonUI, keyedTab);
-            tabButtonUI.SelectToggle.group = TabsUI.TabsToggleGroup;
+            //tabButtonUI.SelectToggle.group = TabsUI.TabsToggleGroup;
             return tabButton;
         }
 
@@ -55,9 +55,9 @@ namespace ClinicalTools.SimEncounters.Reader
             var tabFolder = $"Reader/Prefabs/Tabs/{tab.Type} Tab/";
             var tabPrefabPath = $"{tabFolder}{tab.Type.Replace(" ", string.Empty)}Tab";
             var tabPrefabGameObject = Resources.Load(tabPrefabPath) as GameObject;
-            var readerTabUI = UnityEngine.Object.Instantiate(tabPrefabGameObject, TabsUI.TabContent).GetComponent<IReaderTabUI>();
+            //var readerTabUI = UnityEngine.Object.Instantiate(tabPrefabGameObject, TabsUI.TabContent).GetComponent<IReaderTabUI>();
             
-            ReaderTabDisplay = Reader.TabDisplayFactory.CreateTab(readerTabUI);
+            //ReaderTabDisplay = Reader.TabDisplayFactory.CreateTab(readerTabUI);
             ReaderTabDisplay.Display(keyedTab);
 
             Section.CurrentTabIndex = Section.Tabs.IndexOf(tab);

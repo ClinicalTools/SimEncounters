@@ -114,7 +114,7 @@ namespace ClinicalTools.SimEncounters
 
             bool demoBindingCondition(InjectContext injectContext) => ContextHierarchyContainsIdentifier(injectContext, SaveType.Demo);
 
-            Container.Bind<IFileManager>().To<UserFileManager>().AsTransient().When(demoBindingCondition);
+            Container.Bind<IFileManager>().To<DemoFileManager>().AsCached().When(demoBindingCondition);
             Container.Bind<IFileExtensionManager>().To<FileExtensionManager>().AsTransient().When(demoBindingCondition);
 
             InstallLocalBindings(demoBindingCondition);

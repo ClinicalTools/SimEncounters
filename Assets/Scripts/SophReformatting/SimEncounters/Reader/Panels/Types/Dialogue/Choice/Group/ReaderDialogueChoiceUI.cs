@@ -29,5 +29,12 @@ namespace ClinicalTools.SimEncounters.Reader
 
         [SerializeField] private ToggleGroup optionGroup;
         public ToggleGroup OptionGroup { get => optionGroup; set => optionGroup = value; }
+
+        public event Action Completed;
+
+        public override void Display(UserPanel userPanel)
+        {
+            Debug.LogError("pleaseee implement");
+        }
     }
 }

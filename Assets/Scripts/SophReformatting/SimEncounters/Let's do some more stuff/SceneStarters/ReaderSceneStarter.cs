@@ -21,19 +21,13 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void InitializeScene(EncounterSceneManager sceneManager, LoadingEncounterSceneInfo data)
         {
-            data.Result.AddOnCompletedListener((result) => StartReader(sceneManager, result));
-        }
-
-        public virtual void StartReader(EncounterSceneManager sceneManager, EncounterSceneInfo data)
-        {
             var readerUI = sceneManager.SceneUI as ReaderUI;
             if (readerUI == null) {
                 Debug.LogError("Started scene UI is not Reader.");
                 return;
             }
 
-            //new ReaderScene(data, (ReaderUI)sceneManager.SceneUI);
-            //readerUI.Display(data);
+            readerUI.Display(data);
         }
     }
 }

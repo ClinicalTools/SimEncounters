@@ -1,9 +1,16 @@
-﻿using UnityEngine;
+﻿using ClinicalTools.SimEncounters.Data;
+using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
-    public class ReaderImage : MonoBehaviour, IReaderValueField
+    public abstract class SpriteDrawer : MonoBehaviour
+    {
+        public abstract void Display(Sprite sprite);
+    }
+
+    public class ReaderImage : MonoBehaviour, IUserValueField
     {
         public string Name => name;
         public string Value { get; protected set; }
@@ -42,16 +49,22 @@ namespace ClinicalTools.SimEncounters.Reader
             }
         }
 
-        public virtual void Initialize(ReaderScene reader)
+        protected SpriteDrawer SpritePopup { get; set; }
+        [Inject]
+        public virtual void Inject(SpriteDrawer spritePopup)
+        {
+            SpritePopup = spritePopup;
+        }
+
+        public virtual void Initialize(UserPanel userPanel)
         {
             HideImage();
         }
-
-        public virtual void Initialize(ReaderScene reader, string value)
+        public virtual void Initialize(UserPanel userPanel, string value)
         {
-            var sprites = reader.EncounterData.Images.Sprites;
+            var sprites = userPanel.Encounter.Data.Images.Sprites;
             if (sprites.ContainsKey(value))
-                SetSprite(reader, sprites[value]);
+                SetSprite(userPanel, sprites[value]);
             else
                 HideImage();
         }
@@ -62,7 +75,7 @@ namespace ClinicalTools.SimEncounters.Reader
                 ImageGroup.SetActive(false);
         }
 
-        public virtual void SetSprite(ReaderScene reader, Sprite sprite)
+        public virtual void SetSprite(UserPanel userPanel, Sprite sprite)
         {
             if (sprite == null) {
                 Debug.LogError("Sprite is null");
@@ -87,7 +100,7 @@ namespace ClinicalTools.SimEncounters.Reader
 
             if (EnlargeImageButton != null) {
                 EnlargeImageButton.onClick.RemoveAllListeners();
-                EnlargeImageButton.onClick.AddListener(() => reader.Popups.ShowImage(sprite));
+                EnlargeImageButton.onClick.AddListener(() => SpritePopup.Display(sprite));
             }
         }
 

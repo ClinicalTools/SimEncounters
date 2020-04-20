@@ -1,10 +1,18 @@
 ﻿using ClinicalTools.SimEncounters.Collections;
+using System;
 
 namespace ClinicalTools.SimEncounters.Data
 {
     public class EncounterContent
     {
         public virtual int CurrentSectionIndex { get; set; }
+        public virtual string GetCurrentSectionKey() => Sections[CurrentSectionIndex].Key;
+        public virtual void SetCurrentSection(Section section)
+        {
+            if (!Sections.Contains(section))
+                throw new Exception($"Passed section is not contained in the collection of sections.");
+            CurrentSectionIndex = Sections.IndexOf(section);
+        }
 
         public virtual OrderedCollection<Section> Sections { get; } = new OrderedCollection<Section>();
         public virtual VariableData Variables { get; }

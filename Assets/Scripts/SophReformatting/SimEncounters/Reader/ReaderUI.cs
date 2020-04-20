@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClinicalTools.SimEncounters.Data;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -40,6 +41,7 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private ReaderRatingUI rating;
         public virtual ReaderRatingUI Rating { get => rating; set => rating = value; }
 
+        [SerializeField] private SomethingHigherUp whatIsPositiveMentalHealthBecauseILackIt;
         public event Action GameClosed;
 
         protected LoadingEncounterSceneInfo LoadingSceneInfo { get; set; }
@@ -51,7 +53,8 @@ namespace ClinicalTools.SimEncounters.Reader
 
         protected virtual void EncounterLoaded(EncounterSceneInfo sceneInfo)
         {
-
+            var userEncounter = new UserEncounter(sceneInfo.User, sceneInfo.Encounter.Metadata, sceneInfo.Encounter.Data, new NewEncounterStatus());
+            whatIsPositiveMentalHealthBecauseILackIt.Display(userEncounter);
         }
 
         protected void OnApplicationPause(bool pauseStatus)

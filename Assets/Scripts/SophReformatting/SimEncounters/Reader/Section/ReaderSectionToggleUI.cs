@@ -30,47 +30,41 @@ namespace ClinicalTools.SimEncounters.Reader
 
         protected virtual void Awake()
         {
-            SelectToggle.Selected += Selected;
-            Selected += () => SetColor(KeyedSection.Value.Color, true);
-            SelectToggle.Unselected += Unselected;
-            Unselected += () => SetColor(KeyedSection.Value.Color, false);
+            SelectToggle.Selected += () => Selected?.Invoke();
+            Selected += () => SetColor(true);
+            SelectToggle.Unselected += () => Unselected?.Invoke();
+            Unselected += () => SetColor(false);
         }
 
-        protected EncounterSceneInfo SceneInfo { get; set; }
-        protected KeyValuePair<string, Section> KeyedSection { get; set; }
-        public void Display(EncounterSceneInfo sceneInfo, KeyValuePair<string, Section> keyedSection)
+        protected UserSection UserSection { get; set; }
+        public void Display(UserSection userSection)
         {
-            SceneInfo = sceneInfo;
-            KeyedSection = keyedSection;
+            if (UserSection != null)
+                userSection.StatusChanged -= StatusChanged;
 
-            var section = keyedSection.Value;
-            SetColor(section.Color, false);
-            var icons = sceneInfo.Encounter.Data.Images.Icons;
+            UserSection = userSection;
+            var section = userSection.Data;
+            SetColor(false);
+            var icons = userSection.Encounter.Data.Images.Icons;
             if (icons.ContainsKey(section.IconKey))
                 Icon.sprite = icons[section.IconKey];
 
-            CheckRead();
-        }
-        public void Select() => SelectToggle.Select();
-
-        protected virtual void CheckRead()
-        {
-            if (SceneInfo == null || KeyedSection.Value == null)
-                return;
-
-            var isRead = true;
-            foreach (var tab in KeyedSection.Value.Tabs) {
-                if (SceneInfo.Encounter.Status.ReadTabs.Contains(tab.Key))
-                    continue;
-
-                isRead = false;
-                break;
-            }
-            Visited.SetActive(isRead);
+            NameLabel.text = userSection.Data.Name;
+            Visited.SetActive(userSection.IsRead());
+            userSection.StatusChanged += StatusChanged;
         }
 
-        protected virtual void SetColor(Color color, bool isOn)
+        private void StatusChanged() => Visited.SetActive(UserSection.IsRead());
+        public void Select()
         {
+            SelectToggle.Select();
+        }
+
+        public void SetToggleGroup(ToggleGroup group) => SelectToggle.SetToggleGroup(group);
+
+        protected virtual void SetColor(bool isOn)
+        {
+            var color = UserSection.Data.Color;
             if (isOn) {
                 Image.color = color;
                 Icon.color = Color.white;

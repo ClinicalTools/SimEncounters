@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClinicalTools.SimEncounters.Data;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -45,6 +46,10 @@ namespace ClinicalTools.SimEncounters.Reader
         public void Drag(Vector3 mousePosition)
         {
             Dragging?.Invoke(this, mousePosition);
+        }
+        public override void Display(UserPanel userPanel)
+        {
+            Debug.LogError("pleaseee implement");
         }
     }
 }

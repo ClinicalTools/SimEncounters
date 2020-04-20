@@ -57,6 +57,9 @@ namespace ClinicalTools.SimEncounters
             var metadataGroups = new Dictionary<int, Dictionary<SaveType, EncounterMetadata>>();
             foreach (var metadatasResult in metadatasResults)
             {
+                if (metadatasResult.Value.Result == null)
+                    continue;
+
                 foreach (var metadata in metadatasResult.Value.Result)
                     AddMetadata(metadataGroups, metadatasResult.Key, metadata);
             }

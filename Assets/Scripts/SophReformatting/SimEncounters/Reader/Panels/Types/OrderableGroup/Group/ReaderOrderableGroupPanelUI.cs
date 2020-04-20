@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ClinicalTools.SimEncounters.Data;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Reader
@@ -16,5 +17,10 @@ namespace ClinicalTools.SimEncounters.Reader
 
         [SerializeField] private GameObject feedbackObject;
         public virtual GameObject FeedbackObject { get => feedbackObject; set => feedbackObject = value; }
+
+        public override void Display(UserPanel userPanel)
+        {
+            Debug.LogError("pleaseee implement");
+        }
     }
 }

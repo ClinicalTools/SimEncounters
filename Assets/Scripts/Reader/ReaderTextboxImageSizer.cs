@@ -58,6 +58,8 @@ public class ReaderTextboxImageSizer : MonoBehaviour
         }
         // Remove bold xml to get the proper first character
         var refText = referenceText.text.Replace("<b>", "").Replace("</b>", "");
+        if (referenceText.linkedTextComponent.firstVisibleCharacter <= 0)
+            return;
         var firstText = refText.Substring(0, referenceText.linkedTextComponent.firstVisibleCharacter);
 
         if (referenceLayout.preferredHeight <= 1)

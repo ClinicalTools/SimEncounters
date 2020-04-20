@@ -1,5 +1,4 @@
 ﻿using ClinicalTools.SimEncounters.Data;
-using System;
 using System.Collections.Generic;
 
 namespace ClinicalTools.SimEncounters

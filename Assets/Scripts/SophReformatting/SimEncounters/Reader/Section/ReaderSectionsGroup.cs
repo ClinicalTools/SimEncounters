@@ -28,21 +28,21 @@ namespace ClinicalTools.SimEncounters.Reader
         protected override ISelectable<KeyValuePair<string, Section>> AddButton(KeyValuePair<string, Section> keyedSection)
         {
             var sectionButtonUI = Object.Instantiate(SectionsUI.SectionButtonPrefab, SectionsUI.SectionButtonsParent);
-            sectionButtonUI.SelectToggle.group = SectionsUI.SectionsToggleGroup;
-            var sectionButton = new ReaderSectionButton(Reader, sectionButtonUI, keyedSection);
-            return sectionButton;
+            //sectionButtonUI.SelectToggle.group = SectionsUI.SectionsToggleGroup;
+            //var sectionButton = new ReaderSectionButton(Reader, sectionButtonUI, keyedSection);
+            return null;// sectionButton;
         }
 
         protected override void Select(KeyValuePair<string, Section> keyedSection)
         {
             var section = keyedSection.Value;
-            foreach (var sectionBorder in SectionsUI.SectionBorders)
-                sectionBorder.color = section.Color;
+            //foreach (var sectionBorder in SectionsUI.SectionBorders)
+                //sectionBorder.color = section.Color;
 
             SectionsData.CurrentSectionIndex = SectionsData.Sections.IndexOf(section);
 
             Tabs?.Delete();
-            Tabs = new ReaderTabsGroup(Reader, SectionsUI.Tabs, section);
+            //Tabs = new ReaderTabsGroup(Reader, SectionsUI.Tabs, section);
             Tabs.MoveToPreviousSection += MoveToPreviousSection;
             Tabs.MoveToNextSection += MoveToNextSection;
         }

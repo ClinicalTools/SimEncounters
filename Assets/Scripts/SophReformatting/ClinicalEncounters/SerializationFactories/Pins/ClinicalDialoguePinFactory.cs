@@ -7,7 +7,7 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
 {
     public class ClinicalDialoguePinFactory : DialoguePinFactory
     {
-        public ClinicalDialoguePinFactory(LazyInject<PanelFactory> panelFactory) : base(panelFactory) { }
+        public ClinicalDialoguePinFactory(LazyInject<ISerializationFactory<Panel>> panelFactory) : base(panelFactory) { }
 
         protected CollectionInfo LegacyConversationInfo { get; } =
             new CollectionInfo(

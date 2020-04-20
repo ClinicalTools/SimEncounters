@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using ClinicalTools.SimEncounters.Data;
+using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
-    public class ReaderQuizTabUI : MonoBehaviour, IReaderTabUI
+    public class ReaderQuizTabUI : UserTabDrawer, IReaderTabUI
     {
         public GameObject GameObject => gameObject;
 
@@ -13,5 +14,10 @@ namespace ClinicalTools.SimEncounters.Reader
         public BaseReaderPanelUI MultipleChoicePanel { get => multipleChoicePanel; set => multipleChoicePanel = value; }
         [SerializeField] private BaseReaderPanelUI checkBoxPanel;
         public BaseReaderPanelUI CheckBoxPanel { get => checkBoxPanel; set => checkBoxPanel = value; }
+
+        public override void Display(UserTab userTab)
+        {
+
+        }
     }
 }

@@ -17,8 +17,9 @@ namespace ClinicalTools.SimEncounters.Reader
         {
             if (pinData == null || !pinData.HasPin())
                 return null;
-            var pinButtonsUI = Object.Instantiate(PinsUI.PinButtonsPrefab, parent);
-            return new ReaderPinsGroup(Reader, pinButtonsUI, pinData);
+            return null;
+            //var pinButtonsUI = Object.Instantiate(PinsUI.PinButtonsPrefab, parent);
+            //return new ReaderPinsGroup(Reader, pinButtonsUI, pinData);
         }
 
         public ReaderDialoguePopup ShowDialogue(DialoguePin pin)

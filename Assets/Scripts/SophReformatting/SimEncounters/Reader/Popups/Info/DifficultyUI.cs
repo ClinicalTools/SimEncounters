@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using ClinicalTools.SimEncounters.Data;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,5 +21,20 @@ namespace ClinicalTools.SimEncounters
 
         [SerializeField] private Sprite advancedSprite;
         public virtual Sprite AdvancedSprite { get => advancedSprite; set => advancedSprite = value; }
+
+        public void Display(Difficulty difficulty)
+        {
+            Label.text = difficulty.ToString();
+            Sprite sprite;
+            if (difficulty == Difficulty.Beginner)
+                sprite = BeginnerSprite;
+            else if (difficulty == Difficulty.Intermediate)
+                sprite = IntermediateSprite;
+            else if (difficulty == Difficulty.Advanced)
+                sprite = AdvancedSprite;
+            else
+                sprite = null;
+            Image.sprite = sprite;
+        }
     }
 }

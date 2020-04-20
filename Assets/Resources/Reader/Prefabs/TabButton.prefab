@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 114630241419501834}
   - component: {fileID: 114113520038877096}
   - component: {fileID: 114531719733795358}
-  - component: {fileID: 114480166989240146}
   - component: {fileID: 3757614694930851171}
   - component: {fileID: 6042425280553521603}
+  - component: {fileID: 5502156069585187543}
   m_Layer: 5
   m_Name: TabButton
   m_TagString: Untagged
@@ -120,18 +120,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 0
---- !u!114 &114480166989240146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1316005352624500}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c832c18d8b83039469fdc1de478da29d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3757614694930851171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,9 +179,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15be539fed656f84086a8a94db7f1b34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectToggle: {fileID: 3757614694930851171}
+  selectToggle: {fileID: 5502156069585187543}
   nameLabel: {fileID: 114836447787515714}
   visited: {fileID: 1420271613670944}
+--- !u!114 &5502156069585187543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316005352624500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5c16cc598a499146879585d22d649da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toggle: {fileID: 3757614694930851171}
 --- !u!1 &1420271613670944
 GameObject:
   m_ObjectHideFlags: 0

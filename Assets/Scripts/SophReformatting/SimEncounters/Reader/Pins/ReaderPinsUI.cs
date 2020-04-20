@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ClinicalTools.SimEncounters.Data;
+using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
@@ -12,5 +13,6 @@ namespace ClinicalTools.SimEncounters.Reader
 
         [SerializeField] private ReaderQuizPopupUI quizPrefab;
         public virtual ReaderQuizPopupUI QuizPrefab { get => quizPrefab; set => quizPrefab = value; }
+
     }
 }

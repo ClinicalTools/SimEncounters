@@ -7,7 +7,7 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
 {
     public class ClinicalQuizPinFactory : QuizPinFactory
     {
-        public ClinicalQuizPinFactory(LazyInject<PanelFactory> panelFactory) : base(panelFactory) { }
+        public ClinicalQuizPinFactory(LazyInject<ISerializationFactory<Panel>> panelFactory) : base(panelFactory) { }
 
         protected CollectionInfo LegacyQuestionsInfo { get; } =
             new CollectionInfo(

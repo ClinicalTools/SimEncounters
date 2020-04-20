@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using ClinicalTools.SimEncounters.Data;
+using TMPro;
 using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Reader
@@ -22,5 +23,15 @@ namespace ClinicalTools.SimEncounters.Reader
 
         [SerializeField] private DifficultyUI difficulty;
         public virtual DifficultyUI Difficulty { get => difficulty; set => difficulty = value; }
+
+        public void Display(EncounterMetadata metadata)
+        {
+            Title.text = metadata.Title;
+            Subtitle.text = metadata.Subtitle;
+            Description.text = metadata.Description;
+            Categories.text = string.Join(", ", metadata.Categories);
+            Audience.text = metadata.Audience;
+            Difficulty.Display(metadata.Difficulty);
+        }
     }
 }

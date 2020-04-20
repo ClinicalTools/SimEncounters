@@ -23,5 +23,10 @@ namespace ClinicalTools.SimEncounters.Reader
         
         [SerializeField] private ReaderFeedbackUI feedback;
         public virtual ReaderFeedbackUI Feedback { get => feedback; set => feedback = value; }
+
+        public override void Display(UserPanel userPanel)
+        {
+            Debug.LogError("pleaseee implement");
+        }
     }
 }

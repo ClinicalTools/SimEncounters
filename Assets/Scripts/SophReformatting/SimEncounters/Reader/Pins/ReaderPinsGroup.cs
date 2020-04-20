@@ -29,7 +29,7 @@ namespace ClinicalTools.SimEncounters.Reader
                 return;
 
             var button = Object.Instantiate(PinButtonsUI.DialogueButtonPrefab, PinButtonsUI.ButtonsParent);
-            button.Button.onClick.AddListener(() => Reader.Pins.ShowDialogue(pin));
+            //button.Button.onClick.AddListener(() => Reader.Pins.ShowDialogue(pin));
         }
 
         protected virtual void InitializeQuizPin(QuizPin pin)

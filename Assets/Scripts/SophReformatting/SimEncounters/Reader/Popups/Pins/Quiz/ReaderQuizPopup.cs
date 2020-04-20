@@ -8,7 +8,7 @@ namespace ClinicalTools.SimEncounters.Reader
         protected ReaderScene Reader { get; }
         protected virtual ReaderPanelCreator ReaderPanelCreator { get; }
         protected virtual ReaderQuizPopupUI QuizPopupUI { get; }
-        public ReaderQuizPopup(ReaderScene reader, ReaderQuizPopupUI quizPopupUI, QuizPin pin) : base(reader, quizPopupUI)
+        public ReaderQuizPopup(ReaderScene reader, ReaderQuizPopupUI quizPopupUI, QuizPin pin) : base(reader, null)
         {
             Reader = reader;
             QuizPopupUI = quizPopupUI;

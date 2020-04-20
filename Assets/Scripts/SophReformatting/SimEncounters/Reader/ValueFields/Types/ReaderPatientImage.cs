@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ClinicalTools.SimEncounters.Data;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.Reader
@@ -7,9 +8,9 @@ namespace ClinicalTools.SimEncounters.Reader
     {
 
         private const string patientImageKey = "patientImage";
-        public override void Initialize(ReaderScene reader)
+        public override void Initialize(UserPanel userPanel)
         {
-            Initialize(reader, patientImageKey);
+            Initialize(userPanel, patientImageKey);
         }
     }
 }

@@ -8,8 +8,8 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
     public class QuizPinFactory : ISerializationFactory<QuizPin>
     {
         // pins are created by panels, so a lazy injection needs to be used to prevent an infinite loop
-        protected virtual LazyInject<PanelFactory> PanelFactory { get; }
-        public QuizPinFactory(LazyInject<PanelFactory> panelFactory)
+        protected virtual LazyInject<ISerializationFactory<Panel>> PanelFactory { get; }
+        public QuizPinFactory(LazyInject<ISerializationFactory<Panel>> panelFactory)
         {
             PanelFactory = panelFactory;
         }
