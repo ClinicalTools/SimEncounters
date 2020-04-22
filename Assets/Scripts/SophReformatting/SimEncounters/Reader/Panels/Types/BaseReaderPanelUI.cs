@@ -4,6 +4,7 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public abstract class BaseReaderPanelUI : UserPanelDrawer, IReaderPanelUI
     {
-        public abstract string Type { get; set; }
+        [SerializeField] private string type;
+        public virtual string Type { get => type; set => type = value; }
     }
 }

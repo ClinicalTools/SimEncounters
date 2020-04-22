@@ -2,11 +2,15 @@
 using ClinicalTools.SimEncounters.Data;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderQuizPopupUI : UserQuizPinDrawer
     {
+        [SerializeField] private List<Button> closeButtons = new List<Button>();
+        public List<Button> CloseButtons { get => closeButtons; set => closeButtons = value; }
+
         [SerializeField] private Transform panelsParent;
         public virtual Transform PanelsParent { get => panelsParent; set => panelsParent = value; }
 
@@ -14,6 +18,12 @@ namespace ClinicalTools.SimEncounters.Reader
         public ReaderPanelUI MultipleChoicePanel { get => multipleChoicePanel; set => multipleChoicePanel = value; }
         [SerializeField] private ReaderPanelUI checkBoxPanel;
         public ReaderPanelUI CheckBoxPanel { get => checkBoxPanel; set => checkBoxPanel = value; }
+
+        protected virtual void Awake()
+        {
+            foreach (var closeButton in CloseButtons)
+                closeButton.onClick.AddListener(() => gameObject.SetActive(false));
+        }
 
         public override void Display(UserQuizPin quizPin)
         {

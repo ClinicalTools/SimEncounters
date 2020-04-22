@@ -1193,7 +1193,8 @@ GameObject:
   - component: {fileID: 653960403512546402}
   - component: {fileID: 5443068074665763893}
   - component: {fileID: 6130575684979411614}
-  - component: {fileID: 8742453968228961925}
+  - component: {fileID: 7966500289297844360}
+  - component: {fileID: -6625934731427224560}
   m_Layer: 5
   m_Name: ReferralPanel
   m_TagString: Untagged
@@ -1299,7 +1300,7 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &8742453968228961925
+--- !u!114 &7966500289297844360
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1308,14 +1309,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 4929276494682264472}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17a8ca714a5aa77429c31fe42133d27b, type: 3}
+  m_Script: {fileID: 11500000, guid: 99f2e5afb88a56d48bf4b233dfc4ec5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   type: ReferralEntryPanel
-  childrenParent: {fileID: 8324428155071465886}
-  childPanelOptions:
-  - {fileID: 8190885729771041363, guid: 8825d73c5dbc29d4baf91c81af09f601, type: 3}
   getFeedbackButton: {fileID: 2170726236385728666}
+  childPanelCreator: {fileID: 5060373216716383033}
+--- !u!114 &-6625934731427224560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4929276494682264472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _containerSource: 2
 --- !u!1 &4990172236958628213
 GameObject:
   m_ObjectHideFlags: 0
@@ -1651,7 +1663,7 @@ GameObject:
   - component: {fileID: 7585403921057363810}
   - component: {fileID: 3320127968023184907}
   - component: {fileID: 140265596082594858}
-  - component: {fileID: 3577739753386183608}
+  - component: {fileID: 5060373216716383033}
   m_Layer: 5
   m_Name: Referrals
   m_TagString: Untagged
@@ -1743,7 +1755,7 @@ MonoBehaviour:
   m_FlexibleWidth: 1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &3577739753386183608
+--- !u!114 &5060373216716383033
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1752,17 +1764,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5471325168704661018}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ba7a886d6e9f544aa02b3da2eccd7de, type: 3}
+  m_Script: {fileID: 11500000, guid: fe4a0ee3bfbf6e1489e38da041b31a4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadedPrefabs:
-  - {fileID: 8013950784088425171, guid: 8825d73c5dbc29d4baf91c81af09f601, type: 3}
-  loadedPrefabsDisplayNames: []
-  parentTab: {fileID: 0}
-  isNested: 1
-  isQuizPanel: 0
-  isStatic: 0
-  isPuzzle: 0
+  panelOptions:
+  - {fileID: 2026145854932646576, guid: 8825d73c5dbc29d4baf91c81af09f601, type: 3}
 --- !u!1 &6505526978956522087
 GameObject:
   m_ObjectHideFlags: 0
@@ -2231,10 +2237,10 @@ MonoBehaviour:
   m_text: 'Mr. Johnson''s response: No, this is the first time.
 
 
-    Correct! Asking about the past history of similar symptoms is part of a complete
-    pain history. This information has not been elicited so far in the interview.
-    In the PQRSTU acronym to track pain history, P stands for Provoking, Palliation,
-    and Past History.
+    Correct! Asking
+    about the past history of similar symptoms is part of a complete pain history.
+    This information has not been elicited so far in the interview. In the PQRSTU
+    acronym to track pain history, P stands for Provoking, Palliation, and Past History.
 
 '
   m_isRightToLeft: 0

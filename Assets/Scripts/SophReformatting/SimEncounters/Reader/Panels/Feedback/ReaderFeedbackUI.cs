@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
@@ -40,5 +41,63 @@ namespace ClinicalTools.SimEncounters.Reader
 
         [SerializeField] private List<GameObject> incorrectObjects = new List<GameObject>();
         public List<GameObject> IncorrectObjects { get => incorrectObjects; set => incorrectObjects = value; }
+
+        // switch to dependency injection
+        protected virtual FeedbackColorInfo FeedbackColorInfo { get; set; } = new FeedbackColorInfo();
+
+        [Inject]
+        public virtual void Inject(FeedbackColorInfo feedbackColorInfo)
+        {
+            FeedbackColorInfo = feedbackColorInfo;
+        }
+
+        protected virtual void Awake()
+        {
+            CloseButton.onClick.AddListener(CloseFeedback);
+        }
+
+        public virtual void ShowFeedback(bool isOn)
+        {
+            gameObject.SetActive(true);
+            foreach (var controlledObject in ControlledObjects)
+                controlledObject.SetActive(true);
+
+            foreach (var incorrectObject in IncorrectObjects)
+                incorrectObject.SetActive(OptionType != OptionType.Correct);
+
+            Color color = FeedbackColorInfo.GetColor(OptionType);
+            foreach (var image in ColoredImages)
+                image.color = color;
+
+            IsCorrectLabel.text = GetOptionTypeText(OptionType, isOn);
+
+            Stripes.gameObject.SetActive(ShowStripes(OptionType, isOn));
+        }
+
+
+        protected virtual string GetOptionTypeText(OptionType optionType, bool isOn)
+        {
+            if (optionType == OptionType.Incorrect)
+                return "Incorrect";
+            else if (optionType == OptionType.PartiallyCorrect)
+                return "Partially Correct";
+            else if (!isOn)
+                return "Missed Correct Response";
+            else
+                return "Correct";
+        }
+
+        protected virtual bool ShowStripes(OptionType optionType, bool isOn) => optionType == OptionType.Correct && !isOn;
+
+        public virtual void SetParent(Transform parent)
+            => transform.SetParent(parent);
+
+        public virtual void CloseFeedback()
+        {
+            Color color = new Color(0.9372549f, 0.9372549f, 0.9372549f, 1f);
+            foreach (var image in ColoredImages)
+                image.color = color;
+            gameObject.SetActive(false);
+        }
     }
 }

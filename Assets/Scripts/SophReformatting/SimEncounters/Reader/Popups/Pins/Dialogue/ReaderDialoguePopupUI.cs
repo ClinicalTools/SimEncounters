@@ -1,11 +1,15 @@
 ﻿using ClinicalTools.SimEncounters.Data;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderDialoguePopupUI : UserDialoguePinDrawer
     {
+        [SerializeField] private List<Button> closeButtons = new List<Button>();
+        public List<Button> CloseButtons { get => closeButtons; set => closeButtons = value; }
+
         [SerializeField] private ReaderDialogueEntryUI dialogueEntryLeft;
         public ReaderDialogueEntryUI DialogueEntryLeft { get => dialogueEntryLeft; set => dialogueEntryLeft = value; }
 
@@ -17,6 +21,12 @@ namespace ClinicalTools.SimEncounters.Reader
 
         [SerializeField] private Transform panelsParent;
         public Transform PanelsParent { get => panelsParent; set => panelsParent = value; }
+
+        protected virtual void Awake()
+        {
+            foreach (var closeButton in CloseButtons)
+                closeButton.onClick.AddListener(() => gameObject.SetActive(false));
+        }
 
         public override void Display(UserDialoguePin dialoguePin)
         {

@@ -3684,7 +3684,8 @@ GameObject:
   - component: {fileID: 8093045229424702271}
   - component: {fileID: 3170256487871502154}
   - component: {fileID: 6235103884631743172}
-  - component: {fileID: 8175435990056885717}
+  - component: {fileID: 6885966534773697012}
+  - component: {fileID: -2773117958122833999}
   m_Layer: 5
   m_Name: OtherTestEntryPanel
   m_TagString: Untagged
@@ -3773,7 +3774,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pinStartHidden: 1
---- !u!114 &8175435990056885717
+--- !u!114 &6885966534773697012
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3782,14 +3783,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 4506867230485913405}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bfe2525be303b24c97c769873c23b88, type: 3}
+  m_Script: {fileID: 11500000, guid: ced16a2a6833c6340b0b7a9606ef2de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   type: Other Medical Tests
-  childrenParent: {fileID: 0}
-  childPanelOptions: []
-  feedback: {fileID: 783291530746432644}
+  childPanelCreator: {fileID: 0}
   optionToggle: {fileID: 581742074869726051}
+  feedback: {fileID: 783291530746432644}
+--- !u!114 &-2773117958122833999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4506867230485913405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _containerSource: 2
 --- !u!1 &4552014101187579235
 GameObject:
   m_ObjectHideFlags: 0
@@ -3947,6 +3960,7 @@ MonoBehaviour:
   closeButton: {fileID: 6747328247753975001}
   controlledObjects:
   - {fileID: 443079367527202774}
+  incorrectObjects: []
 --- !u!1 &4560713121986034302
 GameObject:
   m_ObjectHideFlags: 0
@@ -4733,10 +4747,10 @@ MonoBehaviour:
   m_text: 'Mr. Johnson''s response: No, this is the first time.
 
 
-    Correct! Asking about the past history of similar symptoms is part of a complete
-    pain history. This information has not been elicited so far in the interview.
-    In the PQRSTU acronym to track pain history, P stands for Provoking, Palliation,
-    and Past History.
+    Correct! Asking
+    about the past history of similar symptoms is part of a complete pain history.
+    This information has not been elicited so far in the interview. In the PQRSTU
+    acronym to track pain history, P stands for Provoking, Palliation, and Past History.
 
 '
   m_isRightToLeft: 0
@@ -6711,9 +6725,9 @@ RectTransform:
   m_Father: {fileID: 934290157419674632}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 500, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 500, y: -59}
   m_SizeDelta: {x: 1000, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8400892193721309494

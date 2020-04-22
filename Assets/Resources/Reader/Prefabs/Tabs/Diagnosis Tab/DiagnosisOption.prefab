@@ -154,6 +154,8 @@ MonoBehaviour:
   coloredImages:
   - {fileID: 7929571977084626956}
   closeButton: {fileID: 7716234486934822645}
+  controlledObjects: []
+  incorrectObjects: []
 --- !u!1 &841446983439388800
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,7 +169,8 @@ GameObject:
   - component: {fileID: 737485509932741416}
   - component: {fileID: 735191568803527176}
   - component: {fileID: 5353365500071190292}
-  - component: {fileID: 5357750791273102685}
+  - component: {fileID: -8380350750742044580}
+  - component: {fileID: 2689313950286041507}
   m_Layer: 5
   m_Name: DiagnosisOption
   m_TagString: Untagged
@@ -263,7 +266,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &5357750791273102685
+--- !u!114 &-8380350750742044580
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -272,15 +275,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 841446983439388800}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bfe2525be303b24c97c769873c23b88, type: 3}
+  m_Script: {fileID: 11500000, guid: ced16a2a6833c6340b0b7a9606ef2de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   type: DxEntry
-  childrenParent: {fileID: 0}
-  childPanelOptions: []
-  feedback: {fileID: 4352744809744397992}
-  feedbackOnlyIfSelected: 0
+  childPanelCreator: {fileID: 0}
   optionToggle: {fileID: 737660218104174330}
+  feedback: {fileID: 4352744809744397992}
+--- !u!114 &2689313950286041507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841446983439388800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _containerSource: 2
 --- !u!1 &841550759275261922
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,6 +486,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlledObjects: []
+  prefix: 
 --- !u!1 &841621444977914744
 GameObject:
   m_ObjectHideFlags: 0
@@ -1237,6 +1252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlledObjects: []
+  prefix: 
 --- !u!1 &3160811482365604907
 GameObject:
   m_ObjectHideFlags: 0
@@ -1501,6 +1517,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlledObjects: []
+  prefix: 
 --- !u!1 &6438621005493152182
 GameObject:
   m_ObjectHideFlags: 0
@@ -1850,10 +1867,10 @@ MonoBehaviour:
   m_text: 'Mr. Johnson''s response: No, this is the first time.
 
 
-    Correct! Asking about the past history of similar symptoms is part of a complete
-    pain history. This information has not been elicited so far in the interview.
-    In the PQRSTU acronym to track pain history, P stands for Provoking, Palliation,
-    and Past History.
+    Correct! Asking
+    about the past history of similar symptoms is part of a complete pain history.
+    This information has not been elicited so far in the interview. In the PQRSTU
+    acronym to track pain history, P stands for Provoking, Palliation, and Past History.
 
 '
   m_isRightToLeft: 0

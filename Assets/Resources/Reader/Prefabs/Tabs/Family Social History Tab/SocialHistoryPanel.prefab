@@ -786,6 +786,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlledObjects:
   - {fileID: 1546315819680076}
+  prefix: 
 --- !u!1 &1307832004182732
 GameObject:
   m_ObjectHideFlags: 0
@@ -1495,6 +1496,7 @@ MonoBehaviour:
   controlledObjects:
   - {fileID: 1307832004182732}
   - {fileID: 1408670891102062}
+  prefix: 
 --- !u!1 &1489024872332584
 GameObject:
   m_ObjectHideFlags: 0
@@ -1616,7 +1618,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -12.707703, y: -1.0000381}
+  m_AnchoredPosition: {x: -12.707703, y: -1.0000305}
   m_SizeDelta: {x: -25.414795, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222544353667615356
@@ -2089,6 +2091,7 @@ MonoBehaviour:
   controlledObjects:
   - {fileID: 1317340513318638}
   - {fileID: 1724989864299732}
+  prefix: 
 --- !u!1 &1783508748082480
 GameObject:
   m_ObjectHideFlags: 0
@@ -2299,6 +2302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlledObjects:
   - {fileID: 1489024872332584}
+  prefix: 
 --- !u!1 &1850412140446304
 GameObject:
   m_ObjectHideFlags: 0
@@ -2509,6 +2513,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlledObjects:
   - {fileID: 1876667847779268}
+  prefix: 
 --- !u!1 &1855934612110472
 GameObject:
   m_ObjectHideFlags: 0
@@ -2521,7 +2526,8 @@ GameObject:
   - component: {fileID: 222927926459815734}
   - component: {fileID: 114578702191809072}
   - component: {fileID: 114044712882447788}
-  - component: {fileID: 7709246864865617733}
+  - component: {fileID: 4375489133876563299}
+  - component: {fileID: -4083383690223593514}
   m_Layer: 5
   m_Name: SocialHistoryPanel
   m_TagString: Untagged
@@ -2615,7 +2621,7 @@ MonoBehaviour:
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
---- !u!114 &7709246864865617733
+--- !u!114 &4375489133876563299
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2624,12 +2630,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1855934612110472}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57c910d8b8ada1a49a725802d224bd23, type: 3}
+  m_Script: {fileID: 11500000, guid: 23ebe9e95dd3c224f8330dd4e2abea21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   type: SocialHistoryPanel
-  childrenParent: {fileID: 0}
-  childPanelOptions: []
+  childPanelCreator: {fileID: 0}
+--- !u!114 &-4083383690223593514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855934612110472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _containerSource: 2
 --- !u!1 &1876667847779268
 GameObject:
   m_ObjectHideFlags: 0

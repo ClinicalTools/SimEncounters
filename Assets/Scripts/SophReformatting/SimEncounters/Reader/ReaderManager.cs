@@ -3,6 +3,7 @@ using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.Loading;
 using System.Collections;
 using System.Diagnostics;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
@@ -16,26 +17,25 @@ namespace ClinicalTools.SimEncounters.Reader
             base.Awake();
         }
 
+        protected IEncounterReaderSelector ReaderSelector { get; set; }
+        [Inject]
+        public virtual void Inject(IEncounterReaderSelector readerSelector)
+        {
+            ReaderSelector = readerSelector;
+        }
+
         protected virtual void Start()
         {
-
             if (Instance != this)
                 return;
 
-            //StartCoroutine(StartScene());
-        }
-
-        public IEnumerator StartScene()
-        {
-            
-            yield return null;
+            ShowReader();
         }
 
         public void ShowReader()
         {
-            var watch = Stopwatch.StartNew();
-            /*
-            var encounterInfo = new EncounterMetadata() {
+            var metadata = new EncounterMetadata() {
+                Filename = "289342Dave Abbott",
                 Title = "Chad Wright",
                 Subtitle = "Chronic Knee Pain",
                 Audience = "MD/DO/PA/NP",
@@ -44,10 +44,12 @@ namespace ClinicalTools.SimEncounters.Reader
                 "He now presents as a new patient requesting a prescription for opioids.",
                 Difficulty = Difficulty.Intermediate
             };
-            */
-            watch.Stop();
 
-            //ReaderSceneLoader.StartReader(this, User.Guest, encounter);
+            var encounterReader = ReaderSelector.GetEncounterReader(SaveType.Demo);
+            var fullEncounter = encounterReader.GetFullEncounter(User.Guest, metadata, new EncounterBasicStatus());
+
+            var sceneInfo = new LoadingEncounterSceneInfo(User.Guest, null, fullEncounter);
+            ((ReaderUI)SceneUI).Display(sceneInfo);
         }
     }
 }

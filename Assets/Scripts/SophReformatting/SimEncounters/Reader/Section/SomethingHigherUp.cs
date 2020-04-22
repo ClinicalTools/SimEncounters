@@ -31,7 +31,6 @@ namespace ClinicalTools.SimEncounters.Reader
             generalEncounterDrawer.Display(userEncounter);
 
             UserEncounter = userEncounter;
-            Debug.LogError("PLEASE WORK I SWEAR TO GOD");
             footer.Display(userEncounter);
             sectionSelector.Display(userEncounter);
 

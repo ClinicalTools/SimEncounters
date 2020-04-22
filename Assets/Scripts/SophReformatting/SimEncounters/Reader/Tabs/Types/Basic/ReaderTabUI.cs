@@ -62,6 +62,4 @@ namespace ClinicalTools.SimEncounters.Reader
 
         public void Destroy() => Destroy(GameObject);
     }
-
-
 }

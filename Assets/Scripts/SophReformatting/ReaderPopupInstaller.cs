@@ -23,6 +23,9 @@ namespace ClinicalTools.SimEncounters.Reader
             Container.BindInstance(quizPopup);
             Container.BindInstance(pinButtonsPrefab);
             Container.BindInstance(imagePopup);
+            
+            Container.Bind<BasicReaderPanelDrawer>().To<BasicReaderPanelDrawer>().AsTransient();
+            Container.Bind<FeedbackColorInfo>().To<FeedbackColorInfo>().AsTransient();
         }
     }
 }

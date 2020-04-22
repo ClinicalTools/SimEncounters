@@ -481,6 +481,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlledObjects: []
+  prefix: 
 --- !u!1 &1912204280574592
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,7 +494,8 @@ GameObject:
   - component: {fileID: 222891760949224602}
   - component: {fileID: 114757785087037736}
   - component: {fileID: 114925796530739208}
-  - component: {fileID: 2916824587858980242}
+  - component: {fileID: -640275839768976166}
+  - component: {fileID: -5905689193930406568}
   m_Layer: 5
   m_Name: CBQuizQuestionOption
   m_TagString: Untagged
@@ -575,7 +577,7 @@ MonoBehaviour:
   m_FlexibleWidth: 1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &2916824587858980242
+--- !u!114 &-640275839768976166
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -584,15 +586,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 1912204280574592}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bfe2525be303b24c97c769873c23b88, type: 3}
+  m_Script: {fileID: 11500000, guid: ced16a2a6833c6340b0b7a9606ef2de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   type: QuizQuestionOption
-  childrenParent: {fileID: 0}
-  childPanelOptions: []
-  feedback: {fileID: 5096677540907610583}
-  feedbackOnlyIfSelected: 0
+  childPanelCreator: {fileID: 0}
   optionToggle: {fileID: 114580924398728442}
+  feedback: {fileID: 5096677540907610583}
+--- !u!114 &-5905689193930406568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1912204280574592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _containerSource: 2
 --- !u!1 &842215894596936622
 GameObject:
   m_ObjectHideFlags: 0
@@ -677,10 +690,10 @@ MonoBehaviour:
   m_text: 'Mr. Johnson''s response: No, this is the first time.
 
 
-    Correct! Asking about the past history of similar symptoms is part of a complete
-    pain history. This information has not been elicited so far in the interview.
-    In the PQRSTU acronym to track pain history, P stands for Provoking, Palliation,
-    and Past History.
+    Correct! Asking
+    about the past history of similar symptoms is part of a complete pain history.
+    This information has not been elicited so far in the interview. In the PQRSTU
+    acronym to track pain history, P stands for Provoking, Palliation, and Past History.
 
 '
   m_isRightToLeft: 0
@@ -1235,6 +1248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlledObjects: []
+  prefix: 
 --- !u!1 &5840731265797436244
 GameObject:
   m_ObjectHideFlags: 0
@@ -1514,6 +1528,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlledObjects: []
+  prefix: 
 --- !u!1 &6731591359284685231
 GameObject:
   m_ObjectHideFlags: 0
@@ -1959,6 +1974,7 @@ MonoBehaviour:
   - {fileID: 1502083365190922099}
   closeButton: {fileID: 1280875030378535306}
   controlledObjects: []
+  incorrectObjects: []
 --- !u!1001 &7447631245736777145
 PrefabInstance:
   m_ObjectHideFlags: 0

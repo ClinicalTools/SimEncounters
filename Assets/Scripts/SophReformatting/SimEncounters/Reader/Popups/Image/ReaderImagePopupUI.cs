@@ -20,6 +20,7 @@ namespace ClinicalTools.SimEncounters.Reader
 
         public override void Display(Sprite sprite)
         {
+            gameObject.SetActive(true);
             Image.sprite = sprite;
         }
     }

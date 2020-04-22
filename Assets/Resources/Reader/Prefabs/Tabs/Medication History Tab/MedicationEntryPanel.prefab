@@ -4042,7 +4042,8 @@ GameObject:
   - component: {fileID: 222192910649186664}
   - component: {fileID: 114839352381506384}
   - component: {fileID: 114744174189788888}
-  - component: {fileID: 5361914476203237459}
+  - component: {fileID: 5505327147603143451}
+  - component: {fileID: 5742883987788635727}
   m_Layer: 5
   m_Name: MedicationEntryPanel
   m_TagString: Untagged
@@ -4135,7 +4136,7 @@ MonoBehaviour:
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
---- !u!114 &5361914476203237459
+--- !u!114 &5505327147603143451
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4144,12 +4145,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1658616376702816}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57c910d8b8ada1a49a725802d224bd23, type: 3}
+  m_Script: {fileID: 11500000, guid: 23ebe9e95dd3c224f8330dd4e2abea21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   type: MedicationEntryPanel
-  childrenParent: {fileID: 0}
-  childPanelOptions: []
+  childPanelCreator: {fileID: 0}
+--- !u!114 &5742883987788635727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1658616376702816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _containerSource: 2
 --- !u!1 &1663193663251792
 GameObject:
   m_ObjectHideFlags: 0

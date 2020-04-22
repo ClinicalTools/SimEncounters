@@ -1,5 +1,6 @@
 ﻿using ClinicalTools.SimEncounters.Data;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using Zenject;
 
@@ -18,17 +19,19 @@ namespace ClinicalTools.SimEncounters.Reader
 
 
         protected UserPinGroupDrawer PinButtons { get; set; }
-
+        protected IPanelFieldInitializer FieldInitializer { get; set; }
+        
         [Inject]
-        public virtual void Init(UserPinGroupDrawer pinButtons)
+        public virtual void Inject(UserPinGroupDrawer pinButtons, IPanelFieldInitializer fieldInitializer)
         {
             PinButtons = pinButtons;
+            FieldInitializer = fieldInitializer;
         }
 
         public override void Display(UserPanel userPanel)
         {
-            CreatePinButtons(userPanel);
-            InitializeValueFields(userPanel);
+            CreatePinButtons(userPanel); 
+            FieldInitializer.InitializePanelValueFields(transform, userPanel);
             DeserializeChildren(userPanel.GetChildPanels());
         }
 
@@ -46,12 +49,6 @@ namespace ClinicalTools.SimEncounters.Reader
             return panelUI;
         }
 
-        protected virtual IValueField[] InitializeValueFields(UserPanel userPanel)
-        {
-            var panelFieldInitializer = new PanelFieldInitializer();
-            return panelFieldInitializer.InitializePanelValueFields(transform, userPanel);
-        }
-
         protected virtual UserPinGroupDrawer CreatePinButtons(UserPanel userPanel) {
             if (userPanel.PinGroup == null)
                 return null;
@@ -67,8 +64,12 @@ namespace ClinicalTools.SimEncounters.Reader
     {
         public abstract void Display(UserPinGroup userPanel);
     }
+    public interface IPanelFieldInitializer
+    {
+        IValueField[] InitializePanelValueFields(Transform panelTransform, UserPanel userPanel);
+    }
 
-    public class PanelFieldInitializer
+    public class PanelFieldInitializer : IPanelFieldInitializer
     {
         public virtual IValueField[] InitializePanelValueFields(Transform panelTransform, UserPanel userPanel)
         {

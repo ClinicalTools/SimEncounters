@@ -611,7 +611,8 @@ GameObject:
   - component: {fileID: 222223085254339750}
   - component: {fileID: 114519876954852468}
   - component: {fileID: 114862406594973896}
-  - component: {fileID: 9103621323781357922}
+  - component: {fileID: 7666232084742670677}
+  - component: {fileID: -8480453370150069670}
   m_Layer: 5
   m_Name: DietExercisePanel
   m_TagString: Untagged
@@ -703,7 +704,7 @@ MonoBehaviour:
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
---- !u!114 &9103621323781357922
+--- !u!114 &7666232084742670677
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -712,12 +713,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1597285054310348}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57c910d8b8ada1a49a725802d224bd23, type: 3}
+  m_Script: {fileID: 11500000, guid: 23ebe9e95dd3c224f8330dd4e2abea21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   type: DietExercisePanel
-  childrenParent: {fileID: 0}
-  childPanelOptions: []
+  childPanelCreator: {fileID: 0}
+--- !u!114 &-8480453370150069670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1597285054310348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _containerSource: 2
 --- !u!1 &1672416306886968
 GameObject:
   m_ObjectHideFlags: 0
@@ -928,6 +941,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlledObjects:
   - {fileID: 1529698898182742}
+  prefix: 
 --- !u!1 &1696752357747448
 GameObject:
   m_ObjectHideFlags: 0
@@ -1294,6 +1308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlledObjects:
   - {fileID: 1230125799089486}
+  prefix: 
 --- !u!1 &1748269350487434
 GameObject:
   m_ObjectHideFlags: 0

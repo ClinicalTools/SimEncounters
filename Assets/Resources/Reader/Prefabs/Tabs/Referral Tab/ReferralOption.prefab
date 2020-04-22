@@ -969,6 +969,7 @@ MonoBehaviour:
   - {fileID: 5301179665648426367}
   closeButton: {fileID: 5516767710071270278}
   controlledObjects: []
+  incorrectObjects: []
 --- !u!1 &5175131209052699085
 GameObject:
   m_ObjectHideFlags: 0
@@ -1441,10 +1442,10 @@ MonoBehaviour:
   m_text: 'Mr. Johnson''s response: No, this is the first time.
 
 
-    Correct! Asking about the past history of similar symptoms is part of a complete
-    pain history. This information has not been elicited so far in the interview.
-    In the PQRSTU acronym to track pain history, P stands for Provoking, Palliation,
-    and Past History.
+    Correct! Asking
+    about the past history of similar symptoms is part of a complete pain history.
+    This information has not been elicited so far in the interview. In the PQRSTU
+    acronym to track pain history, P stands for Provoking, Palliation, and Past History.
 
 '
   m_isRightToLeft: 0
@@ -1577,7 +1578,8 @@ GameObject:
   - component: {fileID: 1035026033676819914}
   - component: {fileID: 4042369717523817345}
   - component: {fileID: 6224724656349338197}
-  - component: {fileID: 8190885729771041363}
+  - component: {fileID: 2026145854932646576}
+  - component: {fileID: 7936667045082346291}
   m_Layer: 5
   m_Name: ReferralOption
   m_TagString: Untagged
@@ -1673,7 +1675,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &8190885729771041363
+--- !u!114 &2026145854932646576
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1682,14 +1684,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 8013950784088425171}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bfe2525be303b24c97c769873c23b88, type: 3}
+  m_Script: {fileID: 11500000, guid: ced16a2a6833c6340b0b7a9606ef2de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   type: ReferralOptionEntry
-  childrenParent: {fileID: 0}
-  childPanelOptions: []
-  feedback: {fileID: 2013921801381839835}
+  childPanelCreator: {fileID: 0}
   optionToggle: {fileID: 1181471850554364811}
+  feedback: {fileID: 2013921801381839835}
+--- !u!114 &7936667045082346291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8013950784088425171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _containerSource: 2
 --- !u!1 &8583522489367828079
 GameObject:
   m_ObjectHideFlags: 0
@@ -2098,12 +2112,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46aced9d80fc712408318e052e45aac7, type: 3}
---- !u!224 &4111317727641819801 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 224320805350358316, guid: 46aced9d80fc712408318e052e45aac7,
-    type: 3}
-  m_PrefabInstance: {fileID: 4184590784164030389}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4290491006422405339 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114918701176239982, guid: 46aced9d80fc712408318e052e45aac7,
@@ -2116,3 +2124,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &4111317727641819801 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 224320805350358316, guid: 46aced9d80fc712408318e052e45aac7,
+    type: 3}
+  m_PrefabInstance: {fileID: 4184590784164030389}
+  m_PrefabAsset: {fileID: 0}

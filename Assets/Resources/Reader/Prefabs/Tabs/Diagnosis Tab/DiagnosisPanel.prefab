@@ -525,6 +525,7 @@ GameObject:
   - component: {fileID: 2430311002664767832}
   - component: {fileID: 7231219987492995949}
   - component: {fileID: 7486186114623147886}
+  - component: {fileID: 8025213265273960242}
   m_Layer: 5
   m_Name: Diagnoses
   m_TagString: Untagged
@@ -616,6 +617,20 @@ MonoBehaviour:
   m_FlexibleWidth: 1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &8025213265273960242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3906719283866245013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe4a0ee3bfbf6e1489e38da041b31a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelOptions:
+  - {fileID: -8380350750742044580, guid: 0cb6b1917ccb5ce4f90f6cc97fba83e1, type: 3}
 --- !u!1 &3966765889681226075
 GameObject:
   m_ObjectHideFlags: 0
@@ -629,7 +644,8 @@ GameObject:
   - component: {fileID: 3935280459887304497}
   - component: {fileID: 3935033949194228745}
   - component: {fileID: 3758421866991651389}
-  - component: {fileID: 288686513251147129}
+  - component: {fileID: 6782625308009581999}
+  - component: {fileID: 1420703226546960115}
   m_Layer: 5
   m_Name: DiagnosisPanel
   m_TagString: Untagged
@@ -735,7 +751,7 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &288686513251147129
+--- !u!114 &6782625308009581999
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -744,15 +760,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 3966765889681226075}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17a8ca714a5aa77429c31fe42133d27b, type: 3}
+  m_Script: {fileID: 11500000, guid: 99f2e5afb88a56d48bf4b233dfc4ec5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   type: DiagnosisEntryPanel
-  childrenParent: {fileID: 3091063988356365601}
-  childPanelOptions:
-  - {fileID: 5357750791273102685, guid: 0cb6b1917ccb5ce4f90f6cc97fba83e1, type: 3}
   getFeedbackButton: {fileID: 7837323853819208720}
-  feedbackParent: {fileID: 0}
+  childPanelCreator: {fileID: 8025213265273960242}
+--- !u!114 &1420703226546960115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3966765889681226075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _containerSource: 2
 --- !u!1 &3967542959785470285
 GameObject:
   m_ObjectHideFlags: 0
@@ -1302,7 +1328,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -12.707703, y: -1.0000381}
+  m_AnchoredPosition: {x: -12.707703, y: -1.0000305}
   m_SizeDelta: {x: -25.414795, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &575153261488769095
@@ -1933,3 +1959,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlledObjects:
   - {fileID: 7764556286250494292}
+  prefix: 
