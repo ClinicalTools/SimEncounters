@@ -5,33 +5,34 @@ using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
-    public class ReaderCheckboxPanelsDrawer : ChildCheckboxPanelsDrawer
+    public class ReaderCheckboxPanelsDrawer : BaseOptionUserPanelsDrawer
     {
-        [SerializeField] private List<CheckboxOptionPanel> panelOptions = new List<CheckboxOptionPanel>();
-        protected List<CheckboxOptionPanel> PanelOptions { get => panelOptions; set => panelOptions = value; }
+        [SerializeField] private List<BaseReaderOptionPanel> panelOptions = new List<BaseReaderOptionPanel>();
+        protected List<BaseReaderOptionPanel> PanelOptions { get => panelOptions; set => panelOptions = value; }
 
-        public override List<CheckboxOptionPanel> DrawChildPanels(IEnumerable<UserPanel> childPanels) {
-            var options = new List<CheckboxOptionPanel>();
+        public override List<BaseReaderOptionPanel> DrawChildPanels(IEnumerable<UserPanel> childPanels) {
+            var options = new List<BaseReaderOptionPanel>();
             foreach (var childPanel in childPanels) {
                 var prefab = GetChildPanelPrefab(childPanel);
                 if (prefab == null)
                     continue;
 
                 var option = Instantiate(prefab, transform);
+                option.Display(childPanel);
                 options.Add(option);
             }
 
             return options;
         }
 
-        protected virtual CheckboxOptionPanel GetChildPanelPrefab(UserPanel childPanel)
+        protected virtual BaseReaderOptionPanel GetChildPanelPrefab(UserPanel childPanel)
         {
             var type = childPanel.Data.Type;
 
-            if (panelOptions.Count == 1)
-                return panelOptions[0];
+            if (PanelOptions.Count == 1)
+                return PanelOptions[0];
 
-            foreach (var panelOption in panelOptions) {
+            foreach (var panelOption in PanelOptions) {
                 if (string.Equals(type, panelOption.Type, StringComparison.OrdinalIgnoreCase))
                     return panelOption;
             }

@@ -83,7 +83,8 @@ GameObject:
   m_Component:
   - component: {fileID: 224407906273765316}
   - component: {fileID: 222474730975697274}
-  - component: {fileID: 367174218904756576}
+  - component: {fileID: -5183935474725725151}
+  - component: {fileID: -1433566215811882185}
   m_Layer: 5
   m_Name: DiagnosisTab
   m_TagString: Untagged
@@ -120,7 +121,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1154327205399684}
   m_CullTransparentMesh: 0
---- !u!114 &367174218904756576
+--- !u!114 &-5183935474725725151
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -129,12 +130,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1154327205399684}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8de9c97cebc3d30469043738fec943f0, type: 3}
+  m_Script: {fileID: 11500000, guid: 95fb1b0b2a9a6594284fffd1b0a8e918, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelsParent: {fileID: 224047912646049676}
-  panelOptions:
-  - {fileID: 6782625308009581999, guid: 5889f455c4d993141ace46cb51bc4a4c, type: 3}
+  panelCreator: {fileID: 4758905699854311663}
+--- !u!114 &-1433566215811882185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1154327205399684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _containerSource: 2
 --- !u!1 &1320754575943288
 GameObject:
   m_ObjectHideFlags: 0
@@ -146,7 +158,7 @@ GameObject:
   - component: {fileID: 224047912646049676}
   - component: {fileID: 114829546077581196}
   - component: {fileID: 114500680025912948}
-  - component: {fileID: 114944266364373134}
+  - component: {fileID: 4758905699854311663}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -212,7 +224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &114944266364373134
+--- !u!114 &4758905699854311663
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -221,17 +233,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1320754575943288}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ba7a886d6e9f544aa02b3da2eccd7de, type: 3}
+  m_Script: {fileID: 11500000, guid: 6505d363f8190ed49aeed910a49ba30c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadedPrefabs:
-  - {fileID: 3966765889681226075, guid: 5889f455c4d993141ace46cb51bc4a4c, type: 3}
-  loadedPrefabsDisplayNames: []
-  parentTab: {fileID: 1154327205399684}
-  isNested: 0
-  isQuizPanel: 0
-  isStatic: 0
-  isPuzzle: 0
+  panelOptions:
+  - {fileID: 6782625308009581999, guid: 5889f455c4d993141ace46cb51bc4a4c, type: 3}
 --- !u!1 &1346469461079860
 GameObject:
   m_ObjectHideFlags: 0

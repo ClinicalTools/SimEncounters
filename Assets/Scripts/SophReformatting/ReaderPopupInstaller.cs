@@ -10,13 +10,6 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private SpriteDrawer imagePopup;
         [SerializeField] private UserPinGroupDrawer pinButtonsPrefab;
 
-        public static ReaderPopupInstaller Instance { get; set; }
-
-        private void Awake()
-        {
-            Instance = this;
-        }
-
         public override void InstallBindings()
         {
             Container.BindInstance(dialoguePopup);
@@ -26,6 +19,7 @@ namespace ClinicalTools.SimEncounters.Reader
             
             Container.Bind<BasicReaderPanelDrawer>().To<BasicReaderPanelDrawer>().AsTransient();
             Container.Bind<FeedbackColorInfo>().To<FeedbackColorInfo>().AsTransient();
+            Container.Bind<IParser<Color>>().To<ColorParser>().AsTransient();
         }
     }
 }

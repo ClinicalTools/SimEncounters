@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224408672545146618}
   - component: {fileID: 222627586426241960}
-  - component: {fileID: 7787185310413333228}
+  - component: {fileID: 3731500284422715940}
   m_Layer: 5
   m_Name: DifferentialDiagnosisTab
   m_TagString: Untagged
@@ -47,7 +47,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1043565410830362}
   m_CullTransparentMesh: 0
---- !u!114 &7787185310413333228
+--- !u!114 &3731500284422715940
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -56,12 +56,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1043565410830362}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8de9c97cebc3d30469043738fec943f0, type: 3}
+  m_Script: {fileID: 11500000, guid: 95fb1b0b2a9a6594284fffd1b0a8e918, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelsParent: {fileID: 224051687751913824}
-  panelOptions:
-  - {fileID: 7997900898904394496, guid: 89b4c6f26ddb0fe4fb44105b2fe8a94d, type: 3}
+  panelCreator: {fileID: 6803020380551593093}
 --- !u!1 &1075154303290216
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,7 +480,7 @@ GameObject:
   - component: {fileID: 224051687751913824}
   - component: {fileID: 114009388659825322}
   - component: {fileID: 114527505931652494}
-  - component: {fileID: 114338823753525216}
+  - component: {fileID: 6803020380551593093}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -548,7 +546,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &114338823753525216
+--- !u!114 &6803020380551593093
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -557,14 +555,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 1799744528772932}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ba7a886d6e9f544aa02b3da2eccd7de, type: 3}
+  m_Script: {fileID: 11500000, guid: 6505d363f8190ed49aeed910a49ba30c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadedPrefabs:
-  - {fileID: 1640160190106838, guid: 89b4c6f26ddb0fe4fb44105b2fe8a94d, type: 3}
-  loadedPrefabsDisplayNames: []
-  parentTab: {fileID: 1043565410830362}
-  isNested: 0
-  isQuizPanel: 0
-  isStatic: 0
-  isPuzzle: 0
+  panelOptions:
+  - {fileID: 7997900898904394496, guid: 89b4c6f26ddb0fe4fb44105b2fe8a94d, type: 3}

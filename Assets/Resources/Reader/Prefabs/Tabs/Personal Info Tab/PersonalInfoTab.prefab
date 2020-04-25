@@ -171,7 +171,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224861776267527190}
   - component: {fileID: 222745975101418744}
-  - component: {fileID: 7233833240236417523}
+  - component: {fileID: 7013284015864049498}
   m_Layer: 5
   m_Name: PersonalInfoTab
   m_TagString: Untagged
@@ -207,7 +207,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1519516773596686}
   m_CullTransparentMesh: 0
---- !u!114 &7233833240236417523
+--- !u!114 &7013284015864049498
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -216,13 +216,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1519516773596686}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8de9c97cebc3d30469043738fec943f0, type: 3}
+  m_Script: {fileID: 11500000, guid: 95fb1b0b2a9a6594284fffd1b0a8e918, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelsParent: {fileID: 224411305964501460}
-  panelOptions:
-  - {fileID: -3848887507630595592, guid: 000cc75bdb3a1784f97c6e7c49e0ae13, type: 3}
-  - {fileID: -2214219143482867458, guid: 585e7556581174e4bad90e503824cf9d, type: 3}
+  panelCreator: {fileID: 5138995100763561961}
 --- !u!1 &1778738465660094
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,7 +231,7 @@ GameObject:
   - component: {fileID: 224411305964501460}
   - component: {fileID: 114573943237449154}
   - component: {fileID: 114188283462296600}
-  - component: {fileID: 114788861638775800}
+  - component: {fileID: 5138995100763561961}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -300,7 +297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &114788861638775800
+--- !u!114 &5138995100763561961
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -309,20 +306,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1778738465660094}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ba7a886d6e9f544aa02b3da2eccd7de, type: 3}
+  m_Script: {fileID: 11500000, guid: 6505d363f8190ed49aeed910a49ba30c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadedPrefabs:
-  - {fileID: 1272899117416826, guid: 000cc75bdb3a1784f97c6e7c49e0ae13, type: 3}
-  - {fileID: 0}
-  - {fileID: 1135307047073092, guid: 585e7556581174e4bad90e503824cf9d, type: 3}
-  - {fileID: 0}
-  loadedPrefabsDisplayNames: []
-  parentTab: {fileID: 1519516773596686}
-  isNested: 0
-  isQuizPanel: 0
-  isStatic: 0
-  isPuzzle: 0
+  panelOptions:
+  - {fileID: -3848887507630595592, guid: 000cc75bdb3a1784f97c6e7c49e0ae13, type: 3}
+  - {fileID: -2214219143482867458, guid: 585e7556581174e4bad90e503824cf9d, type: 3}
 --- !u!1 &1783902113323610
 GameObject:
   m_ObjectHideFlags: 0

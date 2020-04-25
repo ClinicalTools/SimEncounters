@@ -96,6 +96,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -5304,7 +5305,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 31.00025, y: -0.000049591064}
+  m_AnchoredPosition: {x: 31.00025, y: -0.000045776367}
   m_SizeDelta: {x: -61.9995, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &90231394
@@ -5434,26 +5435,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1644442665}
     m_Modifications:
-    - target: {fileID: 0}
-      propertyPath: m_Color.r
-      value: 0.37254903
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Color.g
-      value: 0.37254903
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Color.b
-      value: 0.37254903
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_AnchoredPosition.y
-      value: 0.0000076293945
-      objectReference: {fileID: 0}
     - target: {fileID: 1001999759864160, guid: fc43dd6a2fc8f8f4ea7be8971c49ddb6, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -6824,7 +6805,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 31, y: 0.0000019073486}
+  m_AnchoredPosition: {x: 31, y: 0}
   m_SizeDelta: {x: -62, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &118621423
@@ -7544,6 +7525,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -9921,8 +9903,8 @@ MonoBehaviour:
   m_text: 'Welcome to the Clinical Encounters Case Writer!
 
 
-    To begin writing a case find a Template you would like to use and select "New
-    Case" '
+    To begin writing
+    a case find a Template you would like to use and select "New Case" '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6cdd651ecddaadd4e8606b9023118d5a, type: 2}
   m_sharedMaterial: {fileID: 21241547189195982, guid: 6cdd651ecddaadd4e8606b9023118d5a,
@@ -14302,7 +14284,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -89.702, y: -0.00002670288}
+  m_AnchoredPosition: {x: -89.702, y: -0.000030517578}
   m_SizeDelta: {x: -303.4, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &278303821
@@ -20389,8 +20371,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'The waiting room is filled with patients waiting to see someone about a
-    variety of different health concerns.
+  m_text: 'The waiting room is filled with patients waiting to see someone about
+    a variety of different health concerns.
 
 
     Can you help them out?'
@@ -22546,7 +22528,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 31, y: -0.0000667572}
+  m_AnchoredPosition: {x: 31, y: -0.000061035156}
   m_SizeDelta: {x: -62, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &453327069
@@ -31745,8 +31727,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: '<b>Settings Menu</b>
 
-    Access different options such as resizing, returning to login, or exiting the
-    application.'
+    Access different options such as resizing, returning
+    to login, or exiting the application.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6cdd651ecddaadd4e8606b9023118d5a, type: 2}
   m_sharedMaterial: {fileID: 21241547189195982, guid: 6cdd651ecddaadd4e8606b9023118d5a,
@@ -44158,7 +44140,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 31.000053, y: -0.000036239624}
+  m_AnchoredPosition: {x: 31.000053, y: -0.000030517578}
   m_SizeDelta: {x: -61.999893, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &901362296
@@ -48402,7 +48384,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -90.69, y: -0.00002861023}
+  m_AnchoredPosition: {x: -90.69, y: -0.000030517578}
   m_SizeDelta: {x: -305.37, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1003257784
@@ -50214,7 +50196,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -78.687, y: 0.0000019073486}
+  m_AnchoredPosition: {x: -78.687, y: 0}
   m_SizeDelta: {x: -281.37, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1028033642
@@ -53656,9 +53638,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: 'Chad Wright is a 35 yo male presenting with chronic knee pain that started
-    with a high school football injury. His pain management has included chronic opioid
-    therapy in recent years. He now presents as a new patient requesting a prescription
-    for opioids. '
+    with a high school football injury. His pain management has included chronic
+    opioid therapy in recent years. He now presents as a new patient requesting a
+    prescription for opioids. '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6cdd651ecddaadd4e8606b9023118d5a, type: 2}
   m_sharedMaterial: {fileID: 21241547189195982, guid: 6cdd651ecddaadd4e8606b9023118d5a,
@@ -65790,6 +65772,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -73843,7 +73826,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 2133996082
+    rgba: 2150773298
   m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 0.5}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -77324,13 +77307,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: '<b>Search Bar</b>
 
-    Search for a specific case with a Patient Name or Record Number
+    Search for a specific case with a Patient Name
+    or Record Number
 
 
     Filter cases based on Category, Difficulty, and/or Audience
 
 
-    Change the Sorting Order of the cases'
+    Change
+    the Sorting Order of the cases'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6cdd651ecddaadd4e8606b9023118d5a, type: 2}
   m_sharedMaterial: {fileID: 21241547189195982, guid: 6cdd651ecddaadd4e8606b9023118d5a,
@@ -79775,7 +79760,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 31.00025, y: -0.000034332275}
+  m_AnchoredPosition: {x: 31.00025, y: -0.000030517578}
   m_SizeDelta: {x: -61.9995, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1584589580
@@ -81274,7 +81259,8 @@ MonoBehaviour:
   m_text: 'Welcome to the Clinical Encounters Case Writer!
 
 
-    To begin writing a case pick a template under "Template Cases"'
+    To begin writing
+    a case pick a template under "Template Cases"'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6cdd651ecddaadd4e8606b9023118d5a, type: 2}
   m_sharedMaterial: {fileID: 21241547189195982, guid: 6cdd651ecddaadd4e8606b9023118d5a,
@@ -84818,7 +84804,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 31.000114, y: -0.000036239624}
+  m_AnchoredPosition: {x: 31.000114, y: -0.000030517578}
   m_SizeDelta: {x: -61.99977, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1675039697
@@ -86525,7 +86511,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -89.702, y: -0.000036239624}
+  m_AnchoredPosition: {x: -89.702, y: -0.000030517578}
   m_SizeDelta: {x: -303.4, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1700521093
@@ -91159,7 +91145,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 31, y: -0.00002670288}
+  m_AnchoredPosition: {x: 31, y: -0.000030517578}
   m_SizeDelta: {x: -62, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1807645205
@@ -91318,7 +91304,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -78.687, y: -0.000009536743}
+  m_AnchoredPosition: {x: -78.687, y: -0.000015258789}
   m_SizeDelta: {x: -281.37, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1809044836
@@ -94466,7 +94452,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -89.925, y: -0.000036239624}
+  m_AnchoredPosition: {x: -89.925, y: -0.000030517578}
   m_SizeDelta: {x: -303.85, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1864767025
@@ -97481,7 +97467,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 31.000313, y: -0.000089645386}
+  m_AnchoredPosition: {x: 31.000313, y: -0.000091552734}
   m_SizeDelta: {x: -61.999374, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1915509293
@@ -97822,9 +97808,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Welcome to the Clinical Encounters Case Reader!\n\nTo begin reading a case
-    simply find a case you want and click \"View Case\". \n\nOr click on a case to
-    see a brief overview in the right side panel."
+  m_text: "Welcome to the Clinical Encounters Case Reader!\n\nTo begin reading a
+    case simply find a case you want and click \"View Case\". \n\nOr click on a case
+    to see a brief overview in the right side panel."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6cdd651ecddaadd4e8606b9023118d5a, type: 2}
   m_sharedMaterial: {fileID: 21241547189195982, guid: 6cdd651ecddaadd4e8606b9023118d5a,
@@ -102585,22 +102571,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1644442665}
     m_Modifications:
-    - target: {fileID: 0}
-      propertyPath: m_Color.r
-      value: 0.36764705
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Color.g
-      value: 0.36764705
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Color.b
-      value: 0.36764705
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 1846922142304830, guid: 08e40b2cbba4bab498395916ac81e5bf, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -105326,7 +105296,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 31, y: -0.00002861023}
+  m_AnchoredPosition: {x: 31, y: -0.000030517578}
   m_SizeDelta: {x: -62, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2065793862
@@ -108804,6 +108774,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

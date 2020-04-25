@@ -42,14 +42,9 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private List<GameObject> incorrectObjects = new List<GameObject>();
         public List<GameObject> IncorrectObjects { get => incorrectObjects; set => incorrectObjects = value; }
 
-        // switch to dependency injection
-        protected virtual FeedbackColorInfo FeedbackColorInfo { get; set; } = new FeedbackColorInfo();
-
+        protected virtual FeedbackColorInfo FeedbackColorInfo { get; set; }
         [Inject]
-        public virtual void Inject(FeedbackColorInfo feedbackColorInfo)
-        {
-            FeedbackColorInfo = feedbackColorInfo;
-        }
+        public virtual void Inject(FeedbackColorInfo feedbackColorInfo) => FeedbackColorInfo = feedbackColorInfo;
 
         protected virtual void Awake()
         {

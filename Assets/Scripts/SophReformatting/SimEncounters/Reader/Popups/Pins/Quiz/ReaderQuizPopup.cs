@@ -13,13 +13,14 @@ namespace ClinicalTools.SimEncounters.Reader
             Reader = reader;
             QuizPopupUI = quizPopupUI;
 
-            ReaderPanelCreator = new ReaderPanelCreator(reader, quizPopupUI.PanelsParent);
+            ReaderPanelCreator = new ReaderPanelCreator(reader, null);
 
             DeserializeChildren(pin.Questions);
         }
 
         public void DeserializeChildren(OrderedCollection<Panel> panels)
         {
+            /*
             foreach (var keyedPanel in panels) {
                 var panelData = keyedPanel.Value.Data;
 
@@ -30,7 +31,7 @@ namespace ClinicalTools.SimEncounters.Reader
                     panelUI = ReaderPanelCreator.Deserialize(QuizPopupUI.CheckBoxPanel);
                 var panelDisplay = Reader.PanelDisplayFactory.CreatePanel(panelUI);
                 panelDisplay.Display(keyedPanel);
-            }
+            }//*/
         }
     }
 }

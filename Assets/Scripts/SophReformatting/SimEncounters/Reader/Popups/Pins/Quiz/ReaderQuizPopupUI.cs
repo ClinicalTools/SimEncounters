@@ -11,39 +11,31 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private List<Button> closeButtons = new List<Button>();
         public List<Button> CloseButtons { get => closeButtons; set => closeButtons = value; }
 
-        [SerializeField] private Transform panelsParent;
-        public virtual Transform PanelsParent { get => panelsParent; set => panelsParent = value; }
+        [SerializeField] private BaseChildPanelsDrawer panelCreator;
+        public BaseChildPanelsDrawer PanelCreator { get => panelCreator; set => panelCreator = value; }
 
-        [SerializeField] private ReaderPanelUI multipleChoicePanel;
-        public ReaderPanelUI MultipleChoicePanel { get => multipleChoicePanel; set => multipleChoicePanel = value; }
-        [SerializeField] private ReaderPanelUI checkBoxPanel;
-        public ReaderPanelUI CheckBoxPanel { get => checkBoxPanel; set => checkBoxPanel = value; }
+        protected List<BaseReaderPanelUI> ReaderPanels { get; set; }
 
         protected virtual void Awake()
         {
             foreach (var closeButton in CloseButtons)
-                closeButton.onClick.AddListener(() => gameObject.SetActive(false));
+                closeButton.onClick.AddListener(Hide);
         }
 
         public override void Display(UserQuizPin quizPin)
         {
             gameObject.SetActive(true);
-            DeserializeChildren(quizPin.GetPanels());
+            ReaderPanels = PanelCreator.DrawChildPanels(quizPin.GetPanels());
         }
 
-        public void DeserializeChildren(List<UserPanel> panels)
+        protected virtual void Hide()
         {
-            foreach (var panel in panels) {
-                var panelData = panel.Data.Data;
-
-                ReaderPanelUI panelPrefab;
-                if (panelData.ContainsKey("OptionTypeValue") && panelData["OptionTypeValue"] == "Multiple Choice")
-                    panelPrefab = MultipleChoicePanel;
-                else
-                    panelPrefab = CheckBoxPanel;
-                var panelUI = Instantiate(panelPrefab, PanelsParent);
-                panelUI.Display(panel);
+            if (ReaderPanels != null) {
+                foreach (var readerPanel in ReaderPanels)
+                    Destroy(readerPanel.gameObject);
             }
+
+            gameObject.SetActive(false);
         }
     }
 }

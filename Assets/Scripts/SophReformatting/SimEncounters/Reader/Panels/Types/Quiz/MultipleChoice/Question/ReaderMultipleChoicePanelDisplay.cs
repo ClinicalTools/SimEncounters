@@ -5,10 +5,10 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderMultipleChoicePanelDisplay : ReaderPanelDisplay
     {
-        protected ReaderMultipleChoicePanelUI MultipleChoicePanelUI { get; }
+        protected ReaderMultipleChoicePanel MultipleChoicePanelUI { get; }
         protected List<ReaderMultipleChoiceOptionDisplay> Options { get; } = new List<ReaderMultipleChoiceOptionDisplay>();
-        public ReaderMultipleChoicePanelDisplay(ReaderScene reader, ReaderMultipleChoicePanelUI multipleChoicePanelUI)
-            : base(reader, multipleChoicePanelUI)
+        public ReaderMultipleChoicePanelDisplay(ReaderScene reader, ReaderMultipleChoicePanel multipleChoicePanelUI)
+            : base(reader, null)
         {
             MultipleChoicePanelUI = multipleChoicePanelUI;
             
@@ -20,8 +20,6 @@ namespace ClinicalTools.SimEncounters.Reader
             var panelDisplay = base.DeserializeChild(keyedPanel);
             if (panelDisplay is ReaderMultipleChoiceOptionDisplay option) {
                 Options.Add(option);
-                option.SetToggleGroup(MultipleChoicePanelUI.ToggleGroup);
-                option.Feedback.SetParent(MultipleChoicePanelUI.FeedbackParent);
             }
             return panelDisplay;
         }

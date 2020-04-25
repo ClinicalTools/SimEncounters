@@ -21,9 +21,9 @@ namespace ClinicalTools.SimEncounters.Reader
                 return new ReaderCheckboxesPanelDisplay(Reader, checkboxesPanelUI);
             else if (panelUI is ReaderCheckboxOptionUI checkboxOptionUI)
                 return new ReaderCheckboxOptionDisplay(Reader, checkboxOptionUI);
-            else if (panelUI is ReaderMultipleChoicePanelUI multipleChoicePanelUI)
+            else if (panelUI is ReaderMultipleChoicePanel multipleChoicePanelUI)
                 return new ReaderMultipleChoicePanelDisplay(Reader, multipleChoicePanelUI);
-            else if (panelUI is ReaderMultipleChoiceOptionUI multipleChoiceOptionUI)
+            else if (panelUI is ReaderMultipleChoiceOption multipleChoiceOptionUI)
                 return new ReaderMultipleChoiceOptionDisplay(Reader, multipleChoiceOptionUI);
             else if (panelUI is ReaderOrderableGroupPanelUI orderableGroupPanelUI)
                 return new ReaderOrderableGroupPanelDisplay(Reader, orderableGroupPanelUI);
@@ -31,7 +31,7 @@ namespace ClinicalTools.SimEncounters.Reader
                 return new ReaderOrderableItemPanelDisplay(Reader, orderableItemPanelUI);
             else if (panelUI is ReaderDialogueEntryUI dialogueEntryUI)
                 return new ReaderDialogueEntryDisplay(Reader, dialogueEntryUI);
-            else if (panelUI is ReaderDialogueChoiceUI dialogueChoiceUI)
+            else if (panelUI is ReaderDialogueChoice dialogueChoiceUI)
                 return new ReaderDialogueChoiceDisplay(Reader, dialogueChoiceUI);
             else if (panelUI is ReaderDialogueChoiceOptionUI dialogueChoiceOptionUI)
                 return new ReaderDialogueChoiceOptionDisplay(Reader, dialogueChoiceOptionUI);
@@ -46,10 +46,10 @@ namespace ClinicalTools.SimEncounters.Reader
         public ReaderCheckboxOptionDisplay CreateCheckboxOptionPanel(ReaderCheckboxOptionUI panelUI)
             => new ReaderCheckboxOptionDisplay(Reader, panelUI);
 
-        public ReaderMultipleChoiceOptionDisplay CreateMultipleChoiceOptionPanel(ReaderMultipleChoiceOptionUI panelUI)
+        public ReaderMultipleChoiceOptionDisplay CreateMultipleChoiceOptionPanel(ReaderMultipleChoiceOption panelUI)
             => new ReaderMultipleChoiceOptionDisplay(Reader, panelUI);
 
-        public ReaderMultipleChoicePanelDisplay CreateMultipleChoicePanel(ReaderMultipleChoicePanelUI panelUI)
+        public ReaderMultipleChoicePanelDisplay CreateMultipleChoicePanel(ReaderMultipleChoicePanel panelUI)
             => new ReaderMultipleChoicePanelDisplay(Reader, panelUI);
 
         public ReaderOrderableGroupPanelDisplay CreateOrderableGroupPanel(ReaderOrderableGroupPanelUI panelUI)
@@ -61,7 +61,7 @@ namespace ClinicalTools.SimEncounters.Reader
         public ReaderDialogueEntryDisplay CreateDialogueEntryPanel(ReaderDialogueEntryUI panelUI)
             => new ReaderDialogueEntryDisplay(Reader, panelUI);
 
-        public ReaderDialogueChoiceDisplay CreateDialogueChoicePanel(ReaderDialogueChoiceUI panelUI)
+        public ReaderDialogueChoiceDisplay CreateDialogueChoicePanel(ReaderDialogueChoice panelUI)
             => new ReaderDialogueChoiceDisplay(Reader, panelUI);
 
         public ReaderDialogueChoiceOptionDisplay CreateDialogueChoiceOptionPanel(ReaderDialogueChoiceOptionUI panelUI)

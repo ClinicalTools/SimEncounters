@@ -23,9 +23,29 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
                 new NodeInfo("imgData")
             );
 
-        protected override List<KeyValuePair<string, Icon>> GetIcons(XmlDeserializer deserializer)
+
+        public override EncounterImageData Deserialize(XmlDeserializer deserializer)
         {
-            var icons = base.GetIcons(deserializer);
+            var imageData = new CEEncounterImageData();
+
+            AddSprites(deserializer, imageData);
+            AddIcons(deserializer, imageData);
+
+            return imageData;
+        }
+
+        protected virtual void AddIcons(XmlDeserializer deserializer, CEEncounterImageData imageData)
+        {
+            var iconPairs = GetIcons(deserializer);
+            if (iconPairs == null)
+                return;
+
+            foreach (var iconPair in iconPairs)
+                imageData.LegacyIconsInfo.Add(iconPair.Key, iconPair.Value);
+        }
+        protected virtual List<KeyValuePair<string, Icon>> GetIcons(XmlDeserializer deserializer)
+        {
+            var icons = deserializer.GetKeyValuePairs(IconsInfo, IconFactory);
             if (icons != null && icons.Count > 0)
                 return icons;
             else

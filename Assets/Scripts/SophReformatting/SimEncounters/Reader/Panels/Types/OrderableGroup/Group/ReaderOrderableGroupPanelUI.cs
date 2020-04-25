@@ -2,92 +2,74 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
-using ClinicalTools.SimEncounters.Extensions;
+using System;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderOrderableGroupPanelUI : BaseReaderPanelUI
     {
-        [SerializeField] private string type;
-        public override string Type { get => type; set => type = value; }
+        [SerializeField] private ChildOrderablePanelsDrawer childPanelCreator;
+        public virtual ChildOrderablePanelsDrawer ChildPanelCreator { get => childPanelCreator; set => childPanelCreator = value; }
 
         [SerializeField] private DraggableGroupUI draggableGroup;
         public DraggableGroupUI DraggableGroupUI { get => draggableGroup; set => draggableGroup = value; }
 
-        [SerializeField] private List<ReaderOrderableItemPanelUI> orderableItemOptions;
-        public virtual List<ReaderOrderableItemPanelUI> OrderableItemOptions { get => orderableItemOptions; set => orderableItemOptions = value; }
-
         [SerializeField] private GameObject feedbackObject;
         public virtual GameObject FeedbackObject { get => feedbackObject; set => feedbackObject = value; }
 
-        protected UserPinGroupDrawer PinButtons { get; set; }
-        protected IPanelFieldInitializer FieldInitializer { get; set; }
-
+        protected BasicReaderPanelDrawer BasicPanelDrawer { get; set; }
+        protected virtual FeedbackColorInfo FeedbackColorInfo { get; set; }
         [Inject]
-        public virtual void Inject(UserPinGroupDrawer pinButtons, IPanelFieldInitializer fieldInitializer)
+        public virtual void Inject(FeedbackColorInfo feedbackColorInfo, BasicReaderPanelDrawer basicReaderPanel)
         {
-            PinButtons = pinButtons;
-            FieldInitializer = fieldInitializer;
+            FeedbackColorInfo = feedbackColorInfo; 
+            BasicPanelDrawer = basicReaderPanel;
         }
 
-        public override void Display(UserPanel panel)
+        protected virtual void Awake()
         {
-            CreatePinButtons(panel);
-
-            FieldInitializer.InitializePanelValueFields(transform, panel);
-
-            var childPanels = panel.GetChildPanels();
-            var shuffeledPanels = new List<UserPanel>(childPanels);
-            if (childPanels.Count > 1) {
-                while (HasSamePanelOrder(shuffeledPanels, childPanels))
-                    shuffeledPanels.Shuffle();
-            }
-
-            var childrenGroup = DeserializeChildren(shuffeledPanels);
-            //childrenGroup.OrderChanged += (draggableObjects) => OrderChanged(draggableObjects, keyedPanel);
+            DraggableGroupUI.OrderChanged += OrderChanged;
         }
 
-        public VerticalDraggableGroup DeserializeChildren(IEnumerable<UserPanel> panels)
+        protected List<UserPanel> CorrectPanelOrder { get; set; }
+        public override void Display(UserPanel userPanel)
         {
-            foreach (var panel in panels) {
-                /*
-                var panelUI = ReaderPanelCreator.Deserialize(panel, OrderableItemOptions);
-                var panelDisplay = Reader.PanelDisplayFactory.CreateOrderableItemPanel(panelUI);
-                panelDisplay.Display(panel);
-                childrenGroup.Add(panelUI);
-                ChildPanels.Add(panelDisplay);*/
-            }
-            return null;
-            //return childrenGroup;
+            BasicPanelDrawer.Display(userPanel, transform, transform);
+
+            CorrectPanelOrder = userPanel.GetChildPanels();
+            var readerPanels = ChildPanelCreator.DrawChildPanels(CorrectPanelOrder);
+            foreach (var readerPanel in readerPanels)
+                DraggableGroupUI.Add(readerPanel);
         }
-        private void OrderChanged(List<IDraggable> draggableObjects, KeyValuePair<string, Panel> keyedPanel)
+
+        private void OrderChanged(List<IDraggable> draggableObjects)
         {
+            if (CorrectPanelOrder == null)
+                return;
+
             var allCorrect = true;
-            for (int i = 0; i < draggableObjects.Count; i++) {
-                /*var orderableItem = draggableObjects[i] as ReaderOrderableItemPanelUI;
-                var orderableItem = ChildPanels.FirstOrDefault(panelDisplay => (draggableObjects[i] as ReaderOrderableItemPanelUI) == panelDisplay.PanelUI);
-                if (orderableItem == null)
-                    continue;
-                var actualIndex = keyedPanel.Value.ChildPanels.IndexOf(orderableItem.KeyedPanel.Value);
+            for (int i = 0; i < CorrectPanelOrder.Count; i++) {
+                var actualIndex = IndexOfPanel(CorrectPanelOrder[i], draggableObjects);
                 var distanceFromCorrect = Math.Abs(actualIndex - i);
                 var optionType = GetOptionType(distanceFromCorrect);
                 if (optionType != OptionType.Correct)
                     allCorrect = false;
 
-                orderableItem.SetColor(FeedbackColorInfo.GetColor(optionType));*/
+                var orderableItem = draggableObjects[actualIndex] as ReaderOrderableItemPanelUI;
+                orderableItem.SetColor(FeedbackColorInfo.GetColor(optionType));
             }
 
             FeedbackObject.SetActive(allCorrect);
         }
 
-        private bool HasSamePanelOrder(List<UserPanel> shuffeledPanels, List<UserPanel> childPanels)
+        private int IndexOfPanel(UserPanel userPanel, List<IDraggable> draggableObjects)
         {
-            for (int i = 0; i < childPanels.Count; i++) {
-                if (shuffeledPanels[i] != childPanels[i])
-                    return false;
+            for (int i = 0; i < draggableObjects.Count; i++) {
+                var orderableItem = draggableObjects[i] as ReaderOrderableItemPanelUI;
+                if (orderableItem.CurrentPanel == userPanel)
+                    return i;
             }
-
-            return true;
+            return -1;
         }
 
         private OptionType GetOptionType(int distance)
@@ -98,17 +80,6 @@ namespace ClinicalTools.SimEncounters.Reader
                 return OptionType.PartiallyCorrect;
             else
                 return OptionType.Incorrect;
-        }
-
-        protected virtual UserPinGroupDrawer CreatePinButtons(UserPanel userPanel)
-        {
-            if (userPanel.PinGroup == null)
-                return null;
-
-            var pinButtons = Instantiate(PinButtons, transform);
-            pinButtons.Display(userPanel.PinGroup);
-
-            return pinButtons;
         }
     }
 }

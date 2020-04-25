@@ -6,23 +6,32 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
-    public abstract class CheckboxOptionPanel : BaseReaderPanelUI
+    public abstract class BaseReaderMultipleChoiceOption : BaseReaderOptionPanel
+    {
+        public abstract void SetToggleGroup(ToggleGroup group);
+        public abstract void SetFeedbackParent(Transform feedbackParent);
+    }
+    public abstract class BaseReaderOptionPanel : BaseReaderPanelUI
     {
         public abstract void GetFeedback();
     }
-    public abstract class ChildCheckboxPanelsDrawer : MonoBehaviour
+    public abstract class BaseDialogueOptionsDrawer : MonoBehaviour
     {
-        public abstract List<CheckboxOptionPanel> DrawChildPanels(IEnumerable<UserPanel> childPanels);
+        public abstract List<BaseReaderDialogueOption> DrawChildPanels(IEnumerable<UserPanel> childPanels);
+    }
+    public abstract class BaseOptionUserPanelsDrawer : MonoBehaviour
+    {
+        public abstract List<BaseReaderOptionPanel> DrawChildPanels(IEnumerable<UserPanel> childPanels);
     }
     public class ReaderCheckboxesPanel : BaseReaderPanelUI
     {
         [SerializeField] private Button getFeedbackButton;
         public virtual Button GetFeedbackButton { get => getFeedbackButton; set => getFeedbackButton = value; }
 
-        [SerializeField] private ChildCheckboxPanelsDrawer childPanelCreator;
-        public ChildCheckboxPanelsDrawer ChildPanelCreator { get => childPanelCreator; set => childPanelCreator = value; }
+        [SerializeField] private BaseOptionUserPanelsDrawer childPanelCreator;
+        public BaseOptionUserPanelsDrawer ChildPanelCreator { get => childPanelCreator; set => childPanelCreator = value; }
 
-        protected List<CheckboxOptionPanel> Options { get; set; }
+        protected List<BaseReaderOptionPanel> Options { get; set; }
 
         protected BasicReaderPanelDrawer BasicPanelDrawer { get; set; }
         [Inject]

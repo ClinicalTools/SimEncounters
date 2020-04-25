@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Data
 {
+
     public class Section
     {
         public int CurrentTabIndex { get; set; }

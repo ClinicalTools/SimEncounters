@@ -171,7 +171,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224861776267527190}
   - component: {fileID: 222745975101418744}
-  - component: {fileID: 5597195966347866637}
+  - component: {fileID: 9180983422161912946}
   m_Layer: 5
   m_Name: MedicationHistoryTab
   m_TagString: Untagged
@@ -207,7 +207,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1519516773596686}
   m_CullTransparentMesh: 0
---- !u!114 &5597195966347866637
+--- !u!114 &9180983422161912946
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -216,12 +216,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1519516773596686}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8de9c97cebc3d30469043738fec943f0, type: 3}
+  m_Script: {fileID: 11500000, guid: 95fb1b0b2a9a6594284fffd1b0a8e918, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelsParent: {fileID: 224411305964501460}
-  panelOptions:
-  - {fileID: 5505327147603143451, guid: 43cbc9edde5448f4983fec53b5703eca, type: 3}
+  panelCreator: {fileID: 6518393938963901548}
 --- !u!1 &1778738465660094
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,7 +231,7 @@ GameObject:
   - component: {fileID: 224411305964501460}
   - component: {fileID: 114573943237449154}
   - component: {fileID: 114188283462296600}
-  - component: {fileID: 114188233671274082}
+  - component: {fileID: 6518393938963901548}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -299,7 +297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &114188233671274082
+--- !u!114 &6518393938963901548
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -308,17 +306,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1778738465660094}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ba7a886d6e9f544aa02b3da2eccd7de, type: 3}
+  m_Script: {fileID: 11500000, guid: 6505d363f8190ed49aeed910a49ba30c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadedPrefabs:
-  - {fileID: 1658616376702816, guid: 43cbc9edde5448f4983fec53b5703eca, type: 3}
-  loadedPrefabsDisplayNames: []
-  parentTab: {fileID: 1519516773596686}
-  isNested: 0
-  isQuizPanel: 0
-  isStatic: 0
-  isPuzzle: 0
+  panelOptions:
+  - {fileID: 5505327147603143451, guid: 43cbc9edde5448f4983fec53b5703eca, type: 3}
 --- !u!1 &1783902113323610
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,7 +16,7 @@ namespace ClinicalTools.SimEncounters
 
             Container.Bind<IEncounterReaderSelector>().To<EncounterReaderSelector>().AsTransient();
             Container.Bind<IFullEncounterReader>().To<FullEncounterReader>().AsTransient();
-            Container.Bind<IEncounterDataReader>().To<EncounterDataReader>().AsTransient();
+            Container.Bind<IEncounterDataReader>().To<CEEncounterDataReader>().AsTransient();
             Container.Bind<IDetailedStatusReader>().To<ServerDetailedStatusReader>().AsTransient();
 
             Container.Bind<ICategoriesReader>().To<CategoriesReader>().AsTransient();

@@ -6,7 +6,7 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
-    public class ReaderPanelsDrawer : ChildPanelsDrawer
+    public class ReaderPanelsDrawer : BaseChildPanelsDrawer
     {
         [SerializeField] private List<BaseReaderPanelUI> panelOptions = new List<BaseReaderPanelUI>();
         protected List<BaseReaderPanelUI> PanelOptions { get => panelOptions; set => panelOptions = value; }
@@ -20,6 +20,7 @@ namespace ClinicalTools.SimEncounters.Reader
                     continue;
 
                 var panel = Instantiate(prefab, transform);
+                panel.Display(childPanel);
                 panels.Add(panel);
             }
 

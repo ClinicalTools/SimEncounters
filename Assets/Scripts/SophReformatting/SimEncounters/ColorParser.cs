@@ -2,11 +2,11 @@
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ColorConverter
+    public class ColorParser : IParser<Color>
     {
         private const string ColorPrefix = "RGBA(";
         private const string ColorSuffix = ")";
-        public Color StringToColor(string colorString)
+        public Color Parse(string colorString)
         {
             if (colorString == null || !colorString.StartsWith(ColorPrefix) || !colorString.EndsWith(ColorSuffix))
                 return Color.clear;

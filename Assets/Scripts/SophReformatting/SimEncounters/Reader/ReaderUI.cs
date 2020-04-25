@@ -51,10 +51,20 @@ namespace ClinicalTools.SimEncounters.Reader
             loadingSceneInfo.Result.AddOnCompletedListener(EncounterLoaded);
         }
 
+        private bool started = false;
+        protected virtual void Start()
+        {
+            started = true;
+            if (userEncounter != null)
+                whatIsPositiveMentalHealthBecauseILackIt.Display(userEncounter);
+        }
+
+        private UserEncounter userEncounter;
         protected virtual void EncounterLoaded(EncounterSceneInfo sceneInfo)
         {
-            var userEncounter = new UserEncounter(sceneInfo.User, sceneInfo.Encounter.Metadata, sceneInfo.Encounter.Data, new NewEncounterStatus());
-            whatIsPositiveMentalHealthBecauseILackIt.Display(userEncounter);
+            userEncounter = new UserEncounter(sceneInfo.User, sceneInfo.Encounter.Metadata, sceneInfo.Encounter.Data, new NewEncounterStatus());
+            if (started) 
+                whatIsPositiveMentalHealthBecauseILackIt.Display(userEncounter);
         }
 
         protected void OnApplicationPause(bool pauseStatus)

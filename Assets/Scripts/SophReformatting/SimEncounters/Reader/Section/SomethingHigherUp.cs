@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using System;
 using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Reader
@@ -44,6 +45,9 @@ namespace ClinicalTools.SimEncounters.Reader
         {
             if (CurrentSection == selectedSection)
                 return;
+            if (CurrentSection != null)
+                UpdateSectionReadStatus(CurrentSection);
+
             CurrentSection = selectedSection;
             UserEncounter.Data.Content.SetCurrentSection(selectedSection.Data);
 
@@ -55,6 +59,20 @@ namespace ClinicalTools.SimEncounters.Reader
 
             var currentTab = selectedSection.Data.GetCurrentTabKey();
             SelectTab(selectedSection.GetTab(currentTab));
+        }
+
+        private void UpdateSectionReadStatus(UserSection section)
+        {
+            if (section.IsRead())
+                return;
+
+            var tabs = section.GetTabs();
+            foreach (var tab in tabs) {
+                if (!tab.IsRead())
+                    return;
+            }
+
+            section.SetRead(true);
         }
 
         protected virtual UserTab CurrentTab { get; set; }
@@ -69,6 +87,8 @@ namespace ClinicalTools.SimEncounters.Reader
             tabSelector.SelectTab(selectedTab);
             footer.SelectTab(selectedTab);
             tabDrawer.Display(selectedTab);
+
+            selectedTab.SetRead(true);
         }
     }
 

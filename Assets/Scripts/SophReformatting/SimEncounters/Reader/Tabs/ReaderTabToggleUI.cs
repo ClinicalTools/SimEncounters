@@ -20,28 +20,32 @@ namespace ClinicalTools.SimEncounters.Reader
 
         public event Action Selected;
 
-        protected UserTab UserTab { get; set; }
-
         protected virtual void Awake()
         {
             SelectToggle.Selected += () => Selected?.Invoke();
         }
 
-        public void Display(UserTab userTab)
+        protected UserTab CurrentTab { get; set; }
+        public void Display(UserTab tab)
         {
-            UserTab = userTab;
-            NameLabel.text = userTab.Data.Name;
+            CurrentTab = tab;
+            NameLabel.text = tab.Data.Name;
 
             StatusChanged();
-            userTab.StatusChanged += StatusChanged;
+            tab.StatusChanged += StatusChanged;
         }
 
         public void SetToggleGroup(ToggleGroup group) => SelectToggle.SetToggleGroup(group);
 
         protected virtual void StatusChanged()
         {
-            Visited.SetActive(UserTab.IsRead());
+            Visited.SetActive(CurrentTab.IsRead());
         }
         public virtual void Select() => SelectToggle.Select();
+
+        protected virtual void OnDestroy()
+        {
+            CurrentTab.StatusChanged -= StatusChanged;
+        }
     }
 }

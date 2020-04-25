@@ -13,12 +13,12 @@ namespace ClinicalTools.SimEncounters.Reader
 
         protected ReaderScene Reader { get; }
         protected ReaderPanelCreator ReaderPanelCreator { get; }
-        protected ReaderDialogueChoiceUI ChoiceUI { get; }
+        protected ReaderDialogueChoice ChoiceUI { get; }
 
-        public  ReaderDialogueChoiceDisplay(ReaderScene reader, ReaderDialogueChoiceUI choiceUI)
+        public  ReaderDialogueChoiceDisplay(ReaderScene reader, ReaderDialogueChoice choiceUI)
         {
             Reader = reader;
-            ReaderPanelCreator = new ReaderPanelCreator(reader, choiceUI.OptionsParent);
+            ReaderPanelCreator = new ReaderPanelCreator(reader, null);
             ChoiceUI = choiceUI;
 
             ChoiceUI.ShowOptionsButton.onClick.AddListener(ShowOptions);
@@ -41,14 +41,7 @@ namespace ClinicalTools.SimEncounters.Reader
 
         protected virtual ReaderDialogueChoiceOptionDisplay CreateOption(KeyValuePair<string, Panel> panel)
         {
-            var optionUI = ReaderPanelCreator.Deserialize(ChoiceUI.OptionPrefab);
-            var option = Reader.PanelDisplayFactory.CreateDialogueChoiceOptionPanel(optionUI);
-            option.Display(panel);
-
-            option.CorrectlySelected += CorrectlySelected;
-            option.SetGroup(ChoiceUI.OptionGroup);
-            option.Feedback.SetParent(ChoiceUI.FeedbackParent);
-            return option;
+            return null;
         }
 
         protected virtual void CorrectlySelected(ReaderDialogueChoiceOptionDisplay panel)

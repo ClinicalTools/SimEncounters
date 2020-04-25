@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using ClinicalTools.SimEncounters.Data;
+using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
-    public class ReaderMultipleChoiceOptionUI : ReaderPanelUI, IMultipleChoiceOption
+    public class ReaderMultipleChoiceOption : BaseReaderMultipleChoiceOption
     {
         [SerializeField] private ReaderFeedbackUI feedback;
         public virtual ReaderFeedbackUI Feedback { get => feedback; set => feedback = value; }
@@ -11,10 +13,19 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private Toggle optionToggle;
         public virtual Toggle OptionToggle { get => optionToggle; set => optionToggle = value; }
 
-        public virtual void SetToggleGroup(ToggleGroup group)
+        protected BasicReaderPanelDrawer BasicPanelDrawer { get; set; }
+        [Inject]
+        public void Inject(BasicReaderPanelDrawer basicPanelDrawer) => BasicPanelDrawer = basicPanelDrawer;
+
+        public override void Display(UserPanel panel)
+        {
+            BasicPanelDrawer.Display(panel, transform, transform);
+        }
+
+        public override void SetToggleGroup(ToggleGroup group)
             => OptionToggle.group = group;
 
-        public virtual void GetFeedback()
+        public override void GetFeedback()
         {
             bool isOn = OptionToggle.isOn;
             if (isOn)
@@ -23,7 +34,7 @@ namespace ClinicalTools.SimEncounters.Reader
                 Feedback.CloseFeedback();
         }
 
-        public void SetFeedbackParent(Transform feedbackParent)
+        public override void SetFeedbackParent(Transform feedbackParent)
         {
             Feedback.transform.SetParent(feedbackParent);
         }

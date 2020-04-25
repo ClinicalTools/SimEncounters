@@ -1,10 +1,8 @@
-﻿using ClinicalTools.SimEncounters.Data;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
-
     public class ReaderCheckboxesTabUI : ReaderTabUI
     {
         [SerializeField] private Button getFeedbackButton;

@@ -7,7 +7,7 @@ namespace ClinicalTools.SimEncounters.Reader
     {
         protected ReaderScene Reader { get; }
         protected ReaderDialogueEntryUI EntryUI { get; }
-        protected virtual ColorConverter ColorConverter { get; } = new ColorConverter();
+        protected virtual ColorParser ColorConverter { get; } = new ColorParser();
         public ReaderDialogueEntryDisplay(ReaderScene reader, ReaderDialogueEntryUI entryUI)
         {
             Reader = reader;
@@ -20,7 +20,7 @@ namespace ClinicalTools.SimEncounters.Reader
         {
             var data = keyedPanel.Value.Data;
             if (data.ContainsKey(colorKey))
-                EntryUI.Border.color = ColorConverter.StringToColor(data[colorKey]);
+                EntryUI.Border.color = ColorConverter.Parse(data[colorKey]);
             if (data.ContainsKey(characterKey))
                 SetCharacterImage(data[characterKey]);
 

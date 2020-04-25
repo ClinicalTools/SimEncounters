@@ -82,9 +82,9 @@ namespace ClinicalTools.SimEncounters
                     EndDrag(Input.mousePosition);
                 else
                     Drag(Input.mousePosition);
-                
+
                 return;
-            } 
+            }
 
             if (Input.touches.Length == 1)
                 SwipeHandler.TouchPosition(Input.touches[0].position);

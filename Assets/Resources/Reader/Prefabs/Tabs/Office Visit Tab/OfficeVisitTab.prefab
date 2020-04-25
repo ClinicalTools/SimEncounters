@@ -183,7 +183,7 @@ GameObject:
   - component: {fileID: 224344303745246148}
   - component: {fileID: 114496000375236276}
   - component: {fileID: 114119448930586278}
-  - component: {fileID: 114303469049212572}
+  - component: {fileID: 6692461365436999077}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -249,7 +249,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &114303469049212572
+--- !u!114 &6692461365436999077
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -258,17 +258,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1433025317975402}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ba7a886d6e9f544aa02b3da2eccd7de, type: 3}
+  m_Script: {fileID: 11500000, guid: 6505d363f8190ed49aeed910a49ba30c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadedPrefabs:
-  - {fileID: 1804771336719994, guid: 2ac9dcdf94c90cb4c901e6e206a1f6fd, type: 3}
-  loadedPrefabsDisplayNames: []
-  parentTab: {fileID: 1685600441551286}
-  isNested: 0
-  isQuizPanel: 0
-  isStatic: 0
-  isPuzzle: 0
+  panelOptions:
+  - {fileID: 8641516766555683580, guid: 2ac9dcdf94c90cb4c901e6e206a1f6fd, type: 3}
 --- !u!1 &1501482584197758
 GameObject:
   m_ObjectHideFlags: 0
@@ -367,7 +361,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224537823703676934}
   - component: {fileID: 222527813568402302}
-  - component: {fileID: 5160842638258630817}
+  - component: {fileID: 2567463350317341879}
   m_Layer: 5
   m_Name: OfficeVisitTab
   m_TagString: Untagged
@@ -403,7 +397,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1685600441551286}
   m_CullTransparentMesh: 0
---- !u!114 &5160842638258630817
+--- !u!114 &2567463350317341879
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -412,12 +406,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1685600441551286}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8de9c97cebc3d30469043738fec943f0, type: 3}
+  m_Script: {fileID: 11500000, guid: 95fb1b0b2a9a6594284fffd1b0a8e918, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelsParent: {fileID: 224344303745246148}
-  panelOptions:
-  - {fileID: 8641516766555683580, guid: 2ac9dcdf94c90cb4c901e6e206a1f6fd, type: 3}
+  panelCreator: {fileID: 6692461365436999077}
 --- !u!1 &1833751070847056
 GameObject:
   m_ObjectHideFlags: 0

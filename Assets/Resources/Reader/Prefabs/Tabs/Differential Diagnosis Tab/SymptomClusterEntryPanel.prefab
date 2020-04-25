@@ -949,9 +949,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: SymptomClusterEntryPanel
+  childPanelCreator: {fileID: 80857273941969377}
   draggableGroup: {fileID: 1252703871920742145}
-  orderableItemOptions:
-  - {fileID: 3451241479413922824, guid: d662afabc3c01914a97e1cc9b5e49432, type: 3}
   feedbackObject: {fileID: 7494023784474780332}
 --- !u!114 &5781438798348521311
 MonoBehaviour:
@@ -1085,6 +1084,7 @@ GameObject:
   - component: {fileID: 114589086247691454}
   - component: {fileID: 114222040223679576}
   - component: {fileID: 1252703871920742145}
+  - component: {fileID: 80857273941969377}
   m_Layer: 5
   m_Name: ColumnOptions
   m_TagString: Untagged
@@ -1183,6 +1183,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   placeholder: {fileID: 4181429545124232688}
   childrenParent: {fileID: 224732728063430394}
+--- !u!114 &80857273941969377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701405995027590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 540d51c3075b11543a8fc1ecc56081df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelOptions:
+  - {fileID: 3451241479413922824, guid: d662afabc3c01914a97e1cc9b5e49432, type: 3}
 --- !u!1 &1750936423213624
 GameObject:
   m_ObjectHideFlags: 0
@@ -1807,10 +1821,10 @@ MonoBehaviour:
   m_text: 'Mr. Johnson''s response: No, this is the first time.
 
 
-    Correct! Asking about the past history of similar symptoms is part of a complete
-    pain history. This information has not been elicited so far in the interview.
-    In the PQRSTU acronym to track pain history, P stands for Provoking, Palliation,
-    and Past History.
+    Correct! Asking
+    about the past history of similar symptoms is part of a complete pain history.
+    This information has not been elicited so far in the interview. In the PQRSTU
+    acronym to track pain history, P stands for Provoking, Palliation, and Past History.
 
 '
   m_isRightToLeft: 0

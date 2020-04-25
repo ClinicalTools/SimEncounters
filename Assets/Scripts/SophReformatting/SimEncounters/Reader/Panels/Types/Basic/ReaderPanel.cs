@@ -5,25 +5,25 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
-    public abstract class ChildPanelsDrawer : MonoBehaviour
+    public abstract class BaseChildPanelsDrawer : MonoBehaviour
     {
         public abstract List<BaseReaderPanelUI> DrawChildPanels(IEnumerable<UserPanel> childPanels);
     }
 
     public class ReaderPanel : BaseReaderPanelUI
     {
-        [SerializeField] private ChildPanelsDrawer childPanelCreator;
-        public ChildPanelsDrawer ChildPanelCreator { get => childPanelCreator; set => childPanelCreator = value; }
+        [SerializeField] private BaseChildPanelsDrawer childPanelCreator;
+        public BaseChildPanelsDrawer ChildPanelCreator { get => childPanelCreator; set => childPanelCreator = value; }
 
         protected BasicReaderPanelDrawer BasicPanelDrawer { get; set; }
         [Inject]
         public void Inject(BasicReaderPanelDrawer basicPanelDrawer) => BasicPanelDrawer = basicPanelDrawer;
 
-        public override void Display(UserPanel userPanel)
+        public override void Display(UserPanel panel)
         {
-            BasicPanelDrawer.Display(userPanel, transform, transform);
+            BasicPanelDrawer.Display(panel, transform, transform);
             if (ChildPanelCreator != null)
-                ChildPanelCreator.DrawChildPanels(userPanel.GetChildPanels());
+                ChildPanelCreator.DrawChildPanels(panel.GetChildPanels());
         }
     }
 }

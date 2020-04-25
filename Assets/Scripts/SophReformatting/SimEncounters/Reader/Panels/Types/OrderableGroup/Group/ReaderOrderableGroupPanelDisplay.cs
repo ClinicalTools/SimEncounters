@@ -21,7 +21,7 @@ namespace ClinicalTools.SimEncounters.Reader
             Reader = reader;
             PanelUI = panelUI;
 
-            ReaderPanelCreator = new ReaderPanelCreator(Reader, PanelUI.DraggableGroupUI.ChildrenParent);
+            ReaderPanelCreator = new ReaderPanelCreator(Reader, null);
         }
 
         public void Display(KeyValuePair<string, Panel> keyedPanel)
@@ -44,13 +44,13 @@ namespace ClinicalTools.SimEncounters.Reader
 
         public VerticalDraggableGroup DeserializeChildren(IEnumerable<KeyValuePair<string, Panel>> panels)
         {
-            var childrenGroup = new VerticalDraggableGroup(Reader.Mouse, PanelUI.DraggableGroupUI);
-            foreach (var keyedPanel in panels) {
-                var panelUI = ReaderPanelCreator.Deserialize(keyedPanel, PanelUI.OrderableItemOptions);
+            var childrenGroup = new VerticalDraggableGroup(Reader.Mouse, null);
+            foreach (var keyedPanel in panels) {/*
+                var panelUI = ReaderPanelCreator.Deserialize(keyedPanel, null);
                 var panelDisplay = Reader.PanelDisplayFactory.CreateOrderableItemPanel(panelUI);
                 panelDisplay.Display(keyedPanel);
                 childrenGroup.Add(panelUI);
-                ChildPanels.Add(panelDisplay);
+                ChildPanels.Add(panelDisplay);*/
             }
             return childrenGroup;
         }

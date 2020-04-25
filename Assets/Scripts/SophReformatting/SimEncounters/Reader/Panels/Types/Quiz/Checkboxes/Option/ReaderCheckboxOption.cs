@@ -5,10 +5,10 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
-    public class ReaderCheckboxOption : CheckboxOptionPanel
+    public class ReaderCheckboxOption : BaseReaderOptionPanel
     {
-        [SerializeField] private ChildPanelsDrawer childPanelCreator;
-        public ChildPanelsDrawer ChildPanelCreator { get => childPanelCreator; set => childPanelCreator = value; }
+        [SerializeField] private BaseChildPanelsDrawer childPanelCreator;
+        public BaseChildPanelsDrawer ChildPanelCreator { get => childPanelCreator; set => childPanelCreator = value; }
 
         [SerializeField] private Toggle optionToggle;
         public virtual Toggle OptionToggle { get => optionToggle; set => optionToggle = value; }

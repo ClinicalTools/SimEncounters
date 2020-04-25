@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224489013877082844}
   - component: {fileID: 222370986206506668}
-  - component: {fileID: 2936790605643450552}
+  - component: {fileID: 1048542544394641258}
   m_Layer: 5
   m_Name: TestHistoryTab
   m_TagString: Untagged
@@ -46,7 +46,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1002156242792712}
   m_CullTransparentMesh: 0
---- !u!114 &2936790605643450552
+--- !u!114 &1048542544394641258
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -55,13 +55,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1002156242792712}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8de9c97cebc3d30469043738fec943f0, type: 3}
+  m_Script: {fileID: 11500000, guid: 95fb1b0b2a9a6594284fffd1b0a8e918, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelsParent: {fileID: 224255396371603758}
-  panelOptions:
-  - {fileID: 4110230551657345656, guid: 6ae12f59b4514794aaf0d1ed8104e6db, type: 3}
-  - {fileID: 2707943320527853945, guid: 83fcabc670a4f2249b6ba5e5c7114e4e, type: 3}
+  panelCreator: {fileID: 852791705431829580}
 --- !u!1 &1293384757601418
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,7 +356,7 @@ GameObject:
   - component: {fileID: 224255396371603758}
   - component: {fileID: 114678719722001840}
   - component: {fileID: 114363079838344604}
-  - component: {fileID: 114749226434983314}
+  - component: {fileID: 852791705431829580}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -425,7 +422,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &114749226434983314
+--- !u!114 &852791705431829580
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -434,20 +431,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1778440034833802}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ba7a886d6e9f544aa02b3da2eccd7de, type: 3}
+  m_Script: {fileID: 11500000, guid: 6505d363f8190ed49aeed910a49ba30c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadedPrefabs:
-  - {fileID: 1314461816466236, guid: 6ae12f59b4514794aaf0d1ed8104e6db, type: 3}
-  - {fileID: 1713583279869084, guid: 83fcabc670a4f2249b6ba5e5c7114e4e, type: 3}
-  loadedPrefabsDisplayNames:
-  - Past Lab Tests
-  - Other Past Medical Tests
-  parentTab: {fileID: 1002156242792712}
-  isNested: 0
-  isQuizPanel: 0
-  isStatic: 0
-  isPuzzle: 0
+  panelOptions:
+  - {fileID: 4110230551657345656, guid: 6ae12f59b4514794aaf0d1ed8104e6db, type: 3}
+  - {fileID: 2707943320527853945, guid: 83fcabc670a4f2249b6ba5e5c7114e4e, type: 3}
 --- !u!1 &1870688777135658
 GameObject:
   m_ObjectHideFlags: 0

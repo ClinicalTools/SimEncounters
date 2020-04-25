@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 114892524126379448}
   - component: {fileID: 114380928275814948}
   - component: {fileID: 114528178485419418}
+  - component: {fileID: 2549532390353830742}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -97,6 +98,20 @@ MonoBehaviour:
   isQuizPanel: 0
   isStatic: 0
   isPuzzle: 0
+--- !u!114 &2549532390353830742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243309666544220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6505d363f8190ed49aeed910a49ba30c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelOptions:
+  - {fileID: 5133702431713346117, guid: d45faa13e1b5bf646af9c5f52ef375c5, type: 3}
 --- !u!1 &1358277780128994
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,7 +303,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114504708445556040}
   m_HandleRect: {fileID: 224144502385393930}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -352,7 +367,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224530918865303464}
   - component: {fileID: 222160823608624914}
-  - component: {fileID: 4351444266605695009}
+  - component: {fileID: 2621915176319937}
   m_Layer: 5
   m_Name: MedicalEventsTab
   m_TagString: Untagged
@@ -388,7 +403,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1890503673975042}
   m_CullTransparentMesh: 0
---- !u!114 &4351444266605695009
+--- !u!114 &2621915176319937
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -397,12 +412,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1890503673975042}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8de9c97cebc3d30469043738fec943f0, type: 3}
+  m_Script: {fileID: 11500000, guid: 95fb1b0b2a9a6594284fffd1b0a8e918, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelsParent: {fileID: 224822430392343704}
-  panelOptions:
-  - {fileID: 5133702431713346117, guid: d45faa13e1b5bf646af9c5f52ef375c5, type: 3}
+  panelCreator: {fileID: 2549532390353830742}
 --- !u!1 &1899729648207962
 GameObject:
   m_ObjectHideFlags: 0

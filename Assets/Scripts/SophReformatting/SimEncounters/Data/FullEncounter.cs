@@ -191,8 +191,8 @@ namespace ClinicalTools.SimEncounters.Data
                 return Panels[key];
 
             var panel = Data.ChildPanels[key];
-            var panelStatus = Status.GetChildPanelStatus(key);
-            var userPanel = new UserPanel(Encounter, panel, panelStatus);
+            //var panelStatus = Status.GetChildPanelStatus(key);
+            var userPanel = new UserPanel(Encounter, panel, null);
             Panels.Add(key, userPanel);
             return userPanel;
         }

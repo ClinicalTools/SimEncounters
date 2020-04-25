@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 225028383425399974}
   - component: {fileID: 114310147059664696}
   - component: {fileID: 3017031408002755635}
+  - component: {fileID: -5158140334203742237}
   m_Layer: 5
   m_Name: DialogueChoiceEntry
   m_TagString: Untagged
@@ -146,13 +147,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: DialogueChoiceEntry
-  optionsParent: {fileID: 224258998687662806}
-  choicePrefab: {fileID: 7809015817776664828, guid: 78c027af6f720c5418ab913e7bddd548,
-    type: 3}
   feedbackParent: {fileID: 224228288408675024}
   instructions: {fileID: 1808270437549364}
   showOptionsButton: {fileID: 114474785231407014}
-  optionGroup: {fileID: 1009800891339850928}
+  childPanelCreator: {fileID: 795840818741352994}
+--- !u!114 &-5158140334203742237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016379503555054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _containerSource: 2
 --- !u!1 &1102615642666300
 GameObject:
   m_ObjectHideFlags: 0
@@ -2007,8 +2018,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Choose best answer
 
-    Do you think Mr. Johnson used all of the first-line medications for acute back
-    pain before his visit?'
+    Do you think Mr. Johnson used all of the first-line
+    medications for acute back pain before his visit?'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6cdd651ecddaadd4e8606b9023118d5a, type: 2}
   m_sharedMaterial: {fileID: 21241547189195982, guid: 6cdd651ecddaadd4e8606b9023118d5a,
@@ -2114,8 +2125,8 @@ GameObject:
   - component: {fileID: 114308484264977030}
   - component: {fileID: 225784388804704348}
   - component: {fileID: 114901935425744232}
-  - component: {fileID: 114650002679195978}
   - component: {fileID: 1009800891339850928}
+  - component: {fileID: 795840818741352994}
   m_Layer: 5
   m_Name: Answers
   m_TagString: Untagged
@@ -2207,27 +2218,6 @@ MonoBehaviour:
   m_FlexibleWidth: 1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &114650002679195978
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1786484252382592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ba7a886d6e9f544aa02b3da2eccd7de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  loadedPrefabs:
-  - {fileID: 1685112956550638, guid: 78c027af6f720c5418ab913e7bddd548, type: 3}
-  loadedPrefabsDisplayNames:
-  - DialogueQuizQuestionOption
-  parentTab: {fileID: 0}
-  isNested: 1
-  isQuizPanel: 1
-  isStatic: 0
-  isPuzzle: 0
 --- !u!114 &1009800891339850928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2241,6 +2231,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AllowSwitchOff: 0
+--- !u!114 &795840818741352994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1786484252382592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4575d0abd081e0e40b4c8efa8c76073a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelOptions:
+  - {fileID: 7809015817776664828, guid: 78c027af6f720c5418ab913e7bddd548, type: 3}
+  toggleGroup: {fileID: 1009800891339850928}
+  feedbackParent: {fileID: 224228288408675024}
 --- !u!1 &1808270437549364
 GameObject:
   m_ObjectHideFlags: 0
@@ -2353,7 +2359,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4284834832
+    rgba: 4284834833
   m_fontColor: {r: 0.06541473, g: 0.39250943, b: 0.3962264, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3

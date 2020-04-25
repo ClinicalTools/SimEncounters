@@ -802,7 +802,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5624254101705184829}
   - component: {fileID: 283612187450957988}
-  - component: {fileID: 8535793070462036991}
+  - component: {fileID: 4478383244622164646}
   m_Layer: 5
   m_Name: MedicalTestsTab
   m_TagString: Untagged
@@ -838,7 +838,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3775342665847554512}
   m_CullTransparentMesh: 0
---- !u!114 &8535793070462036991
+--- !u!114 &4478383244622164646
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -847,16 +847,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3775342665847554512}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05de312a9baf4104cad12b55f1b2d329, type: 3}
+  m_Script: {fileID: 11500000, guid: dbc2d2dfa42192a488a7fea5e4d2f7a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelsParent: {fileID: 5268114915454927883}
-  panelOptions:
-  - {fileID: 1783426079238392414, guid: 032f0b92e754ad545906af7cdcfb60eb, type: 3}
-  - {fileID: 6885966534773697012, guid: 725cfe260837b6d4d9eaf10a2a50ba58, type: 3}
-  - {fileID: -8961898805409849259, guid: 85893efb6c0fd7c4ebba8fb002c6ecb5, type: 3}
   getFeedbackButton: {fileID: 7598663597680586018}
-  feedbackParent: {fileID: 0}
+  childPanelCreator: {fileID: 6865968166085529802}
 --- !u!1 &4270491488836968381
 GameObject:
   m_ObjectHideFlags: 0
@@ -1322,7 +1317,7 @@ GameObject:
   - component: {fileID: 395996178373922901}
   - component: {fileID: 1338586009818064677}
   - component: {fileID: 3705696048720304556}
-  - component: {fileID: 4318995419134809447}
+  - component: {fileID: 6865968166085529802}
   m_Layer: 5
   m_Name: MedicalTests
   m_TagString: Untagged
@@ -1414,7 +1409,7 @@ MonoBehaviour:
   m_FlexibleWidth: 1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &4318995419134809447
+--- !u!114 &6865968166085529802
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1423,22 +1418,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4678245190064551166}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ba7a886d6e9f544aa02b3da2eccd7de, type: 3}
+  m_Script: {fileID: 11500000, guid: fe4a0ee3bfbf6e1489e38da041b31a4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadedPrefabs:
-  - {fileID: 7208838115971591958, guid: 032f0b92e754ad545906af7cdcfb60eb, type: 3}
-  - {fileID: 4506867230485913405, guid: 725cfe260837b6d4d9eaf10a2a50ba58, type: 3}
-  - {fileID: 6775002305602531261, guid: 85893efb6c0fd7c4ebba8fb002c6ecb5, type: 3}
-  loadedPrefabsDisplayNames:
-  - Single Lab Test
-  - Other Medical Tests
-  - Lab Test Panel
-  parentTab: {fileID: 3775342665847554512}
-  isNested: 0
-  isQuizPanel: 0
-  isStatic: 0
-  isPuzzle: 0
+  panelOptions:
+  - {fileID: 1783426079238392414, guid: 032f0b92e754ad545906af7cdcfb60eb, type: 3}
+  - {fileID: 6885966534773697012, guid: 725cfe260837b6d4d9eaf10a2a50ba58, type: 3}
+  - {fileID: -8961898805409849259, guid: 85893efb6c0fd7c4ebba8fb002c6ecb5, type: 3}
 --- !u!1 &4829203029904734559
 GameObject:
   m_ObjectHideFlags: 0

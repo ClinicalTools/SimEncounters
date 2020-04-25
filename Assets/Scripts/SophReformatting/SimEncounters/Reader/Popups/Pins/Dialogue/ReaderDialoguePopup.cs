@@ -16,7 +16,7 @@ namespace ClinicalTools.SimEncounters.Reader
             Reader = reader;
             DialoguePopupUI = dialoguePopupUI;
 
-            ReaderPanelCreator = new ReaderPanelCreator(reader, dialoguePopupUI.PanelsParent);
+            ReaderPanelCreator = new ReaderPanelCreator(reader, null);
 
             DeserializeChildren(pin.Conversation);
         }
@@ -42,6 +42,7 @@ namespace ClinicalTools.SimEncounters.Reader
         private const string providerName = "Provider";
         protected virtual ReaderDialogueEntryDisplay CreateEntry(KeyValuePair<string, Panel> keyedPanel)
         {
+            return null; /*
             ReaderDialogueEntryUI entryPrefab;
             if (keyedPanel.Value.Data.ContainsKey(characterNameKey) && keyedPanel.Value.Data[characterNameKey] == providerName)
                 entryPrefab = DialoguePopupUI.DialogueEntryRight;
@@ -51,17 +52,18 @@ namespace ClinicalTools.SimEncounters.Reader
             var panelUI = ReaderPanelCreator.Deserialize(entryPrefab);
             var panelDisplay = Reader.PanelDisplayFactory.CreateDialogueEntryPanel(panelUI);
             panelDisplay.Display(keyedPanel);
-            return panelDisplay;
+            return panelDisplay;//*/
         }
 
         protected virtual ReaderDialogueChoiceDisplay CreateChoice(OrderedCollection<Panel> panels, int panelIndex)
         {
+            return null; /*
             var panelUI = ReaderPanelCreator.Deserialize(DialoguePopupUI.DialogueChoice);
             var panelDisplay = Reader.PanelDisplayFactory.CreateDialogueChoicePanel(panelUI);
             panelDisplay.Display(panels[panelIndex]);
 
             panelDisplay.Completed += () => DeserializeChildren(panels, panelIndex + 1);
-            return panelDisplay;
+            return panelDisplay; //*/
         }
     }
 }

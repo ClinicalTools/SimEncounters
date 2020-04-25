@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 224783194471838162}
   - component: {fileID: 114940752124349548}
   - component: {fileID: 114738261718751386}
-  - component: {fileID: 114152978664172986}
+  - component: {fileID: 6194275001133858588}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -190,7 +190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &114152978664172986
+--- !u!114 &6194275001133858588
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -199,18 +199,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1397281923744904}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ba7a886d6e9f544aa02b3da2eccd7de, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c71d8e4ab58fd24d986ce25a41ce9ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadedPrefabs:
-  - {fileID: 1828236364726640, guid: ce5754f75258c4741a2e10883ae329bf, type: 3}
-  - {fileID: 1426671259906054, guid: ca5701a6e301657488f7a1e3ea57044d, type: 3}
-  loadedPrefabsDisplayNames: []
-  parentTab: {fileID: 1605915640034670}
-  isNested: 0
-  isQuizPanel: 0
-  isStatic: 0
-  isPuzzle: 0
+  multipleChoicePanel: {fileID: 352002830280337107, guid: ca5701a6e301657488f7a1e3ea57044d,
+    type: 3}
+  checkBoxPanel: {fileID: 2937102003617428881, guid: 41cb9673e08130f4eab43993a29637ac,
+    type: 3}
 --- !u!1 &1424709018484974
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,7 +352,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224647140571267588}
   - component: {fileID: 222324795666957372}
-  - component: {fileID: 4594073834532819448}
+  - component: {fileID: 3237067100875433078}
   m_Layer: 5
   m_Name: QuizTab
   m_TagString: Untagged
@@ -393,7 +388,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1605915640034670}
   m_CullTransparentMesh: 0
---- !u!114 &4594073834532819448
+--- !u!114 &3237067100875433078
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -402,14 +397,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1605915640034670}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f286c9ddc108cde4286c1f828f6413bc, type: 3}
+  m_Script: {fileID: 11500000, guid: 95fb1b0b2a9a6594284fffd1b0a8e918, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelsParent: {fileID: 224783194471838162}
-  multipleChoicePanel: {fileID: 786638880212165140, guid: ce5754f75258c4741a2e10883ae329bf,
-    type: 3}
-  checkBoxPanel: {fileID: 352002830280337107, guid: ca5701a6e301657488f7a1e3ea57044d,
-    type: 3}
+  panelCreator: {fileID: 6194275001133858588}
 --- !u!1 &1770238490418574
 GameObject:
   m_ObjectHideFlags: 0
