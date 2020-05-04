@@ -1,7 +1,7 @@
 ﻿using ClinicalTools.SimEncounters.Data;
 
 
-namespace ClinicalTools.SimEncounters.MainMenu
+namespace ClinicalTools.SimEncounters
 {
     public class DetailedStatusWriter : IDetailedStatusWriter
     {
@@ -13,10 +13,10 @@ namespace ClinicalTools.SimEncounters.MainMenu
             FileDetailedStatusWriter = fileDetailedStatusWriter;
         }
 
-        public void DoStuff(User user, FullEncounter encounter)
+        public void WriteStatus(UserEncounter encounter)
         {
-            ServerDetailedStatusWriter.DoStuff(user, encounter);
-            FileDetailedStatusWriter.DoStuff(user, encounter);
+            ServerDetailedStatusWriter.WriteStatus(encounter);
+            FileDetailedStatusWriter.WriteStatus(encounter);
         }
     }
 }

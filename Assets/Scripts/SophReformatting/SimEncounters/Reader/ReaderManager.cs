@@ -1,38 +1,18 @@
-﻿using ClinicalTools.ClinicalEncounters.Loader;
-using ClinicalTools.SimEncounters.Data;
-using ClinicalTools.SimEncounters.Loading;
-using System.Collections;
-using System.Diagnostics;
+﻿using ClinicalTools.SimEncounters.Data;
+using UnityEngine;
 using Zenject;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
-    public class ReaderManager : EncounterSceneManager
+    public class ReaderManager : SceneManager, IReaderSceneDrawer
     {
-        [UnityEngine.SerializeField] TMPro.TextMeshProUGUI debugField;
-        public static ReaderManager ReaderInstance => (ReaderManager)Instance;
+        public BaseReaderSceneDrawer ReaderDrawer { get => readerDrawer; set => readerDrawer = value; }
+        [SerializeField] private BaseReaderSceneDrawer readerDrawer;
 
-        public override void Awake()
-        {
-            base.Awake();
-        }
+        protected IUserEncounterReaderSelector ReaderSelector { get; set; }
+        [Inject] public virtual void Inject(IUserEncounterReaderSelector readerSelector) => ReaderSelector = readerSelector;
 
-        protected IEncounterReaderSelector ReaderSelector { get; set; }
-        [Inject]
-        public virtual void Inject(IEncounterReaderSelector readerSelector)
-        {
-            ReaderSelector = readerSelector;
-        }
-
-        protected virtual void Start()
-        {
-            if (Instance != this)
-                return;
-
-            ShowReader();
-        }
-
-        public void ShowReader()
+        protected override void StartAsInitialScene()
         {
             var metadata = new EncounterMetadata() {
                 Filename = "289342Dave Abbott",
@@ -45,11 +25,15 @@ namespace ClinicalTools.SimEncounters.Reader
                 Difficulty = Difficulty.Intermediate
             };
 
-            var encounterReader = ReaderSelector.GetEncounterReader(SaveType.Demo);
-            var fullEncounter = encounterReader.GetFullEncounter(User.Guest, metadata, new EncounterBasicStatus());
+            var encounterReader = ReaderSelector.GetUserEncounterReader(SaveType.Demo);
+            var fullEncounter = encounterReader.GetUserEncounter(User.Guest, metadata, new EncounterBasicStatus());
 
-            var sceneInfo = new LoadingEncounterSceneInfo(User.Guest, null, fullEncounter);
-            ((ReaderUI)SceneUI).Display(sceneInfo);
+            var sceneInfo = new LoadingReaderSceneInfo(User.Guest, null, fullEncounter);
+            Display(sceneInfo);
         }
+
+        protected override void StartAsLaterScene() { }
+
+        public virtual void Display(LoadingReaderSceneInfo sceneInfo) => ReaderDrawer.Display(sceneInfo);
     }
 }

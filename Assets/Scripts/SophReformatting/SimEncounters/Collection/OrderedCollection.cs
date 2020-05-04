@@ -27,6 +27,7 @@ namespace ClinicalTools.SimEncounters.Collections
         public virtual KeyValuePair<string, T> this[int index] => Get(index);
 
         public OrderedCollection() : base() { }
+        public OrderedCollection(IKeyGenerator keyGenerator) : base(keyGenerator) { }
 
         protected override bool AddKeyedValue(string key, T value)
         {

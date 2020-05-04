@@ -15,9 +15,11 @@ namespace ClinicalTools.SimEncounters
             Container.Bind<IStringSplitter>().To<DoubleColonStringSplitter>().AsTransient();
 
             Container.Bind<IEncounterReaderSelector>().To<EncounterReaderSelector>().AsTransient();
-            Container.Bind<IFullEncounterReader>().To<FullEncounterReader>().AsTransient();
-            Container.Bind<IEncounterDataReader>().To<CEEncounterDataReader>().AsTransient();
-            Container.Bind<IDetailedStatusReader>().To<ServerDetailedStatusReader>().AsTransient();
+            Container.Bind<IUserEncounterReaderSelector>().To<UserEncounterReaderSelector>().AsTransient();
+            Container.Bind<IUserEncounterReader>().To<UserEncounterReader>().AsTransient();
+            Container.Bind<IEncounterReader>().To<CEEncounterReader>().AsTransient();
+
+            Container.Bind<IDetailedStatusReader>().To<LocalDetailedStatusReader>().AsTransient();
 
             Container.Bind<ICategoriesReader>().To<CategoriesReader>().AsTransient();
             Container.Bind<IMenuEncountersReader>().To<MenuEncountersReader>().AsTransient();
@@ -53,20 +55,26 @@ namespace ClinicalTools.SimEncounters
             Container.Bind<IParser<EncounterContent>>().To<XmlDeserializerParser<EncounterContent>>().AsTransient();
             Container.Bind<IParser<EncounterImageData>>().To<XmlDeserializerParser<EncounterImageData>>().AsTransient();
             Container.Bind<IParser<XmlDocument>>().To<XmlParser>().AsTransient();
-            Container.Bind<IParser<EncounterDetailedStatus>>().To<DetailedStatusParser>().AsTransient();
 
-            Container.Bind<IDetailedStatusParser>().To<DetailedStatusParser2>().AsTransient();
+            Container.Bind<IParser<EncounterContentStatus>>().To<EncounterContentStatusParser>().AsTransient();
+            Container.Bind<ICharEnumeratorParser<SectionStatus>>().To<SectionStatusParser>().AsTransient();
+            Container.Bind<ICharEnumeratorParser<TabStatus>>().To<TabStatusParser>().AsTransient();
+            Container.Bind<ICharEnumeratorParser<string>>().To<KeyParser>().AsTransient();
         }
 
         protected virtual void InstallServerTypeBindings()
         {
             bool serverBindingCondition(InjectContext injectContext) => ContextHierarchyContainsIdentifier(injectContext, SaveType.Server);
 
-            Container.Bind<IFullEncounterReader>().WithId(SaveType.Server).To<FullEncounterReader>().AsTransient();
+            Container.Bind<IUserEncounterReader>().WithId(SaveType.Server).To<UserEncounterReader>().AsTransient();
             Container.Bind<IMetadatasReader>().WithId(SaveType.Server).To<ServerMetadatasReader>().AsTransient();
+            Container.Bind<IEncounterReader>().WithId(SaveType.Server).To<CEEncounterReader>().AsTransient();
 
             Container.Bind<IEncounterContentReader>().To<ServerContentDataReader>().AsTransient().When(serverBindingCondition);
             Container.Bind<IImageDataReader>().To<ServerImageDataReader>().AsTransient().When(serverBindingCondition);
+
+            Container.Bind<IFileManager>().To<UserFileManager>().AsTransient().When(serverBindingCondition);
+            Container.Bind<IFileExtensionManager>().To<FileExtensionManager>().AsTransient().When(serverBindingCondition);
         }
         protected virtual void InstallLocalBindings(BindingCondition bindingCondition)
         {
@@ -83,7 +91,8 @@ namespace ClinicalTools.SimEncounters
         protected virtual void InstallLocalTypeBindings()
         {
             Container.Bind<IMetadatasReader>().WithId(SaveType.Local).To<LocalMetadatasReader>().AsTransient();
-            Container.Bind<IFullEncounterReader>().WithId(SaveType.Local).To<FullEncounterReader>().AsTransient();
+            Container.Bind<IUserEncounterReader>().WithId(SaveType.Local).To<UserEncounterReader>().AsTransient();
+            Container.Bind<IEncounterReader>().WithId(SaveType.Local).To<CEEncounterReader>().AsTransient();
 
             bool localBindingCondition(InjectContext injectContext) => ContextHierarchyContainsIdentifier(injectContext, SaveType.Local);
 
@@ -97,7 +106,8 @@ namespace ClinicalTools.SimEncounters
         protected virtual void InstallAutosaveTypeBindings()
         {
             Container.Bind<IMetadatasReader>().WithId(SaveType.Autosave).To<LocalMetadatasReader>().AsTransient();
-            Container.Bind<IFullEncounterReader>().WithId(SaveType.Autosave).To<FullEncounterReader>().AsTransient();
+            Container.Bind<IUserEncounterReader>().WithId(SaveType.Autosave).To<UserEncounterReader>().AsTransient();
+            Container.Bind<IEncounterReader>().WithId(SaveType.Autosave).To<CEEncounterReader>().AsTransient();
 
             bool autosaveBindingCondition(InjectContext injectContext) => ContextHierarchyContainsIdentifier(injectContext, SaveType.Autosave);
 
@@ -110,7 +120,8 @@ namespace ClinicalTools.SimEncounters
         protected virtual void InstallDemoTypeBindings()
         {
             Container.Bind<IMetadatasReader>().WithId(SaveType.Demo).To<LocalMetadatasReader>().AsTransient();
-            Container.Bind<IFullEncounterReader>().WithId(SaveType.Demo).To<FullEncounterReader>().AsTransient();
+            Container.Bind<IUserEncounterReader>().WithId(SaveType.Demo).To<UserEncounterReader>().AsTransient();
+            Container.Bind<IEncounterReader>().WithId(SaveType.Demo).To<CEEncounterReader>().AsTransient();
 
             bool demoBindingCondition(InjectContext injectContext) => ContextHierarchyContainsIdentifier(injectContext, SaveType.Demo);
 

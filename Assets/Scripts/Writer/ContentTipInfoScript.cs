@@ -7,8 +7,8 @@ public class ContentTipInfoScript : MonoBehaviour, IPointerEnterHandler, IPointe
     public float delay;                     //The delay before the tool tip shows (default is 1 second)
     public CanvasGroup contentTipCanvas;    //The canvas group which holds the Tool tip that is shown on screen
     public ContentSizeFitter contentTipFitter;    //The size fitter used to fit the Tool tip
-    private TextMeshProUGUI description;    //The description text object on the ToolTipCanvas
-    private TextMeshProUGUI contentComp;
+    private TextMeshProUGUI description = null;    //The description text object on the ToolTipCanvas
+    private TextMeshProUGUI contentComp = null;
 
     /**
 	 * Script for the tool tips that show when hovering the mouse over certain elements

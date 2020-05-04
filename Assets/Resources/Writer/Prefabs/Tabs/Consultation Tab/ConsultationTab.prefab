@@ -10,8 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224959455218134008}
   - component: {fileID: 222141857134635282}
-  - component: {fileID: 6983823212841487392}
-  - component: {fileID: 2628983977255054638}
+  - component: {fileID: 2270768264788009630}
   m_Layer: 5
   m_Name: ConsultationTab
   m_TagString: Untagged
@@ -48,7 +47,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1055997815418370}
   m_CullTransparentMesh: 0
---- !u!114 &6983823212841487392
+--- !u!114 &2270768264788009630
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -57,29 +56,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1055997815418370}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8be82b5abb3509e47a7513046447b315, type: 3}
+  m_Script: {fileID: 11500000, guid: 03168f88e98353a419d3eead1c1abd47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelsParent: {fileID: 224998357317752354}
-  presetPanels: []
---- !u!114 &2628983977255054638
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1055997815418370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57dee0f5fb32d4946be8726d0642bea5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  panelsParent: {fileID: 224998357317752354}
-  panelOptions:
-  - label: Consultation
-    panelUI: {fileID: 5566723078238486579, guid: a9668b37e9e0c5c4b821e89d22fafd67,
-      type: 3}
-  addPanelButton: {fileID: 114094421356463984}
+  panelCreator: {fileID: 0}
 --- !u!1 &1071256057838156
 GameObject:
   m_ObjectHideFlags: 0
@@ -594,7 +574,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114348821676823292}
+      - m_Target: {fileID: 0}
         m_MethodName: ActuallyAddAPanel
         m_Mode: 1
         m_Arguments:
@@ -1457,7 +1437,6 @@ GameObject:
   - component: {fileID: 224998357317752354}
   - component: {fileID: 114768415150893568}
   - component: {fileID: 114538916379648910}
-  - component: {fileID: 114348821676823292}
   - component: {fileID: 114484760268062598}
   m_Layer: 5
   m_Name: Content
@@ -1524,25 +1503,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &114348821676823292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1604088414458492}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e76d531ff21d9a4fb0f02a733bddf0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  loadedPrefabs:
-  - {fileID: 1556361399779160, guid: a9668b37e9e0c5c4b821e89d22fafd67, type: 3}
-  loadedPrefabsDisplayNames: []
-  parentTab: {fileID: 1055997815418370}
-  isNested: 0
-  isQuizPanel: 0
-  isStatic: 0
 --- !u!114 &114484760268062598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2121,7 +2081,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114348821676823292}
+      - m_Target: {fileID: 0}
         m_MethodName: OpenAddEntryPanel
         m_Mode: 1
         m_Arguments:

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ClinicalTools.SimEncounters.Collections;
 using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.SerializationFactories;
 using ClinicalTools.SimEncounters.XmlSerialization;
@@ -7,8 +8,14 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
 {
     public class ClinicalEncounterDataFactory : EncounterDataFactory
     {
-        public ClinicalEncounterDataFactory(ISerializationFactory<Section> sectionFactory, ISerializationFactory<VariableData> variablesFactory)
-            : base(sectionFactory, variablesFactory) { }
+        protected virtual IKeyGenerator KeyGenerator { get; }
+
+        public ClinicalEncounterDataFactory(IKeyGenerator keyGenerator, 
+            ISerializationFactory<Section> sectionFactory, ISerializationFactory<VariableData> variablesFactory)
+            : base(sectionFactory, variablesFactory)
+        {
+            KeyGenerator = keyGenerator;
+        }
 
         protected virtual CollectionInfo LegacySectionsInfo { get; } =
             new CollectionInfo(
@@ -28,7 +35,7 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
                 return null;
             for (int i = 0; i < sections.Count; i++) {
                 var key = GetClinicalSectionKey(sections[i].Key);
-                sections[i] = new KeyValuePair<string, Section>(key, sections[i].Value);
+                sections[i] = new KeyValuePair<string, Section>(KeyGenerator.Generate(sections[i].Key), sections[i].Value);
             }
 
             return sections;

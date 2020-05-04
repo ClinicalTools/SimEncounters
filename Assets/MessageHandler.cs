@@ -4,10 +4,13 @@ using UnityEngine;
 public class MessageHandler : MonoBehaviour
 {
     public static MessageHandler Instance { get; protected set; }
-
+    public GameObject NotificationPrefab { get => notificationPrefab; set => notificationPrefab = value; }
     [SerializeField] private GameObject notificationPrefab;
+    public GameObject ErrorNotificationPrefab { get => errorNotificationPrefab; set => errorNotificationPrefab = value; }
     [SerializeField] private GameObject errorNotificationPrefab;
+    public Transform NotificationParent { get => notificationParent; set => notificationParent = value; }
     [SerializeField] private Transform notificationParent;
+
     private GameObject notification;
     private bool fade;
 
@@ -24,9 +27,9 @@ public class MessageHandler : MonoBehaviour
         if (notification != null)
             Destroy(notification);
         if (error)
-            notification = Instantiate(errorNotificationPrefab, notificationParent);
+            notification = Instantiate(ErrorNotificationPrefab, NotificationParent);
         else
-            notification = Instantiate(notificationPrefab, notificationParent);
+            notification = Instantiate(NotificationPrefab, NotificationParent);
 
         CancelInvoke("Fade");
         fade = false;

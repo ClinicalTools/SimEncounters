@@ -12,10 +12,6 @@ namespace EntryValue
 		[SerializeField]
 		private PinType pinType;
 
-		private string pinKey = "";
-		private string oldPinKey = "";
-		private string tabName;
-
 		public enum PinType
 		{
 			None,
@@ -23,13 +19,7 @@ namespace EntryValue
 			Quiz
 		}
 
-		private void Start()
-		{
-		}
 		
-		private void InitKeys()
-		{
-		}
 
 		public override string GetValue()
 		{

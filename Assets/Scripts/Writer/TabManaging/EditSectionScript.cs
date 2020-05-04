@@ -255,7 +255,7 @@ public class EditSectionScript : MonoBehaviour
         string prefabName = tabName + " Tab";
         string tabCustomName = tabName;
         string xmlTabName = tabName.Replace(" ", "_") + "Tab";
-        string xml = "<data></data>";
+        //string xml = "<data></data>";
 
         //Debug.Log (gData.resourcesPath + "Prefabs/Tabs/" + prefabName + "/" + prefabName.Replace (" ", string.Empty));
         GameObject test = Resources.Load(gData.resourcesPath + "/Prefabs/Tabs/" + prefabName + "/" + prefabName.Replace(" ", string.Empty)) as GameObject;

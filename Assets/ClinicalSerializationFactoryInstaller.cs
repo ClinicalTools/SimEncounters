@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.ClinicalEncounters.SerializationFactories;
+using ClinicalTools.SimEncounters.Collections;
 using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.SerializationFactories;
 using ClinicalTools.SimEncounters.XmlSerialization;
@@ -13,10 +14,12 @@ namespace ClinicalTools.ClinicalEncounters
         {
             Container.Bind<ISerializationFactory<EncounterImageData>>().To<ClinicalImageDataFactory>().AsTransient();
             Container.Bind<ISerializationFactory<Sprite>>().To<ClinicalSpriteFactory>().AsTransient();
-            Container.Bind<ISerializationFactory<Icon>>().To<ClinicalIconFactory>().AsTransient();
+            Container.Bind<ISerializationFactory<LegacyIcon>>().To<ClinicalIconFactory>().AsTransient();
 
             Container.Bind<ISerializationFactory<EncounterContent>>().To<ClinicalEncounterDataFactory>().AsTransient();
             Container.Bind<ISerializationFactory<Section>>().To<ClinicalSectionFactory>().AsTransient();
+            // Clinical Sections don't have proper keys, so they need to be regenerated. 
+            Container.Bind<IKeyGenerator>().To<KeyGenerator>().AsTransient().WithArguments(0);
             Container.Bind<ISerializationFactory<Tab>>().To<ClinicalTabFactory>().AsTransient();
             Container.Bind<ISerializationFactory<Panel>>().To<ClinicalPanelFactory>().AsTransient();
 

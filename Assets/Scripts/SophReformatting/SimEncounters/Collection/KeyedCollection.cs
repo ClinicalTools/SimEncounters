@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace ClinicalTools.SimEncounters.Collections
     /// <typeparam name="T">Type of values stored in the collection</typeparam>
     public class KeyedCollection<T> : IEnumerable<KeyValuePair<string, T>>
     {
-        protected KeyGenerator KeyGenerator => KeyGenerator.Instance;
+        protected IKeyGenerator KeyGenerator { get; }
 
         /// <summary>
         /// Dictionary of values in the collection.
@@ -32,7 +33,13 @@ namespace ClinicalTools.SimEncounters.Collections
         public virtual IEnumerable<T> Values => Collection.Values.AsEnumerable();
         public int Count => Collection.Count;
 
-        public KeyedCollection() { }
+        public KeyedCollection()
+        {
+            KeyGenerator = new KeyGenerator((int)DateTime.Now.ToFileTimeUtc());
+        }
+        public KeyedCollection(IKeyGenerator keyGenerator) {
+            KeyGenerator = keyGenerator;
+        }
 
         /// <summary>
         /// Creates a unique key for the collection item.

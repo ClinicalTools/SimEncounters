@@ -1,8 +1,4 @@
-﻿using ClinicalTools.ClinicalEncounters.Loader;
-using ClinicalTools.SimEncounters.Collections;
-using ClinicalTools.SimEncounters.Data;
-using ClinicalTools.SimEncounters.Loader;
-using ClinicalTools.SimEncounters.Loading;
+﻿using ClinicalTools.SimEncounters.Data;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,8 +28,13 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private List<Button> hideOverviewButtons;
         public virtual List<Button> HideOverviewButtons { get => hideOverviewButtons; set => hideOverviewButtons = value; }
 
-        [Inject]
-        protected IEncounterReaderSelector EncounterReaderSelector { get; set; }
+        protected IReaderSceneStarter ReaderSceneStarter { get; set; }
+        protected IUserEncounterReaderSelector EncounterReaderSelector { get; set; }
+        [Inject] public virtual void Inject(IReaderSceneStarter readerSceneStarter, IUserEncounterReaderSelector encounterReaderSelector)
+        {
+            ReaderSceneStarter = readerSceneStarter;
+            EncounterReaderSelector = encounterReaderSelector;
+        }
 
         protected virtual void Awake()
         {
@@ -78,12 +79,11 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 menuEncounter.Status = new EncounterBasicStatus();
 
             var metadata = menuEncounter.GetLatestTypedMetada();
-            KeyGenerator.ResetKeyGenerator(metadata.Value.RecordNumber);
-            IFullEncounterReader encounterReader = EncounterReaderSelector.GetEncounterReader(metadata.Key);
+            IUserEncounterReader encounterReader = EncounterReaderSelector.GetUserEncounterReader(metadata.Key);
 
-            var encounter = encounterReader.GetFullEncounter(sceneInfo.User, metadata.Value, menuEncounter.Status);
-            var encounterSceneInfo = new LoadingEncounterSceneInfo(sceneInfo.User, sceneInfo.LoadingScreen, encounter);
-            EncounterSceneManager.EncounterInstance.StartReaderScene(encounterSceneInfo);
+            var encounter = encounterReader.GetUserEncounter(sceneInfo.User, metadata.Value, menuEncounter.Status);
+            var encounterSceneInfo = new LoadingReaderSceneInfo(sceneInfo.User, sceneInfo.LoadingScreen, encounter);
+            ReaderSceneStarter.StartScene(encounterSceneInfo);
         }
     }
 }

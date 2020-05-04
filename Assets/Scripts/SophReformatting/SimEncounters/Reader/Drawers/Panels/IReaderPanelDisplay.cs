@@ -1,0 +1,10 @@
+﻿using ClinicalTools.SimEncounters.Data;
+using UnityEngine;
+
+namespace ClinicalTools.SimEncounters.Reader
+{
+    public interface IReaderPanelDisplay
+    {
+        void Display(UserPanel userPanel, Transform panelTransform, Transform pinParent);
+    }
+}

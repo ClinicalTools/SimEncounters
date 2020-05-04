@@ -7,7 +7,7 @@ using Zenject;
 public class Test : MonoBehaviour
 {
     [Inject]
-    public void TestInject(IEncounterReaderSelector encounterReaderSelector, IMenuEncountersReader menuEncountersReader)
+    public void TestInject(IUserEncounterReaderSelector encounterReaderSelector, IMenuEncountersReader menuEncountersReader)
     {
 
     }

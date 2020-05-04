@@ -1,54 +1,32 @@
-﻿using ClinicalTools.SimEncounters.Data;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public class MainMenuManager : EncounterSceneManager
+    public class MainMenuManager : SceneManager, IMenuSceneDrawer
     {
-        public static MainMenuManager MainMenuInstance => (MainMenuManager)Instance;
+        [SerializeField] private BaseMenuSceneDrawer menuDrawer;
+        public BaseMenuSceneDrawer MenuDrawer { get => menuDrawer; set => menuDrawer = value; }
 
-        [SerializeField] private ManualLogin manualLogin;
-        public ManualLogin ManualLogin { get => manualLogin; set => manualLogin = value; }
+        [SerializeField] private LoadingScreen loadingScreen;
+        public LoadingScreen LoadingScreen { get => loadingScreen; set => loadingScreen = value; }
 
-        [Inject]
         protected ICategoriesReader CategoriesReader { get; set; }
+        [Inject] public virtual void Inject(ICategoriesReader categoriesReader) => CategoriesReader = categoriesReader;
 
-        public override void Awake()
+        protected override void StartAsInitialScene()
         {
-            base.Awake();
-
-            if (Instance != this)
-                return;
-        }
-
-        public void Start()
-        {
-            var mainMenuUI = (MainMenuUI)SceneUI;
-            //mainMenuUI.Login.CreateNewLogin(LoadingScreen);
-            //mainMenuUI.Login.GuestLogin(LoadingScreen);
             var user = User.Guest;
             var menuEncounters = CategoriesReader.GetCategories(user);
-            menuEncounters.AddOnCompletedListener(categoriesLoaded);
             var menuSceneInfo = new LoadingMenuSceneInfo(User.Guest, LoadingScreen, menuEncounters);
-            mainMenuUI.Display(menuSceneInfo);
-            /*
-            var webAddress = new WebAddress();
-            var userParser = new UserParser();
-            var deviceIdLogin = new DeviceIdLogin(webAddress, userParser);
-            var autoLogin = new AutoLogin(deviceIdLogin);
-            var passwordLogin = new PasswordLogin(webAddress, userParser);
-            manualLogin.Init(LoadingScreen.Instance, passwordLogin);
-
-            var login = new Login(autoLogin, manualLogin);
-            login.LoggedIn += LoggedIn;
-            login.Begin();*/
+            MenuDrawer.Display(menuSceneInfo);
         }
 
-        private void categoriesLoaded(List<Category> categories)
+        protected override void StartAsLaterScene()
         {
-
+            Destroy(LoadingScreen.gameObject);
         }
+
+        public void Display(LoadingMenuSceneInfo sceneInfo) => MenuDrawer.Display(sceneInfo);
     }
 }

@@ -40,9 +40,9 @@ namespace ClinicalTools.SimEncounters
             if (Mathf.Abs(startPosition.x - endPosition.x) > MIN_HORIZONTAL_DIST) {
                 var angle = Vector2.Angle(Vector2.left, startPosition - endPosition);
                 if (angle < ANGLE_TOLERANCE) {
-                    //SwipeRight?.Invoke();
+                    SwipeRight?.Invoke();
                 } else if (180 - angle < ANGLE_TOLERANCE) {
-                    //SwipeLeft?.Invoke();
+                    SwipeLeft?.Invoke();
                 }
             }
         }

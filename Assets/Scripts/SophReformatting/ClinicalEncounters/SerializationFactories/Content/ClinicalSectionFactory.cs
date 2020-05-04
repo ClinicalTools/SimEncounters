@@ -10,10 +10,14 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
 {
     public class ClinicalSectionFactory : SectionFactory
     {
-        public ClinicalSectionFactory(ISerializationFactory<Tab> tabFactory, ISerializationFactory<ConditionalData> conditionalsFactory)
-            : base(tabFactory, conditionalsFactory) { }
+        protected virtual IKeyGenerator KeyGenerator { get; }
 
-        private readonly Color defaultColor = new Color(.0784f, .694f, .639f);
+        public ClinicalSectionFactory(IKeyGenerator keyGenerator, 
+            ISerializationFactory<Tab> tabFactory, ISerializationFactory<ConditionalData> conditionalsFactory)
+            : base(tabFactory, conditionalsFactory)
+        {
+            KeyGenerator = keyGenerator;
+        }
 
         protected override Section CreateSection(XmlDeserializer deserializer)
         {
@@ -80,10 +84,10 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
                 return tabs;
 
             tabs = deserializer.GetKeyValuePairs(LegacyTabsInfo, LegacyTabsKeyValueInfo, TabFactory);
+
             for (int i = 0; i < tabs.Count; i++) {
                 var pair = tabs[i];
-                if (!KeyGenerator.Instance.IsValidKey(pair.Key))
-                    tabs[i] = new KeyValuePair<string, Tab>(KeyGenerator.Instance.Generate(pair.Key), pair.Value);
+                tabs[i] = new KeyValuePair<string, Tab>(KeyGenerator.Generate(pair.Key), pair.Value);
             }
 
             return tabs;

@@ -1,29 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ClinicalTools.SimEncounters.Collections
 {
-    public class KeyGenerator
+    public interface IKeyGenerator
     {
-        public static KeyGenerator Instance { get; protected set; } = new KeyGenerator(0);
-        public static void ResetKeyGenerator(int seed) => Instance = new KeyGenerator(seed);
+        bool Contains(string key);
+        void AddKey(string key);
+        string Generate();
+        string Generate(string seed);
+        bool IsValidKey(string key);
+    }
 
-
+    public class KeyGenerator : IKeyGenerator
+    {
         protected int KeyByteLength { get; } = 3;
-        protected int KeyCharLength => 3;
+        protected int KeyCharLength => 2;
 
         protected virtual HashSet<string> Keys { get; } = new HashSet<string>();
-        protected virtual System.Random KeyRandomizer { get; set; }
+        protected virtual Random KeyRandomizer { get; set; }
 
         public KeyGenerator(int seed)
         {
-            KeyRandomizer = new System.Random(seed);
+            KeyRandomizer = new Random(seed);
         }
 
         public virtual void SetSeed(int seed)
         {
-            KeyRandomizer = new System.Random(seed);
+            KeyRandomizer = new Random(seed);
         }
 
         public virtual bool Contains(string key) => Keys.Contains(key);

@@ -50,11 +50,7 @@ namespace ClinicalTools.SimEncounters.Reader
         }
 
         protected SpriteDrawer SpritePopup { get; set; }
-        [Inject]
-        public virtual void Inject(SpriteDrawer spritePopup)
-        {
-            SpritePopup = spritePopup;
-        }
+        [Inject] public virtual void Inject(SpriteDrawer spritePopup) => SpritePopup = spritePopup;
 
         public virtual void Initialize(UserPanel userPanel)
         {

@@ -15,7 +15,7 @@ public class HelpOverlayTag : MonoBehaviour {
 
     private float maxHeight = 0.791f;
     private float minHeight = 0.015f;
-
+    /*
     void Awake()
     {
         if (transform.Find("Help"))
@@ -129,4 +129,5 @@ public class HelpOverlayTag : MonoBehaviour {
             tcg.interactable = false;
         }
     }
+    */
 }

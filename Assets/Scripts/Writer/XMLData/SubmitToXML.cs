@@ -21,7 +21,6 @@ public class SubmitToXML : MonoBehaviour
     public int minutesBetweenSaves;         //Minutes between autosaves
     private TabManager TabManager;			//Section and Tab manager
     private GameObject BG;
-    private bool autosaving;
 
     // Use this for initialization
     void Awake()
@@ -50,7 +49,6 @@ public class SubmitToXML : MonoBehaviour
                 transform.Find("SaveCasePanel/Content/Row1/TemplateToggle").gameObject.SetActive(false);
             }
         }
-        autosaving = false;
     }
 
     void OnEnable()
@@ -84,7 +82,7 @@ public class SubmitToXML : MonoBehaviour
         if (TabManager == null) {
             Awake();
         }
-        autosaving = true;
+
         SubmitToFile();
     }
 

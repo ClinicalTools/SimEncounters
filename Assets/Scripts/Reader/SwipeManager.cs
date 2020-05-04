@@ -2,9 +2,6 @@
 
 public class SwipeManager : MonoBehaviour
 {
-    private ReaderDataScript ds = null;
-    private ReaderTabManager tm = null;
-
     // Amount angle can be from straight to count as a swipe
     private const float ANGLE_TOLERANCE = 15f;
     private const float ANGLE_MIN_DIST = 100f;
@@ -14,7 +11,7 @@ public class SwipeManager : MonoBehaviour
 
     void Start()
     {
-        ds = GameObject.Find("GaudyBG").GetComponent<ReaderDataScript>();
+        //ds = GameObject.Find("GaudyBG").GetComponent<ReaderDataScript>();
         //tm = ds.GetComponent<ReaderTabManager>();
     }
 

@@ -40,12 +40,6 @@ public class UploadToServer : MonoBehaviour
     private IEnumerator Upload()
     {
         print("Uploading to server...");
-        string fileName = GlobalData.fileName.Replace(" ", "_");
-        string serverURL = GlobalData.serverAddress + "Test.php";
-        string urlParams = "?webfilename=" + fileName + "&webusername=clinical&webpassword=encounters&mode=download";
-        string wwwText = "";
-        int i = -1;
-        int MAP = 0;
 
         yield return null;
     }

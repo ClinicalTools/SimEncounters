@@ -7,8 +7,8 @@ namespace ClinicalTools.SimEncounters
     {
         public override void InstallBindings()
         {
-            Container.Bind<MainMenuSceneStarter>().To<MainMenuSceneStarter>().AsTransient();
-            Container.Bind<ReaderSceneStarter>().To<ReaderSceneStarter>().AsTransient();
+            Container.Bind<IMenuSceneStarter>().To<MenuSceneStarter>().AsTransient();
+            Container.Bind<IReaderSceneStarter>().To<ReaderSceneStarter>().AsTransient();
             Container.Bind<IScenePathData>().To<MobileScenePathData>().AsTransient();
         }
     }

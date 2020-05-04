@@ -8,7 +8,7 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
 {
     public class ClinicalImageDataFactory : ImageDataFactory
     {
-        public ClinicalImageDataFactory(ISerializationFactory<Icon> iconFactory, ISerializationFactory<Sprite> spriteFactory)
+        public ClinicalImageDataFactory(ISerializationFactory<LegacyIcon> iconFactory, ISerializationFactory<Sprite> spriteFactory)
             : base(iconFactory, spriteFactory) { }
 
         protected virtual CollectionInfo LegacyImageInfo { get; } =
@@ -43,7 +43,7 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
             foreach (var iconPair in iconPairs)
                 imageData.LegacyIconsInfo.Add(iconPair.Key, iconPair.Value);
         }
-        protected virtual List<KeyValuePair<string, Icon>> GetIcons(XmlDeserializer deserializer)
+        protected virtual List<KeyValuePair<string, LegacyIcon>> GetIcons(XmlDeserializer deserializer)
         {
             var icons = deserializer.GetKeyValuePairs(IconsInfo, IconFactory);
             if (icons != null && icons.Count > 0)

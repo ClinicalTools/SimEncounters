@@ -233,7 +233,7 @@ public class AddTabScript : MonoBehaviour {
         string prefabName = tabName + " Tab";
         string tabCustomName = tabName;
         string xmlTabName = tabName;//.Replace (" ", "_") + "Tab";
-        string xml = "<data></data>";
+        //string xml = "<data></data>";
 
         //Debug.Log (GlobalData.resourcePath + "Prefabs/Tabs/" + prefabName + "/" + prefabName.Replace (" ", string.Empty));
         GameObject test = Resources.Load(GlobalData.resourcePath + "/Prefabs/Tabs/" + prefabName + "/" + prefabName.Replace(" ", string.Empty)) as GameObject;

@@ -1,22 +1,24 @@
 ﻿using ClinicalTools.SimEncounters.Data;
 using System.IO;
 
-namespace ClinicalTools.SimEncounters.MainMenu
+namespace ClinicalTools.SimEncounters
 {
     public class FileDetailedStatusWriter : IDetailedStatusWriter
     {
         protected IFileManager FileManager { get; }
-        public FileDetailedStatusWriter(IFileManager fileManager)
+        protected EncounterStatusSerializer StatusSerializer { get; }
+        public FileDetailedStatusWriter(IFileManager fileManager, EncounterStatusSerializer statusSerializer)
         {
             FileManager = fileManager;
+            StatusSerializer = statusSerializer;
         }
-        public void DoStuff(User user, FullEncounter encounter)
+        public void WriteStatus(UserEncounter encounter)
         {
             var basicStatusString = $"{encounter.Metadata.RecordNumber}::{(encounter.Status.BasicStatus.Completed ? 1 : 0)}::{encounter.Status.BasicStatus.Rating}";
-            FileManager.SetFileText(user, FileType.BasicStatus, encounter.Metadata, basicStatusString);
+            FileManager.SetFileText(encounter.User, FileType.BasicStatus, encounter.Metadata, basicStatusString);
 
-            var detailedStatusString = $"{string.Join(":", encounter.Status.ReadTabs)}";
-            FileManager.SetFileText(user, FileType.DetailedStatus, encounter.Metadata, detailedStatusString);
+            var statusString = StatusSerializer.Serialize(encounter.Status.ContentStatus);
+            FileManager.SetFileText(encounter.User, FileType.DetailedStatus, encounter.Metadata, statusString);
         }
     }
 }

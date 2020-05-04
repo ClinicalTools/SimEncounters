@@ -12,7 +12,7 @@ namespace ClinicalTools.SimEncounters
         {
             Container.Bind<ISerializationFactory<EncounterImageData>>().To<ImageDataFactory>().AsTransient();
             Container.Bind<ISerializationFactory<Sprite>>().To<SpriteFactory>().AsTransient();
-            Container.Bind<ISerializationFactory<Icon>>().To<IconFactory>().AsTransient();
+            Container.Bind<ISerializationFactory<LegacyIcon>>().To<IconFactory>().AsTransient();
 
             Container.Bind<ISerializationFactory<EncounterContent>>().To<EncounterDataFactory>().AsTransient();
             Container.Bind<ISerializationFactory<Section>>().To<SectionFactory>().AsTransient();

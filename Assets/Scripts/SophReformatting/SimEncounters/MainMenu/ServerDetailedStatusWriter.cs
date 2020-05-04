@@ -3,17 +3,20 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 
-namespace ClinicalTools.SimEncounters.MainMenu
+namespace ClinicalTools.SimEncounters
 {
 
     public class ServerDetailedStatusWriter : IDetailedStatusWriter
     {
         protected IUrlBuilder WebAddress { get; }
         protected IServerReader ServerReader { get; }
-        public ServerDetailedStatusWriter(IUrlBuilder webAddress, IServerReader serverReader)
+        protected EncounterStatusSerializer StatusSerializer { get; }
+        public ServerDetailedStatusWriter(IUrlBuilder webAddress, IServerReader serverReader, 
+            EncounterStatusSerializer statusSerializer)
         {
             WebAddress = webAddress;
             ServerReader = serverReader;
+            StatusSerializer = statusSerializer;
         }
 
         private const string phpFile = "Track.php";
@@ -30,28 +33,29 @@ namespace ClinicalTools.SimEncounters.MainMenu
          * Downloads all available and applicable menu files to display on the main manu.
          * Returns them as a MenuCase item
          */
-        public void DoStuff(User user, FullEncounter encounter)
+        public void WriteStatus(UserEncounter encounter)
         {
-            if (user.IsGuest)
+            if (encounter.User.IsGuest)
                 return;
 
             var url = WebAddress.BuildUrl(phpFile);
-            var form = CreateForm(user, encounter);
+            var form = CreateForm(encounter.User, encounter);
 
             var webRequest = UnityWebRequest.Post(url, form);
             var serverResults = ServerReader.Begin(webRequest);
             serverResults.AddOnCompletedListener(ProcessResults);
         }
 
-        public WWWForm CreateForm(User user, FullEncounter encounter)
+        public WWWForm CreateForm(User user, UserEncounter encounter)
         {
             var form = new WWWForm();
 
             form.AddField(actionVariable, uploadAction);
             form.AddField(usernameVariable, user.Username);
             form.AddField(recordNumberVariable, encounter.Metadata.RecordNumber);
-            form.AddField(readTabsVariable, string.Join(":", encounter.Status.ReadTabs));
-            form.AddField(finishedVariable, encounter.Status.BasicStatus.Completed ? 1 : 0);
+            var statusString = StatusSerializer.Serialize(encounter.Status.ContentStatus);
+            form.AddField(readTabsVariable, statusString);
+            form.AddField(finishedVariable, encounter.Status.ContentStatus.Read ? 1 : 0);
             form.AddField(ratingVariable, encounter.Status.BasicStatus.Rating);
 
             return form;
