@@ -4,6 +4,6 @@ namespace ClinicalTools.SimEncounters.Data
 {
     public class DialoguePin
     {
-        public virtual OrderedCollection<Panel> Conversation { get; } = new OrderedCollection<Panel>();
+        public virtual OrderedCollection<Panel> Conversation { get; set; } = new OrderedCollection<Panel>();
     }
 }

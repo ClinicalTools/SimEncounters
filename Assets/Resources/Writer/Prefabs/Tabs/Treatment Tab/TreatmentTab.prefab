@@ -898,7 +898,9 @@ GameObject:
   m_Component:
   - component: {fileID: 224940892062279440}
   - component: {fileID: 222482952033819144}
-  - component: {fileID: 7827551685719727228}
+  - component: {fileID: 8645239903563618188}
+  - component: {fileID: 5174004901217248640}
+  - component: {fileID: 4463264358544560472}
   m_Layer: 5
   m_Name: TreatmentTab
   m_TagString: Untagged
@@ -935,7 +937,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1322401752136268}
   m_CullTransparentMesh: 0
---- !u!114 &7827551685719727228
+--- !u!114 &8645239903563618188
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -944,15 +946,41 @@ MonoBehaviour:
   m_GameObject: {fileID: 1322401752136268}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57dee0f5fb32d4946be8726d0642bea5, type: 3}
+  m_Script: {fileID: 11500000, guid: 03168f88e98353a419d3eead1c1abd47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelCreator: {fileID: 5174004901217248640}
+--- !u!114 &5174004901217248640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1322401752136268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77cc49cb74e650d4ca6980156e9c1783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   panelsParent: {fileID: 224555353594700686}
   panelOptions:
-  - label: Treatment
-    panelUI: {fileID: 7086164084851163149, guid: 02b56e6e455462f4dbf50dc57f15f681,
+  - displayText: Treatment
+    panelPrefab: {fileID: 8349597512125626235, guid: 02b56e6e455462f4dbf50dc57f15f681,
       type: 3}
-  addPanelButton: {fileID: 114126879809591346}
+  panelCreator: {fileID: 4463264358544560472}
+--- !u!114 &4463264358544560472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1322401752136268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 602e6343cf20b644cac594f6c21f2d98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  addButton: {fileID: 114126879809591346}
 --- !u!1 &1348745840853864
 GameObject:
   m_ObjectHideFlags: 0

@@ -525,7 +525,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 2133996082
+    rgba: 2150773298
   m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 0.5}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -1052,7 +1052,10 @@ GameObject:
   - component: {fileID: 3661491269825039867}
   - component: {fileID: 3487728213942192985}
   - component: {fileID: 3661878124576375585}
-  - component: {fileID: 7086164084851163149}
+  - component: {fileID: 8349597512125626235}
+  - component: {fileID: 6309723451665530672}
+  - component: {fileID: 4125072221042797630}
+  - component: {fileID: 539853208061419187}
   m_Layer: 5
   m_Name: TreatmentPanel
   m_TagString: Untagged
@@ -1183,7 +1186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602282f31e531b9478b3dee7532abdcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7086164084851163149
+--- !u!114 &8349597512125626235
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1192,15 +1195,56 @@ MonoBehaviour:
   m_GameObject: {fileID: 3693494546712092293}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b105dd836b9ffb44b3a50442982ff2c, type: 3}
+  m_Script: {fileID: 11500000, guid: 17b60bcf5ad393e469717c4200313f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pinsUI: {fileID: 1559169503683995732}
-  deleteButton: {fileID: 3661740066804774397}
-  addChildButton: {fileID: 3661662661705070821}
-  childrenParent: {fileID: 3483829269522161701}
-  childPanelPrefab: {fileID: 5223656815139294592, guid: 4aa7b24f015cd454ea8d63355fe7987d,
-    type: 3}
+  type: TreatmentPanel
+  childPanelCreator: {fileID: 6309723451665530672}
+  pinsDrawer: {fileID: 3969934300774380643}
+--- !u!114 &6309723451665530672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3693494546712092293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77cc49cb74e650d4ca6980156e9c1783, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelsParent: {fileID: 3483829269522161701}
+  panelOptions:
+  - displayText: Treatment
+    panelPrefab: {fileID: 282213062892523059, guid: 4aa7b24f015cd454ea8d63355fe7987d,
+      type: 3}
+  panelCreator: {fileID: 4125072221042797630}
+--- !u!114 &4125072221042797630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3693494546712092293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 602e6343cf20b644cac594f6c21f2d98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  addButton: {fileID: 3661662661705070821}
+--- !u!114 &539853208061419187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3693494546712092293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _containerSource: 2
 --- !u!1 &3693515219277704159
 GameObject:
   m_ObjectHideFlags: 0
@@ -3524,16 +3568,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 328e52009c15c7a4699753fcb4bc8591, type: 3}
---- !u!114 &1559169503683995732 stripped
+--- !u!114 &3969934300774380643 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1524096059981890515, guid: 328e52009c15c7a4699753fcb4bc8591,
+  m_CorrespondingSourceObject: {fileID: 4007622143649275876, guid: 328e52009c15c7a4699753fcb4bc8591,
     type: 3}
   m_PrefabInstance: {fileID: 37688156450974599}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd54fdb11250c8a4fb61d3397f60af11, type: 3}
+  m_Script: {fileID: 11500000, guid: 84525afdb2f187e40854e80b20028aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &8030903392398981085 stripped

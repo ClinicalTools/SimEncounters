@@ -29,7 +29,7 @@ namespace ClinicalTools.SimEncounters.Reader
 
         protected virtual BaseReaderPanel GetChildPanelPrefab(UserPanel panel)
         {
-            if (panel.Data.Data.ContainsKey("OptionTypeValue") && panel.Data.Data["OptionTypeValue"] == "Multiple Choice")
+            if (panel.Data.Values.ContainsKey("OptionTypeValue") && panel.Data.Values["OptionTypeValue"] == "Multiple Choice")
                 return MultipleChoicePanel;
             else
                 return CheckBoxPanel;

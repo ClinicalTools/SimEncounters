@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 224959455218134008}
   - component: {fileID: 222141857134635282}
   - component: {fileID: 2270768264788009630}
+  - component: {fileID: 2489436272999475630}
+  - component: {fileID: 616931387684157753}
   m_Layer: 5
   m_Name: ConsultationTab
   m_TagString: Untagged
@@ -59,7 +61,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03168f88e98353a419d3eead1c1abd47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelCreator: {fileID: 0}
+  panelCreator: {fileID: 2489436272999475630}
+--- !u!114 &2489436272999475630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055997815418370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77cc49cb74e650d4ca6980156e9c1783, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelsParent: {fileID: 224998357317752354}
+  panelOptions:
+  - displayText: Consultation
+    panelPrefab: {fileID: 6628526364776674170, guid: a9668b37e9e0c5c4b821e89d22fafd67,
+      type: 3}
+  panelCreator: {fileID: 616931387684157753}
+--- !u!114 &616931387684157753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055997815418370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 602e6343cf20b644cac594f6c21f2d98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  addButton: {fileID: 114094421356463984}
 --- !u!1 &1071256057838156
 GameObject:
   m_ObjectHideFlags: 0

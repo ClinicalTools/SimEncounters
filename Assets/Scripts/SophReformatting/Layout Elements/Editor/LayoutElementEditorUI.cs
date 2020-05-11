@@ -12,9 +12,9 @@ namespace ClinicalTools.Layout
         public LayoutElementEditorUI(DimensionLayout width, DimensionLayout height)
         {
             var widthElement = new DimensionLayoutElement("Width", width);
-            widthElement.Updated += Updated;
+            widthElement.Updated += () => Updated?.Invoke();
             var heightElement = new DimensionLayoutElement("Height", height);
-            heightElement.Updated += Updated;
+            heightElement.Updated += () => Updated?.Invoke();
 
             Element.Add(widthElement.MinElement.Element);
             Element.Add(heightElement.MinElement.Element);

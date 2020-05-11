@@ -36,7 +36,9 @@ namespace ClinicalTools.Layout
         private int siblingIndex = -1;
         public void Initialize()
         {
-            parent = transform.parent.GetComponent<LayoutGroup>();
+            var parentTransform = transform.parent;
+            if (parentTransform != null)
+                parent = parentTransform.GetComponent<LayoutGroup>();
             if (parent != null)
                 parent.AddChild(this);
 

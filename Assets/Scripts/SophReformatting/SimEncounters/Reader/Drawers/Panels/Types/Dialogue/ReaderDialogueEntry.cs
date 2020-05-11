@@ -26,7 +26,7 @@ namespace ClinicalTools.SimEncounters.Reader
         public override void Display(UserPanel panel)
         {
             PanelDisplay.Display(panel, transform, transform);
-            var data = panel.Data.Data;
+            var data = panel.Data.Values;
             if (data.ContainsKey(colorKey))
                 Border.color = ColorParser.Parse(data[colorKey]);
             if (data.ContainsKey(characterKey))

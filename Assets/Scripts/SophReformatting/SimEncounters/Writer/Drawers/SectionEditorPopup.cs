@@ -1,0 +1,81 @@
+﻿using ClinicalTools.SimEncounters.Data;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+using Zenject;
+
+namespace ClinicalTools.SimEncounters.Writer
+{
+    public class SectionEditorPopup : MonoBehaviour
+    {
+        public Button CancelButton { get => cancelButton; set => cancelButton = value; }
+        [SerializeField] private Button cancelButton;
+        public Button ApplyButton { get => applyButton; set => applyButton = value; }
+        [SerializeField] private Button applyButton;
+        public Button RemoveButton { get => removeButton; set => removeButton = value; }
+        [SerializeField] private Button removeButton;
+
+        public TMP_InputField NameField { get => nameField; set => nameField = value; }
+        [SerializeField] private TMP_InputField nameField;
+
+        public ColorUI Color { get => color; set => color = value; }
+        [SerializeField] private ColorUI color;
+
+        public IconSelectorUI IconSelector { get => iconSelector; set => iconSelector = value; }
+        [SerializeField] private IconSelectorUI iconSelector;
+
+        protected BaseConfirmationPopup ConfirmationPopup { get; set; }
+        [Inject] public virtual void Inject(BaseConfirmationPopup confirmationPopup) => ConfirmationPopup = confirmationPopup;
+
+        protected virtual void Awake()
+        {
+            CancelButton.onClick.AddListener(Close);
+            ApplyButton.onClick.AddListener(Apply);
+            RemoveButton.onClick.AddListener(ConfirmRemove);
+        }
+
+        protected WaitableResult<Section> CurrentWaitableSection { get; set; }
+        public virtual WaitableResult<Section> EditSection(Encounter encounter, Section section)
+        {
+            if (CurrentWaitableSection?.IsCompleted == false)
+                CurrentWaitableSection.SetError("New popup opened");
+
+            CurrentWaitableSection = new WaitableResult<Section>();
+            gameObject.SetActive(true);
+
+            NameField.text = section.Name;
+            Color.Display(section.Color);
+            IconSelector.Display(encounter, section.IconKey);
+
+            return CurrentWaitableSection;
+        }
+
+        protected virtual void Apply()
+        {
+            var name = NameField.text;
+            var color = Color.GetValue();
+            var icon = IconSelector.Value;
+
+            var section = new Section(name, icon, color);
+            CurrentWaitableSection.SetResult(section);
+            CurrentWaitableSection = null;
+
+            Close();
+        }
+
+        protected virtual void ConfirmRemove() => ConfirmationPopup.ShowConfirmation(Remove, "Confirm", "Yeet");
+        protected virtual void Remove()
+        {
+            CurrentWaitableSection.SetResult(null);
+            Close();
+        }
+
+        protected virtual void Close()
+        {
+            if (CurrentWaitableSection?.IsCompleted == false)
+                CurrentWaitableSection.SetError("Canceled");
+
+            gameObject.SetActive(false);
+        }
+    }
+}

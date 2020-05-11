@@ -1225,7 +1225,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114236859679056632}
+      - m_Target: {fileID: 0}
         m_MethodName: OpenAddEntryPanel
         m_Mode: 1
         m_Arguments:
@@ -1524,7 +1524,6 @@ GameObject:
   - component: {fileID: 224390021714031960}
   - component: {fileID: 114357667549081048}
   - component: {fileID: 114510468375172836}
-  - component: {fileID: 114236859679056632}
   - component: {fileID: 114155247565456640}
   m_Layer: 5
   m_Name: Content
@@ -1591,25 +1590,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &114236859679056632
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1791634951044388}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e76d531ff21d9a4fb0f02a733bddf0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  loadedPrefabs:
-  - {fileID: 1144503156971272, guid: ada0bc8e60e8c7b4daa6589fd0a6a7ae, type: 3}
-  loadedPrefabsDisplayNames: []
-  parentTab: {fileID: 1936453288745482}
-  isNested: 0
-  isQuizPanel: 0
-  isStatic: 0
 --- !u!114 &114155247565456640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2117,7 +2097,9 @@ GameObject:
   - component: {fileID: 222403202146874418}
   - component: {fileID: 114793090181537240}
   - component: {fileID: 114216669887023414}
-  - component: {fileID: 4800535045104404514}
+  - component: {fileID: 6951475357997576178}
+  - component: {fileID: 6730931670393159764}
+  - component: {fileID: 6787207610954152400}
   m_Layer: 5
   m_Name: QuizTab
   m_TagString: Untagged
@@ -2193,7 +2175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &4800535045104404514
+--- !u!114 &6951475357997576178
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2202,12 +2184,38 @@ MonoBehaviour:
   m_GameObject: {fileID: 1936453288745482}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57dee0f5fb32d4946be8726d0642bea5, type: 3}
+  m_Script: {fileID: 11500000, guid: 03168f88e98353a419d3eead1c1abd47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelCreator: {fileID: 6730931670393159764}
+--- !u!114 &6730931670393159764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936453288745482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77cc49cb74e650d4ca6980156e9c1783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   panelsParent: {fileID: 224390021714031960}
   panelOptions:
-  - label: Question
-    panelUI: {fileID: 4550110649675466431, guid: ada0bc8e60e8c7b4daa6589fd0a6a7ae,
+  - displayText: Question
+    panelPrefab: {fileID: 2030956590212661146, guid: ada0bc8e60e8c7b4daa6589fd0a6a7ae,
       type: 3}
-  addPanelButton: {fileID: 114250385699752578}
+  panelCreator: {fileID: 6787207610954152400}
+--- !u!114 &6787207610954152400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936453288745482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 602e6343cf20b644cac594f6c21f2d98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  addButton: {fileID: 114250385699752578}

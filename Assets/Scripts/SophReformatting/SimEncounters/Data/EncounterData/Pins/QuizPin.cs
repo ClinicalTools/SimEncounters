@@ -4,6 +4,6 @@ namespace ClinicalTools.SimEncounters.Data
 {
     public class QuizPin
     {
-        public virtual OrderedCollection<Panel> Questions { get; } = new OrderedCollection<Panel>();
+        public virtual OrderedCollection<Panel> Questions { get; set; } = new OrderedCollection<Panel>();
     }
 }

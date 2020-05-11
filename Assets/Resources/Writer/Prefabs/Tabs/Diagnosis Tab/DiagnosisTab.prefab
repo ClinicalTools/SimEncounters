@@ -10,7 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 224226189416474634}
   - component: {fileID: 222918151437746722}
-  - component: {fileID: 6843227115963637476}
+  - component: {fileID: 3422137013459824748}
+  - component: {fileID: 4207152801374592879}
+  - component: {fileID: 2362974010823685792}
   m_Layer: 5
   m_Name: DiagnosisTab
   m_TagString: Untagged
@@ -47,7 +49,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1259622345092878}
   m_CullTransparentMesh: 0
---- !u!114 &6843227115963637476
+--- !u!114 &3422137013459824748
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -56,15 +58,41 @@ MonoBehaviour:
   m_GameObject: {fileID: 1259622345092878}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57dee0f5fb32d4946be8726d0642bea5, type: 3}
+  m_Script: {fileID: 11500000, guid: 03168f88e98353a419d3eead1c1abd47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelCreator: {fileID: 4207152801374592879}
+--- !u!114 &4207152801374592879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1259622345092878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77cc49cb74e650d4ca6980156e9c1783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   panelsParent: {fileID: 224185943192572544}
   panelOptions:
-  - label: Diagnosis Entry
-    panelUI: {fileID: 3129345645338062819, guid: 6209e00430ba666439154adf105e85b2,
+  - displayText: Diagnosis
+    panelPrefab: {fileID: 593937685480798526, guid: 6209e00430ba666439154adf105e85b2,
       type: 3}
-  addPanelButton: {fileID: 114623178555366252}
+  panelCreator: {fileID: 2362974010823685792}
+--- !u!114 &2362974010823685792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1259622345092878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 602e6343cf20b644cac594f6c21f2d98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  addButton: {fileID: 114623178555366252}
 --- !u!1 &1281135334082092
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,7 +104,6 @@ GameObject:
   - component: {fileID: 224185943192572544}
   - component: {fileID: 114791067266372550}
   - component: {fileID: 114650396734127988}
-  - component: {fileID: 114451688045231674}
   - component: {fileID: 114562748031878456}
   m_Layer: 5
   m_Name: Content
@@ -143,25 +170,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &114451688045231674
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1281135334082092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e76d531ff21d9a4fb0f02a733bddf0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  loadedPrefabs:
-  - {fileID: 1330181416070118, guid: 6209e00430ba666439154adf105e85b2, type: 3}
-  loadedPrefabsDisplayNames: []
-  parentTab: {fileID: 1259622345092878}
-  isNested: 0
-  isQuizPanel: 0
-  isStatic: 0
 --- !u!114 &114562748031878456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -700,7 +708,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 114451688045231674}
+      objectReference: {fileID: 0}
     - target: {fileID: 2004375125498185732, guid: abaa22fea553cc347bcad149db9652ae,
         type: 3}
       propertyPath: m_Name

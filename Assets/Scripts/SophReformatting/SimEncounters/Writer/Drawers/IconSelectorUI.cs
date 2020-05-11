@@ -1,0 +1,49 @@
+﻿using ClinicalTools.SimEncounters.Data;
+using ClinicalTools.SimEncounters.Extensions;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace ClinicalTools.SimEncounters.Writer
+{
+    public class IconSelectorUI : MonoBehaviour
+    {
+        public Transform IconsParent { get => iconsParent; set => iconsParent = value; }
+        [SerializeField] private Transform iconsParent;
+
+        public string Value => GetIconReference(SelectedIconToggle);
+
+        protected Toggle[] IconToggles { get; set; }
+        protected Toggle SelectedIconToggle { get; set; }
+        protected virtual void Awake()
+        {
+            IconToggles = IconsParent.GetComponentsInChildren<Toggle>();
+            foreach (var iconToggle in IconToggles)
+                iconToggle.AddOnSelectListener(() => SelectedIconToggle = iconToggle);
+
+            SelectedIconToggle = IconToggles[0];
+        }
+
+        public virtual void Display(Encounter encounter, string iconKey)
+        {
+            foreach (var iconToggle in IconToggles) {
+                if (iconKey != GetIconReference(iconToggle))
+                    continue;
+                SelectedIconToggle = iconToggle;
+                SelectedIconToggle.Select();
+                break;
+            }
+        }
+
+        protected virtual string IconName => "Icon";
+        /**
+         * Gets the icon image based on the selected section icon.
+         */
+        protected virtual string GetIconReference(Toggle iconToggle)
+        {
+            if (iconToggle == null)
+                return null;
+
+            return iconToggle.transform.Find(IconName).GetComponent<Image>().sprite.name;
+        }
+    }
+}

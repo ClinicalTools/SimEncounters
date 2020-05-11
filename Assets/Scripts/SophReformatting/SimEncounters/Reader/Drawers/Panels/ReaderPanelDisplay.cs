@@ -32,15 +32,15 @@ namespace ClinicalTools.SimEncounters.Reader
         {
             var valueFields = transform.GetComponentsInChildren<IValueField>(true);
             foreach (var valueField in valueFields) {
-                if (userPanel.Data.Data.ContainsKey(valueField.Name))
-                    valueField.Initialize(userPanel.Data.Data[valueField.Name]);
+                if (userPanel.Data.Values.ContainsKey(valueField.Name))
+                    valueField.Initialize(userPanel.Data.Values[valueField.Name]);
                 else
                     valueField.Initialize();
             }
             var readerValueFields = transform.GetComponentsInChildren<IUserValueField>(true);
             foreach (var valueField in readerValueFields) {
-                if (userPanel.Data.Data.ContainsKey(valueField.Name))
-                    valueField.Initialize(userPanel, userPanel.Data.Data[valueField.Name]);
+                if (userPanel.Data.Values.ContainsKey(valueField.Name))
+                    valueField.Initialize(userPanel, userPanel.Data.Values[valueField.Name]);
                 else
                     valueField.Initialize(userPanel);
             }

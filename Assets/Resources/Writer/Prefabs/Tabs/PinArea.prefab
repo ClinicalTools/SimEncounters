@@ -927,7 +927,7 @@ GameObject:
   - component: {fileID: 8067747074748472410}
   - component: {fileID: 7889982076310830820}
   - component: {fileID: 7889735225310057494}
-  - component: {fileID: 1524096059981890515}
+  - component: {fileID: 4007622143649275876}
   m_Layer: 5
   m_Name: PinArea
   m_TagString: Untagged
@@ -1002,7 +1002,7 @@ MonoBehaviour:
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
---- !u!114 &1524096059981890515
+--- !u!114 &4007622143649275876
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1011,9 +1011,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7849084551003797394}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd54fdb11250c8a4fb61d3397f60af11, type: 3}
+  m_Script: {fileID: 11500000, guid: 84525afdb2f187e40854e80b20028aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialoguePinButton: {fileID: 7890130579211011300}
+  quizPinButton: {fileID: 7889838850794828614}
 --- !u!1 &7849483324321763666
 GameObject:
   m_ObjectHideFlags: 0
@@ -1028,7 +1030,6 @@ GameObject:
   - component: {fileID: 7890298089002922136}
   - component: {fileID: 8066702401849281904}
   - component: {fileID: 7890140294596109774}
-  - component: {fileID: 7889745390880497814}
   m_Layer: 5
   m_Name: DialoguePin
   m_TagString: Value
@@ -1173,19 +1174,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &7889745390880497814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7849483324321763666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fa2580b31eb8f14b9417ffeb9b4be37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pinType: 0
 --- !u!1 &7849636253349181914
 GameObject:
   m_ObjectHideFlags: 0
@@ -1274,7 +1262,6 @@ GameObject:
   - component: {fileID: 7890087091989797894}
   - component: {fileID: 8066294528529779918}
   - component: {fileID: 7886016222389966530}
-  - component: {fileID: 7886052274603509672}
   m_Layer: 5
   m_Name: QuizPin
   m_TagString: Value
@@ -1419,19 +1406,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &7886052274603509672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7849654390011956832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fa2580b31eb8f14b9417ffeb9b4be37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pinType: 1
 --- !u!1 &8774931541978863211
 GameObject:
   m_ObjectHideFlags: 0

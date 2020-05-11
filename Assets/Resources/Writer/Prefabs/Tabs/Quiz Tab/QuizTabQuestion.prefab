@@ -528,7 +528,6 @@ GameObject:
   - component: {fileID: 225692132517410052}
   - component: {fileID: 114622332516860960}
   - component: {fileID: 114448703119133890}
-  - component: {fileID: 114077384414604646}
   - component: {fileID: 114610552870096540}
   m_Layer: 5
   m_Name: ColumnOptions
@@ -613,25 +612,6 @@ MonoBehaviour:
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
---- !u!114 &114077384414604646
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1130900501321856}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e76d531ff21d9a4fb0f02a733bddf0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  loadedPrefabs:
-  - {fileID: 1381448760020130, guid: 513ec80bb06662e44a3915e60afd1421, type: 3}
-  loadedPrefabsDisplayNames: []
-  parentTab: {fileID: 0}
-  isNested: 1
-  isQuizPanel: 0
-  isStatic: 0
 --- !u!114 &114610552870096540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -836,7 +816,10 @@ GameObject:
   - component: {fileID: 114452238181348432}
   - component: {fileID: 114346049560438194}
   - component: {fileID: 114876454294480464}
-  - component: {fileID: 4550110649675466431}
+  - component: {fileID: 2030956590212661146}
+  - component: {fileID: 7618961443571513831}
+  - component: {fileID: 7206491591975898902}
+  - component: {fileID: 9066743094945143814}
   m_Layer: 5
   m_Name: QuizTabQuestion
   m_TagString: Untagged
@@ -954,7 +937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602282f31e531b9478b3dee7532abdcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4550110649675466431
+--- !u!114 &2030956590212661146
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -963,11 +946,56 @@ MonoBehaviour:
   m_GameObject: {fileID: 1144503156971272}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 621d0cea31de6b546b6c31f8b810ecba, type: 3}
+  m_Script: {fileID: 11500000, guid: 17b60bcf5ad393e469717c4200313f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pinsUI: {fileID: 3574405060979194953}
-  deleteButton: {fileID: 114050482425627372}
+  type: Question
+  childPanelCreator: {fileID: 7618961443571513831}
+  pinsDrawer: {fileID: 1378545854565752958}
+--- !u!114 &7618961443571513831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1144503156971272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77cc49cb74e650d4ca6980156e9c1783, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelsParent: {fileID: 224994776426318958}
+  panelOptions:
+  - displayText: Option
+    panelPrefab: {fileID: 6023306455893722809, guid: 513ec80bb06662e44a3915e60afd1421,
+      type: 3}
+  panelCreator: {fileID: 7206491591975898902}
+--- !u!114 &7206491591975898902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1144503156971272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 602e6343cf20b644cac594f6c21f2d98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  addButton: {fileID: 114569183020285276}
+--- !u!114 &9066743094945143814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1144503156971272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _containerSource: 2
 --- !u!1 &1168434426176386
 GameObject:
   m_ObjectHideFlags: 0
@@ -3003,7 +3031,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114077384414604646}
+      - m_Target: {fileID: 0}
         m_MethodName: AddEntryFromPanel
         m_Mode: 1
         m_Arguments:
@@ -5022,7 +5050,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 2133996082
+    rgba: 2150773298
   m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 0.5}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -5542,21 +5570,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 328e52009c15c7a4699753fcb4bc8591, type: 3}
---- !u!224 &5425181711801164736 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8067747074748472410, guid: 328e52009c15c7a4699753fcb4bc8591,
-    type: 3}
-  m_PrefabInstance: {fileID: 2647126185692037018}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3574405060979194953 stripped
+--- !u!114 &1378545854565752958 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1524096059981890515, guid: 328e52009c15c7a4699753fcb4bc8591,
+  m_CorrespondingSourceObject: {fileID: 4007622143649275876, guid: 328e52009c15c7a4699753fcb4bc8591,
     type: 3}
   m_PrefabInstance: {fileID: 2647126185692037018}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd54fdb11250c8a4fb61d3397f60af11, type: 3}
+  m_Script: {fileID: 11500000, guid: 84525afdb2f187e40854e80b20028aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &5425181711801164736 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8067747074748472410, guid: 328e52009c15c7a4699753fcb4bc8591,
+    type: 3}
+  m_PrefabInstance: {fileID: 2647126185692037018}
+  m_PrefabAsset: {fileID: 0}

@@ -140,7 +140,9 @@ namespace ClinicalTools.Layout
 
         protected virtual void Initialize()
         {
-            parent = transform.parent.GetComponent<LayoutGroup>();
+            var parentTransform = transform.parent;
+            if (parentTransform != null)
+                parent = parentTransform.GetComponent<LayoutGroup>();
             if (parent != null) {
                 parent.AddChild(this);
             }

@@ -8,7 +8,12 @@ namespace ClinicalTools.SimEncounters.Data
     public class Section
     {
         public int CurrentTabIndex { get; set; }
-        public virtual string GetCurrentTabKey() => Tabs[CurrentTabIndex].Key;
+        public virtual string GetCurrentTabKey()
+        {
+            if (Tabs.Count == 0)
+                return null;
+            return Tabs[CurrentTabIndex].Key;
+        }
         public virtual void SetCurrentTab(Tab tab)
         {
             if (!Tabs.Contains(tab))
@@ -18,7 +23,7 @@ namespace ClinicalTools.SimEncounters.Data
 
         public virtual string Name { get; set; }
         public virtual string IconKey { get; set; }
-        public virtual Color Color { get; set; } 
+        public virtual Color Color { get; set; }
 
         public virtual OrderedCollection<Tab> Tabs { get; } = new OrderedCollection<Tab>();
         public virtual ConditionalData Conditions { get; set; }

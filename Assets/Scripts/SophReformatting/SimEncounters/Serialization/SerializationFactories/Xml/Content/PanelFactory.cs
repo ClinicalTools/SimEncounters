@@ -32,7 +32,7 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
         public void Serialize(XmlSerializer serializer, Panel value)
         {
             serializer.AddString(TypeInfo, value.Type);
-            serializer.AddStringKeyValuePairs(DataInfo, value.Data);
+            serializer.AddStringKeyValuePairs(DataInfo, value.Values);
             serializer.AddKeyValuePairs(ChildPanelsInfo, value.ChildPanels, ChildPanelFactory);
             serializer.AddValue(ConditionsInfo, value.Conditions, ConditionalsFactory);
             serializer.AddValue(PinsInfo, value.Pins, PinsFactory);
@@ -67,10 +67,10 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
             if (dataPairs != null) {
                 {
                     foreach (var pair in dataPairs) {
-                        if (panel.Data.ContainsKey(pair.Key))
-                            Debug.LogWarning($"{panel.Type} panel has duplicate data key (Key:\"{pair.Key}\"; Value1:\"{panel.Data[pair.Key]}\"; Value2:\"{pair.Value}\")");
+                        if (panel.Values.ContainsKey(pair.Key))
+                            Debug.LogWarning($"{panel.Type} panel has duplicate data key (Key:\"{pair.Key}\"; Value1:\"{panel.Values[pair.Key]}\"; Value2:\"{pair.Value}\")");
                         else
-                            panel.Data.Add(pair);
+                            panel.Values.Add(pair);
                     }
                 }
             }
