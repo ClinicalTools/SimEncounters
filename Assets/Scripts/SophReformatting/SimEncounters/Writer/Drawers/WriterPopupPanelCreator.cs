@@ -19,7 +19,7 @@ namespace ClinicalTools.SimEncounters.Writer
         public TMP_Dropdown OptionsDropdown { get => optionsDropdown; set => optionsDropdown = value; }
         [SerializeField] private TMP_Dropdown optionsDropdown;
 
-        public override event Action<BaseWriterPanel> AddPanel;
+        public override event Action<BaseWriterAddablePanel> AddPanel;
 
         protected virtual void Awake()
         {
@@ -29,35 +29,25 @@ namespace ClinicalTools.SimEncounters.Writer
                 hideButton.onClick.AddListener(() => gameObject.SetActive(false));
         }
 
-        protected List<OptionWriterPanel> Options { get; set; }
-        public override void Initialize(List<OptionWriterPanel> options)
+        protected List<BaseWriterAddablePanel> Options { get; set; }
+        public override void Initialize(List<BaseWriterAddablePanel> options)
         {
             OptionsDropdown.options.Clear();
             Options = options;
             foreach (var option in options)
-                OptionsDropdown.options.Add(new TMP_Dropdown.OptionData(option.DisplayText));
+                OptionsDropdown.options.Add(new TMP_Dropdown.OptionData(option.DisplayName));
         }
 
         protected virtual void Show()
         {
-            if (Options.Count <= 0) {
+            if (Options.Count <= 0)
                 Debug.LogError("No panel options.");
-                return;
-            }
-            if (Options.Count == 1) {
-                var prefab = Options[0].PanelPrefab;
-                AddPanel?.Invoke(prefab);
-                return;
-            }
-
-
-            Popup.gameObject.SetActive(true);
+            else if (Options.Count == 1)
+                AddPanel?.Invoke(Options[0]);
+            else
+                Popup.gameObject.SetActive(true);
         }
 
-        protected virtual void Add()
-        {
-            var selectedOption = Options[OptionsDropdown.value];
-            AddPanel?.Invoke(selectedOption.PanelPrefab);
-        }
+        protected virtual void Add() => AddPanel?.Invoke(Options[OptionsDropdown.value]);
     }
 }

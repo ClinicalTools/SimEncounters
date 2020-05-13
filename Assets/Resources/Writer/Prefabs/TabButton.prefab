@@ -168,6 +168,7 @@ GameObject:
   - component: {fileID: 222440064124513888}
   - component: {fileID: 7968285458590619748}
   - component: {fileID: 3785366602927077268}
+  - component: {fileID: 8617155677129958966}
   m_Layer: 5
   m_Name: TabButton
   m_TagString: Untagged
@@ -252,6 +253,19 @@ MonoBehaviour:
     max:
       notNull: 0
       value: 7.99
+--- !u!114 &8617155677129958966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297352473052628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _containerSource: 2
 --- !u!1 &1561062383089566
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,8 +278,6 @@ GameObject:
   - component: {fileID: 222175140721254780}
   - component: {fileID: 114213299062979616}
   - component: {fileID: 114921533206739112}
-  - component: {fileID: 114052183203296432}
-  - component: {fileID: 114270893298146742}
   m_Layer: 5
   m_Name: EditButton
   m_TagString: Untagged
@@ -370,47 +382,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114213299062979616}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114052183203296432}
-        m_MethodName: OpenTabEditor
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 114758651307576750}
-          m_ObjectArgumentAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &114052183203296432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1561062383089566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f96f263b40462b94ab37e07c2f830d9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114270893298146742
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1561062383089566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48f7701ed552bd4abee751999b78a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TitleText: 
-  DescriptionText: 
-  Delay: 1
-  ToolTipCanvas: {fileID: 0}
-  tooltipName: EditTabButton
+      m_Calls: []
 --- !u!1 &5631358609679834114
 GameObject:
   m_ObjectHideFlags: 0

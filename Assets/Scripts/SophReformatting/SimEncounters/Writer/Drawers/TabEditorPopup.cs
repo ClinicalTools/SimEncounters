@@ -1,5 +1,4 @@
 ﻿using ClinicalTools.SimEncounters.Data;
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,7 +6,7 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters.Writer
 {
-    public class SectionEditorPopup : MonoBehaviour
+    public class TabEditorPopup : MonoBehaviour
     {
         public Button CancelButton { get => cancelButton; set => cancelButton = value; }
         [SerializeField] private Button cancelButton;
@@ -19,12 +18,6 @@ namespace ClinicalTools.SimEncounters.Writer
         public TMP_InputField NameField { get => nameField; set => nameField = value; }
         [SerializeField] private TMP_InputField nameField;
 
-        public ColorUI Color { get => color; set => color = value; }
-        [SerializeField] private ColorUI color;
-
-        public IconSelectorUI IconSelector { get => iconSelector; set => iconSelector = value; }
-        [SerializeField] private IconSelectorUI iconSelector;
-
         protected BaseConfirmationPopup ConfirmationPopup { get; set; }
         [Inject] public virtual void Inject(BaseConfirmationPopup confirmationPopup) => ConfirmationPopup = confirmationPopup;
 
@@ -34,34 +27,27 @@ namespace ClinicalTools.SimEncounters.Writer
             ApplyButton.onClick.AddListener(Apply);
             RemoveButton.onClick.AddListener(ConfirmRemove);
         }
-
-        protected WaitableResult<Section> CurrentWaitableSection { get; set; }
-        protected Section CurrentSection { get; set; }
-        public virtual WaitableResult<Section> EditSection(Encounter encounter, Section section)
+        protected WaitableResult<Tab> CurrentWaitableTab { get; set; }
+        protected Tab CurrentTab { get; set; }
+        public virtual WaitableResult<Tab> EditTab(Encounter encounter, Tab tab)
         {
-            CurrentSection = section;
+            CurrentTab = tab;
 
-            if (CurrentWaitableSection?.IsCompleted == false)
-                CurrentWaitableSection.SetError("New popup opened");
-
-            CurrentWaitableSection = new WaitableResult<Section>();
             gameObject.SetActive(true);
 
-            NameField.text = section.Name;
-            Color.Display(section.Color);
-            IconSelector.Display(encounter, section.IconKey);
+            NameField.text = tab.Name;
 
-            return CurrentWaitableSection;
+            if (CurrentWaitableTab?.IsCompleted == false)
+                CurrentWaitableTab.SetError("New popup opened");
+            CurrentWaitableTab = new WaitableResult<Tab>();
+            return CurrentWaitableTab;
         }
-
         protected virtual void Apply()
         {
-            CurrentSection.Name = NameField.text;
-            CurrentSection.Color = Color.GetValue();
-            CurrentSection.IconKey = IconSelector.Value;
+            CurrentTab.Name = NameField.text;
 
-            CurrentWaitableSection.SetResult(CurrentSection);
-            CurrentWaitableSection = null;
+            CurrentWaitableTab.SetResult(CurrentTab);
+            CurrentWaitableTab = null;
 
             Close();
         }
@@ -69,14 +55,14 @@ namespace ClinicalTools.SimEncounters.Writer
         protected virtual void ConfirmRemove() => ConfirmationPopup.ShowConfirmation(Remove, "Confirm", "Yeet");
         protected virtual void Remove()
         {
-            CurrentWaitableSection.SetResult(null);
+            CurrentWaitableTab.SetResult(null);
             Close();
         }
 
         protected virtual void Close()
         {
-            if (CurrentWaitableSection?.IsCompleted == false)
-                CurrentWaitableSection.SetError("Canceled");
+            if (CurrentWaitableTab?.IsCompleted == false)
+                CurrentWaitableTab.SetError("Canceled");
 
             gameObject.SetActive(false);
         }

@@ -217,9 +217,9 @@ RectTransform:
   m_Father: {fileID: 224962616631592126}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 80, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 80, y: -30}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222937249200081576
@@ -1909,8 +1909,8 @@ GameObject:
   - component: {fileID: 222561909817416990}
   - component: {fileID: 114821630485516598}
   - component: {fileID: 114136257654453218}
-  - component: {fileID: 114694888496220560}
   - component: {fileID: 114622782107058314}
+  - component: {fileID: 2136021020028492425}
   m_Layer: 5
   m_Name: ReorderBar
   m_TagString: Untagged
@@ -1994,20 +1994,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &114694888496220560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1178367693302550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 064551f81d0616c45aafc6676349ba5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cursorPicture: {fileID: 21300000, guid: 9ed1cad206ef282408292bb8d904311d, type: 3}
-  movePicture: {fileID: 21300000, guid: 182b08e4e08e11749a6440ed80c396b6, type: 3}
 --- !u!114 &114622782107058314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2025,6 +2011,18 @@ MonoBehaviour:
   Delay: 1
   ToolTipCanvas: {fileID: 0}
   tooltipName: ReorderBar
+--- !u!114 &2136021020028492425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1178367693302550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc3481ba0e95ebd4e975ad5efa921e2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1217716096416204
 GameObject:
   m_ObjectHideFlags: 0
@@ -2425,8 +2423,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 676.79, y: 0}
-  m_SizeDelta: {x: 1353.58, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222207740405993472
 CanvasRenderer:
@@ -3722,9 +3720,9 @@ RectTransform:
   m_Father: {fileID: 224481458762185604}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 69.94, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 69.94, y: -30}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222615760908103162
@@ -4271,6 +4269,7 @@ GameObject:
   - component: {fileID: 114281202566347118}
   - component: {fileID: 114694494659640892}
   - component: {fileID: 6513710610923107905}
+  - component: {fileID: 3006301496061836297}
   m_Layer: 5
   m_Name: ConsultationOptionEntry
   m_TagString: Untagged
@@ -4390,6 +4389,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: ConsultationOptionEntry
+  childPanelCreator: {fileID: 0}
+  pinsDrawer: {fileID: 0}
+--- !u!114 &3006301496061836297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1737878607896124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa039358723051b47bdc623c6e6fd591, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: ConsultationOptionEntry
+  displayName: Option
+  layoutElement: {fileID: 114281202566347118}
+  dragHandle: {fileID: 2136021020028492425}
+  canvasGroup: {fileID: 225442250810707298}
+  deleteButton: {fileID: 114333264462283134}
   childPanelCreator: {fileID: 0}
   pinsDrawer: {fileID: 0}
 --- !u!1 &1746803554903414
@@ -4926,9 +4945,9 @@ RectTransform:
   m_Father: {fileID: 224973046841840666}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 664.79, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 664.79, y: -216}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222852443098632678
@@ -5177,7 +5196,6 @@ GameObject:
   - component: {fileID: 114281499011965708}
   - component: {fileID: 114126277612573456}
   - component: {fileID: 114333264462283134}
-  - component: {fileID: 114764027087202344}
   - component: {fileID: 114915952966158138}
   m_Layer: 5
   m_Name: RemoveOptionButton
@@ -5304,31 +5322,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114281499011965708}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114764027087202344}
-        m_MethodName: RemoveEntry
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1737878607896124}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &114764027087202344
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1819451543064688}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 338ce7789e01dd241ab1269ca07a655d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bypassConfirmation: 0
+      m_Calls: []
 --- !u!114 &114915952966158138
 MonoBehaviour:
   m_ObjectHideFlags: 0

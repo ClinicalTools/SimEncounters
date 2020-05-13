@@ -97,6 +97,10 @@ namespace ClinicalTools.SimEncounters
             var statuses = new Dictionary<int, EncounterBasicStatus>();
             foreach (var fileText in fileTexts) {
                 var metadata = parser.Parse(fileText);
+                if (statuses.ContainsKey(metadata.Key)) {
+                    Debug.LogError($"Duplicate saved status for key {metadata.Key}");
+                    continue;
+                }
                 if (metadata.Value != null)
                     statuses.Add(metadata.Key, metadata.Value);
             }

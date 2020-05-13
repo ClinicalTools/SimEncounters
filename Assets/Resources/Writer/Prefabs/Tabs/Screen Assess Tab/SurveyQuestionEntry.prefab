@@ -295,8 +295,8 @@ GameObject:
   - component: {fileID: 222013887370525222}
   - component: {fileID: 114119553608573120}
   - component: {fileID: 114542296171792764}
-  - component: {fileID: 114140765550765688}
   - component: {fileID: 114024577132596724}
+  - component: {fileID: 1019484975377352800}
   m_Layer: 5
   m_Name: ReorderBar
   m_TagString: Untagged
@@ -380,20 +380,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &114140765550765688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1100783438570210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 064551f81d0616c45aafc6676349ba5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cursorPicture: {fileID: 21300000, guid: 9ed1cad206ef282408292bb8d904311d, type: 3}
-  movePicture: {fileID: 21300000, guid: 182b08e4e08e11749a6440ed80c396b6, type: 3}
 --- !u!114 &114024577132596724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,6 +397,18 @@ MonoBehaviour:
   Delay: 1
   ToolTipCanvas: {fileID: 0}
   tooltipName: ReorderBar
+--- !u!114 &1019484975377352800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100783438570210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc3481ba0e95ebd4e975ad5efa921e2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1174365004771500
 GameObject:
   m_ObjectHideFlags: 0
@@ -1390,7 +1388,6 @@ GameObject:
   - component: {fileID: 114584948292366136}
   - component: {fileID: 114343535980686606}
   - component: {fileID: 114287997681500318}
-  - component: {fileID: 114777017219452660}
   - component: {fileID: 114501212889663988}
   m_Layer: 5
   m_Name: RemoveQuestion
@@ -1517,31 +1514,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114584948292366136}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114777017219452660}
-        m_MethodName: RemoveEntry
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1649766544529200}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &114777017219452660
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1570133001145178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 338ce7789e01dd241ab1269ca07a655d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bypassConfirmation: 0
+      m_Calls: []
 --- !u!114 &114501212889663988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1730,7 +1703,7 @@ GameObject:
   - component: {fileID: 114016634389671776}
   - component: {fileID: 225015184179686214}
   - component: {fileID: 114139322662205224}
-  - component: {fileID: 6879156433683451397}
+  - component: {fileID: 5093098514089341446}
   m_Layer: 5
   m_Name: SurveyQuestionEntry
   m_TagString: Untagged
@@ -1851,7 +1824,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602282f31e531b9478b3dee7532abdcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6879156433683451397
+--- !u!114 &5093098514089341446
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1860,10 +1833,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1649766544529200}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17b60bcf5ad393e469717c4200313f98, type: 3}
+  m_Script: {fileID: 11500000, guid: fa039358723051b47bdc623c6e6fd591, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   type: SurveyQuestionEntry
+  displayName: Entry
+  layoutElement: {fileID: 114641186213663982}
+  dragHandle: {fileID: 1019484975377352800}
+  canvasGroup: {fileID: 225015184179686214}
+  deleteButton: {fileID: 114287997681500318}
   childPanelCreator: {fileID: 0}
   pinsDrawer: {fileID: 0}
 --- !u!1 &1740107387494154

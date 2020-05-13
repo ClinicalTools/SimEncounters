@@ -7,10 +7,10 @@ namespace ClinicalTools.SimEncounters.Writer
 {
     public class WriterAddablePanelsDrawer : BaseWriterPanelsDrawer
     {
-        public Transform PanelsParent { get => panelsParent; set => panelsParent = value; }
-        [SerializeField] private Transform panelsParent;
-        public List<OptionWriterPanel> PanelOptions { get => panelOptions; set => panelOptions = value; }
-        [SerializeField] private List<OptionWriterPanel> panelOptions;
+        public DraggableGroupUI ReorderableGroup { get => reorderableGroup; set => reorderableGroup = value; }
+        [SerializeField] private DraggableGroupUI reorderableGroup;
+        public List<BaseWriterAddablePanel> PanelOptions { get => panelOptions; set => panelOptions = value; }
+        [SerializeField] private List<BaseWriterAddablePanel> panelOptions;
         public BaseWriterPanelCreator PanelCreator { get => panelCreator; set => panelCreator = value; }
         [SerializeField] private BaseWriterPanelCreator panelCreator;
 
@@ -22,6 +22,7 @@ namespace ClinicalTools.SimEncounters.Writer
 
         protected Encounter CurrentEncounter { get; set; }
         protected virtual OrderedCollection<BaseWriterPanel> WriterPanels { get; set; } = new OrderedCollection<BaseWriterPanel>();
+
         public override List<BaseWriterPanel> DrawChildPanels(Encounter encounter, OrderedCollection<Panel> childPanels)
         {
             CurrentEncounter = encounter;
@@ -32,15 +33,12 @@ namespace ClinicalTools.SimEncounters.Writer
             var blah = new Something();
             WriterPanels = new OrderedCollection<BaseWriterPanel>();
 
-            var optionList = new List<BaseWriterPanel>();
-            foreach (var option in PanelOptions)
-                optionList.Add(option.PanelPrefab);
-
             var panels = new List<BaseWriterPanel>();
             foreach (var panel in childPanels) {
-                var prefab = blah.ChoosePrefab(optionList, panel.Value);
-                var panelUI = Instantiate(prefab, PanelsParent);
+                var prefab = blah.ChoosePrefab(PanelOptions, panel.Value);
+                var panelUI = ReorderableGroup.Add2(prefab);
                 panelUI.Display(encounter, panel.Value);
+                panelUI.Deleted += () => PanelDeleted(panelUI);
                 panels.Add(panelUI);
                 WriterPanels.Add(panel.Key, panelUI);
             }
@@ -64,11 +62,18 @@ namespace ClinicalTools.SimEncounters.Writer
             return blah.SerializeChildren(WriterPanels);
         }
 
-        protected virtual void AddPanel(BaseWriterPanel prefab)
+        protected virtual void AddPanel(BaseWriterAddablePanel prefab)
         {
-            var panelUI = Instantiate(prefab, PanelsParent);
+            var panelUI = ReorderableGroup.Add2(prefab);
             panelUI.Display(CurrentEncounter);
+            panelUI.Deleted += () => PanelDeleted(panelUI);
             WriterPanels.Add(panelUI);
+        }
+
+        protected virtual void PanelDeleted(BaseWriterAddablePanel panel)
+        {
+            ReorderableGroup.Remove(panel);
+            WriterPanels.Remove(panel);
         }
     }
 }

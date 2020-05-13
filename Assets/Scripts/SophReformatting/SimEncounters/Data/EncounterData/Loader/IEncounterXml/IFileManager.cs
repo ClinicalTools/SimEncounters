@@ -36,6 +36,8 @@ namespace ClinicalTools.SimEncounters
         public WaitableResult<string> GetFileText(User user, FileType fileType, EncounterMetadata metadata)
         {
             var filepath = GetFilepath(user, fileType, metadata);
+            if (!File.Exists(filepath))
+                return new WaitableResult<string>(null, "File doesn't exist", true);
             var text = File.ReadAllText(filepath);
             return new WaitableResult<string>(text);
         }

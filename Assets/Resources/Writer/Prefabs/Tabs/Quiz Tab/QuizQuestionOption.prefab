@@ -846,7 +846,6 @@ GameObject:
   - component: {fileID: 114585606615378278}
   - component: {fileID: 114704786848547582}
   - component: {fileID: 114267316337674192}
-  - component: {fileID: 114389063458987186}
   - component: {fileID: 114963220568106158}
   m_Layer: 5
   m_Name: DeleteOptionButton
@@ -953,18 +952,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114585606615378278}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114389063458987186}
-        m_MethodName: RemoveEntry
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1381448760020130}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &114267316337674192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -985,19 +973,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &114389063458987186
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1141400725723764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 338ce7789e01dd241ab1269ca07a655d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bypassConfirmation: 0
 --- !u!114 &114963220568106158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1501,7 +1476,7 @@ GameObject:
   - component: {fileID: 222280822783750404}
   - component: {fileID: 114148762973119482}
   - component: {fileID: 114404904604996506}
-  - component: {fileID: 6023306455893722809}
+  - component: {fileID: 6127302315706358622}
   - component: {fileID: 395321379302506588}
   m_Layer: 5
   m_Name: QuizQuestionOption
@@ -1637,7 +1612,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602282f31e531b9478b3dee7532abdcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6023306455893722809
+--- !u!114 &6127302315706358622
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1646,10 +1621,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1381448760020130}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17b60bcf5ad393e469717c4200313f98, type: 3}
+  m_Script: {fileID: 11500000, guid: fa039358723051b47bdc623c6e6fd591, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   type: Option
+  displayName: Option
+  layoutElement: {fileID: 114533090645077868}
+  dragHandle: {fileID: 283057138458664242}
+  canvasGroup: {fileID: 225423790617808688}
+  deleteButton: {fileID: 114704786848547582}
   childPanelCreator: {fileID: 0}
   pinsDrawer: {fileID: 0}
 --- !u!114 &395321379302506588
@@ -3696,8 +3676,8 @@ GameObject:
   - component: {fileID: 222931039231249848}
   - component: {fileID: 114573976149228292}
   - component: {fileID: 114914279165389202}
-  - component: {fileID: 114116079180020220}
   - component: {fileID: 114794018314825868}
+  - component: {fileID: 283057138458664242}
   m_Layer: 5
   m_Name: ReorderBar
   m_TagString: Untagged
@@ -3781,20 +3761,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &114116079180020220
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1949594641233786}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 064551f81d0616c45aafc6676349ba5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cursorPicture: {fileID: 21300000, guid: 9ed1cad206ef282408292bb8d904311d, type: 3}
-  movePicture: {fileID: 21300000, guid: 182b08e4e08e11749a6440ed80c396b6, type: 3}
 --- !u!114 &114794018314825868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3812,6 +3778,18 @@ MonoBehaviour:
   Delay: 1
   ToolTipCanvas: {fileID: 0}
   tooltipName: ReorderBar
+--- !u!114 &283057138458664242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1949594641233786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc3481ba0e95ebd4e975ad5efa921e2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1983334724994010
 GameObject:
   m_ObjectHideFlags: 0

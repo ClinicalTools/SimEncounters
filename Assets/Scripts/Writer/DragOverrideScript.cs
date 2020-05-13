@@ -17,7 +17,7 @@ public class DragOverrideScript : CEScrollRect
 
     protected virtual bool CanDrag()
     {
-        return true;
+        return false;
         return MouseInput.Instance.CanDrag && content.rect.height > viewport.rect.height;
     }
 

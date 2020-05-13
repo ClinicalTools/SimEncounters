@@ -7,7 +7,7 @@ namespace ClinicalTools.SimEncounters.Writer
 {
     public class Something
     {
-        public virtual BaseWriterPanel ChoosePrefab(List<BaseWriterPanel> panelOptions, Panel panel)
+        public virtual T ChoosePrefab<T>(List<T> panelOptions, Panel panel) where T : BaseWriterPanel
         {
             if (panelOptions.Count == 1)
                 return panelOptions[0];

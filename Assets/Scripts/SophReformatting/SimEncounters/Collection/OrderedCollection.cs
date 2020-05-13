@@ -47,6 +47,14 @@ namespace ClinicalTools.SimEncounters.Collections
 
             base.Remove(key);
         }
+        public override void Remove(T value)
+        {
+            var index = IndexOf(value);
+            ValueList.RemoveAt(index);
+            PairList.RemoveAt(index);
+
+            base.Remove(value);
+        }
 
         public virtual KeyValuePair<string, T> Get(int val) => PairList[val];
 

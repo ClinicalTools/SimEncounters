@@ -925,8 +925,8 @@ GameObject:
   - component: {fileID: 222762189301206060}
   - component: {fileID: 114108043104095736}
   - component: {fileID: 114848214304291716}
-  - component: {fileID: 114134265632890608}
   - component: {fileID: 114005425806252168}
+  - component: {fileID: 35668032022994361}
   m_Layer: 5
   m_Name: ReorderBar
   m_TagString: Untagged
@@ -1010,20 +1010,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &114134265632890608
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1802067168253320}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 064551f81d0616c45aafc6676349ba5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cursorPicture: {fileID: 21300000, guid: 9ed1cad206ef282408292bb8d904311d, type: 3}
-  movePicture: {fileID: 21300000, guid: 182b08e4e08e11749a6440ed80c396b6, type: 3}
 --- !u!114 &114005425806252168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1041,6 +1027,18 @@ MonoBehaviour:
   Delay: 0.5
   ToolTipCanvas: {fileID: 0}
   tooltipName: ReorderBar
+--- !u!114 &35668032022994361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1802067168253320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc3481ba0e95ebd4e975ad5efa921e2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1849340956205428
 GameObject:
   m_ObjectHideFlags: 0
@@ -1054,7 +1052,6 @@ GameObject:
   - component: {fileID: 114279966165138858}
   - component: {fileID: 114935108825682518}
   - component: {fileID: 114298696501529602}
-  - component: {fileID: 114860769836873250}
   - component: {fileID: 114404319085469276}
   m_Layer: 5
   m_Name: RemoveDiagnosis
@@ -1181,42 +1178,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114279966165138858}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114860769836873250}
-        m_MethodName: RemoveEntry
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1914420372177566}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: ReorderEntries
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &114860769836873250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1849340956205428}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 338ce7789e01dd241ab1269ca07a655d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bypassConfirmation: 0
+      m_Calls: []
 --- !u!114 &114404319085469276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1536,6 +1498,7 @@ GameObject:
   - component: {fileID: 225799963441869010}
   - component: {fileID: 114995220217651388}
   - component: {fileID: -2601814300410340589}
+  - component: {fileID: 3653526698003675909}
   m_Layer: 5
   m_Name: DiagnosisEntry
   m_TagString: Untagged
@@ -1670,6 +1633,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: DiagnosisEntry
   childPanelCreator: {fileID: 0}
+  pinsDrawer: {fileID: 0}
+--- !u!114 &3653526698003675909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1914420372177566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa039358723051b47bdc623c6e6fd591, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: DiagnosisEntry
+  displayName: Entry
+  layoutElement: {fileID: 114806535315393678}
+  dragHandle: {fileID: 35668032022994361}
+  canvasGroup: {fileID: 225799963441869010}
+  deleteButton: {fileID: 114298696501529602}
+  childPanelCreator: {fileID: 0}
+  pinsDrawer: {fileID: 0}
 --- !u!1 &1926128597872124
 GameObject:
   m_ObjectHideFlags: 0

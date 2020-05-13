@@ -9,7 +9,7 @@ namespace ClinicalTools.SimEncounters
 
         protected IEnumerator<char> Enumerator { get; }
         public CharEnumerator(IEnumerator<char> enumerator) => Enumerator = enumerator;
-        public CharEnumerator(IEnumerable<char> enumerable) => Enumerator = enumerable.GetEnumerator();
+        public CharEnumerator(IEnumerable<char> enumerable) => Enumerator = enumerable?.GetEnumerator();
 
         public bool MoveNext()
         {

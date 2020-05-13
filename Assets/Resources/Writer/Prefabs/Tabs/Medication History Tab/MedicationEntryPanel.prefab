@@ -684,8 +684,8 @@ GameObject:
   - component: {fileID: 222563941998024378}
   - component: {fileID: 114634733028936990}
   - component: {fileID: 114828135582251066}
-  - component: {fileID: 114524258926079638}
   - component: {fileID: 114054568760161924}
+  - component: {fileID: 3517423943958776202}
   m_Layer: 5
   m_Name: ReorderBar
   m_TagString: Untagged
@@ -769,20 +769,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &114524258926079638
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1094560212482902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 064551f81d0616c45aafc6676349ba5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cursorPicture: {fileID: 21300000, guid: 9ed1cad206ef282408292bb8d904311d, type: 3}
-  movePicture: {fileID: 21300000, guid: 182b08e4e08e11749a6440ed80c396b6, type: 3}
 --- !u!114 &114054568760161924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -800,6 +786,18 @@ MonoBehaviour:
   Delay: 0.5
   ToolTipCanvas: {fileID: 0}
   tooltipName: ReorderBar
+--- !u!114 &3517423943958776202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094560212482902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc3481ba0e95ebd4e975ad5efa921e2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1100767225381500
 GameObject:
   m_ObjectHideFlags: 0
@@ -2880,8 +2878,10 @@ GameObject:
   - component: {fileID: 114753415411773350}
   - component: {fileID: 114496962546508252}
   - component: {fileID: 114609630709978862}
-  - component: {fileID: -2012148360808768743}
+  - component: {fileID: 3605465015148639517}
   - component: {fileID: 7920032560875376897}
+  - component: {fileID: 8054903980503608846}
+  - component: {fileID: 8498681550942085074}
   m_Layer: 5
   m_Name: MedicationEntryPanel
   m_TagString: Untagged
@@ -3002,7 +3002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602282f31e531b9478b3dee7532abdcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-2012148360808768743
+--- !u!114 &3605465015148639517
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3011,10 +3011,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1370491702159688}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17b60bcf5ad393e469717c4200313f98, type: 3}
+  m_Script: {fileID: 11500000, guid: fa039358723051b47bdc623c6e6fd591, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   type: MedicationEntryPanel
+  displayName: Medication
+  layoutElement: {fileID: 8054903980503608846}
+  dragHandle: {fileID: 3517423943958776202}
+  canvasGroup: {fileID: 8498681550942085074}
+  deleteButton: {fileID: 114150906823625602}
   childPanelCreator: {fileID: 0}
   pinsDrawer: {fileID: 8065240384693624756}
 --- !u!114 &7920032560875376897
@@ -3030,6 +3035,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _containerSource: 2
+--- !u!114 &8054903980503608846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1370491702159688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
+--- !u!225 &8498681550942085074
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1370491702159688}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1383967610592206
 GameObject:
   m_ObjectHideFlags: 0
@@ -8724,7 +8761,6 @@ GameObject:
   - component: {fileID: 224942413757948290}
   - component: {fileID: 222455567615985078}
   - component: {fileID: 114813895226271980}
-  - component: {fileID: 114913691420048620}
   - component: {fileID: 114150906823625602}
   - component: {fileID: 114850975497727930}
   m_Layer: 5
@@ -8789,19 +8825,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &114913691420048620
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1766943781609518}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 338ce7789e01dd241ab1269ca07a655d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bypassConfirmation: 0
 --- !u!114 &114150906823625602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8844,18 +8867,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114813895226271980}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114913691420048620}
-        m_MethodName: RemoveEntry
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1370491702159688}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &114850975497727930
 MonoBehaviour:
   m_ObjectHideFlags: 0

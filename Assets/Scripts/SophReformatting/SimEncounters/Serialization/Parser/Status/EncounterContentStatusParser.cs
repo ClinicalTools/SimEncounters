@@ -15,6 +15,8 @@ namespace ClinicalTools.SimEncounters
 
         public EncounterContentStatus Parse(string text)
         {
+            if (text == null)
+                return new EncounterContentStatus();
             var enumerator = new CharEnumerator(text);
             return Parse(enumerator);
         }

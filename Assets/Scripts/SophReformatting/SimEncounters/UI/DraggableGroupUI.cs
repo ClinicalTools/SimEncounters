@@ -6,15 +6,20 @@ namespace ClinicalTools.SimEncounters
 {
     public class DraggableGroupUI : MonoBehaviour
     {
-        [SerializeField] private GameObject placeholder;
         public GameObject Placeholder { get => placeholder; set => placeholder = value; }
-
-        [SerializeField] private RectTransform childrenParent;
-        public virtual RectTransform ChildrenParent { get => childrenParent; set => childrenParent = value; }
-
+        [SerializeField] private GameObject placeholder;
+        public virtual RectTransform ChildrenParent => (RectTransform)transform;
 
         public event Action<List<IDraggable>> OrderChanged;
         protected List<IDraggable> DraggableObjects { get; } = new List<IDraggable>();
+
+        public virtual T Add2<T>(T draggablePrefab)
+            where T : MonoBehaviour, IDraggable
+        {
+            var draggableElement = Instantiate(draggablePrefab, ChildrenParent);
+            Add(draggableElement);
+            return draggableElement;
+        }
 
         public virtual void Add(IDraggable draggable)
         {
@@ -22,7 +27,15 @@ namespace ClinicalTools.SimEncounters
             draggable.DragStarted += DragStarted;
             draggable.DragEnded += DragEnded;
             draggable.Dragging += Dragging;
+
+            // would be optimal if this was only done at the end of adding a number of items
+            // moving it to a start method and doing it here if not started would minimize the issue
+            // checking for it at the beginning of update could also work, but I generally prefer to minimize work in Update
+            Placeholder.transform.SetAsLastSibling();
         }
+
+        public virtual void Remove(IDraggable draggable) => DraggableObjects.Remove(draggable);
+
 
         protected virtual float Offset { get; set; }
         protected virtual int InitialIndex { get; set; }
@@ -39,7 +52,7 @@ namespace ClinicalTools.SimEncounters
 
             Placeholder.SetActive(true);
             SetPlaceholderIndex(draggable);
-            draggable.RectTransform.SetSiblingIndex(ChildrenParent.childCount - 1);
+            draggable.RectTransform.SetAsLastSibling();
 
             Offset = DistanceFromMouse(draggable.RectTransform, mousePosition);
         }
@@ -101,6 +114,8 @@ namespace ClinicalTools.SimEncounters
             DraggableObjects.Insert(Index, draggable);
             if (InitialIndex != Index)
                 OrderChanged?.Invoke(DraggableObjects);
+
+            Placeholder.transform.SetAsLastSibling();
         }
     }
 }

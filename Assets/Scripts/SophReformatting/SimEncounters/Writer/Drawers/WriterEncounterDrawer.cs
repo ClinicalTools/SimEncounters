@@ -17,6 +17,7 @@ namespace ClinicalTools.SimEncounters.Writer
         protected virtual void Awake()
         {
             SectionSelector.SectionSelected += OnSectionSelected;
+            SectionSelector.SectionEdited += OnSectionEdited;
             TabSelector.TabSelected += OnTabSelected;
         }
 
@@ -48,6 +49,11 @@ namespace ClinicalTools.SimEncounters.Writer
                 SelectTab(selectedSection.Tabs[currentTab]);
             else
                 UnselectTab();
+        }
+        private void OnSectionEdited(Section section)
+        {
+            if (section == CurrentSection)
+                SectionDrawer.Display(Encounter, section);
         }
 
         protected virtual Tab CurrentTab { get; set; }

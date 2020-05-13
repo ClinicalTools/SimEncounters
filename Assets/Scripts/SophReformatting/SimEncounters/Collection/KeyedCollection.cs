@@ -137,6 +137,16 @@ namespace ClinicalTools.SimEncounters.Collections
             KeyCollection.Remove(item);
             Collection.Remove(key);
         }
+        /// <summary>
+        /// Removes a value from the collection.
+        /// </summary>
+        /// <param name="value">Value to remove</param>
+        public virtual void Remove(T value)
+        {
+            var key = KeyCollection[value];
+            KeyCollection.Remove(value);
+            Collection.Remove(key);
+        }
 
         public virtual bool ContainsKey(string key) => Collection.ContainsKey(key);
         public virtual bool Contains(T value) => KeyCollection.ContainsKey(value);

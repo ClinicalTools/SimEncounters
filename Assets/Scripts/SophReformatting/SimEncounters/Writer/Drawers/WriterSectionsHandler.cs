@@ -20,6 +20,8 @@ namespace ClinicalTools.SimEncounters.Writer
         [SerializeField] private SectionCreatorPopup addSectionPopup;
 
         public override event SectionSelectedHandler SectionSelected;
+        public override event Action<Section> SectionEdited;
+        public override event Action<Section> SectionDeleted;
         public override event RearrangedHandler Rearranged;
 
         protected Encounter CurrentEncounter { get; set; }
@@ -60,6 +62,8 @@ namespace ClinicalTools.SimEncounters.Writer
             sectionButton.SetToggleGroup(SectionsToggleGroup);
             sectionButton.Display(encounter, section);
             sectionButton.Selected += () => OnSelected(section);
+            sectionButton.Edited += (editedSection) => SectionEdited?.Invoke(editedSection);
+            sectionButton.Deleted += OnDeleted;
             SectionButtons.Add(section, sectionButton);
         }
 
@@ -70,7 +74,20 @@ namespace ClinicalTools.SimEncounters.Writer
             CurrentSection = section;
             SectionSelected?.Invoke(this, selectedArgs);
         }
+        protected void OnEdited(Section section)
+        {
+            var selectedArgs = new SectionSelectedEventArgs(section);
+            CurrentSection = section;
+            SectionSelected?.Invoke(this, selectedArgs);
+        }
+        protected void OnDeleted(Section section)
+        {
+            SectionButtons.Remove(section);
+            CurrentEncounter.Content.Sections.Remove(section);
 
+            CurrentSection = section;
+            SectionDeleted?.Invoke(section);
+        }
 
         public override void SelectSection(Section section)
         {

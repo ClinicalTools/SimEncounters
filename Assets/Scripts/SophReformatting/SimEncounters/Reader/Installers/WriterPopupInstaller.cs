@@ -12,6 +12,8 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private WriterQuizPopup quizPopup;
         public SectionEditorPopup SectionEditorPopup { get => sectionEditorPopup; set => sectionEditorPopup = value; }
         [SerializeField] private SectionEditorPopup sectionEditorPopup;
+        public TabEditorPopup TabEditorPopup { get => tabEditorPopup; set => tabEditorPopup = value; }
+        [SerializeField] private TabEditorPopup tabEditorPopup;
         public BaseConfirmationPopup ConfirmationPopup { get => confirmationPopup; set => confirmationPopup = value; }
         [SerializeField] private BaseConfirmationPopup confirmationPopup;
         public override void InstallBindings()
@@ -20,6 +22,7 @@ namespace ClinicalTools.SimEncounters.Reader
             Container.BindInstance(QuizPopup);
             Container.BindInstance(ConfirmationPopup);
             Container.BindInstance(SectionEditorPopup);
+            Container.BindInstance(TabEditorPopup);
             Container.Bind<IParser<Color>>().To<ColorParser>().AsTransient();
         }
     }

@@ -1003,8 +1003,8 @@ GameObject:
   - component: {fileID: 5229888745879564766}
   - component: {fileID: 5338060524284470756}
   - component: {fileID: 5338420334242959038}
-  - component: {fileID: 5337984311874480524}
   - component: {fileID: 5338160033291686550}
+  - component: {fileID: 8894173791041131101}
   m_Layer: 5
   m_Name: ReorderBar
   m_TagString: Untagged
@@ -1088,20 +1088,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &5337984311874480524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5440684067870755062}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 064551f81d0616c45aafc6676349ba5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cursorPicture: {fileID: 21300000, guid: 9ed1cad206ef282408292bb8d904311d, type: 3}
-  movePicture: {fileID: 21300000, guid: 182b08e4e08e11749a6440ed80c396b6, type: 3}
 --- !u!114 &5338160033291686550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1119,6 +1105,18 @@ MonoBehaviour:
   Delay: 0.5
   ToolTipCanvas: {fileID: 0}
   tooltipName: ReorderBar
+--- !u!114 &8894173791041131101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5440684067870755062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc3481ba0e95ebd4e975ad5efa921e2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5440700901465137688
 GameObject:
   m_ObjectHideFlags: 0
@@ -3424,7 +3422,6 @@ GameObject:
   - component: {fileID: 5338373089775802272}
   - component: {fileID: 5339816755725463090}
   - component: {fileID: 5339834692885921040}
-  - component: {fileID: 5337982897979414474}
   - component: {fileID: 5339815296657255522}
   m_Layer: 5
   m_Name: RemoveOptionButton
@@ -3551,31 +3548,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5338373089775802272}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5337982897979414474}
-        m_MethodName: RemoveEntry
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 5442123094033796458}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &5337982897979414474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5442088482850299928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 338ce7789e01dd241ab1269ca07a655d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bypassConfirmation: 0
+      m_Calls: []
 --- !u!114 &5339815296657255522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3690,7 +3663,7 @@ GameObject:
   - component: {fileID: 5337961974494381482}
   - component: {fileID: 5234131705681045630}
   - component: {fileID: 5338838906128782388}
-  - component: {fileID: 282213062892523059}
+  - component: {fileID: 4456981647542323371}
   m_Layer: 5
   m_Name: TreatmentEntry
   m_TagString: Untagged
@@ -3797,7 +3770,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602282f31e531b9478b3dee7532abdcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &282213062892523059
+--- !u!114 &4456981647542323371
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3806,11 +3779,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 5442123094033796458}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17b60bcf5ad393e469717c4200313f98, type: 3}
+  m_Script: {fileID: 11500000, guid: fa039358723051b47bdc623c6e6fd591, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   type: TreatmentEntry
+  displayName: Entry
+  layoutElement: {fileID: 5338762406713717924}
+  dragHandle: {fileID: 8894173791041131101}
+  canvasGroup: {fileID: 5234131705681045630}
+  deleteButton: {fileID: 5339834692885921040}
   childPanelCreator: {fileID: 0}
+  pinsDrawer: {fileID: 2929863719421719983}
 --- !u!1 &5442126533546464096
 GameObject:
   m_ObjectHideFlags: 0
@@ -7004,3 +6983,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 2248730650026437195}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2929863719421719983 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4007622143649275876, guid: 328e52009c15c7a4699753fcb4bc8591,
+    type: 3}
+  m_PrefabInstance: {fileID: 2248730650026437195}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84525afdb2f187e40854e80b20028aea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
