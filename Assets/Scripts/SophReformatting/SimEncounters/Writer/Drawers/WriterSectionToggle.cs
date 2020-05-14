@@ -7,7 +7,30 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters.Writer
 {
-    public class WriterSectionToggle : MonoBehaviour
+    public abstract class BaseWriterSectionToggle : MonoBehaviour, IDraggable
+    {
+        public virtual RectTransform RectTransform => (RectTransform)transform;
+
+        public abstract LayoutElement LayoutElement { get; }
+
+        public abstract Layout.ILayoutElement LayoutElement2 { get; }
+
+        public abstract event Action Selected;
+        public abstract event Action<Section> Edited;
+        public abstract event Action<Section> Deleted;
+        public event Action<IDraggable, Vector3> DragStarted;
+        public event Action<IDraggable, Vector3> DragEnded;
+        public event Action<IDraggable, Vector3> Dragging;
+
+        public abstract void Display(Encounter encounter, Section section);
+        public abstract void SetToggleGroup(ToggleGroup group);
+        public abstract void Select();
+
+        public virtual void StartDrag(Vector3 mousePosition) => DragStarted?.Invoke(this, mousePosition);
+        public virtual void EndDrag(Vector3 mousePosition) => DragEnded?.Invoke(this, mousePosition);
+        public virtual void Drag(Vector3 mousePosition) => Dragging?.Invoke(this, mousePosition);
+    }
+    public class WriterSectionToggle : BaseWriterSectionToggle
     {
         public EncounterToggleBehaviour SelectToggle { get => selectToggle; set => selectToggle = value; }
         [SerializeField] private EncounterToggleBehaviour selectToggle;
@@ -19,28 +42,35 @@ namespace ClinicalTools.SimEncounters.Writer
         [SerializeField] private TextMeshProUGUI nameLabel;
         public Button EditButton { get => editButton; set => editButton = value; }
         [SerializeField] private Button editButton;
-        public Layout.LayoutElement LayoutElement { get => layoutElement; set => layoutElement = value; }
-        [SerializeField] private Layout.LayoutElement layoutElement;
+        public override LayoutElement LayoutElement { get => layoutElement; }
+        [SerializeField] private LayoutElement layoutElement;
+        public override Layout.ILayoutElement LayoutElement2 => LayoutElement3;
+        public Layout.LayoutElement LayoutElement3 { get => layoutElement3; set => layoutElement3 = value; }
+        [SerializeField] private Layout.LayoutElement layoutElement3;
+        public BaseDragHandle DragHandle { get => dragHandle; set => dragHandle = value; }
+        [SerializeField] private BaseDragHandle dragHandle;
 
         protected virtual SectionEditorPopup SectionEditorPopup { get; set; }
         [Inject] public void Inject(SectionEditorPopup sectionEditorPopup) => SectionEditorPopup = sectionEditorPopup;
 
-        public Action Selected;
-        public Action<Section> Deleted;
-        public Action<Section> Edited;
+        public override event Action Selected;
+        public override event Action<Section> Deleted;
+        public override event Action<Section> Edited;
 
         protected virtual void Awake()
         {
-            LayoutElement.WidthValues.Min = 160;
+            LayoutElement3.WidthValues.Min = 160;
          
             SelectToggle.Selected += OnSelected;
             SelectToggle.Unselected += OnUnselected;
             EditButton.onClick.AddListener(Edit);
+
+            DragHandle.StartDragging += () => MouseInput.Instance.RegisterDraggable(this);
         }
 
         protected Encounter CurrentEncounter { get; set; }
         protected Section CurrentSection { get; set; }
-        public void Display(Encounter encounter, Section section)
+        public override void Display(Encounter encounter, Section section)
         {
             CurrentEncounter = encounter;
             CurrentSection = section;
@@ -53,20 +83,20 @@ namespace ClinicalTools.SimEncounters.Writer
             NameLabel.text = section.Name;
         }
 
-        public void Select() => SelectToggle.Select();
+        public override void Select() => SelectToggle.Select();
 
-        public void SetToggleGroup(ToggleGroup group) => SelectToggle.SetToggleGroup(group);
+        public override void SetToggleGroup(ToggleGroup group) => SelectToggle.SetToggleGroup(group);
 
         protected virtual void OnSelected()
         {
             Selected?.Invoke();
             EditButton.gameObject.SetActive(true);
-            LayoutElement.WidthValues.Min = 220;
+            LayoutElement3.WidthValues.Min = 220;
         }
         protected virtual void OnUnselected()
         {
             EditButton.gameObject.SetActive(false);
-            LayoutElement.WidthValues.Min = 160;
+            LayoutElement3.WidthValues.Min = 160;
         }
 
         protected virtual void Edit()

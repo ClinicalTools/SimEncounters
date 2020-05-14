@@ -1,4 +1,5 @@
-﻿using ClinicalTools.SimEncounters.Data;
+﻿using ClinicalTools.Layout;
+using ClinicalTools.SimEncounters.Data;
 using System;
 using TMPro;
 using UnityEngine;
@@ -7,7 +8,31 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters.Writer
 {
-    public class WriterTabToggle : MonoBehaviour
+    public abstract class BaseWriterTabToggle : MonoBehaviour, IDraggable
+    {
+        public virtual RectTransform RectTransform => (RectTransform)transform;
+
+        public abstract UnityEngine.UI.LayoutElement LayoutElement { get; }
+
+        public abstract Layout.ILayoutElement LayoutElement2 { get; }
+
+        public abstract event Action Selected;
+        public abstract event Action<Tab> Edited;
+        public abstract event Action<Tab> Deleted;
+        public event Action<IDraggable, Vector3> DragStarted;
+        public event Action<IDraggable, Vector3> DragEnded;
+        public event Action<IDraggable, Vector3> Dragging;
+
+        public abstract void Display(Encounter encounter, Tab tab); 
+        public abstract void SetToggleGroup(ToggleGroup group);
+        public abstract void Select();
+
+        public virtual void StartDrag(Vector3 mousePosition) => DragStarted?.Invoke(this, mousePosition);
+        public virtual void EndDrag(Vector3 mousePosition) => DragEnded?.Invoke(this, mousePosition);
+        public virtual void Drag(Vector3 mousePosition) => Dragging?.Invoke(this, mousePosition);
+    }
+
+    public class WriterTabToggle : BaseWriterTabToggle
     {
         public EncounterToggleBehaviour SelectToggle { get => selectToggle; set => selectToggle = value; }
         [SerializeField] private EncounterToggleBehaviour selectToggle;
@@ -15,47 +40,57 @@ namespace ClinicalTools.SimEncounters.Writer
         [SerializeField] private TextMeshProUGUI nameLabel;
         public Button EditButton { get => editButton; set => editButton = value; }
         [SerializeField] private Button editButton;
-        public Layout.LayoutElement LayoutElement { get => layoutElement; set => layoutElement = value; }
+        public Layout.LayoutElement LayoutElement3 { get => layoutElement; set => layoutElement = value; }
         [SerializeField] private Layout.LayoutElement layoutElement;
+        public override Layout.ILayoutElement LayoutElement2 => LayoutElement3;
+        public override UnityEngine.UI.LayoutElement LayoutElement { get => layoutElementOther; }
+        [SerializeField] private UnityEngine.UI.LayoutElement layoutElementOther;
+        public BaseDragHandle DragHandle { get => dragHandle; set => dragHandle = value; }
+        [SerializeField] private BaseDragHandle dragHandle;
 
         protected virtual TabEditorPopup TabEditorPopup { get; set; }
         [Inject] public void Inject(TabEditorPopup tabEditorPopup) => TabEditorPopup = tabEditorPopup;
 
-        public event Action Selected;
-        public event Action<Tab> Edited;
-        public event Action<Tab> Deleted;
+        public override event Action Selected;
+        public override event Action<Tab> Edited;
+        public override event Action<Tab> Deleted;
         protected virtual void Awake()
         {
-            LayoutElement.WidthValues.Min = 150;
+            LayoutElement3.WidthValues.Min = 150;
 
             SelectToggle.Selected += OnSelected;
             SelectToggle.Unselected += OnUnselected;
             EditButton.onClick.AddListener(Edit);
+
+            DragHandle.StartDragging += () => MouseInput.Instance.RegisterDraggable(this);
         }
 
         protected Encounter CurrentEncounter { get; set; }
         protected Tab CurrentTab { get; set; }
-        public void Display(Encounter encounter, Tab tab)
+
+
+
+        public override void Display(Encounter encounter, Tab tab)
         {
             CurrentEncounter = encounter;
             CurrentTab = tab;
             NameLabel.text = tab.Name;
         }
 
-        public void SetToggleGroup(ToggleGroup group) => SelectToggle.SetToggleGroup(group);
+        public override void SetToggleGroup(ToggleGroup group) => SelectToggle.SetToggleGroup(group);
 
-        public virtual void Select() => SelectToggle.Select();
+        public override void Select() => SelectToggle.Select();
 
         protected virtual void OnSelected()
         {
             Selected?.Invoke();
             EditButton.gameObject.SetActive(true);
-            LayoutElement.WidthValues.Min = 210;
+            LayoutElement3.WidthValues.Min = 210;
         }
         protected virtual void OnUnselected()
         {
             EditButton.gameObject.SetActive(false);
-            LayoutElement.WidthValues.Min = 150;
+            LayoutElement3.WidthValues.Min = 150;
         }
 
         protected virtual void Edit()

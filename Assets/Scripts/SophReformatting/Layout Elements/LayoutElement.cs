@@ -49,10 +49,33 @@ namespace ClinicalTools.Layout
             initialized = true;
         }
 
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+
+            if (parent != null)
+                return;
+
+            var parentTransform = transform.parent;
+            if (parentTransform != null)
+                parent = parentTransform.GetComponent<LayoutGroup>();
+            if (parent != null)
+                parent.AddChild(this);
+        }
         protected override void OnDestroy()
         {
             if (parent != null)
                 parent.RemoveChild(this);
+
+            base.OnDestroy();
+        }
+        protected override void OnDisable()
+        {
+            if (parent != null)
+                parent.RemoveChild(this);
+            parent = null;
+
+            base.OnDisable();
         }
 
         public void UpdateSize(float width, float height) { }

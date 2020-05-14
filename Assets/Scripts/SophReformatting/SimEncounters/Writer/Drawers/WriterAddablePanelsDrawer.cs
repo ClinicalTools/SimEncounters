@@ -7,8 +7,8 @@ namespace ClinicalTools.SimEncounters.Writer
 {
     public class WriterAddablePanelsDrawer : BaseWriterPanelsDrawer
     {
-        public DraggableGroupUI ReorderableGroup { get => reorderableGroup; set => reorderableGroup = value; }
-        [SerializeField] private DraggableGroupUI reorderableGroup;
+        public BaseRearrangeableGroup ReorderableGroup { get => reorderableGroup; set => reorderableGroup = value; }
+        [SerializeField] private BaseRearrangeableGroup reorderableGroup;
         public List<BaseWriterAddablePanel> PanelOptions { get => panelOptions; set => panelOptions = value; }
         [SerializeField] private List<BaseWriterAddablePanel> panelOptions;
         public BaseWriterPanelCreator PanelCreator { get => panelCreator; set => panelCreator = value; }
@@ -36,7 +36,7 @@ namespace ClinicalTools.SimEncounters.Writer
             var panels = new List<BaseWriterPanel>();
             foreach (var panel in childPanels) {
                 var prefab = blah.ChoosePrefab(PanelOptions, panel.Value);
-                var panelUI = ReorderableGroup.Add2(prefab);
+                var panelUI = ReorderableGroup.AddFromPrefab(prefab);
                 panelUI.Display(encounter, panel.Value);
                 panelUI.Deleted += () => PanelDeleted(panelUI);
                 panels.Add(panelUI);
@@ -64,7 +64,7 @@ namespace ClinicalTools.SimEncounters.Writer
 
         protected virtual void AddPanel(BaseWriterAddablePanel prefab)
         {
-            var panelUI = ReorderableGroup.Add2(prefab);
+            var panelUI = ReorderableGroup.AddFromPrefab(prefab);
             panelUI.Display(CurrentEncounter);
             panelUI.Deleted += () => PanelDeleted(panelUI);
             WriterPanels.Add(panelUI);

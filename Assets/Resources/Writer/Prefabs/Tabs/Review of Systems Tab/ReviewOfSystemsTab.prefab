@@ -140,6 +140,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -260,7 +261,6 @@ GameObject:
   - component: {fileID: 224048635063451540}
   - component: {fileID: 114956517412734484}
   - component: {fileID: 114458785658110050}
-  - component: {fileID: 114308395007057998}
   - component: {fileID: 114290192330138406}
   m_Layer: 5
   m_Name: Content
@@ -327,33 +327,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &114308395007057998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1602040095709458}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 340fa573e99e3e84186eed977ef77a50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  examList:
-  - General, constitutional
-  - Eyes, vision
-  - Ears, nose, throat
-  - Cardiovascular
-  - Respiratory
-  - Gastrointestinal
-  - Genitourinary
-  - Musculoskeletal
-  - Integumentary & breast
-  - Neurological
-  - Psychiatric
-  - Endocrine
-  - Hematologic / lymphatic
-  - Allergic / immunologic
 --- !u!114 &114290192330138406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -426,6 +399,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -450,7 +424,7 @@ GameObject:
   - component: {fileID: 224002354835072664}
   - component: {fileID: 222517232700350304}
   - component: {fileID: 5471023224021389748}
-  - component: {fileID: -7209770862208973884}
+  - component: {fileID: 2082117128785997298}
   m_Layer: 5
   m_Name: ReviewOfSystemsTab
   m_TagString: Untagged
@@ -498,8 +472,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03168f88e98353a419d3eead1c1abd47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelCreator: {fileID: -7209770862208973884}
---- !u!114 &-7209770862208973884
+  panelCreator: {fileID: 2082117128785997298}
+--- !u!114 &2082117128785997298
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -508,12 +482,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 1948322115136428}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a735289c30090af43a55873cf1220783, type: 3}
+  m_Script: {fileID: 11500000, guid: 0153c6845199d17458a464785919b97a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   panelsParent: {fileID: 224048635063451540}
-  presetPanels:
-  - {fileID: -3910002080820743100, guid: 1889867449ed5b84d86eb5731da6cf3d, type: 3}
+  panelPrefab: {fileID: -3910002080820743100, guid: 1889867449ed5b84d86eb5731da6cf3d,
+    type: 3}
+  panelNames:
+  - General, constitutional
+  - Eyes, vision
+  - Ears, nose, throat
+  - Cardiovascular
+  - Respiratory
+  - Gastrointestinal
+  - Genitourinary
+  - Musculoskeletal
+  - Integumentary & breast
+  - Neurological
+  - Psychiatric
+  - Endocrine
+  - Hematologic / lymphatic
+  - Allergic / immunologic
 --- !u!1 &1973000593189546
 GameObject:
   m_ObjectHideFlags: 0
@@ -589,6 +578,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []

@@ -10,8 +10,8 @@ namespace ClinicalTools.SimEncounters.Reader
     {
         public virtual BaseOrderablePanelsDrawer ChildPanelCreator { get => childPanelCreator; set => childPanelCreator = value; }
         [SerializeField] private BaseOrderablePanelsDrawer childPanelCreator;
-        public DraggableGroupUI DraggableGroupUI { get => draggableGroup; set => draggableGroup = value; }
-        [SerializeField] private DraggableGroupUI draggableGroup;
+        public BaseRearrangeableGroup DraggableGroupUI { get => draggableGroup; set => draggableGroup = value; }
+        [SerializeField] private BaseRearrangeableGroup draggableGroup;
         public virtual GameObject FeedbackObject { get => feedbackObject; set => feedbackObject = value; }
         [SerializeField] private GameObject feedbackObject;
 

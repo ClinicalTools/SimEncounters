@@ -8,10 +8,10 @@ namespace ClinicalTools.SimEncounters.Writer
 {
     public class WriterSectionsHandler : BaseWriterSectionsHandler
     {
-        public virtual Transform SectionButtonsParent { get => sectionButtonsParent; set => sectionButtonsParent = value; }
-        [SerializeField] private Transform sectionButtonsParent;
-        public virtual WriterSectionToggle SectionButtonPrefab { get => sectionButtonPrefab; set => sectionButtonPrefab = value; }
-        [SerializeField] private WriterSectionToggle sectionButtonPrefab;
+        public virtual BaseRearrangeableGroup RearrangeableGroup { get => rearrangeableGroup; set => rearrangeableGroup = value; }
+        [SerializeField] private BaseRearrangeableGroup rearrangeableGroup;
+        public virtual BaseWriterSectionToggle SectionButtonPrefab { get => sectionButtonPrefab; set => sectionButtonPrefab = value; }
+        [SerializeField] private BaseWriterSectionToggle sectionButtonPrefab;
         public virtual ToggleGroup SectionsToggleGroup { get => sectionsToggleGroup; set => sectionsToggleGroup = value; }
         [SerializeField] private ToggleGroup sectionsToggleGroup;
         public virtual Button AddButton { get => addButton; set => addButton = value; }
@@ -25,9 +25,10 @@ namespace ClinicalTools.SimEncounters.Writer
         public override event RearrangedHandler Rearranged;
 
         protected Encounter CurrentEncounter { get; set; }
-        protected Dictionary<Section, WriterSectionToggle> SectionButtons { get; } = new Dictionary<Section, WriterSectionToggle>();
+        protected Dictionary<Section, BaseWriterSectionToggle> SectionButtons { get; } = new Dictionary<Section, BaseWriterSectionToggle>();
         public override void Display(Encounter encounter)
         {
+            RearrangeableGroup.Clear();
             foreach (var sectionButton in SectionButtons)
                 Destroy(sectionButton.Value.gameObject);
             SectionButtons.Clear();
@@ -58,7 +59,7 @@ namespace ClinicalTools.SimEncounters.Writer
 
         protected void AddSectionButton(Encounter encounter, Section section)
         {
-            var sectionButton = Instantiate(SectionButtonPrefab, SectionButtonsParent);
+            var sectionButton = RearrangeableGroup.AddFromPrefab(SectionButtonPrefab);
             sectionButton.SetToggleGroup(SectionsToggleGroup);
             sectionButton.Display(encounter, section);
             sectionButton.Selected += () => OnSelected(section);
@@ -82,6 +83,8 @@ namespace ClinicalTools.SimEncounters.Writer
         }
         protected void OnDeleted(Section section)
         {
+            var button = SectionButtons[section];
+            RearrangeableGroup.Remove(button);
             SectionButtons.Remove(section);
             CurrentEncounter.Content.Sections.Remove(section);
 

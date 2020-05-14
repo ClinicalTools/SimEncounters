@@ -7,10 +7,10 @@ namespace ClinicalTools.SimEncounters.Writer
 {
     public class WriterTabSelector : BaseTabSelector
     {
-        public virtual Transform TabButtonsParent { get => tabButtonsParent; set => tabButtonsParent = value; }
-        [SerializeField] private Transform tabButtonsParent;
-        public virtual WriterTabToggle TabButtonPrefab { get => tabButtonPrefab; set => tabButtonPrefab = value; }
-        [SerializeField] private WriterTabToggle tabButtonPrefab;
+        public virtual BaseRearrangeableGroup RearrangeableGroup { get => rearrangeableGroup; set => rearrangeableGroup = value; }
+        [SerializeField] private BaseRearrangeableGroup rearrangeableGroup;
+        public virtual BaseWriterTabToggle TabButtonPrefab { get => tabButtonPrefab; set => tabButtonPrefab = value; }
+        [SerializeField] private BaseWriterTabToggle tabButtonPrefab;
         public virtual ToggleGroup TabsToggleGroup { get => tabsToggleGroup; set => tabsToggleGroup = value; }
         [SerializeField] private ToggleGroup tabsToggleGroup;
         public virtual ScrollRect TabButtonsScroll { get => tabButtonsScroll; set => tabButtonsScroll = value; }
@@ -51,8 +51,10 @@ namespace ClinicalTools.SimEncounters.Writer
         {
             CurrentEncounter = encounter;
             CurrentSection = section;
+            RearrangeableGroup.Clear();
             foreach (var tabButton in TabButtons)
                 Destroy(tabButton.Value.gameObject);
+
             TabButtons.Clear();
 
             if (section.Tabs.Count == 0) {
@@ -63,10 +65,10 @@ namespace ClinicalTools.SimEncounters.Writer
             }
         }
 
-        protected Dictionary<Tab, WriterTabToggle> TabButtons { get; } = new Dictionary<Tab, WriterTabToggle>();
+        protected Dictionary<Tab, BaseWriterTabToggle> TabButtons { get; } = new Dictionary<Tab, BaseWriterTabToggle>();
         protected void AddTabButton(Encounter encounter, Tab tab)
         {
-            var tabButton = Instantiate(TabButtonPrefab, TabButtonsParent);
+            var tabButton = RearrangeableGroup.AddFromPrefab(TabButtonPrefab);
             tabButton.SetToggleGroup(TabsToggleGroup);
             tabButton.Display(encounter, tab);
             tabButton.Selected += () => OnSelected(tab);

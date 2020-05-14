@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Writer
 {
-
     public class WriterPresetPanelsDrawer : BaseWriterPanelsDrawer
     {
         public Transform PanelsParent { get => panelsParent; set => panelsParent = value; }

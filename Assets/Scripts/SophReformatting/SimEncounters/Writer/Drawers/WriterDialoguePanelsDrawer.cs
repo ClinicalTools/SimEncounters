@@ -18,16 +18,16 @@ namespace ClinicalTools.SimEncounters.Writer
 
         public Button ChoiceButton { get => choiceButton; set => choiceButton = value; }
         [SerializeField] private Button choiceButton;
-        public Transform PanelsParent { get => panelsParent; set => panelsParent = value; }
-        [SerializeField] private Transform panelsParent;
-        public BaseWriterPanel EntryPrefab { get => entryPrefab; set => entryPrefab = value; }
-        [SerializeField] private BaseWriterPanel entryPrefab;
-        public BaseWriterPanel ChoicePrefab { get => choicePrefab; set => choicePrefab = value; }
-        [SerializeField] private BaseWriterPanel choicePrefab;
+        public BaseRearrangeableGroup ReorderableGroup { get => reorderableGroup; set => reorderableGroup = value; }
+        [SerializeField] private BaseRearrangeableGroup reorderableGroup;
+        public BaseWriterAddablePanel EntryPrefab { get => entryPrefab; set => entryPrefab = value; }
+        [SerializeField] private BaseWriterAddablePanel entryPrefab;
+        public BaseWriterAddablePanel ChoicePrefab { get => choicePrefab; set => choicePrefab = value; }
+        [SerializeField] private BaseWriterAddablePanel choicePrefab;
 
         protected virtual OrderedCollection<BaseWriterPanel> WriterPanels { get; set; } = new OrderedCollection<BaseWriterPanel>();
 
-        protected virtual List<BaseWriterPanel> PanelPrefabs { get; } = new List<BaseWriterPanel>();
+        protected virtual List<BaseWriterAddablePanel> PanelPrefabs { get; } = new List<BaseWriterAddablePanel>();
         protected virtual void Awake()
         {
             PanelPrefabs.Add(EntryPrefab);
@@ -47,14 +47,14 @@ namespace ClinicalTools.SimEncounters.Writer
             panel.Values.Add("characterName", characterName);
             panel.Values.Add("charColor", characterColor.ToString());
 
-            var panelUI = Instantiate(EntryPrefab, PanelsParent);
+            var panelUI = ReorderableGroup.AddFromPrefab(EntryPrefab);
             panelUI.Display(CurrentEncounter, panel);
             WriterPanels.Add(panelUI);
         }
 
         private void AddChoice()
         {
-            var panelUI = Instantiate(ChoicePrefab, PanelsParent);
+            var panelUI = ReorderableGroup.AddFromPrefab(ChoicePrefab);
             panelUI.Display(CurrentEncounter);
             WriterPanels.Add(panelUI);
         }
@@ -73,7 +73,7 @@ namespace ClinicalTools.SimEncounters.Writer
             var panels = new List<BaseWriterPanel>();
             foreach (var panel in childPanels) {
                 var prefab = blah.ChoosePrefab(PanelPrefabs, panel.Value);
-                var panelUI = Instantiate(prefab, PanelsParent);
+                var panelUI = ReorderableGroup.AddFromPrefab(prefab);
                 panelUI.Display(encounter, panel.Value);
                 panels.Add(panelUI);
                 WriterPanels.Add(panel.Key, panelUI);
