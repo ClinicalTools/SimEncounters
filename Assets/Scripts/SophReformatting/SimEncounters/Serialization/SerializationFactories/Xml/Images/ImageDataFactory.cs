@@ -7,11 +7,9 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
 {
     public class ImageDataFactory : ISerializationFactory<EncounterImageData>
     {
-        protected virtual ISerializationFactory<LegacyIcon>  IconFactory { get; }
         protected virtual ISerializationFactory<Sprite> SpriteFactory { get; } 
-        public ImageDataFactory(ISerializationFactory<LegacyIcon> iconFactory, ISerializationFactory<Sprite> spriteFactory)
+        public ImageDataFactory(ISerializationFactory<Sprite> spriteFactory)
         {
-            IconFactory = iconFactory;
             SpriteFactory = spriteFactory;
         }
 
@@ -22,7 +20,7 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
 
         public void Serialize(XmlSerializer serializer, EncounterImageData value)
         {
-            serializer.AddKeyValuePairs(IconsInfo, value.Icons, SpriteFactory);
+            //serializer.AddKeyValuePairs(IconsInfo, value.Icons, SpriteFactory);
             serializer.AddKeyValuePairs(SpritesInfo, value.Sprites, SpriteFactory);
         }
 

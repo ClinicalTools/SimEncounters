@@ -5,6 +5,6 @@ namespace ClinicalTools.SimEncounters.Writer
 {
     public interface IWriterPanelValueDisplay
     {
-        IField[] Display(Encounter encounter, Panel panel, Transform panelTransform);
+        BaseField[] Display(Encounter encounter, Panel panel, Transform panelTransform);
     }
 }

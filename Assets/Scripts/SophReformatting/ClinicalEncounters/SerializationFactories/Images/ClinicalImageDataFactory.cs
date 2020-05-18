@@ -8,8 +8,11 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
 {
     public class ClinicalImageDataFactory : ImageDataFactory
     {
+        protected ISerializationFactory<LegacyIcon> IconFactory { get; }
         public ClinicalImageDataFactory(ISerializationFactory<LegacyIcon> iconFactory, ISerializationFactory<Sprite> spriteFactory)
-            : base(iconFactory, spriteFactory) { }
+            : base(spriteFactory) {
+            IconFactory = iconFactory;
+        }
 
         protected virtual CollectionInfo LegacyImageInfo { get; } =
             new CollectionInfo(

@@ -10,20 +10,21 @@ namespace ClinicalTools.SimEncounters.Reader
         public abstract void Display(Sprite sprite);
     }
 
-    public class ReaderImage : MonoBehaviour, IUserValueField
+    public class ReaderImage : BaseEncounterField
     {
-        public string Name => name;
-        public string Value { get; protected set; }
+        public override string Name => name;
+        public override string Value => value;
+        private string value = null;
 
-        [SerializeField] private GameObject imageGroup;
         public GameObject ImageGroup { get => imageGroup; set => imageGroup = value; }
+        [SerializeField] private GameObject imageGroup;
 
-        [SerializeField] private bool expandToMax;
         public bool ExpandToMax { get => expandToMax; set => expandToMax = value; }
-        [SerializeField] private float maxWidth = -1;
+        [SerializeField] private bool expandToMax;
         public float MaxWidth { get => maxWidth; set => maxWidth = value; }
-        [SerializeField] private float maxHeight = -1;
+        [SerializeField] private float maxWidth = -1;
         public float MaxHeight { get => maxHeight; set => maxHeight = value; }
+        [SerializeField] private float maxHeight = -1;
         protected float MaxRatio {
             get {
                 if (MaxHeight <= 0)
@@ -34,11 +35,12 @@ namespace ClinicalTools.SimEncounters.Reader
                     return MaxHeight / MaxWidth;
             }
         }
-        [SerializeField] private LayoutElement layoutElement;
-        public LayoutElement LayoutElement { get => layoutElement; set => layoutElement = value; }
 
-        [SerializeField] private Button enlargeImageButton;
+        public LayoutElement LayoutElement { get => layoutElement; set => layoutElement = value; }
+        [SerializeField] private LayoutElement layoutElement;
+
         public Button EnlargeImageButton { get => enlargeImageButton; set => enlargeImageButton = value; }
+        [SerializeField] private Button enlargeImageButton;
 
         private Image image;
         protected Image Image {
@@ -52,15 +54,13 @@ namespace ClinicalTools.SimEncounters.Reader
         protected SpriteDrawer SpritePopup { get; set; }
         [Inject] public virtual void Inject(SpriteDrawer spritePopup) => SpritePopup = spritePopup;
 
-        public virtual void Initialize(UserPanel userPanel)
+        public override void Initialize(Encounter encounter) => HideImage();
+        public override void Initialize(Encounter encounter, string value)
         {
-            HideImage();
-        }
-        public virtual void Initialize(UserPanel userPanel, string value)
-        {
-            var sprites = userPanel.Encounter.Data.Images.Sprites;
-            if (sprites.ContainsKey(value))
-                SetSprite(userPanel, sprites[value]);
+            this.value = value;
+            var sprites = encounter.Images.Sprites;
+            if (value != null && sprites.ContainsKey(value))
+                SetSprite(sprites[value]);
             else
                 HideImage();
         }
@@ -71,7 +71,7 @@ namespace ClinicalTools.SimEncounters.Reader
                 ImageGroup.SetActive(false);
         }
 
-        public virtual void SetSprite(UserPanel userPanel, Sprite sprite)
+        public virtual void SetSprite(Sprite sprite)
         {
             if (sprite == null) {
                 Debug.LogError("Sprite is null");

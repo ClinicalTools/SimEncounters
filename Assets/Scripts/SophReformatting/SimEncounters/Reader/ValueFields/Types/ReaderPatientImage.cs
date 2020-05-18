@@ -8,9 +8,6 @@ namespace ClinicalTools.SimEncounters.Reader
     {
 
         private const string patientImageKey = "patientImage";
-        public override void Initialize(UserPanel userPanel)
-        {
-            Initialize(userPanel, patientImageKey);
-        }
+        public override void Initialize(Encounter encounter) => Initialize(encounter, patientImageKey);
     }
 }

@@ -26,6 +26,13 @@ namespace ClinicalTools.SimEncounters.Writer
 
         protected Encounter CurrentEncounter { get; set; }
         protected Dictionary<Section, BaseWriterSectionToggle> SectionButtons { get; } = new Dictionary<Section, BaseWriterSectionToggle>();
+        
+        protected virtual void Awake()
+        {
+            AddButton.onClick.AddListener(AddSection);
+            RearrangeableGroup.Rearranged += SectionsRearranged;
+        }
+
         public override void Display(Encounter encounter)
         {
             RearrangeableGroup.Clear();
@@ -36,8 +43,6 @@ namespace ClinicalTools.SimEncounters.Writer
             CurrentEncounter = encounter;
             foreach (var section in encounter.Content.Sections)
                 AddSectionButton(encounter, section.Value);
-
-            AddButton.onClick.AddListener(AddSection);
         }
         protected virtual void AddSection()
         {
@@ -99,5 +104,9 @@ namespace ClinicalTools.SimEncounters.Writer
 
             SectionButtons[section].Select();
         }
+
+        private void SectionsRearranged(object sender, RearrangedEventArgs2 e)
+            => CurrentEncounter.Content.Sections.MoveValue(e.NewIndex, e.OldIndex);
+
     }
 }

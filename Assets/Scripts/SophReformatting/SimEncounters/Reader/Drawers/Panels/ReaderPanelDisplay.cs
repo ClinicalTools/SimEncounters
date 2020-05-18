@@ -28,24 +28,34 @@ namespace ClinicalTools.SimEncounters.Reader
             return pinButtons;
         }
 
-        protected virtual IValueField[] InitializePanelValueFields(UserPanel userPanel, Transform transform)
+        protected virtual BaseField[] InitializePanelValueFields(UserPanel userPanel, Transform transform)
         {
-            var valueFields = transform.GetComponentsInChildren<IValueField>(true);
-            foreach (var valueField in valueFields) {
-                if (userPanel.Data.Values.ContainsKey(valueField.Name))
-                    valueField.Initialize(userPanel.Data.Values[valueField.Name]);
-                else
-                    valueField.Initialize();
-            }
-            var readerValueFields = transform.GetComponentsInChildren<IUserValueField>(true);
-            foreach (var valueField in readerValueFields) {
-                if (userPanel.Data.Values.ContainsKey(valueField.Name))
-                    valueField.Initialize(userPanel, userPanel.Data.Values[valueField.Name]);
-                else
-                    valueField.Initialize(userPanel);
+            var fields = transform.GetComponentsInChildren<BaseField>(true);
+            var values = userPanel.Data.Values;
+            var encounter = userPanel.Encounter.Data;
+            foreach (var field in fields) {
+                var hasValue = values.ContainsKey(field.Name);
+                string value = hasValue ? values[field.Name] : null;
+
+                if (field is BaseValueField valueField) {
+                    if (hasValue)
+                        valueField.Initialize(value);
+                    else
+                        valueField.Initialize();
+                } else if (field is BaseEncounterField encounterField) {
+                    if (hasValue)
+                        encounterField.Initialize(encounter, value);
+                    else
+                        encounterField.Initialize(encounter);
+                } else if (field is BaseUserPanelField userPanelField) {
+                    if (hasValue)
+                        userPanelField.Initialize(userPanel, value);
+                    else
+                        userPanelField.Initialize(userPanel);
+                }
             }
 
-            return valueFields;
+            return fields;
         }
     }
 }

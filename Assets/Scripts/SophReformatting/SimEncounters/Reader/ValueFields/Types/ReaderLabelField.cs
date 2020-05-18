@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
-    public class ReaderLabelField : MonoBehaviour, IValueField
+    public class ReaderLabelField : BaseValueField
     {
-        public string Name => name;
-        public string Value => Label.text;
+        public override string Name => name;
+        public override string Value => Label.text;
 
-        [SerializeField] private List<GameObject> controlledObjects;
         public List<GameObject> ControlledObjects { get => controlledObjects; set => controlledObjects = value; }
+        [SerializeField] private List<GameObject> controlledObjects;
 
         [SerializeField] private string prefix;
         public string Prefix { get => prefix; set => prefix = value; }
@@ -24,11 +24,8 @@ namespace ClinicalTools.SimEncounters.Reader
             }
         }
 
-        public void Initialize()
-        {
-            HideControlledObjects();
-        }
-        public void Initialize(string value)
+        public override void Initialize() => HideControlledObjects();
+        public override void Initialize(string value)
         {
             SetText(value);
 

@@ -14,6 +14,7 @@ namespace ClinicalTools.SimEncounters.Writer
         [SerializeField] private List<BaseColorEditor> colorEditors;
         public Image CustomColorImage { get => customColorImage; set => customColorImage = value; }
         [SerializeField] private Image customColorImage;
+        protected virtual Toggle CustomColorToggle { get; set; }
 
         public override event Action<Color> ValueChanged;
 
@@ -22,6 +23,8 @@ namespace ClinicalTools.SimEncounters.Writer
 
         protected virtual void Awake()
         {
+            CustomColorToggle = CustomColorImage.GetComponent<Toggle>();
+
             foreach (var colorEditor in ColorEditors)
                 colorEditor.ValueChanged += Display;
 
@@ -47,6 +50,7 @@ namespace ClinicalTools.SimEncounters.Writer
                 colorEditor.Display(color);
 
             CustomColorImage.color = color;
+            CustomColorToggle.isOn = true;
         }
     }
 }

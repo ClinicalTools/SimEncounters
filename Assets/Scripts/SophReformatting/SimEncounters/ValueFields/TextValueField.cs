@@ -1,12 +1,11 @@
 ﻿using TMPro;
-using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class TextValueField : MonoBehaviour, IValueField
+    public class TextValueField : BaseValueField
     {
-        public string Name => name;
-        public string Value => InputField.text;
+        public override string Name => name;
+        public override string Value => InputField.text;
 
         private TMP_InputField inputField;
         protected TMP_InputField InputField {
@@ -17,10 +16,7 @@ namespace ClinicalTools.SimEncounters
             }
         }
 
-        public void Initialize() { }
-        public void Initialize(string value)
-        {
-            InputField.text = value;
-        }
+        public override void Initialize() { }
+        public override void Initialize(string value) => InputField.text = value;
     }
 }

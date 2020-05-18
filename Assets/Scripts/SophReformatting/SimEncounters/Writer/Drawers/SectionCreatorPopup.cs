@@ -19,6 +19,8 @@ namespace ClinicalTools.SimEncounters.Writer
         public IconSelectorUI IconSelector { get => iconSelector; set => iconSelector = value; }
         [SerializeField] private IconSelectorUI iconSelector;
 
+        protected virtual Color DefaultColor { get; } = new Color(.9216f, .3012f, .3608f);
+
         protected virtual void Awake()
         {
             CancelButton.onClick.AddListener(Close);
@@ -32,6 +34,7 @@ namespace ClinicalTools.SimEncounters.Writer
             CurrentWaitableSection = new WaitableResult<Section>();
 
             gameObject.SetActive(true);
+            Color.Display(DefaultColor);
 
             return CurrentWaitableSection;
         }

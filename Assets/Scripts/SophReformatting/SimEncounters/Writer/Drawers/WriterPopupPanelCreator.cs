@@ -48,6 +48,10 @@ namespace ClinicalTools.SimEncounters.Writer
                 Popup.gameObject.SetActive(true);
         }
 
-        protected virtual void Add() => AddPanel?.Invoke(Options[OptionsDropdown.value]);
+        protected virtual void Add()
+        {
+            AddPanel?.Invoke(Options[OptionsDropdown.value]);
+            Popup.gameObject.SetActive(false);
+        }
     }
 }

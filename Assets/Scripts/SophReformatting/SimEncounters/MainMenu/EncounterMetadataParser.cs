@@ -5,6 +5,103 @@ using static MenuCase;
 
 namespace ClinicalTools.SimEncounters
 {
+    public interface IStringSerializer<T>
+    {
+        string Serialize(T value);
+    }
+
+    public class EncounterMetadataDeserializer : IParser<EncounterMetadata>
+    {
+        private const char caseInfoDivider = '|';
+        private const char categoryDivider = ';';
+        private const int encounterParts = 15;
+        private const int authorAccountIdIndex = 0;
+        private const int filenameIndex = 1;
+        private const int authorNameIndex = 2;
+        private const int titleIndex = 3;
+        private const int recordNumberIndex = 4;
+        private const int difficultyIndex = 5;
+        private const int descriptionIndex = 7;
+        private const int subtitleIndex = 6;
+        private const int categoriesIndex = 8;
+        private const int dateModifiedIndex = 9;
+        private const int audienceIndex = 10;
+        private const int editorVersionIndex = 11;
+        private const int ratingIndex = 12;
+        private const int isPublicIndex = 13;
+        private const int isTemplateIndex = 14;
+        public EncounterMetadata Parse(string text)
+        {
+            var parsedItem = text.Split(caseInfoDivider);
+            if (parsedItem == null || parsedItem.Length < encounterParts)
+                return null;
+
+            var metadata = new EncounterMetadata() {
+                RecordNumber = int.Parse(parsedItem[recordNumberIndex]),
+                Filename = parsedItem[filenameIndex],
+                AuthorAccountId = int.Parse(parsedItem[authorAccountIdIndex]),
+                AuthorName = parsedItem[authorNameIndex],
+                Rating = float.Parse(parsedItem[ratingIndex]),
+                Title = parsedItem[titleIndex].Replace('_', ' '),
+                Difficulty = GetDifficulty(parsedItem[difficultyIndex]),
+                Description = parsedItem[descriptionIndex],
+                Subtitle = parsedItem[subtitleIndex],
+                DateModified = long.Parse(parsedItem[dateModifiedIndex]),
+                Audience = parsedItem[audienceIndex],
+                EditorVersion = parsedItem[editorVersionIndex],
+                IsPublic = GetBoolValue(parsedItem[isPublicIndex]),
+                IsTemplate = GetBoolValue(parsedItem[isTemplateIndex])
+            };
+            if (float.TryParse(parsedItem[ratingIndex], out var rating))
+                metadata.Rating = rating;
+            metadata.Categories.AddRange(parsedItem[categoriesIndex].Split(categoryDivider));
+
+            return metadata;
+        }
+
+        protected Difficulty GetDifficulty(string difficulty)
+        {
+            difficulty = difficulty.ToLower();
+            if (difficulty == "intermediate")
+                return Difficulty.Intermediate;
+            else if (difficulty == "beginner")
+                return Difficulty.Beginner;
+            else if (difficulty == "advanced")
+                return Difficulty.Advanced;
+            return Difficulty.Beginner;
+        }
+
+        protected bool GetBoolValue(string value) => value == "1";
+    }
+
+    public class EncounterMetadataSerializer : IStringSerializer<EncounterMetadata>
+    {
+        public virtual string Serialize(EncounterMetadata metadata)
+        {
+            var str = "" + metadata.AuthorAccountId;
+            str += AppendValue(metadata.Filename);
+            str += AppendValue(metadata.AuthorName);
+            str += AppendValue(metadata.Title);
+            str += AppendValue(metadata.RecordNumber.ToString());
+            str += AppendValue(metadata.Difficulty.ToString());
+            str += AppendValue(metadata.Description);
+            str += AppendValue(metadata.Subtitle);
+            str += AppendValue(string.Join(categoryDivider, metadata.Categories));
+            str += AppendValue(metadata.DateModified.ToString());
+            str += AppendValue(metadata.Audience);
+            str += AppendValue(metadata.EditorVersion);
+            str += AppendValue(metadata.Rating.ToString());
+            str += AppendValue(metadata.IsPublic);
+            str += AppendValue(metadata.IsTemplate);
+
+            return str;
+        }
+
+        private const string caseInfoDivider = "|";
+        private const string categoryDivider = ";";
+        protected virtual string AppendValue(bool value) => caseInfoDivider + (value ? "1" : "0");
+        protected virtual string AppendValue(string value) => caseInfoDivider + value;
+    }
     public class EncounterMetadataParser : IParser<EncounterMetadata>
     {
         public EncounterMetadataParser() { }
@@ -56,8 +153,7 @@ namespace ClinicalTools.SimEncounters
             if (parsedItem == null || parsedItem.Length < encounterParts)
                 return null;
 
-            var metadata = new EncounterMetadata()
-            {
+            var metadata = new EncounterMetadata() {
                 RecordNumber = int.Parse(parsedItem[recordNumberIndex]),
                 Filename = GetFilename(parsedItem[filenameIndex]),
                 AuthorAccountId = int.Parse(parsedItem[authorAccountIdIndex]),
@@ -70,6 +166,8 @@ namespace ClinicalTools.SimEncounters
                 Audience = parsedItem[audienceIndex],
                 EditorVersion = parsedItem[editorVersionIndex]
             };
+            if (metadata.EditorVersion == "-")
+                metadata.EditorVersion = "0";
 
             if (float.TryParse(parsedItem[ratingIndex], out var rating))
                 metadata.Rating = rating;
@@ -85,8 +183,7 @@ namespace ClinicalTools.SimEncounters
         protected void AddCategories(List<string> categories, string categoriesString)
         {
             var categoriesToAdd = categoriesString.Split(new string[] { categoryDivider }, StringSplitOptions.None);
-            foreach (var category in categoriesToAdd)
-            {
+            foreach (var category in categoriesToAdd) {
                 if (category == "Buprenorphine")
                     categories.Add("Opioids");
                 else
@@ -102,7 +199,7 @@ namespace ClinicalTools.SimEncounters
                 return Difficulty.Beginner;
             else if (difficulty == "Advanced")
                 return Difficulty.Advanced;
-            return Difficulty.None;
+            return Difficulty.Beginner;
         }
     }
 }

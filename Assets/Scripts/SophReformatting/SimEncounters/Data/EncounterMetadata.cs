@@ -4,7 +4,7 @@ namespace ClinicalTools.SimEncounters.Data
 {
     public enum Difficulty
     {
-        None, Beginner, Intermediate, Advanced
+        Beginner, Intermediate, Advanced
     }
 
     public class EncounterMetadata
@@ -21,7 +21,7 @@ namespace ClinicalTools.SimEncounters.Data
         public List<string> Categories { get; } = new List<string>();
         public string Audience { get; set; }
         public Difficulty Difficulty { get; set; }
-        public string EditorVersion { get; set; }
+        public string EditorVersion { get; set; } = "0";
         public bool IsTemplate { get; set; }
         public bool IsPublic { get; set; }
 

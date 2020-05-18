@@ -4,10 +4,11 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ColorImageValueField : MonoBehaviour, IValueField
+    public class ColorImageValueField : BaseValueField
     {
-        public string Name => name;
-        public string Value { get; set; }
+        public override string Name => name;
+        public override string Value => value;
+        private string value = null;
 
         protected Image Image { get; set; }
         protected IParser<Color> ColorParser { get; set; }
@@ -15,11 +16,11 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void Awake() => Image = GetComponent<Image>();
 
-        public void Initialize() { }
+        public override void Initialize() { }
 
-        public void Initialize(string value)
+        public override void Initialize(string value)
         {
-            Value = value;
+            this.value = value;
             Image.color = ColorParser.Parse(value);
         }
     }

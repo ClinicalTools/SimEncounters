@@ -6,18 +6,22 @@ namespace ClinicalTools.SimEncounters.Writer
 {
     public class WriterPanelValueDisplay : IWriterPanelValueDisplay
     {
-        public virtual IField[] Display(Encounter encounter, Panel panel, Transform transform)
+        public virtual BaseField[] Display(Encounter encounter, Panel panel, Transform transform)
         {
-            var fields = transform.GetComponentsInChildren<IField>(true);
+            var fields = transform.GetComponentsInChildren<BaseField>(true);
+            var values = panel.Values;
             foreach (var field in fields) {
-                if (field is IValueField valueField ) {
-                    if (panel.Values.ContainsKey(field.Name))
-                        valueField.Initialize(panel.Values[field.Name]);
+                var hasValue = values.ContainsKey(field.Name);
+                string value = hasValue ? values[field.Name] : null;
+
+                if (field is BaseValueField valueField) {
+                    if (hasValue)
+                        valueField.Initialize(value);
                     else
                         valueField.Initialize();
-                } else if (field is IEncounterField encounterField) {
-                    if (panel.Values.ContainsKey(field.Name))
-                        encounterField.Initialize(encounter, panel.Values[field.Name]);
+                } else if (field is BaseEncounterField encounterField) {
+                    if (hasValue)
+                        encounterField.Initialize(encounter, value);
                     else
                         encounterField.Initialize(encounter);
                 }
@@ -26,7 +30,7 @@ namespace ClinicalTools.SimEncounters.Writer
             return fields;
         }
 
-        public virtual Dictionary<string, string> Serialize(IEnumerable<IField> fields)
+        public virtual Dictionary<string, string> Serialize(IEnumerable<BaseField> fields)
         {
             var values = new Dictionary<string, string>();
             foreach (var valueField in fields) {

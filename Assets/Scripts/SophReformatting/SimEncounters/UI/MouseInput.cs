@@ -96,7 +96,7 @@ namespace ClinicalTools.SimEncounters
 
         public bool RegisterDraggable(IDraggable draggable)
         {
-            if (!Input.GetMouseButtonDown(0))
+            if (!Input.GetMouseButton(0))
                 return false;
 
             DraggedObjects.Add(draggable);

@@ -10,7 +10,7 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private GameObject placeholder;
         public virtual RectTransform ChildrenParent => (RectTransform)transform;
 
-        public override event Action<List<IDraggable>> OrderChanged;
+        public override event RearrangedEventHandler Rearranged;
         protected List<IDraggable> DraggableObjects { get; } = new List<IDraggable>();
 
         public override T AddFromPrefab<T>(T draggablePrefab)
@@ -91,8 +91,10 @@ namespace ClinicalTools.SimEncounters
             if (draggable.LayoutElement2 != null)
                 ((MonoBehaviour)draggable.LayoutElement2).enabled = true;
             DraggableObjects.Insert(Index, draggable);
-            if (InitialIndex != Index)
-                OrderChanged?.Invoke(DraggableObjects);
+            if (InitialIndex != Index) {
+                var args = new RearrangedEventArgs2(InitialIndex, Index, draggable, DraggableObjects);
+                Rearranged?.Invoke(this, args);
+            }
 
             Placeholder.transform.SetAsLastSibling();
         }

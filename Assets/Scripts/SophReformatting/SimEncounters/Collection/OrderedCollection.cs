@@ -59,13 +59,14 @@ namespace ClinicalTools.SimEncounters.Collections
         public virtual KeyValuePair<string, T> Get(int val) => PairList[val];
 
         public virtual void MoveValue(int newIndex, int currentIndex)
-            => MoveValue(newIndex, ValueList[currentIndex]);
-        public virtual void MoveValue(int newIndex, T value)
         {
-            ValueList.Remove(value);
+            var value = ValueList[currentIndex];
+            var pair = PairList[currentIndex];
+            ValueList.RemoveAt(currentIndex);
+            PairList.RemoveAt(currentIndex);
             ValueList.Insert(newIndex, value);
+            PairList.Insert(newIndex, pair);
         }
-
         IEnumerator IEnumerable.GetEnumerator() => PairList.GetEnumerator();
         public override IEnumerator<KeyValuePair<string, T>> GetEnumerator() => PairList.GetEnumerator();
 

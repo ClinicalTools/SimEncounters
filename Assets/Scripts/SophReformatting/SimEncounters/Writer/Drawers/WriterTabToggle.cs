@@ -62,7 +62,11 @@ namespace ClinicalTools.SimEncounters.Writer
             SelectToggle.Unselected += OnUnselected;
             EditButton.onClick.AddListener(Edit);
 
-            DragHandle.StartDragging += () => MouseInput.Instance.RegisterDraggable(this);
+            DragHandle.StartDragging += StartDragging;
+        }
+        protected virtual void StartDragging()
+        {
+            MouseInput.Instance.RegisterDraggable(this);
         }
 
         protected Encounter CurrentEncounter { get; set; }

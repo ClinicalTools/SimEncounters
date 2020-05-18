@@ -25,7 +25,7 @@ namespace ClinicalTools.SimEncounters.Reader
 
         protected virtual void Awake()
         {
-            DraggableGroupUI.OrderChanged += OrderChanged;
+            DraggableGroupUI.Rearranged += OrderChanged;
         }
 
         protected List<UserPanel> CorrectPanelOrder { get; set; }
@@ -39,20 +39,20 @@ namespace ClinicalTools.SimEncounters.Reader
                 DraggableGroupUI.Add(readerPanel);
         }
 
-        private void OrderChanged(List<IDraggable> draggableObjects)
+        private void OrderChanged(object sender, RearrangedEventArgs2 rearrangedArgs)
         {
             if (CorrectPanelOrder == null)
                 return;
 
             var allCorrect = true;
             for (int i = 0; i < CorrectPanelOrder.Count; i++) {
-                var actualIndex = IndexOfPanel(CorrectPanelOrder[i], draggableObjects);
+                var actualIndex = IndexOfPanel(CorrectPanelOrder[i], rearrangedArgs.CurrentOrder);
                 var distanceFromCorrect = Math.Abs(actualIndex - i);
                 var optionType = GetOptionType(distanceFromCorrect);
                 if (optionType != OptionType.Correct)
                     allCorrect = false;
 
-                var orderableItem = draggableObjects[actualIndex] as BaseReaderOrderableItemPanel;
+                var orderableItem = rearrangedArgs.CurrentOrder[actualIndex] as BaseReaderOrderableItemPanel;
                 orderableItem.SetColor(FeedbackColorInfo.GetColor(optionType));
             }
 

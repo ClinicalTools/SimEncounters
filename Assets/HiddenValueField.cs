@@ -2,14 +2,13 @@
 
 namespace ClinicalTools.SimEncounters
 {
-    public class HiddenValueField : MonoBehaviour, IValueField
+    public class HiddenValueField : BaseValueField
     {
-        public string Name => name;
+        public override string Name => name;
+        public override string Value => value;
+        private string value = null;
 
-        public string Value { get; set; }
-
-        public void Initialize() { }
-
-        public void Initialize(string value) => Value = value;
+        public override void Initialize() { }
+        public override void Initialize(string value) => this.value = value;
     }
 }

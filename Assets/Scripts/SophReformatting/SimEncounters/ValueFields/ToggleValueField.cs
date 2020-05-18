@@ -3,10 +3,10 @@ using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ToggleValueField : MonoBehaviour, IValueField
+    public class ToggleValueField : BaseValueField
     {
-        public string Name => name;
-        public string Value => Toggle.isOn ? true.ToString() : null;
+        public override string Name => name;
+        public override string Value => Toggle.isOn ? true.ToString() : null;
 
         private Toggle toggle;
         protected Toggle Toggle {
@@ -17,8 +17,8 @@ namespace ClinicalTools.SimEncounters
             }
         }
 
-        public virtual void Initialize() { }
-        public virtual void Initialize(string value)
+        public override void Initialize() { }
+        public override void Initialize(string value)
         {
             if (bool.TryParse(value, out var boolVal))
                 Toggle.isOn = boolVal;

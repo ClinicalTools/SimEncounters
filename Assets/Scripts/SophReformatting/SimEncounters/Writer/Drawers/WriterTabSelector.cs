@@ -25,6 +25,7 @@ namespace ClinicalTools.SimEncounters.Writer
         protected virtual void Awake()
         {
             AddButton.onClick.AddListener(AddTab);
+            RearrangeableGroup.Rearranged += TabsRearranged;
         }
 
         private void AddTab()
@@ -72,6 +73,7 @@ namespace ClinicalTools.SimEncounters.Writer
             tabButton.SetToggleGroup(TabsToggleGroup);
             tabButton.Display(encounter, tab);
             tabButton.Selected += () => OnSelected(tab);
+            tabButton.Deleted += OnDeleted;
             TabButtons.Add(tab, tabButton);
         }
 
@@ -82,6 +84,13 @@ namespace ClinicalTools.SimEncounters.Writer
             CurrentTab = tab;
             TabSelected?.Invoke(this, selectedArgs);
         }
+        protected void OnDeleted(Tab tab)
+        {
+            var tabButton = TabButtons[tab];
+            rearrangeableGroup.Remove(tabButton);
+            TabButtons.Remove(tab);
+            CurrentSection.Tabs.Remove(tab);
+        }
 
         public override void SelectTab(Tab tab)
         {
@@ -90,5 +99,8 @@ namespace ClinicalTools.SimEncounters.Writer
 
             TabButtons[tab].Select();
         }
+
+        protected virtual void TabsRearranged(object sender, RearrangedEventArgs2 e) 
+            => CurrentSection.Tabs.MoveValue(e.NewIndex, e.OldIndex);
     }
 }

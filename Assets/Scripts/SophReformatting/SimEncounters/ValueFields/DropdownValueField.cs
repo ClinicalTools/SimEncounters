@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class DropdownValueField : MonoBehaviour, IValueField
+    public class DropdownValueField : BaseValueField
     {
-        public string Name => name;
-        public string Value => (Dropdown.value >= 0) ? Dropdown.options[Dropdown.value].text : null;
+        public override string Name => name;
+        public override string Value => (Dropdown.value >= 0) ? Dropdown.options[Dropdown.value].text : null;
         
         private TMP_Dropdown dropdown;
         protected TMP_Dropdown Dropdown {
@@ -17,9 +17,9 @@ namespace ClinicalTools.SimEncounters
             }
         }
 
-        public void Initialize() { }
+        public override void Initialize() { }
 
-        public void Initialize(string value)
+        public override void Initialize(string value)
         {
             for (int i = 0; i < Dropdown.options.Count; i++) {
                 if (Dropdown.options[i].text != value)

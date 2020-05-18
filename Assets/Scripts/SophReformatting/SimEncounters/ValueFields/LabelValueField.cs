@@ -1,12 +1,11 @@
 ﻿using TMPro;
-using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Writer
 {
-    public class LabelValueField : MonoBehaviour, IValueField
+    public class LabelValueField : BaseValueField
     {
-        public string Name => name;
-        public string Value => Label.text;
+        public override string Name => name;
+        public override string Value => Label.text;
 
         private TextMeshProUGUI label;
         protected TextMeshProUGUI Label {
@@ -17,10 +16,7 @@ namespace ClinicalTools.SimEncounters.Writer
             }
         }
 
-        public void Initialize() { }
-        public void Initialize(string value)
-        {
-            Label.text = value;
-        }
+        public override void Initialize() { }
+        public override void Initialize(string value) => Label.text = value;
     }
 }

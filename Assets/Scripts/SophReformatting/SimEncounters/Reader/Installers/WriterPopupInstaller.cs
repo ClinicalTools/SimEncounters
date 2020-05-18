@@ -1,9 +1,14 @@
-﻿using ClinicalTools.SimEncounters.Writer;
+﻿using ClinicalTools.SimEncounters.Data;
 using UnityEngine;
 using Zenject;
 
-namespace ClinicalTools.SimEncounters.Reader
+namespace ClinicalTools.SimEncounters.Writer
 {
+    public abstract class BaseSpriteSelector : MonoBehaviour
+    {
+        public abstract WaitableResult<string> SelectSprite(Encounter encounter, string spriteKey);
+    }
+
     public class WriterPopupInstaller : MonoInstaller
     {
         public WriterDialoguePopup DialoguePopup { get => dialoguePopup; set => dialoguePopup = value; }
@@ -16,6 +21,8 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private TabEditorPopup tabEditorPopup;
         public BaseConfirmationPopup ConfirmationPopup { get => confirmationPopup; set => confirmationPopup = value; }
         [SerializeField] private BaseConfirmationPopup confirmationPopup;
+        public BaseSpriteSelector SpriteSelector { get => spriteSelector; set => spriteSelector = value; }
+        [SerializeField] private BaseSpriteSelector spriteSelector;
         public override void InstallBindings()
         {
             Container.BindInstance(DialoguePopup);
@@ -23,7 +30,11 @@ namespace ClinicalTools.SimEncounters.Reader
             Container.BindInstance(ConfirmationPopup);
             Container.BindInstance(SectionEditorPopup);
             Container.BindInstance(TabEditorPopup);
+            Container.BindInstance(SpriteSelector);
             Container.Bind<IParser<Color>>().To<ColorParser>().AsTransient();
+            Container.Bind<IEncounterWriter>().To<EncounterWriter>().AsTransient();
+
+            Container.Bind<IStringSerializer<EncounterMetadata>>().To<EncounterMetadataSerializer>().AsTransient();
         }
     }
 }

@@ -35,7 +35,11 @@ namespace ClinicalTools.SimEncounters.Writer
         protected virtual void Awake()
         {
             DeleteButton.onClick.AddListener(ConfirmDelete);
-            DragHandle.StartDragging += () => MouseInput.Instance.RegisterDraggable(this);
+            DragHandle.StartDragging += StartDragging;
+        }
+        protected virtual void StartDragging()
+        {
+            MouseInput.Instance.RegisterDraggable(this);
         }
 
         protected Encounter CurrentEncounter { get; set; }
@@ -49,7 +53,7 @@ namespace ClinicalTools.SimEncounters.Writer
             if (PinsDrawer != null)
                 PinsDrawer.Display(encounter, new PinData());
         }
-        protected IField[] Fields { get; set; }
+        protected BaseField[] Fields { get; set; }
         public override void Display(Encounter encounter, Panel panel)
         {
             CurrentEncounter = encounter;
