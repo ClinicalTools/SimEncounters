@@ -13,7 +13,8 @@ public class TMPClickableLinksScript : MonoBehaviour, IPointerClickHandler {
 	// Use this for initialization
 	void Awake () {
 		tmp = gameObject.GetComponent<TextMeshProUGUI>();
-		if (tmp.isLinkedTextComponent) {
+		//if (tmp.isLinkedTextComponent) 
+		{
 			/*foreach(TextMeshProUGUI ugui in GetComponentInParent<ReaderEntryManagerScript>().GetComponentsInChildren<TextMeshProUGUI>()) {
 				if (!ugui.isLinkedTextComponent) {
 					parent = ugui;
