@@ -18,8 +18,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private Button guestButton;
         public Button GuestButton { get => guestButton; set => guestButton = value; }
 
-        [SerializeField] private MessageHandler messageHandler;
-        public MessageHandler MessageHandler { get => messageHandler; set => messageHandler = value; }
+        [SerializeField] private global::MessageHandler messageHandler;
+        public global::MessageHandler MessageHandler { get => messageHandler; set => messageHandler = value; }
 
         protected ILoadingScreen LoadingScreen { get; private set; }
         protected IPasswordLoginManager PasswordLoginHandler { get; private set; }

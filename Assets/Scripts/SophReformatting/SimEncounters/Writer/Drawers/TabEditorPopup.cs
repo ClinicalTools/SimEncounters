@@ -18,8 +18,14 @@ namespace ClinicalTools.SimEncounters.Writer
         public TMP_InputField NameField { get => nameField; set => nameField = value; }
         [SerializeField] private TMP_InputField nameField;
 
+        protected BaseMessageHandler MessageHandler { get; set; }
         protected BaseConfirmationPopup ConfirmationPopup { get; set; }
-        [Inject] public virtual void Inject(BaseConfirmationPopup confirmationPopup) => ConfirmationPopup = confirmationPopup;
+        [Inject]
+        public virtual void Inject(BaseConfirmationPopup confirmationPopup, BaseMessageHandler messageHandler)
+        {
+            ConfirmationPopup = confirmationPopup;
+            MessageHandler = messageHandler;
+        }
 
         protected virtual void Awake()
         {
@@ -44,6 +50,10 @@ namespace ClinicalTools.SimEncounters.Writer
         }
         protected virtual void Apply()
         {
+            if (string.IsNullOrEmpty(NameField.text)) {
+                MessageHandler.ShowMessage("Name cannot be empty.", MessageType.Error);
+                return;
+            }
             CurrentTab.Name = NameField.text;
 
             CurrentWaitableTab.SetResult(CurrentTab);

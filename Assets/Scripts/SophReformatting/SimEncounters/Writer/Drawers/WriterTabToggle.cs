@@ -40,11 +40,10 @@ namespace ClinicalTools.SimEncounters.Writer
         [SerializeField] private TextMeshProUGUI nameLabel;
         public Button EditButton { get => editButton; set => editButton = value; }
         [SerializeField] private Button editButton;
-        public Layout.LayoutElement LayoutElement3 { get => layoutElement; set => layoutElement = value; }
-        [SerializeField] private Layout.LayoutElement layoutElement;
-        public override Layout.ILayoutElement LayoutElement2 => LayoutElement3;
-        public override UnityEngine.UI.LayoutElement LayoutElement { get => layoutElementOther; }
-        [SerializeField] private UnityEngine.UI.LayoutElement layoutElementOther;
+        public override Layout.ILayoutElement LayoutElement2 => horizontalGroup;
+        [SerializeField] private HorizontalGroup horizontalGroup;
+        public override UnityEngine.UI.LayoutElement LayoutElement { get => layoutElement; }
+        [SerializeField] private UnityEngine.UI.LayoutElement layoutElement;
         public BaseDragHandle DragHandle { get => dragHandle; set => dragHandle = value; }
         [SerializeField] private BaseDragHandle dragHandle;
 
@@ -56,8 +55,6 @@ namespace ClinicalTools.SimEncounters.Writer
         public override event Action<Tab> Deleted;
         protected virtual void Awake()
         {
-            LayoutElement3.WidthValues.Min = 150;
-
             SelectToggle.Selected += OnSelected;
             SelectToggle.Unselected += OnUnselected;
             EditButton.onClick.AddListener(Edit);
@@ -89,12 +86,10 @@ namespace ClinicalTools.SimEncounters.Writer
         {
             Selected?.Invoke();
             EditButton.gameObject.SetActive(true);
-            LayoutElement3.WidthValues.Min = 210;
         }
         protected virtual void OnUnselected()
         {
             EditButton.gameObject.SetActive(false);
-            LayoutElement3.WidthValues.Min = 150;
         }
 
         protected virtual void Edit()

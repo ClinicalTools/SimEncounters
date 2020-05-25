@@ -23,14 +23,18 @@ namespace ClinicalTools.SimEncounters.Writer
         [SerializeField] private BaseConfirmationPopup confirmationPopup;
         public BaseSpriteSelector SpriteSelector { get => spriteSelector; set => spriteSelector = value; }
         [SerializeField] private BaseSpriteSelector spriteSelector;
+        public BaseMessageHandler MessageHandler { get => messageHandler; set => messageHandler = value; }
+        [SerializeField] private BaseMessageHandler messageHandler;
+        
         public override void InstallBindings()
         {
             Container.BindInstance(DialoguePopup);
             Container.BindInstance(QuizPopup);
-            Container.BindInstance(ConfirmationPopup);
             Container.BindInstance(SectionEditorPopup);
             Container.BindInstance(TabEditorPopup);
+            Container.BindInstance(ConfirmationPopup);
             Container.BindInstance(SpriteSelector);
+            Container.BindInstance(MessageHandler);
             Container.Bind<IParser<Color>>().To<ColorParser>().AsTransient();
             Container.Bind<IEncounterWriter>().To<EncounterWriter>().AsTransient();
 

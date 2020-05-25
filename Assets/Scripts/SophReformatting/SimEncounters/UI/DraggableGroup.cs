@@ -49,7 +49,7 @@ namespace ClinicalTools.SimEncounters
 
             draggable.LayoutElement.ignoreLayout = true;
             if (draggable.LayoutElement2 != null)
-                ((MonoBehaviour)draggable.LayoutElement2).enabled = false;
+                draggable.LayoutElement2.SetIgnoreLayout(true);
             draggable.LayoutElement.layoutPriority = 10000;
 
             Placeholder.SetActive(true);
@@ -89,7 +89,7 @@ namespace ClinicalTools.SimEncounters
             draggable.LayoutElement.ignoreLayout = false;
             draggable.LayoutElement.layoutPriority = 1;
             if (draggable.LayoutElement2 != null)
-                ((MonoBehaviour)draggable.LayoutElement2).enabled = true;
+                draggable.LayoutElement2.SetIgnoreLayout(false);
             DraggableObjects.Insert(Index, draggable);
             if (InitialIndex != Index) {
                 var args = new RearrangedEventArgs2(InitialIndex, Index, draggable, DraggableObjects);

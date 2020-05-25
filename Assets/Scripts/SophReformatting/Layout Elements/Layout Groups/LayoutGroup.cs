@@ -13,9 +13,17 @@ namespace ClinicalTools.Layout
 
         protected DrivenRectTransformTracker ChildController { get; }
 
-        protected override void OnRectTransformDimensionsChange()
+        private bool ignoreLayout;
+        public virtual void SetIgnoreLayout(bool ignoreLayout)
         {
-            base.OnRectTransformDimensionsChange();
+            if (this.ignoreLayout == ignoreLayout || parent == null)
+                return;
+
+            this.ignoreLayout = ignoreLayout;
+            if (ignoreLayout)
+                parent.RemoveChild(this);
+            else
+                parent.AddChild(this);
         }
 
         protected bool Dirty { get; set; } = true;
@@ -85,8 +93,8 @@ namespace ClinicalTools.Layout
         public void RemoveChild(ILayoutElement layoutElement)
         {
             ChildElements.Remove(layoutElement);
-            ValueChanged?.Invoke();
             SortElements();
+            ValueChanged?.Invoke();
         }
 
         protected override void Awake()

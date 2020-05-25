@@ -3,14 +3,24 @@ using UnityEngine;
 
 namespace ClinicalTools.Layout
 {
-    [ExecuteAlways]
-    public class LayoutElement : UIElement, ILayoutElement
+    public abstract class BaseLayoutElement : UIElement, ILayoutElement
     {
-        public event Action ValueChanged;
-        public virtual IDimensionLayout Width => WidthValues;
-        public virtual IDimensionLayout Height => HeightValues;
-        [field: SerializeField] public DimensionLayout WidthValues { get; set; } = new DimensionLayout();
-        [field: SerializeField] public DimensionLayout HeightValues { get; set; } = new DimensionLayout();
+        public virtual event Action ValueChanged;
+        public abstract IDimensionLayout Width { get; }
+        public abstract IDimensionLayout Height { get; }
+
+        private bool ignoreLayout;
+        public virtual void SetIgnoreLayout(bool ignoreLayout)
+        {
+            if (this.ignoreLayout == ignoreLayout || parent == null)
+                return;
+
+            this.ignoreLayout = ignoreLayout;
+            if (ignoreLayout)
+                parent.RemoveChild(this);
+            else
+                parent.AddChild(this);
+        }
 
         private LayoutGroup parent;
 
@@ -29,12 +39,12 @@ namespace ClinicalTools.Layout
             var newSiblingIndex = transform.GetSiblingIndex();
             if (newSiblingIndex != siblingIndex) {
                 siblingIndex = newSiblingIndex;
-                ValueChanged?.Invoke();
+                InvokeValueChanged();
             }
         }
 
         private int siblingIndex = -1;
-        public void Initialize()
+        protected virtual void Initialize()
         {
             var parentTransform = transform.parent;
             if (parentTransform != null)
@@ -43,8 +53,6 @@ namespace ClinicalTools.Layout
                 parent.AddChild(this);
 
             siblingIndex = transform.GetSiblingIndex();
-            WidthValues.ValueChanged += () => ValueChanged?.Invoke();
-            HeightValues.ValueChanged += () => ValueChanged?.Invoke();
 
             initialized = true;
         }
@@ -79,5 +87,24 @@ namespace ClinicalTools.Layout
         }
 
         public void UpdateSize(float width, float height) { }
+
+        protected virtual void InvokeValueChanged() => ValueChanged?.Invoke();
+    }
+
+    [ExecuteAlways]
+    public class LayoutElement : BaseLayoutElement
+    {
+        public override IDimensionLayout Width => WidthValues;
+        public override IDimensionLayout Height => HeightValues;
+        [field: SerializeField] public DimensionLayout WidthValues { get; set; } = new DimensionLayout();
+        [field: SerializeField] public DimensionLayout HeightValues { get; set; } = new DimensionLayout();
+
+        protected override void Initialize()
+        {
+            base.Initialize();
+
+            WidthValues.ValueChanged += () => InvokeValueChanged();
+            HeightValues.ValueChanged += () => InvokeValueChanged();
+        }
     }
 }

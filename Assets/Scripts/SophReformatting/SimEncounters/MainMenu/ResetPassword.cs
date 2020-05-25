@@ -7,9 +7,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
     public class ResetPassword
     {
         protected IUrlBuilder WebAddress { get; }
-        protected MessageHandler MessageHandler { get; }
+        protected global::MessageHandler MessageHandler { get; }
         protected IServerReader ServerReader { get; }
-        public ResetPassword(IUrlBuilder webAddress, MessageHandler messageHandler, IServerReader serverReader)
+        public ResetPassword(IUrlBuilder webAddress, global::MessageHandler messageHandler, IServerReader serverReader)
         {
             WebAddress = webAddress;
             MessageHandler = messageHandler;

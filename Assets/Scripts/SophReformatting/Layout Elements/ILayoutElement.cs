@@ -12,5 +12,6 @@ namespace ClinicalTools.Layout
         IDimensionLayout Width { get; }
 
         void UpdateSize(float width, float height);
+        void SetIgnoreLayout(bool ignoreLayout);
     }
 }

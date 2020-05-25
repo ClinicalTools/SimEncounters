@@ -45,8 +45,8 @@ namespace ClinicalTools.SimEncounters.Writer
         public override LayoutElement LayoutElement { get => layoutElement; }
         [SerializeField] private LayoutElement layoutElement;
         public override Layout.ILayoutElement LayoutElement2 => LayoutElement3;
-        public Layout.LayoutElement LayoutElement3 { get => layoutElement3; set => layoutElement3 = value; }
-        [SerializeField] private Layout.LayoutElement layoutElement3;
+        public Layout.HorizontalGroup LayoutElement3 { get => layoutElement3; set => layoutElement3 = value; }
+        [SerializeField] private Layout.HorizontalGroup layoutElement3;
         public BaseDragHandle DragHandle { get => dragHandle; set => dragHandle = value; }
         [SerializeField] private BaseDragHandle dragHandle;
 
@@ -58,9 +58,7 @@ namespace ClinicalTools.SimEncounters.Writer
         public override event Action<Section> Edited;
 
         protected virtual void Awake()
-        {
-            LayoutElement3.WidthValues.Min = 160;
-         
+        {         
             SelectToggle.Selected += OnSelected;
             SelectToggle.Unselected += OnUnselected;
             EditButton.onClick.AddListener(Edit);
@@ -91,12 +89,18 @@ namespace ClinicalTools.SimEncounters.Writer
         {
             Selected?.Invoke();
             EditButton.gameObject.SetActive(true);
-            LayoutElement3.WidthValues.Min = 220;
+            LayoutElement3.GroupWidth.ControlChild = false;
+            LayoutElement3.GroupWidth.ExpandChild = false;
+            LayoutElement3.GroupWidth.FitChild = true;
+            LayoutElement3.GroupWidth.DimensionLayout.Preferred = null;
         }
         protected virtual void OnUnselected()
         {
             EditButton.gameObject.SetActive(false);
-            LayoutElement3.WidthValues.Min = 160;
+            LayoutElement3.GroupWidth.ControlChild = true;
+            LayoutElement3.GroupWidth.ExpandChild = true;
+            LayoutElement3.GroupWidth.FitChild = false;
+            LayoutElement3.GroupWidth.DimensionLayout.Preferred = 150;
         }
 
         protected virtual void Edit()

@@ -7,9 +7,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
     public class ResendEmail
     {
         protected IUrlBuilder WebAddress { get; }
-        protected MessageHandler MessageHandler { get; }
+        protected global::MessageHandler MessageHandler { get; }
         protected IServerReader ServerReader { get; }
-        public ResendEmail(IUrlBuilder webAddress, MessageHandler messageHandler, IServerReader serverReader)
+        public ResendEmail(IUrlBuilder webAddress, global::MessageHandler messageHandler, IServerReader serverReader)
         {
             WebAddress = webAddress;
             MessageHandler = messageHandler;
@@ -49,11 +49,11 @@ namespace ClinicalTools.SimEncounters.MainMenu
         private const string errorSuffix = "--Could not send email";
         private void ProcessResults(ServerResult serverResult)
         {
-            if (serverResult.Outcome != ServerOutcome.Success) { 
+            if (serverResult.Outcome != ServerOutcome.Success) {
                 MessageHandler.ShowMessage(serverResult.Message, true);
                 return;
             } 
-            if (!serverResult.Message.EndsWith(errorSuffix)) { 
+            if (!serverResult.Message.EndsWith(errorSuffix)) {
                 MessageHandler.ShowMessage(serverResult.Message, false);
                 return;
             }

@@ -1,5 +1,7 @@
-﻿using TMPro;
+﻿using ClinicalTools.SimEncounters;
+using TMPro;
 using UnityEngine;
+using Zenject;
 
 public class MessageHandler : MonoBehaviour
 {
@@ -39,7 +41,6 @@ public class MessageHandler : MonoBehaviour
         messageText.text = message;
         Invoke("Fade", 5f);
         NextFrame.Function(delegate { fade = true; });
-
     }
 
     /**

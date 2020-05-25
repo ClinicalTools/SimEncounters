@@ -1,15 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using ClinicalTools.SimEncounters.Extensions;
+using UnityEngine.EventSystems;
 
 namespace ClinicalTools.SimEncounters
 {
     public class DropdownTextfield : MonoBehaviour
     {
-        protected static OptionRetriever OptionRetriever { get; } = new OptionRetriever();
+        public BaseOptionsRetriever OptionRetriever { get => optionRetriever; set => optionRetriever = value; }
+        [SerializeField] private BaseOptionsRetriever optionRetriever;
 
         public DropdownOption OptionPrefab { get => optionPrefab; set => optionPrefab = value; }
         [SerializeField] private DropdownOption optionPrefab;
@@ -21,6 +23,8 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private TMP_InputField inputField;
         public GameObject Dropdown { get => dropdown; set => dropdown = value; }
         [SerializeField] private GameObject dropdown;
+        public GameObject SuggestionsBorders { get => suggestionsBorders; set => suggestionsBorders = value; }
+        [SerializeField] private GameObject suggestionsBorders;
         public List<Button> CloseButtons { get => closeButtons; set => closeButtons = value; }
         [SerializeField] private List<Button> closeButtons;
 
@@ -28,13 +32,14 @@ namespace ClinicalTools.SimEncounters
         protected virtual int HighlightedOptionIndex { get; set; } = -1;
         protected virtual List<DropdownOption> DisplayedOptions { get; set; } = new List<DropdownOption>();
 
-        protected virtual void Awake()
+        // Start is used rather than Awake, so that automatically populating fields doesn't trigger listeners
+        protected virtual void Start()
         {
+            InputField.onValueChanged.AddListener(TextChanged);
             foreach (var closeButton in CloseButtons)
                 closeButton.onClick.AddListener(Close);
 
             ShowOptionsButton.onClick.AddListener(ButtonPressed);
-            InputField.onValueChanged.AddListener(TextChanged);
 
             var options = OptionRetriever.GetOptions();
             foreach (var option in options)
@@ -43,22 +48,15 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void Update()
         {
-            if (!Dropdown.gameObject.activeSelf)
+            if (!Dropdown.gameObject.activeSelf || DisplayedOptions.Count == 0)
                 return;
 
-            if (DisplayedOptions.Count == 0)
-                return;
-            if (Input.GetKeyDown(KeyCode.DownArrow) && HighlightedOptionIndex < DisplayedOptions.Count - 1) {
-                DisplayedOptions[HighlightedOptionIndex].RemoveHighlight();
-                HighlightedOptionIndex++; 
-                Highlight();
-            } else if (Input.GetKeyDown(KeyCode.UpArrow) && HighlightedOptionIndex > 0) {
-                DisplayedOptions[HighlightedOptionIndex].RemoveHighlight();
-                HighlightedOptionIndex--;
-                Highlight();
-            } else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Tab)) {
+            if (Input.GetKeyDown(KeyCode.DownArrow) && HighlightedOptionIndex < DisplayedOptions.Count - 1)
+                ShiftHighlightedOption(+1);
+            else if (Input.GetKeyDown(KeyCode.UpArrow) && HighlightedOptionIndex > 0)
+                ShiftHighlightedOption(-1);
+            else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Tab))
                 OptionSelected(DisplayedOptions[HighlightedOptionIndex].Value);
-            }
         }
 
         public virtual void AddOption(string option)
@@ -71,41 +69,31 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void TextChanged(string text)
         {
-            var showOptions = false;
-
-            if (DisplayedOptions.Count > 0)
-                DisplayedOptions[HighlightedOptionIndex].RemoveHighlight();
-            DisplayedOptions = new List<DropdownOption>();
-            HighlightedOptionIndex = 0;
+            var displayedOptions = new List<DropdownOption>();
+            var invariantText = text.ToUpperInvariant();
             foreach (var option in Options) {
-                var optionActive = option.Value.ToUpperInvariant().Contains(text.ToUpperInvariant());
+                var invariantOptionValue = option.Value.ToUpperInvariant();
+                var optionActive = invariantText != invariantOptionValue && invariantOptionValue.Contains(invariantText);
                 if (optionActive)
-                    showOptions = true;
+                    displayedOptions.Add(option);
                 option.SetActive(optionActive);
-                DisplayedOptions.Add(option);
             }
-            Dropdown.SetActive(showOptions);
-            if (showOptions)
-                DisplayedOptions[HighlightedOptionIndex].Highlight();
+
+            SetDisplayedOptions(displayedOptions);
         }
 
         protected virtual void ButtonPressed()
         {
-            if (Options.Count == 0)
+            if (Dropdown.activeSelf) {
+                Dropdown.SetActive(false);
                 return;
+            }
 
-            var showDropdown = !Dropdown.activeSelf;
-            Dropdown.SetActive(showDropdown);
-            if (!showDropdown)
-                return;
+            EventSystem.current.SetSelectedGameObject(null);
 
-            if (DisplayedOptions.Count > 0)
-                DisplayedOptions[HighlightedOptionIndex].RemoveHighlight();
-            DisplayedOptions = Options;
-            HighlightedOptionIndex = 0;
+            SetDisplayedOptions(Options);
             foreach (var option in Options)
-                option.SetActive(true); 
-            Highlight();
+                option.SetActive(true);
         }
 
         protected virtual void OptionSelected(string value)
@@ -115,87 +103,38 @@ namespace ClinicalTools.SimEncounters
         }
         protected virtual void Close() => Dropdown.SetActive(false);
 
-        protected virtual void Highlight()
+        protected virtual void ShiftHighlightedOption(int shiftAmount)
         {
-            if (DisplayedOptions.Count <= HighlightedOptionIndex)
+            DisplayedOptions[HighlightedOptionIndex].RemoveHighlight();
+            SetHighlightedOption(HighlightedOptionIndex + shiftAmount);
+        }
+
+        protected virtual void SetDisplayedOptions(List<DropdownOption> displayedOptions)
+        {
+            Dropdown.SetActive(displayedOptions.Count > 0);
+            if (DisplayedOptions.Count > 0)
+                DisplayedOptions[HighlightedOptionIndex].RemoveHighlight();
+            DisplayedOptions = displayedOptions;
+            if (DisplayedOptions.Count == 0)
                 return;
+
+            SetHighlightedOption(0);
+            // canvas must be updated to get the correct heights for determining whether to show the suggestion borders
+            Canvas.ForceUpdateCanvases();
+            SuggestionsBorders.SetActive(OptionsScrollRect.content.rect.height > OptionsScrollRect.viewport.rect.height);
+        }
+
+        protected virtual void SetHighlightedOption(int index)
+        {
+            HighlightedOptionIndex = index;
             var highlightedOption = DisplayedOptions[HighlightedOptionIndex];
             highlightedOption.Highlight();
-            var optionCorners = new Vector3[4];
-            ((RectTransform)highlightedOption.transform).GetWorldCorners(optionCorners);
-            var viewportCorners = new Vector3[4];
-            OptionsScrollRect.viewport.GetWorldCorners(viewportCorners);
-            
-            // check if bottom left corner is below the viewport
-            if (optionCorners[0].y < viewportCorners[0].y) {
-                var contentCorners = new Vector3[4];
-                OptionsScrollRect.content.GetWorldCorners(contentCorners);
-                var height = contentCorners[1].y - contentCorners[0].y;
-                var y = 0;
-
-                OptionsScrollRect.verticalNormalizedPosition = 0;
-                
-                Debug.LogWarning("below");
-
-            // check if top left corner is above the viewport
-            } else if (optionCorners[1].y > viewportCorners[1].y) {
-                var contentCorners = new Vector3[4];
-                OptionsScrollRect.content.GetWorldCorners(contentCorners);
-                var height = contentCorners[1].y - contentCorners[0].y;
-                OptionsScrollRect.verticalNormalizedPosition = 1 - 
-                    (contentCorners[1].y - optionCorners[1].y) / OptionsScrollRect.content.rect.height;
-
-
-                Debug.LogWarning("above");
-            }
+            OptionsScrollRect.EnsureChildIsShowing((RectTransform)highlightedOption.transform);
         }
     }
 
-    public class OptionRetriever
+    public abstract class BaseOptionsRetriever : MonoBehaviour
     {
-        IEnumerable<string> options;
-
-        public virtual IEnumerable<string> GetOptions()
-        {
-            if (options == null)
-                options = InitializeOptions();
-
-            return options;
-        }
-
-        protected virtual string[] Filenames { get; } = new string[] {
-            "Complete Blood Count.csv",
-            "Comprehensive Metabolic Panel.csv",
-            "Lipid Panel.csv"
-        };
-
-        protected virtual IEnumerable<string> InitializeOptions()
-        {
-            var options = new List<string>();
-            foreach (var filename in Filenames)
-                options.AddRange(GetOptions(GetFilepath(filename)));
-            options.Sort();
-            return options;
-        }
-
-        protected string Folder { get; } = "Medical Panels";
-        protected virtual string GetFilepath(string filename)
-            => Path.Combine(Application.streamingAssetsPath, Folder, filename);
-
-        protected virtual IEnumerable<string> GetOptions(string filePath)
-        {
-            var options = new List<string>();
-            var reader = new StreamReader(filePath);
-            while (!reader.EndOfStream) {
-                var line = reader.ReadLine();
-                if (line == null || line.Length == 0)
-                    continue;
-
-                var parts = line.Split(',');
-                options.Add(parts[0]);
-            }
-
-            return options;
-        }
+        public abstract IEnumerable<string> GetOptions();
     }
 }

@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters.Writer
 {
@@ -20,6 +21,9 @@ namespace ClinicalTools.SimEncounters.Writer
         [SerializeField] private IconSelectorUI iconSelector;
 
         protected virtual Color DefaultColor { get; } = new Color(.9216f, .3012f, .3608f);
+
+        protected BaseMessageHandler MessageHandler { get; set; }
+        [Inject] public virtual void Inject(BaseMessageHandler messageHandler) => MessageHandler = messageHandler;
 
         protected virtual void Awake()
         {
@@ -42,6 +46,10 @@ namespace ClinicalTools.SimEncounters.Writer
         protected virtual void AddSection()
         {
             var name = NameField.text;
+            if (string.IsNullOrEmpty(name)) {
+                MessageHandler.ShowMessage("Name cannot be empty.", MessageType.Error);
+                return;
+            }
             var icon = IconSelector.Value;
             var color = Color.GetValue();
 

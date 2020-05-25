@@ -25,8 +25,13 @@ namespace ClinicalTools.SimEncounters.Writer
         public IconSelectorUI IconSelector { get => iconSelector; set => iconSelector = value; }
         [SerializeField] private IconSelectorUI iconSelector;
 
+        protected BaseMessageHandler MessageHandler { get; set; }
         protected BaseConfirmationPopup ConfirmationPopup { get; set; }
-        [Inject] public virtual void Inject(BaseConfirmationPopup confirmationPopup) => ConfirmationPopup = confirmationPopup;
+        [Inject] public virtual void Inject(BaseConfirmationPopup confirmationPopup, BaseMessageHandler messageHandler)
+        {
+            ConfirmationPopup = confirmationPopup; 
+            MessageHandler = messageHandler;
+        }
 
         protected virtual void Awake()
         {
@@ -56,6 +61,11 @@ namespace ClinicalTools.SimEncounters.Writer
 
         protected virtual void Apply()
         {
+            if (string.IsNullOrEmpty(NameField.text)) {
+                MessageHandler.ShowMessage("Name cannot be empty.", MessageType.Error);
+                return;
+            }
+
             CurrentSection.Name = NameField.text;
             CurrentSection.Color = Color.GetValue();
             CurrentSection.IconKey = IconSelector.Value;

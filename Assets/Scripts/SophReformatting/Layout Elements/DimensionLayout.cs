@@ -9,12 +9,11 @@ namespace ClinicalTools.Layout
         public event Action ValueChanged;
 
         [SerializeField] private NullableFloat min;
-        public float? Min {
+        public float? Min
+        {
             get { return min.Value; }
             set {
                 if (value > Max)
-                    min.Value = (float)Max;
-              if (value > Max)
                     min.Value = (float)Max;
                 else if (value < 0)
                     min.Value = 0;
@@ -25,7 +24,8 @@ namespace ClinicalTools.Layout
         }
 
         [SerializeField] private NullableFloat preferred;
-        public float? Preferred {
+        public float? Preferred
+        {
             get { return preferred.Value; }
             set {
                 if (value > Max)
@@ -34,14 +34,15 @@ namespace ClinicalTools.Layout
                     preferred.Value = (float)Min;
                 else if (value < 0)
                     preferred.Value = 0;
-                else 
+                else
                     preferred.Value = value;
                 ValueChanged?.Invoke();
             }
         }
 
         [SerializeField] private NullableFloat max;
-        public float? Max {
+        public float? Max
+        {
             get { return max.Value; }
             set {
                 if (value < Min)

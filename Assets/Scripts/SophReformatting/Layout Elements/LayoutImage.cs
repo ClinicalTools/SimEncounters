@@ -17,6 +17,19 @@ namespace ClinicalTools.Layout
 
         private LayoutGroup parent;
 
+        private bool ignoreLayout;
+        public virtual void SetIgnoreLayout(bool ignoreLayout)
+        {
+            if (this.ignoreLayout == ignoreLayout || parent == null)
+                return;
+
+            this.ignoreLayout = ignoreLayout;
+            if (ignoreLayout)
+                parent.RemoveChild(this);
+            else
+                parent.AddChild(this);
+        }
+
         protected override void Awake()
         {
             Initialize();

@@ -7,9 +7,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
     public class RegisterUser
     {
         protected IUrlBuilder WebAddress { get; }
-        protected MessageHandler MessageHandler { get; }
+        protected global::MessageHandler MessageHandler { get; }
         protected IServerReader ServerReader { get; }
-        public RegisterUser(IUrlBuilder webAddress, MessageHandler messageHandler, IServerReader serverReader)
+        public RegisterUser(IUrlBuilder webAddress, global::MessageHandler messageHandler, IServerReader serverReader)
         {
             WebAddress = webAddress;
             MessageHandler = messageHandler;

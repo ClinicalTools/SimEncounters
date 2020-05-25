@@ -26,7 +26,7 @@ namespace ClinicalTools.SimEncounters.Writer
             ShowButton.onClick.AddListener(Show);
             AddButton.onClick.AddListener(Add);
             foreach (var hideButton in HideButtons)
-                hideButton.onClick.AddListener(() => gameObject.SetActive(false));
+                hideButton.onClick.AddListener(() => popup.SetActive(false));
         }
 
         protected List<BaseWriterAddablePanel> Options { get; set; }
@@ -45,13 +45,13 @@ namespace ClinicalTools.SimEncounters.Writer
             else if (Options.Count == 1)
                 AddPanel?.Invoke(Options[0]);
             else
-                Popup.gameObject.SetActive(true);
+                Popup.SetActive(true);
         }
 
         protected virtual void Add()
         {
             AddPanel?.Invoke(Options[OptionsDropdown.value]);
-            Popup.gameObject.SetActive(false);
+            Popup.SetActive(false);
         }
     }
 }
