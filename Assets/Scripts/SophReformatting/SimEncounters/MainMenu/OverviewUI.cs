@@ -9,24 +9,18 @@ namespace ClinicalTools.SimEncounters.MainMenu
     public class OverviewUI : MonoBehaviour
     {
         public GameObject GameObject => gameObject;
-
-        [SerializeField] private EncounterInfoUI infoViewer;
         public virtual EncounterInfoUI InfoViewer { get => infoViewer; set => infoViewer = value; }
-
-        [SerializeField] private EncounterButtonsUI encounterButtons;
+        [SerializeField] private EncounterInfoUI infoViewer;
         public virtual EncounterButtonsUI EncounterButtons { get => encounterButtons; set => encounterButtons = value; }
-
-        [SerializeField] private EncounterButtonsUI templateButtons;
+        [SerializeField] private EncounterButtonsUI encounterButtons;
         public virtual EncounterButtonsUI TemplateButtons { get => templateButtons; set => templateButtons = value; }
-
-        [SerializeField] private Button downloadButton;
+        [SerializeField] private EncounterButtonsUI templateButtons;
         public virtual Button DownloadButton { get => downloadButton; set => downloadButton = value; }
-
-        [SerializeField] private Button deleteButton;
+        [SerializeField] private Button downloadButton;
         public virtual Button DeleteButton { get => deleteButton; set => deleteButton = value; }
-
-        [SerializeField] private List<Button> hideOverviewButtons;
+        [SerializeField] private Button deleteButton;
         public virtual List<Button> HideOverviewButtons { get => hideOverviewButtons; set => hideOverviewButtons = value; }
+        [SerializeField] private List<Button> hideOverviewButtons;
 
         protected IReaderSceneStarter ReaderSceneStarter { get; set; }
         protected IUserEncounterReaderSelector EncounterReaderSelector { get; set; }
@@ -62,7 +56,6 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public virtual void SetReadTextButton(EncounterBasicStatus basicStatus)
         {
             string text;
-
             if (basicStatus == null)
                 text = "Start Case";
             else if (basicStatus.Completed)

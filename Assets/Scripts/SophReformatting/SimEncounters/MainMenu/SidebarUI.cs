@@ -6,21 +6,16 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class SidebarUI : MonoBehaviour
     {
-        [SerializeField] private Button toggleOpenButton;
         public virtual Button ToggleOpenButton { get => toggleOpenButton; set => toggleOpenButton = value; }
-
-        [SerializeField] private Button hideButton;
+        [SerializeField] private Button toggleOpenButton;
         public virtual Button HideButton { get => hideButton; set => hideButton = value; }
-
-        [SerializeField] private SearchStuffUI searchStuff;
+        [SerializeField] private Button hideButton;
         public virtual SearchStuffUI SearchStuff { get => searchStuff; set => searchStuff = value; }
-
-
-        [SerializeField] private Button showOptionsButton;
+        [SerializeField] private SearchStuffUI searchStuff;
         public Button ShowOptionsButton { get => showOptionsButton; set => showOptionsButton = value; }
-
-        [SerializeField] private Button quitButton;
+        [SerializeField] private Button showOptionsButton;
         public Button QuitButton { get => quitButton; set => quitButton = value; }
+        [SerializeField] private Button quitButton;
 
         public void Show()
         {

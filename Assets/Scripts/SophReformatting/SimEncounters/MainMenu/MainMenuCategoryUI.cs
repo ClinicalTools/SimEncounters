@@ -9,21 +9,18 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class MainMenuCategoryUI : MonoBehaviour
     {
-        [SerializeField] private SidebarUI sidebar;
         public SidebarUI Sidebar { get => sidebar; set => sidebar = value; }
-
-        [SerializeField] private OverviewUI overview;
+        [SerializeField] private SidebarUI sidebar;
         public OverviewUI Overview { get => overview; set => overview = value; }
+        [SerializeField] private OverviewUI overview;
+        public List<MainMenuEncountersViewUI> EncounterViews { get => encounterViews; set => encounterViews = value; }
+        [SerializeField] private List<MainMenuEncountersViewUI> encounterViews;
+        public ToggleViewButtonUI ToggleViewButton { get => toggleViewButton; set => toggleViewButton = value; }
+        [SerializeField] private ToggleViewButtonUI toggleViewButton;
+        public ScrollRect ScrollRect { get => scrollRect; set => scrollRect = value; }
+        [SerializeField] private ScrollRect scrollRect;
 
         int currentViewIndex = 0;
-        [SerializeField] private List<MainMenuEncountersViewUI> encounterViews;
-        public List<MainMenuEncountersViewUI> EncounterViews { get => encounterViews; set => encounterViews = value; }
-
-        [SerializeField] private ToggleViewButtonUI toggleViewButton;
-        public ToggleViewButtonUI ToggleViewButton { get => toggleViewButton; set => toggleViewButton = value; }
-
-        [SerializeField] private ScrollRect scrollRect;
-        public ScrollRect ScrollRect { get => scrollRect; set => scrollRect = value; }
 
         protected void Awake()
         {

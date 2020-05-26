@@ -5,23 +5,19 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class MainMenuEncountersUI : MonoBehaviour
     {
-        [SerializeField] private MainMenuCategoryGroupUI categoryGroup;
         public MainMenuCategoryGroupUI CategoryGroup { get => categoryGroup; set => categoryGroup = value; }
-
-        [SerializeField] private MainMenuCategoryUI category;
+        [SerializeField] private MainMenuCategoryGroupUI categoryGroup;
         public MainMenuCategoryUI Category { get => category; set => category = value; }
-                
+        [SerializeField] private MainMenuCategoryUI category;
+        public GameObject DownloadingCases { get => downloadingCases; set => downloadingCases = value; }
         [SerializeField] private GameObject downloadingCases;
-        public GameObject DownloadingCasesObject { get => downloadingCases; set => downloadingCases = value; }
-
-        [SerializeField] private ChangeSidePanelScript categoriesToggle;
         public ChangeSidePanelScript CategoriesToggle { get => categoriesToggle; set => categoriesToggle = value; }
-        [SerializeField] private ChangeSidePanelScript categoryToggle;
+        [SerializeField] private ChangeSidePanelScript categoriesToggle;
         public ChangeSidePanelScript CategoryToggle { get => categoryToggle; set => categoryToggle = value; }
-
-        [SerializeField] private ScrollRect scrollRect;
+        [SerializeField] private ChangeSidePanelScript categoryToggle;
         public ScrollRect ScrollRect { get => scrollRect; set => scrollRect = value; }
-        
+        [SerializeField] private ScrollRect scrollRect;
+
         public MenuSceneInfo SceneInfo { get; set; }
 
         public void Initialize()
@@ -29,7 +25,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             CategoryGroup.Clear();
             DisplayCategories();
             CategoriesToggle.Select();
-            DownloadingCasesObject.SetActive(true);
+            DownloadingCases.SetActive(true);
             Category.Initialize(); 
         }
 
@@ -42,13 +38,13 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected virtual void ShowCasesLoading()
         {
-            DownloadingCasesObject.SetActive(true);
+            DownloadingCases.SetActive(true);
         }
 
         protected virtual void ShowCategories(MenuSceneInfo sceneInfo)
         {
             sceneInfo.LoadingScreen.Stop();
-            DownloadingCasesObject.SetActive(false);
+            DownloadingCases.SetActive(false);
             CategoriesToggle.Selected += DisplayCategories;
 
             SceneInfo = sceneInfo;

@@ -10,20 +10,16 @@ namespace ClinicalTools.SimEncounters.MainMenu
     {
         public event Action<MenuEncounter> Selected;
 
-        [SerializeField] private Button selectButton;
         public virtual Button SelectButton { get => selectButton; set => selectButton = value; }
-
-        [SerializeField] private EncounterButtonsUI encounterButtons;
+        [SerializeField] private Button selectButton;
         public virtual EncounterButtonsUI EncounterButtons { get => encounterButtons; set => encounterButtons = value; }
-
-        [SerializeField] private EncounterInfoUI infoViewer;
+        [SerializeField] private EncounterButtonsUI encounterButtons;
         public virtual EncounterInfoUI InfoViewer { get => infoViewer; set => infoViewer = value; }
-
-        [SerializeField] private GameObject inProgressObject;
+        [SerializeField] private EncounterInfoUI infoViewer;
         public virtual GameObject InProgressObject { get => inProgressObject; set => inProgressObject = value; }
-
-        [SerializeField] private GameObject completedObject;
+        [SerializeField] private GameObject inProgressObject;
         public virtual GameObject CompletedObject { get => completedObject; set => completedObject = value; }
+        [SerializeField] private GameObject completedObject;
 
 
         public void Display(MenuSceneInfo sceneInfo, MenuEncounter encounter)

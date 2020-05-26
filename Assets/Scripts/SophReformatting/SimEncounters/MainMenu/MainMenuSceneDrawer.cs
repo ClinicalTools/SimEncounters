@@ -5,22 +5,20 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class MainMenuSceneDrawer : BaseMenuSceneDrawer
     {
-        [SerializeField] private Button logoutButton;
         public Button LogoutButton { get => logoutButton; set => logoutButton = value; }
-
-        [SerializeField] private LoginHandler login;
+        [SerializeField] private Button logoutButton;
         public LoginHandler Login { get => login; set => login = value; }
-
-        [SerializeField] private MainMenuEncountersUI encounters;
+        [SerializeField] private LoginHandler login;
         public MainMenuEncountersUI Encounters { get => encounters; set => encounters = value; }
-
-        [SerializeField] private UserDropdownUI userDropdown;
+        [SerializeField] private MainMenuEncountersUI encounters;
         public UserDropdownUI UserDropdown { get => userDropdown; set => userDropdown = value; }
+        [SerializeField] private UserDropdownUI userDropdown;
 
         protected virtual void Awake()
         {
             Screen.fullScreen = false;
-            LogoutButton.onClick.AddListener(Logout);
+            if (LogoutButton != null)
+                LogoutButton.onClick.AddListener(Logout);
         }
 
         public LoadingMenuSceneInfo SceneInfo { get; set; }

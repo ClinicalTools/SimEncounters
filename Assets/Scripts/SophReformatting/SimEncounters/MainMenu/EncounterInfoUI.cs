@@ -8,44 +8,34 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class EncounterInfoUI : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI titleLabel;
         public virtual TextMeshProUGUI TitleLabel { get => titleLabel; set => titleLabel = value; }
-
-        [SerializeField] private TextMeshProUGUI subtitleLabel;
+        [SerializeField] private TextMeshProUGUI titleLabel;
         public virtual TextMeshProUGUI SubtitleLabel { get => subtitleLabel; set => subtitleLabel = value; }
-
-        [SerializeField] private TextMeshProUGUI tagsLabel;
+        [SerializeField] private TextMeshProUGUI subtitleLabel;
         public virtual TextMeshProUGUI CategoriesLabel { get => tagsLabel; set => tagsLabel = value; }
-
-        [SerializeField] private TextMeshProUGUI audienceLabel;
+        [SerializeField] private TextMeshProUGUI tagsLabel;
         public virtual TextMeshProUGUI AudienceLabel { get => audienceLabel; set => audienceLabel = value; }
-
-        [SerializeField] private TextMeshProUGUI descriptionLabel;
+        [SerializeField] private TextMeshProUGUI audienceLabel;
         public virtual TextMeshProUGUI DescriptionLabel { get => descriptionLabel; set => descriptionLabel = value; }
-
-        [SerializeField] private TextMeshProUGUI authorLabel;
+        [SerializeField] private TextMeshProUGUI descriptionLabel;
         public virtual TextMeshProUGUI AuthorLabel { get => authorLabel; set => authorLabel = value; }
-
-        [SerializeField] private TextMeshProUGUI dateModifiedLabel;
+        [SerializeField] private TextMeshProUGUI authorLabel;
         public virtual TextMeshProUGUI DateModifiedLabel { get => dateModifiedLabel; set => dateModifiedLabel = value; }
-
-        [SerializeField] private DifficultyUI difficulty;
+        [SerializeField] private TextMeshProUGUI dateModifiedLabel;
         public virtual DifficultyUI Difficulty { get => difficulty; set => difficulty = value; }
-
-        [SerializeField] private RatingDisplayUI yourRating;
+        [SerializeField] private DifficultyUI difficulty;
         public virtual RatingDisplayUI YourRating { get => yourRating; set => yourRating = value; }
-
-        [SerializeField] private RatingDisplayUI averageRating;
+        [SerializeField] private RatingDisplayUI yourRating;
         public virtual RatingDisplayUI AverageRating { get => averageRating; set => averageRating = value; }
-
+        [SerializeField] private RatingDisplayUI averageRating;
 
         public void Display(EncounterMetadata encounterMetadata)
         {
+            gameObject.SetActive(true);
+
             SetLabelText(AudienceLabel, encounterMetadata.Audience);
             SetLabelText(DescriptionLabel, encounterMetadata.Description);
             SetLabelText(SubtitleLabel, encounterMetadata.Subtitle);
-
-            // TODO: change to use encounter metagroup and metadata
             SetAuthor(AuthorLabel, encounterMetadata.AuthorName);
             SetTitle(TitleLabel, encounterMetadata.Title);
             SetDifficulty(Difficulty, encounterMetadata.Difficulty);

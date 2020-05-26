@@ -6,12 +6,10 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class MainMenuCategoryGroupUI : MonoBehaviour
     {
-        [SerializeField] private Transform optionsParent;
         public Transform OptionsParent { get => optionsParent; set => optionsParent = value; }
-
-        [SerializeField] private MainMenuCategorySelectorUI categoryPrefab;
+        [SerializeField] private Transform optionsParent;
         public MainMenuCategorySelectorUI CategoryPrefab { get => categoryPrefab; set => categoryPrefab = value; }
-
+        [SerializeField] private MainMenuCategorySelectorUI categoryPrefab;
 
         public event Action<Category> CategorySelected;
 

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,14 +9,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
     {
         public event Action Selected;
 
-        [SerializeField] private TextMeshProUGUI text;
         public TextMeshProUGUI Text { get => text; set => text = value; }
-
-        [SerializeField] private Image image;
+        [SerializeField] private TextMeshProUGUI text;
         public Image Image { get => image; set => image = value; }
-
-        [SerializeField] private Button button;
+        [SerializeField] private Image image;
         public Button Button { get => button; set => button = value; }
+        [SerializeField] private Button button;
 
         private void Awake()
         {
