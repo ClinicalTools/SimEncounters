@@ -68,7 +68,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
                 var encounterUI = Instantiate(OptionPrefab, OptionsParent);
                 encounterUI.Selected += (selectedEncounter) => Selected?.Invoke(selectedEncounter);
-                encounterUI.Display(CurrentSceneInfo, encounter);
+                encounterUI.DisplayForRead(CurrentSceneInfo, encounter);
 
                 EncounterDisplays.Add(encounterUI);
             }

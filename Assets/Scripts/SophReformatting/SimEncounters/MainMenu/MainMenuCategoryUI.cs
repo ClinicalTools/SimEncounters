@@ -29,6 +29,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
             SetViewButton(GetNextView());
             ToggleViewButton.Selected += ChangeView;
+
+            Sidebar.SearchStuff.SortingOrder.SortingOrderChanged += (sortingOrder) => ShowCategory();
+            Sidebar.SearchStuff.Filters.FilterChanged += (filter) => ShowCategory();
         }
 
         public void Initialize()
@@ -43,13 +46,13 @@ namespace ClinicalTools.SimEncounters.MainMenu
         {
             CurrentCategory = category;
             SceneInfo = sceneInfo;
+
             ShowCategory();
 
             Sidebar.Show();
-            Sidebar.SearchStuff.SortingOrder.SortingOrderChanged += (sortingOrder) => ShowCategory();
-            Sidebar.SearchStuff.Filters.FilterChanged += (filter) => ShowCategory();
             ToggleViewButton.Show();
         }
+
 
         private IEnumerable<MenuEncounter> FilterEncounterDetails(IEnumerable<MenuEncounter> encounters)
         {
@@ -64,7 +67,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
             var encounterView = EncounterViews[currentViewIndex];
             encounterView.Display(SceneInfo, encounters);
-            if (CurrentCategory.Name.Equals("Obesity", StringComparison.InvariantCultureIgnoreCase))
+            if (CurrentCategory != null && CurrentCategory.Name.Equals("Obesity", StringComparison.InvariantCultureIgnoreCase))
                 encounterView.HideMoreComingSoon();
             else
                 encounterView.ShowMoreComingSoon();
@@ -75,8 +78,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         private void EncountersView_Selected(MenuEncounter encounterInfo)
         {
-            Overview.GameObject.SetActive(true);
-            Overview.Display(SceneInfo, encounterInfo);
+            Overview.DisplayForRead(SceneInfo, encounterInfo);
         }
 
         protected void SetViewButton(MainMenuEncountersViewUI encountersViewUI)

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public class MainMenuEncountersUI : MonoBehaviour
+    public class MainMenuEncountersUI : MainMenuSceneDrawer
     {
         public MainMenuCategoryGroupUI CategoryGroup { get => categoryGroup; set => categoryGroup = value; }
         [SerializeField] private MainMenuCategoryGroupUI categoryGroup;
@@ -29,7 +29,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             Category.Initialize(); 
         }
 
-        public virtual void Display(LoadingMenuSceneInfo loadingSceneInfo)
+        public override void Display(LoadingMenuSceneInfo loadingSceneInfo)
         {
             Initialize();
             ShowCasesLoading();

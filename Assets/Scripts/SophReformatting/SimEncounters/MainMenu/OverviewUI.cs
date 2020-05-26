@@ -6,25 +6,30 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
+    public class ReaderWriterSelector : MonoBehaviour
+    {
+        public virtual Button InfoViewer { get => infoViewer; set => infoViewer = value; }
+        [SerializeField] private Button infoViewer;
+        public virtual Button StartReader { get => startReader; set => startReader = value; }
+        [SerializeField] private Button startReader;
+
+    }
+
     public class OverviewUI : MonoBehaviour
     {
-        public GameObject GameObject => gameObject;
         public virtual EncounterInfoUI InfoViewer { get => infoViewer; set => infoViewer = value; }
         [SerializeField] private EncounterInfoUI infoViewer;
         public virtual EncounterButtonsUI EncounterButtons { get => encounterButtons; set => encounterButtons = value; }
         [SerializeField] private EncounterButtonsUI encounterButtons;
-        public virtual EncounterButtonsUI TemplateButtons { get => templateButtons; set => templateButtons = value; }
-        [SerializeField] private EncounterButtonsUI templateButtons;
-        public virtual Button DownloadButton { get => downloadButton; set => downloadButton = value; }
-        [SerializeField] private Button downloadButton;
-        public virtual Button DeleteButton { get => deleteButton; set => deleteButton = value; }
-        [SerializeField] private Button deleteButton;
+        public virtual DeleteDownloadHandler DeleteDownloadHandler { get => deleteDownloadHandler; set => deleteDownloadHandler = value; }
+        [SerializeField] private DeleteDownloadHandler deleteDownloadHandler;
         public virtual List<Button> HideOverviewButtons { get => hideOverviewButtons; set => hideOverviewButtons = value; }
         [SerializeField] private List<Button> hideOverviewButtons;
 
         protected IReaderSceneStarter ReaderSceneStarter { get; set; }
         protected IUserEncounterReaderSelector EncounterReaderSelector { get; set; }
-        [Inject] public virtual void Inject(IReaderSceneStarter readerSceneStarter, IUserEncounterReaderSelector encounterReaderSelector)
+        [Inject]
+        public virtual void Inject(IReaderSceneStarter readerSceneStarter, IUserEncounterReaderSelector encounterReaderSelector)
         {
             ReaderSceneStarter = readerSceneStarter;
             EncounterReaderSelector = encounterReaderSelector;
@@ -37,8 +42,25 @@ namespace ClinicalTools.SimEncounters.MainMenu
         }
 
         protected MenuEncounter CurrentEncounter { get; set; }
-        public virtual void Display(MenuSceneInfo sceneInfo, MenuEncounter menuEncounter)
+        public virtual void DisplayForRead(MenuSceneInfo sceneInfo, MenuEncounter menuEncounter)
         {
+            Display(sceneInfo, menuEncounter);
+
+            if (EncounterButtons != null)
+                EncounterButtons.DisplayForRead(sceneInfo, menuEncounter);
+        }
+        public virtual void DisplayForEdit(MenuSceneInfo sceneInfo, MenuEncounter menuEncounter)
+        {
+            Display(sceneInfo, menuEncounter);
+
+            if (EncounterButtons != null)
+                EncounterButtons.DisplayForEdit(sceneInfo, menuEncounter);
+        }
+
+        protected virtual void Display(MenuSceneInfo sceneInfo, MenuEncounter menuEncounter)
+        {
+            gameObject.SetActive(true);
+
             CurrentEncounter = menuEncounter;
 
             if (InfoViewer != null) {
@@ -47,23 +69,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
                     InfoViewer.YourRating.SetRating(menuEncounter.Status.Rating);
             }
 
-            EncounterButtons.ReadButton.onClick.RemoveAllListeners();
-            EncounterButtons.ReadButton.onClick.AddListener(() => ReadCase(sceneInfo, menuEncounter));
-        
-            SetReadTextButton(menuEncounter.Status);
-        }
-
-        public virtual void SetReadTextButton(EncounterBasicStatus basicStatus)
-        {
-            string text;
-            if (basicStatus == null)
-                text = "Start Case";
-            else if (basicStatus.Completed)
-                text = "Review Case";
-            else
-                text = "Continue Case";
-
-            EncounterButtons.ReadText.text = text;
+            if (DeleteDownloadHandler != null)
+                DeleteDownloadHandler.Display(sceneInfo, menuEncounter);
         }
 
         public virtual void ReadCase(MenuSceneInfo sceneInfo, MenuEncounter menuEncounter)

@@ -9,6 +9,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
     public class MainMenuEncounterUI : MonoBehaviour
     {
         public event Action<MenuEncounter> Selected;
+        public event Action<MenuEncounter> Read;
+        public event Action<MenuEncounter> Edit;
 
         public virtual Button SelectButton { get => selectButton; set => selectButton = value; }
         [SerializeField] private Button selectButton;
@@ -21,8 +23,23 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public virtual GameObject CompletedObject { get => completedObject; set => completedObject = value; }
         [SerializeField] private GameObject completedObject;
 
+        public virtual void DisplayForRead(MenuSceneInfo sceneInfo, MenuEncounter encounter)
+        {
+            Display(sceneInfo, encounter);
 
-        public void Display(MenuSceneInfo sceneInfo, MenuEncounter encounter)
+            if (EncounterButtons != null)
+                EncounterButtons.DisplayForRead(sceneInfo, encounter);
+        }
+
+        public virtual void DisplayForEdit(MenuSceneInfo sceneInfo, MenuEncounter encounter)
+        {
+            Display(sceneInfo, encounter);
+
+            if (EncounterButtons != null)
+                EncounterButtons.DisplayForEdit(sceneInfo, encounter);
+        }
+
+        protected virtual void Display(MenuSceneInfo sceneInfo, MenuEncounter encounter)
         {
             if (InfoViewer != null)
                 InfoViewer.Display(encounter.GetLatestMetadata());

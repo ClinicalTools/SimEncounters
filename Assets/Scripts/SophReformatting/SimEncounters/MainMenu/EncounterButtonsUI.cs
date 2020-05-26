@@ -1,23 +1,59 @@
-﻿using TMPro;
+﻿using ClinicalTools.SimEncounters.Data;
+using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
+    public abstract class BaseEncounterSelectorButtons : MonoBehaviour
+    {
+        public abstract event Action Start;
+        public abstract event Action Copy;
+
+        public abstract void Display(MenuSceneInfo sceneInfo, MenuEncounter menuEncounter);
+        public abstract void Hide();
+    }
+
     public class EncounterButtonsUI : MonoBehaviour
     {
-        public virtual GameObject ButtonGroup => gameObject;
+        public BaseEncounterSelectorButtons ReadButtons { get => readButtons; set => readButtons = value; }
+        [SerializeField] private BaseEncounterSelectorButtons readButtons;
+        public BaseEncounterSelectorButtons WriteButtons { get => writeButtons; set => writeButtons = value; }
+        [SerializeField] private BaseEncounterSelectorButtons writeButtons;
+        public BaseEncounterSelectorButtons TemplateButtons { get => templateButtons; set => templateButtons = value; }
+        [SerializeField] private BaseEncounterSelectorButtons templateButtons;
 
-        public virtual Button ReadButton { get => readButton; set => readButton = value; }
-        [SerializeField] private Button readButton;
+        public virtual void DisplayForRead(MenuSceneInfo sceneInfo, MenuEncounter menuEncounter)
+        {
+            if (ReadButtons)
+                ReadButtons.Display(sceneInfo, menuEncounter);
+            if (WriteButtons)
+                WriteButtons.Hide();
+            if (TemplateButtons)
+                TemplateButtons.Hide();
+        }
 
-        public virtual TextMeshProUGUI ReadText { get => readText; set => readText = value; }
-        [SerializeField] private TextMeshProUGUI readText;
+        public virtual void DisplayForEdit(MenuSceneInfo sceneInfo, MenuEncounter menuEncounter)
+        {
+            if (ReadButtons)
+                ReadButtons.Hide();
 
-        public virtual Button EditButton { get => editButton; set => editButton = value; }
-        [SerializeField] private Button editButton;
+            var metadata = menuEncounter.GetLatestMetadata();
+            BaseEncounterSelectorButtons displayButtons;
+            BaseEncounterSelectorButtons hideButtons;
+            if (metadata.IsTemplate) {
+                displayButtons = TemplateButtons;
+                hideButtons = WriteButtons;
+            } else {
+                displayButtons = WriteButtons;
+                hideButtons = TemplateButtons;
+            }
 
-        public virtual Button CopyButton { get => copyButton; set => copyButton = value; }
-        [SerializeField] private Button copyButton;
+            if (hideButtons)
+                hideButtons.Hide();
+            if (displayButtons)
+                displayButtons.Display(sceneInfo, menuEncounter);
+        }
     }
 }
