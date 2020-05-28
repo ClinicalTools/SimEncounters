@@ -16,21 +16,27 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public Button Button { get => button; set => button = value; }
         [SerializeField] private Button button;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             Button.onClick.AddListener(() => Selected?.Invoke());
         }
 
-        public void Show()
+        public virtual void Show()
         {
             gameObject.SetActive(true);
             Button.interactable = true;
         }
 
-        public void Hide()
+        public virtual void Hide()
         {
             gameObject.SetActive(false);
             Button.interactable = false;
+        }
+
+        public virtual void Display(BaseViewEncounterSelector encountersViewUI)
+        {
+            Text.text = encountersViewUI.ViewName;
+            Image.sprite = encountersViewUI.ViewSprite;
         }
     }
 }

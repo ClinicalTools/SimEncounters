@@ -6,13 +6,13 @@ namespace ClinicalTools.SimEncounters
     {
         public User User { get; }
         public ILoadingScreen LoadingScreen { get; }
-        public List<Category> Categories { get; }
+        public IMenuEncountersInfo MenuEncountersInfo { get; }
 
         public MenuSceneInfo(LoadingMenuSceneInfo loadingMenuSceneInfo)
         {
             User = loadingMenuSceneInfo.User;
             LoadingScreen = loadingMenuSceneInfo.LoadingScreen;
-            Categories = loadingMenuSceneInfo.Categories.Result;
+            MenuEncountersInfo = loadingMenuSceneInfo.MenuEncountersInfo.Result;
         }
     }
 }

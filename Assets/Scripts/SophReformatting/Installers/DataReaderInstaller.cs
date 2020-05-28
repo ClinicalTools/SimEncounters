@@ -21,7 +21,7 @@ namespace ClinicalTools.SimEncounters
 
             Container.Bind<IDetailedStatusReader>().To<LocalDetailedStatusReader>().AsTransient();
 
-            Container.Bind<ICategoriesReader>().To<CategoriesReader>().AsTransient();
+            Container.Bind<IMenuEncountersInfoReader>().To<MenuEncountersInfoReader>().AsTransient();
             Container.Bind<IMenuEncountersReader>().To<MenuEncountersReader>().AsTransient();
             Container.Bind<IMetadataGroupsReader>().To<MetadataGroupsReader>().AsTransient();
 

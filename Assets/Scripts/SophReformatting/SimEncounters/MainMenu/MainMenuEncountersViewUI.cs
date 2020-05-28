@@ -6,11 +6,17 @@ using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public class MainMenuEncountersViewUI : MonoBehaviour
+    public abstract class BaseViewEncounterSelector : BaseEncounterSelector
     {
-        public string ViewName { get => viewName; set => viewName = value; }
+        public abstract string ViewName { get; set; }
+        public abstract Sprite ViewSprite { get; set; }
+    }
+
+    public class MainMenuEncountersViewUI : BaseViewEncounterSelector
+    {
+        public override string ViewName { get => viewName; set => viewName = value; }
         [SerializeField] private string viewName;
-        public Sprite ViewSprite { get => viewSprite; set => viewSprite = value; }
+        public override Sprite ViewSprite { get => viewSprite; set => viewSprite = value; }
         [SerializeField] private Sprite viewSprite;
         public Button NewCaseButton { get => newCaseButton; set => newCaseButton = value; }
         [SerializeField] private Button newCaseButton;
@@ -18,21 +24,24 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private Transform optionsParent;
         public MainMenuEncounterUI OptionPrefab { get => optionPrefab; set => optionPrefab = value; }
         [SerializeField] private MainMenuEncounterUI optionPrefab;
-        public GameObject MoreComingSoonObject { get => moreComingSoonObject; set => moreComingSoonObject = value; }
-        [SerializeField] private GameObject moreComingSoonObject;
 
 
-        public event Action<MenuEncounter> Selected;
+        public override event Action<MenuEncounter> EncounterSelected;
         protected MenuSceneInfo CurrentSceneInfo { get; set; }
-        public virtual void Display(MenuSceneInfo sceneInfo, IEnumerable<MenuEncounter> encounters)
+        public override void Display(MenuSceneInfo sceneInfo, IEnumerable<MenuEncounter> encounters)
         {
             gameObject.SetActive(true);
             CurrentSceneInfo = sceneInfo;
 
-            SetEncounters(encounters);
+            foreach (MainMenuEncounterUI encounterDisplay in EncounterDisplays)
+                Destroy(encounterDisplay.gameObject);
+            EncounterDisplays.Clear();
+
+            foreach (var encounter in encounters)
+                SetEncounter(encounter);
         }
 
-        public void Hide()
+        public override void Hide()
         {
             foreach (var encounterDisplay in EncounterDisplays)
                 Destroy(encounterDisplay.gameObject);
@@ -41,37 +50,16 @@ namespace ClinicalTools.SimEncounters.MainMenu
             gameObject.SetActive(false);
         }
 
-        public void ShowMoreComingSoon()
-        {
-            if (MoreComingSoonObject == null)
-                return;
-
-            MoreComingSoonObject.transform.SetSiblingIndex(transform.childCount - 1);
-            MoreComingSoonObject.SetActive(true);
-        }
-        public void HideMoreComingSoon()
-        {
-            if (MoreComingSoonObject != null)
-                MoreComingSoonObject.SetActive(false);
-        }
-
         protected List<MainMenuEncounterUI> EncounterDisplays { get; } = new List<MainMenuEncounterUI>();
-        public virtual void SetEncounters(IEnumerable<MenuEncounter> encounters)
+        protected virtual void SetEncounter(MenuEncounter encounter)
         {
-            foreach (MainMenuEncounterUI encounterDisplay in EncounterDisplays)
-                Destroy(encounterDisplay.gameObject);
-            EncounterDisplays.Clear();
+            var encounterUI = Instantiate(OptionPrefab, OptionsParent);
+            encounterUI.Selected += (selectedEncounter) => EncounterSelected?.Invoke(selectedEncounter);
+            encounterUI.DisplayForRead(CurrentSceneInfo, encounter);
 
-            foreach (var encounter in encounters) {
-                if (encounter.GetLatestMetadata().IsTemplate)
-                    continue;
-
-                var encounterUI = Instantiate(OptionPrefab, OptionsParent);
-                encounterUI.Selected += (selectedEncounter) => Selected?.Invoke(selectedEncounter);
-                encounterUI.DisplayForRead(CurrentSceneInfo, encounter);
-
-                EncounterDisplays.Add(encounterUI);
-            }
+            EncounterDisplays.Add(encounterUI);
         }
+
+        public override void Initialize() { }
     }
 }

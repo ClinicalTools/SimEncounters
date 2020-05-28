@@ -1,23 +1,68 @@
-﻿using System.Collections.Generic;
+﻿using ClinicalTools.SimEncounters.Data;
+using System.Collections.Generic;
 
 namespace ClinicalTools.SimEncounters
 {
+    public class MenuEncountersInfo : IMenuEncountersInfo
+    {
+        protected virtual HashSet<MenuEncounter> Encounters { get; } = new HashSet<MenuEncounter>();
+        protected virtual HashSet<MenuEncounter> Templates { get; } = new HashSet<MenuEncounter>();
+        protected virtual Dictionary<string, Category> Categories { get; } = new Dictionary<string, Category>();
+
+        public virtual void AddEncounter(MenuEncounter encounter)
+        {
+            if (Encounters.Contains(encounter) || Templates.Contains(encounter))
+                return;
+
+            var metadata = encounter.GetLatestMetadata();
+
+            if (metadata.IsTemplate) {
+                Templates.Add(encounter);
+                return;
+            }
+
+            Encounters.Add(encounter);
+            foreach (var categoryName in metadata.Categories)
+                AddToCategory(encounter, categoryName);
+        }
+
+        protected virtual void AddToCategory(MenuEncounter encounter, string categoryName)
+        {
+            if (!string.IsNullOrWhiteSpace(categoryName))
+                return;
+
+            Category category;
+            if (!Categories.ContainsKey(categoryName)) {
+                category = new Category(categoryName);
+                Categories.Add(categoryName, category);
+            } else {
+                category = Categories[categoryName];
+            }
+            category.Encounters.Add(encounter);
+        }
+
+
+        public IEnumerable<MenuEncounter> GetTemplates() => Templates;
+        public IEnumerable<MenuEncounter> GetEncounters() => Encounters;
+        public IEnumerable<Category> GetCategories() => Categories.Values;
+    }
+
     public class LoadingMenuSceneInfo
     {
         public User User { get; }
         public ILoadingScreen LoadingScreen { get; }
-        public WaitableResult<List<Category>> Categories { get; }
+        public WaitableResult<IMenuEncountersInfo> MenuEncountersInfo { get; }
         public WaitableResult<MenuSceneInfo> Result = new WaitableResult<MenuSceneInfo>();
 
-        public LoadingMenuSceneInfo(User user, ILoadingScreen loadingScreen, WaitableResult<List<Category>> categories)
+        public LoadingMenuSceneInfo(User user, ILoadingScreen loadingScreen, WaitableResult<IMenuEncountersInfo> menuEncountersInfo)
         {
             User = user;
             LoadingScreen = loadingScreen;
-            Categories = categories;
-            Categories.AddOnCompletedListener(CategoriesRetrieved);
+            MenuEncountersInfo = menuEncountersInfo;
+            MenuEncountersInfo.AddOnCompletedListener(CategoriesRetrieved);
         }
 
-        private void CategoriesRetrieved(List<Category> categories)
+        private void CategoriesRetrieved(IMenuEncountersInfo menuEncountersInfo)
         {
             var loadedInfo = new MenuSceneInfo(this);
             Result.SetResult(loadedInfo);

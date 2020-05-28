@@ -3,12 +3,12 @@ using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public class MainMenuEncountersUI : MainMenuSceneDrawer
+    public class ReaderMenuEncountersUI : BaseMenuSceneDrawer
     {
-        public MainMenuCategoryGroupUI CategoryGroup { get => categoryGroup; set => categoryGroup = value; }
-        [SerializeField] private MainMenuCategoryGroupUI categoryGroup;
-        public MainMenuCategoryUI Category { get => category; set => category = value; }
-        [SerializeField] private MainMenuCategoryUI category;
+        public BaseCategorySelector CategoryGroup { get => categoryGroup; set => categoryGroup = value; }
+        [SerializeField] private BaseCategorySelector categoryGroup;
+        public BaseEncounterSelector Category { get => category; set => category = value; }
+        [SerializeField] private BaseEncounterSelector category;
         public GameObject DownloadingCases { get => downloadingCases; set => downloadingCases = value; }
         [SerializeField] private GameObject downloadingCases;
         public ChangeSidePanelScript CategoriesToggle { get => categoriesToggle; set => categoriesToggle = value; }
@@ -22,7 +22,6 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         public void Initialize()
         {
-            CategoryGroup.Clear();
             DisplayCategories();
             CategoriesToggle.Select();
             DownloadingCases.SetActive(true);
@@ -36,10 +35,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             loadingSceneInfo.Result.AddOnCompletedListener(ShowCategories);
         }
 
-        protected virtual void ShowCasesLoading()
-        {
-            DownloadingCases.SetActive(true);
-        }
+        protected virtual void ShowCasesLoading() => DownloadingCases.SetActive(true);
 
         protected virtual void ShowCategories(MenuSceneInfo sceneInfo)
         {
@@ -49,7 +45,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
             SceneInfo = sceneInfo;
             CategoryGroup.CategorySelected += CategorySelected;
-            CategoryGroup.Display(sceneInfo.Categories);
+            CategoryGroup.Display(sceneInfo, sceneInfo.MenuEncountersInfo.GetCategories());
         }
 
         private void DisplayCategories()
@@ -65,7 +61,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         {
             CategoryGroup.Hide();
             CategoryToggle.Show(category.Name);
-            Category.Display(SceneInfo, category);
+            Category.Display(SceneInfo, category.Encounters);
         }
     }
 }

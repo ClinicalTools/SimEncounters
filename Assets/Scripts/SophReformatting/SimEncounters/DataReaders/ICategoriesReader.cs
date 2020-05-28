@@ -4,6 +4,42 @@ using System.Linq;
 
 namespace ClinicalTools.SimEncounters
 {
+    public interface IMenuEncountersInfoReader
+    {
+        WaitableResult<IMenuEncountersInfo> GetMenuEncountersInfo(User user);
+    }
+    public class MenuEncountersInfoReader : IMenuEncountersInfoReader
+    {
+        private readonly IMenuEncountersReader menuEncountersReader;
+        public MenuEncountersInfoReader(IMenuEncountersReader menuEncountersReader)
+        {
+            this.menuEncountersReader = menuEncountersReader;
+        }
+
+        public WaitableResult<IMenuEncountersInfo> GetMenuEncountersInfo(User user)
+        {
+            var categories = new WaitableResult<IMenuEncountersInfo>();
+
+            var menuEncounters = menuEncountersReader.GetMenuEncounters(user);
+            menuEncounters.AddOnCompletedListener((result) => ProcessResults(categories, result));
+
+            return categories;
+        }
+        private void ProcessResults(WaitableResult<IMenuEncountersInfo> result, List<MenuEncounter> menuEncounters)
+        {
+            if (menuEncounters == null) {
+                result.SetError(null);
+                return;
+            }
+
+            var menuEncountersInfo = new MenuEncountersInfo();
+            foreach (var menuEncounter in menuEncounters)
+                menuEncountersInfo.AddEncounter(menuEncounter);
+
+            result.SetResult(menuEncountersInfo);
+        }
+    }
+
     public interface ICategoriesReader
     {
         WaitableResult<List<Category>> GetCategories(User user);
@@ -11,7 +47,6 @@ namespace ClinicalTools.SimEncounters
 
     public class CategoriesReader : ICategoriesReader
     {
-
         private readonly IMenuEncountersReader menuEncountersReader;
         public CategoriesReader(IMenuEncountersReader menuEncountersReader)
         {

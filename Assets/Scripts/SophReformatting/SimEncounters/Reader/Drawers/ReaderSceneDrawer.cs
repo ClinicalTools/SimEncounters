@@ -20,14 +20,14 @@ namespace ClinicalTools.SimEncounters.Reader
         protected LoadingReaderSceneInfo LoadingSceneInfo { get; set; }
 
         protected IMenuSceneStarter MenuSceneStarter { get; set; }
-        protected ICategoriesReader CategoriesReader { get; set; }
+        protected IMenuEncountersInfoReader MenuInfoReader { get; set; }
         protected IDetailedStatusWriter StatusWriter { get; set; }
         [Inject]
         public virtual void Inject(
-            IMenuSceneStarter menuSceneStarter, ICategoriesReader categoriesReader, IDetailedStatusWriter statusWriter)
+            IMenuSceneStarter menuSceneStarter, IMenuEncountersInfoReader menuInfoReader, IDetailedStatusWriter statusWriter)
         {
             MenuSceneStarter = menuSceneStarter;
-            CategoriesReader = categoriesReader;
+            MenuInfoReader = menuInfoReader;
             StatusWriter = statusWriter;
         }
 
@@ -59,7 +59,7 @@ namespace ClinicalTools.SimEncounters.Reader
 
         protected virtual void ReturnToMainMenu()
         {
-            var categories = CategoriesReader.GetCategories(LoadingSceneInfo.User);
+            var categories = MenuInfoReader.GetMenuEncountersInfo(LoadingSceneInfo.User);
             var menuSceneInfo = new LoadingMenuSceneInfo(LoadingSceneInfo.User, LoadingSceneInfo.LoadingScreen, categories);
 
             StatusWriter.WriteStatus(userEncounter);

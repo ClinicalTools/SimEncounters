@@ -65,5 +65,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         }
 
         public void Hide() => gameObject.SetActive(false);
+
+        public virtual bool IsOn() => Toggle.isOn;
     }
 }
