@@ -1,67 +1,82 @@
-﻿using UnityEngine;
+﻿using ClinicalTools.SimEncounters.Data;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class ReaderMenuEncountersUI : BaseMenuSceneDrawer
     {
-        public BaseCategorySelector CategoryGroup { get => categoryGroup; set => categoryGroup = value; }
-        [SerializeField] private BaseCategorySelector categoryGroup;
-        public BaseEncounterSelector Category { get => category; set => category = value; }
-        [SerializeField] private BaseEncounterSelector category;
+        public BaseCategorySelector CategorySelector { get => categorySelector; set => categorySelector = value; }
+        [SerializeField] private BaseCategorySelector categorySelector;
+        public BaseEncounterSelector EncounterSelector { get => encounterSelector; set => encounterSelector = value; }
+        [SerializeField] private BaseEncounterSelector encounterSelector;
+        public ChangeSidePanelScript ShowCategoriesToggle { get => showCategoriesToggle; set => showCategoriesToggle = value; }
+        [SerializeField] private ChangeSidePanelScript showCategoriesToggle;
+        public ChangeSidePanelScript ShowEncountersToggle { get => showEncountersToggle; set => showEncountersToggle = value; }
+        [SerializeField] private ChangeSidePanelScript showEncountersToggle;
+
+        public OverviewUI Overview { get => overview; set => overview = value; }
+        [SerializeField] private OverviewUI overview;
+
         public GameObject DownloadingCases { get => downloadingCases; set => downloadingCases = value; }
         [SerializeField] private GameObject downloadingCases;
-        public ChangeSidePanelScript CategoriesToggle { get => categoriesToggle; set => categoriesToggle = value; }
-        [SerializeField] private ChangeSidePanelScript categoriesToggle;
-        public ChangeSidePanelScript CategoryToggle { get => categoryToggle; set => categoryToggle = value; }
-        [SerializeField] private ChangeSidePanelScript categoryToggle;
-        public ScrollRect ScrollRect { get => scrollRect; set => scrollRect = value; }
-        [SerializeField] private ScrollRect scrollRect;
+        
 
         public MenuSceneInfo SceneInfo { get; set; }
 
-        public void Initialize()
+        protected virtual void Awake()
         {
-            DisplayCategories();
-            CategoriesToggle.Select();
-            DownloadingCases.SetActive(true);
-            Category.Initialize(); 
+            ShowCategoriesToggle.Selected += DisplayCategories;
+            CategorySelector.CategorySelected += CategorySelected;
+            EncounterSelector.EncounterSelected += EncounterSelected;
         }
 
         public override void Display(LoadingMenuSceneInfo loadingSceneInfo)
         {
-            Initialize();
-            ShowCasesLoading();
-            loadingSceneInfo.Result.AddOnCompletedListener(ShowCategories);
+            EncounterSelector.Initialize();
+            DownloadingCases.SetActive(true);
+            ShowCategoriesToggle.Select();
+            DisplayCategories();
+
+            loadingSceneInfo.Result.AddOnCompletedListener(SceneInfoLoaded);
         }
 
-        protected virtual void ShowCasesLoading() => DownloadingCases.SetActive(true);
-
-        protected virtual void ShowCategories(MenuSceneInfo sceneInfo)
+        protected virtual void SceneInfoLoaded(MenuSceneInfo sceneInfo)
         {
             sceneInfo.LoadingScreen.Stop();
             DownloadingCases.SetActive(false);
-            CategoriesToggle.Selected += DisplayCategories;
 
             SceneInfo = sceneInfo;
-            CategoryGroup.CategorySelected += CategorySelected;
-            CategoryGroup.Display(sceneInfo, sceneInfo.MenuEncountersInfo.GetCategories());
+            CategorySelector.Display(sceneInfo, sceneInfo.MenuEncountersInfo.GetCategories());
         }
 
         private void DisplayCategories()
         {
-            CategoryGroup.Show();
-            CategoryToggle.Hide();
-            Category.Hide();
-            ScrollRect.content = (RectTransform)CategoryGroup.transform;
-            ScrollRect.verticalNormalizedPosition = 1;
+            ShowEncountersToggle.Hide();
+            EncounterSelector.Hide();
+            Overview.Hide();
+
+            CategorySelector.Show();
         }
 
-        private void CategorySelected(Category category)
+        protected virtual void CategorySelected(Category category)
         {
-            CategoryGroup.Hide();
-            CategoryToggle.Show(category.Name);
-            Category.Display(SceneInfo, category.Encounters);
+            CategorySelector.Hide();
+
+            ShowEncountersToggle.Show(category.Name);
+            EncounterSelector.Display(SceneInfo, category.Encounters);
+        }
+
+        protected virtual void EncounterSelected(MenuEncounter menuEncounter) 
+            => Overview.DisplayForRead(SceneInfo, menuEncounter);
+
+        public override void Hide()
+        {
+            CategorySelector.Hide();
+            EncounterSelector.Hide();
+            ShowCategoriesToggle.Hide();
+            ShowEncountersToggle.Hide();
+            Overview.Hide();
         }
     }
 }

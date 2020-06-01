@@ -85,5 +85,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             var encounterSceneInfo = new LoadingReaderSceneInfo(sceneInfo.User, sceneInfo.LoadingScreen, encounter);
             ReaderSceneStarter.StartScene(encounterSceneInfo);
         }
+
+        public virtual void Hide() { }
     }
 }

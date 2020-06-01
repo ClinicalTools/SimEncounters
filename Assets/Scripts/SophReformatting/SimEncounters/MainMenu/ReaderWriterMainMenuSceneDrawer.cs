@@ -15,6 +15,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public BaseMenuSceneDrawer ReaderMenuDrawer { get => readerMenuDrawer; set => readerMenuDrawer = value; }
         [SerializeField] private BaseMenuSceneDrawer readerMenuDrawer;
 
+        public GameObject SelectionScreen { get => selectionScreen; set => selectionScreen = value; }
+        [SerializeField] private GameObject selectionScreen;
+
         protected virtual void Awake()
         {
             ReaderButton.onClick.AddListener(StartReader);
@@ -28,7 +31,15 @@ namespace ClinicalTools.SimEncounters.MainMenu
             gameObject.SetActive(true);
         }
 
-        protected virtual void StartReader() => ReaderMenuDrawer.Display(SceneInfo);
-        protected virtual void StartWriter() => WriterMenuDrawer.Display(SceneInfo);
+        protected virtual void StartReader()
+        {
+            SelectionScreen.SetActive(false);
+            ReaderMenuDrawer.Display(SceneInfo);
+        }
+        protected virtual void StartWriter()
+        {
+            SelectionScreen.SetActive(false);
+            WriterMenuDrawer.Display(SceneInfo);
+        }
     }
 }

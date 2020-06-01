@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-
     public class MainMenuSceneDrawer : BaseMenuSceneDrawer
     {
         public Button LogoutButton { get => logoutButton; set => logoutButton = value; }
@@ -33,6 +32,11 @@ namespace ClinicalTools.SimEncounters.MainMenu
         {
             PlayerPrefs.SetInt("StayLoggedIn", 0);
             Login.Logout(SceneInfo.LoadingScreen);
+        }
+
+        public override void Hide()
+        {
+            Encounters.Hide();
         }
     }
 }
