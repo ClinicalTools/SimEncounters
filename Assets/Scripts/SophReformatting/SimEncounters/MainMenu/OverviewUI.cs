@@ -65,7 +65,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
             if (InfoViewer != null) {
                 InfoViewer.Display(menuEncounter.GetLatestMetadata());
-                if (menuEncounter.Status != null)
+                if (menuEncounter.Status != null && InfoViewer.YourRating != null)
                     InfoViewer.YourRating.SetRating(menuEncounter.Status.Rating);
             }
 

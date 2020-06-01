@@ -34,12 +34,16 @@ namespace ClinicalTools.SimEncounters.MainMenu
         protected virtual void StartReader()
         {
             SelectionScreen.SetActive(false);
+            WriterMenuDrawer.Hide();
             ReaderMenuDrawer.Display(SceneInfo);
         }
         protected virtual void StartWriter()
         {
             SelectionScreen.SetActive(false);
+            ReaderMenuDrawer.Hide();
             WriterMenuDrawer.Display(SceneInfo);
         }
+
+        public override void Hide() => SelectionScreen.SetActive(false);
     }
 }

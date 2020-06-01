@@ -3,7 +3,6 @@ using ClinicalTools.SimEncounters.Loading;
 using ClinicalTools.SimEncounters.MainMenu;
 using System.Collections.Generic;
 using System.Xml;
-using UnityEngine;
 using Zenject;
 
 namespace ClinicalTools.SimEncounters

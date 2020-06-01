@@ -9,8 +9,6 @@ namespace ClinicalTools.SimEncounters.MainMenu
     public class MainMenuEncounterUI : MonoBehaviour
     {
         public event Action<MenuEncounter> Selected;
-        public event Action<MenuEncounter> Read;
-        public event Action<MenuEncounter> Edit;
 
         public virtual Button SelectButton { get => selectButton; set => selectButton = value; }
         [SerializeField] private Button selectButton;

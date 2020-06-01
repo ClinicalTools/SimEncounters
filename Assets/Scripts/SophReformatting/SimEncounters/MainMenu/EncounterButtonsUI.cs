@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using ClinicalTools.SimEncounters.Writer;
 using System;
 using TMPro;
 using UnityEngine;
@@ -8,11 +9,20 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public abstract class BaseEncounterSelectorButtons : MonoBehaviour
     {
-        public abstract event Action Start;
-        public abstract event Action Copy;
-
         public abstract void Display(MenuSceneInfo sceneInfo, MenuEncounter menuEncounter);
         public abstract void Hide();
+    }
+
+    public interface IEncounterCopier
+    {
+        void CopyEncounter(MenuSceneInfo sceneInfo, MenuEncounter menuEncounter);
+    }
+    public class EncounterCopier : IEncounterCopier
+    {
+        public virtual void CopyEncounter(MenuSceneInfo sceneInfo, MenuEncounter menuEncounter)
+        {
+
+        }
     }
 
     public class EncounterButtonsUI : MonoBehaviour

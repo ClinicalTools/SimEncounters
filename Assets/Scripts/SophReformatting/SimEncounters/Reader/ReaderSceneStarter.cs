@@ -1,10 +1,16 @@
 ﻿using ClinicalTools.SimEncounters.Reader;
+using ClinicalTools.SimEncounters.Writer;
 using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
 {
-    public interface IReaderSceneStarter {
+    public interface IReaderSceneStarter
+    {
         void StartScene(LoadingReaderSceneInfo encounterSceneInfo);
+    }
+    public interface IWriterSceneStarter
+    {
+        void StartScene(LoadingWriterSceneInfo encounterSceneInfo);
     }
 
     public class ReaderSceneStarter : IReaderSceneStarter

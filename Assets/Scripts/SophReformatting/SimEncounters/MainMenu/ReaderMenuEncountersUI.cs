@@ -1,6 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Data;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
@@ -20,19 +19,36 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         public GameObject DownloadingCases { get => downloadingCases; set => downloadingCases = value; }
         [SerializeField] private GameObject downloadingCases;
-        
+
 
         public MenuSceneInfo SceneInfo { get; set; }
 
-        protected virtual void Awake()
+        protected virtual bool IsOn { get; set; }
+        protected virtual void AddListeners()
         {
+            if (IsOn)
+                return;
+            IsOn = true;
+
             ShowCategoriesToggle.Selected += DisplayCategories;
             CategorySelector.CategorySelected += CategorySelected;
             EncounterSelector.EncounterSelected += EncounterSelected;
         }
+        protected virtual void RemoveListeners()
+        {
+            if (!IsOn)
+                return;
+            IsOn = false;
+
+            ShowCategoriesToggle.Selected -= DisplayCategories;
+            CategorySelector.CategorySelected -= CategorySelected;
+            EncounterSelector.EncounterSelected -= EncounterSelected;
+        }
 
         public override void Display(LoadingMenuSceneInfo loadingSceneInfo)
         {
+            AddListeners();
+
             EncounterSelector.Initialize();
             DownloadingCases.SetActive(true);
             ShowCategoriesToggle.Select();
@@ -64,14 +80,14 @@ namespace ClinicalTools.SimEncounters.MainMenu
             CategorySelector.Hide();
 
             ShowEncountersToggle.Show(category.Name);
-            EncounterSelector.Display(SceneInfo, category.Encounters);
+            EncounterSelector.DisplayForRead(SceneInfo, category.Encounters);
         }
 
-        protected virtual void EncounterSelected(MenuEncounter menuEncounter) 
-            => Overview.DisplayForRead(SceneInfo, menuEncounter);
-
+        protected virtual void EncounterSelected(MenuEncounter menuEncounter) => Overview.DisplayForRead(SceneInfo, menuEncounter);
         public override void Hide()
         {
+            RemoveListeners();
+
             CategorySelector.Hide();
             EncounterSelector.Hide();
             ShowCategoriesToggle.Hide();

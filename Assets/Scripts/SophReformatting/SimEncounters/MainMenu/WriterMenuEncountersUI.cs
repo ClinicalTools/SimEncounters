@@ -9,26 +9,42 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private BaseEncounterSelector encounterSelector;
         public GameObject DownloadingCases { get => downloadingCases; set => downloadingCases = value; }
         [SerializeField] private GameObject downloadingCases;
-        public ChangeSidePanelScript ShowEncountersToggle { get => encountersToggle; set => encountersToggle = value; }
-        [SerializeField] private ChangeSidePanelScript encountersToggle;
-        public ChangeSidePanelScript ShowTemplatesToggle { get => templateToggle; set => templateToggle = value; }
-        [SerializeField] private ChangeSidePanelScript templateToggle;
+        public ChangeSidePanelScript ShowEncountersToggle { get => showEncountersToggle; set => showEncountersToggle = value; }
+        [SerializeField] private ChangeSidePanelScript showEncountersToggle;
+        public ChangeSidePanelScript ShowTemplatesToggle { get => showTemplatesToggle; set => showTemplatesToggle = value; }
+        [SerializeField] private ChangeSidePanelScript showTemplatesToggle;
         public OverviewUI Overview { get => overview; set => overview = value; }
         [SerializeField] private OverviewUI overview;
 
         public MenuSceneInfo SceneInfo { get; set; }
 
-        protected virtual void Awake()
+        protected virtual bool IsOn { get; set; }
+        protected virtual void AddListeners()
         {
+            if (IsOn)
+                return;
+            IsOn = true;
+
             EncounterSelector.EncounterSelected += EncounterSelected;
             ShowEncountersToggle.Selected += DisplayEncounters;
             ShowTemplatesToggle.Selected += DisplayTemplates;
+        }
+        protected virtual void RemoveListeners()
+        {
+            if (!IsOn)
+                return;
+            IsOn = false;
+
+            EncounterSelector.EncounterSelected -= EncounterSelected;
+            ShowEncountersToggle.Selected -= DisplayEncounters;
+            ShowTemplatesToggle.Selected -= DisplayTemplates;
         }
 
         private void EncounterSelected(Data.MenuEncounter encounter) => Overview.DisplayForEdit(SceneInfo, encounter);
 
         public void Initialize()
         {
+            AddListeners();
             ShowEncountersToggle.Select();
             DownloadingCases.SetActive(true);
             EncounterSelector.Initialize();
@@ -70,10 +86,11 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 DisplayEncounters(SceneInfo.MenuEncountersInfo.GetTemplates());
         }
         protected virtual void DisplayEncounters(IEnumerable<Data.MenuEncounter> encounters)
-                => EncounterSelector.Display(SceneInfo, encounters);
+                => EncounterSelector.DisplayForEdit(SceneInfo, encounters);
 
         public override void Hide()
         {
+            RemoveListeners();
             EncounterSelector.Hide();
             ShowTemplatesToggle.Hide();
             ShowEncountersToggle.Hide();

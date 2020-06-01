@@ -28,7 +28,7 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void AddToCategory(MenuEncounter encounter, string categoryName)
         {
-            if (!string.IsNullOrWhiteSpace(categoryName))
+            if (string.IsNullOrWhiteSpace(categoryName))
                 return;
 
             Category category;

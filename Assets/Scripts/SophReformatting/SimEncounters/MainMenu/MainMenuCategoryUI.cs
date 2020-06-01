@@ -30,8 +30,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
             ToggleViewButton.Display(GetNextView());
             ToggleViewButton.Selected += ChangeView;
 
-            Sidebar.SearchStuff.SortingOrder.SortingOrderChanged += (sortingOrder) => ShowCategory();
-            Sidebar.SearchStuff.Filters.FilterChanged += (filter) => ShowCategory();
+            Sidebar.SearchStuff.SortingOrder.SortingOrderChanged += (sortingOrder) => ShowEncounters();
+            Sidebar.SearchStuff.Filters.FilterChanged += (filter) => ShowEncounters();
         }
 
         public override void Initialize()
@@ -42,16 +42,30 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected MenuSceneInfo SceneInfo { get; set; }
         protected IEnumerable<MenuEncounter> CurrentEncounters { get; set; }
-        public override void Display(MenuSceneInfo sceneInfo, IEnumerable<MenuEncounter> encounters)
+        protected bool IsRead { get; set; }
+        public override void DisplayForRead(MenuSceneInfo sceneInfo, IEnumerable<MenuEncounter> encounters)
+        {
+            IsRead = true;
+            Display(sceneInfo, encounters);
+        }
+
+        public override void DisplayForEdit(MenuSceneInfo sceneInfo, IEnumerable<MenuEncounter> encounters)
+        {
+            IsRead = false;
+            Display(sceneInfo, encounters);
+        }
+
+        protected virtual void Display(MenuSceneInfo sceneInfo, IEnumerable<MenuEncounter> encounters)
         {
             SceneInfo = sceneInfo;
             CurrentEncounters = encounters;
 
-            ShowCategory();
+            ShowEncounters();
 
             Sidebar.Show();
             ToggleViewButton.Show();
         }
+
 
 
         private IEnumerable<MenuEncounter> FilterEncounterDetails(IEnumerable<MenuEncounter> encounters)
@@ -60,13 +74,16 @@ namespace ClinicalTools.SimEncounters.MainMenu
             return encounters.Where(e => filter(e));
         }
 
-        private void ShowCategory()
+        private void ShowEncounters()
         {
             var encounters = new List<MenuEncounter>(FilterEncounterDetails(CurrentEncounters));
             encounters.Sort(Sidebar.SearchStuff.SortingOrder.Comparison);
 
             var encounterView = EncounterViews[currentViewIndex];
-            encounterView.Display(SceneInfo, encounters);
+            if (IsRead)
+                encounterView.DisplayForRead(SceneInfo, encounters);
+            else
+                encounterView.DisplayForEdit(SceneInfo, encounters);
             ScrollRect.content = (RectTransform)encounterView.transform;
             ScrollRect.verticalNormalizedPosition = 1;
         }
@@ -83,7 +100,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 currentViewIndex = 0;
 
             ToggleViewButton.Display(GetNextView());
-            ShowCategory();
+            ShowEncounters();
         }
 
         protected BaseViewEncounterSelector GetNextView()

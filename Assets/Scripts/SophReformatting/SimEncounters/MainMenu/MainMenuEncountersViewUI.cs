@@ -28,8 +28,21 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         public override event Action<MenuEncounter> EncounterSelected;
         protected MenuSceneInfo CurrentSceneInfo { get; set; }
-        public override void Display(MenuSceneInfo sceneInfo, IEnumerable<MenuEncounter> encounters)
+
+        protected virtual bool IsRead { get; set; }
+        public override void DisplayForRead(MenuSceneInfo sceneInfo, IEnumerable<MenuEncounter> encounters)
         {
+            IsRead = true;
+            Display(sceneInfo, encounters);
+        }
+        public override void DisplayForEdit(MenuSceneInfo sceneInfo, IEnumerable<MenuEncounter> encounters)
+        {
+            IsRead = false;
+            Display(sceneInfo, encounters);
+        }
+        protected virtual void Display(MenuSceneInfo sceneInfo, IEnumerable<MenuEncounter> encounters)
+        {
+            NewCaseButton.gameObject.SetActive(!IsRead);
             gameObject.SetActive(true);
             CurrentSceneInfo = sceneInfo;
 
@@ -40,6 +53,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             foreach (var encounter in encounters)
                 SetEncounter(encounter);
         }
+
 
         public override void Hide()
         {
@@ -55,7 +69,10 @@ namespace ClinicalTools.SimEncounters.MainMenu
         {
             var encounterUI = Instantiate(OptionPrefab, OptionsParent);
             encounterUI.Selected += (selectedEncounter) => EncounterSelected?.Invoke(selectedEncounter);
-            encounterUI.DisplayForRead(CurrentSceneInfo, encounter);
+            if (IsRead)
+                encounterUI.DisplayForRead(CurrentSceneInfo, encounter);
+            else
+                encounterUI.DisplayForEdit(CurrentSceneInfo, encounter);
 
             EncounterDisplays.Add(encounterUI);
         }
