@@ -34,11 +34,11 @@ namespace ClinicalTools.SimEncounters.MainMenu
     public class EncounterEditStarter : IEncounterStarter
     {
         protected IWriterSceneStarter SceneStarter { get; set; }
-        protected IEncounterReader EncounterReader { get; set; }
-        public EncounterEditStarter(IWriterSceneStarter sceneStarter, IEncounterReader encounterReader)
+        protected IEncounterReaderSelector EncounterReaderSelector { get; set; }
+        public EncounterEditStarter(IWriterSceneStarter sceneStarter, IEncounterReaderSelector encounterReaderSelector)
         {
             SceneStarter = sceneStarter;
-            EncounterReader = encounterReader;
+            EncounterReaderSelector = encounterReaderSelector;
         }
 
         public virtual void StartEncounter(MenuSceneInfo sceneInfo, MenuEncounter menuEncounter)
@@ -47,7 +47,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 menuEncounter.Status = new EncounterBasicStatus();
 
             var metadata = menuEncounter.GetLatestTypedMetada();
-            var encounter = EncounterReader.GetEncounter(sceneInfo.User, metadata.Value);
+            var encounterReader = EncounterReaderSelector.GetEncounterReader(metadata.Key);
+            var encounter = encounterReader.GetEncounter(sceneInfo.User, metadata.Value);
             var encounterSceneInfo = new LoadingWriterSceneInfo(sceneInfo.User, sceneInfo.LoadingScreen, encounter);
             SceneStarter.StartScene(encounterSceneInfo);
         }

@@ -8,17 +8,13 @@ namespace ClinicalTools.SimEncounters.MainMenu
     }
     public class MenuSceneStarter : IMenuSceneStarter
     {
-        protected IScenePathData ScenePathData { get; }
-
-        public MenuSceneStarter(IScenePathData scenePathData)
-        {
-            ScenePathData = scenePathData;
-        }
+        protected string ScenePath { get; }
+        public MenuSceneStarter(string scenePath) => ScenePath = scenePath;
 
         public virtual void StartScene(LoadingMenuSceneInfo data)
         {
             data.LoadingScreen?.Show();
-            var loading = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(ScenePathData.MainMenuPath);
+            var loading = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(ScenePath);
             loading.completed += (asyncOperation) => StartMainMenu(data);
         }
 

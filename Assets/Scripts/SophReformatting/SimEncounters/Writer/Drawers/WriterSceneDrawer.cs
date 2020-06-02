@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using ClinicalTools.SimEncounters.Data;
+using ClinicalTools.SimEncounters.MainMenu;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters.Writer
 {
@@ -13,12 +15,28 @@ namespace ClinicalTools.SimEncounters.Writer
         [SerializeField] private Button saveButton;
         public virtual List<Button> MainMenuButtons { get => mainMenuButtons; set => mainMenuButtons = value; }
         [SerializeField] private List<Button> mainMenuButtons;
+        public virtual Button ReaderButton { get => readerButton; set => readerButton = value; }
+        [SerializeField] private Button readerButton;
         public BaseEncounterDrawer EncounterDrawer { get => encounterDrawer; set => encounterDrawer = value; }
         [SerializeField] private BaseEncounterDrawer encounterDrawer;
 
+        protected IReaderSceneStarter ReaderSceneStarter { get; set; }
+        protected IMenuSceneStarter MenuSceneStarter { get; set; }
+        protected IMenuEncountersInfoReader MenuInfoReader { get; set; }
+        [Inject]
+        public virtual void Inject(
+            IMenuSceneStarter menuSceneStarter, IMenuEncountersInfoReader menuInfoReader, IReaderSceneStarter sceneStarter)
+        {
+            ReaderSceneStarter = sceneStarter;
+            MenuSceneStarter = menuSceneStarter;
+            MenuInfoReader = menuInfoReader;
+        }
         protected virtual void Awake()
         {
             SaveButton.onClick.AddListener(SaveEncounter);
+            ReaderButton.onClick.AddListener(ShowInReader);
+            foreach (var mainMenuButton in MainMenuButtons)
+                mainMenuButton.onClick.AddListener(ReturnToMainMenu);
         }
 
         public override void Display(LoadingWriterSceneInfo sceneInfo)
@@ -48,6 +66,22 @@ namespace ClinicalTools.SimEncounters.Writer
             EncounterDrawer.Display(sceneInfo.Encounter);
         }
 
-        private void SaveEncounter() => SavePopup.Display(SceneInfo.User, SceneInfo.Encounter);
+        protected virtual void SaveEncounter() => SavePopup.Display(SceneInfo.User, SceneInfo.Encounter);
+        protected virtual void ShowInReader() {
+            if (SceneInfo == null)
+                return;
+
+            var encounter = new UserEncounter(SceneInfo.User, SceneInfo.Encounter.Metadata, SceneInfo.Encounter, new EncounterStatus(new EncounterBasicStatus(), new EncounterContentStatus()));
+            var encounterResult = new WaitableResult<UserEncounter>(encounter);
+            var loadingInfo = new LoadingReaderSceneInfo(SceneInfo.User, SceneInfo.LoadingScreen, encounterResult);
+            ReaderSceneStarter.StartScene(loadingInfo);
+        }
+        protected virtual void ReturnToMainMenu()
+        {
+            var categories = MenuInfoReader.GetMenuEncountersInfo(SceneInfo.User);
+            var menuSceneInfo = new LoadingMenuSceneInfo(SceneInfo.User, SceneInfo.LoadingScreen, categories);
+
+            MenuSceneStarter.StartScene(menuSceneInfo);
+        }
     }
 }

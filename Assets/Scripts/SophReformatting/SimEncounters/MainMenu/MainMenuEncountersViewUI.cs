@@ -42,7 +42,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         }
         protected virtual void Display(MenuSceneInfo sceneInfo, IEnumerable<MenuEncounter> encounters)
         {
-            NewCaseButton.gameObject.SetActive(!IsRead);
+            if (NewCaseButton != null)
+                NewCaseButton.gameObject.SetActive(!IsRead);
             gameObject.SetActive(true);
             CurrentSceneInfo = sceneInfo;
 

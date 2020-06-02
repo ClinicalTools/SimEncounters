@@ -23,6 +23,8 @@ namespace ClinicalTools.SimEncounters
 
         public override void ShowMessage(string message, MessageType type = MessageType.Notification)
         {
+            gameObject.SetActive(true);
+
             BaseBasicMessageHandler messageHandler;
             if (type == MessageType.Notification)
                 messageHandler = NotificationHandler;

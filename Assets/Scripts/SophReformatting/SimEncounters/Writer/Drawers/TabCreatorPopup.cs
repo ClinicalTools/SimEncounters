@@ -42,6 +42,7 @@ namespace ClinicalTools.SimEncounters.Writer
             gameObject.SetActive(true);
             TabGroups.allowSwitchOff = true;
             TabTypes.allowSwitchOff = true;
+            NameField.text = "";
             foreach (Transform child in TabTypes.transform)
                 Destroy(child.gameObject);
             if (SelectedGroupButton != null)
@@ -65,9 +66,13 @@ namespace ClinicalTools.SimEncounters.Writer
         protected string SelectedPrefab { get; set; }
         protected virtual void AddTab()
         {
-            var name = NameField.text;
+            var name = NameField.text?.Trim();
             if (string.IsNullOrEmpty(name)) {
                 MessageHandler.ShowMessage("Name cannot be empty.", MessageType.Error);
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(SelectedPrefab)) {
+                MessageHandler.ShowMessage("Must select a tab template.", MessageType.Error);
                 return;
             }
 

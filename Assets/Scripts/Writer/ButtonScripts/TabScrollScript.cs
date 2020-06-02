@@ -1,55 +1,44 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class TabScrollScript : MonoBehaviour {
-    private Scrollbar scroll;
-    private GameObject leftButton;
-    private GameObject rightButton;
-    private readonly float speed = 1;
-    public bool GoLeft { get; set; }
-    public bool GoRight { get; set; }
-
-    void Start()
+namespace ClinicalTools.SimEncounters
+{
+    public class TabScrollScript : MonoBehaviour
     {
-        leftButton = transform.Find("TabScrollLeft").gameObject;
-        rightButton = transform.Find("TabScrollRight").gameObject;
+        public Scrollbar Scroll { get => scroll; set => scroll = value; }
+        [SerializeField] private Scrollbar scroll;
+        public TabScrollButtonScript LeftButton { get => leftButton; set => leftButton = value; }
+        [SerializeField] private TabScrollButtonScript leftButton;
+        public TabScrollButtonScript RightButton { get => rightButton; set => rightButton = value; }
+        [SerializeField] private TabScrollButtonScript rightButton;
 
-        var scrollbar = transform.Find("ScrollBar");
-        scroll = GetComponent<Scrollbar>();
+        private const float SPEED = 1;
+        private bool showingButtons = true;
 
-
-        if (!scroll)
-            scroll = transform.Find("ScrollBar").GetComponent<Scrollbar>();
-    }
-
-    private void Update()
-    {
-        if (GoLeft) {
-            scroll.value -= Time.deltaTime * speed / (1 - scroll.size);
-            if (scroll.value <= 0.01) {
-                GoLeft = false;
+        protected virtual void Update()
+        {
+            if (Scroll.size > .99f) {
+                if (showingButtons)
+                    HideButtons();
+                return;
             }
-        } else if (GoRight) {
-            scroll.value += Time.deltaTime * speed / (1 - scroll.size);
-            if (scroll.value >= .99) {
-                GoRight = false;
-            }
+
+            showingButtons = true;
+            if (LeftButton.IsDown)
+                Scroll.value -= GetDistance();
+            else if (RightButton.IsDown)
+                Scroll.value += GetDistance();
+
+            LeftButton.SetActive(Scroll.value > .01f);
+            RightButton.SetActive(Scroll.value < .99f);
         }
 
-        if (scroll.size < .99f) {
-            if (scroll.value <= .01f) {
-                leftButton.SetActive(false);
-            } else {
-                leftButton.SetActive(true);
-            }
-            if (scroll.value >= .99f) {
-                rightButton.SetActive(false);
-            } else {
-                rightButton.SetActive(true);
-            }
-        } else {
-            leftButton.SetActive(false);
-            rightButton.SetActive(false);
+        protected virtual float GetDistance() => Time.deltaTime * SPEED / (1 - Scroll.size);
+        protected virtual void HideButtons()
+        {
+            showingButtons = false;
+            LeftButton.SetActive(false);
+            RightButton.SetActive(false);
         }
     }
 }

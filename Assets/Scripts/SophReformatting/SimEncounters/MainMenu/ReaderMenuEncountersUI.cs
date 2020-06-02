@@ -59,7 +59,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected virtual void SceneInfoLoaded(MenuSceneInfo sceneInfo)
         {
-            sceneInfo.LoadingScreen.Stop();
+            sceneInfo.LoadingScreen?.Stop();
             DownloadingCases.SetActive(false);
 
             SceneInfo = sceneInfo;

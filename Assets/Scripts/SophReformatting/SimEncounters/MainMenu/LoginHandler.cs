@@ -14,14 +14,6 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public event Action<User> LoggedIn;
 
 
-        public void GuestLogin(ILoadingScreen loadingScreen)
-        {
-            var x = new MenuSceneStarter(new MobileScenePathData());
-            //var info = new InfoNeededForMainMenuToHappen(User.Guest, loadingScreen, new EncountersInfoReader());
-
-            //x.StartMainMenu(EncounterSceneManager.EncounterInstance, info);
-            LoggedIn?.Invoke(User.Guest);
-        }
 
         public void Logout(ILoadingScreen loadingScreen)
         {
