@@ -4,6 +4,11 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
+    public class CaseCreator
+    {
+        public void Something() { }
+    }
+
     public class EncounterReaderSelector : IEncounterReaderSelector
     {
         protected virtual Dictionary<SaveType, IEncounterReader> EncounterReaders { get; } = new Dictionary<SaveType, IEncounterReader>();

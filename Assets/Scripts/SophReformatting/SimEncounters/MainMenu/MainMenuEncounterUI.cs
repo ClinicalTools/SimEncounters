@@ -1,11 +1,12 @@
 ﻿using ClinicalTools.SimEncounters.Data;
 using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
+
+
     public class MainMenuEncounterUI : MonoBehaviour
     {
         public event Action<MenuEncounter> Selected;

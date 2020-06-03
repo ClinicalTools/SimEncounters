@@ -89,8 +89,8 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void InstallLocalTypeBindings()
         {
-            Container.Bind<IMetadatasReader>().WithId(SaveType.Local).To<LocalMetadatasReader>().AsTransient();
             Container.Bind<IUserEncounterReader>().WithId(SaveType.Local).To<UserEncounterReader>().AsTransient();
+            Container.Bind<IMetadatasReader>().WithId(SaveType.Local).To<LocalMetadatasReader>().AsTransient();
             Container.Bind<IEncounterReader>().WithId(SaveType.Local).To<CEEncounterReader>().AsTransient();
 
             bool localBindingCondition(InjectContext injectContext) => ContextHierarchyContainsIdentifier(injectContext, SaveType.Local);
@@ -104,8 +104,8 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void InstallAutosaveTypeBindings()
         {
-            Container.Bind<IMetadatasReader>().WithId(SaveType.Autosave).To<LocalMetadatasReader>().AsTransient();
             Container.Bind<IUserEncounterReader>().WithId(SaveType.Autosave).To<UserEncounterReader>().AsTransient();
+            Container.Bind<IMetadatasReader>().WithId(SaveType.Autosave).To<LocalMetadatasReader>().AsTransient();
             Container.Bind<IEncounterReader>().WithId(SaveType.Autosave).To<CEEncounterReader>().AsTransient();
 
             bool autosaveBindingCondition(InjectContext injectContext) => ContextHierarchyContainsIdentifier(injectContext, SaveType.Autosave);
@@ -118,8 +118,8 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void InstallDemoTypeBindings()
         {
-            Container.Bind<IMetadatasReader>().WithId(SaveType.Demo).To<LocalMetadatasReader>().AsTransient();
             Container.Bind<IUserEncounterReader>().WithId(SaveType.Demo).To<UserEncounterReader>().AsTransient();
+            Container.Bind<IMetadatasReader>().WithId(SaveType.Demo).To<LocalMetadatasReader>().AsTransient();
             Container.Bind<IEncounterReader>().WithId(SaveType.Demo).To<CEEncounterReader>().AsTransient();
 
             bool demoBindingCondition(InjectContext injectContext) => ContextHierarchyContainsIdentifier(injectContext, SaveType.Demo);
