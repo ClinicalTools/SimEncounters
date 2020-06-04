@@ -27,12 +27,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private List<Button> hideOverviewButtons;
 
         protected IReaderSceneStarter ReaderSceneStarter { get; set; }
-        protected IUserEncounterReaderSelector EncounterReaderSelector { get; set; }
+        protected IUserEncounterReader EncounterReader { get; set; }
         [Inject]
-        public virtual void Inject(IReaderSceneStarter readerSceneStarter, IUserEncounterReaderSelector encounterReaderSelector)
+        public virtual void Inject(IReaderSceneStarter readerSceneStarter, IUserEncounterReader encounterReader)
         {
             ReaderSceneStarter = readerSceneStarter;
-            EncounterReaderSelector = encounterReaderSelector;
+            EncounterReader = encounterReader;
         }
 
         protected virtual void Awake()
@@ -79,9 +79,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 menuEncounter.Status = new EncounterBasicStatus();
 
             var metadata = menuEncounter.GetLatestTypedMetada();
-            IUserEncounterReader encounterReader = EncounterReaderSelector.GetUserEncounterReader(metadata.Key);
-
-            var encounter = encounterReader.GetUserEncounter(sceneInfo.User, metadata.Value, menuEncounter.Status);
+            var encounter = EncounterReader.GetUserEncounter(sceneInfo.User, metadata.Value, menuEncounter.Status, metadata.Key);
             var encounterSceneInfo = new LoadingReaderSceneInfo(sceneInfo.User, sceneInfo.LoadingScreen, encounter);
             ReaderSceneStarter.StartScene(encounterSceneInfo);
         }

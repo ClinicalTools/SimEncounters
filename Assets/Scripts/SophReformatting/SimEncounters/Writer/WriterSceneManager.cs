@@ -11,8 +11,8 @@ namespace ClinicalTools.SimEncounters.Writer
 
         public void Display(LoadingWriterSceneInfo sceneInfo) => WriterDrawer.Display(sceneInfo);
 
-        protected IEncounterReaderSelector EncounterReaderSelector { get; set; }
-        [Inject] public virtual void Inject(IEncounterReaderSelector readerSelector) => EncounterReaderSelector = readerSelector;
+        protected IEncounterReader EncounterReader { get; set; }
+        [Inject] public virtual void Inject(IEncounterReader encounterReader) => EncounterReader = encounterReader;
 
         protected override void StartAsInitialScene()
         {
@@ -27,9 +27,7 @@ namespace ClinicalTools.SimEncounters.Writer
                 Difficulty = Difficulty.Intermediate
             };
 
-            var encounterReader = EncounterReaderSelector.GetEncounterReader(SaveType.Demo);
-            var encounter = encounterReader.GetEncounter(User.Guest, metadata);
-
+            var encounter = EncounterReader.GetEncounter(User.Guest, metadata, SaveType.Demo);
             var sceneInfo = new LoadingWriterSceneInfo(User.Guest, null, encounter);
             Display(sceneInfo);
         }

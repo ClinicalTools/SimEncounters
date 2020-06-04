@@ -9,8 +9,8 @@ namespace ClinicalTools.SimEncounters.Reader
         public BaseReaderSceneDrawer ReaderDrawer { get => readerDrawer; set => readerDrawer = value; }
         [SerializeField] private BaseReaderSceneDrawer readerDrawer;
 
-        protected IUserEncounterReaderSelector ReaderSelector { get; set; }
-        [Inject] public virtual void Inject(IUserEncounterReaderSelector readerSelector) => ReaderSelector = readerSelector;
+        protected IUserEncounterReader EncounterReader { get; set; }
+        [Inject] public virtual void Inject(IUserEncounterReader encounterReader) => EncounterReader = encounterReader;
 
         protected override void StartAsInitialScene()
         {
@@ -25,10 +25,9 @@ namespace ClinicalTools.SimEncounters.Reader
                 Difficulty = Difficulty.Intermediate
             };
 
-            var encounterReader = ReaderSelector.GetUserEncounterReader(SaveType.Demo);
-            var fullEncounter = encounterReader.GetUserEncounter(User.Guest, metadata, new EncounterBasicStatus());
-
+            var fullEncounter = EncounterReader.GetUserEncounter(User.Guest, metadata, new EncounterBasicStatus(), SaveType.Demo);
             var sceneInfo = new LoadingReaderSceneInfo(User.Guest, null, fullEncounter);
+
             Display(sceneInfo);
         }
 

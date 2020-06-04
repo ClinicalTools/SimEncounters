@@ -4,36 +4,29 @@ namespace ClinicalTools.SimEncounters
 {
     public class EncounterReader : IEncounterReader
     {
-        private readonly IEncounterContentReader contentReader;
-        private readonly IImageDataReader imageDataReader;
-        public EncounterReader(IEncounterContentReader contentReader, IImageDataReader imageDataReader)
+        private readonly IEncounterDataReaderSelector dataReaderSelector;
+        public EncounterReader(IEncounterDataReaderSelector dataReaderSelector)
         {
-            this.contentReader = contentReader;
-            this.imageDataReader = imageDataReader;
+            this.dataReaderSelector = dataReaderSelector;
         }
 
-        public virtual WaitableResult<Encounter> GetEncounter(User user, EncounterMetadata metadata)
+        public virtual WaitableResult<Encounter> GetEncounter(User user, EncounterMetadata metadata, SaveType saveType)
         {
-            var content = contentReader.GetEncounterContent(user, metadata);
-            var imageData = imageDataReader.GetImageData(user, metadata);
+            var dataReader = dataReaderSelector.GetEncounterDataReader(saveType);
+
+            var data = dataReader.GetEncounterData(user, metadata);
 
             var encounterData = new WaitableResult<Encounter>();
-            void processResults() => ProcessResults(encounterData, metadata, content, imageData);
-            content.AddOnCompletedListener((result) => processResults());
-            imageData.AddOnCompletedListener((result) => processResults());
+            data.AddOnCompletedListener((result) => ProcessResults(encounterData, metadata, data));
 
             return encounterData;
         }
 
         protected virtual void ProcessResults(WaitableResult<Encounter> result,
             EncounterMetadata metadata,
-            WaitableResult<EncounterContent> content,
-            WaitableResult<EncounterImageData> imageData)
+            WaitableResult<EncounterData> data)
         {
-            if (result.IsCompleted || !content.IsCompleted || !imageData.IsCompleted)
-                return;
-
-            var encounterData = new Encounter(metadata, content.Result, imageData.Result);
+            var encounterData = new Encounter(metadata, data.Result.Content, data.Result.ImageData);
             result.SetResult(encounterData);
         }
     }

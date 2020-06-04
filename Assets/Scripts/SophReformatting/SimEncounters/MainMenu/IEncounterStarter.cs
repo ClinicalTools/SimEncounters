@@ -11,11 +11,11 @@ namespace ClinicalTools.SimEncounters.MainMenu
     public class EncounterReadStarter : IEncounterStarter
     {
         protected IReaderSceneStarter SceneStarter { get; set; }
-        protected IUserEncounterReaderSelector EncounterReaderSelector { get; set; }
-        public EncounterReadStarter(IReaderSceneStarter sceneStarter, IUserEncounterReaderSelector encounterReaderSelector)
+        protected IUserEncounterReader EncounterReader { get; set; }
+        public EncounterReadStarter(IReaderSceneStarter sceneStarter, IUserEncounterReader encounterReader)
         {
             SceneStarter = sceneStarter;
-            EncounterReaderSelector = encounterReaderSelector;
+            EncounterReader = encounterReader;
         }
 
         public virtual void StartEncounter(MenuSceneInfo sceneInfo, MenuEncounter menuEncounter)
@@ -24,9 +24,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 menuEncounter.Status = new EncounterBasicStatus();
 
             var metadata = menuEncounter.GetLatestTypedMetada();
-            IUserEncounterReader encounterReader = EncounterReaderSelector.GetUserEncounterReader(metadata.Key);
-
-            var encounter = encounterReader.GetUserEncounter(sceneInfo.User, metadata.Value, menuEncounter.Status);
+            var encounter = EncounterReader.GetUserEncounter(sceneInfo.User, metadata.Value, menuEncounter.Status, metadata.Key);
             var encounterSceneInfo = new LoadingReaderSceneInfo(sceneInfo.User, sceneInfo.LoadingScreen, encounter);
             SceneStarter.StartScene(encounterSceneInfo);
         }
@@ -34,11 +32,11 @@ namespace ClinicalTools.SimEncounters.MainMenu
     public class EncounterEditStarter : IEncounterStarter
     {
         protected IWriterSceneStarter SceneStarter { get; set; }
-        protected IEncounterReaderSelector EncounterReaderSelector { get; set; }
-        public EncounterEditStarter(IWriterSceneStarter sceneStarter, IEncounterReaderSelector encounterReaderSelector)
+        protected IEncounterReader EncounterReader { get; set; }
+        public EncounterEditStarter(IWriterSceneStarter sceneStarter, IEncounterReader encounterReader)
         {
             SceneStarter = sceneStarter;
-            EncounterReaderSelector = encounterReaderSelector;
+            EncounterReader = encounterReader;
         }
 
         public virtual void StartEncounter(MenuSceneInfo sceneInfo, MenuEncounter menuEncounter)
@@ -47,8 +45,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 menuEncounter.Status = new EncounterBasicStatus();
 
             var metadata = menuEncounter.GetLatestTypedMetada();
-            var encounterReader = EncounterReaderSelector.GetEncounterReader(metadata.Key);
-            var encounter = encounterReader.GetEncounter(sceneInfo.User, metadata.Value);
+            var encounter = EncounterReader.GetEncounter(sceneInfo.User, metadata.Value, metadata.Key);
             var encounterSceneInfo = new LoadingWriterSceneInfo(sceneInfo.User, sceneInfo.LoadingScreen, encounter);
             SceneStarter.StartScene(encounterSceneInfo);
         }
