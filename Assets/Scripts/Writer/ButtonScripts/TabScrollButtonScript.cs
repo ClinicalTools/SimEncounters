@@ -16,6 +16,5 @@ namespace ClinicalTools.SimEncounters
                 IsDown = false;
             gameObject.SetActive(value);
         }
-
     }
 }

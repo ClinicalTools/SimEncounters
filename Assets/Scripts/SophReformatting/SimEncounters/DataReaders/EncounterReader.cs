@@ -11,7 +11,7 @@ namespace ClinicalTools.SimEncounters
         }
 
         public virtual WaitableResult<Encounter> GetEncounter(User user, EncounterMetadata metadata, SaveType saveType)
-        {
+        { 
             var dataReader = dataReaderSelector.GetEncounterDataReader(saveType);
 
             var data = dataReader.GetEncounterData(user, metadata);

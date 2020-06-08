@@ -34,17 +34,17 @@ namespace ClinicalTools.SimEncounters.Extensions
         public static void EnsureChildIsShowing(this ScrollRect scrollRect, RectTransform childTransform)
         {
             if (scrollRect.horizontal)
-                EnsureHorizontalChildIsShowing(scrollRect, childTransform);
+                scrollRect.EnsureHorizontalChildIsShowing(childTransform, scrollRect.horizontalNormalizedPosition);
             if (scrollRect.vertical)
-                EnsureVerticalChildIsShowing(scrollRect, childTransform);
+                scrollRect.EnsureVerticalChildIsShowing(childTransform, scrollRect.verticalNormalizedPosition);
         }
 
-        private static void EnsureVerticalChildIsShowing(ScrollRect scrollRect, RectTransform childTransform)
+        public static void EnsureVerticalChildIsShowing(this ScrollRect scrollRect, RectTransform childTransform, float currentPosition)
         {
             scrollRect.verticalNormalizedPosition =
                 GetNormalizedPositionFromEnd(scrollRect.viewport.rect.height, scrollRect.content.rect.height,
                 scrollRect.content.pivot.y, childTransform.localPosition.y, childTransform.rect.height,
-                scrollRect.verticalNormalizedPosition);
+                currentPosition);
         }
         private static float GetNormalizedPositionFromEnd(float viewportLength, float contentLength,
             float contentPivot, float childLocalPosition, float childLength, float currentNormalizedPosition)
@@ -64,11 +64,13 @@ namespace ClinicalTools.SimEncounters.Extensions
             return Mathf.Clamp(currentNormalizedPosition, childEnd, childStart);
         }
 
-        private static void EnsureHorizontalChildIsShowing(ScrollRect scrollRect, RectTransform childTransform)
+        public static void EnsureHorizontalChildIsShowing(this ScrollRect scrollRect, RectTransform childTransform, float currentPosition)
         {
-            scrollRect.horizontalNormalizedPosition =
+            var pos =
                 GetNormalizedPositionFromStart(scrollRect.viewport.rect.width, scrollRect.content.rect.width,
-                childTransform.localPosition.x, childTransform.rect.width, scrollRect.horizontalNormalizedPosition);
+                childTransform.localPosition.x, childTransform.rect.width, currentPosition);
+            //if (Mathf.Abs(currentPosition - pos) > .001f)
+                scrollRect.horizontalNormalizedPosition = pos;
         }
         private static float GetNormalizedPositionFromStart(float viewportLength, float contentLength,
             float childLocalPosition, float childLength, float currentNormalizedPosition)
@@ -83,7 +85,7 @@ namespace ClinicalTools.SimEncounters.Extensions
             var childStart = childLocalPosition / scrollableDistance;
             var childEnd = (childLocalPosition - viewportLength + childLength) / scrollableDistance;
 
-            return Mathf.Clamp(currentNormalizedPosition, childStart, childEnd);
+            return Mathf.Clamp(currentNormalizedPosition, childEnd, childStart);
         }
     }
 }

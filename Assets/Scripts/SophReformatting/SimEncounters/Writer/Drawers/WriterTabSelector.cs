@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using ClinicalTools.SimEncounters.Extensions;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -42,8 +43,7 @@ namespace ClinicalTools.SimEncounters.Writer
             CurrentSection.Tabs.Add(tab);
             AddTabButton(CurrentEncounter, tab);
 
-            var tabSelectedArgs = new TabSelectedEventArgs(tab);
-            TabSelected?.Invoke(this, tabSelectedArgs);
+            SelectTab(tab);
         }
 
         protected Encounter CurrentEncounter { get; set; }
@@ -83,6 +83,8 @@ namespace ClinicalTools.SimEncounters.Writer
             var selectedArgs = new TabSelectedEventArgs(tab);
             CurrentTab = tab;
             TabSelected?.Invoke(this, selectedArgs);
+
+            TabButtonsScroll.EnsureChildIsShowing(TabButtons[tab].RectTransform);
         }
         protected void OnDeleted(Tab tab)
         {

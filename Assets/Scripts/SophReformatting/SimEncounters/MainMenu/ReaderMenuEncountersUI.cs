@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.MainMenu
@@ -17,8 +18,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public OverviewUI Overview { get => overview; set => overview = value; }
         [SerializeField] private OverviewUI overview;
 
-        public GameObject DownloadingCases { get => downloadingCases; set => downloadingCases = value; }
-        [SerializeField] private GameObject downloadingCases;
+        public List<GameObject> DownloadingMessageObjects { get => downloadingMessageObjects; set => downloadingMessageObjects = value; }
+        [SerializeField] private List<GameObject> downloadingMessageObjects;
 
 
         public MenuSceneInfo SceneInfo { get; set; }
@@ -48,9 +49,11 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public override void Display(LoadingMenuSceneInfo loadingSceneInfo)
         {
             AddListeners();
+            ShowCategoriesToggle.Display();
 
             EncounterSelector.Initialize();
-            DownloadingCases.SetActive(true);
+            foreach (var downloadingMessageObject in DownloadingMessageObjects)
+                downloadingMessageObject.SetActive(true);
             ShowCategoriesToggle.Select();
             DisplayCategories();
 
@@ -60,7 +63,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         protected virtual void SceneInfoLoaded(MenuSceneInfo sceneInfo)
         {
             sceneInfo.LoadingScreen?.Stop();
-            DownloadingCases.SetActive(false);
+            foreach (var downloadingMessageObject in DownloadingMessageObjects)
+                downloadingMessageObject.SetActive(false);
 
             SceneInfo = sceneInfo;
             CategorySelector.Display(sceneInfo, sceneInfo.MenuEncountersInfo.GetCategories());

@@ -52,6 +52,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         public override void Display(LoadingMenuSceneInfo loadingSceneInfo)
         {
+            ShowTemplatesToggle.Display();
+            ShowEncountersToggle.Display();
             SceneInfo = null;
             Initialize();
             ShowCasesLoading();

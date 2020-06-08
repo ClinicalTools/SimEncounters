@@ -44,15 +44,22 @@ namespace ClinicalTools.SimEncounters.Reader
             var selectedArgs = new UserTabSelectedEventArgs(tab);
             CurrentTab = tab;
             TabSelected?.Invoke(this, selectedArgs);
-            TabButtonsScroll.EnsureChildIsShowing((RectTransform)TabButtons[tab].transform);
+
+            var tabButtonTransform = (RectTransform)TabButtons[tab].transform;
+            EnsureButtonIsShowing(tab, tabButtonTransform);
+            NextFrame.Function(() => NextFrame.Function(() => EnsureButtonIsShowing(tab, tabButtonTransform)));
+        }
+
+        protected virtual void EnsureButtonIsShowing(UserTab tab, RectTransform tabButtonTransform)
+        {
+            if (tab == CurrentTab)
+                TabButtonsScroll.EnsureChildIsShowing((RectTransform)TabButtons[tab].transform);
         }
 
         public override void SelectTab(UserTab userTab)
         {
-            if (userTab == CurrentTab)
-                return;
-
-            TabButtons[userTab].Select();
+            if (userTab != CurrentTab)
+                TabButtons[userTab].Select();
         }
     }
 }
