@@ -29,8 +29,11 @@ namespace ClinicalTools.SimEncounters.Writer
             Encounter = encounter;
 
             SectionSelector.Display(encounter);
-            SelectSection(encounter.Content.Sections[0].Value);
+            SelectSection(encounter.Content.Sections[encounter.Content.CurrentSectionIndex].Value);
         }
+
+        public override void Serialize() => TabDrawer.Serialize();
+
         protected virtual Section CurrentSection { get; set; }
         private void OnSectionSelected(object sender, SectionSelectedEventArgs e) => SelectSection(e.SelectedSection);
         private void SelectSection(Section selectedSection)

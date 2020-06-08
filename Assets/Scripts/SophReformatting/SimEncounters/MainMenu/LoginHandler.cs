@@ -5,11 +5,11 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class LoginHandler : MonoBehaviour
     {
-        [SerializeField] private ManualLogin manualLoginPrefab;
         public ManualLogin ManualLoginPrefab { get => manualLoginPrefab; set => manualLoginPrefab = value; }
-        
-        [SerializeField] private Transform loginParent;
+        [SerializeField] private ManualLogin manualLoginPrefab;
+
         public Transform LoginParent { get => loginParent; set => loginParent = value; }
+        [SerializeField] private Transform loginParent;
 
         public event Action<User> LoggedIn;
 
@@ -28,6 +28,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         public void CreateNewLogin(ILoadingScreen loadingScreen)
         {
+
             /*
             var userParser = new UserParser();
             var deviceIdLogin = new DeviceIdLogin(new WebAddressBuilder(), userParser);

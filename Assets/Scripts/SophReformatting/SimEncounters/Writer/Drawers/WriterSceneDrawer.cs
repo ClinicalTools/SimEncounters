@@ -23,20 +23,25 @@ namespace ClinicalTools.SimEncounters.Writer
         protected IReaderSceneStarter ReaderSceneStarter { get; set; }
         protected IMenuSceneStarter MenuSceneStarter { get; set; }
         protected IMenuEncountersInfoReader MenuInfoReader { get; set; }
+        protected IEncounterWriter EncounterWriter { get; set; }
+        protected BaseConfirmationPopup ConfirmationPopup { get; set; }
         [Inject]
         public virtual void Inject(
-            IMenuSceneStarter menuSceneStarter, IMenuEncountersInfoReader menuInfoReader, IReaderSceneStarter sceneStarter)
+            IMenuSceneStarter menuSceneStarter, IMenuEncountersInfoReader menuInfoReader,
+            IReaderSceneStarter sceneStarter, IEncounterWriter encounterWriter, BaseConfirmationPopup confirmationPopup)
         {
             ReaderSceneStarter = sceneStarter;
             MenuSceneStarter = menuSceneStarter;
             MenuInfoReader = menuInfoReader;
+            EncounterWriter = encounterWriter;
+            ConfirmationPopup = confirmationPopup;
         }
         protected virtual void Awake()
         {
             SaveButton.onClick.AddListener(SaveEncounter);
             ReaderButton.onClick.AddListener(ShowInReader);
             foreach (var mainMenuButton in MainMenuButtons)
-                mainMenuButton.onClick.AddListener(ReturnToMainMenu);
+                mainMenuButton.onClick.AddListener(ConfirmReturnToMainMenu);
         }
 
         public override void Display(LoadingWriterSceneInfo sceneInfo)
@@ -66,15 +71,28 @@ namespace ClinicalTools.SimEncounters.Writer
             EncounterDrawer.Display(sceneInfo.Encounter);
         }
 
-        protected virtual void SaveEncounter() => SavePopup.Display(SceneInfo.User, SceneInfo.Encounter);
-        protected virtual void ShowInReader() {
+        protected virtual void SaveEncounter()
+        {
+            EncounterDrawer.Serialize();
+            SavePopup.Display(SceneInfo.User, SceneInfo.Encounter);
+        }
+        protected virtual void ShowInReader()
+        {
             if (SceneInfo == null)
                 return;
+
+            EncounterWriter.Save(SceneInfo.User, SceneInfo.Encounter);
+            EncounterDrawer.Serialize();
 
             var encounter = new UserEncounter(SceneInfo.User, SceneInfo.Encounter.Metadata, SceneInfo.Encounter, new EncounterStatus(new EncounterBasicStatus(), new EncounterContentStatus()));
             var encounterResult = new WaitableResult<UserEncounter>(encounter);
             var loadingInfo = new LoadingReaderSceneInfo(SceneInfo.User, SceneInfo.LoadingScreen, encounterResult);
             ReaderSceneStarter.StartScene(loadingInfo);
+        }
+        protected virtual void ConfirmReturnToMainMenu()
+        {
+            ConfirmationPopup.ShowConfirmation(ReturnToMainMenu, "CONFIRMATION",
+                "Are you sure you want to exit?\nAny unsaved changes will be lost");
         }
         protected virtual void ReturnToMainMenu()
         {

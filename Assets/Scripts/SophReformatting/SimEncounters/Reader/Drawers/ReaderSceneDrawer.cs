@@ -1,7 +1,6 @@
 ﻿using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.MainMenu;
 using ClinicalTools.SimEncounters.Writer;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,22 +17,24 @@ namespace ClinicalTools.SimEncounters.Reader
         public BaseUserEncounterDrawer EncounterDrawer { get => encounterDrawer; set => encounterDrawer = value; }
         [SerializeField] private BaseUserEncounterDrawer encounterDrawer;
 
-        public event Action GameClosed;
-
         protected LoadingReaderSceneInfo LoadingSceneInfo { get; set; }
 
         protected IWriterSceneStarter WriterSceneStarter { get; set; }
         protected IMenuSceneStarter MenuSceneStarter { get; set; }
         protected IMenuEncountersInfoReader MenuInfoReader { get; set; }
         protected IDetailedStatusWriter StatusWriter { get; set; }
+        protected BaseConfirmationPopup ConfirmationPopup { get; set; }
         [Inject]
         public virtual void Inject(
-            IMenuSceneStarter menuSceneStarter, IMenuEncountersInfoReader menuInfoReader, IWriterSceneStarter writerSceneStarter, IDetailedStatusWriter statusWriter)
+            IMenuSceneStarter menuSceneStarter, IMenuEncountersInfoReader menuInfoReader, 
+            IWriterSceneStarter writerSceneStarter, IDetailedStatusWriter statusWriter, 
+            BaseConfirmationPopup confirmationPopup)
         {
             WriterSceneStarter = writerSceneStarter;
             MenuSceneStarter = menuSceneStarter;
             MenuInfoReader = menuInfoReader;
             StatusWriter = statusWriter;
+            ConfirmationPopup = confirmationPopup;
         }
 
         private bool started = false;
@@ -44,7 +45,7 @@ namespace ClinicalTools.SimEncounters.Reader
                 EncounterDrawer.Display(userEncounter);
 
             foreach (var mainMenuButton in MainMenuButtons)
-                mainMenuButton.onClick.AddListener(ReturnToMainMenu);
+                mainMenuButton.onClick.AddListener(ConfirmReturnToMainMenu);
 
             if (WriterButton != null)
                 WriterButton.onClick.AddListener(OpenWriter);
@@ -62,9 +63,14 @@ namespace ClinicalTools.SimEncounters.Reader
         {
             userEncounter = sceneInfo.Encounter;
             if (started)
-                EncounterDrawer.Display(userEncounter);
+                EncounterDrawer.Display(sceneInfo.Encounter);
         }
 
+        protected virtual void ConfirmReturnToMainMenu()
+        {
+            ConfirmationPopup.ShowConfirmation(ReturnToMainMenu, "RETURN TO MAIN MENU",
+                "Are you sure you want to exit?");
+        }
         protected virtual void ReturnToMainMenu()
         {
             var categories = MenuInfoReader.GetMenuEncountersInfo(LoadingSceneInfo.User);
@@ -84,11 +90,13 @@ namespace ClinicalTools.SimEncounters.Reader
         protected void OnApplicationPause(bool pauseStatus)
         {
             if (pauseStatus)
-                GameClosed?.Invoke();
+                GameClosed();
         }
-        protected void OnApplicationQuit()
+        protected void OnApplicationQuit() => GameClosed();
+
+        protected virtual void GameClosed()
         {
-            GameClosed?.Invoke();
+
         }
     }
 }

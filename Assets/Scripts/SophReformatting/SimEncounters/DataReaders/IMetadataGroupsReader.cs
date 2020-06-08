@@ -79,8 +79,9 @@ namespace ClinicalTools.SimEncounters
                 metadataGroup = new Dictionary<SaveType, EncounterMetadata>();
                 metadataGroups.Add(metadata.RecordNumber, metadataGroup);
             }
-
-            metadataGroup.Add(saveType, metadata);
+            
+            if (!metadataGroup.ContainsKey(saveType))
+                metadataGroup.Add(saveType, metadata);
         }
     }
 }

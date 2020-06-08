@@ -13,18 +13,6 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public abstract void Hide();
     }
 
-    public interface IEncounterCopier
-    {
-        void CopyEncounter(MenuSceneInfo sceneInfo, MenuEncounter menuEncounter);
-    }
-    public class EncounterCopier : IEncounterCopier
-    {
-        public virtual void CopyEncounter(MenuSceneInfo sceneInfo, MenuEncounter menuEncounter)
-        {
-
-        }
-    }
-
     public class EncounterButtonsUI : MonoBehaviour
     {
         public BaseEncounterSelectorButtons ReadButtons { get => readButtons; set => readButtons = value; }

@@ -2,6 +2,34 @@
 
 namespace ClinicalTools.SimEncounters
 {
+    public class CEEncounterDataReader : EncounterDataReader
+    {
+        public CEEncounterDataReader(IEncounterContentReader contentReader, IImageDataReader imageDataReader) 
+            : base(contentReader, imageDataReader) { }
+
+        protected override void ProcessResults(WaitableResult<EncounterData> result,
+            WaitableResult<EncounterContent> content,
+            WaitableResult<EncounterImageData> imageData)
+        {
+            if (result.IsCompleted || !content.IsCompleted || !imageData.IsCompleted)
+                return;
+
+            if (imageData.Result is CEEncounterImageData ceImageData)
+                UpdateLegacySections(content.Result, ceImageData);
+
+            var encounterData = new EncounterData(content.Result, imageData.Result);
+            result.SetResult(encounterData);
+        }
+
+        protected virtual void UpdateLegacySections(EncounterContent content, CEEncounterImageData imageData)
+        {
+            foreach (var section in content.Sections) {
+                if (section.Value is CESection ceSection)
+                    ceSection.InitializeLegacyData(imageData.LegacyIconsInfo);
+            }
+        }
+    }
+
     public class EncounterDataReader : IEncounterDataReader
     {
         protected IEncounterContentReader ContentReader { get; }

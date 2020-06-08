@@ -34,8 +34,8 @@ namespace ClinicalTools.SimEncounters.Writer
             CurrentEncounter = encounter;
             CurrentPinData = pinData;
 
-            QuizPinButton.image.color = GetButtonColor(CurrentPinData.Quiz != null);
-            DialoguePinButton.image.color = GetButtonColor(CurrentPinData.Dialogue != null);
+            QuizPinButton.image.color = GetButtonColor(CurrentPinData?.Quiz != null);
+            DialoguePinButton.image.color = GetButtonColor(CurrentPinData?.Dialogue != null);
         }
 
         public override PinData Serialize() => CurrentPinData;

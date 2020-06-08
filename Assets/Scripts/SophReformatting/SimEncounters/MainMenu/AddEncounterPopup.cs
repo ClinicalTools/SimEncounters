@@ -1,7 +1,9 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using ClinicalTools.SimEncounters.Writer;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
@@ -19,6 +21,15 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public virtual Button CloseButton { get => closeButton; set => closeButton = value; }
         [SerializeField] private Button closeButton;
 
+        protected IEncounterDataReaderSelector DataReaderSelector { get; set; }
+        protected IWriterSceneStarter SceneStarter { get; set; }
+        [Inject]
+        protected virtual void Inject(IEncounterDataReaderSelector dataReaderSelector, IWriterSceneStarter sceneStarter)
+        {
+            DataReaderSelector = dataReaderSelector;
+            SceneStarter = sceneStarter;
+        }
+        
         protected virtual void Awake()
         {
             StartCaseButton.onClick.AddListener(StartCase);
@@ -27,11 +38,15 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected MenuSceneInfo SceneInfo { get; set; }
         protected EncounterMetadata CurrentMetadata { get; set; }
+        protected WaitableResult<EncounterData> EncounterData { get; set; }
         public virtual void Display(MenuSceneInfo sceneInfo, MenuEncounter encounter)
         {
             SceneInfo = sceneInfo;
-            CurrentMetadata = new EncounterMetadata(encounter.GetLatestMetadata());
+            var metadata = encounter.GetLatestTypedMetada();
+            CurrentMetadata = new EncounterMetadata(metadata.Value);
             SetFields();
+            var dataReader = DataReaderSelector.GetEncounterDataReader(metadata.Key);
+            EncounterData = dataReader.GetEncounterData(sceneInfo.User, metadata.Value);
         }
 
         public virtual void Display(MenuSceneInfo sceneInfo)
@@ -39,6 +54,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
             SceneInfo = sceneInfo;
             CurrentMetadata = new EncounterMetadata();
             SetFields();
+            var dataReader = DataReaderSelector.GetEncounterDataReader(SaveType.Default);
+            EncounterData = dataReader.GetEncounterData(sceneInfo.User, CurrentMetadata);
         }
 
         protected virtual void SetFields()
@@ -54,6 +71,18 @@ namespace ClinicalTools.SimEncounters.MainMenu
             CurrentMetadata.AuthorAccountId = SceneInfo.User.AccountId;
             CurrentMetadata.Title = $"{FirstNameField.text} {LastNameField.text}";
             CurrentMetadata.Description = DescriptionField.text;
+            CurrentMetadata.RecordNumber = Random.Range(-99999, -10000);
+            CurrentMetadata.Filename = $"{CurrentMetadata.RecordNumber}";
+            var encounter = new WaitableResult<Encounter>();
+            var writerInfo = new LoadingWriterSceneInfo(SceneInfo.User, SceneInfo.LoadingScreen, encounter);
+            EncounterData.AddOnCompletedListener((result) => Something(encounter, EncounterData));
+            SceneStarter.StartScene(writerInfo);
+        }
+
+        protected virtual void Something(WaitableResult<Encounter> encounter, WaitableResult<EncounterData> encounterData)
+        {
+            var result = new Encounter(CurrentMetadata, encounterData.Result.Content, encounterData.Result.ImageData);
+            encounter.SetResult(result);
         }
 
         protected virtual void Close()

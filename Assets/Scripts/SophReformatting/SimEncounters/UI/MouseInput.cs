@@ -45,6 +45,9 @@ namespace ClinicalTools.SimEncounters
         protected virtual void UpdateCursor()
         {
             var currentCursorState = CurrentCursorState;
+
+            if (CursorImage == null || NormalCursorSprite == null || DraggableCursorSprite == null)
+                return;
             if (currentCursorState == CursorState.Normal) {
                 CursorImage.sprite = NormalCursorSprite;
                 Cursor.SetCursor(NormalCursorTexture, new Vector2(32, 32), CursorMode.ForceSoftware);

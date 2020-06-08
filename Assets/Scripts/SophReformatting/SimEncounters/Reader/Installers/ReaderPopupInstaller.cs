@@ -14,7 +14,8 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private SpriteDrawer imagePopup;
         public BaseUserPinGroupDrawer PinButtonsPrefab { get => pinButtonsPrefab; set => pinButtonsPrefab = value; }
         [SerializeField] private BaseUserPinGroupDrawer pinButtonsPrefab;
-
+        public BaseConfirmationPopup ConfirmationPopup { get => confirmationPopup; set => confirmationPopup = value; }
+        [SerializeField] private BaseConfirmationPopup confirmationPopup;
 
         public override void InstallBindings()
         {
@@ -22,6 +23,7 @@ namespace ClinicalTools.SimEncounters.Reader
             Container.BindInstance(QuizPopup);
             Container.BindInstance(PinButtonsPrefab);
             Container.BindInstance(ImagePopup);
+            Container.BindInstance(ConfirmationPopup);
 
             Container.Bind<IDetailedStatusWriter>().To<DetailedStatusWriter>().AsTransient();
             Container.Bind<ServerDetailedStatusWriter>().To<ServerDetailedStatusWriter>().AsTransient();

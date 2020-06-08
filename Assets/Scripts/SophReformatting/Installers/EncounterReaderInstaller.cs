@@ -52,7 +52,7 @@ namespace ClinicalTools.SimEncounters
         {
             subcontainer.Bind<IUserEncounterReader>().To<UserEncounterReader>().AsTransient();
             subcontainer.Bind<IDetailedStatusReader>().To<LocalDetailedStatusReader>().AsTransient();
-            subcontainer.Bind<IEncounterReader>().To<CEEncounterReader>().AsTransient();
+            subcontainer.Bind<IEncounterReader>().To<EncounterReader>().AsTransient();
             InstallEncounterDataReaderBindings(subcontainer);
         }
 
@@ -67,7 +67,7 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void BindEncounterDataReaderInstaller(DiContainer subcontainer, SaveType saveType)
         {
-            subcontainer.Bind<IEncounterDataReader>().To<EncounterDataReader>().AsTransient();
+            subcontainer.Bind<IEncounterDataReader>().To<CEEncounterDataReader>().AsTransient();
             if (saveType == SaveType.Server) {
                 subcontainer.Bind<IEncounterContentReader>().To<ServerContentDataReader>().AsTransient();
                 subcontainer.Bind<IImageDataReader>().To<ServerImageDataReader>().AsTransient();

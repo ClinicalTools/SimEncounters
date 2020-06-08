@@ -41,7 +41,7 @@ namespace ClinicalTools.SimEncounters.Reader
             var section = userSection.Data;
             SetColor(false);
             var icons = userSection.Encounter.Data.Images.Icons;
-            if (icons.ContainsKey(section.IconKey))
+            if (section.IconKey != null && icons.ContainsKey(section.IconKey))
                 Icon.sprite = icons[section.IconKey];
 
             NameLabel.text = userSection.Data.Name;
@@ -59,16 +59,18 @@ namespace ClinicalTools.SimEncounters.Reader
 
         protected virtual void SetColor(bool isOn)
         {
-            var color = UserSection.Data.Color;
+            Color foregroundColor, backgroundColor;
             if (isOn) {
-                Image.color = color;
-                Icon.color = Color.white;
-                NameLabel.color = Color.white;
+                foregroundColor = Color.white;
+                backgroundColor = UserSection.Data.Color;
             } else {
-                Image.color = Color.white;
-                Icon.color = color;
-                NameLabel.color = color;
+                foregroundColor = UserSection.Data.Color;
+                backgroundColor = Color.white;
             }
+
+            Image.color = backgroundColor;
+            Icon.color = foregroundColor;
+            NameLabel.color = foregroundColor;
         }
     }
 }

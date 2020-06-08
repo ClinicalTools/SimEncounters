@@ -75,7 +75,7 @@ namespace ClinicalTools.SimEncounters.Writer
 
             Image.color = section.Color;
             var icons = encounter.Images.Icons;
-            if (icons.ContainsKey(section.IconKey))
+            if (section.IconKey != null && icons.ContainsKey(section.IconKey))
                 Icon.sprite = icons[section.IconKey];
 
             NameLabel.text = section.Name;

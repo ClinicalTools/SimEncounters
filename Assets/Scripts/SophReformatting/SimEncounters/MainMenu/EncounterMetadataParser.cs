@@ -12,6 +12,11 @@ namespace ClinicalTools.SimEncounters
 
     public class EncounterMetadataDeserializer : IParser<EncounterMetadata>
     {
+        private readonly IParser<EncounterMetadata> legacyParser;
+        public EncounterMetadataDeserializer(IParser<EncounterMetadata> legacyParser)
+            => this.legacyParser = legacyParser;
+
+
         private const char caseInfoDivider = '|';
         private const char categoryDivider = ';';
         private const int encounterParts = 15;
@@ -30,11 +35,12 @@ namespace ClinicalTools.SimEncounters
         private const int ratingIndex = 12;
         private const int isPublicIndex = 13;
         private const int isTemplateIndex = 14;
+
         public EncounterMetadata Parse(string text)
         {
             var parsedItem = text.Split(caseInfoDivider);
             if (parsedItem == null || parsedItem.Length < encounterParts)
-                return null;
+                return legacyParser.Parse(text);
 
             var metadata = new EncounterMetadata() {
                 RecordNumber = int.Parse(parsedItem[recordNumberIndex]),

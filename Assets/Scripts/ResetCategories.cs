@@ -8,8 +8,7 @@ public class ResetCategories : MonoBehaviour
     // Update is called once per frame
     private void OnEnable()
     {
-        foreach (var filter in filtersPanel.GetComponentsInChildren<Toggle>()) {
+        foreach (var filter in filtersPanel.GetComponentsInChildren<Toggle>())
             filter.isOn = false;
-        }
     }
 }

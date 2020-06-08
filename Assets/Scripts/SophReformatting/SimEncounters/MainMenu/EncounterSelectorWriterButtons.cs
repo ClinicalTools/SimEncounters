@@ -13,10 +13,10 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private Button copyButton;
 
         protected IEncounterStarter EncounterStarter { get; set; }
-        protected IEncounterCopier EncounterCopier { get; set; }
-        [Inject] protected virtual void Inject(IEncounterStarter encounterStarter, IEncounterCopier encounterCopier) {
+        protected AddEncounterPopup AddEncounterPopup { get; set; }
+        [Inject] protected virtual void Inject(IEncounterStarter encounterStarter, AddEncounterPopup addEncounterPopup) {
             EncounterStarter = encounterStarter;
-            EncounterCopier = encounterCopier;
+            AddEncounterPopup = addEncounterPopup;
         }
         protected virtual void Awake()
         {
@@ -44,6 +44,6 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public override void Hide() => gameObject.SetActive(false);
 
         public virtual void StartEncounter() => EncounterStarter.StartEncounter(SceneInfo, MenuEncounter);
-        public virtual void CopyEncounter() => EncounterCopier.CopyEncounter(SceneInfo, MenuEncounter);
+        public virtual void CopyEncounter() => AddEncounterPopup.Display(SceneInfo, MenuEncounter);
     }
 }

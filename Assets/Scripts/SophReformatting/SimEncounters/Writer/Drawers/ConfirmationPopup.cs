@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ClinicalTools.SimEncounters.Writer
+namespace ClinicalTools.SimEncounters
 {
     public class ConfirmationPopup : BaseConfirmationPopup
     {
@@ -11,8 +12,8 @@ namespace ClinicalTools.SimEncounters.Writer
         [SerializeField] private TextMeshProUGUI title;
         public TextMeshProUGUI Description { get => description; set => description = value; }
         [SerializeField] private TextMeshProUGUI description;
-        public Button CancelButton { get => cancelButton; set => cancelButton = value; }
-        [SerializeField] private Button cancelButton;
+        public List<Button> CancelButtons { get => cancelButtons; set => cancelButtons = value; }
+        [SerializeField] private List<Button> cancelButtons;
         public Button ConfirmButton { get => confirmButton; set => confirmButton = value; }
         [SerializeField] private Button confirmButton;
 
@@ -20,7 +21,8 @@ namespace ClinicalTools.SimEncounters.Writer
 
         protected virtual void Awake()
         {
-            CancelButton.onClick.AddListener(Close);
+            foreach (var cancelButton in CancelButtons)
+                cancelButton.onClick.AddListener(Close);
             ConfirmButton.onClick.AddListener(Confirm);
         }
 

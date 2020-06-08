@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using ClinicalTools.SimEncounters.Extensions;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -43,6 +44,7 @@ namespace ClinicalTools.SimEncounters.Reader
             var selectedArgs = new UserTabSelectedEventArgs(tab);
             CurrentTab = tab;
             TabSelected?.Invoke(this, selectedArgs);
+            TabButtonsScroll.EnsureChildIsShowing((RectTransform)TabButtons[tab].transform);
         }
 
         public override void SelectTab(UserTab userTab)

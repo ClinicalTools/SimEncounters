@@ -39,22 +39,14 @@ namespace ClinicalTools.SimEncounters.Extensions
                 EnsureVerticalChildIsShowing(scrollRect, childTransform);
         }
 
-        private static void EnsureHorizontalChildIsShowing(ScrollRect scrollRect, RectTransform childTransform)
-        {
-            scrollRect.horizontalNormalizedPosition =
-                GetNewNormalizedPosition(scrollRect.viewport.rect.width, scrollRect.content.rect.width,
-                scrollRect.content.pivot.x, childTransform.localPosition.x, childTransform.rect.width,
-                scrollRect.horizontalNormalizedPosition);
-        }
         private static void EnsureVerticalChildIsShowing(ScrollRect scrollRect, RectTransform childTransform)
         {
-            scrollRect.verticalNormalizedPosition = 
-                GetNewNormalizedPosition(scrollRect.viewport.rect.height, scrollRect.content.rect.height,
-                scrollRect.content.pivot.y, childTransform.localPosition.y, childTransform.rect.height, 
+            scrollRect.verticalNormalizedPosition =
+                GetNormalizedPositionFromEnd(scrollRect.viewport.rect.height, scrollRect.content.rect.height,
+                scrollRect.content.pivot.y, childTransform.localPosition.y, childTransform.rect.height,
                 scrollRect.verticalNormalizedPosition);
         }
-
-        private static float GetNewNormalizedPosition(float viewportLength, float contentLength,
+        private static float GetNormalizedPositionFromEnd(float viewportLength, float contentLength,
             float contentPivot, float childLocalPosition, float childLength, float currentNormalizedPosition)
         {
             if (viewportLength < 0)
@@ -70,7 +62,28 @@ namespace ClinicalTools.SimEncounters.Extensions
             var childEnd = (childPositionFromEnd - viewportLength) / scrollableDistance;
 
             return Mathf.Clamp(currentNormalizedPosition, childEnd, childStart);
+        }
 
+        private static void EnsureHorizontalChildIsShowing(ScrollRect scrollRect, RectTransform childTransform)
+        {
+            scrollRect.horizontalNormalizedPosition =
+                GetNormalizedPositionFromStart(scrollRect.viewport.rect.width, scrollRect.content.rect.width,
+                childTransform.localPosition.x, childTransform.rect.width, scrollRect.horizontalNormalizedPosition);
+        }
+        private static float GetNormalizedPositionFromStart(float viewportLength, float contentLength,
+            float childLocalPosition, float childLength, float currentNormalizedPosition)
+        {
+            if (viewportLength < 0)
+                return currentNormalizedPosition;
+
+            var scrollableDistance = contentLength - viewportLength;
+            if (scrollableDistance < 0)
+                return currentNormalizedPosition;
+
+            var childStart = childLocalPosition / scrollableDistance;
+            var childEnd = (childLocalPosition - viewportLength + childLength) / scrollableDistance;
+
+            return Mathf.Clamp(currentNormalizedPosition, childStart, childEnd);
         }
     }
 }

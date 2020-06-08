@@ -8,7 +8,7 @@ namespace ClinicalTools.SimEncounters
         protected static bool FirstScene { get; set; } = true;
         public static SceneManager Instance { get; protected set; }
 
-        public virtual void Awake()
+        protected virtual void Awake()
         {
             Instance = this;
 

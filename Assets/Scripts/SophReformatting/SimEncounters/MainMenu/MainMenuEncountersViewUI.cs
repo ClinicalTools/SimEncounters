@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
@@ -30,6 +31,17 @@ namespace ClinicalTools.SimEncounters.MainMenu
         protected MenuSceneInfo CurrentSceneInfo { get; set; }
 
         protected virtual bool IsRead { get; set; }
+
+        protected AddEncounterPopup AddEncounterPopup { get; set; }
+        [Inject] protected virtual void Inject(AddEncounterPopup addEncounterPopup)
+            => AddEncounterPopup = addEncounterPopup;
+        protected virtual void Awake()
+        {
+            if (NewCaseButton != null)
+                NewCaseButton.onClick.AddListener(AddNewCase);
+        }
+
+        protected MenuSceneInfo SceneInfo { get; set; }
         public override void DisplayForRead(MenuSceneInfo sceneInfo, IEnumerable<MenuEncounter> encounters)
         {
             IsRead = true;
@@ -42,6 +54,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         }
         protected virtual void Display(MenuSceneInfo sceneInfo, IEnumerable<MenuEncounter> encounters)
         {
+            SceneInfo = sceneInfo;
             if (NewCaseButton != null)
                 NewCaseButton.gameObject.SetActive(!IsRead);
             gameObject.SetActive(true);
@@ -79,5 +92,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         }
 
         public override void Initialize() { }
+
+        protected virtual void AddNewCase() => AddEncounterPopup.Display(SceneInfo);
     }
 }
