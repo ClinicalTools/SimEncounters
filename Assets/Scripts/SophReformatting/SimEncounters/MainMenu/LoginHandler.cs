@@ -1,53 +1,84 @@
 ﻿using System;
 using UnityEngine;
+using Zenject;
 
-namespace ClinicalTools.SimEncounters.MainMenu
+namespace ClinicalTools.SimEncounters
 {
-    public class LoginHandler : MonoBehaviour
+    public class StayLoggedIn
     {
-        public ManualLogin ManualLoginPrefab { get => manualLoginPrefab; set => manualLoginPrefab = value; }
-        [SerializeField] private ManualLogin manualLoginPrefab;
+        private const string PLAYER_PREF_KEY = "StayLoggedIn";
 
-        public Transform LoginParent { get => loginParent; set => loginParent = value; }
-        [SerializeField] private Transform loginParent;
+        private const int FALSE_VALUE = 0;
+        private const int TRUE_VALUE = 1;
 
-        public event Action<User> LoggedIn;
+        public bool Value => PlayerPrefs.GetInt(PLAYER_PREF_KEY) == TRUE_VALUE;
+        public void SetValue(bool value) => PlayerPrefs.SetInt(PLAYER_PREF_KEY, value ? TRUE_VALUE : FALSE_VALUE);
+    }
 
+    public abstract class SomethingSomethingLogin : MonoBehaviour
+    {
+        public abstract WaitableResult<User> InitialLogin(ILoadingScreen loadingScreen);
+        public abstract WaitableResult<User> Login();
+    }
 
+    public class LoginHandler : SomethingSomethingLogin
+    {
+        public ManualLogin ManualLogin { get => manualLogin; set => manualLogin = value; }
+        [SerializeField] private ManualLogin manualLogin;
 
-        public void Logout(ILoadingScreen loadingScreen)
+        protected ILoginManager AutoLogin { get; set; }
+        protected StayLoggedIn StayLoggedIn { get; set; }
+        [Inject]
+        public virtual void Inject(StayLoggedIn stayLoggedIn, ILoginManager autoLogin)
         {
-            /*
-            var userParser = new UserParser();
-            var passwordLogin = new PasswordLogin(new WebAddressBuilder(), userParser);
-            var manualLogin = Instantiate(ManualLoginPrefab, LoginParent);
-            manualLogin.Init(loadingScreen, passwordLogin);
-            manualLogin.LoggedIn += (sender, e) => UserLoggedIn(loadingScreen, e);
-            manualLogin.Begin();*/
+            StayLoggedIn = stayLoggedIn;
+            AutoLogin = autoLogin;
         }
 
-        public void CreateNewLogin(ILoadingScreen loadingScreen)
+        protected virtual WaitableResult<User> CurrentWaitableResult { get; set; }
+        public override WaitableResult<User> InitialLogin(ILoadingScreen loadingScreen)
         {
+            if (CurrentWaitableResult == null || CurrentWaitableResult.IsCompleted)
+                CurrentWaitableResult = new WaitableResult<User>();
 
-            /*
-            var userParser = new UserParser();
-            var deviceIdLogin = new DeviceIdLogin(new WebAddressBuilder(), userParser);
-            var autoLogin = new AutoLogin(deviceIdLogin);
-            var passwordLogin = new PasswordLogin(new WebAddressBuilder(), userParser);
-            var manualLogin = Instantiate(ManualLoginPrefab, LoginParent);
-            manualLogin.Init(loadingScreen, passwordLogin);
-            var login = new Login(autoLogin, manualLogin);
-            login.LoggedIn += (sender, e) => UserLoggedIn(loadingScreen, e);
-            login.Begin();*/
+            if (StayLoggedIn.Value)
+                TryAutoLogin();
+            else
+                ShowManualLogin();
+
+            return CurrentWaitableResult;
         }
-        /*
-        private void UserLoggedIn(ILoadingScreen loadingScreen, LoggedInEventArgs e)
-        {
-            var x = new MainMenuSceneStarter(new MobileScenePathData());
-            //var info = new InfoNeededForMainMenuToHappen(e.User, loadingScreen, new EncountersInfoReader());
 
-            //x.StartMainMenu(EncounterSceneManager.EncounterInstance, info);
-            LoggedIn?.Invoke(e.User);
-        }*/
+        public override WaitableResult<User> Login()
+        {
+            StayLoggedIn.SetValue(false);
+
+            if (CurrentWaitableResult == null || CurrentWaitableResult.IsCompleted)
+                CurrentWaitableResult = new WaitableResult<User>();
+
+            ShowManualLogin();
+
+            return CurrentWaitableResult;
+        }
+
+        protected virtual void TryAutoLogin()
+        {
+            var autoLoginResult = AutoLogin.Login();
+            autoLoginResult.AddOnCompletedListener(ProcessAutoLoginResult);
+        }
+        protected virtual void ProcessAutoLoginResult(User user)
+        {
+            if (user == null)
+                ShowManualLogin();
+            else
+                CurrentWaitableResult.SetResult(user);
+        }
+
+        protected virtual void ShowManualLogin()
+        {
+            var loginResult = ManualLogin.Login();
+            loginResult.AddOnCompletedListener(ProcessManualLoginResult);
+        }
+        protected virtual void ProcessManualLoginResult(User user) => CurrentWaitableResult.SetResult(user);
     }
 }

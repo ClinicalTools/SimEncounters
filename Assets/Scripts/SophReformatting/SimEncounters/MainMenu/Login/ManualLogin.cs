@@ -1,48 +1,48 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
-namespace ClinicalTools.SimEncounters.MainMenu
+namespace ClinicalTools.SimEncounters
 {
-    public class ManualLogin : MonoBehaviour, ILoginManager
-    {     
-        [SerializeField] private TMP_InputField usernameField;
+    public class ManualLogin : LoginThing
+    {
         public TMP_InputField UsernameField { get => usernameField; set => usernameField = value; }
-        
-        [SerializeField] private TMP_InputField passwordField;
+        [SerializeField] private TMP_InputField usernameField;
         public TMP_InputField PasswordField { get => passwordField; set => passwordField = value; }
-
-        [SerializeField] private Button loginButton;
+        [SerializeField] private TMP_InputField passwordField;
+        public Toggle StayLoggedInToggle { get => stayLoggedInToggle; set => stayLoggedInToggle = value; }
+        [SerializeField] private Toggle stayLoggedInToggle;
         public Button LoginButton { get => loginButton; set => loginButton = value; }
-
-        [SerializeField] private Button guestButton;
+        [SerializeField] private Button loginButton;
         public Button GuestButton { get => guestButton; set => guestButton = value; }
+        [SerializeField] private Button guestButton;
 
-        [SerializeField] private global::MessageHandler messageHandler;
-        public global::MessageHandler MessageHandler { get => messageHandler; set => messageHandler = value; }
-
-        protected ILoadingScreen LoadingScreen { get; private set; }
         protected IPasswordLoginManager PasswordLoginHandler { get; private set; }
-
-        public void Init(ILoadingScreen loadingScreen, IPasswordLoginManager passwordLoginHandler)
+        protected StayLoggedIn StayLoggedIn { get; set; }
+        [Inject]
+        public virtual void Inject(IPasswordLoginManager passwordLoginHandler, StayLoggedIn stayLoggedIn)
         {
-            LoadingScreen = loadingScreen;
             PasswordLoginHandler = passwordLoginHandler;
+            StayLoggedIn = stayLoggedIn;
+        }
+
+        protected virtual void Awake()
+        {
+            LoginButton.onClick.AddListener(PasswordLogin);
+            GuestButton.onClick.AddListener(GuestLogin);
         }
 
         protected virtual WaitableResult<User> CurrentWaitableResult { get; set; }
-        public WaitableResult<User> Login()
+        public override WaitableResult<User> Login()
         {
+            gameObject.SetActive(true);
+
             if (CurrentWaitableResult == null || CurrentWaitableResult.IsCompleted)
                 CurrentWaitableResult = new WaitableResult<User>();
 
-            gameObject.SetActive(true);
-
             UsernameField.text = "";
             PasswordField.text = "";
-            LoadingScreen.Stop();
-            LoginButton.onClick.AddListener(PasswordLogin);
-            GuestButton.onClick.AddListener(GuestLogin);
 
             return CurrentWaitableResult;
         }
@@ -65,18 +65,18 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected void ServerUserResponse(WaitableResult<User> waitableResult)
         {
-            if (waitableResult.IsError)
-            {
+            if (waitableResult.IsError) {
                 // show message maybe?
                 return;
             }
-            if (!CurrentWaitableResult.IsCompleted)
-            {
+            if (CurrentWaitableResult.IsCompleted) {
                 // show message maybe?
                 return;
             }
+
             gameObject.SetActive(false);
-            PlayerPrefs.SetInt("StayLoggedIn", 1);
+            if (StayLoggedInToggle == null || StayLoggedInToggle.isOn)
+                StayLoggedIn.SetValue(true);
             PlayerPrefs.Save();
             CurrentWaitableResult.SetResult(waitableResult.Result, waitableResult.Message);
         }

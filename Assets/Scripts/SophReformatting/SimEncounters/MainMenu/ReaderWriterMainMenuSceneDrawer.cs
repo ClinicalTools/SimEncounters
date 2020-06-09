@@ -17,6 +17,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         public GameObject SelectionScreen { get => selectionScreen; set => selectionScreen = value; }
         [SerializeField] private GameObject selectionScreen;
+        public GameObject ButtonsGroup { get => buttonsGroup; set => buttonsGroup = value; }
+        [SerializeField] private GameObject buttonsGroup;
 
         protected virtual void Awake()
         {
@@ -27,6 +29,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public LoadingMenuSceneInfo SceneInfo { get; set; }
         public override void Display(LoadingMenuSceneInfo loadingSceneInfo)
         {
+            ButtonsGroup.SetActive(true);
             SceneInfo = loadingSceneInfo;
             gameObject.SetActive(true);
         }
@@ -44,6 +47,10 @@ namespace ClinicalTools.SimEncounters.MainMenu
             WriterMenuDrawer.Display(SceneInfo);
         }
 
-        public override void Hide() => SelectionScreen.SetActive(false);
+        public override void Hide() 
+        {
+            ButtonsGroup.SetActive(false);
+            SelectionScreen.SetActive(false); 
+        }
     }
 }

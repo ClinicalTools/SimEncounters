@@ -17,10 +17,16 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 return toggle;
             }
         }
-        public TextMeshProUGUI label;
-        public Color onColor;
-        public Color offColor;
-        public Color hoverColor;
+
+
+        public TextMeshProUGUI Label { get => label; set => label = value; }
+        [SerializeField] private TextMeshProUGUI label;
+        public Color OnColor { get => onColor; set => onColor = value; }
+        [SerializeField] private Color onColor;
+        public Color OffColor { get => offColor; set => offColor = value; }
+        [SerializeField] private Color offColor;
+        public Color HoverColor { get => hoverColor; set => hoverColor = value; }
+        [SerializeField] private Color hoverColor;
 
         // Use this for initialization
         protected void Start()
@@ -35,31 +41,31 @@ namespace ClinicalTools.SimEncounters.MainMenu
             // 195 dark and 115 light
             if (isOn) {
                 Selected?.Invoke();
-                textColor = onColor;
+                textColor = OnColor;
             } else {
-                textColor = offColor;
+                textColor = OffColor;
             }
-            label.color = textColor;
+            Label.color = textColor;
             Toggle.interactable = !isOn;
         }
 
         public void OnPointerEnter(PointerEventData data)
         {
             if (!Toggle.isOn)
-                label.color = hoverColor;
+                Label.color = HoverColor;
         }
 
         public void OnPointerExit(PointerEventData data)
         {
             if (!Toggle.isOn)
-                label.color = offColor;
+                Label.color = OffColor;
         }
 
         public void Select() => Toggle.isOn = true;
 
         public void Show(string text)
         {
-            label.text = text;
+            Label.text = text;
             gameObject.SetActive(true);
             Select();
         }

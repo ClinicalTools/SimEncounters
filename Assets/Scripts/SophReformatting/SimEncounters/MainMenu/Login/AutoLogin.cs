@@ -18,9 +18,6 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         public WaitableResult<User> Login()
         {
-            if (PlayerPrefs.GetInt("StayLoggedIn", 0) == 0)
-                return new WaitableResult<User>(null, "Stay logged in is not true.", true);
-
             var webRequest = GetWebRequest();
             var serverResult = ServerReader.Begin(webRequest);
 

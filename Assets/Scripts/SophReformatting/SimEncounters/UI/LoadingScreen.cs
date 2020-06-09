@@ -4,14 +4,9 @@ using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
 {
-    public abstract class LoginThing : MonoBehaviour
+    public abstract class LoginThing : MonoBehaviour, ILoginManager
     {
-        public abstract WaitableResult<User> Login(ILoadingScreen loadingScreen);
-        public virtual void Logout()
-        {
-
-            PlayerPrefs.SetInt("StayLoggedIn", 0);
-        }
+        public abstract WaitableResult<User> Login();
     }
 
     public class LoadingScreen : MonoBehaviour, ILoadingScreen

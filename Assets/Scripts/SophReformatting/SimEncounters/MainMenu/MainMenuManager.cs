@@ -17,8 +17,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public LoadingScreen LoadingScreen { get => loadingScreen; set => loadingScreen = value; }
         [SerializeField] private LoadingScreen loadingScreen;
 
-        public LoginThing LoginHandler { get => login; set => login = value; }
-        [SerializeField] private LoginThing login;
+        public SomethingSomethingLogin LoginHandler { get => login; set => login = value; }
+        [SerializeField] private SomethingSomethingLogin login;
 
         protected IMenuEncountersInfoReader MenuInfoReader { get; set; }
         [Inject] public virtual void Inject(IMenuEncountersInfoReader menuInfoReader) => MenuInfoReader = menuInfoReader;
@@ -28,13 +28,13 @@ namespace ClinicalTools.SimEncounters.MainMenu
             base.Awake();
 
             if (MenuDrawer is ILogoutHandler logoutHandler)
-                logoutHandler.Logout += ShowLogin;
+                logoutHandler.Logout += Logout;
         }
 
         protected override void StartAsInitialScene()
         {
             if (LoginHandler != null)
-                ShowLogin();
+                ShowInitialLogin();
             else
                 Login(User.Guest);
         }
@@ -45,12 +45,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected virtual void Logout()
         {
-            LoginHandler.Logout();
-            ShowLogin();
+            var user = LoginHandler.Login();
+            user.AddOnCompletedListener(Login);
         }
-        protected virtual void ShowLogin()
+        protected virtual void ShowInitialLogin()
         {
-            var user = LoginHandler.Login(LoadingScreen);
+            var user = LoginHandler.InitialLogin(LoadingScreen);
             user.AddOnCompletedListener(Login);
         }
 
