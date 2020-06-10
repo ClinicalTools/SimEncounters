@@ -53,35 +53,38 @@ public class TabField : TabGroup
         var index = rowFields.IndexOf(this);
         while (++index < rowFields.Count) {
             var nextField = rowFields[index];
+            if (!nextField.Visible)
+                continue;
 
-            if (nextField.Visible) {
-                nextField.Select();
-                break;
-            }
+            nextField.Select();
+            break;
         }
     }
 
     protected virtual void Select()
     {
         selectable.Select();
-        if (scrollbar != null && scrollbar.viewport.rect.height < scrollbar.content.rect.height) {
+        if (scrollbar != null && scrollbar.viewport.rect.height < scrollbar.content.rect.height)
             scrollbar.SnapTo(topRect, botRect);
-        }
     }
 
     protected virtual void Update()
     {
-        if (EventSystem.current.currentSelectedGameObject == gameObject) {
-            if (WasSelected && Input.GetKeyDown(KeyCode.Tab)) {
-                if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
-                    SelectLast();
-                } else {
-                    SelectNext();
-                }
-            }
-            WasSelected = true;
-        } else {
+        if (EventSystem.current.currentSelectedGameObject != gameObject) {
             WasSelected = false;
+            return;
         }
+        if (!WasSelected) {
+            WasSelected = true;
+            return;
+        }
+
+        if (!Input.GetKeyDown(KeyCode.Tab))
+            return;
+
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            SelectLast();
+        else
+            SelectNext();
     }
 }

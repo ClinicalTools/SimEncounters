@@ -2070,6 +2070,7 @@ GameObject:
   - component: {fileID: 63382820}
   - component: {fileID: 63382823}
   - component: {fileID: 63382822}
+  - component: {fileID: 63382821}
   m_Layer: 5
   m_Name: StayLoggedInToggle
   m_TagString: Value
@@ -2098,6 +2099,20 @@ RectTransform:
   m_AnchoredPosition: {x: 135.84998, y: -252.4}
   m_SizeDelta: {x: 297, y: 40}
   m_Pivot: {x: 0, y: 0.5}
+--- !u!114 &63382821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 63382819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8c564b5dfa2e074faea9e5d93fb7ddf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  topRect: {fileID: 1330138369}
+  botRect: {fileID: 2034692388}
 --- !u!114 &63382822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3565,6 +3580,7 @@ GameObject:
   - component: {fileID: 136386031}
   - component: {fileID: 136386033}
   - component: {fileID: 136386034}
+  - component: {fileID: 136386035}
   m_Layer: 0
   m_Name: Username Input
   m_TagString: Untagged
@@ -3746,6 +3762,20 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &136386035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136386029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8c564b5dfa2e074faea9e5d93fb7ddf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  topRect: {fileID: 0}
+  botRect: {fileID: 1330138369}
 --- !u!1 &139136159
 GameObject:
   m_ObjectHideFlags: 0
@@ -8977,6 +9007,7 @@ GameObject:
   - component: {fileID: 358735819}
   - component: {fileID: 358735818}
   - component: {fileID: 358735821}
+  - component: {fileID: 358735822}
   m_Layer: 5
   m_Name: LoginGuestButton
   m_TagString: Untagged
@@ -9109,6 +9140,20 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &358735822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358735816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8c564b5dfa2e074faea9e5d93fb7ddf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  topRect: {fileID: 2034692388}
+  botRect: {fileID: 0}
 --- !u!1 &368928137
 GameObject:
   m_ObjectHideFlags: 0
@@ -34370,6 +34415,7 @@ GameObject:
   - component: {fileID: 1330138371}
   - component: {fileID: 1330138370}
   - component: {fileID: 1330138373}
+  - component: {fileID: 1330138374}
   m_Layer: 0
   m_Name: Password Input
   m_TagString: Untagged
@@ -34551,6 +34597,20 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &1330138374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1330138368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8c564b5dfa2e074faea9e5d93fb7ddf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  topRect: {fileID: 136386030}
+  botRect: {fileID: 63382820}
 --- !u!1 &1335991688
 GameObject:
   m_ObjectHideFlags: 0
@@ -37335,9 +37395,10 @@ GameObject:
   - component: {fileID: 1422321490}
   - component: {fileID: 1422321489}
   - component: {fileID: 1422321491}
+  - component: {fileID: 1422321492}
   m_Layer: 5
   m_Name: LoginPanel
-  m_TagString: Untagged
+  m_TagString: FieldGroup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -37416,6 +37477,18 @@ MonoBehaviour:
   stayLoggedInToggle: {fileID: 63382823}
   loginButton: {fileID: 2034692389}
   guestButton: {fileID: 358735818}
+--- !u!114 &1422321492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1422321487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 602282f31e531b9478b3dee7532abdcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1427601894
 GameObject:
   m_ObjectHideFlags: 0
@@ -53209,6 +53282,7 @@ GameObject:
   - component: {fileID: 2034692390}
   - component: {fileID: 2034692389}
   - component: {fileID: 2034692392}
+  - component: {fileID: 2034692393}
   m_Layer: 5
   m_Name: LoginButton
   m_TagString: Untagged
@@ -53342,6 +53416,20 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &2034692393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034692387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8c564b5dfa2e074faea9e5d93fb7ddf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  topRect: {fileID: 63382820}
+  botRect: {fileID: 358735817}
 --- !u!1 &2039868667
 GameObject:
   m_ObjectHideFlags: 0

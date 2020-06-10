@@ -5,7 +5,9 @@ using UnityEngine;
 /// <summary>
 /// Allows groups of tabbable fields to be sorted by a group to allow finding the next/last field.
 /// </summary>
-public abstract class TabGroup : MonoBehaviour, IComparable<TabGroup> {
+public abstract class TabGroup : MonoBehaviour, IComparable<TabGroup>
+{
+    private const string TOP_TAG = "FieldGroup";
     private TabGroup group;
     private CanvasGroup canvasGroup;
     /// <summary>
@@ -31,7 +33,7 @@ public abstract class TabGroup : MonoBehaviour, IComparable<TabGroup> {
     {
         if (group != null)
             return group.AllFields();
-        
+
         var fields = new List<TabField>(GetComponentsInChildren<TabField>());
         fields.Sort();
 
@@ -44,7 +46,7 @@ public abstract class TabGroup : MonoBehaviour, IComparable<TabGroup> {
 
         // The top tab group should have a "FieldGroup" tag to indicate it's at the top
         // This could hypothetically be changed to an editor bool if wanted, but I had already started to use tags for organization, so I just continued with that
-        if (tag != "FieldGroup")
+        if (!CompareTag(TOP_TAG))
             group = transform.parent.GetComponentInParent<TabGroup>();
     }
 
@@ -60,9 +62,8 @@ public abstract class TabGroup : MonoBehaviour, IComparable<TabGroup> {
 
         var otherGrp = other;
         while (otherGrp.group != null) {
-            if (group == otherGrp.group) {
+            if (group == otherGrp.group)
                 return group.Compare(this, otherGrp);
-            }
 
             otherGrp = otherGrp.group;
         }
@@ -70,8 +71,5 @@ public abstract class TabGroup : MonoBehaviour, IComparable<TabGroup> {
         return group.CompareTo(other);
     }
 
-    protected virtual int Compare(TabGroup child1, TabGroup child2)
-    {
-        return 0;
-    }
+    protected virtual int Compare(TabGroup child1, TabGroup child2) => 0;
 }

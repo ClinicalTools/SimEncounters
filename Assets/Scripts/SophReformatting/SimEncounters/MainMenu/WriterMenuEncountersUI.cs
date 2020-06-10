@@ -79,7 +79,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         {
             Overview.Hide();
             if (SceneInfo != null)
-                DisplayEncounters(SceneInfo.MenuEncountersInfo.GetEncounters());
+                DisplayEncounters(SceneInfo.MenuEncountersInfo.GetUserEncounters());
         }
         protected virtual void DisplayTemplates()
         {

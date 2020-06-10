@@ -36,7 +36,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
             var metadata = menuEncounter.GetLatestMetadata();
             if (EditButton != null)
-                EditButton.gameObject.SetActive(true);//metadata.AuthorAccountId == sceneInfo.User.AccountId);
+                EditButton.gameObject.SetActive(metadata.AuthorAccountId == sceneInfo.User.AccountId);
             if (CopyButton != null)
                 CopyButton.gameObject.SetActive(true);
         }

@@ -1,6 +1,6 @@
 ﻿
-public class TabColumn : TabGroup {
-
+public class TabColumn : TabGroup
+{
     protected override int Compare(TabGroup child1, TabGroup child2)
     {
         if (child1.transform.position.y > child2.transform.position.y)

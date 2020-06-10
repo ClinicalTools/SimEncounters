@@ -7,6 +7,7 @@ namespace ClinicalTools.SimEncounters
     {
         IEnumerable<Category> GetCategories();
         IEnumerable<MenuEncounter> GetEncounters();
+        IEnumerable<MenuEncounter> GetUserEncounters();
         IEnumerable<MenuEncounter> GetTemplates();
     }
 }
