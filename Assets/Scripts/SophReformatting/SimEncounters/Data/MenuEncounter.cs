@@ -8,18 +8,18 @@ namespace ClinicalTools.SimEncounters.Data
     }
     public class MenuEncounter
     {
-        public Dictionary<SaveType, EncounterMetadata> Metadata { get; }
+        public Dictionary<SaveType, IEncounterMetadata> Metadata { get; }
         public EncounterBasicStatus Status { get; set; }
 
-        public MenuEncounter(Dictionary<SaveType, EncounterMetadata> metadata, EncounterBasicStatus status)
+        public MenuEncounter(Dictionary<SaveType, IEncounterMetadata> metadata, EncounterBasicStatus status)
         {
             Metadata = metadata;
             Status = status;
         }
 
-        public KeyValuePair<SaveType, EncounterMetadata> GetLatestTypedMetada()
+        public KeyValuePair<SaveType, IEncounterMetadata> GetLatestTypedMetada()
         {
-            var latest = new KeyValuePair<SaveType, EncounterMetadata>();
+            var latest = new KeyValuePair<SaveType, IEncounterMetadata>();
             foreach (var metaData in Metadata)
             {
                 if (latest.Value == null || latest.Value.DateModified < metaData.Value.DateModified)
@@ -29,7 +29,7 @@ namespace ClinicalTools.SimEncounters.Data
             return latest;
         }
         public SaveType GetLatestType() => GetLatestTypedMetada().Key;
-        public EncounterMetadata GetLatestMetadata() => GetLatestTypedMetada().Value;
+        public IEncounterMetadata GetLatestMetadata() => GetLatestTypedMetada().Value;
 
     }
 }

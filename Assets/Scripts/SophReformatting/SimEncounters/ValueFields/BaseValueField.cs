@@ -19,5 +19,4 @@ namespace ClinicalTools.SimEncounters
         public abstract void Initialize(Encounter encounter);
         public abstract void Initialize(Encounter encounter, string value);
     }
-
 }

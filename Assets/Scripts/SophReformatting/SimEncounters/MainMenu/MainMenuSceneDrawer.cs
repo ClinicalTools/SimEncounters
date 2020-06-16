@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,8 +7,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class MainMenuSceneDrawer : BaseMenuSceneDrawer, ILogoutHandler
     {
-        public Button LogoutButton { get => logoutButton; set => logoutButton = value; }
-        [SerializeField] private Button logoutButton;
+        public List<Button> LogoutButtons { get => logoutButtons; set => logoutButtons = value; }
+        [SerializeField] private List<Button> logoutButtons;
         public BaseMenuSceneDrawer Encounters { get => encounters; set => encounters = value; }
         [SerializeField] private BaseMenuSceneDrawer encounters;
         public UserDropdownUI UserDropdown { get => userDropdown; set => userDropdown = value; }
@@ -18,8 +19,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         protected virtual void Awake()
         {
             Screen.fullScreen = false;
-            if (LogoutButton != null)
-                LogoutButton.onClick.AddListener(LogoutPressed);
+            foreach (var logoutButton in LogoutButtons)
+                logoutButton.onClick.AddListener(LogoutPressed);
         }
 
         public LoadingMenuSceneInfo SceneInfo { get; set; }

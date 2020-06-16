@@ -10,7 +10,7 @@ namespace ClinicalTools.SimEncounters
             this.dataReaderSelector = dataReaderSelector;
         }
 
-        public virtual WaitableResult<Encounter> GetEncounter(User user, EncounterMetadata metadata, SaveType saveType)
+        public virtual WaitableResult<Encounter> GetEncounter(User user, IEncounterMetadata metadata, SaveType saveType)
         { 
             var dataReader = dataReaderSelector.GetEncounterDataReader(saveType);
 
@@ -23,7 +23,7 @@ namespace ClinicalTools.SimEncounters
         }
 
         protected virtual void ProcessResults(WaitableResult<Encounter> result,
-            EncounterMetadata metadata,
+            IEncounterMetadata metadata,
             WaitableResult<EncounterData> data)
         {
             var encounterData = new Encounter(metadata, data.Result.Content, data.Result.ImageData);

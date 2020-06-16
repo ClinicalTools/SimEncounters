@@ -12,7 +12,7 @@ namespace ClinicalTools.SimEncounters
             this.detailedStatusReader = detailedStatusReader;
         }
 
-        public WaitableResult<UserEncounter> GetUserEncounter(User user, EncounterMetadata metadata, EncounterBasicStatus basicStatus, SaveType saveType)
+        public WaitableResult<UserEncounter> GetUserEncounter(User user, IEncounterMetadata metadata, EncounterBasicStatus basicStatus, SaveType saveType)
         {
             var encounterData = dataReader.GetEncounter(user, metadata, saveType);
             var detailedStatus = detailedStatusReader.GetDetailedStatus(user, metadata, basicStatus);
@@ -27,7 +27,7 @@ namespace ClinicalTools.SimEncounters
 
         protected void ProcessResults(User user,
             WaitableResult<UserEncounter> result,
-            EncounterMetadata metadata,
+            IEncounterMetadata metadata,
             WaitableResult<Encounter> encounterData,
             WaitableResult<EncounterStatus> detailedStatus)
         {

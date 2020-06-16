@@ -37,13 +37,13 @@ namespace ClinicalTools.SimEncounters.MainMenu
         }
 
         protected MenuSceneInfo SceneInfo { get; set; }
-        protected EncounterMetadata CurrentMetadata { get; set; }
+        protected CEEncounterMetadata CurrentMetadata { get; set; }
         protected WaitableResult<EncounterData> EncounterData { get; set; }
         public virtual void Display(MenuSceneInfo sceneInfo, MenuEncounter encounter)
         {
             SceneInfo = sceneInfo;
             var metadata = encounter.GetLatestTypedMetada();
-            CurrentMetadata = new EncounterMetadata(metadata.Value);
+            CurrentMetadata = new CEEncounterMetadata(metadata.Value);
             SetFields();
             var dataReader = DataReaderSelector.GetEncounterDataReader(metadata.Key);
             EncounterData = dataReader.GetEncounterData(sceneInfo.User, metadata.Value);
@@ -52,7 +52,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public virtual void Display(MenuSceneInfo sceneInfo)
         {
             SceneInfo = sceneInfo;
-            CurrentMetadata = new EncounterMetadata();
+            CurrentMetadata = new CEEncounterMetadata();
             SetFields();
             var dataReader = DataReaderSelector.GetEncounterDataReader(SaveType.Default);
             EncounterData = dataReader.GetEncounterData(sceneInfo.User, CurrentMetadata);
@@ -69,7 +69,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         protected virtual void StartCase()
         {
             CurrentMetadata.AuthorAccountId = SceneInfo.User.AccountId;
-            CurrentMetadata.Title = $"{FirstNameField.text} {LastNameField.text}";
+            CurrentMetadata.FirstName = FirstNameField.text;
+            CurrentMetadata.LastName = LastNameField.text;
             CurrentMetadata.Description = DescriptionField.text;
             CurrentMetadata.RecordNumber = Random.Range(-99999, -10000);
             CurrentMetadata.Filename = $"{CurrentMetadata.RecordNumber}";

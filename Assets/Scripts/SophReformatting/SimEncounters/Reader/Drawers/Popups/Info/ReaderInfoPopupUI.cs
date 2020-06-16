@@ -6,25 +6,20 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderInfoPopupUI : PopupUI
     {
-        [SerializeField] private TextMeshProUGUI title;
         public virtual TextMeshProUGUI Title { get => title; set => title = value; }
-
-        [SerializeField] private TextMeshProUGUI subtitle;
+        [SerializeField] private TextMeshProUGUI title;
         public virtual TextMeshProUGUI Subtitle { get => subtitle; set => subtitle = value; }
-
-        [SerializeField] private TextMeshProUGUI description;
+        [SerializeField] private TextMeshProUGUI subtitle;
         public virtual TextMeshProUGUI Description { get => description; set => description = value; }
-
-        [SerializeField] private TextMeshProUGUI categories;
+        [SerializeField] private TextMeshProUGUI description;
         public virtual TextMeshProUGUI Categories { get => categories; set => categories = value; }
-
-        [SerializeField] private TextMeshProUGUI audience;
+        [SerializeField] private TextMeshProUGUI categories;
         public virtual TextMeshProUGUI Audience { get => audience; set => audience = value; }
-
-        [SerializeField] private DifficultyUI difficulty;
+        [SerializeField] private TextMeshProUGUI audience;
         public virtual DifficultyUI Difficulty { get => difficulty; set => difficulty = value; }
+        [SerializeField] private DifficultyUI difficulty;
 
-        public void Display(EncounterMetadata metadata)
+        public void Display(IEncounterMetadata metadata)
         {
             Title.text = metadata.Title;
             Subtitle.text = metadata.Subtitle;

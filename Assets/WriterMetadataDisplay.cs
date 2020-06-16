@@ -41,6 +41,7 @@ namespace ClinicalTools.SimEncounters.Writer
         protected User CurrentUser { get; set; }
         public override void Display(User user, Encounter encounter)
         {
+            CurrentUser = user;
             gameObject.SetActive(true);
 
             CurrentEncounter = encounter;
@@ -59,7 +60,7 @@ namespace ClinicalTools.SimEncounters.Writer
         protected virtual void Serialize()
         {
             var metadata = CurrentEncounter.Metadata;
-            metadata.Title = Title.text;
+            //metadata.Title = Title.text;
             metadata.Subtitle = Summary.text;
             metadata.Description = Description.text;
             metadata.Categories.AddRange(Tags.text.Split(tagsSplit, StringSplitOptions.RemoveEmptyEntries));
@@ -71,7 +72,7 @@ namespace ClinicalTools.SimEncounters.Writer
         protected virtual void Save()
         {
             Serialize();
-            EncounterWriter.Save(User.Guest, CurrentEncounter);
+            EncounterWriter.Save(CurrentUser, CurrentEncounter);
 
             gameObject.SetActive(false);
         }

@@ -59,10 +59,8 @@ namespace ClinicalTools.SimEncounters.Writer
 
         protected virtual void ImageSelected(WaitableResult<string> imageKey)
         {
-            if (imageKey.IsError)
-                return;
-
-            SetSprite(imageKey.Result);
+            if (!imageKey.IsError)
+                SetSprite(imageKey.Result);
         }
     }
 }

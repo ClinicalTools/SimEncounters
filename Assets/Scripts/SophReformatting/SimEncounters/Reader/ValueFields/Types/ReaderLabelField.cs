@@ -12,8 +12,8 @@ namespace ClinicalTools.SimEncounters.Reader
         public List<GameObject> ControlledObjects { get => controlledObjects; set => controlledObjects = value; }
         [SerializeField] private List<GameObject> controlledObjects;
 
-        [SerializeField] private string prefix;
         public string Prefix { get => prefix; set => prefix = value; }
+        [SerializeField] private string prefix;
 
         private TextMeshProUGUI label;
         protected TextMeshProUGUI Label {

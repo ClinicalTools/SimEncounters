@@ -38,7 +38,7 @@ namespace ClinicalTools.SimEncounters.Writer
             Container.Bind<IParser<Color>>().To<ColorParser>().AsTransient();
             Container.Bind<IEncounterWriter>().To<EncounterWriter>().AsTransient();
 
-            Container.Bind<IStringSerializer<EncounterMetadata>>().To<EncounterMetadataSerializer>().AsTransient();
+            Container.Bind<IStringSerializer<IEncounterMetadata>>().To<EncounterMetadataSerializer>().AsTransient();
         }
     }
 }

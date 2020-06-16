@@ -19,10 +19,10 @@ namespace ClinicalTools.SimEncounters
             this.serverReader = serverReader;
         }
 
-        public void SetFileText(User user, FileType fileType, EncounterMetadata metadata, string contents)
+        public void SetFileText(User user, FileType fileType, IEncounterMetadata metadata, string contents)
             => throw new Exception("Cannot write to default files");
 
-        public WaitableResult<string> GetFileText(User user, FileType fileType, EncounterMetadata metadata)
+        public WaitableResult<string> GetFileText(User user, FileType fileType, IEncounterMetadata metadata)
         {
             var fileText = new WaitableResult<string>();
 

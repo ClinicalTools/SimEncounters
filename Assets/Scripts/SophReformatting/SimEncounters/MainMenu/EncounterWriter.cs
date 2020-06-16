@@ -10,11 +10,11 @@ namespace ClinicalTools.SimEncounters
         protected IFileManager FileManager { get; }
         protected ISerializationFactory<EncounterImageData> ImageDataSerializer { get; }
         protected ISerializationFactory<EncounterContent> EncounterContentSerializer { get; }
-        protected IStringSerializer<EncounterMetadata> MetadataSerializer { get; }
+        protected IStringSerializer<IEncounterMetadata> MetadataSerializer { get; }
         public EncounterWriter(IFileManager fileManager,  
             ISerializationFactory<EncounterImageData> imageDataSerializer, 
             ISerializationFactory<EncounterContent> encounterContentSerializer, 
-            IStringSerializer<EncounterMetadata> metadataSerializer)
+            IStringSerializer<IEncounterMetadata> metadataSerializer)
         {
             FileManager = fileManager;
             ImageDataSerializer = imageDataSerializer;

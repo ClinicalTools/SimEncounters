@@ -296,6 +296,7 @@
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Pins\PinData.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Pins\QuizPin.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterMetadata.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\IEncounterMetadata.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\MenuEncounter.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\OptionType.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Status\EncounterBasicStatus.cs" />
@@ -336,7 +337,6 @@
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\EncounterFilterBehaviour.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\EncounterInfoParser.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\EncounterInfoUI.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\EncounterMetadataParser.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\EncounterSelectorReaderButtons.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\EncounterSelectorWriterButtons.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\EncounterWriter.cs" />
@@ -351,6 +351,7 @@
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\IUrlBuilder.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\KeyedEncounterStatusParser.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\LabeledToggle.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\LegacyCEEncounterMetadataParser.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\Login\AutoLogin.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\Login\ILoginManager.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\Login\IPasswordLoginManager.cs" />
@@ -519,7 +520,13 @@
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\User\UserStatus.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\ValueFields\BaseValueField.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\ValueFields\DropdownValueField.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\ValueFields\FirstNameLabelField.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\ValueFields\FirstNameTextField.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\ValueFields\LabelValueField.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\ValueFields\LastNameLabelField.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\ValueFields\LastNameTextField.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\ValueFields\NameLabelField.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\ValueFields\NameTextField.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\ValueFields\TextValueField.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\ValueFields\ToggleValueField.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Drawers\BaseConfirmationPopup.cs" />

@@ -5,7 +5,7 @@ namespace ClinicalTools.SimEncounters
 {
     public interface IImageDataReader
     {
-        WaitableResult<EncounterImageData> GetImageData(User user, EncounterMetadata metadata);
+        WaitableResult<EncounterImageData> GetImageData(User user, IEncounterMetadata metadata);
     }
     public class LocalImageDataReader : IImageDataReader
     {
@@ -17,7 +17,7 @@ namespace ClinicalTools.SimEncounters
             this.parser = parser;
         }
 
-        public WaitableResult<EncounterImageData> GetImageData(User user, EncounterMetadata metadata)
+        public WaitableResult<EncounterImageData> GetImageData(User user, IEncounterMetadata metadata)
         {
             var imageData = new WaitableResult<EncounterImageData>();
 
@@ -44,7 +44,7 @@ namespace ClinicalTools.SimEncounters
             this.parser = parser;
         }
 
-        public WaitableResult<EncounterImageData> GetImageData(User user, EncounterMetadata metadata)
+        public WaitableResult<EncounterImageData> GetImageData(User user, IEncounterMetadata metadata)
         {
             var imageData = new WaitableResult<EncounterImageData>();
 
@@ -64,7 +64,7 @@ namespace ClinicalTools.SimEncounters
         private const string columnVariable = "column";
         private const string columnValue = "imgData";
         private const string accountIdVariable = "accountId";
-        private UnityWebRequest GetWebRequest(User user, EncounterMetadata metadata)
+        private UnityWebRequest GetWebRequest(User user, IEncounterMetadata metadata)
         {
             var arguments = new UrlArgument[] {
                 new UrlArgument(filenameArgument, $"{metadata.Filename}.ced"),

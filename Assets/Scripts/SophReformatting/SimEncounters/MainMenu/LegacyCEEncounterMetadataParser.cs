@@ -10,12 +10,11 @@ namespace ClinicalTools.SimEncounters
         string Serialize(T value);
     }
 
-    public class EncounterMetadataDeserializer : IParser<EncounterMetadata>
+    public class CEEncounterMetadataDeserializer : IParser<IEncounterMetadata>
     {
-        private readonly IParser<EncounterMetadata> legacyParser;
-        public EncounterMetadataDeserializer(IParser<EncounterMetadata> legacyParser)
+        private readonly IParser<IEncounterMetadata> legacyParser;
+        public CEEncounterMetadataDeserializer(IParser<IEncounterMetadata> legacyParser)
             => this.legacyParser = legacyParser;
-
 
         private const char caseInfoDivider = '|';
         private const char categoryDivider = ';';
@@ -23,46 +22,52 @@ namespace ClinicalTools.SimEncounters
         private const int authorAccountIdIndex = 0;
         private const int filenameIndex = 1;
         private const int authorNameIndex = 2;
-        private const int titleIndex = 3;
-        private const int recordNumberIndex = 4;
-        private const int difficultyIndex = 5;
-        private const int descriptionIndex = 7;
-        private const int subtitleIndex = 6;
-        private const int categoriesIndex = 8;
-        private const int dateModifiedIndex = 9;
-        private const int audienceIndex = 10;
-        private const int editorVersionIndex = 11;
-        private const int ratingIndex = 12;
-        private const int isPublicIndex = 13;
-        private const int isTemplateIndex = 14;
+        private const int firstNameIndex = 3;
+        private const int lastNameIndex = 4;
+        private const int recordNumberIndex = 5;
+        private const int difficultyIndex = 6;
+        private const int descriptionIndex = 8;
+        private const int subtitleIndex = 7;
+        private const int categoriesIndex = 9;
+        private const int dateModifiedIndex = 10;
+        private const int audienceIndex = 11;
+        private const int editorVersionIndex = 12;
+        private const int ratingIndex = 13;
+        private const int isPublicIndex = 14;
+        private const int isTemplateIndex = 15;
 
-        public EncounterMetadata Parse(string text)
+        public IEncounterMetadata Parse(string text)
         {
-            var parsedItem = text.Split(caseInfoDivider);
-            if (parsedItem == null || parsedItem.Length < encounterParts)
-                return legacyParser.Parse(text);
+            try {
+                var parsedItem = text.Split(caseInfoDivider);
+                if (parsedItem == null || parsedItem.Length < encounterParts)
+                    return legacyParser.Parse(text);
 
-            var metadata = new EncounterMetadata() {
-                RecordNumber = int.Parse(parsedItem[recordNumberIndex]),
-                Filename = parsedItem[filenameIndex],
-                AuthorAccountId = int.Parse(parsedItem[authorAccountIdIndex]),
-                AuthorName = parsedItem[authorNameIndex],
-                Rating = float.Parse(parsedItem[ratingIndex]),
-                Title = parsedItem[titleIndex].Replace('_', ' '),
-                Difficulty = GetDifficulty(parsedItem[difficultyIndex]),
-                Description = parsedItem[descriptionIndex],
-                Subtitle = parsedItem[subtitleIndex],
-                DateModified = long.Parse(parsedItem[dateModifiedIndex]),
-                Audience = parsedItem[audienceIndex],
-                EditorVersion = parsedItem[editorVersionIndex],
-                IsPublic = GetBoolValue(parsedItem[isPublicIndex]),
-                IsTemplate = GetBoolValue(parsedItem[isTemplateIndex])
-            };
-            if (float.TryParse(parsedItem[ratingIndex], out var rating))
-                metadata.Rating = rating;
-            metadata.Categories.AddRange(parsedItem[categoriesIndex].Split(categoryDivider));
+                var metadata = new CEEncounterMetadata() {
+                    RecordNumber = int.Parse(parsedItem[recordNumberIndex]),
+                    Filename = parsedItem[filenameIndex],
+                    AuthorAccountId = int.Parse(parsedItem[authorAccountIdIndex]),
+                    AuthorName = parsedItem[authorNameIndex],
+                    Rating = float.Parse(parsedItem[ratingIndex]),
+                    FirstName = parsedItem[firstNameIndex],
+                    LastName = parsedItem[lastNameIndex],
+                    Difficulty = GetDifficulty(parsedItem[difficultyIndex]),
+                    Description = parsedItem[descriptionIndex],
+                    Subtitle = parsedItem[subtitleIndex],
+                    DateModified = long.Parse(parsedItem[dateModifiedIndex]),
+                    Audience = parsedItem[audienceIndex],
+                    EditorVersion = parsedItem[editorVersionIndex],
+                    IsPublic = GetBoolValue(parsedItem[isPublicIndex]),
+                    IsTemplate = GetBoolValue(parsedItem[isTemplateIndex])
+                };
+                if (float.TryParse(parsedItem[ratingIndex], out var rating))
+                    metadata.Rating = rating;
+                metadata.Categories.AddRange(parsedItem[categoriesIndex].Split(categoryDivider));
 
-            return metadata;
+                return metadata;
+            } catch (Exception) {
+                return null;
+            }
         }
 
         protected Difficulty GetDifficulty(string difficulty)
@@ -80,14 +85,23 @@ namespace ClinicalTools.SimEncounters
         protected bool GetBoolValue(string value) => value == "1";
     }
 
-    public class EncounterMetadataSerializer : IStringSerializer<EncounterMetadata>
+    public class EncounterMetadataSerializer : IStringSerializer<IEncounterMetadata>
     {
-        public virtual string Serialize(EncounterMetadata metadata)
+        public virtual string Serialize(IEncounterMetadata metadata)
         {
+            string firstName, lastName;
+            if (metadata is CEEncounterMetadata ceMetadata) {
+                firstName = ceMetadata.FirstName;
+                lastName = ceMetadata.LastName;
+            } else {
+                firstName = "";
+                lastName = "";
+            }
             var str = "" + metadata.AuthorAccountId;
             str += AppendValue(metadata.Filename);
             str += AppendValue(metadata.AuthorName);
-            str += AppendValue(metadata.Title);
+            str += AppendValue(firstName);
+            str += AppendValue(lastName);
             str += AppendValue(metadata.RecordNumber.ToString());
             str += AppendValue(metadata.Difficulty.ToString());
             str += AppendValue(metadata.Description);
@@ -108,11 +122,11 @@ namespace ClinicalTools.SimEncounters
         protected virtual string AppendValue(bool value) => caseInfoDivider + (value ? "1" : "0");
         protected virtual string AppendValue(string value) => caseInfoDivider + value;
     }
-    public class EncounterMetadataParser : IParser<EncounterMetadata>
+    public class LegacyCEEncounterMetadataParser : IParser<IEncounterMetadata>
     {
-        public EncounterMetadataParser() { }
+        public LegacyCEEncounterMetadataParser() { }
 
-        public virtual EncounterMetadata Parse(string text)
+        public virtual IEncounterMetadata Parse(string text)
         {
             var parsedItem = GetParsedEncounterText(text);
             return GetMetadata(parsedItem);
@@ -154,17 +168,19 @@ namespace ClinicalTools.SimEncounters
         }
 
         private const string categoryDivider = ", ";
-        public EncounterMetadata GetMetadata(string[] parsedItem)
+        public IEncounterMetadata GetMetadata(string[] parsedItem)
         {
             if (parsedItem == null || parsedItem.Length < encounterParts)
                 return null;
 
-            var metadata = new EncounterMetadata() {
+            var name = parsedItem[titleIndex].Split('_');
+            var metadata = new CEEncounterMetadata() {
                 RecordNumber = int.Parse(parsedItem[recordNumberIndex]),
                 Filename = GetFilename(parsedItem[filenameIndex]),
                 AuthorAccountId = int.Parse(parsedItem[authorAccountIdIndex]),
                 AuthorName = parsedItem[authorNameIndex],
-                Title = parsedItem[titleIndex].Replace('_', ' '),
+                FirstName = name[0],
+                LastName = name[1],
                 Difficulty = GetDifficulty(parsedItem[difficultyIndex]),
                 Description = parsedItem[descriptionIndex],
                 Subtitle = parsedItem[subtitleIndex],
@@ -172,6 +188,7 @@ namespace ClinicalTools.SimEncounters
                 Audience = parsedItem[audienceIndex],
                 EditorVersion = parsedItem[editorVersionIndex]
             };
+
             if (metadata.EditorVersion == "-")
                 metadata.EditorVersion = "0";
 
