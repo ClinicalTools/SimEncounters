@@ -7,12 +7,11 @@ namespace ClinicalTools.SimEncounters.MainMenu
     public class ResetPassword
     {
         protected IUrlBuilder WebAddress { get; }
-        protected global::MessageHandler MessageHandler { get; }
+        
         protected IServerReader ServerReader { get; }
-        public ResetPassword(IUrlBuilder webAddress, global::MessageHandler messageHandler, IServerReader serverReader)
+        public ResetPassword(IUrlBuilder webAddress, IServerReader serverReader)
         {
             WebAddress = webAddress;
-            MessageHandler = messageHandler;
             ServerReader = serverReader;
         }
 
@@ -52,16 +51,16 @@ namespace ClinicalTools.SimEncounters.MainMenu
         private void ProcessResults(ServerResult serverResult)
         {
             if (serverResult.Outcome != ServerOutcome.Success) {
-                MessageHandler.ShowMessage(serverResult.Message, true);
+                //MessageHandler.ShowMessage(serverResult.Message, true);
                 return;
             }
             if (!serverResult.Message.EndsWith(errorSuffix)) {
-                MessageHandler.ShowMessage("Success. Please check email for verification", false);
+                //MessageHandler.ShowMessage("Success. Please check email for verification", false);
                 return;
             }
 
             var error = serverResult.Message.Substring(0, serverResult.Message.Length - errorSuffix.Length);
-            MessageHandler.ShowMessage("Unable to send email", true);
+            //MessageHandler.ShowMessage("Unable to send email", true);
         }
     }
 }

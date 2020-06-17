@@ -28,8 +28,9 @@ namespace ClinicalTools.SimEncounters.Writer
             foreach (var iconToggle in IconToggles) {
                 if (iconKey != GetIconReference(iconToggle))
                     continue;
+
                 SelectedIconToggle = iconToggle;
-                SelectedIconToggle.Select();
+                SelectedIconToggle.isOn = true;
                 break;
             }
         }

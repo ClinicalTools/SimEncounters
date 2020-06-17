@@ -17,7 +17,7 @@ namespace ClinicalTools.SimEncounters
         }
 
         public WaitableResult<EncounterStatus> GetDetailedStatus(User user,
-            IEncounterMetadata metadata, EncounterBasicStatus basicStatus)
+            EncounterMetadata metadata, EncounterBasicStatus basicStatus)
         {
             if (user.IsGuest)
                 return new WaitableResult<EncounterStatus>(
@@ -36,7 +36,7 @@ namespace ClinicalTools.SimEncounters
         private const string downloadAction = "download";
         private const string usernameVariable = "username";
         private const string recordNumberVariable = "recordNumber";
-        protected UnityWebRequest GetWebRequest(User user, IEncounterMetadata metadata)
+        protected UnityWebRequest GetWebRequest(User user, EncounterMetadata metadata)
         {
             var url = urlBuilder.BuildUrl(menuPhp);
             var form = new WWWForm();

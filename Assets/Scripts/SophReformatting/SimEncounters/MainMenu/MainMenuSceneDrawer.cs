@@ -30,8 +30,11 @@ namespace ClinicalTools.SimEncounters.MainMenu
             Encounters.Display(loadingSceneInfo);
         }
 
-        protected virtual void LogoutPressed() => Logout?.Invoke();
-
+        protected virtual void LogoutPressed()
+        {
+            Encounters.Hide();
+            Logout?.Invoke();
+        }
         public override void Hide() => Encounters.Hide();
     }
 }

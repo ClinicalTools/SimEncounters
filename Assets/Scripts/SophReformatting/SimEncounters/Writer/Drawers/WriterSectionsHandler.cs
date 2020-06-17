@@ -46,7 +46,7 @@ namespace ClinicalTools.SimEncounters.Writer
         }
         protected virtual void AddSection()
         {
-            var newSection = AddSectionPopup.CreateSection();
+            var newSection = AddSectionPopup.CreateSection(CurrentEncounter);
             newSection.AddOnCompletedListener(AddNewSection);
         }
 

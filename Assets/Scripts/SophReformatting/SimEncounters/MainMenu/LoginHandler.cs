@@ -76,6 +76,7 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void ShowManualLogin()
         {
+            gameObject.SetActive(true);
             var loginResult = ManualLogin.Login();
             loginResult.AddOnCompletedListener(ProcessManualLoginResult);
         }

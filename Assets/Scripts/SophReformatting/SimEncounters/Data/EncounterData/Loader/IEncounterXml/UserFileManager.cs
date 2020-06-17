@@ -16,12 +16,12 @@ namespace ClinicalTools.SimEncounters
             this.fileExtensionManager = fileExtensionManager;
         }
 
-        public void SetFileText(User user, FileType fileType, IEncounterMetadata metadata, string contents)
+        public void SetFileText(User user, FileType fileType, EncounterMetadata metadata, string contents)
         {
             var filepath = GetFilepath(user, fileType, metadata);
             File.WriteAllText(filepath, contents);
         }
-        public WaitableResult<string> GetFileText(User user, FileType fileType, IEncounterMetadata metadata)
+        public WaitableResult<string> GetFileText(User user, FileType fileType, EncounterMetadata metadata)
         {
             var filepath = GetFilepath(user, fileType, metadata);
             if (!File.Exists(filepath))
@@ -40,7 +40,7 @@ namespace ClinicalTools.SimEncounters
             return new WaitableResult<string[]>(texts);
         }
 
-        protected string GetFilepath(User user, FileType fileType, IEncounterMetadata metadata)
+        protected string GetFilepath(User user, FileType fileType, EncounterMetadata metadata)
         {
             var folder = GetFolder(user);
             var path = Path.Combine(folder, metadata.Filename);

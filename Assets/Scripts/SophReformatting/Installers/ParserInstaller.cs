@@ -1,4 +1,5 @@
-﻿using ClinicalTools.SimEncounters.Data;
+﻿using ClinicalTools.ClinicalEncounters;
+using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.Loading;
 using ClinicalTools.SimEncounters.MainMenu;
 using System.Collections.Generic;
@@ -17,11 +18,10 @@ namespace ClinicalTools.SimEncounters
         protected virtual void InstallParserBindings(DiContainer subcontainer)
         {
             subcontainer.Bind<IStringSplitter>().To<DoubleColonStringSplitter>().AsTransient();
-            subcontainer.Bind<IParser<List<IEncounterMetadata>>>().To<ListParser<IEncounterMetadata>>().AsTransient();
-            //EncounterMetadataDeserializer
-            subcontainer.Bind<IParser<IEncounterMetadata>>().To<CEEncounterMetadataDeserializer>().AsTransient()
+            subcontainer.Bind<IParser<List<EncounterMetadata>>>().To<ListParser<EncounterMetadata>>().AsTransient();
+            subcontainer.Bind<IParser<EncounterMetadata>>().To<CEEncounterMetadataDeserializer>().AsTransient()
                     .WhenNotInjectedInto<CEEncounterMetadataDeserializer>();
-            subcontainer.Bind<IParser<IEncounterMetadata>>().To<LegacyCEEncounterMetadataParser>().AsTransient()
+            subcontainer.Bind<IParser<EncounterMetadata>>().To<LegacyCEEncounterMetadataParser>().AsTransient()
                     .WhenInjectedInto<CEEncounterMetadataDeserializer>();
 
             subcontainer.Bind<IParser<Dictionary<int, EncounterBasicStatus>>>().To<DictionaryParser<int, EncounterBasicStatus>>().AsTransient();

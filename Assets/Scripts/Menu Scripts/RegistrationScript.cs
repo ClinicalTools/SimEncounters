@@ -9,9 +9,8 @@ using ClinicalTools.SimEncounters;
 
 public class RegistrationScript : MonoBehaviour
 {
-
-    [SerializeField] private MessageHandler messageHandler;
     public MessageHandler MessageHandler { get => messageHandler; set => messageHandler = value; }
+    [SerializeField] private MessageHandler messageHandler;
 
     public TMP_InputField UName;
     public TMP_InputField PWord;
@@ -20,7 +19,7 @@ public class RegistrationScript : MonoBehaviour
 
     private void Start()
     {
-        MessageHandler = MessageHandler.Instance;
+       // MessageHandler = MessageHandler.Instance;
     }
 
     /**
@@ -30,17 +29,17 @@ public class RegistrationScript : MonoBehaviour
     public void Register()
     {
         if (string.IsNullOrWhiteSpace(UName.text) || string.IsNullOrWhiteSpace(PWord.text) || string.IsNullOrWhiteSpace(EText.text)) {
-            MessageHandler.ShowMessage("Please enter credentials", true);
+            //MessageHandler.ShowMessage("Please enter credentials", true);
             return;
         }
 
         if (PWord.text != PWordConfirmation.text) {
-            MessageHandler.ShowMessage("Passwords do not match", true);
+            //MessageHandler.ShowMessage("Passwords do not match", true);
             return;
         }
 
         if (!Regex.IsMatch(EText.text, "^(.)+[@](.)+[.](.)+$")) {
-            MessageHandler.ShowMessage("Email not valid", true);
+            //MessageHandler.ShowMessage("Email not valid", true);
             return;
         }
 
@@ -55,7 +54,7 @@ public class RegistrationScript : MonoBehaviour
     public void ResendActivationEmail()
     {
         if (string.IsNullOrWhiteSpace(EText.text)) {
-            MessageHandler.ShowMessage("Please enter your email", true);
+            //MessageHandler.ShowMessage("Please enter your email", true);
             return;
         }
         //var resendEmail = new ResendEmail(new UrlBuilder(), MessageHandler);
@@ -69,7 +68,7 @@ public class RegistrationScript : MonoBehaviour
     public void ForgotPassword(TMP_InputField userField)
     {
         if (string.IsNullOrWhiteSpace(userField.text) && string.IsNullOrWhiteSpace(userField.text)) {
-            MessageHandler.ShowMessage("Please enter your username or email", true);
+            //MessageHandler.ShowMessage("Please enter your username or email", true);
             return;
         }
 

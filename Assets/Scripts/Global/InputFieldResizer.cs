@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using System;
 using TMPro;
-using UnityEngine.EventSystems;
 
 public class InputFieldResizer : MonoBehaviour
 {
@@ -13,13 +11,25 @@ public class InputFieldResizer : MonoBehaviour
 
     private bool isPasting = true;
 
-    private InputField mainInputField;
+    protected RectTransform RectTransform => (RectTransform)transform;
+
+    protected virtual TMP_InputField InputField {
+        get {
+            if (inputField == null)
+                inputField = GetComponent<TMP_InputField>();
+            return inputField;
+        }
+    }
+    private TMP_InputField inputField;
+
+    protected LayoutElement LayoutElement { get; set; }
+
+    protected virtual void Awake() => LayoutElement = GetComponent<LayoutElement>();
 
     void Start()
     {
-        if (GetComponent<TMP_InputField>().characterValidation.Equals(TMP_InputField.CharacterValidation.None)) {
-            GetComponent<TMP_InputField>().onValidateInput += delegate (string input, int charIndex, char addedChar) { return MyValidate(input, charIndex, addedChar); };
-        }
+        if (InputField.characterValidation.Equals(TMP_InputField.CharacterValidation.None))
+            InputField.onValidateInput += MyValidate;
         NextFrame.Function(ResizeField);
     }
 
@@ -38,33 +48,29 @@ public class InputFieldResizer : MonoBehaviour
             return;
         resizeLock = true;
 
-        var inputField = GetComponent<TMP_InputField>();
-        if (inputField) {
-            var rectTrans = inputField.textComponent.GetComponent<RectTransform>();
-            if (rectTrans) {
-                rectTrans.offsetMax = new Vector2(0, 0);
-                rectTrans.offsetMin = new Vector2(0, 0);
-            }
-        }
-
         NextFrame.Function(ActivateResizeTMP);
         NextFrame.Function(delegate { NextFrame.Function(ActivateResizeTMP); });
+
+        if (!InputField)
+            return;
+
+        var rectTrans = InputField.textComponent.rectTransform;
+        rectTrans.offsetMax = new Vector2(0, 0);
+        rectTrans.offsetMin = new Vector2(0, 0);
     }
 
     public void RefreshParent1()
     {
         HorizontalLayoutGroup parent = transform.GetComponentInParent<HorizontalLayoutGroup>();
         parent.childControlHeight = true;
-        LayoutRebuilder.ForceRebuildLayoutImmediate(parent.GetComponent<RectTransform>());
-        //parent.childControlHeight = false;
-        //LayoutRebuilder.ForceRebuildLayoutImmediate (parent.GetComponent<RectTransform> ());
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)parent.transform);
     }
 
     public void RefreshParent2()
     {
         HorizontalLayoutGroup parent = transform.GetComponentInParent<HorizontalLayoutGroup>();
         parent.childControlHeight = false;
-        LayoutRebuilder.ForceRebuildLayoutImmediate(parent.GetComponent<RectTransform>());
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)parent.transform);
     }
 
     private RectTransform inputCaret;
@@ -79,78 +85,78 @@ public class InputFieldResizer : MonoBehaviour
         // The input caret must be resized manually
         if (inputCaret == null) {
             var caret = GetComponentInChildren<TMP_SelectionCaret>();
-            if (caret != null) {
-                inputCaret = caret.GetComponent<RectTransform>();
-            }
+            if (caret != null)
+                inputCaret = caret.rectTransform;
+            else
+                return;
         }
-        if (inputCaret != null) {
-            inputCaret.offsetMin = new Vector2(0, 0);
-            inputCaret.offsetMax = new Vector2(0, 0);
-        }
+
+        inputCaret.offsetMin = Vector2.zero;
+        inputCaret.offsetMax = Vector2.zero;
     }
 
     private void ActivateResizeTMP()
     {
         resizeLock = false;
 
-        if (!isPasting) {
-            try {
-                if (gameObject == null)
-                    return;
-            } catch {
+        if (isPasting)
+            return;
+
+        try {
+            if (gameObject == null)
                 return;
-            }
+        } catch {
+            return;
+        }
 
-            var text = GetComponent<TMP_InputField>().text;
-            if (text.Length > 0 && text[text.Length - 1] == '\n')
-                text += ' ';
+        var text = InputField.text;
+        if (text.Length > 0 && text[text.Length - 1] == '\n')
+            text += ' ';
 
-            //Min = Left/Top, Max = Right/Bottom in the text's rect transform
-            float verticalMargins = GetComponent<RectTransform>().rect.width - GetComponent<TMP_InputField>().textComponent.GetComponent<RectTransform>().rect.width;
-            //float horizontalMargins = Math.Abs((GetComponent<TMP_InputField>().textComponent.GetComponent<RectTransform>().rect.yMin + GetComponent<RectTransform>().rect.yMax) * 2);
-            float horizontalMargins = GetComponent<RectTransform>().rect.height - GetComponent<TMP_InputField>().textComponent.GetComponent<RectTransform>().rect.height;
+        //Min = Left/Top, Max = Right/Bottom in the text's rect transform
+        float verticalMargins = RectTransform.rect.width - InputField.textComponent.rectTransform.rect.width;
+        float horizontalMargins = RectTransform.rect.height - InputField.textComponent.rectTransform.rect.height;
 
-            inputHeight = GetComponent<LayoutElement>().preferredHeight - horizontalMargins;
-            //GetComponent<TMP_InputField>().textComponent.GetComponent<RectTransform>().ForceUpdateRectTransforms();
+        inputHeight = LayoutElement.preferredHeight - horizontalMargins;
 
-            float newInputHeight;
-            try {
-                float width = GetComponent<RectTransform>().sizeDelta.x - verticalMargins;
-                newInputHeight = GetComponent<TMP_InputField>().textComponent.GetPreferredValues(text, width, 0).y;
-            } catch (Exception e) {
-                Debug.LogWarning("THE JUMBLED TEXT BUG JUST HAPPENED. ERROR MESSAGE: " + e.Message);
-                //Debug.Log("Hopefully Fixing in 4 seconds");
-                //Invoke("ResizeField", 4f);
-                return;
-                //We could force a redraw here since this bug only seems to happen once in a blue moon for whatever reason
-                //But for now I am just forcing a return to avoid breaking things further
-            }
+        float newInputHeight;
+        try {
+            float width = RectTransform.sizeDelta.x - verticalMargins;
+            newInputHeight = InputField.textComponent.GetPreferredValues(text, width, 0).y;
+        } catch (Exception e) {
+            Debug.LogWarning("THE JUMBLED TEXT BUG JUST HAPPENED. ERROR MESSAGE: " + e.Message);
 
-            if (newInputHeight != inputHeight) {
-                if (newInputHeight > minimumHeight - horizontalMargins) {
-                    inputHeight = newInputHeight;
+            return;
+            //We could force a redraw here since this bug only seems to happen once in a blue moon for whatever reason
+            //But for now I am just forcing a return to avoid breaking things further
+        }
+
+        if (newInputHeight == inputHeight)
+            return;
+
+        float height;
+        if (newInputHeight > minimumHeight - horizontalMargins) {
+            inputHeight = newInputHeight;
+            height = inputHeight + horizontalMargins;
+        } else {
+            height = minimumHeight;
+        }
+        SetHeight(height);
+
+        InputField.textComponent.rectTransform.offsetMax = Vector2.zero;
+        InputField.textComponent.rectTransform.offsetMin = Vector2.zero;
+
+    }
 
 
-                    if (GetComponent<LayoutElement>() != null) {
-                        GetComponent<LayoutElement>().preferredHeight = inputHeight + horizontalMargins;
-                    } else {
-                        Vector2 newSize = new Vector2(GetComponent<RectTransform>().sizeDelta.x, inputHeight + horizontalMargins);
 
-                        GetComponent<RectTransform>().sizeDelta = newSize;
-                    }
-                } else {
-
-                    if (GetComponent<LayoutElement>() != null) {
-                        GetComponent<LayoutElement>().preferredHeight = minimumHeight;
-                    } else {
-                        Vector2 newSize = new Vector2(GetComponent<RectTransform>().sizeDelta.x, minimumHeight);
-
-                        GetComponent<RectTransform>().sizeDelta = newSize;
-                    }
-                }
-                GetComponent<TMP_InputField>().textComponent.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
-                GetComponent<TMP_InputField>().textComponent.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
-            }
+    protected virtual void SetHeight(float height)
+    {
+        if (LayoutElement != null) {
+            LayoutElement.minHeight = height;
+            LayoutElement.preferredHeight = height;
+        } else { 
+            RectTransform.sizeDelta = new Vector2(RectTransform.sizeDelta.x, height);
         }
     }
 }

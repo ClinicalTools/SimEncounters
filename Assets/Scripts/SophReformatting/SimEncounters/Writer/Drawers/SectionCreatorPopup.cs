@@ -20,6 +20,7 @@ namespace ClinicalTools.SimEncounters.Writer
         public IconSelectorUI IconSelector { get => iconSelector; set => iconSelector = value; }
         [SerializeField] private IconSelectorUI iconSelector;
 
+        protected virtual string DefaultIconKey { get; } = "person";
         protected virtual Color DefaultColor { get; } = new Color(.9216f, .3012f, .3608f);
 
         protected BaseMessageHandler MessageHandler { get; set; }
@@ -32,13 +33,15 @@ namespace ClinicalTools.SimEncounters.Writer
         }
 
         protected WaitableResult<Section> CurrentWaitableSection { get; set; }
-        public virtual WaitableResult<Section> CreateSection()
+        public virtual WaitableResult<Section> CreateSection(Encounter encounter)
         {
             CurrentWaitableSection?.SetError("New popup opened");
             CurrentWaitableSection = new WaitableResult<Section>();
 
+            NameField.text = "";
             gameObject.SetActive(true);
             Color.Display(DefaultColor);
+            IconSelector.Display(encounter, DefaultIconKey);
 
             return CurrentWaitableSection;
         }

@@ -1,5 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
+namespace ClinicalTools.ClinicalEncounters
+{
+}
 
 namespace ClinicalTools.SimEncounters.Data
 {
@@ -7,35 +10,7 @@ namespace ClinicalTools.SimEncounters.Data
     {
         Beginner, Intermediate, Advanced
     }
-
-    public class CEEncounterMetadata : EncounterMetadata
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public override string Title { 
-            get => $"{FirstName} {LastName}"; 
-            set { throw new Exception("Cannot set title directly for CE Encounter."); } }
-
-
-        public CEEncounterMetadata() : base() { }
-        public CEEncounterMetadata(IEncounterMetadata baseEncounterInfo) : base()
-        {
-            if (baseEncounterInfo is CEEncounterMetadata clinicalMetadata) {
-                FirstName = clinicalMetadata.FirstName;
-                LastName = clinicalMetadata.LastName;
-            }
-            Categories.AddRange(baseEncounterInfo.Categories);
-            DateModified = baseEncounterInfo.DateModified;
-            Subtitle = baseEncounterInfo.Subtitle;
-            Description = baseEncounterInfo.Description;
-            Audience = baseEncounterInfo.Audience;
-            Difficulty = baseEncounterInfo.Difficulty;
-            EditorVersion = baseEncounterInfo.EditorVersion;
-            IsTemplate = baseEncounterInfo.IsTemplate;
-            IsPublic = baseEncounterInfo.IsPublic;
-        }
-    }
-    public class EncounterMetadata : IEncounterMetadata
+    public class EncounterMetadata
     {
         public virtual float Rating { get; set; } = -1;
         public virtual int RecordNumber { get; set; }
@@ -55,18 +30,14 @@ namespace ClinicalTools.SimEncounters.Data
 
         public EncounterMetadata() { }
 
-        public EncounterMetadata(IEncounterMetadata baseEncounterInfo)
+        public EncounterMetadata(EncounterMetadata baseEncounterInfo)
         {
-            Title = baseEncounterInfo.Title;
             Categories.AddRange(baseEncounterInfo.Categories);
-            DateModified = baseEncounterInfo.DateModified;
             Subtitle = baseEncounterInfo.Subtitle;
             Description = baseEncounterInfo.Description;
             Audience = baseEncounterInfo.Audience;
             Difficulty = baseEncounterInfo.Difficulty;
             EditorVersion = baseEncounterInfo.EditorVersion;
-            IsTemplate = baseEncounterInfo.IsTemplate;
-            IsPublic = baseEncounterInfo.IsPublic;
         }
     }
 }

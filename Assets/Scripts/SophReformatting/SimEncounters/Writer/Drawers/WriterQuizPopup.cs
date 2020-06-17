@@ -1,6 +1,7 @@
 ﻿using ClinicalTools.SimEncounters.Data;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters.Writer
 {
@@ -16,10 +17,13 @@ namespace ClinicalTools.SimEncounters.Writer
         public BaseWriterPanelsDrawer QuestionsDrawer { get => questionsDrawer; set => questionsDrawer = value; }
         [SerializeField] private BaseWriterPanelsDrawer questionsDrawer;
 
+        protected BaseConfirmationPopup ConfirmationPopup { get; set; }
+        [Inject] public virtual void Inject(BaseConfirmationPopup confirmationPopup) => ConfirmationPopup = confirmationPopup;
+
         protected virtual void Awake()
         {
             CancelButton.onClick.AddListener(Close);
-            RemoveButton.onClick.AddListener(Remove);
+            RemoveButton.onClick.AddListener(ConfirmRemove);
             ApplyButton.onClick.AddListener(Apply);
         }
 
@@ -51,6 +55,7 @@ namespace ClinicalTools.SimEncounters.Writer
             Close();
         }
 
+        protected virtual void ConfirmRemove() => ConfirmationPopup.ShowConfirmation(Remove, "Confirm", "Are you sure you want to remove this quiz?");
         protected virtual void Remove()
         {
             CurrentWaitableQuiz.SetResult(null);

@@ -29,7 +29,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public virtual RatingDisplayUI AverageRating { get => averageRating; set => averageRating = value; }
         [SerializeField] private RatingDisplayUI averageRating;
 
-        public void Display(IEncounterMetadata encounterMetadata)
+        public void Display(EncounterMetadata encounterMetadata)
         {
             gameObject.SetActive(true);
 

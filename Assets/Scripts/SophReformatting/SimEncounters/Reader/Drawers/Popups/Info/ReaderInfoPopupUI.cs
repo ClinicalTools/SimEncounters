@@ -19,7 +19,7 @@ namespace ClinicalTools.SimEncounters.Reader
         public virtual DifficultyUI Difficulty { get => difficulty; set => difficulty = value; }
         [SerializeField] private DifficultyUI difficulty;
 
-        public void Display(IEncounterMetadata metadata)
+        public void Display(EncounterMetadata metadata)
         {
             Title.text = metadata.Title;
             Subtitle.text = metadata.Subtitle;

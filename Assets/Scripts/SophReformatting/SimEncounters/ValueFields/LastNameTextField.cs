@@ -5,7 +5,8 @@ namespace ClinicalTools.ClinicalEncounters
     {
         public override string Value {
             get {
-                Metadata.LastName = base.Value;
+                if (Metadata != null)
+                    Metadata.LastName = base.Value;
                 return null;
             }
         }

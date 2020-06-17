@@ -13,8 +13,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private Button copyButton;
 
         protected IEncounterStarter EncounterStarter { get; set; }
-        protected AddEncounterPopup AddEncounterPopup { get; set; }
-        [Inject] protected virtual void Inject(IEncounterStarter encounterStarter, AddEncounterPopup addEncounterPopup) {
+        protected BaseAddEncounterPopup AddEncounterPopup { get; set; }
+        [Inject] protected virtual void Inject(IEncounterStarter encounterStarter, BaseAddEncounterPopup addEncounterPopup) {
             EncounterStarter = encounterStarter;
             AddEncounterPopup = addEncounterPopup;
         }

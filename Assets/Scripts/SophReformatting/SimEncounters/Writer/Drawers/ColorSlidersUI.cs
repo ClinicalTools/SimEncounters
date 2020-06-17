@@ -39,6 +39,8 @@ namespace ClinicalTools.SimEncounters.Writer
             Red.Display(color.r);
             Green.Display(color.g);
             Blue.Display(color.b);
+
+            Value = color;
         }
 
         protected virtual void RedChanged(float value)

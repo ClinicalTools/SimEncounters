@@ -53,7 +53,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
     public interface IMetadataSelector
     {
-        WaitableResult<IEncounterMetadata> GetMetadata(MenuEncounter menuEncounter);
+        WaitableResult<EncounterMetadata> GetMetadata(MenuEncounter menuEncounter);
     }
 
     public class MetadataSelector : MonoBehaviour, IMetadataSelector
@@ -61,17 +61,17 @@ namespace ClinicalTools.SimEncounters.MainMenu
         // pick case
         // newer server case than local
         // newer autosave than local
-        public WaitableResult<IEncounterMetadata> GetMetadata(MenuEncounter menuEncounter)
+        public WaitableResult<EncounterMetadata> GetMetadata(MenuEncounter menuEncounter)
         {
             if (!menuEncounter.Metadata.ContainsKey(SaveType.Local))
-                return new WaitableResult<IEncounterMetadata>(menuEncounter.GetLatestMetadata());
+                return new WaitableResult<EncounterMetadata>(menuEncounter.GetLatestMetadata());
 
             var localMetadata = menuEncounter.Metadata[SaveType.Local];
             //if (!)
 
             // finish this. show popup
 
-                return new WaitableResult<IEncounterMetadata>(menuEncounter.GetLatestMetadata());
+                return new WaitableResult<EncounterMetadata>(menuEncounter.GetLatestMetadata());
         }
     }
 }

@@ -1,13 +1,20 @@
-﻿using ClinicalTools.SimEncounters.Data;
+﻿using ClinicalTools.SimEncounters;
+using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.Writer;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace ClinicalTools.SimEncounters.MainMenu
+public abstract class BaseAddEncounterPopup : MonoBehaviour
 {
-    public class AddEncounterPopup : MonoBehaviour
+    public abstract void Display(MenuSceneInfo sceneInfo);
+    public abstract void Display(MenuSceneInfo sceneInfo, MenuEncounter encounter);
+}
+
+namespace ClinicalTools.ClinicalEncounters.MainMenu
+{
+    public class AddEncounterPopup : BaseAddEncounterPopup
     {
         public TMP_InputField FirstNameField { get => firstNameField; set => firstNameField = value; }
         [SerializeField] private TMP_InputField firstNameField;
@@ -39,7 +46,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         protected MenuSceneInfo SceneInfo { get; set; }
         protected CEEncounterMetadata CurrentMetadata { get; set; }
         protected WaitableResult<EncounterData> EncounterData { get; set; }
-        public virtual void Display(MenuSceneInfo sceneInfo, MenuEncounter encounter)
+        public override void Display(MenuSceneInfo sceneInfo, MenuEncounter encounter)
         {
             SceneInfo = sceneInfo;
             var metadata = encounter.GetLatestTypedMetada();
@@ -49,7 +56,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             EncounterData = dataReader.GetEncounterData(sceneInfo.User, metadata.Value);
         }
 
-        public virtual void Display(MenuSceneInfo sceneInfo)
+        public override void Display(MenuSceneInfo sceneInfo)
         {
             SceneInfo = sceneInfo;
             CurrentMetadata = new CEEncounterMetadata();
@@ -90,6 +97,5 @@ namespace ClinicalTools.SimEncounters.MainMenu
         {
             gameObject.SetActive(false);
         }
-
     }
 }

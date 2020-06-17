@@ -7,12 +7,10 @@ namespace ClinicalTools.SimEncounters.MainMenu
     public class ResendEmail
     {
         protected IUrlBuilder WebAddress { get; }
-        protected global::MessageHandler MessageHandler { get; }
         protected IServerReader ServerReader { get; }
-        public ResendEmail(IUrlBuilder webAddress, global::MessageHandler messageHandler, IServerReader serverReader)
+        public ResendEmail(IUrlBuilder webAddress, IServerReader serverReader)
         {
             WebAddress = webAddress;
-            MessageHandler = messageHandler;
             ServerReader = serverReader;
         }
 
@@ -50,16 +48,16 @@ namespace ClinicalTools.SimEncounters.MainMenu
         private void ProcessResults(ServerResult serverResult)
         {
             if (serverResult.Outcome != ServerOutcome.Success) {
-                MessageHandler.ShowMessage(serverResult.Message, true);
+                //MessageHandler.ShowMessage(serverResult.Message, true);
                 return;
             } 
             if (!serverResult.Message.EndsWith(errorSuffix)) {
-                MessageHandler.ShowMessage(serverResult.Message, false);
+                //MessageHandler.ShowMessage(serverResult.Message, false);
                 return;
             }
 
             var error = serverResult.Message.Substring(0, serverResult.Message.Length - errorSuffix.Length);
-            MessageHandler.ShowMessage(error, true);
+            //MessageHandler.ShowMessage(error, true);
         }
     }
 }

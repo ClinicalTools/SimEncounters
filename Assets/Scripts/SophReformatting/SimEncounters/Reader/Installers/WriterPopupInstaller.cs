@@ -1,4 +1,5 @@
-﻿using ClinicalTools.SimEncounters.Data;
+﻿using ClinicalTools.ClinicalEncounters;
+using ClinicalTools.SimEncounters.Data;
 using UnityEngine;
 using Zenject;
 
@@ -38,7 +39,7 @@ namespace ClinicalTools.SimEncounters.Writer
             Container.Bind<IParser<Color>>().To<ColorParser>().AsTransient();
             Container.Bind<IEncounterWriter>().To<EncounterWriter>().AsTransient();
 
-            Container.Bind<IStringSerializer<IEncounterMetadata>>().To<EncounterMetadataSerializer>().AsTransient();
+            Container.Bind<IStringSerializer<EncounterMetadata>>().To<CEEncounterMetadataSerializer>().AsTransient();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ClinicalTools.SimEncounters.Data;
 using System;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -63,7 +64,10 @@ namespace ClinicalTools.SimEncounters.Writer
             //metadata.Title = Title.text;
             metadata.Subtitle = Summary.text;
             metadata.Description = Description.text;
-            metadata.Categories.AddRange(Tags.text.Split(tagsSplit, StringSplitOptions.RemoveEmptyEntries));
+            metadata.Categories.Clear();
+            var categories = Tags.text.Split(tagsSplit, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var category in categories.Where((c) => !string.IsNullOrWhiteSpace(c)))
+                metadata.Categories.Add(category);
             metadata.Audience = Audience.Value;
             metadata.Difficulty = (Difficulty)Difficulty.value;
             metadata.IsPublic = !PrivateToggle.isOn;

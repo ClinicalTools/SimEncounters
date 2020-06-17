@@ -5,7 +5,7 @@ namespace ClinicalTools.SimEncounters
 {
     public interface IEncounterContentReader
     {
-        WaitableResult<EncounterContent> GetEncounterContent(User user, IEncounterMetadata metadata);
+        WaitableResult<EncounterContent> GetEncounterContent(User user, EncounterMetadata metadata);
     }
     public class LocalContentDataReader : IEncounterContentReader
     {
@@ -17,7 +17,7 @@ namespace ClinicalTools.SimEncounters
             this.parser = parser;
         }
 
-        public WaitableResult<EncounterContent> GetEncounterContent(User user, IEncounterMetadata metadata)
+        public WaitableResult<EncounterContent> GetEncounterContent(User user, EncounterMetadata metadata)
         {
             var content = new WaitableResult<EncounterContent>();
 
@@ -44,7 +44,7 @@ namespace ClinicalTools.SimEncounters
             this.parser = parser;
         }
 
-        public WaitableResult<EncounterContent> GetEncounterContent(User user, IEncounterMetadata metadata)
+        public WaitableResult<EncounterContent> GetEncounterContent(User user, EncounterMetadata metadata)
         {
             var contentData = new WaitableResult<EncounterContent>();
 
@@ -64,7 +64,7 @@ namespace ClinicalTools.SimEncounters
         private const string columnVariable = "column";
         private const string columnValue = "xmlData";
         private const string accountIdVariable = "accountId";
-        private UnityWebRequest GetWebRequest(User user, IEncounterMetadata metadata)
+        private UnityWebRequest GetWebRequest(User user, EncounterMetadata metadata)
         {
             var arguments = new UrlArgument[] {
                 new UrlArgument(filenameArgument, $"{metadata.Filename}.ced"),

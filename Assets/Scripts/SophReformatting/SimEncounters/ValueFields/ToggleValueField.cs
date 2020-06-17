@@ -17,7 +17,7 @@ namespace ClinicalTools.SimEncounters
             }
         }
 
-        public override void Initialize() { }
+        public override void Initialize() => Toggle.isOn = false;
         public override void Initialize(string value)
         {
             if (bool.TryParse(value, out var boolVal))

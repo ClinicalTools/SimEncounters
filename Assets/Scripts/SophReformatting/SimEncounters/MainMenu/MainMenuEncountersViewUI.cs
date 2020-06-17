@@ -32,8 +32,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected virtual bool IsRead { get; set; }
 
-        protected AddEncounterPopup AddEncounterPopup { get; set; }
-        [Inject] protected virtual void Inject(AddEncounterPopup addEncounterPopup)
+        protected BaseAddEncounterPopup AddEncounterPopup { get; set; }
+        [Inject] protected virtual void Inject(BaseAddEncounterPopup addEncounterPopup)
             => AddEncounterPopup = addEncounterPopup;
         protected virtual void Awake()
         {

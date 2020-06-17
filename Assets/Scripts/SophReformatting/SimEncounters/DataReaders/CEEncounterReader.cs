@@ -8,7 +8,7 @@ namespace ClinicalTools.SimEncounters
             : base(dataReaderSelector) { }
 
         protected override void ProcessResults(WaitableResult<Encounter> result,
-            IEncounterMetadata metadata,
+            EncounterMetadata metadata,
             WaitableResult<EncounterData> data)
         {
             if (data.Result.ImageData is CEEncounterImageData ceImageData)

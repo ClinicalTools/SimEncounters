@@ -4,7 +4,7 @@ namespace ClinicalTools.SimEncounters
 {
     public interface IDetailedStatusReader
     {
-        WaitableResult<EncounterStatus> GetDetailedStatus(User user, IEncounterMetadata metadata, EncounterBasicStatus basicStatus);
+        WaitableResult<EncounterStatus> GetDetailedStatus(User user, EncounterMetadata metadata, EncounterBasicStatus basicStatus);
     }
 
     public class LocalDetailedStatusReader : IDetailedStatusReader
@@ -18,7 +18,7 @@ namespace ClinicalTools.SimEncounters
         }
 
         public WaitableResult<EncounterStatus> GetDetailedStatus(User user,
-            IEncounterMetadata metadata, EncounterBasicStatus basicStatus)
+            EncounterMetadata metadata, EncounterBasicStatus basicStatus)
         {
             var detailedStatus = new WaitableResult<EncounterStatus>();
 

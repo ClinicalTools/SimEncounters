@@ -32,7 +32,7 @@ namespace ClinicalTools.SimEncounters
         }
 
         protected void ProcessResults(WaitableResult<List<MenuEncounter>> result,
-            WaitableResult<Dictionary<int, Dictionary<SaveType, IEncounterMetadata>>> metadataGroups,
+            WaitableResult<Dictionary<int, Dictionary<SaveType, EncounterMetadata>>> metadataGroups,
             WaitableResult<Dictionary<int, EncounterBasicStatus>> statuses)
         {
             if (result.IsCompleted || !metadataGroups.IsCompleted || !statuses.IsCompleted)
@@ -50,7 +50,7 @@ namespace ClinicalTools.SimEncounters
             result.SetResult(menuEncounters);
         }
 
-        protected MenuEncounter GetMenuEncounter(KeyValuePair<int, Dictionary<SaveType, IEncounterMetadata>> metadataGroup,
+        protected MenuEncounter GetMenuEncounter(KeyValuePair<int, Dictionary<SaveType, EncounterMetadata>> metadataGroup,
             WaitableResult<Dictionary<int, EncounterBasicStatus>> statuses)
         {
             EncounterBasicStatus status = null;

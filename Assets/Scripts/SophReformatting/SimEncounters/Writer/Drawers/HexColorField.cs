@@ -27,7 +27,6 @@ namespace ClinicalTools.SimEncounters.Writer
             UpdateField(color);
         }
 
-
         protected string HexText { get; set; }
         private void UpdateField(Color color)
         {

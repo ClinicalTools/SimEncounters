@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Writer
 {
+
     public class WriterPanel : BaseWriterPanel
     {
         public BaseWriterPanelsDrawer ChildPanelCreator { get => childPanelCreator; set => childPanelCreator = value; }

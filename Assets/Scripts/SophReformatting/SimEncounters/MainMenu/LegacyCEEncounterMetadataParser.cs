@@ -1,4 +1,5 @@
-﻿using ClinicalTools.SimEncounters.Data;
+﻿using ClinicalTools.SimEncounters;
+using ClinicalTools.SimEncounters.Data;
 using System;
 using System.Collections.Generic;
 using static MenuCase;
@@ -9,11 +10,14 @@ namespace ClinicalTools.SimEncounters
     {
         string Serialize(T value);
     }
+}
 
-    public class CEEncounterMetadataDeserializer : IParser<IEncounterMetadata>
+namespace ClinicalTools.ClinicalEncounters
+{
+    public class CEEncounterMetadataDeserializer : IParser<EncounterMetadata>
     {
-        private readonly IParser<IEncounterMetadata> legacyParser;
-        public CEEncounterMetadataDeserializer(IParser<IEncounterMetadata> legacyParser)
+        private readonly IParser<EncounterMetadata> legacyParser;
+        public CEEncounterMetadataDeserializer(IParser<EncounterMetadata> legacyParser)
             => this.legacyParser = legacyParser;
 
         private const char caseInfoDivider = '|';
@@ -36,7 +40,7 @@ namespace ClinicalTools.SimEncounters
         private const int isPublicIndex = 14;
         private const int isTemplateIndex = 15;
 
-        public IEncounterMetadata Parse(string text)
+        public EncounterMetadata Parse(string text)
         {
             try {
                 var parsedItem = text.Split(caseInfoDivider);
@@ -85,9 +89,9 @@ namespace ClinicalTools.SimEncounters
         protected bool GetBoolValue(string value) => value == "1";
     }
 
-    public class EncounterMetadataSerializer : IStringSerializer<IEncounterMetadata>
+    public class CEEncounterMetadataSerializer : IStringSerializer<EncounterMetadata>
     {
-        public virtual string Serialize(IEncounterMetadata metadata)
+        public virtual string Serialize(EncounterMetadata metadata)
         {
             string firstName, lastName;
             if (metadata is CEEncounterMetadata ceMetadata) {
@@ -122,11 +126,11 @@ namespace ClinicalTools.SimEncounters
         protected virtual string AppendValue(bool value) => caseInfoDivider + (value ? "1" : "0");
         protected virtual string AppendValue(string value) => caseInfoDivider + value;
     }
-    public class LegacyCEEncounterMetadataParser : IParser<IEncounterMetadata>
+    public class LegacyCEEncounterMetadataParser : IParser<EncounterMetadata>
     {
         public LegacyCEEncounterMetadataParser() { }
 
-        public virtual IEncounterMetadata Parse(string text)
+        public virtual EncounterMetadata Parse(string text)
         {
             var parsedItem = GetParsedEncounterText(text);
             return GetMetadata(parsedItem);
@@ -168,7 +172,7 @@ namespace ClinicalTools.SimEncounters
         }
 
         private const string categoryDivider = ", ";
-        public IEncounterMetadata GetMetadata(string[] parsedItem)
+        public EncounterMetadata GetMetadata(string[] parsedItem)
         {
             if (parsedItem == null || parsedItem.Length < encounterParts)
                 return null;

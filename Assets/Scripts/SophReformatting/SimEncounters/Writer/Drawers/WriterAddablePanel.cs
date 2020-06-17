@@ -82,7 +82,7 @@ namespace ClinicalTools.SimEncounters.Writer
         }
 
 
-        protected virtual void ConfirmDelete() => ConfirmationPopup.ShowConfirmation(Delete, "Confirm", "Yeet");
+        protected virtual void ConfirmDelete() => ConfirmationPopup.ShowConfirmation(Delete, "Confirm", "Are you sure you want to remove this entry?");
         protected virtual void Delete()
         {
             Deleted?.Invoke();

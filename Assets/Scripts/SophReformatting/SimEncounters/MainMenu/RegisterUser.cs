@@ -7,12 +7,10 @@ namespace ClinicalTools.SimEncounters.MainMenu
     public class RegisterUser
     {
         protected IUrlBuilder WebAddress { get; }
-        protected global::MessageHandler MessageHandler { get; }
         protected IServerReader ServerReader { get; }
-        public RegisterUser(IUrlBuilder webAddress, global::MessageHandler messageHandler, IServerReader serverReader)
+        public RegisterUser(IUrlBuilder webAddress, IServerReader serverReader)
         {
             WebAddress = webAddress;
-            MessageHandler = messageHandler;
             ServerReader = serverReader;
         }
 
@@ -53,16 +51,16 @@ namespace ClinicalTools.SimEncounters.MainMenu
         private void ProcessResults(ServerResult serverResults)
         {
             if (serverResults.Outcome != ServerOutcome.Success) {
-                MessageHandler.ShowMessage(serverResults.Message, true);
+                //MessageHandler.ShowMessage(serverResults.Message, true);
                 return;
             }
             if (serverResults.Message.StartsWith("Connection Granted")) {
-                MessageHandler.ShowMessage("Success. Please check email (or spam folder) for verification", false);
+                //MessageHandler.ShowMessage("Success. Please check email (or spam folder) for verification", false);
                 return;
             }
 
             var error = serverResults.Message.Split(new string[] { "--" }, System.StringSplitOptions.None)[0];
-            MessageHandler.ShowMessage(error, true);
+            //MessageHandler.ShowMessage(error, true);
         }
     }
 }

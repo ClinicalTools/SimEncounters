@@ -2,11 +2,11 @@
 {
     public class Encounter
     {
-        public virtual IEncounterMetadata Metadata { get; }
+        public virtual EncounterMetadata Metadata { get; }
         public virtual EncounterContent Content { get; }
         public virtual EncounterImageData Images { get; }
 
-        public Encounter(IEncounterMetadata metadata, EncounterContent content, EncounterImageData images)
+        public Encounter(EncounterMetadata metadata, EncounterContent content, EncounterImageData images)
         {
             Metadata = metadata;
             Content = content;

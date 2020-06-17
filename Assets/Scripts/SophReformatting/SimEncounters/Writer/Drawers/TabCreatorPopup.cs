@@ -66,15 +66,13 @@ namespace ClinicalTools.SimEncounters.Writer
         protected string SelectedPrefab { get; set; }
         protected virtual void AddTab()
         {
-            var name = NameField.text?.Trim();
-            if (string.IsNullOrEmpty(name)) {
-                MessageHandler.ShowMessage("Name cannot be empty.", MessageType.Error);
-                return;
-            }
             if (string.IsNullOrWhiteSpace(SelectedPrefab)) {
                 MessageHandler.ShowMessage("Must select a tab template.", MessageType.Error);
                 return;
             }
+            var name = NameField.text?.Trim();
+            if (string.IsNullOrEmpty(name))
+                name = DefaultName;
 
             var tab = new Tab(SelectedPrefab, name);
             CurrentWaitableTab.SetResult(tab);
@@ -117,12 +115,14 @@ namespace ClinicalTools.SimEncounters.Writer
                 var tabButton = Instantiate(TypeButtonPrefab, TabTypes.transform);
                 tabButton.Label.text = tabType.Display;
                 tabButton.Toggle.group = TabTypes;
-                tabButton.Toggle.AddOnSelectListener(() => TypeSelected(tabType));
+                tabButton.Toggle.AddOnSelectListener(() => TypeSelected(tabType.Display, tabType));
             }
         }
 
-        protected virtual void TypeSelected(TabType tabType)
+        protected string DefaultName { get; set; }
+        protected virtual void TypeSelected(string defaultName, TabType tabType)
         {
+            DefaultName = defaultName;
             TabTypes.allowSwitchOff = false;
             DescriptionLabel.text = tabType.Description;
             SelectedPrefab = tabType.Prefab;

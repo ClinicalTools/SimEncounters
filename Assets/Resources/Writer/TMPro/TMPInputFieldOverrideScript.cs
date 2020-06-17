@@ -43,10 +43,20 @@ public class TMPInputFieldOverrideScript : TMP_InputField {
 
     public override void OnDeselect(BaseEventData eventData)
     {
+        base.OnDeselect(eventData);
+        return;
         Transform suggestions = transform.Find("Suggestions");
         Transform closeSuggestions = transform.Find("CloseSuggestions");
         /*if (suggestions.childCount > 0) {
 			foreach (Transform t in suggestions.GetComponentsInChildren<Transform>()) {
+Search
+
+
+
+
+
+Avatar image
+
 				if (!t.name.Equals (suggestions.name))
 					continue;//t.gameObject.SetActive (false);
 			}

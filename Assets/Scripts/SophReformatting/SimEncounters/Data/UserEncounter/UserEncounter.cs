@@ -6,12 +6,12 @@ namespace ClinicalTools.SimEncounters.Data
     public class UserEncounter
     {
         public User User { get; }
-        public IEncounterMetadata Metadata { get; }
+        public EncounterMetadata Metadata { get; }
         public EncounterStatus Status { get; }
         public event Action StatusChanged;
         public Encounter Data { get; }
 
-        public UserEncounter(User user, IEncounterMetadata metadata, Encounter data, EncounterStatus status)
+        public UserEncounter(User user, EncounterMetadata metadata, Encounter data, EncounterStatus status)
         {
             User = user;
             Metadata = metadata;

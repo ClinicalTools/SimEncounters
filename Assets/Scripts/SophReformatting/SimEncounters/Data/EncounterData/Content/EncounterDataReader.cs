@@ -40,7 +40,7 @@ namespace ClinicalTools.SimEncounters
             ImageDataReader = imageDataReader;
         }
 
-        public virtual WaitableResult<EncounterData> GetEncounterData(User user, IEncounterMetadata metadata)
+        public virtual WaitableResult<EncounterData> GetEncounterData(User user, EncounterMetadata metadata)
         {
             var encounterData = new WaitableResult<EncounterData>();
             var content = ContentReader.GetEncounterContent(user, metadata);

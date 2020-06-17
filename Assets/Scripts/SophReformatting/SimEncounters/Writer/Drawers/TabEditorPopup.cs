@@ -62,7 +62,7 @@ namespace ClinicalTools.SimEncounters.Writer
             Close();
         }
 
-        protected virtual void ConfirmRemove() => ConfirmationPopup.ShowConfirmation(Remove, "Confirm", "Yeet");
+        protected virtual void ConfirmRemove() => ConfirmationPopup.ShowConfirmation(Remove, "Confirm", "Are you sure you want to remove this tab?");
         protected virtual void Remove()
         {
             CurrentWaitableTab.SetResult(null);

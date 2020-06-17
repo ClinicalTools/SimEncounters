@@ -20,7 +20,6 @@ namespace ClinicalTools.ClinicalEncounters
         }
 
         public override void Initialize(Encounter encounter) => SetMetadata(encounter);
-
         public override void Initialize(Encounter encounter, string value)
         {
             SetMetadata(encounter);

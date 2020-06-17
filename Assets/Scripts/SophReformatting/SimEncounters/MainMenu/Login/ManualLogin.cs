@@ -20,11 +20,13 @@ namespace ClinicalTools.SimEncounters
 
         protected IPasswordLoginManager PasswordLoginHandler { get; private set; }
         protected StayLoggedIn StayLoggedIn { get; set; }
+        protected BaseMessageHandler MessageHandler { get; set; }
         [Inject]
-        public virtual void Inject(IPasswordLoginManager passwordLoginHandler, StayLoggedIn stayLoggedIn)
+        public virtual void Inject(IPasswordLoginManager passwordLoginHandler, StayLoggedIn stayLoggedIn, BaseMessageHandler messageHandler)
         {
             PasswordLoginHandler = passwordLoginHandler;
-            StayLoggedIn = stayLoggedIn;
+            StayLoggedIn = stayLoggedIn; 
+            MessageHandler = messageHandler;
         }
 
         protected virtual void Awake()
@@ -43,6 +45,7 @@ namespace ClinicalTools.SimEncounters
 
             UsernameField.text = "";
             PasswordField.text = "";
+            StayLoggedInToggle.isOn = false;
 
             return CurrentWaitableResult;
         }
@@ -66,13 +69,11 @@ namespace ClinicalTools.SimEncounters
         protected void ServerUserResponse(WaitableResult<User> waitableResult)
         {
             if (waitableResult.IsError) {
-                // show message maybe?
+                MessageHandler.ShowMessage($"Could not login: {waitableResult.Message}", MessageType.Error);
                 return;
             }
-            if (CurrentWaitableResult.IsCompleted) {
-                // show message maybe?
+            if (CurrentWaitableResult.IsCompleted)
                 return;
-            }
 
             gameObject.SetActive(false);
             if (StayLoggedInToggle == null || StayLoggedInToggle.isOn)
