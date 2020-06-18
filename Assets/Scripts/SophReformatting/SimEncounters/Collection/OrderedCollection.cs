@@ -56,7 +56,20 @@ namespace ClinicalTools.SimEncounters.Collections
             base.Remove(value);
         }
 
-        public virtual KeyValuePair<string, T> Get(int val) => PairList[val];
+        protected override void Set(string key, T value)
+        {
+            for (int i = 0; i < PairList.Count; i++) {
+                if (PairList[i].Key != key)
+                    continue;
+
+                PairList[i] = new KeyValuePair<string, T>(key, value);
+                break;
+            }
+            
+            base.Set(key, value);
+        }
+
+        protected virtual KeyValuePair<string, T> Get(int val) => PairList[val];
 
         public virtual void MoveValue(int newIndex, int currentIndex)
         {

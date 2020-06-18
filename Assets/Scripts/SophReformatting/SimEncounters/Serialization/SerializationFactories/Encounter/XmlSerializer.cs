@@ -54,19 +54,14 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
                 CreateElement(nodeData.Name, value, Node);
         }
         public virtual void AddBool(NodeInfo nodeData, bool value)
-        {
-            CreateElement(nodeData.Name, value.ToString(), Node);
-        }
+            => CreateElement(nodeData.Name, value.ToString(), Node);
         public virtual void AddInt(NodeInfo nodeData, int value)
-        {
-            CreateElement(nodeData.Name, value.ToString(), Node);
-        }
+            => CreateElement(nodeData.Name, value.ToString(), Node);
+
+        // considered storing each value in their own tag, but individual panel fields must store their colors as a string
+        // later the serialization and deserialization for colors to and from a string should be moved out so panels can access it
         public virtual void AddColor(NodeInfo nodeData, Color value)
-        {
-            // considered storing each value in their own tag, but individual panel fields must store their colors as a string
-            // later the serialization and deserialization for colors to and from a string should be moved out so panels can access it
-            CreateElement(nodeData.Name, $"{value.r},{value.g},{value.b},{value.a}", Node);
-        }
+            => CreateElement(nodeData.Name, $"{value.r},{value.g},{value.b},{value.a}", Node);
 
         public virtual void AddValue<T>(NodeInfo nodeData, T value, ISerializationFactory<T> serializationFactory)
         {

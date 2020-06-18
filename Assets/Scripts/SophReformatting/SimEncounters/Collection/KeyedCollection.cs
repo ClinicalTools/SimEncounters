@@ -26,7 +26,10 @@ namespace ClinicalTools.SimEncounters.Collections
         /// </summary>
         protected virtual IDictionary<T, string> KeyCollection { get; } = new Dictionary<T, string>();
 
-        public virtual T this[string key] => Get(key);
+        public virtual T this[string key] {
+            get => Get(key);
+            set => Set(key, value);
+        }
         public virtual string this[T value] => GetKey(value);
 
         public virtual IEnumerable<string> Keys => Collection.Keys.AsEnumerable();
@@ -119,12 +122,20 @@ namespace ClinicalTools.SimEncounters.Collections
         /// <returns>
         /// The value for the passed key, or null if the key isn't in the collection
         /// </returns>
-        public virtual T Get(string key)
+        protected virtual T Get(string key)
         {
             if (Collection.ContainsKey(key))
                 return Collection[key];
             else
                 return default;
+        }
+
+        protected virtual void Set(string key, T value)
+        {
+            if (Collection.ContainsKey(key))
+                Collection[key] = value;
+            else
+                Collection.Add(key, value);
         }
 
         /// <summary>

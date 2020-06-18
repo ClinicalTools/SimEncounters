@@ -44,6 +44,7 @@ namespace ClinicalTools.SimEncounters.Reader
         {
             if (EncounterDrawer is ICompletable completable)
                 completable.Finish += () => CompletionPopup.Display(userEncounter.Data);
+            CompletionPopup.ReturnToMenu += ReturnToMainMenu;
         }
 
         private bool started = false;

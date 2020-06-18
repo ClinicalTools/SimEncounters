@@ -30,7 +30,6 @@ namespace ClinicalTools.SimEncounters.Reader
 
         public event Action Finish;
 
-
         private EncounterStatusSerializer statusSerializer;
         private IParser<EncounterContentStatus> statusDeserializer;
         [Inject] public virtual void Inject(EncounterStatusSerializer statusSerializer, IParser<EncounterContentStatus> statusDeserializer)

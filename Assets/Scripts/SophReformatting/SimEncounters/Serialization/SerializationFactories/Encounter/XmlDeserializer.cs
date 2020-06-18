@@ -9,19 +9,10 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
     {
         protected virtual XmlNode Node { get; }
 
-        public XmlDeserializer(XmlDocument xmlDocument)
-        {
-            Node = xmlDocument.DocumentElement;
-        }
-        protected XmlDeserializer(XmlNode xmlNode)
-        {
-            Node = xmlNode;
-        }
+        public XmlDeserializer(XmlDocument xmlDocument) => Node = xmlDocument.DocumentElement;
+        protected XmlDeserializer(XmlNode xmlNode) => Node = xmlNode;
 
-        public virtual string GetName()
-        {
-            return Node.Name;
-        }
+        public virtual string GetName() => Node.Name;
 
         public virtual string GetString(NodeInfo valueFinder)
         {
@@ -40,11 +31,10 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
 
             boolStr = boolStr.Trim();
 
-            if (bool.TryParse(boolStr, out var value)) {
+            if (bool.TryParse(boolStr, out var value))
                 return value;
-            } else {
+            else
                 return false;
-            }
         }
 
         public virtual int GetInt(NodeInfo valueFinder)
@@ -55,11 +45,10 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
 
             intStr = intStr.Trim();
 
-            if (int.TryParse(intStr, out var value)) {
+            if (int.TryParse(intStr, out var value))
                 return value;
-            } else {
+            else
                 return -1;
-            }
         }
 
         public virtual Color GetColor(NodeInfo valueFinder)
@@ -109,7 +98,6 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
                 Debug.LogWarning($"{ex.Message}\n{ex.StackTrace}");
                 //Debug.Log(ex.StackTrace);
                 return default;
-
             }
         }
 
