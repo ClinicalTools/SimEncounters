@@ -1,10 +1,17 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using System;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 namespace ClinicalTools.SimEncounters.Reader
 {
-    public class ReaderEncounterDrawer : BaseUserEncounterDrawer
+    public interface ICompletable
+    {
+        event Action Finish;
+    }
+
+    public class ReaderEncounterDrawer : BaseUserEncounterDrawer, ICompletable
     {
         public BaseUserSectionSelector SectionSelector { get => sectionSelector; set => sectionSelector = value; }
         [SerializeField] private BaseUserSectionSelector sectionSelector;
@@ -16,8 +23,12 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private BaseUserTabDrawer tabDrawer;
         public BaseReaderFooter Footer { get => footer; set => footer = value; }
         [SerializeField] private BaseReaderFooter footer;
+        public Button FinishButton { get => finishButton; set => finishButton = value; }
+        [SerializeField] private Button finishButton;
         public BaseUserEncounterDrawer GeneralEncounterDrawer { get => generalEncounterDrawer; set => generalEncounterDrawer = value; }
         [SerializeField] private BaseUserEncounterDrawer generalEncounterDrawer;
+
+        public event Action Finish;
 
 
         private EncounterStatusSerializer statusSerializer;
@@ -35,6 +46,7 @@ namespace ClinicalTools.SimEncounters.Reader
             TabSelector.TabSelected += OnTabSelected;
             Footer.TabSelected += OnTabSelected;
             Footer.Finished += Finished;
+            FinishButton.onClick.AddListener(Finished);
         }
 
         private void Finished()
@@ -43,6 +55,8 @@ namespace ClinicalTools.SimEncounters.Reader
             var status2 = statusDeserializer.Parse(x);
             var y = statusSerializer.Serialize(status2);
             Debug.Log($"{x}\n{y}");
+
+            Finish?.Invoke();
         }
 
         protected UserEncounter UserEncounter { get; set; }

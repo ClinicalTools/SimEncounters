@@ -63,8 +63,11 @@ namespace ClinicalTools.SimEncounters.Writer
 
             if (panel.ChildPanels.Count > 0)
                 ChildPanelCreator.DrawChildPanels(encounter, panel.ChildPanels);
-            if (PinsDrawer != null)
+            if (PinsDrawer != null) {
+                if (panel.Pins == null)
+                    panel.Pins = new PinData();
                 PinsDrawer.Display(encounter, panel.Pins);
+            }
         }
 
         public override Panel Serialize()

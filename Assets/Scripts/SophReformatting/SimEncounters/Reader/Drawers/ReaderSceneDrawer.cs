@@ -16,6 +16,8 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private Button writerButton;
         public BaseUserEncounterDrawer EncounterDrawer { get => encounterDrawer; set => encounterDrawer = value; }
         [SerializeField] private BaseUserEncounterDrawer encounterDrawer;
+        public BaseCompletionPopup CompletionPopup { get => completionPopup; set => completionPopup = value; }
+        [SerializeField] private BaseCompletionPopup completionPopup;
 
         protected LoadingReaderSceneInfo LoadingSceneInfo { get; set; }
 
@@ -24,6 +26,7 @@ namespace ClinicalTools.SimEncounters.Reader
         protected IMenuEncountersInfoReader MenuInfoReader { get; set; }
         protected IDetailedStatusWriter StatusWriter { get; set; }
         protected BaseConfirmationPopup ConfirmationPopup { get; set; }
+
         [Inject]
         public virtual void Inject(
             IMenuSceneStarter menuSceneStarter, IMenuEncountersInfoReader menuInfoReader, 
@@ -35,6 +38,12 @@ namespace ClinicalTools.SimEncounters.Reader
             MenuInfoReader = menuInfoReader;
             StatusWriter = statusWriter;
             ConfirmationPopup = confirmationPopup;
+        }
+
+        protected virtual void Awake()
+        {
+            if (EncounterDrawer is ICompletable completable)
+                completable.Finish += () => CompletionPopup.Display(userEncounter.Data);
         }
 
         private bool started = false;

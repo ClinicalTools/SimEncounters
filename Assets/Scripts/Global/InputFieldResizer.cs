@@ -109,6 +109,9 @@ public class InputFieldResizer : MonoBehaviour
             return;
         }
 
+        if (!LayoutElement)
+            return;
+
         var text = InputField.text;
         if (text.Length > 0 && text[text.Length - 1] == '\n')
             text += ' ';
@@ -145,7 +148,6 @@ public class InputFieldResizer : MonoBehaviour
 
         InputField.textComponent.rectTransform.offsetMax = Vector2.zero;
         InputField.textComponent.rectTransform.offsetMin = Vector2.zero;
-
     }
 
 

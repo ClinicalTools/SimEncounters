@@ -22,7 +22,7 @@ namespace ClinicalTools.ClinicalEncounters
 
         private const char caseInfoDivider = '|';
         private const char categoryDivider = ';';
-        private const int encounterParts = 15;
+        private const int encounterParts = 18;
         private const int authorAccountIdIndex = 0;
         private const int filenameIndex = 1;
         private const int authorNameIndex = 2;
@@ -39,6 +39,8 @@ namespace ClinicalTools.ClinicalEncounters
         private const int ratingIndex = 13;
         private const int isPublicIndex = 14;
         private const int isTemplateIndex = 15;
+        private const int urlIndex = 16;
+        private const int completionCodeIndex = 17;
 
         public EncounterMetadata Parse(string text)
         {
@@ -62,7 +64,9 @@ namespace ClinicalTools.ClinicalEncounters
                     Audience = parsedItem[audienceIndex],
                     EditorVersion = parsedItem[editorVersionIndex],
                     IsPublic = GetBoolValue(parsedItem[isPublicIndex]),
-                    IsTemplate = GetBoolValue(parsedItem[isTemplateIndex])
+                    IsTemplate = GetBoolValue(parsedItem[isTemplateIndex]),
+                    Url = parsedItem[urlIndex],
+                    CompletionCode = parsedItem[completionCodeIndex]
                 };
                 if (float.TryParse(parsedItem[ratingIndex], out var rating))
                     metadata.Rating = rating;
@@ -93,13 +97,17 @@ namespace ClinicalTools.ClinicalEncounters
     {
         public virtual string Serialize(EncounterMetadata metadata)
         {
-            string firstName, lastName;
+            string firstName, lastName, url, completionCode;
             if (metadata is CEEncounterMetadata ceMetadata) {
                 firstName = ceMetadata.FirstName;
                 lastName = ceMetadata.LastName;
+                url = ceMetadata.Url;
+                completionCode = ceMetadata.CompletionCode;
             } else {
                 firstName = "";
                 lastName = "";
+                url = "";
+                completionCode = "";
             }
             var str = "" + metadata.AuthorAccountId;
             str += AppendValue(metadata.Filename);
@@ -117,6 +125,8 @@ namespace ClinicalTools.ClinicalEncounters
             str += AppendValue(metadata.Rating.ToString());
             str += AppendValue(metadata.IsPublic);
             str += AppendValue(metadata.IsTemplate);
+            str += AppendValue(url);
+            str += AppendValue(completionCode);
 
             return str;
         }

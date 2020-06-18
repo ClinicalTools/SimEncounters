@@ -1,4 +1,6 @@
-﻿using ClinicalTools.SimEncounters.Data;
+﻿using ClinicalTools.SimEncounters;
+using ClinicalTools.SimEncounters.Data;
+using ClinicalTools.SimEncounters.Writer;
 using System;
 using System.Linq;
 using TMPro;
@@ -6,13 +8,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace ClinicalTools.SimEncounters.Writer
+namespace ClinicalTools.ClinicalEncounters.Writer
 {
-    public abstract class BaseWriterMetadataDisplay : MonoBehaviour
-    {
-        public abstract void Display(User user, Encounter encounter);
-    }
-    public class WriterMetadataDisplay : BaseWriterMetadataDisplay
+    public class CEWriterMetadataDisplay : BaseWriterMetadataDisplay
     {
         public TextMeshProUGUI Title { get => title; set => title = value; }
         [SerializeField] private TextMeshProUGUI title;
@@ -22,6 +20,10 @@ namespace ClinicalTools.SimEncounters.Writer
         [SerializeField] private TMP_InputField description;
         public TMP_InputField Tags { get => tags; set => tags = value; }
         [SerializeField] private TMP_InputField tags;
+        public TMP_InputField URL { get => url; set => url = value; }
+        [SerializeField] private TMP_InputField url;
+        public TMP_InputField CompletionCode { get => completionCode; set => completionCode = value; }
+        [SerializeField] private TMP_InputField completionCode;
         public Toggle PrivateToggle { get => privateToggle; set => privateToggle = value; }
         [SerializeField] private Toggle privateToggle;
         public Toggle TemplateToggle { get => templateToggle; set => templateToggle = value; }
@@ -55,13 +57,16 @@ namespace ClinicalTools.SimEncounters.Writer
             Difficulty.value = (int)metadata.Difficulty;
             PrivateToggle.isOn = !metadata.IsPublic;
             TemplateToggle.isOn = !metadata.IsTemplate;
+            if (metadata is CEEncounterMetadata ceMetadata) {
+                URL.text = ceMetadata.Url;
+                CompletionCode.text = ceMetadata.CompletionCode;
+            }
         }
 
         private readonly string[] tagsSplit = new string[] { "; " };
         protected virtual void Serialize()
         {
             var metadata = CurrentEncounter.Metadata;
-            //metadata.Title = Title.text;
             metadata.Subtitle = Summary.text;
             metadata.Description = Description.text;
             metadata.Categories.Clear();
@@ -72,6 +77,10 @@ namespace ClinicalTools.SimEncounters.Writer
             metadata.Difficulty = (Difficulty)Difficulty.value;
             metadata.IsPublic = !PrivateToggle.isOn;
             metadata.IsTemplate = !TemplateToggle.isOn;
+            if (metadata is CEEncounterMetadata ceMetadata) {
+                ceMetadata.Url = URL.text;
+                ceMetadata.CompletionCode = CompletionCode.text;
+            }
         }
         protected virtual void Save()
         {

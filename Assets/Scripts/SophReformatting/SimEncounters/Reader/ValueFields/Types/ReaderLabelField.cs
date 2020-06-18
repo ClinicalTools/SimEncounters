@@ -33,7 +33,7 @@ namespace ClinicalTools.SimEncounters.Reader
                 HideControlledObjects();
         }
 
-        protected void SetText(string value)
+        protected virtual void SetText(string value)
         {
             var text = "";
             if (Prefix != null)
@@ -43,7 +43,7 @@ namespace ClinicalTools.SimEncounters.Reader
             Label.text = text;
         }
 
-        protected void HideControlledObjects()
+        protected virtual void HideControlledObjects()
         {
             foreach (var controlledObject in ControlledObjects)
                 controlledObject.SetActive(false);
