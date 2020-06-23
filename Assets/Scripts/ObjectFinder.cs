@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 //*
 public class ObjectFinder : MonoBehaviour
@@ -17,6 +19,7 @@ public class ObjectFinder : MonoBehaviour
 	
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(ObjectFinder))]
 public class ObjectFinderEditor : Editor
 {
@@ -142,3 +145,4 @@ public class ObjectFinderEditor : Editor
 	}
 }
 //*/
+#endif

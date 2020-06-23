@@ -4,34 +4,32 @@ using UnityEngine;
 
 namespace Crosstales.Common.EditorTask
 {
-    /// <summary>Copies all resources to 'Editor Default Resources'.</summary>
-    [InitializeOnLoad]
-    public abstract class SetupResources : BaseSetupResources
-    {
+   /// <summary>Copies all resources to 'Editor Default Resources'.</summary>
+   [InitializeOnLoad]
+   public abstract class SetupResources : BaseSetupResources
+   {
+      #region Constructor
 
-        #region Constructor
-
-        static SetupResources()
-        {
-
+      static SetupResources()
+      {
 #if !CT_DEVELOP
-            string path = Application.dataPath;
-            string assetpath = "Assets/Plugins/crosstales/Common/";
+         string path = Application.dataPath;
+         string assetpath = "Assets/Plugins/crosstales/Common/";
 
-            string sourceFolder = path + "/Plugins/crosstales/Common/Icons/";
-            string source = assetpath + "Icons/";
+         string sourceFolder = path + "/Plugins/crosstales/Common/Icons/";
+         string source = assetpath + "Icons/";
 
-            string targetFolder = path + "/Editor Default Resources/crosstales/Common/";
-            string target = "Assets/Editor Default Resources/crosstales/Common/";
-            string metafile = assetpath + "Icons.meta";
+         string targetFolder = path + "/Editor Default Resources/crosstales/Common/";
+         string target = "Assets/Editor Default Resources/crosstales/Common/";
+         string metafile = assetpath + "Icons.meta";
 
-            //Debug.Log(source + " - " + sourceFolder + " - " + target + " - " + targetFolder + " - " + metafile);
-            setupResources(source, sourceFolder, target, targetFolder, metafile);
+         //Debug.Log(source + " - " + sourceFolder + " - " + target + " - " + targetFolder + " - " + metafile);
+         setupResources(source, sourceFolder, target, targetFolder, metafile);
 #endif
-        }
+      }
 
-        #endregion
-    }
+      #endregion
+   }
 }
 #endif
-// © 2019 crosstales LLC (https://www.crosstales.com)
+// © 2019-2020 crosstales LLC (https://www.crosstales.com)

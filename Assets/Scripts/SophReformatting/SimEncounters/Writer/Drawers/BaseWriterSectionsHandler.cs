@@ -4,12 +4,11 @@ using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Writer
 {
-    public abstract class BaseWriterSectionsHandler : MonoBehaviour, ISectionSelector, IRearrangable
+    public abstract class BaseWriterSectionsHandler : MonoBehaviour, ISectionSelector
     {
         public abstract void Display(Encounter encounter);
         public abstract event SectionSelectedHandler SectionSelected;
         public abstract void SelectSection(Section section);
-        public abstract event RearrangedHandler Rearranged;
         public abstract event Action<Section> SectionEdited;
         public abstract event Action<Section> SectionDeleted;
     }

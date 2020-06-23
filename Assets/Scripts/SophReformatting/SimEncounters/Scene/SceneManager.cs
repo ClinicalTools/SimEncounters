@@ -11,7 +11,9 @@ namespace ClinicalTools.SimEncounters
         protected virtual void Awake()
         {
             Instance = this;
-
+        }
+        protected virtual void Start()
+        {
             if (FirstScene)
                 StartAsInitialScene();
             else

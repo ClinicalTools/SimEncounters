@@ -1,10 +1,10 @@
 ﻿using ClinicalTools.SimEncounters.Data;
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.Writer
 {
+
     public class WriterEncounterDrawer : BaseEncounterDrawer
     {
         public BaseWriterSectionsHandler SectionSelector { get => sectionSelector; set => sectionSelector = value; }

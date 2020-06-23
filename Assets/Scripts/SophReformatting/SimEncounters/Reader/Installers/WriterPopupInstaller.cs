@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.ClinicalEncounters;
+using ClinicalTools.SimEncounters.Collections;
 using ClinicalTools.SimEncounters.Data;
 using UnityEngine;
 using Zenject;
@@ -7,7 +8,7 @@ namespace ClinicalTools.SimEncounters.Writer
 {
     public abstract class BaseSpriteSelector : MonoBehaviour
     {
-        public abstract WaitableResult<string> SelectSprite(Encounter encounter, string spriteKey);
+        public abstract WaitableResult<string> SelectSprite(KeyedCollection<Sprite> sprites, string spriteKey);
     }
 
     public class WriterPopupInstaller : MonoInstaller
@@ -24,6 +25,8 @@ namespace ClinicalTools.SimEncounters.Writer
         [SerializeField] private BaseConfirmationPopup confirmationPopup;
         public BaseSpriteSelector SpriteSelector { get => spriteSelector; set => spriteSelector = value; }
         [SerializeField] private BaseSpriteSelector spriteSelector;
+        public BaseSpriteSelector PatientSpriteSelector { get => patientSpriteSelector; set => patientSpriteSelector = value; }
+        [SerializeField] private BaseSpriteSelector patientSpriteSelector;
         public BaseMessageHandler MessageHandler { get => messageHandler; set => messageHandler = value; }
         [SerializeField] private BaseMessageHandler messageHandler;
         
@@ -34,7 +37,10 @@ namespace ClinicalTools.SimEncounters.Writer
             Container.BindInstance(SectionEditorPopup);
             Container.BindInstance(TabEditorPopup);
             Container.BindInstance(ConfirmationPopup);
-            Container.BindInstance(SpriteSelector);
+            
+            Container.BindInstance(SpriteSelector).WhenNotInjectedInto<CEWriterEncounterDrawer>();
+            Container.BindInstance(PatientSpriteSelector).WhenInjectedInto<CEWriterEncounterDrawer>();
+
             Container.BindInstance(MessageHandler);
             Container.Bind<IParser<Color>>().To<ColorParser>().AsTransient();
             Container.Bind<IEncounterWriter>().To<EncounterWriter>().AsTransient();

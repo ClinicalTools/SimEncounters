@@ -1342,9 +1342,9 @@ GameObject:
   - component: {fileID: 225160126142330076}
   - component: {fileID: 114088239744616120}
   - component: {fileID: 114942638302978620}
-  - component: {fileID: 114832632693818882}
   - component: {fileID: 114756407800103236}
   - component: {fileID: 4463069281213607988}
+  - component: {fileID: 9033962530880573675}
   m_Layer: 5
   m_Name: Image
   m_TagString: Image
@@ -1464,32 +1464,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1998303616129069496}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114832632693818882}
-        m_MethodName: OpenImagePanel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &114832632693818882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1158420851914494}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c35b2efed5a9d84fad49ec63fb7b8e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canSetPatientImage: 0
-  updateThumbnail: 1
+      m_Calls: []
 --- !u!114 &114756407800103236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1516,6 +1491,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4ce387e788977948a02bfc16f196c01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &9033962530880573675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1158420851914494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 667c883b784133341ab102aad6b4016b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectImageButton: {fileID: 114942638302978620}
 --- !u!1 &1176740019474250
 GameObject:
   m_ObjectHideFlags: 0

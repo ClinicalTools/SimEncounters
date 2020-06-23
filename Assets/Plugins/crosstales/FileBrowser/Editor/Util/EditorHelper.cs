@@ -4,89 +4,66 @@ using UnityEditor;
 
 namespace Crosstales.FB.EditorUtil
 {
-    /// <summary>Editor helper class.</summary>
-    public abstract class EditorHelper : Common.EditorUtil.BaseEditorHelper
-    {
-        #region Static variables
+   /// <summary>Editor helper class.</summary>
+   public abstract class EditorHelper : Common.EditorUtil.BaseEditorHelper
+   {
+      #region Static variables
 
-        private static Texture2D logo_asset;
-        private static Texture2D logo_asset_small;
+      private static Texture2D logo_asset;
+      private static Texture2D logo_asset_small;
 
-        #endregion
+      private static Texture2D icon_file;
 
-
-        #region Static properties
-
-        public static Texture2D Logo_Asset
-        {
-            get
-            {
-                return loadImage(ref logo_asset, "logo_asset.png");
-            }
-        }
-
-        public static Texture2D Logo_Asset_Small
-        {
-            get
-            {
-                return loadImage(ref logo_asset_small, "logo_asset_small.png");
-            }
-        }
-
-        #endregion
+      #endregion
 
 
-        #region Static methods
+      #region Static properties
 
-        /// <summary>Shows a banner for "File Browser PRO".</summary>
-        public static void BannerFB()
-        {
-            if (Util.Constants.SHOW_FB_BANNER)
-            {
-                GUILayout.BeginHorizontal();
-                {
-                    EditorGUILayout.HelpBox("'File Browser PRO' is not installed!" + System.Environment.NewLine + "For async, Linux, UWP (WSA), Windows (IL2CPP), PlayMaker actions and extended support, please get it from the Unity AssetStore.", MessageType.Info);
+      public static Texture2D Logo_Asset
+      {
+         get { return loadImage(ref logo_asset, "logo_asset_pro.png"); }
+      }
 
-                    GUILayout.BeginVertical(GUILayout.Width(32));
-                    {
-                        GUILayout.Space(4);
+      public static Texture2D Logo_Asset_Small
+      {
+         get { return loadImage(ref logo_asset_small, "logo_asset_small_pro.png"); }
+      }
 
-                        if (GUILayout.Button(new GUIContent(string.Empty, Logo_Asset_FB, "Visit File Browser PRO in the Unity AssetStore")))
-                        {
-                            Application.OpenURL(Util.Constants.ASSET_FB);
-                        }
-                    }
-                    GUILayout.EndVertical();
-                }
-                GUILayout.EndHorizontal();
-            }
-        }
+      public static Texture2D Icon_File
+      {
+         get { return loadImage(ref icon_file, "icon_file.png"); }
+      }
 
-        /// <summary>Loads an image as Texture2D from 'Editor Default Resources'.</summary>
-        /// <param name="logo">Logo to load.</param>
-        /// <param name="fileName">Name of the image.</param>
-        /// <returns>Image as Texture2D from 'Editor Default Resources'.</returns>
-        private static Texture2D loadImage(ref Texture2D logo, string fileName)
-        {
-            if (logo == null)
-            {
+      #endregion
+
+
+      #region Static methods
+
+      /// <summary>Loads an image as Texture2D from 'Editor Default Resources'.</summary>
+      /// <param name="logo">Logo to load.</param>
+      /// <param name="fileName">Name of the image.</param>
+      /// <returns>Image as Texture2D from 'Editor Default Resources'.</returns>
+      private static Texture2D loadImage(ref Texture2D logo, string fileName)
+      {
+         if (logo == null)
+         {
 #if CT_DEVELOP
-                logo = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets" + EditorConfig.ASSET_PATH + "Icons/" + fileName, typeof(Texture2D));
+            logo = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets" + EditorConfig.ASSET_PATH + "Icons/" + fileName, typeof(Texture2D));
 #else
                 logo = (Texture2D)EditorGUIUtility.Load("crosstales/FileBrowser/" + fileName);
 #endif
 
-                if (logo == null)
-                {
-                    Debug.LogWarning("Image not found: " + fileName);
-                }
+            if (logo == null)
+            {
+               Debug.LogWarning("Image not found: " + fileName);
             }
+         }
 
-            return logo;
-        }
+         return logo;
+      }
 
-        #endregion
-    }
+      #endregion
+   }
 }
 #endif
-// © 2019 crosstales LLC (https://www.crosstales.com)
+// © 2019-2020 crosstales LLC (https://www.crosstales.com)

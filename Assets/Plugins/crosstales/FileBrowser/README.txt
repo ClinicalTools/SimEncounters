@@ -1,32 +1,51 @@
-﻿# FileBrowser 2019.5.3
+﻿# FileBrowser PRO 2020.2.8
 
-Thank you for using our asset "File Browser"! 
+Thank you for buying our asset "File Browser PRO"! 
 If you have any questions about this asset, send us an email at [fb@crosstales.com](mailto:fb@crosstales.com). 
-
-For async, Linux, UWP (WSA), Windows (IL2CPP), extended support, PlayMaker actions and also if you want to help the project to be kept alive, please consider buying the PRO edition:
-
-https://assetstore.unity.com/packages/slug/98713?aid=1011lNGT
 
 
 
 ## Description
-A wrapper for native file dialogs on Windows, macOS, Linux (PRO only) and UWP (PRO only).
+A wrapper for native file dialogs on Windows, macOS, Linux and UWP.
 
-* Works with Windows, macOS, Linux (PRO only) and UWP (PRO only) in editor and runtime
+* Works with Windows, macOS, Linux and UWP in editor and runtime
+* Full IL2CPP-support
 * Open file/folder, save file dialogs supported
 * Multiple file selection
-* Multiple folder selection on macOS and Linux (PRO only)
+* Multiple folder selection on macOS and Linux
 * File extension filters
 * Other platforms are currently not supported
 
+Please install "Assets/Plugins/crosstales/Common/UI.unitypackage" first and afterwards "Demos.unitypackage" to use the demo scenes!
 
 
-##Notes:
 
-### Windows
-* Unity 2018 and newer: .NET 4.6 api compatibility level required
-* Unity before 2018: .NET 2.0 api compatibility level required
-* IL2CPP is only supported in the PRO-version
+## Upgrade to new version
+Follow this steps to upgrade the version of "File Browser PRO":
+
+1. Update "File Browser PRO" to the latest version from the "Unity AssetStore"
+2. Delete the "Assets/Plugins/crosstales/FileBrowser" folder from the Project-view
+3. Import the latest version from the "Unity AssetStore"
+
+
+
+## Notes:
+
+### macOS
+* Sync calls can throw exceptions in development builds after the panel loses and gains focus. Use async calls to avoid this.
+* Notarization and Mac App Store; to get the app through the Apples signing process, do one of the following things:
+
+1) Add the following key to the entitlement-file:
+<key>com.apple.security.cs.disable-library-validation</key><true/>
+
+2) Sign the library after building:
+codesign --deep --force --verify --verbose --timestamp --sign "Developer ID Application : YourCompanyName (0123456789)" "YourApp.app/Contents/Plugins/FileBrowser.bundle"
+
+
+### Linux
+The library is tested under Ubuntu 18.04 with GTK3+.
+Since there are so many different Linux distributions and configurations, we simply can't test and support them all.
+Therefore, we included the whole source code; please follow the README in the "Linux-Source.zip".
 
 
 
@@ -38,11 +57,13 @@ See "VERSIONS.txt" for details.
 
 ## Credits
 
-Partially based on:
+The icons are based on [Font Awesome](http://fontawesome.io/).
+
+Code partially based on:
 https://github.com/gkngkc/UnityStandaloneFileBrowser
 
-Windows dialogs:
-http://www.ookii.org/software/dialogs/
+Improvements for the Linux version:
+Yinon Oshrat
 
 
 
@@ -74,8 +95,9 @@ CH-8002 Zürich
 [Youtube-channel](https://www.youtube.com/c/Crosstales)
 
 ### Demos
-* [Windows-Demo](https://www.crosstales.com/media/data/assets/FileBrowser/downloads/FileBrowser_win.zip)
-* [macOS-Demo](https://www.crosstales.com/media/data/assets/FileBrowser/downloads/FileBrowser_mac.zip)
+* [Windows-Demo](https://drive.google.com/file/d/1sE-6uhp2nk_5B85jvoiMWdk__HqUPSek/view?usp=sharing)
+* [macOS-Demo](https://drive.google.com/file/d/1sAB953F-fpRmTSks9f2ZM0sMV7CEyyUA/view?usp=sharing)
+* [Linux-Demo](https://drive.google.com/file/d/1LAm9v8Mu9jvF_8ZU0X3UU8nLKCdobzrj/view?usp=sharing)
 
 
-`Version: 12.11.2019`
+`Version: 17.06.2020`

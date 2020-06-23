@@ -43,7 +43,7 @@ namespace ClinicalTools.SimEncounters.Writer
         public Button EditButton { get => editButton; set => editButton = value; }
         [SerializeField] private Button editButton;
         public override LayoutElement LayoutElement { get => layoutElement; }
-        [SerializeField] private LayoutElement layoutElement;
+        [SerializeField] private LayoutElement layoutElement = null;
         public override Layout.ILayoutElement LayoutElement2 => LayoutElement3;
         public Layout.HorizontalGroup LayoutElement3 { get => layoutElement3; set => layoutElement3 = value; }
         [SerializeField] private Layout.HorizontalGroup layoutElement3;

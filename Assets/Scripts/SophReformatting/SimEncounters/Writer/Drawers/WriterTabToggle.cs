@@ -41,9 +41,9 @@ namespace ClinicalTools.SimEncounters.Writer
         public Button EditButton { get => editButton; set => editButton = value; }
         [SerializeField] private Button editButton;
         public override Layout.ILayoutElement LayoutElement2 => horizontalGroup;
-        [SerializeField] private HorizontalGroup horizontalGroup;
+        [SerializeField] private HorizontalGroup horizontalGroup = null;
         public override UnityEngine.UI.LayoutElement LayoutElement { get => layoutElement; }
-        [SerializeField] private UnityEngine.UI.LayoutElement layoutElement;
+        [SerializeField] private UnityEngine.UI.LayoutElement layoutElement = null;
         public BaseDragHandle DragHandle { get => dragHandle; set => dragHandle = value; }
         [SerializeField] private BaseDragHandle dragHandle;
 

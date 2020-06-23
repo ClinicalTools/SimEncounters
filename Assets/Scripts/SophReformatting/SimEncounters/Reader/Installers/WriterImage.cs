@@ -41,19 +41,23 @@ namespace ClinicalTools.SimEncounters.Writer
         public virtual void SetSprite(string imageKey)
         {
             value = imageKey;
-            Sprite image = null;
-            var sprites = CurrentEncounter.Images.Sprites;
-            if (imageKey != null && sprites.ContainsKey(imageKey))
-                image = sprites[imageKey];
 
-            Image.color = Color.white;
-            Image.sprite = image;
+            var sprites = CurrentEncounter.Images.Sprites;
+            Color imageColor;
+            if (imageKey != null && sprites.ContainsKey(imageKey)) {
+                Image.sprite = sprites[imageKey];
+                imageColor = Color.white;
+            } else {
+                imageColor = Color.clear;
+            }
+
+            Image.color = imageColor;
             Image.enabled = imageKey != null;
         }
 
         protected virtual void SelectImage()
         {
-            var newImageKey = SpritePopup.SelectSprite(CurrentEncounter, Value);
+            var newImageKey = SpritePopup.SelectSprite(CurrentEncounter.Images.Sprites, Value);
             newImageKey.AddOnCompletedListener((result) => ImageSelected(newImageKey));
         }
 

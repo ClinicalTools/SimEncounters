@@ -12,6 +12,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         public override void InstallBindings()
         {
+            Application.logMessageReceived += Aaaa.Application_logMessageReceived;
             Container.Bind<IEncounterStarter>().To<EncounterEditStarter>().AsTransient().WhenInjectedInto<EncounterSelectorWriterButtons>();
             Container.Bind<IEncounterStarter>().To<EncounterReadStarter>().AsTransient().WhenInjectedInto<EncounterSelectorReaderButtons>();
             Container.BindInstance(AddEncounterPopup);

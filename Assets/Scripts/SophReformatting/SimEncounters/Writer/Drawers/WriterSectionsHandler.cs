@@ -22,7 +22,6 @@ namespace ClinicalTools.SimEncounters.Writer
         public override event SectionSelectedHandler SectionSelected;
         public override event Action<Section> SectionEdited;
         public override event Action<Section> SectionDeleted;
-        public override event RearrangedHandler Rearranged;
 
         protected Encounter CurrentEncounter { get; set; }
         protected Dictionary<Section, BaseWriterSectionToggle> SectionButtons { get; } = new Dictionary<Section, BaseWriterSectionToggle>();
@@ -106,7 +105,8 @@ namespace ClinicalTools.SimEncounters.Writer
         }
 
         private void SectionsRearranged(object sender, RearrangedEventArgs2 e)
-            => CurrentEncounter.Content.Sections.MoveValue(e.NewIndex, e.OldIndex);
-
+        {
+            CurrentEncounter.Content.Sections.MoveValue(e.NewIndex, e.OldIndex);
+        }
     }
 }
