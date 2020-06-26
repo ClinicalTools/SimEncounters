@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 namespace ClinicalTools.SimEncounters
@@ -26,14 +25,11 @@ namespace ClinicalTools.SimEncounters
         public ManualLogin ManualLogin { get => manualLogin; set => manualLogin = value; }
         [SerializeField] private ManualLogin manualLogin;
 
-        bool isInjected = false;
         protected ILoginManager AutoLogin { get; set; }
         protected StayLoggedIn StayLoggedIn { get; set; }
         [Inject]
         public virtual void Inject(StayLoggedIn stayLoggedIn, ILoginManager autoLogin)
         {
-            isInjected = true;
-            Debug.Log("injected");
             StayLoggedIn = stayLoggedIn;
             AutoLogin = autoLogin;
         }
@@ -41,7 +37,6 @@ namespace ClinicalTools.SimEncounters
         protected virtual WaitableResult<User> CurrentWaitableResult { get; set; }
         public override WaitableResult<User> InitialLogin(ILoadingScreen loadingScreen)
         {
-            Debug.Log($"Is injected: {isInjected}");
             if (CurrentWaitableResult == null || CurrentWaitableResult.IsCompleted)
                 CurrentWaitableResult = new WaitableResult<User>();
 

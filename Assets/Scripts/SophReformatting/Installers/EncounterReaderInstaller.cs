@@ -6,16 +6,13 @@ namespace ClinicalTools.SimEncounters
 {
     public class EncounterReaderInstaller : MonoInstaller
     {
+        protected FileManagerInstaller FileManagerInstaller { get; set; }
+
         public override void InstallBindings()
         {
-            InstallBasicServerBindings(Container);
+            FileManagerInstaller = new FileManagerInstaller();
             InstallMenuReaderBindings(Container);
             InstallEncounterReaderBindings(Container);
-        }
-        protected virtual void InstallBasicServerBindings(DiContainer subcontainer)
-        {
-            subcontainer.Bind<IUrlBuilder>().To<UrlBuilder>().AsTransient();
-            subcontainer.Bind<IServerReader>().To<ServerReader>().AsTransient();
         }
 
         protected virtual void InstallMenuReaderBindings(DiContainer subcontainer)
@@ -27,7 +24,7 @@ namespace ClinicalTools.SimEncounters
             subcontainer.Bind<IBasicStatusesReader>().To<BasicStatusesReader>().AsTransient().WhenNotInjectedInto<BasicStatusesReader>();
             subcontainer.Bind<IBasicStatusesReader>().To<LocalBasicStatusesReader>().AsTransient().WhenInjectedInto<BasicStatusesReader>();
             subcontainer.Bind<IBasicStatusesReader>().To<ServerBasicStatusesReader>().AsTransient().WhenInjectedInto<BasicStatusesReader>();
-            subcontainer.Bind<IFileManager>().FromSubContainerResolve().ByMethod(GetFileManagerInstaller(SaveType.Local)).AsTransient();
+            FileManagerInstaller.BindFileManager(subcontainer, SaveType.Local);
         }
 
         protected virtual void InstallMetadataReaderBindings(DiContainer subcontainer)
@@ -35,7 +32,8 @@ namespace ClinicalTools.SimEncounters
             subcontainer.Bind<IMetadataGroupsReader>().To<MetadataGroupsReader>().AsTransient();
             foreach (SaveType saveType in Enum.GetValues(typeof(SaveType))) {
                 subcontainer.Bind<IMetadatasReader>().WithId(saveType)
-                    .FromSubContainerResolve().ByMethod((container) => BindMetadatasReaderInstaller(container, saveType)).AsTransient();
+                    .FromSubContainerResolve().ByMethod(
+                        (container) => BindMetadatasReaderInstaller(container, saveType)).AsTransient();
             }
         }
         protected virtual void BindMetadatasReaderInstaller(DiContainer subcontainer, SaveType saveType)
@@ -44,7 +42,7 @@ namespace ClinicalTools.SimEncounters
                 subcontainer.Bind<IMetadatasReader>().To<ServerMetadatasReader>().AsTransient();
             } else {
                 subcontainer.Bind<IMetadatasReader>().To<LocalMetadatasReader>().AsTransient();
-                subcontainer.Bind<IFileManager>().FromSubContainerResolve().ByMethod(GetFileManagerInstaller(saveType)).AsTransient();
+                FileManagerInstaller.BindFileManager(subcontainer, saveType);
             }
         }
 
@@ -61,7 +59,8 @@ namespace ClinicalTools.SimEncounters
             subcontainer.Bind<IEncounterDataReaderSelector>().To<EncounterDataReaderSelector>().AsTransient();
             foreach (SaveType saveType in Enum.GetValues(typeof(SaveType))) {
                 subcontainer.Bind<IEncounterDataReader>().WithId(saveType)
-                    .FromSubContainerResolve().ByMethod((container) => BindEncounterDataReaderInstaller(container, saveType)).AsTransient();
+                    .FromSubContainerResolve().ByMethod(
+                        (container) => BindEncounterDataReaderInstaller(container, saveType)).AsTransient();
             }
         }
 
@@ -74,32 +73,8 @@ namespace ClinicalTools.SimEncounters
             } else {
                 subcontainer.Bind<IEncounterContentReader>().To<LocalContentDataReader>().AsTransient();
                 subcontainer.Bind<IImageDataReader>().To<LocalImageDataReader>().AsTransient();
-                subcontainer.Bind<IFileManager>().FromSubContainerResolve().ByMethod(GetFileManagerInstaller(saveType)).AsTransient();
+                FileManagerInstaller.BindFileManager(subcontainer, saveType);
             }
-        }
-
-        protected virtual Action<DiContainer> GetFileManagerInstaller(SaveType saveType)
-        {
-            switch (saveType) {
-                case SaveType.Default:
-                    return BindFileManager<DefaultFileManager, FileExtensionManager>;
-                case SaveType.Autosave:
-                    return BindFileManager<UserFileManager, AutosaveFileExtensionManager>;
-                case SaveType.Demo:
-                    return BindFileManager<DemoFileManager, FileExtensionManager>;
-                case SaveType.Local:
-                    return BindFileManager<UserFileManager, FileExtensionManager>;
-                default:
-                    return null;
-            }
-        }
-
-        protected virtual void BindFileManager<TFileManager, TFileExtensionManager>(DiContainer subcontainer)
-            where TFileManager : IFileManager
-            where TFileExtensionManager : IFileExtensionManager
-        {
-            subcontainer.Bind<IFileManager>().To<TFileManager>().AsTransient();
-            subcontainer.Bind<IFileExtensionManager>().To<TFileExtensionManager>().AsTransient();
         }
     }
 }

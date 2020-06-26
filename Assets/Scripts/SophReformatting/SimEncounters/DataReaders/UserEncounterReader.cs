@@ -18,7 +18,7 @@ namespace ClinicalTools.SimEncounters
             var detailedStatus = detailedStatusReader.GetDetailedStatus(user, metadata, basicStatus);
 
             var encounter = new WaitableResult<UserEncounter>();
-            void processResults() => ProcessResults(user, encounter, metadata, encounterData, detailedStatus);
+            void processResults() => ProcessResults(user, encounter, encounterData, detailedStatus);
             encounterData.AddOnCompletedListener((result) => processResults());
             detailedStatus.AddOnCompletedListener((result) => processResults());
 
@@ -27,15 +27,13 @@ namespace ClinicalTools.SimEncounters
 
         protected void ProcessResults(User user,
             WaitableResult<UserEncounter> result,
-            EncounterMetadata metadata,
             WaitableResult<Encounter> encounterData,
             WaitableResult<EncounterStatus> detailedStatus)
         {
             if (result.IsCompleted || !encounterData.IsCompleted || !detailedStatus.IsCompleted)
                 return;
 
-            //var encounter = new FullEncounter(metadata, encounterData.Result, detailedStatus.Result);
-            var encounter = new UserEncounter(user, metadata, encounterData.Result, detailedStatus.Result);
+            var encounter = new UserEncounter(user, encounterData.Result, detailedStatus.Result);
             result.SetResult(encounter);
         }
     }

@@ -13,8 +13,8 @@ namespace ClinicalTools.SimEncounters.Reader
 
         public override void Display(UserEncounter userEncounter)
         {
-            InfoPopup.Display(userEncounter.Metadata);
-            EncounterTitle.text = userEncounter.Metadata.Title;
+            InfoPopup.Display(userEncounter.Data.Metadata);
+            EncounterTitle.text = userEncounter.Data.Metadata.Title;
         }
     }
 }

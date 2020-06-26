@@ -1,6 +1,6 @@
 ﻿namespace ClinicalTools.SimEncounters.Writer
 {
-    public interface IWriterSceneDrawer
+    public interface ILoadingWriterSceneDrawer
     {
         void Display(LoadingWriterSceneInfo sceneInfo);
     }

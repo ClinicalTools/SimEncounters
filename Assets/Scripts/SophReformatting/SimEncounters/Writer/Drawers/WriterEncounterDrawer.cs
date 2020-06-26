@@ -1,11 +1,9 @@
 ﻿using ClinicalTools.SimEncounters.Data;
-using System;
 using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Writer
 {
-
-    public class WriterEncounterDrawer : BaseEncounterDrawer
+    public class WriterEncounterDrawer : BaseSerializableEncounterDrawer
     {
         public BaseWriterSectionsHandler SectionSelector { get => sectionSelector; set => sectionSelector = value; }
         [SerializeField] private BaseWriterSectionsHandler sectionSelector;

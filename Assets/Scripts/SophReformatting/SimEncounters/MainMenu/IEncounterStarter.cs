@@ -1,7 +1,6 @@
 ﻿using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.Writer;
-using UnityEngine;
-
+using System.Collections.Generic;
 namespace ClinicalTools.SimEncounters.MainMenu
 {
     public interface IEncounterStarter
@@ -12,19 +11,31 @@ namespace ClinicalTools.SimEncounters.MainMenu
     {
         protected IReaderSceneStarter SceneStarter { get; set; }
         protected IUserEncounterReader EncounterReader { get; set; }
-        public EncounterReadStarter(IReaderSceneStarter sceneStarter, IUserEncounterReader encounterReader)
+        protected BaseMetadataSelector MetadataSelector { get; set; }
+        public EncounterReadStarter(IReaderSceneStarter sceneStarter, IUserEncounterReader encounterReader, BaseMetadataSelector metadataSelector)
         {
             SceneStarter = sceneStarter;
             EncounterReader = encounterReader;
+            MetadataSelector = metadataSelector;
         }
 
         public virtual void StartEncounter(MenuSceneInfo sceneInfo, MenuEncounter menuEncounter)
         {
-            if (menuEncounter.Status == null)
-                menuEncounter.Status = new EncounterBasicStatus();
+            if (MetadataSelector == null) {
+                MetadataSelected(sceneInfo, menuEncounter.Status, menuEncounter.GetLatestTypedMetada());
+                return;
+            }
 
-            var metadata = menuEncounter.GetLatestTypedMetada();
-            var encounter = EncounterReader.GetUserEncounter(sceneInfo.User, metadata.Value, menuEncounter.Status, metadata.Key);
+            var result = MetadataSelector.GetMetadata(menuEncounter);
+            result.AddOnCompletedListener((value) => MetadataSelected(sceneInfo, menuEncounter.Status, value));
+        }
+
+        protected virtual void MetadataSelected(MenuSceneInfo sceneInfo, EncounterBasicStatus status, KeyValuePair<SaveType, EncounterMetadata> metadata)
+        {
+            if (status == null)
+                status = new EncounterBasicStatus();
+
+            var encounter = EncounterReader.GetUserEncounter(sceneInfo.User, metadata.Value, status, metadata.Key);
             var encounterSceneInfo = new LoadingReaderSceneInfo(sceneInfo.User, sceneInfo.LoadingScreen, encounter);
             SceneStarter.StartScene(encounterSceneInfo);
         }
@@ -33,45 +44,33 @@ namespace ClinicalTools.SimEncounters.MainMenu
     {
         protected IWriterSceneStarter SceneStarter { get; set; }
         protected IEncounterReader EncounterReader { get; set; }
-        public EncounterEditStarter(IWriterSceneStarter sceneStarter, IEncounterReader encounterReader)
+        protected BaseMetadataSelector MetadataSelector { get; set; }
+        public EncounterEditStarter(IWriterSceneStarter sceneStarter, IEncounterReader encounterReader, BaseMetadataSelector metadataSelector)
         {
             SceneStarter = sceneStarter;
             EncounterReader = encounterReader;
+            MetadataSelector = metadataSelector;
         }
 
         public virtual void StartEncounter(MenuSceneInfo sceneInfo, MenuEncounter menuEncounter)
         {
-            if (menuEncounter.Status == null)
-                menuEncounter.Status = new EncounterBasicStatus();
+            if (MetadataSelector == null) {
+                MetadataSelected(sceneInfo, menuEncounter.GetLatestTypedMetada());
+                return;
+            }
 
-            var metadata = menuEncounter.GetLatestTypedMetada();
+            var result = MetadataSelector.GetMetadata(menuEncounter);
+            result.AddOnCompletedListener((value) => MetadataSelected(sceneInfo, value));
+        }
+
+        protected virtual void MetadataSelected(MenuSceneInfo sceneInfo,  KeyValuePair<SaveType, EncounterMetadata> metadata)
+        {
+            if (metadata.Value == null)
+                return;
+
             var encounter = EncounterReader.GetEncounter(sceneInfo.User, metadata.Value, metadata.Key);
             var encounterSceneInfo = new LoadingWriterSceneInfo(sceneInfo.User, sceneInfo.LoadingScreen, encounter);
             SceneStarter.StartScene(encounterSceneInfo);
-        }
-    }
-
-    public interface IMetadataSelector
-    {
-        WaitableResult<EncounterMetadata> GetMetadata(MenuEncounter menuEncounter);
-    }
-
-    public class MetadataSelector : MonoBehaviour, IMetadataSelector
-    {
-        // pick case
-        // newer server case than local
-        // newer autosave than local
-        public WaitableResult<EncounterMetadata> GetMetadata(MenuEncounter menuEncounter)
-        {
-            if (!menuEncounter.Metadata.ContainsKey(SaveType.Local))
-                return new WaitableResult<EncounterMetadata>(menuEncounter.GetLatestMetadata());
-
-            var localMetadata = menuEncounter.Metadata[SaveType.Local];
-            //if (!)
-
-            // finish this. show popup
-
-                return new WaitableResult<EncounterMetadata>(menuEncounter.GetLatestMetadata());
         }
     }
 }

@@ -42,13 +42,7 @@ namespace ClinicalTools.SimEncounters
             DownloadOnlyRow.SetActive(!onLocal && !isAuthor);
         }
 
-        protected virtual void OnDelete()
-        {
-            Delete?.Invoke();
-        }
-        protected virtual void OnDownload()
-        {
-            Download?.Invoke();
-        }
+        protected virtual void OnDelete() => Delete?.Invoke();
+        protected virtual void OnDownload() => Download?.Invoke();
     }
 }

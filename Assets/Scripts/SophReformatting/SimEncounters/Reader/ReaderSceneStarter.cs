@@ -50,7 +50,7 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void InitializeScene(LoadingWriterSceneInfo data)
         {
-            if (!(SceneManager.Instance is IWriterSceneDrawer writerScene)) {
+            if (!(SceneManager.Instance is ILoadingWriterSceneDrawer writerScene)) {
                 Debug.LogError("Started scene UI is not Reader.");
                 return;
             }

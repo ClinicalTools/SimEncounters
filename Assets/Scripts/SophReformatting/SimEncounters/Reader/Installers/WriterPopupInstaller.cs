@@ -1,6 +1,7 @@
 ﻿using ClinicalTools.ClinicalEncounters;
 using ClinicalTools.SimEncounters.Collections;
 using ClinicalTools.SimEncounters.Data;
+using System;
 using UnityEngine;
 using Zenject;
 
@@ -29,7 +30,7 @@ namespace ClinicalTools.SimEncounters.Writer
         [SerializeField] private BaseSpriteSelector patientSpriteSelector;
         public BaseMessageHandler MessageHandler { get => messageHandler; set => messageHandler = value; }
         [SerializeField] private BaseMessageHandler messageHandler;
-        
+
         public override void InstallBindings()
         {
             Container.BindInstance(DialoguePopup);
@@ -42,8 +43,6 @@ namespace ClinicalTools.SimEncounters.Writer
             Container.BindInstance(PatientSpriteSelector).WhenInjectedInto<CEWriterEncounterDrawer>();
 
             Container.BindInstance(MessageHandler);
-            Container.Bind<IParser<Color>>().To<ColorParser>().AsTransient();
-            Container.Bind<IEncounterWriter>().To<EncounterWriter>().AsTransient();
 
             Container.Bind<IStringSerializer<EncounterMetadata>>().To<CEEncounterMetadataSerializer>().AsTransient();
         }

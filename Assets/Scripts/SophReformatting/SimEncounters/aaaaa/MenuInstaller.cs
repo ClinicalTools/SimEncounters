@@ -9,6 +9,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private BaseAddEncounterPopup addEncounterPopup;
         public BaseMessageHandler MessageHandler { get => messageHandler; set => messageHandler = value; }
         [SerializeField] private BaseMessageHandler messageHandler;
+        public BaseMetadataSelector MetadataSelector { get => metadataSelector; set => metadataSelector = value; }
+        [SerializeField] private BaseMetadataSelector metadataSelector;
 
         public override void InstallBindings()
         {
@@ -17,6 +19,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             Container.Bind<IEncounterStarter>().To<EncounterReadStarter>().AsTransient().WhenInjectedInto<EncounterSelectorReaderButtons>();
             Container.BindInstance(AddEncounterPopup);
             Container.BindInstance(MessageHandler);
+            Container.BindInstance(MetadataSelector);
         }
     }
 }

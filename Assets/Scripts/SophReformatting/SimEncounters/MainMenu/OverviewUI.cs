@@ -6,6 +6,7 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
+
     public class ReaderWriterSelector : MonoBehaviour
     {
         public virtual Button InfoViewer { get => infoViewer; set => infoViewer = value; }
@@ -25,15 +26,6 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private DeleteDownloadHandler deleteDownloadHandler;
         public virtual List<Button> HideOverviewButtons { get => hideOverviewButtons; set => hideOverviewButtons = value; }
         [SerializeField] private List<Button> hideOverviewButtons;
-
-        protected IReaderSceneStarter ReaderSceneStarter { get; set; }
-        protected IUserEncounterReader EncounterReader { get; set; }
-        [Inject]
-        public virtual void Inject(IReaderSceneStarter readerSceneStarter, IUserEncounterReader encounterReader)
-        {
-            ReaderSceneStarter = readerSceneStarter;
-            EncounterReader = encounterReader;
-        }
 
         protected virtual void Awake()
         {
@@ -71,17 +63,6 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
             if (DeleteDownloadHandler != null)
                 DeleteDownloadHandler.Display(sceneInfo, menuEncounter);
-        }
-
-        public virtual void ReadCase(MenuSceneInfo sceneInfo, MenuEncounter menuEncounter)
-        {
-            if (menuEncounter.Status == null)
-                menuEncounter.Status = new EncounterBasicStatus();
-
-            var metadata = menuEncounter.GetLatestTypedMetada();
-            var encounter = EncounterReader.GetUserEncounter(sceneInfo.User, metadata.Value, menuEncounter.Status, metadata.Key);
-            var encounterSceneInfo = new LoadingReaderSceneInfo(sceneInfo.User, sceneInfo.LoadingScreen, encounter);
-            ReaderSceneStarter.StartScene(encounterSceneInfo);
         }
 
         public virtual void Hide() { }

@@ -4,33 +4,24 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class SceneManagerInstaller : MonoInstaller
+    public class SceneManagerInstaller : SubcontainerInstaller
     {
-        public string DesktopMenuScene { get => desktopMenuScene; set => desktopMenuScene = value; }
-        [SerializeField] private string desktopMenuScene;
-        public string DesktopReaderScene { get => desktopReaderScene; set => desktopReaderScene = value; }
-        [SerializeField] private string desktopReaderScene;
-        public string MobileMenuScene { get => mobileMenuScene; set => mobileMenuScene = value; }
-        [SerializeField] private string mobileMenuScene;
-        public string MobileReaderScene { get => mobileReaderScene; set => mobileReaderScene = value; }
-        [SerializeField] private string mobileReaderScene;
+        public string MenuScene { get => menuScene; set => menuScene = value; }
+        [SerializeField] private string menuScene;
+        public string ReaderScene { get => readerScene; set => readerScene = value; }
+        [SerializeField] private string readerScene;
         public string WriterScene { get => writerScene; set => writerScene = value; }
         [SerializeField] private string writerScene;
 
-        public override void InstallBindings()
+        public override void Install(DiContainer container)
         {
-            Container.Bind<IMenuSceneStarter>().To<MenuSceneStarter>().AsTransient();
-            Container.Bind<IReaderSceneStarter>().To<ReaderSceneStarter>().AsTransient();
-            Container.Bind<IWriterSceneStarter>().To<WriterSceneStarter>().AsTransient();
+            container.Bind<IMenuSceneStarter>().To<MenuSceneStarter>().AsTransient();
+            container.Bind<IReaderSceneStarter>().To<ReaderSceneStarter>().AsTransient();
+            container.Bind<IWriterSceneStarter>().To<WriterSceneStarter>().AsTransient();
 
-            Container.Bind<string>().FromInstance(WriterScene).WhenInjectedInto<WriterSceneStarter>();
-#if UNITY_STANDALONE
-            Container.Bind<string>().FromInstance(DesktopMenuScene).WhenInjectedInto<MenuSceneStarter>();
-            Container.Bind<string>().FromInstance(DesktopReaderScene).WhenInjectedInto<ReaderSceneStarter>();
-#else
-            Container.Bind<string>().FromInstance(MobileMenuScene).WhenInjectedInto<MenuSceneStarter>();
-            Container.Bind<string>().FromInstance(MobileReaderScene).WhenInjectedInto<ReaderSceneStarter>();
-#endif
+            container.Bind<string>().FromInstance(WriterScene).WhenInjectedInto<WriterSceneStarter>();
+            container.Bind<string>().FromInstance(MenuScene).WhenInjectedInto<MenuSceneStarter>();
+            container.Bind<string>().FromInstance(ReaderScene).WhenInjectedInto<ReaderSceneStarter>();
         }
     }
 }

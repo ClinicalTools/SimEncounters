@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace ClinicalTools.SimEncounters
+﻿namespace ClinicalTools.SimEncounters
 {
     public class User
     {
@@ -18,7 +14,14 @@ namespace ClinicalTools.SimEncounters
         public UserStatus Status { get; set; } = new UserStatus();
 
         // Creates guest user
-        protected User() => IsGuest = true;
+        protected User()
+        {
+            IsGuest = true;
+
+            // temporarily use CTI information as the guest user to allow local cases to be viewable
+            AccountId = 25;
+            Username = "cti";
+        }
 
         public User(int accountId) => AccountId = accountId;
 

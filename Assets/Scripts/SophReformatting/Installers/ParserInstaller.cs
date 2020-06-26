@@ -4,16 +4,14 @@ using ClinicalTools.SimEncounters.Loading;
 using ClinicalTools.SimEncounters.MainMenu;
 using System.Collections.Generic;
 using System.Xml;
+using UnityEngine;
 using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
     public class ParserInstaller : MonoInstaller
     {
-        public override void InstallBindings()
-        {
-            InstallParserBindings(Container);
-        }
+        public override void InstallBindings() => InstallParserBindings(Container);
 
         protected virtual void InstallParserBindings(DiContainer subcontainer)
         {
@@ -35,6 +33,8 @@ namespace ClinicalTools.SimEncounters
             subcontainer.Bind<ICharEnumeratorParser<SectionStatus>>().To<SectionStatusParser>().AsTransient();
             subcontainer.Bind<ICharEnumeratorParser<TabStatus>>().To<TabStatusParser>().AsTransient();
             subcontainer.Bind<ICharEnumeratorParser<string>>().To<KeyParser>().AsTransient();
+
+            subcontainer.Bind<IParser<Color>>().To<ColorParser>().AsTransient();
         }
 
         /// <summary>

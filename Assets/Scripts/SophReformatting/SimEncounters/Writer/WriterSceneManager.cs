@@ -4,10 +4,10 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters.Writer
 {
-    public class WriterSceneManager : SceneManager, IWriterSceneDrawer
+    public class WriterSceneManager : SceneManager, ILoadingWriterSceneDrawer
     {
-        public BaseWriterSceneDrawer WriterDrawer { get => writerDrawer; set => writerDrawer = value; }
-        [SerializeField] private BaseWriterSceneDrawer writerDrawer;
+        public BaseLoadingWriterSceneDrawer WriterDrawer { get => writerDrawer; set => writerDrawer = value; }
+        [SerializeField] private BaseLoadingWriterSceneDrawer writerDrawer;
 
         public void Display(LoadingWriterSceneInfo sceneInfo) => WriterDrawer.Display(sceneInfo);
 

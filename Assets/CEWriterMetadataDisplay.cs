@@ -10,7 +10,7 @@ using Zenject;
 
 namespace ClinicalTools.ClinicalEncounters.Writer
 {
-    public class CEWriterMetadataDisplay : BaseWriterMetadataDisplay
+    public class CEWriterMetadataDisplay : BaseWriterDisplay
     {
         public TextMeshProUGUI Title { get => title; set => title = value; }
         [SerializeField] private TextMeshProUGUI title;
@@ -35,8 +35,16 @@ namespace ClinicalTools.ClinicalEncounters.Writer
         public Button SaveButton { get => saveButton; set => saveButton = value; }
         [SerializeField] private Button saveButton;
 
-        protected IEncounterWriter EncounterWriter { get; set; }
-        [Inject] public void Inject(IEncounterWriter encounterWriter) => EncounterWriter = encounterWriter;
+        protected IEncounterWriter LocalWriter { get; set; }
+        protected IEncounterWriter ServerWriter { get; set; }
+        [Inject]
+        public void Inject(
+            [Inject(Id = SaveType.Local)] IEncounterWriter localWriter,
+            [Inject(Id = SaveType.Server)] IEncounterWriter serverWriter)
+        {
+            LocalWriter = localWriter;
+            ServerWriter = serverWriter;
+        }
 
         protected virtual void Awake() => SaveButton.onClick.AddListener(Save);
 
@@ -85,9 +93,15 @@ namespace ClinicalTools.ClinicalEncounters.Writer
         protected virtual void Save()
         {
             Serialize();
-            EncounterWriter.Save(CurrentUser, CurrentEncounter);
+            LocalWriter.Save(CurrentUser, CurrentEncounter);
 
             gameObject.SetActive(false);
+        }
+
+        protected virtual void Publish()
+        {
+            Save();
+            ServerWriter.Save(CurrentUser, CurrentEncounter);
         }
     }
 }

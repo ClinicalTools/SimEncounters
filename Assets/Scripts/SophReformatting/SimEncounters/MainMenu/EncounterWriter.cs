@@ -22,11 +22,13 @@ namespace ClinicalTools.SimEncounters
             MetadataSerializer = metadataSerializer;
         }
 
-
         private readonly DateTime unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         public void Save(User user, Encounter encounter)
         {
             encounter.Metadata.DateModified = (long)(DateTime.UtcNow - unixEpoch).TotalSeconds;
+            encounter.Metadata.AuthorName = user.GetName();
+            encounter.Metadata.AuthorAccountId = user.AccountId;
+
             var xmlDoc = new XmlDocument();
             var serializer = new XmlSerializer(xmlDoc);
             EncounterContentSerializer.Serialize(serializer, encounter.Content);

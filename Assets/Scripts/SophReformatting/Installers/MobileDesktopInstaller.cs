@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿#if !UNITY_STANDALONE
+#define USE_MOBILE
+#endif
+
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -6,19 +10,19 @@ namespace ClinicalTools.SimEncounters
 {
     public class MobileDesktopInstaller : MonoInstaller
     {
-        public List<MonoInstaller> DesktopInstallers { get => desktopInstallers; set => desktopInstallers = value; }
-        [SerializeField] private List<MonoInstaller> desktopInstallers;
-        public List<MonoInstaller> MobileInstallers { get => mobileInstallers; set => mobileInstallers = value; }
-        [SerializeField] private List<MonoInstaller> mobileInstallers;
+        public List<SubcontainerInstaller> DesktopInstallers { get => desktopInstallers; set => desktopInstallers = value; }
+        [SerializeField] private List<SubcontainerInstaller> desktopInstallers;
+        public List<SubcontainerInstaller> MobileInstallers { get => mobileInstallers; set => mobileInstallers = value; }
+        [SerializeField] private List<SubcontainerInstaller> mobileInstallers;
 
         public override void InstallBindings()
         {
-#if UNITY_STANDALONE
-            foreach (var installer in DesktopInstallers)
-                installer.InstallBindings();
-#else
+#if USE_MOBILE
             foreach (var installer in MobileInstallers)
-                installer.InstallBindings();
+                installer.Install(Container);
+#else
+            foreach (var installer in DesktopInstallers)
+                installer.Install(Container);
 #endif
         }
     }

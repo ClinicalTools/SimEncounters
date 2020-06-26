@@ -74,7 +74,7 @@
     <Compile Include="Assets\Addons\ReorderableArray\NotReorderableAttribute.cs" />
     <Compile Include="Assets\BMIField.cs" />
     <Compile Include="Assets\BaseCompletionPopup.cs" />
-    <Compile Include="Assets\BaseWriterMetadataDisplay.cs" />
+    <Compile Include="Assets\BaseWriterDisplay.cs" />
     <Compile Include="Assets\BoolCondFields.cs" />
     <Compile Include="Assets\BoolGroup.cs" />
     <Compile Include="Assets\BoolRow.cs" />
@@ -220,9 +220,12 @@
     <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\SerializationFactories\Pins\ClinicalPinDataFactory.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\SerializationFactories\Pins\ClinicalQuizPinFactory.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Installers\EncounterReaderInstaller.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Installers\FileManagerInstaller.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Installers\LoginInstaller.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Installers\MobileDesktopInstaller.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Installers\ParserInstaller.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Installers\ServerInstaller.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\Installers\SubcontainerInstaller.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Layout Elements\DimensionLayout.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Layout Elements\IDimensionLayout.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Layout Elements\ILayoutElement.cs" />
@@ -373,6 +376,7 @@
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\MainMenuManager.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\MainMenuSceneDrawer.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\MenuSceneStarter.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\MetadataSelector.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\OverviewUI.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\QuitUI.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\ReaderMenuEncountersUI.cs" />
@@ -461,6 +465,7 @@
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Drawers\Tabs\Types\ReaderCheckboxesTab.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Drawers\Tabs\Types\ReaderTab.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\IReaderSceneDrawer.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Installers\EncounterWriterInstaller.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Installers\ReaderPopupInstaller.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Installers\WriterImage.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Installers\WriterPopupInstaller.cs" />
@@ -539,6 +544,7 @@
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Drawers\BaseConfirmationPopup.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Drawers\BaseDragHandle.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Drawers\BaseEncounterDrawer.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Drawers\BaseLoadingWriterSceneDrawer.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Drawers\BaseSectionDrawer.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Drawers\BaseTabDrawer.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Drawers\BaseTabSelector.cs" />
@@ -546,7 +552,6 @@
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Drawers\BaseWriterPanel.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Drawers\BaseWriterPanelCreator.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Drawers\BaseWriterPanelsDrawer.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Drawers\BaseWriterSceneDrawer.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Drawers\BaseWriterSectionsHandler.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Drawers\ButtonDragHandle.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Drawers\CEWriterEncounterDrawer.cs" />
@@ -577,6 +582,7 @@
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Drawers\WriterDialoguePanelsDrawer.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Drawers\WriterDialoguePopup.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Drawers\WriterEncounterDrawer.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Drawers\WriterEncounterSaver.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Drawers\WriterPanel.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Drawers\WriterPinsDrawer.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Drawers\WriterPopupPanelCreator.cs" />

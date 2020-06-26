@@ -17,19 +17,24 @@ namespace ClinicalTools.SimEncounters.Data
             Status = status;
         }
 
-        public KeyValuePair<SaveType, EncounterMetadata> GetLatestTypedMetada()
+        public virtual KeyValuePair<SaveType, EncounterMetadata> GetLatestTypedMetada()
         {
             var latest = new KeyValuePair<SaveType, EncounterMetadata>();
-            foreach (var metaData in Metadata)
+            foreach (var metadata in Metadata)
             {
-                if (latest.Value == null || latest.Value.DateModified < metaData.Value.DateModified)
-                    latest = metaData;
+                if (metadata.Key == SaveType.Local)
+                    return metadata;
+
+                if (latest.Value == null || latest.Value.DateModified < metadata.Value.DateModified)
+                    latest = metadata;
             }
 
             return latest;
         }
-        public SaveType GetLatestType() => GetLatestTypedMetada().Key;
-        public EncounterMetadata GetLatestMetadata() => GetLatestTypedMetada().Value;
+        public virtual SaveType GetLatestType() => GetLatestTypedMetada().Key;
+        public virtual EncounterMetadata GetLatestMetadata() => GetLatestTypedMetada().Value;
+        public virtual void IsMetadataNewer() {
 
+        }
     }
 }
