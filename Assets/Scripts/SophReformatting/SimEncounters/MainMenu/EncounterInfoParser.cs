@@ -6,6 +6,7 @@ namespace ClinicalTools.SimEncounters
     {
         protected IStringSplitter StringSplitter { get; }
         protected IParser<KeyValuePair<TKey, TValue>> PairParser { get; }
+
         public DictionaryParser(IParser<KeyValuePair<TKey, TValue>> elementParser, IStringSplitter stringSplitter)
         {
             PairParser = elementParser;

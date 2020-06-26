@@ -3,6 +3,8 @@ using UnityEngine.Networking;
 
 namespace ClinicalTools.SimEncounters
 {
+
+
     public interface IImageDataReader
     {
         WaitableResult<EncounterImageData> GetImageData(User user, EncounterMetadata metadata);

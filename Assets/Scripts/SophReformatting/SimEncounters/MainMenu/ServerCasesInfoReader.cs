@@ -10,6 +10,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         private const string divider = "~~";
         public string[] Split(string str) => str.Split(new string[] { divider }, StringSplitOptions.None);
     }
+
     public class DoubleColonStringSplitter : IStringSplitter
     {
         private const string divider = "::";

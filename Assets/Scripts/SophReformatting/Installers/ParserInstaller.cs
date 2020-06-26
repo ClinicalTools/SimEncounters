@@ -36,5 +36,17 @@ namespace ClinicalTools.SimEncounters
             subcontainer.Bind<ICharEnumeratorParser<TabStatus>>().To<TabStatusParser>().AsTransient();
             subcontainer.Bind<ICharEnumeratorParser<string>>().To<KeyParser>().AsTransient();
         }
+
+        /// <summary>
+        /// IL2CPP will strip generic constructors, so they have to be referenced in order to not be stripped.
+        /// https://github.com/svermeulen/Extenject#aot-support
+        /// </summary>
+        public static void ForceIL2CPPToKeepNeededGenericConstructors()
+        {
+            new DictionaryParser<int, EncounterBasicStatus>(null, null);
+            new ListParser<EncounterMetadata>(null, null);
+            new XmlDeserializerParser<EncounterContent>(null, null);
+            new XmlDeserializerParser<EncounterImageData>(null, null);
+        }
     }
 }

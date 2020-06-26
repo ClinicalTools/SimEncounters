@@ -18,14 +18,18 @@ namespace ClinicalTools.SimEncounters
         public UserStatus Status { get; set; } = new UserStatus();
 
         // Creates guest user
-        protected User()
-        {
-            IsGuest = true;
-        }
+        protected User() => IsGuest = true;
 
-        public User(int accountId)
+        public User(int accountId) => AccountId = accountId;
+
+
+        public string GetName()
         {
-            AccountId = accountId;
+            var name = FirstName + " " + LastName;
+            if (!Honorific.Equals("--") && !string.IsNullOrWhiteSpace(Honorific))
+                name = Honorific + " " + name;
+
+            return name;
         }
     }
 }

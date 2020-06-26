@@ -17,5 +17,10 @@ namespace ClinicalTools.ClinicalEncounters
 
         public CEEncounterMetadata() : base() { }
         public CEEncounterMetadata(EncounterMetadata baseEncounterInfo) : base(baseEncounterInfo) { }
+
+        public int GetCaseType()
+        {
+            return 0;
+        }
     }
 }
