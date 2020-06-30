@@ -34,6 +34,8 @@ namespace ClinicalTools.ClinicalEncounters.Writer
         [SerializeField] private TMP_Dropdown difficulty;
         public Button SaveButton { get => saveButton; set => saveButton = value; }
         [SerializeField] private Button saveButton;
+        public Button PublishButton { get => publishButton; set => publishButton = value; }
+        [SerializeField] private Button publishButton;
 
         protected IEncounterWriter LocalWriter { get; set; }
         protected IEncounterWriter ServerWriter { get; set; }
@@ -46,8 +48,11 @@ namespace ClinicalTools.ClinicalEncounters.Writer
             ServerWriter = serverWriter;
         }
 
-        protected virtual void Awake() => SaveButton.onClick.AddListener(Save);
-
+        protected virtual void Awake()
+        {
+            SaveButton.onClick.AddListener(Save);
+            PublishButton.onClick.AddListener(Publish);
+        }
         protected Encounter CurrentEncounter { get; set; }
         protected User CurrentUser { get; set; }
         public override void Display(User user, Encounter encounter)

@@ -1,9 +1,5 @@
 ﻿using System.Collections.Generic;
 
-namespace ClinicalTools.ClinicalEncounters
-{
-}
-
 namespace ClinicalTools.SimEncounters.Data
 {
     public enum Difficulty

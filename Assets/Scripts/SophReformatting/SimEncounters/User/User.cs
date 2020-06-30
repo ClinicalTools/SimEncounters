@@ -8,9 +8,9 @@
         public int AccountId { get; }
         public string Email { get; set; }
         public string Username { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Honorific { get; set; }
+        public string FirstName { get; set; } = "Guest";
+        public string LastName { get; set; } = "";
+        public string Honorific { get; set; } = "--";
         public UserStatus Status { get; set; } = new UserStatus();
 
         // Creates guest user

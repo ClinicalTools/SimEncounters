@@ -13,7 +13,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
     }
 
     public class MetadataSelector : BaseMetadataSelector
-    {
+    { 
         public TextMeshProUGUI Label { get => label; set => label = value; }
         [SerializeField] private TextMeshProUGUI label;
         public Button LocalButton { get => localButton; set => localButton = value; }

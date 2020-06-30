@@ -1,4 +1,5 @@
-﻿using ClinicalTools.SimEncounters.Data;
+﻿using ClinicalTools.ClinicalEncounters.Writer;
+using ClinicalTools.SimEncounters.Data;
 using System;
 using Zenject;
 
@@ -25,11 +26,13 @@ namespace ClinicalTools.SimEncounters.Writer
 
         protected virtual void BindEncounterWriterInstaller(DiContainer subcontainer, SaveType saveType)
         {
+            subcontainer.Bind<IEncounterWriter>().To<EncounterWriter>().AsTransient().WhenNotInjectedInto<EncounterWriter>();
             if (saveType == SaveType.Server) {
-                subcontainer.Bind<IEncounterWriter>().To<EncounterWriter>().AsTransient();
-                FileManagerInstaller.BindFileManager(subcontainer, SaveType.Local);
+                subcontainer.Bind<IEncounterWriter>().To<EncounterMainDataUploader>().AsTransient().WhenInjectedInto<EncounterWriter>();
+                subcontainer.Bind<IMetadataWriter>().To<CEMetadataUploader>().AsTransient();
             } else {
-                subcontainer.Bind<IEncounterWriter>().To<EncounterWriter>().AsTransient();
+                subcontainer.Bind<IEncounterWriter>().To<LocalEncounterWriter>().AsTransient().WhenInjectedInto<EncounterWriter>();
+                subcontainer.Bind<IMetadataWriter>().To<LocalMetadataWriter>().AsTransient();
                 FileManagerInstaller.BindFileManager(subcontainer, saveType);
             }
         }

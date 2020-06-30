@@ -1,0 +1,11 @@
+﻿using ClinicalTools.SimEncounters.Data;
+using UnityEngine;
+
+namespace ClinicalTools.SimEncounters.MainMenu
+{
+    public abstract class BaseAddEncounterPopup : MonoBehaviour
+    {
+        public abstract void Display(MenuSceneInfo sceneInfo);
+        public abstract void Display(MenuSceneInfo sceneInfo, MenuEncounter encounter);
+    }
+}
