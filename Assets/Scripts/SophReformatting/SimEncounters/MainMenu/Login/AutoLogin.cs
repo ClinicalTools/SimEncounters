@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace ClinicalTools.SimEncounters.MainMenu
@@ -36,17 +37,17 @@ namespace ClinicalTools.SimEncounters.MainMenu
             return UnityWebRequest.Post(address, form);
         }
 
-        private void ProcessResults(WaitableResult<User> result, ServerResult serverResult)
+        private void ProcessResults(WaitableResult<User> result, WaitedResult<ServerResult> serverResult)
         {
-            if (serverResult.Outcome != ServerOutcome.Success)
+            if (serverResult.Value == null || serverResult.Value.Outcome != ServerOutcome.Success)
             {
-                result.SetError(serverResult.Message);
+                result.SetError(new Exception(serverResult.Value?.Message));
                 return;
             }
 
-            var user = UserParser.Parse(serverResult.Message);
+            var user = UserParser.Parse(serverResult.Value.Message);
             if (user == null)
-                result.SetError($"Could not parse user: {serverResult.Message}");
+                result.SetError(new Exception($"Could not parse user: {serverResult.Value.Message}"));
             else
                 result.SetResult(user);
         }

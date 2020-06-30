@@ -29,9 +29,9 @@ namespace ClinicalTools.SimEncounters
         }
 
         private void ProcessResults(WaitableResult<EncounterStatus> result, 
-            string fileText, EncounterBasicStatus basicStatus)
+            WaitedResult<string> fileText, EncounterBasicStatus basicStatus)
         {
-            var detailedStatus = parser.Parse(fileText);
+            var detailedStatus = parser.Parse(fileText.Value);
             var status = new EncounterStatus(basicStatus, detailedStatus);
             result.SetResult(status);
         }

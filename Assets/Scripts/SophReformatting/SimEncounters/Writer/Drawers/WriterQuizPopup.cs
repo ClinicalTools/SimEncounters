@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -35,8 +36,8 @@ namespace ClinicalTools.SimEncounters.Writer
             CurrentEncounter = encounter;
             CurrentQuiz = quizPin;
 
-            if (CurrentWaitableQuiz?.IsCompleted == false)
-                CurrentWaitableQuiz.SetError("New popup opened");
+            if (CurrentWaitableQuiz?.IsCompleted() == false)
+                CurrentWaitableQuiz.SetError(new Exception("New popup opened"));
 
             CurrentWaitableQuiz = new WaitableResult<QuizPin>();
 
@@ -65,8 +66,8 @@ namespace ClinicalTools.SimEncounters.Writer
 
         protected virtual void Close()
         {
-            if (CurrentWaitableQuiz?.IsCompleted == false)
-                CurrentWaitableQuiz.SetError("Canceled");
+            if (CurrentWaitableQuiz?.IsCompleted ()== false)
+                CurrentWaitableQuiz.SetError(new Exception("Canceled"));
 
             gameObject.SetActive(false);
         }

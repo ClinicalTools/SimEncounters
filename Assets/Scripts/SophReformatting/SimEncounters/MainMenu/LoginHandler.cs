@@ -37,8 +37,7 @@ namespace ClinicalTools.SimEncounters
         protected virtual WaitableResult<User> CurrentWaitableResult { get; set; }
         public override WaitableResult<User> InitialLogin(ILoadingScreen loadingScreen)
         {
-            if (CurrentWaitableResult == null || CurrentWaitableResult.IsCompleted)
-                CurrentWaitableResult = new WaitableResult<User>();
+            CurrentWaitableResult = new WaitableResult<User>();
 
             if (StayLoggedIn.Value)
                 TryAutoLogin();
@@ -52,8 +51,7 @@ namespace ClinicalTools.SimEncounters
         {
             StayLoggedIn.SetValue(false);
 
-            if (CurrentWaitableResult == null || CurrentWaitableResult.IsCompleted)
-                CurrentWaitableResult = new WaitableResult<User>();
+            CurrentWaitableResult = new WaitableResult<User>();
 
             ShowManualLogin();
 
@@ -65,12 +63,12 @@ namespace ClinicalTools.SimEncounters
             var autoLoginResult = AutoLogin.Login();
             autoLoginResult.AddOnCompletedListener(ProcessAutoLoginResult);
         }
-        protected virtual void ProcessAutoLoginResult(User user)
+        protected virtual void ProcessAutoLoginResult(WaitedResult<User> user)
         {
-            if (user == null)
+            if (user.Value == null)
                 ShowManualLogin();
             else
-                CurrentWaitableResult.SetResult(user);
+                CurrentWaitableResult.SetResult(user.Value);
         }
 
         protected virtual void ShowManualLogin()
@@ -79,6 +77,6 @@ namespace ClinicalTools.SimEncounters
             var loginResult = ManualLogin.Login();
             loginResult.AddOnCompletedListener(ProcessManualLoginResult);
         }
-        protected virtual void ProcessManualLoginResult(User user) => CurrentWaitableResult.SetResult(user);
+        protected virtual void ProcessManualLoginResult(WaitedResult<User> user) => CurrentWaitableResult.SetResult(user.Value);
     }
 }

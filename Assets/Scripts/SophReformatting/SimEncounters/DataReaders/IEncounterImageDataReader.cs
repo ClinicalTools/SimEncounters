@@ -3,8 +3,6 @@ using UnityEngine.Networking;
 
 namespace ClinicalTools.SimEncounters
 {
-
-
     public interface IImageDataReader
     {
         WaitableResult<EncounterImageData> GetImageData(User user, EncounterMetadata metadata);
@@ -29,9 +27,9 @@ namespace ClinicalTools.SimEncounters
             return imageData;
         }
 
-        private void ProcessResults(WaitableResult<EncounterImageData> result, string fileText)
+        private void ProcessResults(WaitableResult<EncounterImageData> result, WaitedResult<string> fileText)
         {
-            result.SetResult(parser.Parse(fileText));
+            result.SetResult(parser.Parse(fileText.Value));
         }
     }
     public class ServerImageDataReader : IImageDataReader
@@ -80,9 +78,9 @@ namespace ClinicalTools.SimEncounters
             return UnityWebRequest.Get(url);
         }
 
-        private void ProcessResults(WaitableResult<EncounterImageData> result, ServerResult serverResult)
+        private void ProcessResults(WaitableResult<EncounterImageData> result, WaitedResult<ServerResult> serverResult)
         {
-            result.SetResult(parser.Parse(serverResult.Message));
+            result.SetResult(parser.Parse(serverResult.Value.Message));
         }
     }
 }

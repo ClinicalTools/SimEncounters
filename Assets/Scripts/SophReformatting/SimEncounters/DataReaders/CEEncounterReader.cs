@@ -9,12 +9,12 @@ namespace ClinicalTools.SimEncounters
 
         protected override void ProcessResults(WaitableResult<Encounter> result,
             EncounterMetadata metadata,
-            WaitableResult<EncounterData> data)
+            WaitedResult<EncounterData> data)
         {
-            if (data.Result.ImageData is CEEncounterImageData ceImageData)
-                UpdateLegacySections(data.Result.Content, ceImageData);
+            if (data.Value.ImageData is CEEncounterImageData ceImageData)
+                UpdateLegacySections(data.Value.Content, ceImageData);
 
-            var encounterData = new Encounter(metadata, data.Result.Content, data.Result.ImageData);
+            var encounterData = new Encounter(metadata, data.Value.Content, data.Value.ImageData);
             result.SetResult(encounterData);
         }
 

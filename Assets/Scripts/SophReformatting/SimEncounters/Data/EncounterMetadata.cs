@@ -35,5 +35,7 @@ namespace ClinicalTools.SimEncounters.Data
             Difficulty = baseEncounterInfo.Difficulty;
             EditorVersion = baseEncounterInfo.EditorVersion;
         }
+
+        public virtual string GetRecordNumberString() => RecordNumber.ToString("D6");
     }
 }

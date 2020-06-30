@@ -80,13 +80,13 @@ namespace ClinicalTools.ClinicalEncounters.MainMenu
             CurrentMetadata.Filename = $"{CurrentMetadata.RecordNumber}{CurrentMetadata.FirstName} {CurrentMetadata.LastName}";
             var encounter = new WaitableResult<Encounter>();
             var writerInfo = new LoadingWriterSceneInfo(SceneInfo.User, SceneInfo.LoadingScreen, encounter);
-            EncounterData.AddOnCompletedListener((result) => Something(encounter, EncounterData));
+            EncounterData.AddOnCompletedListener((result) => Something(encounter, result));
             SceneStarter.StartScene(writerInfo);
         }
 
-        protected virtual void Something(WaitableResult<Encounter> encounter, WaitableResult<EncounterData> encounterData)
+        protected virtual void Something(WaitableResult<Encounter> encounter, WaitedResult<EncounterData> encounterData)
         {
-            var result = new Encounter(CurrentMetadata, encounterData.Result.Content, encounterData.Result.ImageData);
+            var result = new Encounter(CurrentMetadata, encounterData.Value.Content, encounterData.Value.ImageData);
             encounter.SetResult(result);
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -34,16 +35,16 @@ namespace ClinicalTools.SimEncounters
         private void ProcessResults(WaitableResult<Dictionary<int, EncounterBasicStatus>> result,
             List<WaitableResult<Dictionary<int, EncounterBasicStatus>>> listResults)
         {
-            if (result.IsCompleted)
+            if (result.IsCompleted())
                 return;
             foreach (var statusesResult in listResults) {
-                if (!statusesResult.IsCompleted)
+                if (!statusesResult.IsCompleted())
                     return;
             }
 
-            var statuses = listResults[0].Result;
+            var statuses = listResults[0].Result.Value;
             for (int i = 1; i < listResults.Count; i++)
-                statuses = CombineStatuses(statuses, listResults[i].Result);
+                statuses = CombineStatuses(statuses, listResults[i].Result.Value);
 
             result.SetResult(statuses);
         }
@@ -87,7 +88,7 @@ namespace ClinicalTools.SimEncounters
             return statuses;
         }
 
-        private void ProcessResults(WaitableResult<Dictionary<int, EncounterBasicStatus>> result, string[] fileTexts)
+        private void ProcessResults(WaitableResult<Dictionary<int, EncounterBasicStatus>> result, WaitedResult<string[]> fileTexts)
         {
             if (fileTexts == null) {
                 result.SetError(null);
@@ -95,7 +96,7 @@ namespace ClinicalTools.SimEncounters
             }
 
             var statuses = new Dictionary<int, EncounterBasicStatus>();
-            foreach (var fileText in fileTexts) {
+            foreach (var fileText in fileTexts.Value) {
                 var metadata = parser.Parse(fileText);
                 if (statuses.ContainsKey(metadata.Key)) {
                     Debug.LogError($"Duplicate saved status for key {metadata.Key}");
@@ -123,7 +124,7 @@ namespace ClinicalTools.SimEncounters
         public WaitableResult<Dictionary<int, EncounterBasicStatus>> GetBasicStatuses(User user)
         {
             if (user.IsGuest)
-                return new WaitableResult<Dictionary<int, EncounterBasicStatus>>(null, "Guest user has no server statuses.", true);
+                return new WaitableResult<Dictionary<int, EncounterBasicStatus>>(new Exception("Guest user has no server statuses."));
 
             var webRequest = GetWebRequest(user);
             var serverOutput = serverReader.Begin(webRequest);
@@ -147,14 +148,14 @@ namespace ClinicalTools.SimEncounters
 
             return UnityWebRequest.Post(url, form);
         }
-        private void ProcessResults(WaitableResult<Dictionary<int, EncounterBasicStatus>> result, ServerResult serverOutput)
+        private void ProcessResults(WaitableResult<Dictionary<int, EncounterBasicStatus>> result, WaitedResult<ServerResult> serverOutput)
         {
-            if (serverOutput == null || serverOutput.Outcome != ServerOutcome.Success) {
-                result.SetError(serverOutput?.Message);
+            if (serverOutput == null || serverOutput.Value.Outcome != ServerOutcome.Success) {
+                result.SetError(new Exception(serverOutput?.Value.Message));
                 return;
             }
 
-            var statuses = parser.Parse(serverOutput.Message);
+            var statuses = parser.Parse(serverOutput.Value.Message);
             result.SetResult(statuses);
         }
     }

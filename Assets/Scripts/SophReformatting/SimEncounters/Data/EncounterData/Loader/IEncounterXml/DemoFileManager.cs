@@ -34,12 +34,12 @@ namespace ClinicalTools.SimEncounters
             return fileText;
         }
 
-        protected virtual void SetFileResult(ServerResult serverResult, WaitableResult<string> fileText)
+        protected virtual void SetFileResult(WaitedResult<ServerResult> serverResult, WaitableResult<string> fileText)
         {
-            if (serverResult.Outcome != ServerOutcome.Success)
-                fileText.SetError(serverResult.Message);
+            if (serverResult.Value.Outcome != ServerOutcome.Success)
+                fileText.SetError(new Exception(serverResult.Value.Message));
             else
-                fileText.SetResult(serverResult.Message);
+                fileText.SetResult(serverResult.Value.Message);
         }
 
         public WaitableResult<string[]> GetFilesText(User user, FileType fileType)
@@ -51,13 +51,13 @@ namespace ClinicalTools.SimEncounters
             return filesText;
         }
 
-        protected void ReadFiles(string[] demoEncounters, WaitableResult<string[]> result, FileType fileType) {
+        protected void ReadFiles(WaitedResult<string[]> demoEncounters, WaitableResult<string[]> result, FileType fileType) {
             if (demoEncounters == null)
                 return;
 
-            var serverResults = new WaitableResult<ServerResult>[demoEncounters.Length];
-            for (int i = 0; i <demoEncounters.Length; i++) {
-                var filePath = GetFile(fileType, demoEncounters[i]);
+            var serverResults = new WaitableResult<ServerResult>[demoEncounters.Value.Length];
+            for (int i = 0; i <demoEncounters.Value.Length; i++) {
+                var filePath = GetFile(fileType, demoEncounters.Value[i]);
                 var webRequest = UnityWebRequest.Get(filePath);
                 serverResults[i] = serverReader.Begin(webRequest);
                 serverResults[i].AddOnCompletedListener((serverResult) => SetFilesResults(result, serverResults));
@@ -66,14 +66,14 @@ namespace ClinicalTools.SimEncounters
 
         protected void SetFilesResults(WaitableResult<string[]> result, WaitableResult<ServerResult>[] serverResults) { 
             foreach (var serverResult in serverResults) {
-                if (serverResult == null || !serverResult.IsCompleted)
+                if (serverResult == null || !serverResult.IsCompleted())
                     return;
             }
 
             var filesTexts = new List<string>();
             foreach (var serverResult in serverResults) {
-                if (!serverResult.IsError && serverResult.Result.Outcome == ServerOutcome.Success)
-                    filesTexts.Add(serverResult.Result.Message);
+                if (!serverResult.Result.IsError() && serverResult.Result.Value.Outcome == ServerOutcome.Success)
+                    filesTexts.Add(serverResult.Result.Value.Message);
             }
 
             result.SetResult(filesTexts.ToArray());
@@ -101,16 +101,16 @@ namespace ClinicalTools.SimEncounters
             return demoEncounters;
         }
 
-        protected void SetEncounters(ServerResult serverResult)
+        protected void SetEncounters(WaitedResult<ServerResult> serverResult)
         {
-            if (demoEncounters == null || demoEncounters.IsCompleted)
+            if (demoEncounters == null || demoEncounters.IsCompleted())
                 return;
 
-            if (serverResult.Outcome != ServerOutcome.Success)
-                demoEncounters.SetError("Could not get demo encounters from file.");
+            if (serverResult.Value.Outcome != ServerOutcome.Success)
+                demoEncounters.SetError(new Exception("Could not get demo encounters from file."));
 
             var splitChars = new char[] { '\n', '\r' };
-            var encounters = serverResult.Message.Split(splitChars, StringSplitOptions.RemoveEmptyEntries);
+            var encounters = serverResult.Value.Message.Split(splitChars, StringSplitOptions.RemoveEmptyEntries);
             demoEncounters.SetResult(encounters);
         }
     }

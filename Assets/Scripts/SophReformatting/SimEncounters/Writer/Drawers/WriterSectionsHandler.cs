@@ -49,15 +49,15 @@ namespace ClinicalTools.SimEncounters.Writer
             newSection.AddOnCompletedListener(AddNewSection);
         }
 
-        protected virtual void AddNewSection(Section section)
+        protected virtual void AddNewSection(WaitedResult<Section> section)
         {
-            if (section == null)
+            if (section.Value == null)
                 return;
 
-            CurrentEncounter.Content.Sections.Add(section);
-            AddSectionButton(CurrentEncounter, section);
+            CurrentEncounter.Content.Sections.Add(section.Value);
+            AddSectionButton(CurrentEncounter, section.Value);
 
-            var sectionSelectedArgs = new SectionSelectedEventArgs(section);
+            var sectionSelectedArgs = new SectionSelectedEventArgs(section.Value);
             SectionSelected?.Invoke(this, sectionSelectedArgs);
         }
 

@@ -35,15 +35,15 @@ namespace ClinicalTools.SimEncounters.Writer
             newTab.AddOnCompletedListener(AddNewTab);
         }
 
-        private void AddNewTab(Tab tab)
+        private void AddNewTab(WaitedResult<Tab> tab)
         {
             if (tab == null)
                 return;
 
-            CurrentSection.Tabs.Add(tab);
-            AddTabButton(CurrentEncounter, tab);
+            CurrentSection.Tabs.Add(tab.Value);
+            AddTabButton(CurrentEncounter, tab.Value);
 
-            SelectTab(tab);
+            SelectTab(tab.Value);
         }
 
         protected Encounter CurrentEncounter { get; set; }

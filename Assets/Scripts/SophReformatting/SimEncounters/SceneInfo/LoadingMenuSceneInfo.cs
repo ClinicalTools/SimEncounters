@@ -69,7 +69,7 @@ namespace ClinicalTools.SimEncounters
             MenuEncountersInfo.AddOnCompletedListener(CategoriesRetrieved);
         }
 
-        private void CategoriesRetrieved(IMenuEncountersInfo menuEncountersInfo)
+        private void CategoriesRetrieved(WaitedResult<IMenuEncountersInfo> menuEncountersInfo)
         {
             var loadedInfo = new MenuSceneInfo(this);
             Result.SetResult(loadedInfo);

@@ -49,16 +49,16 @@ namespace ClinicalTools.SimEncounters.Writer
                 dialogue = new DialoguePin();
 
             var newDialogue = DialoguePopup.EditDialogue(CurrentEncounter, dialogue);
-            newDialogue.AddOnCompletedListener((result) => SetDialogue(newDialogue));
+            newDialogue.AddOnCompletedListener(SetDialogue);
         }
 
-        protected virtual void SetDialogue(WaitableResult<DialoguePin> dialogue)
+        protected virtual void SetDialogue(WaitedResult<DialoguePin> dialogue)
         {
-            if (dialogue.IsError)
+            if (dialogue.IsError())
                 return;
 
-            CurrentPinData.Dialogue = dialogue.Result;
-            DialoguePinButton.image.color = GetButtonColor(dialogue.Result != null);
+            CurrentPinData.Dialogue = dialogue.Value;
+            DialoguePinButton.image.color = GetButtonColor(dialogue.Value != null);
         }
 
         protected virtual void EditQuiz()
@@ -70,16 +70,16 @@ namespace ClinicalTools.SimEncounters.Writer
                 quiz = new QuizPin();
 
             var newQuiz = QuizPopup.EditQuiz(CurrentEncounter, quiz);
-            newQuiz.AddOnCompletedListener((result) => SetQuiz(newQuiz));
+            newQuiz.AddOnCompletedListener(SetQuiz);
         }
 
-        protected virtual void SetQuiz(WaitableResult<QuizPin> quiz)
+        protected virtual void SetQuiz(WaitedResult<QuizPin> quiz)
         {
-            if (quiz.IsError)
+            if (quiz.IsError())
                 return;
 
-            CurrentPinData.Quiz = quiz.Result;
-            QuizPinButton.image.color = GetButtonColor(quiz.Result != null);
+            CurrentPinData.Quiz = quiz.Value;
+            QuizPinButton.image.color = GetButtonColor(quiz.Value != null);
         }
 
         protected Color OffColor { get; } = new Color(0.8823529f, 0.8823529f, 0.8823529f);

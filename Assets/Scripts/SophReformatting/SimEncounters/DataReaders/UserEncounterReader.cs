@@ -30,10 +30,10 @@ namespace ClinicalTools.SimEncounters
             WaitableResult<Encounter> encounterData,
             WaitableResult<EncounterStatus> detailedStatus)
         {
-            if (result.IsCompleted || !encounterData.IsCompleted || !detailedStatus.IsCompleted)
+            if (result.IsCompleted() || !encounterData.IsCompleted() || !detailedStatus.IsCompleted())
                 return;
 
-            var encounter = new UserEncounter(user, encounterData.Result, detailedStatus.Result);
+            var encounter = new UserEncounter(user, encounterData.Result.Value, detailedStatus.Result.Value);
             result.SetResult(encounter);
         }
     }

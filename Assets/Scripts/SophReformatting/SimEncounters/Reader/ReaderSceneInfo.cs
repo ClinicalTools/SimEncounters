@@ -15,7 +15,7 @@ namespace ClinicalTools.SimEncounters
         {
             User = loadingEncounterSceneInfo.User;
             LoadingScreen = loadingEncounterSceneInfo.LoadingScreen;
-            Encounter = loadingEncounterSceneInfo.Encounter.Result;
+            Encounter = loadingEncounterSceneInfo.Encounter.Result.Value;
             SuggestedEncounters = loadingEncounterSceneInfo.SuggestedEncounters;
         }
     }

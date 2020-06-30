@@ -69,11 +69,11 @@ namespace ClinicalTools.SimEncounters.Reader
 
 
         private UserEncounter userEncounter;
-        protected virtual void EncounterLoaded(ReaderSceneInfo sceneInfo)
+        protected virtual void EncounterLoaded(WaitedResult<ReaderSceneInfo> sceneInfo)
         {
-            userEncounter = sceneInfo.Encounter;
+            userEncounter = sceneInfo.Value.Encounter;
             if (started)
-                EncounterDrawer.Display(sceneInfo.Encounter);
+                EncounterDrawer.Display(sceneInfo.Value.Encounter);
         }
 
         protected virtual void ConfirmReturnToMainMenu()

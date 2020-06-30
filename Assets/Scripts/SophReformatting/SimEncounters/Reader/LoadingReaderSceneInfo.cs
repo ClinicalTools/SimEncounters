@@ -20,7 +20,7 @@ namespace ClinicalTools.SimEncounters
             Encounter.AddOnCompletedListener(EncounterRetrieved);
         }
 
-        private void EncounterRetrieved(UserEncounter encounter)
+        private void EncounterRetrieved(WaitedResult<UserEncounter> encounter)
         {
             var loadedInfo = new ReaderSceneInfo(this);
             Result.SetResult(loadedInfo);

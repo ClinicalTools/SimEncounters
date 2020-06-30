@@ -48,18 +48,18 @@ namespace ClinicalTools.SimEncounters.MainMenu
             return form;
         }
 
-        private void ProcessResults(ServerResult serverResults)
+        private void ProcessResults(WaitedResult<ServerResult> serverResults)
         {
-            if (serverResults.Outcome != ServerOutcome.Success) {
+            if (serverResults.Value.Outcome != ServerOutcome.Success) {
                 //MessageHandler.ShowMessage(serverResults.Message, true);
                 return;
             }
-            if (serverResults.Message.StartsWith("Connection Granted")) {
+            if (serverResults.Value.Message.StartsWith("Connection Granted")) {
                 //MessageHandler.ShowMessage("Success. Please check email (or spam folder) for verification", false);
                 return;
             }
 
-            var error = serverResults.Message.Split(new string[] { "--" }, System.StringSplitOptions.None)[0];
+            var error = serverResults.Value.Message.Split(new string[] { "--" }, System.StringSplitOptions.None)[0];
             //MessageHandler.ShowMessage(error, true);
         }
     }

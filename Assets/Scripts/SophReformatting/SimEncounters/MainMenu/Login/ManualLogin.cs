@@ -40,8 +40,7 @@ namespace ClinicalTools.SimEncounters
         {
             gameObject.SetActive(true);
 
-            if (CurrentWaitableResult == null || CurrentWaitableResult.IsCompleted)
-                CurrentWaitableResult = new WaitableResult<User>();
+            CurrentWaitableResult = new WaitableResult<User>();
 
             UsernameField.text = "";
             PasswordField.text = "";
@@ -52,7 +51,7 @@ namespace ClinicalTools.SimEncounters
 
         private void GuestLogin()
         {
-            if (CurrentWaitableResult?.IsCompleted == false)
+            if (CurrentWaitableResult?.IsCompleted() == false)
                 CurrentWaitableResult.SetResult(User.Guest);
             gameObject.SetActive(false);
         }
@@ -63,23 +62,21 @@ namespace ClinicalTools.SimEncounters
             var email = UsernameField.text;
             var password = PasswordField.text;
             var user = PasswordLoginHandler.Login(username, email, password);
-            user.AddOnCompletedListener((result) => ServerUserResponse(user));
+            user.AddOnCompletedListener(ServerUserResponse);
         }
 
-        protected void ServerUserResponse(WaitableResult<User> waitableResult)
+        protected void ServerUserResponse(WaitedResult<User> result)
         {
-            if (waitableResult.IsError) {
-                MessageHandler.ShowMessage($"Could not login: {waitableResult.Message}", MessageType.Error);
+            if (result.IsError()) {
+                MessageHandler.ShowMessage($"Could not login: {result.Exception.Message}", MessageType.Error);
                 return;
             }
-            if (CurrentWaitableResult.IsCompleted)
-                return;
 
             gameObject.SetActive(false);
             if (StayLoggedInToggle == null || StayLoggedInToggle.isOn)
                 StayLoggedIn.SetValue(true);
             PlayerPrefs.Save();
-            CurrentWaitableResult.SetResult(waitableResult.Result, waitableResult.Message);
+            CurrentWaitableResult.SetResult(result.Value);
         }
     }
 }

@@ -54,6 +54,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             user.AddOnCompletedListener(Login);
         }
 
+        protected virtual void Login(WaitedResult<User> user) => Login(user.Value);
         protected virtual void Login(User user)
         {
             var menuEncounters = MenuInfoReader.GetMenuEncountersInfo(user);

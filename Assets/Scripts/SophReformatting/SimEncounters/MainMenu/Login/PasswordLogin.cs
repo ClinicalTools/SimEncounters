@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace ClinicalTools.SimEncounters.MainMenu
@@ -17,14 +18,14 @@ namespace ClinicalTools.SimEncounters.MainMenu
         }
 
 
-        protected virtual string NoUsernameOrEmailArgs { get; } = "No username or email provided.";
-        protected virtual string NoPasswordArgs { get; } = "No password provided.";
+        protected virtual Exception NoUsernameOrEmailException { get; } = new Exception("No username or email provided.");
+        protected virtual Exception NoPasswordException { get; } = new Exception("No password provided.");
         public WaitableResult<User> Login(string username, string email, string password)
         {
             if (string.IsNullOrWhiteSpace(username) && string.IsNullOrWhiteSpace(email))
-                return new WaitableResult<User>(null, NoUsernameOrEmailArgs, true);
+                return new WaitableResult<User>(NoUsernameOrEmailException);
             if (string.IsNullOrWhiteSpace(password))
-                return new WaitableResult<User>(null, NoPasswordArgs, true);
+                return new WaitableResult<User>(NoPasswordException);
 
             var form = CreateForm(username, email, password);
 
@@ -51,17 +52,17 @@ namespace ClinicalTools.SimEncounters.MainMenu
             return form;
         }
 
-        private void ProcessResults(WaitableResult<User> result, ServerResult serverResult)
+        private void ProcessResults(WaitableResult<User> result, WaitedResult<ServerResult> serverResult)
         {
-            if (serverResult.Outcome != ServerOutcome.Success)
+            if (serverResult.Value.Outcome != ServerOutcome.Success)
             {
-                result.SetError(serverResult.Message);
+                result.SetError(new Exception(serverResult.Value.Message));
                 return;
             }
 
-            var user = UserParser.Parse(serverResult.Message);
+            var user = UserParser.Parse(serverResult.Value.Message);
             if (user == null)
-                result.SetError($"Could not parse user: {serverResult.Message}");
+                result.SetError(new Exception($"Could not parse user: {serverResult.Value.Message}"));
             else
                 result.SetResult(user);
         }

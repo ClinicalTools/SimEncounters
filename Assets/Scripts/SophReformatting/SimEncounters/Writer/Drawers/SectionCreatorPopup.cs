@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,7 +36,7 @@ namespace ClinicalTools.SimEncounters.Writer
         protected WaitableResult<Section> CurrentWaitableSection { get; set; }
         public virtual WaitableResult<Section> CreateSection(Encounter encounter)
         {
-            CurrentWaitableSection?.SetError("New popup opened");
+            CurrentWaitableSection?.SetError(new Exception("New popup opened"));
             CurrentWaitableSection = new WaitableResult<Section>();
 
             NameField.text = "";
@@ -66,7 +67,7 @@ namespace ClinicalTools.SimEncounters.Writer
         protected virtual void Close()
         {
             if (CurrentWaitableSection != null) {
-                CurrentWaitableSection.SetError("Canceled");
+                CurrentWaitableSection.SetError(new Exception("Canceled"));
                 CurrentWaitableSection = null;
             }
             gameObject.SetActive(false);

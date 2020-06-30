@@ -34,11 +34,11 @@ namespace ClinicalTools.SimEncounters.Writer
             => sceneInfo.Result.AddOnCompletedListener(EncounterLoaded);
 
         protected WriterSceneInfo SceneInfo { get; set; }
-        protected virtual void EncounterLoaded(WriterSceneInfo sceneInfo)
+        protected virtual void EncounterLoaded(WaitedResult<WriterSceneInfo> sceneInfo)
         {
-            SceneInfo = sceneInfo;
+            SceneInfo = sceneInfo.Value;
             if (Started)
-                ProcessSceneInfo(sceneInfo);
+                ProcessSceneInfo(sceneInfo.Value);
         }
 
         protected bool Started { get; set; }

@@ -15,12 +15,12 @@ namespace ClinicalTools.ClinicalEncounters.Writer
 {
     public class CEMetadataUploader : IMetadataWriter
     {
-        private readonly IServerReader serverReader;
-        private readonly IUrlBuilder urlBuilder;
+        protected virtual IServerReader ServerReader { get; }
+        protected virtual IUrlBuilder UrlBuilder { get; }
         public CEMetadataUploader(IServerReader serverReader, IUrlBuilder urlBuilder)
         {
-            this.serverReader = serverReader;
-            this.urlBuilder = urlBuilder;
+            ServerReader = serverReader;
+            UrlBuilder = urlBuilder;
         }
 
         private const string PHP_FILE = "Menu.php";
@@ -32,11 +32,11 @@ namespace ClinicalTools.ClinicalEncounters.Writer
             if (!(metadata is CEEncounterMetadata ceMetadata))
                 return;
 
-            var url = urlBuilder.BuildUrl(PHP_FILE);
+            var url = UrlBuilder.BuildUrl(PHP_FILE);
             var form = CreateForm(user, ceMetadata);
 
             var webRequest = UnityWebRequest.Post(url, form);
-            var serverResults = serverReader.Begin(webRequest);
+            var serverResults = ServerReader.Begin(webRequest);
             serverResults.AddOnCompletedListener(ProcessResults);
         }
 
@@ -57,7 +57,7 @@ namespace ClinicalTools.ClinicalEncounters.Writer
         private const string VERSION_VARIABLE = "version";
         private const string VERSION_VALUE = "0.1";
         private const string CASE_TYPE_VARIABLE = "caseType";
-        public WWWForm CreateForm(User user, CEEncounterMetadata metadata)
+        protected virtual WWWForm CreateForm(User user, CEEncounterMetadata metadata)
         {
             var form = new WWWForm();
             form.AddField(MODE_VARIABLE, MODE_VALUE);
@@ -83,9 +83,9 @@ namespace ClinicalTools.ClinicalEncounters.Writer
             return form;
         }
 
-        private void ProcessResults(ServerResult serverResult)
+        private void ProcessResults(WaitedResult<ServerResult> serverResult)
         {
-            Debug.Log("Returned text from metadata PHP: \n" + serverResult.Message);
+            Debug.Log("Returned text from metadata PHP: \n" + serverResult.Value.Message);
         }
     }
 }

@@ -62,12 +62,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected virtual void ShowCasesLoading() => DownloadingCases.SetActive(true);
 
-        protected virtual void ShowEncounters(MenuSceneInfo sceneInfo)
+        protected virtual void ShowEncounters(WaitedResult<MenuSceneInfo> sceneInfo)
         {
-            sceneInfo.LoadingScreen?.Stop();
+            sceneInfo.Value.LoadingScreen?.Stop();
             DownloadingCases.SetActive(false);
 
-            SceneInfo = sceneInfo;
+            SceneInfo = sceneInfo.Value;
 
             if (ShowEncountersToggle.IsOn())
                 DisplayEncounters();

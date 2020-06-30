@@ -60,7 +60,7 @@ namespace ClinicalTools.SimEncounters
             return form;
         }
 
-        private void ProcessResults(ServerResult serverResult)
+        private void ProcessResults(WaitedResult<ServerResult> serverResult)
         {
         }
     }

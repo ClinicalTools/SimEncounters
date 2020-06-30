@@ -60,14 +60,14 @@ namespace ClinicalTools.SimEncounters.MainMenu
             loadingSceneInfo.Result.AddOnCompletedListener(SceneInfoLoaded);
         }
 
-        protected virtual void SceneInfoLoaded(MenuSceneInfo sceneInfo)
+        protected virtual void SceneInfoLoaded(WaitedResult<MenuSceneInfo> sceneInfo)
         {
-            sceneInfo.LoadingScreen?.Stop();
+            sceneInfo.Value.LoadingScreen?.Stop();
             foreach (var downloadingMessageObject in DownloadingMessageObjects)
                 downloadingMessageObject.SetActive(false);
 
-            SceneInfo = sceneInfo;
-            CategorySelector.Display(sceneInfo, sceneInfo.MenuEncountersInfo.GetCategories());
+            SceneInfo = sceneInfo.Value;
+            CategorySelector.Display(sceneInfo.Value, sceneInfo.Value.MenuEncountersInfo.GetCategories());
         }
 
         private void DisplayCategories()

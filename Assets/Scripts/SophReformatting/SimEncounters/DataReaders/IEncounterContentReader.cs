@@ -27,9 +27,9 @@ namespace ClinicalTools.SimEncounters
             return content;
         }
 
-        private void ProcessResults(WaitableResult<EncounterContent> result, string fileText)
+        private void ProcessResults(WaitableResult<EncounterContent> result, WaitedResult<string> fileText)
         {
-            result.SetResult(parser.Parse(fileText));
+            result.SetResult(parser.Parse(fileText.Value));
         }
     }
     public class ServerContentDataReader : IEncounterContentReader
@@ -78,9 +78,9 @@ namespace ClinicalTools.SimEncounters
             return UnityWebRequest.Get(url);
         }
 
-        private void ProcessResults(WaitableResult<EncounterContent> result, ServerResult serverResult)
+        private void ProcessResults(WaitableResult<EncounterContent> result, WaitedResult<ServerResult> serverResult)
         {
-            result.SetResult(parser.Parse(serverResult.Message));
+            result.SetResult(parser.Parse(serverResult.Value.Message));
         }
     }
 }

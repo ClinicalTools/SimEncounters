@@ -70,7 +70,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected virtual void SelectMetadata(SaveType saveType)
         {
-            if (CurrentResult?.IsCompleted != false)
+            if (CurrentResult?.IsCompleted() != false)
                 throw new Exception("It shouldn't be possible to select the result again.");
 
             CurrentResult.SetResult(new KeyValuePair<SaveType, EncounterMetadata>(saveType, CurrentEncounter.Metadata[saveType]));
@@ -90,8 +90,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected virtual void Close()
         {
-            if (CurrentResult?.IsCompleted == false)
-                CurrentResult.SetError("Metadata selector closed.");
+            if (CurrentResult?.IsCompleted() == false)
+                CurrentResult.SetError(new Exception("Metadata selector closed."));
 
             gameObject.SetActive(false);
         }

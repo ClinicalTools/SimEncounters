@@ -17,16 +17,16 @@ namespace ClinicalTools.SimEncounters
             var data = dataReader.GetEncounterData(user, metadata);
 
             var encounterData = new WaitableResult<Encounter>();
-            data.AddOnCompletedListener((result) => ProcessResults(encounterData, metadata, data));
+            data.AddOnCompletedListener((result) => ProcessResults(encounterData, metadata, result));
 
             return encounterData;
         }
 
         protected virtual void ProcessResults(WaitableResult<Encounter> result,
             EncounterMetadata metadata,
-            WaitableResult<EncounterData> data)
+            WaitedResult<EncounterData> data)
         {
-            var encounterData = new Encounter(metadata, data.Result.Content, data.Result.ImageData);
+            var encounterData = new Encounter(metadata, data.Value.Content, data.Value.ImageData);
             result.SetResult(encounterData);
         }
     }

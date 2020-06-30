@@ -25,15 +25,15 @@ namespace ClinicalTools.SimEncounters
 
             return categories;
         }
-        protected virtual void ProcessResults(User user, WaitableResult<IMenuEncountersInfo> result, List<MenuEncounter> menuEncounters)
+        protected virtual void ProcessResults(User user, WaitableResult<IMenuEncountersInfo> result, WaitedResult<List<MenuEncounter>> menuEncounters)
         {
-            if (menuEncounters == null) {
+            if (menuEncounters.Value == null) {
                 result.SetError(null);
                 return;
             }
 
             var menuEncountersInfo = new MenuEncountersInfo(user);
-            foreach (var menuEncounter in menuEncounters)
+            foreach (var menuEncounter in menuEncounters.Value)
                 menuEncountersInfo.AddEncounter(menuEncounter);
 
             result.SetResult(menuEncountersInfo);
@@ -63,16 +63,16 @@ namespace ClinicalTools.SimEncounters
             return categories;
         }
 
-        private void ProcessResults(WaitableResult<List<Category>> result, List<MenuEncounter> menuEncounters)
+        private void ProcessResults(WaitableResult<List<Category>> result, WaitedResult<List<MenuEncounter>> menuEncounters)
         {
-            if (menuEncounters == null)
+            if (menuEncounters.Value == null)
             {
                 result.SetError(null);
                 return;
             }
 
             var categories = new Dictionary<string, Category>();
-            foreach (var menuEncounter in menuEncounters)
+            foreach (var menuEncounter in menuEncounters.Value)
                 AddEncounterToCategories(categories, menuEncounter);
             
             result.SetResult(categories.Values.ToList());

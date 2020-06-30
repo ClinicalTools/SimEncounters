@@ -45,22 +45,20 @@ namespace ClinicalTools.SimEncounters
         private void ProcessResult(WaitableResult<Dictionary<int, Dictionary<SaveType, EncounterMetadata>>> result,
             Dictionary<SaveType, WaitableResult<List<EncounterMetadata>>> metadatasResults)
         {
-            if (result.IsCompleted)
+            if (result.IsCompleted())
                 return;
 
-            foreach (var metadatasResult in metadatasResults)
-            {
-                if (!metadatasResult.Value.IsCompleted)
+            foreach (var metadatasResult in metadatasResults) {
+                if (!metadatasResult.Value.IsCompleted())
                     return;
             }
 
             var metadataGroups = new Dictionary<int, Dictionary<SaveType, EncounterMetadata>>();
-            foreach (var metadatasResult in metadatasResults)
-            {
+            foreach (var metadatasResult in metadatasResults) {
                 if (metadatasResult.Value.Result == null)
                     continue;
 
-                foreach (var metadata in metadatasResult.Value.Result)
+                foreach (var metadata in metadatasResult.Value.Result.Value)
                     AddMetadata(metadataGroups, metadatasResult.Key, metadata);
             }
 
@@ -70,16 +68,13 @@ namespace ClinicalTools.SimEncounters
         private void AddMetadata(Dictionary<int, Dictionary<SaveType, EncounterMetadata>> metadataGroups, SaveType saveType, EncounterMetadata metadata)
         {
             Dictionary<SaveType, EncounterMetadata> metadataGroup;
-            if (metadataGroups.ContainsKey(metadata.RecordNumber))
-            {
+            if (metadataGroups.ContainsKey(metadata.RecordNumber)) {
                 metadataGroup = metadataGroups[metadata.RecordNumber];
-            }
-            else
-            {
+            } else {
                 metadataGroup = new Dictionary<SaveType, EncounterMetadata>();
                 metadataGroups.Add(metadata.RecordNumber, metadataGroup);
             }
-            
+
             if (!metadataGroup.ContainsKey(saveType))
                 metadataGroup.Add(saveType, metadata);
         }

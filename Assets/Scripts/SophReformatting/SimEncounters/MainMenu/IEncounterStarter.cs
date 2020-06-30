@@ -30,6 +30,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
             result.AddOnCompletedListener((value) => MetadataSelected(sceneInfo, menuEncounter.Status, value));
         }
 
+        protected virtual void MetadataSelected(MenuSceneInfo sceneInfo, EncounterBasicStatus status, WaitedResult<KeyValuePair<SaveType, EncounterMetadata>> metadata)
+            => MetadataSelected(sceneInfo, status, metadata.Value);
+
         protected virtual void MetadataSelected(MenuSceneInfo sceneInfo, EncounterBasicStatus status, KeyValuePair<SaveType, EncounterMetadata> metadata)
         {
             if (status == null)
@@ -63,6 +66,8 @@ namespace ClinicalTools.SimEncounters.MainMenu
             result.AddOnCompletedListener((value) => MetadataSelected(sceneInfo, value));
         }
 
+        protected virtual void MetadataSelected(MenuSceneInfo sceneInfo, WaitedResult<KeyValuePair<SaveType, EncounterMetadata>> metadata)
+            => MetadataSelected(sceneInfo, metadata.Value);
         protected virtual void MetadataSelected(MenuSceneInfo sceneInfo,  KeyValuePair<SaveType, EncounterMetadata> metadata)
         {
             if (metadata.Value == null)

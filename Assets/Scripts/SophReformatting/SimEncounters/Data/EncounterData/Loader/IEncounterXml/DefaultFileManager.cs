@@ -33,16 +33,16 @@ namespace ClinicalTools.SimEncounters
             return fileText;
         }
 
-        protected virtual void SetFileResult(ServerResult serverResult, WaitableResult<string> fileText)
+        protected virtual void SetFileResult(WaitedResult<ServerResult> serverResult, WaitableResult<string> fileText)
         {
-            if (serverResult.Outcome != ServerOutcome.Success)
-                fileText.SetError(serverResult.Message);
+            if (serverResult.Value.Outcome != ServerOutcome.Success)
+                fileText.SetError(new Exception(serverResult.Value.Message));
             else
-                fileText.SetResult(serverResult.Message);
+                fileText.SetResult(serverResult.Value.Message);
         }
 
         public WaitableResult<string[]> GetFilesText(User user, FileType fileType)
-            => new WaitableResult<string[]>(null, null, true);
+            => new WaitableResult<string[]>(new Exception());
 
         protected string GetFile(FileType fileType)
         {

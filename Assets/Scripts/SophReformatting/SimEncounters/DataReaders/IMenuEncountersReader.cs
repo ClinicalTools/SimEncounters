@@ -35,17 +35,17 @@ namespace ClinicalTools.SimEncounters
             WaitableResult<Dictionary<int, Dictionary<SaveType, EncounterMetadata>>> metadataGroups,
             WaitableResult<Dictionary<int, EncounterBasicStatus>> statuses)
         {
-            if (result.IsCompleted || !metadataGroups.IsCompleted || !statuses.IsCompleted)
+            if (result.IsCompleted() || !metadataGroups.IsCompleted() || !statuses.IsCompleted())
                 return;
 
-            if (metadataGroups.Result == null)
+            if (metadataGroups.Result.Value == null)
             {
                 result.SetError(null);
                 return;
             }
 
             var menuEncounters = new List<MenuEncounter>();
-            foreach (var metadataGroup in metadataGroups.Result)
+            foreach (var metadataGroup in metadataGroups.Result.Value)
                 menuEncounters.Add(GetMenuEncounter(metadataGroup, statuses));
             result.SetResult(menuEncounters);
         }
@@ -54,8 +54,8 @@ namespace ClinicalTools.SimEncounters
             WaitableResult<Dictionary<int, EncounterBasicStatus>> statuses)
         {
             EncounterBasicStatus status = null;
-            if (statuses.Result?.ContainsKey(metadataGroup.Key) == true)
-                status = statuses.Result[metadataGroup.Key];
+            if (statuses.Result.Value?.ContainsKey(metadataGroup.Key) == true)
+                status = statuses.Result.Value[metadataGroup.Key];
             return new MenuEncounter(metadataGroup.Value, status);
         }
     }

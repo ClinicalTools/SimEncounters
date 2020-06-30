@@ -46,8 +46,8 @@ namespace ClinicalTools.SimEncounters.Writer
         {
             CurrentSection = section;
 
-            if (CurrentWaitableSection?.IsCompleted == false)
-                CurrentWaitableSection.SetError("New popup opened");
+            if (CurrentWaitableSection?.IsCompleted() == false)
+                CurrentWaitableSection.SetError(new Exception("New popup opened"));
 
             CurrentWaitableSection = new WaitableResult<Section>();
             gameObject.SetActive(true);
@@ -85,8 +85,8 @@ namespace ClinicalTools.SimEncounters.Writer
 
         protected virtual void Close()
         {
-            if (CurrentWaitableSection?.IsCompleted == false)
-                CurrentWaitableSection.SetError("Canceled");
+            if (CurrentWaitableSection?.IsCompleted() == false)
+                CurrentWaitableSection.SetError(new Exception("Canceled"));
 
             gameObject.SetActive(false);
         }

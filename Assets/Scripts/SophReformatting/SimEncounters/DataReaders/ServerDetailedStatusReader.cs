@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using System;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -49,15 +50,15 @@ namespace ClinicalTools.SimEncounters
         }
 
         private void ProcessResults(WaitableResult<EncounterStatus> result,
-            ServerResult serverOutput, EncounterBasicStatus basicStatus)
+            WaitedResult<ServerResult> serverOutput, EncounterBasicStatus basicStatus)
         {
-            if (serverOutput == null || serverOutput.Outcome != ServerOutcome.Success)
+            if (serverOutput == null || serverOutput.Value.Outcome != ServerOutcome.Success)
             {
-                result.SetError(serverOutput?.Message);
+                result.SetError(new Exception(serverOutput?.Value.Message));
                 return;
             }
 
-            var contentStatus = parser.Parse(serverOutput.Message);
+            var contentStatus = parser.Parse(serverOutput.Value.Message);
             var status = new EncounterStatus(basicStatus, contentStatus);
             result.SetResult(status);
         }

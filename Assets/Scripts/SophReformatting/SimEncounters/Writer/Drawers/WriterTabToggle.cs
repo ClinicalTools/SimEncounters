@@ -95,21 +95,21 @@ namespace ClinicalTools.SimEncounters.Writer
         protected virtual void Edit()
         {
             var tab = TabEditorPopup.EditTab(CurrentEncounter, CurrentTab);
-            tab.AddOnCompletedListener((result) => FinishEdit(tab));
+            tab.AddOnCompletedListener(FinishEdit);
         }
 
-        protected virtual void FinishEdit(WaitableResult<Tab> editedTab)
+        protected virtual void FinishEdit(WaitedResult<Tab> editedTab)
         {
-            if (editedTab.IsError)
+            if (editedTab.IsError())
                 return;
 
-            if (editedTab.Result == null) {
+            if (editedTab.Value == null) {
                 Deleted?.Invoke(CurrentTab);
                 Destroy(gameObject);
                 return;
             }
 
-            CurrentTab = editedTab.Result;
+            CurrentTab = editedTab.Value;
             Edited?.Invoke(CurrentTab);
 
             Display(CurrentEncounter, CurrentTab);

@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -33,8 +34,8 @@ namespace ClinicalTools.SimEncounters.Writer
         {
             CurrentDialogue = dialoguePin;
 
-            if (CurrentWaitableDialogue?.IsCompleted == false)
-                CurrentWaitableDialogue.SetError("New popup opened");
+            if (CurrentWaitableDialogue?.IsCompleted() == false)
+                CurrentWaitableDialogue.SetError(new Exception("New popup opened"));
 
             CurrentWaitableDialogue = new WaitableResult<DialoguePin>();
 
@@ -60,8 +61,8 @@ namespace ClinicalTools.SimEncounters.Writer
 
         protected virtual void Close()
         {
-            if (CurrentWaitableDialogue?.IsCompleted == false)
-                CurrentWaitableDialogue.SetError("Canceled");
+            if (CurrentWaitableDialogue?.IsCompleted() == false)
+                CurrentWaitableDialogue.SetError(new Exception("Canceled"));
 
             gameObject.SetActive(false);
         }

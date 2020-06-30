@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using System;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
@@ -28,7 +29,7 @@ namespace ClinicalTools.SimEncounters
             return metadatas;
         }
 
-        private void ProcessResults(WaitableResult<List<EncounterMetadata>> result, string[] fileTexts)
+        private void ProcessResults(WaitableResult<List<EncounterMetadata>> result, WaitedResult<string[]> fileTexts)
         {
             if (fileTexts == null)
             {
@@ -37,7 +38,7 @@ namespace ClinicalTools.SimEncounters
             }
 
             var metadatas = new List<EncounterMetadata>();
-            foreach (var fileText in fileTexts)
+            foreach (var fileText in fileTexts.Value)
             {
                 var metadata = parser.Parse(fileText);
                 if (metadata != null)
@@ -69,31 +70,31 @@ namespace ClinicalTools.SimEncounters
             return metadatas;
         }
 
-        private const string menuPhp = "Menu.php";
-        private const string modeVariable = "mode";
-        private const string modeValue = "downloadForOneAccount";
-        private const string accountVariable = "account_id";
+        private const string MENU_PHP = "Menu.php";
+        private const string MODE_VARIABLE = "mode";
+        private const string MODE_VALUE = "downloadForOneAccount";
+        private const string ACCOUNT_VARIABLE = "account_id";
 
         private UnityWebRequest GetWebRequest(User user)
         {
             var arguments = new UrlArgument[] {
-                new UrlArgument(modeVariable, modeValue),
-                new UrlArgument(accountVariable, user.AccountId.ToString())
+                new UrlArgument(MODE_VARIABLE, MODE_VALUE),
+                new UrlArgument(ACCOUNT_VARIABLE, user.AccountId.ToString())
             };
-            var url = urlBuilder.BuildUrl(menuPhp, arguments);
+            var url = urlBuilder.BuildUrl(MENU_PHP, arguments);
             return UnityWebRequest.Get(url);
         }
 
 
-        private void ProcessResults(WaitableResult<List<EncounterMetadata>> result, ServerResult serverOutput)
+        private void ProcessResults(WaitableResult<List<EncounterMetadata>> result, WaitedResult<ServerResult> serverOutput)
         {
-            if (serverOutput == null || serverOutput.Outcome != ServerOutcome.Success)
+            if (serverOutput == null || serverOutput.Value.Outcome != ServerOutcome.Success)
             {
-                result.SetError(serverOutput?.Message);
+                result.SetError(new Exception(serverOutput?.Value.Message));
                 return;
             }
 
-            var metadatas = parser.Parse(serverOutput.Message);
+            var metadatas = parser.Parse(serverOutput.Value.Message);
             result.SetResult(metadatas);
         }
     }

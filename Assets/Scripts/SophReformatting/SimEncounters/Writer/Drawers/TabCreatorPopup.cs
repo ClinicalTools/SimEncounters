@@ -1,5 +1,6 @@
 ﻿using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.Extensions;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -36,7 +37,7 @@ namespace ClinicalTools.SimEncounters.Writer
 
         public virtual WaitableResult<Tab> CreateTab()
         {
-            CurrentWaitableTab?.SetError("New popup opened");
+            CurrentWaitableTab?.SetError(new Exception("New popup opened"));
             CurrentWaitableTab = new WaitableResult<Tab>();
 
             gameObject.SetActive(true);
@@ -84,7 +85,7 @@ namespace ClinicalTools.SimEncounters.Writer
         protected virtual void Close()
         {
             if (CurrentWaitableTab != null) {
-                CurrentWaitableTab.SetError("Canceled");
+                CurrentWaitableTab.SetError(new Exception("Canceled"));
                 CurrentWaitableTab = null;
             }
             gameObject.SetActive(false);

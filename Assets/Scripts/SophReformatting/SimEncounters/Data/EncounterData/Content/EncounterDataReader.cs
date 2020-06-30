@@ -11,13 +11,13 @@ namespace ClinicalTools.SimEncounters
             WaitableResult<EncounterContent> content,
             WaitableResult<EncounterImageData> imageData)
         {
-            if (result.IsCompleted || !content.IsCompleted || !imageData.IsCompleted)
+            if (result.IsCompleted() || !content.IsCompleted() || !imageData.IsCompleted())
                 return;
 
-            if (imageData.Result is CEEncounterImageData ceImageData)
-                UpdateLegacySections(content.Result, ceImageData);
+            if (imageData.Result.Value is CEEncounterImageData ceImageData)
+                UpdateLegacySections(content.Result.Value, ceImageData);
 
-            var encounterData = new EncounterData(content.Result, imageData.Result);
+            var encounterData = new EncounterData(content.Result.Value, imageData.Result.Value);
             result.SetResult(encounterData);
         }
 
@@ -56,10 +56,10 @@ namespace ClinicalTools.SimEncounters
             WaitableResult<EncounterContent> content,
             WaitableResult<EncounterImageData> imageData)
         {
-            if (result.IsCompleted || !content.IsCompleted || !imageData.IsCompleted)
+            if (result.IsCompleted() || !content.IsCompleted() || !imageData.IsCompleted())
                 return;
 
-            var encounterData = new EncounterData(content.Result, imageData.Result);
+            var encounterData = new EncounterData(content.Result.Value, imageData.Result.Value);
             result.SetResult(encounterData);
         }
     }

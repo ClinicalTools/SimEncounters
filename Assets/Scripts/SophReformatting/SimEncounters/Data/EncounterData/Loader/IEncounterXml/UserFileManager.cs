@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -25,7 +26,7 @@ namespace ClinicalTools.SimEncounters
         {
             var filepath = GetFilepath(user, fileType, metadata);
             if (!File.Exists(filepath))
-                return new WaitableResult<string>(null, "File doesn't exist", true);
+                return new WaitableResult<string>(new Exception("File doesn't exist"));
             var text = File.ReadAllText(filepath);
             return new WaitableResult<string>(text);
         }

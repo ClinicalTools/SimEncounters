@@ -6,8 +6,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-
 namespace ClinicalTools.ClinicalEncounters.Reader
 {
     public class CECompletionPopup : BaseCompletionPopup

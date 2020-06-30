@@ -5,6 +5,7 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters.Writer
 {
+
     public class EncounterWriterInstaller : MonoInstaller
     {
         protected FileManagerInstaller FileManagerInstaller { get; set; }

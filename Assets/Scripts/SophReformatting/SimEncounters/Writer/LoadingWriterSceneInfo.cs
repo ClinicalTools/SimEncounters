@@ -18,7 +18,7 @@ namespace ClinicalTools.SimEncounters.Writer
             Encounter.AddOnCompletedListener(EncounterRetrieved);
         }
 
-        private void EncounterRetrieved(Encounter encounter)
+        private void EncounterRetrieved(WaitedResult<Encounter> encounter)
         {
             var loadedInfo = new WriterSceneInfo(this);
             Result.SetResult(loadedInfo);

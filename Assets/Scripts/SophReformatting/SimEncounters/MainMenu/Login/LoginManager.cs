@@ -15,28 +15,28 @@
         {
             var user = new WaitableResult<User>();
             var autoLoginUser = AutoLogin.Login();
-            autoLoginUser.AddOnCompletedListener((result) => AutoLoginCompleted(user, autoLoginUser));
+            autoLoginUser.AddOnCompletedListener((result) => AutoLoginCompleted(user, result));
 
             return user;
         }
 
-        private void AutoLoginCompleted(WaitableResult<User> result, WaitableResult<User> autoLoginUser)
+        private void AutoLoginCompleted(WaitableResult<User> result, WaitedResult<User> autoLoginUser)
         {
-            if (!autoLoginUser.IsError) {
-                result.SetResult(autoLoginUser.Result, autoLoginUser.Message);
+            if (!autoLoginUser.IsError()) {
+                result.SetResult(autoLoginUser.Value);
                 return;
             }
 
             var manualLoginUser = ManualLogin.Login();
-            manualLoginUser.AddOnCompletedListener((manualLoginResult) => ManualLoginCompleted(result, autoLoginUser));
+            manualLoginUser.AddOnCompletedListener((manualLoginResult) => ManualLoginCompleted(result, manualLoginResult));
         }
 
-        private void ManualLoginCompleted(WaitableResult<User> result, WaitableResult<User> manualLoginUser)
+        private void ManualLoginCompleted(WaitableResult<User> result, WaitedResult<User> manualLoginUser)
         {
-            if (manualLoginUser.IsError)
-                result.SetError(manualLoginUser.Message);
+            if (manualLoginUser.IsError())
+                result.SetError(manualLoginUser.Exception);
             else
-                result.SetResult(manualLoginUser.Result, manualLoginUser.Message);
+                result.SetResult(manualLoginUser.Value);
         }
     }
 }

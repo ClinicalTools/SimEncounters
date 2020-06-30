@@ -107,9 +107,9 @@ namespace ClinicalTools.SimEncounters.Writer
          */
         private byte[] GetFileAsByteArray(string data) => Encoding.UTF8.GetBytes(data);
 
-        private void ProcessResults(ServerResult serverResult)
+        private void ProcessResults(WaitedResult<ServerResult> serverResult)
         {
-            Debug.Log("Returned text from PHP: \n" + serverResult.Message);
+            Debug.Log("Returned text from PHP: \n" + serverResult.Value.Message);
         }
     }
 }

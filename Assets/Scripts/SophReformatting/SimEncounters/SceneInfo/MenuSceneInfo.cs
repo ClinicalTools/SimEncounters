@@ -12,7 +12,7 @@ namespace ClinicalTools.SimEncounters
         {
             User = loadingMenuSceneInfo.User;
             LoadingScreen = loadingMenuSceneInfo.LoadingScreen;
-            MenuEncountersInfo = loadingMenuSceneInfo.MenuEncountersInfo.Result;
+            MenuEncountersInfo = loadingMenuSceneInfo.MenuEncountersInfo.Result.Value;
         }
     }
 }

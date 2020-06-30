@@ -106,21 +106,21 @@ namespace ClinicalTools.SimEncounters.Writer
         protected virtual void Edit()
         {
             var section =  SectionEditorPopup.EditSection(CurrentEncounter, CurrentSection);
-            section.AddOnCompletedListener((result) => FinishEdit(section));
+            section.AddOnCompletedListener(FinishEdit);
         }
 
-        protected virtual void FinishEdit(WaitableResult<Section> editedSection)
+        protected virtual void FinishEdit(WaitedResult<Section> editedSection)
         {
-            if (editedSection.IsError)
+            if (editedSection.IsError())
                 return;
             
-            if (editedSection.Result == null) {
+            if (editedSection.Value == null) {
                 Deleted?.Invoke(CurrentSection);
                 Destroy(gameObject);
                 return;
             }
 
-            CurrentSection = editedSection.Result;
+            CurrentSection = editedSection.Value;
             Edited?.Invoke(CurrentSection);
 
             Display(CurrentEncounter, CurrentSection);

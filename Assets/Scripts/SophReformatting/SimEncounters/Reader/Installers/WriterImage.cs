@@ -58,13 +58,13 @@ namespace ClinicalTools.SimEncounters.Writer
         protected virtual void SelectImage()
         {
             var newImageKey = SpritePopup.SelectSprite(CurrentEncounter.Images.Sprites, Value);
-            newImageKey.AddOnCompletedListener((result) => ImageSelected(newImageKey));
+            newImageKey.AddOnCompletedListener(ImageSelected);
         }
 
-        protected virtual void ImageSelected(WaitableResult<string> imageKey)
+        protected virtual void ImageSelected(WaitedResult<string> imageKey)
         {
-            if (!imageKey.IsError)
-                SetSprite(imageKey.Result);
+            if (!imageKey.IsError())
+                SetSprite(imageKey.Value);
         }
     }
 }

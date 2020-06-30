@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -43,8 +44,8 @@ namespace ClinicalTools.SimEncounters.Writer
 
             NameField.text = tab.Name;
 
-            if (CurrentWaitableTab?.IsCompleted == false)
-                CurrentWaitableTab.SetError("New popup opened");
+            if (CurrentWaitableTab?.IsCompleted() == false)
+                CurrentWaitableTab.SetError(new Exception("New popup opened"));
             CurrentWaitableTab = new WaitableResult<Tab>();
             return CurrentWaitableTab;
         }
@@ -71,8 +72,8 @@ namespace ClinicalTools.SimEncounters.Writer
 
         protected virtual void Close()
         {
-            if (CurrentWaitableTab?.IsCompleted == false)
-                CurrentWaitableTab.SetError("Canceled");
+            if (CurrentWaitableTab?.IsCompleted() == false)
+                CurrentWaitableTab.SetError(new Exception("Canceled"));
 
             gameObject.SetActive(false);
         }
