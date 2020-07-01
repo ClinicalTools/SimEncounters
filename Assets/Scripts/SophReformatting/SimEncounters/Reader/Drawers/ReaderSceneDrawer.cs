@@ -77,16 +77,15 @@ namespace ClinicalTools.SimEncounters.Reader
         }
 
         protected virtual void ConfirmReturnToMainMenu()
-        {
-            ConfirmationPopup.ShowConfirmation(ReturnToMainMenu, "RETURN TO MAIN MENU",
+            => ConfirmationPopup.ShowConfirmation(ReturnToMainMenu, "RETURN TO MAIN MENU",
                 "Are you sure you want to exit?");
-        }
+
         protected virtual void ReturnToMainMenu()
         {
             var categories = MenuInfoReader.GetMenuEncountersInfo(LoadingSceneInfo.User);
             var menuSceneInfo = new LoadingMenuSceneInfo(LoadingSceneInfo.User, LoadingSceneInfo.LoadingScreen, categories);
 
-            StatusWriter.WriteStatus(userEncounter);
+            SaveStatus();
 
             MenuSceneStarter.StartScene(menuSceneInfo);
         }
@@ -100,13 +99,10 @@ namespace ClinicalTools.SimEncounters.Reader
         protected void OnApplicationPause(bool pauseStatus)
         {
             if (pauseStatus)
-                GameClosed();
+                SaveStatus();
         }
-        protected void OnApplicationQuit() => GameClosed();
+        protected void OnApplicationQuit() => SaveStatus();
 
-        protected virtual void GameClosed()
-        {
-
-        }
+        protected virtual void SaveStatus() => StatusWriter.WriteStatus(userEncounter);
     }
 }

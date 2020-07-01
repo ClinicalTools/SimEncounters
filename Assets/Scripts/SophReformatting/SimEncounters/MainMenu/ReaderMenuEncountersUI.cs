@@ -6,6 +6,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class ReaderMenuEncountersUI : BaseMenuSceneDrawer
     {
+        public bool SelectCategory { get => selectCategory; set => selectCategory = value; }
+        [SerializeField] private bool selectCategory;
+
         public BaseCategorySelector CategorySelector { get => categorySelector; set => categorySelector = value; }
         [SerializeField] private BaseCategorySelector categorySelector;
         public BaseEncounterSelector EncounterSelector { get => encounterSelector; set => encounterSelector = value; }
@@ -49,13 +52,20 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public override void Display(LoadingMenuSceneInfo loadingSceneInfo)
         {
             AddListeners();
-            ShowCategoriesToggle.Display();
 
             EncounterSelector.Initialize();
             foreach (var downloadingMessageObject in DownloadingMessageObjects)
                 downloadingMessageObject.SetActive(true);
-            ShowCategoriesToggle.Select();
-            DisplayCategories();
+
+            if (SelectCategory) {
+                ShowCategoriesToggle.Display();
+                ShowCategoriesToggle.Select();
+                DisplayCategories();
+            } else {
+                ShowCategoriesToggle.Hide();
+                ShowEncountersToggle.Hide();
+                CategorySelector.Hide();
+            }
 
             loadingSceneInfo.Result.AddOnCompletedListener(SceneInfoLoaded);
         }
@@ -67,7 +77,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 downloadingMessageObject.SetActive(false);
 
             SceneInfo = sceneInfo.Value;
-            CategorySelector.Display(sceneInfo.Value, sceneInfo.Value.MenuEncountersInfo.GetCategories());
+
+
+            if (SelectCategory)
+                CategorySelector.Display(sceneInfo.Value, sceneInfo.Value.MenuEncountersInfo.GetCategories());
+            else
+                EncounterSelector.DisplayForRead(SceneInfo, SceneInfo.MenuEncountersInfo.GetEncounters());
         }
 
         private void DisplayCategories()

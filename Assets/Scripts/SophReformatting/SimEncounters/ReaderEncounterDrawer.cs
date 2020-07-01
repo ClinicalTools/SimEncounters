@@ -61,6 +61,8 @@ namespace ClinicalTools.SimEncounters.Reader
         protected UserEncounter UserEncounter { get; set; }
         public override void Display(UserEncounter userEncounter)
         {
+            // An old user encounter should have listeners removed
+
             GeneralEncounterDrawer.Display(userEncounter);
 
             UserEncounter = userEncounter;
@@ -69,6 +71,19 @@ namespace ClinicalTools.SimEncounters.Reader
 
             var currentSection = userEncounter.Data.Content.GetCurrentSectionKey();
             SelectSection(userEncounter.GetSection(currentSection));
+
+            if (userEncounter.IsRead())
+                FinishButton.interactable = true;
+            else
+                userEncounter.StatusChanged += UpdateFinishButtonActive;
+        }
+
+        protected virtual void UpdateFinishButtonActive()
+        {
+            if (!UserEncounter.IsRead())
+                return;
+            UserEncounter.StatusChanged -= UpdateFinishButtonActive;
+            FinishButton.interactable = true;
         }
 
         protected virtual UserSection CurrentSection { get; set; }

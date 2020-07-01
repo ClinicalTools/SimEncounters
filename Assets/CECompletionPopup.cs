@@ -20,6 +20,8 @@ namespace ClinicalTools.ClinicalEncounters.Reader
         [SerializeField] private Button urlButton;
         public TMP_InputField CompletionCodeLabel { get => completionCodeLabel; set => completionCodeLabel = value; }
         [SerializeField] private TMP_InputField completionCodeLabel;
+        public Button CopyCodeButton { get => copyCodeButton; set => copyCodeButton = value; }
+        [SerializeField] private Button copyCodeButton;
 
         public override event Action ReturnToMenu;
         
@@ -29,28 +31,38 @@ namespace ClinicalTools.ClinicalEncounters.Reader
             foreach (var closeButton in CloseButtons)
                 closeButton.onClick.AddListener(Hide);
             UrlButton.onClick.AddListener(StartUrl);
+            CopyCodeButton.onClick.AddListener(CopyCode);
         }
 
-        protected string Url { get; set; }
+        protected CEEncounterMetadata CurrentMetadata { get; set; }
         public override void Display(Encounter encounter)
         {
             gameObject.SetActive(true);
             if (!(encounter.Metadata is CEEncounterMetadata ceMetadata))
                 return;
-            Url = ceMetadata.Url;
+            CurrentMetadata = ceMetadata;
             UrlLabel.text = ceMetadata.Url;
             CompletionCodeLabel.text = ceMetadata.CompletionCode;
         }
 
         protected virtual void StartUrl()
         {
-            if (string.IsNullOrWhiteSpace(Url))
+            if (string.IsNullOrWhiteSpace(CurrentMetadata.Url))
                 return;
 
-            Application.OpenURL(Url);
+            Application.OpenURL(CurrentMetadata.Url);
         }
 
         protected virtual void Hide() => gameObject.SetActive(false);
+
+        protected virtual void CopyCode()
+        {
+            var textEditor = new TextEditor {
+                text = CurrentMetadata.CompletionCode
+            };
+            textEditor.SelectAll();
+            textEditor.Copy();
+        }
     }
 
 

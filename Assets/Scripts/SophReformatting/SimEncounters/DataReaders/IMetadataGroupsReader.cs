@@ -1,4 +1,6 @@
-﻿using ClinicalTools.SimEncounters.Data;
+﻿//#define DEMO
+
+using ClinicalTools.SimEncounters.Data;
 using System.Collections.Generic;
 using Zenject;
 
@@ -31,9 +33,13 @@ namespace ClinicalTools.SimEncounters
         public WaitableResult<Dictionary<int, Dictionary<SaveType, EncounterMetadata>>> GetMetadataGroups(User user)
         {
             var metadatasResults = new Dictionary<SaveType, WaitableResult<List<EncounterMetadata>>>();
+#if DEMO
+            if (metadatasReaders.ContainsKey(SaveType.Demo))
+                metadatasResults.Add(SaveType.Demo, metadatasReaders[SaveType.Demo].GetMetadatas(user));
+#else
             foreach (var metadatasReader in metadatasReaders)
                 metadatasResults.Add(metadatasReader.Key, metadatasReader.Value.GetMetadatas(user));
-
+#endif
             var metadataGroups = new WaitableResult<Dictionary<int, Dictionary<SaveType, EncounterMetadata>>>();
 
             foreach (var metadatasResult in metadatasResults)

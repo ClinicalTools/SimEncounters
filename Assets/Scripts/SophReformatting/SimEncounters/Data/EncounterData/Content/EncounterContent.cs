@@ -61,5 +61,14 @@ namespace ClinicalTools.SimEncounters.Data
 
             return CurrentSectionIndex;
         }
+
+        public int GetCurrentTabNumber()
+        {
+            var tabNumber = 1;
+            for (int i = 0; i < CurrentSectionIndex; i++)
+                tabNumber += Sections[i].Value.Tabs.Count;
+            tabNumber += Sections[CurrentSectionIndex].Value.CurrentTabIndex;
+            return tabNumber;
+        }
     }
 }
