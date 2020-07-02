@@ -1,5 +1,4 @@
-﻿using ClinicalTools.SimEncounters.Collections;
-using ClinicalTools.SimEncounters.Data;
+﻿using ClinicalTools.SimEncounters.Data;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,11 +7,12 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderQuizPopupUI : UserQuizPinDrawer
     {
-        [SerializeField] private List<Button> closeButtons = new List<Button>();
         public List<Button> CloseButtons { get => closeButtons; set => closeButtons = value; }
-
-        [SerializeField] private BaseReaderPanelsCreator panelCreator;
+        [SerializeField] private List<Button> closeButtons = new List<Button>();
         public BaseReaderPanelsCreator PanelCreator { get => panelCreator; set => panelCreator = value; }
+        [SerializeField] private BaseReaderPanelsCreator panelCreator;
+        public ScrollRect ScrollRect { get => scrollRect; set => scrollRect = value; }
+        [SerializeField] private ScrollRect scrollRect;
 
         protected List<BaseReaderPanel> ReaderPanels { get; set; }
 
@@ -26,6 +26,8 @@ namespace ClinicalTools.SimEncounters.Reader
         {
             gameObject.SetActive(true);
             ReaderPanels = PanelCreator.DrawChildPanels(quizPin.GetPanels());
+
+            ScrollRect.normalizedPosition = Vector2.one;
         }
 
         protected virtual void Hide()

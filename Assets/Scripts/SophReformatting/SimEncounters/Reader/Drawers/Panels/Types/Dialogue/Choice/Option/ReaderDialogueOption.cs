@@ -51,5 +51,6 @@ namespace ClinicalTools.SimEncounters.Reader
         public override void SetGroup(ToggleGroup group) => Toggle.group = group;
 
         public override void SetFeedbackParent(Transform parent) => Feedback.SetParent(parent);
+        public override void CloseFeedback() => Feedback.CloseFeedback();
     }
 }

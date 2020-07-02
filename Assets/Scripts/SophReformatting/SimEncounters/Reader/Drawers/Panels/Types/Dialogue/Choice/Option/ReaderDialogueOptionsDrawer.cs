@@ -8,14 +8,12 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderDialogueOptionsDrawer : BaseDialogueOptionsDrawer
     {
-        [SerializeField] private List<BaseReaderDialogueOption> panelOptions = new List<BaseReaderDialogueOption>();
         protected List<BaseReaderDialogueOption> PanelOptions { get => panelOptions; set => panelOptions = value; }
-
-        [SerializeField] private ToggleGroup toggleGroup;
+        [SerializeField] private List<BaseReaderDialogueOption> panelOptions = new List<BaseReaderDialogueOption>();
         protected ToggleGroup ToggleGroup { get => toggleGroup; set => toggleGroup = value; }
-
-        [SerializeField] private Transform feedbackParent;
+        [SerializeField] private ToggleGroup toggleGroup;
         public virtual Transform FeedbackParent { get => feedbackParent; set => feedbackParent = value; }
+        [SerializeField] private Transform feedbackParent;
 
 
         public override List<BaseReaderDialogueOption> DrawChildPanels(IEnumerable<UserPanel> childPanels)
@@ -29,7 +27,8 @@ namespace ClinicalTools.SimEncounters.Reader
                 var option = Instantiate(prefab, transform);
                 option.Display(childPanel);
                 option.SetGroup(toggleGroup);
-                option.SetFeedbackParent(FeedbackParent);
+                if (FeedbackParent != null)
+                    option.SetFeedbackParent(FeedbackParent);
                 options.Add(option);
             }
 

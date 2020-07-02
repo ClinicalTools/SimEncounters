@@ -7,11 +7,12 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderDialoguePopupUI : UserDialoguePinDrawer
     {
-        [SerializeField] private List<Button> closeButtons = new List<Button>();
         public List<Button> CloseButtons { get => closeButtons; set => closeButtons = value; }
-
-        [SerializeField] private BaseReaderPanelsCreator panelCreator;
+        [SerializeField] private List<Button> closeButtons = new List<Button>();
         public BaseReaderPanelsCreator PanelCreator { get => panelCreator; set => panelCreator = value; }
+        [SerializeField] private BaseReaderPanelsCreator panelCreator;
+        public ScrollRect ScrollRect { get => scrollRect; set => scrollRect = value; }
+        [SerializeField] private ScrollRect scrollRect;
 
         protected List<BaseReaderPanel> ReaderPanels { get; set; }
 
@@ -25,6 +26,8 @@ namespace ClinicalTools.SimEncounters.Reader
         {
             gameObject.SetActive(true);
             ReaderPanels = PanelCreator.DrawChildPanels(dialoguePin.GetPanels());
+
+            ScrollRect.normalizedPosition = Vector2.one;
         }
 
         protected virtual void Hide()

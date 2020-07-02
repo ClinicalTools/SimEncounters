@@ -1,5 +1,4 @@
-﻿using ClinicalTools.SimEncounters.Collections;
-using ClinicalTools.SimEncounters.Data;
+﻿using ClinicalTools.SimEncounters.Data;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,8 +9,6 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderDialogueChoice : BaseReaderDialogueChoice
     {
-        public Transform FeedbackParent { get => feedbackParent; set => feedbackParent = value; }
-        [SerializeField] private Transform feedbackParent;
         public virtual GameObject Instructions { get => instructions; set => instructions = value; }
         [SerializeField] private GameObject instructions;
         public Button ShowOptionsButton { get => showOptionsButton; set => showOptionsButton = value; }
@@ -26,6 +23,12 @@ namespace ClinicalTools.SimEncounters.Reader
         [Inject] public virtual void Inject(IReaderPanelDisplay basicPanelDrawer) => BasicPanelDrawer = basicPanelDrawer;
 
         protected List<BaseReaderDialogueOption> Options { get; set; }
+
+        protected virtual void Awake()
+        {
+            ShowOptionsButton.onClick.AddListener(ShowOptions);
+        }
+
         public override void Display(UserPanel panel)
         {
             BasicPanelDrawer.Display(panel, transform, transform);
@@ -41,7 +44,19 @@ namespace ClinicalTools.SimEncounters.Reader
                 if (option != selectedOption)
                     option.gameObject.SetActive(false);
             }
+            Instructions.gameObject.SetActive(false);
+            ShowOptionsButton.gameObject.SetActive(true);
             Completed?.Invoke();
+        }
+
+        protected virtual void ShowOptions()
+        {
+            foreach (var option in Options) {
+                option.gameObject.SetActive(true);
+                option.CloseFeedback();
+            }
+            Instructions.gameObject.SetActive(true);
+            ShowOptionsButton.gameObject.SetActive(false);
         }
     }
 }
