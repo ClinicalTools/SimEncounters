@@ -30,14 +30,6 @@ namespace ClinicalTools.SimEncounters.Reader
 
         public event Action Finish;
 
-        private EncounterStatusSerializer statusSerializer;
-        private IParser<EncounterContentStatus> statusDeserializer;
-        [Inject] public virtual void Inject(EncounterStatusSerializer statusSerializer, IParser<EncounterContentStatus> statusDeserializer)
-        {
-            this.statusSerializer = statusSerializer;
-            this.statusDeserializer = statusDeserializer;
-        }
-
         protected virtual void Awake()
         {
             SectionSelector.SectionSelected += OnSectionSelected;
@@ -48,20 +40,12 @@ namespace ClinicalTools.SimEncounters.Reader
             FinishButton.onClick.AddListener(Finished);
         }
 
-        private void Finished()
-        {
-            var x = statusSerializer.Serialize(UserEncounter.Status.ContentStatus);
-            var status2 = statusDeserializer.Parse(x);
-            var y = statusSerializer.Serialize(status2);
-            Debug.Log($"{x}\n{y}");
-
-            Finish?.Invoke();
-        }
+        private void Finished() => Finish?.Invoke();
 
         protected UserEncounter UserEncounter { get; set; }
         public override void Display(UserEncounter userEncounter)
         {
-            // An old user encounter should have listeners removed
+            // TODO: remove listeners from previously displayed UserEncounter
 
             GeneralEncounterDrawer.Display(userEncounter);
 
@@ -73,7 +57,7 @@ namespace ClinicalTools.SimEncounters.Reader
             SelectSection(userEncounter.GetSection(currentSection));
 
             if (userEncounter.IsRead())
-                FinishButton.interactable = true;
+                EnableFinishButton();
             else
                 userEncounter.StatusChanged += UpdateFinishButtonActive;
         }
@@ -82,8 +66,14 @@ namespace ClinicalTools.SimEncounters.Reader
         {
             if (!UserEncounter.IsRead())
                 return;
-            UserEncounter.StatusChanged -= UpdateFinishButtonActive;
+            UserEncounter.StatusChanged -= UpdateFinishButtonActive; 
+            EnableFinishButton();
+        }
+
+        protected virtual void EnableFinishButton()
+        {
             FinishButton.interactable = true;
+            FinishButton.image.color = Color.white;
         }
 
         protected virtual UserSection CurrentSection { get; set; }

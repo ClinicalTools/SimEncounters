@@ -77,8 +77,8 @@ namespace ClinicalTools.SimEncounters.Writer
             if (SceneInfo == null)
                 return;
 
-            EncounterWriter.Save(SceneInfo.User, SceneInfo.Encounter);
             EncounterDrawer.Serialize();
+            EncounterWriter.Save(SceneInfo.User, SceneInfo.Encounter);
 
             var encounter = new UserEncounter(SceneInfo.User, SceneInfo.Encounter, new EncounterStatus(new EncounterBasicStatus(), new EncounterContentStatus()));
             var encounterResult = new WaitableResult<UserEncounter>(encounter);

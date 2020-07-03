@@ -45,6 +45,7 @@ namespace ClinicalTools.SimEncounters.Data
             if (Status.ContentStatus.Read == read)
                 return;
             Status.ContentStatus.Read = read;
+            Status.BasicStatus.Completed = true;
             StatusChanged?.Invoke();
         }
     }

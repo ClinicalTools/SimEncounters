@@ -1,8 +1,4 @@
-﻿#if !UNITY_STANDALONE
-#define USE_MOBILE
-#endif
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -17,7 +13,7 @@ namespace ClinicalTools.SimEncounters
 
         public override void InstallBindings()
         {
-#if USE_MOBILE
+#if MOBILE
             foreach (var installer in MobileInstallers)
                 installer.Install(Container);
 #else

@@ -45,6 +45,8 @@ public class ExitGameScript : MonoBehaviour {
 
     public void ConfirmExit()
     {
+        ExitApplication(this);
+        /*
         GameObject panel = Instantiate(Resources.Load("Writer/Prefabs/Panels/ConfirmActionBG"), GameObject.Find("GaudyBG").transform) as GameObject;
         panel.name = "ConfirmActionBG";
         ConfirmationScript cs = panel.GetComponent<ConfirmationScript>();
@@ -52,6 +54,7 @@ public class ExitGameScript : MonoBehaviour {
         cs.actionText.text = "Are you sure you want to quit?";
         cs.obj = null;
         cs.MethodToConfirm = ExitApplication;
+        */
     }
 
 

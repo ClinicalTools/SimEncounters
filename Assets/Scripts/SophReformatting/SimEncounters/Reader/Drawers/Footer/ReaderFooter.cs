@@ -38,7 +38,7 @@ namespace ClinicalTools.SimEncounters.Reader
             UserEncounter = encounter;
 
             if (encounter.IsRead())
-                FinishCaseButton.interactable = true;
+                EnableFinishButton();
             else
                 encounter.StatusChanged += UpdateFinishButtonActive;
         }
@@ -48,8 +48,15 @@ namespace ClinicalTools.SimEncounters.Reader
             if (!UserEncounter.IsRead())
                 return;
             UserEncounter.StatusChanged -= UpdateFinishButtonActive;
-            FinishCaseButton.interactable = true;
+            EnableFinishButton();
         }
+
+        protected virtual void EnableFinishButton()
+        {
+            FinishCaseButton.interactable = true;
+            FinishCaseButton.image.color = Color.white;
+        }
+
         protected UserSection CurrentSection { get; set; }
         public override void SelectSection(UserSection section)
         {

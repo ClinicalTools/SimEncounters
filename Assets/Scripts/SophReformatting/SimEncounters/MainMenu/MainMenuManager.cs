@@ -13,12 +13,12 @@ namespace ClinicalTools.SimEncounters.MainMenu
     {
         public BaseMenuSceneDrawer MenuDrawer { get => menuDrawer; set => menuDrawer = value; }
         [SerializeField] private BaseMenuSceneDrawer menuDrawer;
-
         public LoadingScreen LoadingScreen { get => loadingScreen; set => loadingScreen = value; }
         [SerializeField] private LoadingScreen loadingScreen;
-
         public SomethingSomethingLogin LoginHandler { get => login; set => login = value; }
         [SerializeField] private SomethingSomethingLogin login;
+        public GameObject WelcomeScreen { get => welcomeScreen; set => welcomeScreen = value; }
+        [SerializeField] private GameObject welcomeScreen;
 
         protected IMenuEncountersInfoReader MenuInfoReader { get; set; }
         [Inject] public virtual void Inject(IMenuEncountersInfoReader menuInfoReader) => MenuInfoReader = menuInfoReader;
@@ -39,8 +39,13 @@ namespace ClinicalTools.SimEncounters.MainMenu
                 Login(User.Guest);
         }
 
-        protected override void StartAsLaterScene() => Destroy(LoadingScreen.gameObject);
+        protected override void StartAsLaterScene()
+        {
+            if (WelcomeScreen != null)
+                WelcomeScreen.SetActive(false);
 
+            Destroy(LoadingScreen.gameObject);
+        }
         public void Display(LoadingMenuSceneInfo sceneInfo) => MenuDrawer.Display(sceneInfo);
 
         protected virtual void Logout()

@@ -69,7 +69,7 @@ namespace ClinicalTools.ClinicalEncounters.Writer
             Audience.Initialize(metadata.Audience);
             Difficulty.value = (int)metadata.Difficulty;
             PrivateToggle.isOn = !metadata.IsPublic;
-            TemplateToggle.isOn = !metadata.IsTemplate;
+            TemplateToggle.isOn = metadata.IsTemplate;
             if (metadata is CEEncounterMetadata ceMetadata) {
                 URL.text = ceMetadata.Url;
                 CompletionCode.text = ceMetadata.CompletionCode;
@@ -89,7 +89,7 @@ namespace ClinicalTools.ClinicalEncounters.Writer
             metadata.Audience = Audience.Value;
             metadata.Difficulty = (Difficulty)Difficulty.value;
             metadata.IsPublic = !PrivateToggle.isOn;
-            metadata.IsTemplate = !TemplateToggle.isOn;
+            metadata.IsTemplate = TemplateToggle.isOn;
             if (metadata is CEEncounterMetadata ceMetadata) {
                 ceMetadata.Url = URL.text;
                 ceMetadata.CompletionCode = CompletionCode.text;

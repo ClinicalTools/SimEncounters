@@ -1,6 +1,4 @@
-﻿//#define DEMO
-
-using ClinicalTools.SimEncounters.Data;
+﻿using ClinicalTools.SimEncounters.Data;
 using System.Collections.Generic;
 using Zenject;
 

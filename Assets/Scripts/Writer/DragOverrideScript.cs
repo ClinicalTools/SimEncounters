@@ -7,38 +7,38 @@ public class DragOverrideScript : CEScrollRect
 {
     protected override void Start()
     {
-        if (GlobalData.GDS != null && GlobalData.GDS.isMobile) {
-            inertia = true;
-            decelerationRate = .05f;
-        }
+#if MOBILE
+        inertia = true;
+        decelerationRate = .05f;
+#endif
 
         base.Start();
     }
 
     protected virtual bool CanDrag()
     {
-        return false;
+#if MOBILE
         return MouseInput.Instance.CanDrag && content.rect.height > viewport.rect.height;
+#else  
+        return false;
+#endif
     }
 
     public override void OnBeginDrag(PointerEventData data)
     {
-        if (CanDrag()) {
+        if (CanDrag())
             base.OnBeginDrag(data);
-        }
     }
 
     public override void OnDrag(PointerEventData data)
     {
-        if (CanDrag()) {
+        if (CanDrag())
             base.OnDrag(data);
-        }
     }
 
     public override void OnEndDrag(PointerEventData data)
     {
-        if (CanDrag()) {
+        if (CanDrag())
             base.OnEndDrag(data);
-        }
     }
 }

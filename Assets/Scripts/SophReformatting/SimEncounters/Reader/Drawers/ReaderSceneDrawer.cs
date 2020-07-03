@@ -82,10 +82,10 @@ namespace ClinicalTools.SimEncounters.Reader
 
         protected virtual void ReturnToMainMenu()
         {
+            SaveStatus();
+
             var categories = MenuInfoReader.GetMenuEncountersInfo(LoadingSceneInfo.User);
             var menuSceneInfo = new LoadingMenuSceneInfo(LoadingSceneInfo.User, LoadingSceneInfo.LoadingScreen, categories);
-
-            SaveStatus();
 
             MenuSceneStarter.StartScene(menuSceneInfo);
         }

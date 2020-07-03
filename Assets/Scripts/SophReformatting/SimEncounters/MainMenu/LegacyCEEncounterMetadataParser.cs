@@ -30,8 +30,8 @@ namespace ClinicalTools.ClinicalEncounters
         private const int lastNameIndex = 4;
         private const int recordNumberIndex = 5;
         private const int difficultyIndex = 6;
-        private const int descriptionIndex = 8;
-        private const int subtitleIndex = 7;
+        private const int descriptionIndex = 7;
+        private const int subtitleIndex = 8;
         private const int categoriesIndex = 9;
         private const int dateModifiedIndex = 10;
         private const int audienceIndex = 11;
