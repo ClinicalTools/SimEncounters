@@ -12,6 +12,8 @@ namespace ClinicalTools.ClinicalEncounters.Reader
     {
         public List<Button> CloseButtons { get => closeButtons; set => closeButtons = value; }
         [SerializeField] private List<Button> closeButtons;
+        public Button ContinueButton { get => continueButton; set => continueButton = value; }
+        [SerializeField] private Button continueButton;
         public Button MenuButton { get => menuButton; set => menuButton = value; }
         [SerializeField] private Button menuButton;
         public TextMeshProUGUI UrlLabel { get => urlLabel; set => urlLabel = value; }
@@ -23,11 +25,19 @@ namespace ClinicalTools.ClinicalEncounters.Reader
         public Button CopyCodeButton { get => copyCodeButton; set => copyCodeButton = value; }
         [SerializeField] private Button copyCodeButton;
 
-        public override event Action ReturnToMenu;
+        public override event Action ExitScene;
         
         protected virtual void Awake()
         {
-            MenuButton.onClick.AddListener(() => ReturnToMenu?.Invoke());
+#if !STANDALONE_SCENE
+            MenuButton.gameObject.SetActive(true);
+            MenuButton.onClick.AddListener(() => ExitScene?.Invoke());
+            ContinueButton.gameObject.SetActive(false);
+#else
+            MenuButton.gameObject.SetActive(false);
+            ContinueButton.gameObject.SetActive(true);
+            ContinueButton.onClick.AddListener(Hide);
+#endif
             foreach (var closeButton in CloseButtons)
                 closeButton.onClick.AddListener(Hide);
             UrlButton.onClick.AddListener(StartUrl);
@@ -47,10 +57,8 @@ namespace ClinicalTools.ClinicalEncounters.Reader
 
         protected virtual void StartUrl()
         {
-            if (string.IsNullOrWhiteSpace(CurrentMetadata.Url))
-                return;
-
-            Application.OpenURL(CurrentMetadata.Url);
+            if (!string.IsNullOrWhiteSpace(CurrentMetadata.Url))
+                Application.OpenURL(CurrentMetadata.Url);
         }
 
         protected virtual void Hide() => gameObject.SetActive(false);

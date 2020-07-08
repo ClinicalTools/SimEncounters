@@ -6,7 +6,7 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public abstract class BaseCompletionPopup : MonoBehaviour
     {
-        public abstract event Action ReturnToMenu;
+        public abstract event Action ExitScene;
 
         public abstract void Display(Encounter encounter);
     }

@@ -5667,7 +5667,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -0.00012207031}
-  m_SizeDelta: {x: 0, y: 20}
+  m_SizeDelta: {x: 0, y: 415}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &568656402
 MonoBehaviour:
@@ -10002,7 +10002,6 @@ GameObject:
   - component: {fileID: 1226876262}
   - component: {fileID: 1226876261}
   - component: {fileID: 1226876260}
-  - component: {fileID: 1226876259}
   - component: {fileID: 1226876258}
   m_Layer: 5
   m_Name: ReturnToMainMenu
@@ -10056,18 +10055,6 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
---- !u!114 &1226876259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1226876256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc3678b3f4f076f42b3fae5ad85ad000, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1226876260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10111,18 +10098,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1226876261}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1774521973589433}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: MobileMainMenu
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1226876261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13679,8 +13655,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainMenuButtons:
-  - {fileID: 114323986346132579}
-  writerButton: {fileID: 0}
+  - {fileID: 1226876260}
+  exitButton: {fileID: 0}
   encounterDrawer: {fileID: 1595584733}
   completionPopup: {fileID: 7079643196224874328}
 --- !u!114 &1595584737
