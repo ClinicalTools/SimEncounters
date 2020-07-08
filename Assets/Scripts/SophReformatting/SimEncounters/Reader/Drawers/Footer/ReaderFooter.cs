@@ -15,8 +15,10 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private Button nextTabButton;
         public virtual Button NextSectionButton { get => nextSectionButton; set => nextSectionButton = value; }
         [SerializeField] private Button nextSectionButton;
-        public virtual Button FinishCaseButton { get => finishCaseButton; set => finishCaseButton = value; }
-        [SerializeField] private Button finishCaseButton;
+        public virtual Button FinishButton { get => finishButton; set => finishButton = value; }
+        [SerializeField] private Button finishButton;
+        public virtual TextMeshProUGUI FinishButtonText { get => finishButtonText; set => finishButtonText = value; }
+        [SerializeField] private TextMeshProUGUI finishButtonText;
 
 
         public override event SectionSelectedHandler SectionSelected;
@@ -29,7 +31,7 @@ namespace ClinicalTools.SimEncounters.Reader
         {
             NextTabButton.onClick.AddListener(GoToNextTab);
             NextSectionButton.onClick.AddListener(GoToNextSection);
-            FinishCaseButton.onClick.AddListener(() => Finished?.Invoke());
+            FinishButton.onClick.AddListener(() => Finished?.Invoke());
         }
 
         protected UserEncounter UserEncounter { get; set; }
@@ -53,8 +55,9 @@ namespace ClinicalTools.SimEncounters.Reader
 
         protected virtual void EnableFinishButton()
         {
-            FinishCaseButton.interactable = true;
-            FinishCaseButton.image.color = Color.white;
+            FinishButton.interactable = true;
+            FinishButton.image.color = Color.white;
+            FinishButtonText.color = Color.white;
         }
 
         protected UserSection CurrentSection { get; set; }
@@ -83,7 +86,7 @@ namespace ClinicalTools.SimEncounters.Reader
             }
             NextTabButton.gameObject.SetActive(nextTabButtonVisible);
             NextSectionButton.gameObject.SetActive(nextSectionButtonVisible);
-            FinishCaseButton.gameObject.SetActive(finishButtonVisible);
+            FinishButton.gameObject.SetActive(finishButtonVisible);
 
             PageInfoLabel.text = $"Page: {UserEncounter.Data.Content.GetCurrentTabNumber()}";
 

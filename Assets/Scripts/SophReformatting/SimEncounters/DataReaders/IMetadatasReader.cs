@@ -5,6 +5,42 @@ using UnityEngine.Networking;
 
 namespace ClinicalTools.SimEncounters
 {
+    public interface IMetadataReader
+    {
+        WaitableResult<EncounterMetadata> GetMetadata(User user, EncounterMetadata metadata);
+    }
+    public class LocalMetadataReader : IMetadataReader
+    {
+        private readonly IFileManager fileManager;
+        private readonly IParser<EncounterMetadata> parser;
+        public LocalMetadataReader(IFileManager fileManager, IParser<EncounterMetadata> parser)
+        {
+            this.fileManager = fileManager;
+            this.parser = parser;
+        }
+
+        public WaitableResult<EncounterMetadata> GetMetadata(User user, EncounterMetadata metadata)
+        {
+            var metadataResult = new WaitableResult<EncounterMetadata>();
+
+            var fileText = fileManager.GetFileText(user, FileType.Metadata, metadata);
+            fileText.AddOnCompletedListener((result) => ProcessResults(metadataResult, result));
+
+            return metadataResult;
+        }
+
+        private void ProcessResults(WaitableResult<EncounterMetadata> result, WaitedResult<string> fileText)
+        {
+            if (fileText.Value == null) {
+                result.SetError(null);
+                return;
+            }
+
+            var metadata = parser.Parse(fileText.Value);
+            result.SetResult(metadata);
+        }
+    }
+
     public interface IMetadatasReader
     {
         WaitableResult<List<EncounterMetadata>> GetMetadatas(User user);
@@ -31,15 +67,13 @@ namespace ClinicalTools.SimEncounters
 
         private void ProcessResults(WaitableResult<List<EncounterMetadata>> result, WaitedResult<string[]> fileTexts)
         {
-            if (fileTexts == null)
-            {
+            if (fileTexts == null) {
                 result.SetError(null);
                 return;
             }
 
             var metadatas = new List<EncounterMetadata>();
-            foreach (var fileText in fileTexts.Value)
-            {
+            foreach (var fileText in fileTexts.Value) {
                 var metadata = parser.Parse(fileText);
                 if (metadata != null)
                     metadatas.Add(metadata);
@@ -88,8 +122,7 @@ namespace ClinicalTools.SimEncounters
 
         private void ProcessResults(WaitableResult<List<EncounterMetadata>> result, WaitedResult<ServerResult> serverOutput)
         {
-            if (serverOutput == null || serverOutput.Value.Outcome != ServerOutcome.Success)
-            {
+            if (serverOutput == null || serverOutput.Value.Outcome != ServerOutcome.Success) {
                 result.SetError(new Exception(serverOutput?.Value.Message));
                 return;
             }
@@ -99,4 +132,3 @@ namespace ClinicalTools.SimEncounters
         }
     }
 }
- 

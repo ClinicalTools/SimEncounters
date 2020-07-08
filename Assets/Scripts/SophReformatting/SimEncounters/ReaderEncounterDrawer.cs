@@ -1,5 +1,6 @@
 ﻿using ClinicalTools.SimEncounters.Data;
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -25,6 +26,8 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private BaseReaderFooter footer;
         public Button FinishButton { get => finishButton; set => finishButton = value; }
         [SerializeField] private Button finishButton;
+        public virtual TextMeshProUGUI FinishButtonText { get => finishButtonText; set => finishButtonText = value; }
+        [SerializeField] private TextMeshProUGUI finishButtonText;
         public BaseUserEncounterDrawer GeneralEncounterDrawer { get => generalEncounterDrawer; set => generalEncounterDrawer = value; }
         [SerializeField] private BaseUserEncounterDrawer generalEncounterDrawer;
 
@@ -74,6 +77,7 @@ namespace ClinicalTools.SimEncounters.Reader
         {
             FinishButton.interactable = true;
             FinishButton.image.color = Color.white;
+            FinishButtonText.color = Color.white;
         }
 
         protected virtual UserSection CurrentSection { get; set; }

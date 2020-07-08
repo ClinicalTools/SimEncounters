@@ -91,8 +91,8 @@ namespace ClinicalTools.ClinicalEncounters.Writer
             metadata.IsPublic = !PrivateToggle.isOn;
             metadata.IsTemplate = TemplateToggle.isOn;
             if (metadata is CEEncounterMetadata ceMetadata) {
-                ceMetadata.Url = URL.text;
-                ceMetadata.CompletionCode = CompletionCode.text;
+                ceMetadata.Url = URL.text.Trim();
+                ceMetadata.CompletionCode = CompletionCode.text.Trim();
             }
         }
         protected virtual void Save()

@@ -1,4 +1,5 @@
-﻿using ClinicalTools.SimEncounters.Data;
+﻿using ClinicalTools.ClinicalEncounters;
+using ClinicalTools.SimEncounters.Data;
 using UnityEngine;
 using Zenject;
 
@@ -6,33 +7,43 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderManager : SceneManager, IReaderSceneDrawer
     {
+        public string DefaultEncounterFileName { get => defaultEncounterFileName; set => defaultEncounterFileName = value; }
+        [SerializeField] private string defaultEncounterFileName;
         public BaseReaderSceneDrawer ReaderDrawer { get => readerDrawer; set => readerDrawer = value; }
         [SerializeField] private BaseReaderSceneDrawer readerDrawer;
 
+        protected IMetadataReader MetadataReader { get; set; }
         protected IUserEncounterReader EncounterReader { get; set; }
-        [Inject] public virtual void Inject(IUserEncounterReader encounterReader) => EncounterReader = encounterReader;
-
+        [Inject]
+        public virtual void Inject(IMetadataReader metadataReader, IUserEncounterReader encounterReader)
+        {
+            MetadataReader = metadataReader;
+            EncounterReader = encounterReader;
+        }
         protected override void StartAsInitialScene()
         {
-            var metadata = new EncounterMetadata() {
-                Filename = "289342Dave Abbott",
-                Title = "Chad Wright",
-                Subtitle = "Chronic Knee Pain",
-                Audience = "MD/DO/PA/NP",
-                Description = "Chad Wright is a 35 yo male presenting with chronic knee pain that started with a high school football injury. " +
-                "His pain management has included chronic opioid therapy in recent years. " +
-                "He now presents as a new patient requesting a prescription for opioids.",
-                Difficulty = Difficulty.Intermediate
+            var tempMetadata = new EncounterMetadata() {
+                Filename = DefaultEncounterFileName
             };
-
-            var fullEncounter = EncounterReader.GetUserEncounter(User.Guest, metadata, new EncounterBasicStatus(), SaveType.Demo);
-            var sceneInfo = new LoadingReaderSceneInfo(User.Guest, null, fullEncounter);
-
-            Display(sceneInfo);
+            var metadataResult = MetadataReader.GetMetadata(User.Guest, tempMetadata);
+            metadataResult.AddOnCompletedListener(MetadataRetrieved);
         }
 
         protected override void StartAsLaterScene() { }
 
+
+        public virtual void MetadataRetrieved(WaitedResult<EncounterMetadata> metadata)
+        {
+            if (metadata.Value == null) {
+                Debug.LogError("Metadata is null.");
+                return;
+            }
+
+            var fullEncounter = EncounterReader.GetUserEncounter(User.Guest, metadata.Value, new EncounterBasicStatus(), SaveType.Demo);
+            var sceneInfo = new LoadingReaderSceneInfo(User.Guest, null, fullEncounter);
+
+            Display(sceneInfo);
+        }
         public virtual void Display(LoadingReaderSceneInfo sceneInfo) => ReaderDrawer.Display(sceneInfo);
     }
 }

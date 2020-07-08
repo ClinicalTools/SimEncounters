@@ -29,6 +29,8 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void InstallMetadataReaderBindings(DiContainer subcontainer)
         {
+            subcontainer.Bind<IMetadataReader>().FromSubContainerResolve().ByMethod(InstallMetadataReader).AsTransient();
+
             subcontainer.Bind<IMetadataGroupsReader>().To<MetadataGroupsReader>().AsTransient();
             foreach (SaveType saveType in Enum.GetValues(typeof(SaveType))) {
                 subcontainer.Bind<IMetadatasReader>().WithId(saveType)
@@ -36,6 +38,13 @@ namespace ClinicalTools.SimEncounters
                         (container) => BindMetadatasReaderInstaller(container, saveType)).AsTransient();
             }
         }
+
+        protected virtual void InstallMetadataReader(DiContainer subcontainer)
+        {
+            subcontainer.Bind<IMetadataReader>().To<LocalMetadataReader>().AsTransient();
+            FileManagerInstaller.BindFileManager(subcontainer, SaveType.Demo);
+        }
+
         protected virtual void BindMetadatasReaderInstaller(DiContainer subcontainer, SaveType saveType)
         {
             if (saveType == SaveType.Server) {

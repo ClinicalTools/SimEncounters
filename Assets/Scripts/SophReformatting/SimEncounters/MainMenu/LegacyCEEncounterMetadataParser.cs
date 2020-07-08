@@ -65,8 +65,8 @@ namespace ClinicalTools.ClinicalEncounters
                     EditorVersion = parsedItem[editorVersionIndex],
                     IsPublic = GetBoolValue(parsedItem[isPublicIndex]),
                     IsTemplate = GetBoolValue(parsedItem[isTemplateIndex]),
-                    Url = parsedItem[urlIndex],
-                    CompletionCode = parsedItem[completionCodeIndex]
+                    Url = parsedItem[urlIndex].Trim(),
+                    CompletionCode = parsedItem[completionCodeIndex].Trim()
                 };
                 if (float.TryParse(parsedItem[ratingIndex], out var rating))
                     metadata.Rating = rating;

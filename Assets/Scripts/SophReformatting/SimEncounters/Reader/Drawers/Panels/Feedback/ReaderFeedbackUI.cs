@@ -26,19 +26,16 @@ namespace ClinicalTools.SimEncounters.Reader
 
         public TextMeshProUGUI IsCorrectLabel { get => isCorrectLabel; set => isCorrectLabel = value; }
         [SerializeField] private TextMeshProUGUI isCorrectLabel;
-
         public Image Stripes { get => stripes; set => stripes = value; }
         [SerializeField] private Image stripes;
-
         public List<Image> ColoredImages { get => coloredImages; set => coloredImages = value; }
         [SerializeField] private List<Image> coloredImages = new List<Image>();
-
+        public List<Image> AnsweredColoredImages { get => answeredColoredImages; set => answeredColoredImages = value; }
+        [SerializeField] private List<Image> answeredColoredImages = new List<Image>();
         public Button CloseButton { get => closeButton; set => closeButton = value; }
         [SerializeField] private Button closeButton;
-
         public List<GameObject> ControlledObjects { get => controlledObjects; set => controlledObjects = value; }
         [SerializeField] private List<GameObject> controlledObjects = new List<GameObject>();
-
         public List<GameObject> CorrectObjects { get => correctObjects; set => correctObjects = value; }
         [SerializeField] private List<GameObject> correctObjects = new List<GameObject>();
         public List<GameObject> IncorrectObjects { get => incorrectObjects; set => incorrectObjects = value; }
@@ -65,6 +62,10 @@ namespace ClinicalTools.SimEncounters.Reader
 
             Color color = FeedbackColorInfo.GetColor(OptionType);
             foreach (var image in ColoredImages)
+                image.color = color;
+            if (!isOn)
+                color = FeedbackColorInfo.GetDefaultColor();
+            foreach (var image in AnsweredColoredImages)
                 image.color = color;
 
             IsCorrectLabel.text = GetOptionTypeText(OptionType, isOn);

@@ -14,7 +14,6 @@ namespace ClinicalTools.ClinicalEncounters
             set { throw new Exception("Cannot set title directly for CE Encounter."); }
         }
 
-
         public CEEncounterMetadata() : base() { }
         public CEEncounterMetadata(EncounterMetadata baseEncounterInfo) : base(baseEncounterInfo) { }
 
