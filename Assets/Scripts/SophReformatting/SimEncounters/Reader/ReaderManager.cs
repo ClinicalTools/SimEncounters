@@ -22,6 +22,8 @@ namespace ClinicalTools.SimEncounters.Reader
         }
         protected override void StartAsInitialScene()
         {
+            Screen.fullScreen = false;
+
             var tempMetadata = new EncounterMetadata() {
                 Filename = DefaultEncounterFileName
             };

@@ -8,6 +8,14 @@ using UnityEngine.UI;
 
 namespace ClinicalTools.ClinicalEncounters.Reader
 {
+    public class TextCopier
+    {
+        public void CopyText(string text)
+        {
+
+        }
+    }
+
     public class CECompletionPopup : BaseCompletionPopup
     {
         public List<Button> CloseButtons { get => closeButtons; set => closeButtons = value; }
@@ -26,7 +34,7 @@ namespace ClinicalTools.ClinicalEncounters.Reader
         [SerializeField] private Button copyCodeButton;
 
         public override event Action ExitScene;
-        
+
         protected virtual void Awake()
         {
 #if !STANDALONE_SCENE
@@ -40,7 +48,8 @@ namespace ClinicalTools.ClinicalEncounters.Reader
 #endif
             foreach (var closeButton in CloseButtons)
                 closeButton.onClick.AddListener(Hide);
-            UrlButton.onClick.AddListener(StartUrl);
+            if (UrlButton != null)
+                UrlButton.onClick.AddListener(StartUrl);
             CopyCodeButton.onClick.AddListener(CopyCode);
         }
 
@@ -51,7 +60,8 @@ namespace ClinicalTools.ClinicalEncounters.Reader
             if (!(encounter.Metadata is CEEncounterMetadata ceMetadata))
                 return;
             CurrentMetadata = ceMetadata;
-            UrlLabel.text = ceMetadata.Url;
+            if (UrlLabel != null)
+                UrlLabel.text = ceMetadata.Url;
             CompletionCodeLabel.text = ceMetadata.CompletionCode;
         }
 
@@ -65,11 +75,15 @@ namespace ClinicalTools.ClinicalEncounters.Reader
 
         protected virtual void CopyCode()
         {
+#if UNITY_WEBGL
+            //WebGLCopyAndPasteAPI.PassCopyToBrowser(CurrentMetadata.CompletionCode);
+#else
             var textEditor = new TextEditor {
                 text = CurrentMetadata.CompletionCode
             };
             textEditor.SelectAll();
             textEditor.Copy();
+#endif
         }
     }
 
