@@ -8,14 +8,6 @@ using UnityEngine.UI;
 
 namespace ClinicalTools.ClinicalEncounters.Reader
 {
-    public class TextCopier
-    {
-        public void CopyText(string text)
-        {
-
-        }
-    }
-
     public class CECompletionPopup : BaseCompletionPopup
     {
         public List<Button> CloseButtons { get => closeButtons; set => closeButtons = value; }
@@ -46,6 +38,12 @@ namespace ClinicalTools.ClinicalEncounters.Reader
             ContinueButton.gameObject.SetActive(true);
             ContinueButton.onClick.AddListener(Hide);
 #endif
+
+#if UNITY_WEBGL
+            if (!Application.isEditor)
+                WebGLCopyAndPasteAPI.Init(name, "GetClipboard", "ReceivePaste");
+#endif
+
             foreach (var closeButton in CloseButtons)
                 closeButton.onClick.AddListener(Hide);
             if (UrlButton != null)
@@ -76,7 +74,7 @@ namespace ClinicalTools.ClinicalEncounters.Reader
         protected virtual void CopyCode()
         {
 #if UNITY_WEBGL
-            //WebGLCopyAndPasteAPI.PassCopyToBrowser(CurrentMetadata.CompletionCode);
+            WebGLCopyAndPasteAPI.PassCopyToBrowser(CurrentMetadata.CompletionCode);
 #else
             var textEditor = new TextEditor {
                 text = CurrentMetadata.CompletionCode
