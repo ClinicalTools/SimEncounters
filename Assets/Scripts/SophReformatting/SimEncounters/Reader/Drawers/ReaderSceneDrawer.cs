@@ -20,6 +20,8 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private BaseUserEncounterDrawer encounterDrawer;
         public BaseCompletionPopup CompletionPopup { get => completionPopup; set => completionPopup = value; }
         [SerializeField] private BaseCompletionPopup completionPopup;
+        public BaseCompletionPopup WebGLCompletionPopup { get => webGLCompletionPopup; set => webGLCompletionPopup = value; }
+        [SerializeField] private BaseCompletionPopup webGLCompletionPopup;
 
         public bool StandaloneScene { get; set; }
 
@@ -52,8 +54,13 @@ namespace ClinicalTools.SimEncounters.Reader
 
         protected virtual void Awake()
         {
-            if (EncounterDrawer is ICompletable completable)
+            if (EncounterDrawer is ICompletable completable) {
+#if STANDALONE_SCENE
+                completable.Finish += () => WebGLCompletionPopup.Display(userEncounter.Data);
+#else
                 completable.Finish += () => CompletionPopup.Display(userEncounter.Data);
+#endif
+            }
             CompletionPopup.ExitScene += ExitScene;
         }
 

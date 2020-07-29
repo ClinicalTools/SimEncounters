@@ -40,6 +40,9 @@ namespace ClinicalTools.SimEncounters.Reader
             Footer.TabSelected += OnTabSelected;
             Footer.Finished += Finished;
             FinishButton.onClick.AddListener(Finished);
+#if STANDALONE_SCENE
+            FinishButton.gameObject.SetActive(false);
+#endif
         }
 
         private void Finished() => Finish?.Invoke();
