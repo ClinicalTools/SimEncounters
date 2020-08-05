@@ -4,8 +4,8 @@ namespace ClinicalTools.SimEncounters
 {
     public class UrlBuilder : IUrlBuilder
     {
-        protected virtual string ServerAddress { get; } = @"https://takecontrolgame.com/docs/games/CECreator/PHP/";
-        //protected virtual string ServerAddress { get; } = @"http://localhost/SimEncounters/";
+        //protected virtual string ServerAddress { get; } = @"https://takecontrolgame.com/docs/games/CECreator/PHP/";
+        protected virtual string ServerAddress { get; } = @"http://localhost/SimEncounters/";
 
         public virtual string BuildUrl(string page, IEnumerable<UrlArgument> arguments)
             => $"{ServerAddress}{page}{GetArgumentsString(arguments)}";

@@ -64,8 +64,10 @@ namespace ClinicalTools.SimEncounters.Writer
         {
             CurrentEncounter = encounter;
 
-            foreach (var writerPanel in WriterPanels.Values)
-                Destroy(writerPanel.gameObject);
+            foreach (var writerPanel in WriterPanels.Values) {
+                if (writerPanel != null)
+                    Destroy(writerPanel.gameObject);
+            }
 
             var blah = new Something();
             WriterPanels = new OrderedCollection<BaseWriterPanel>();

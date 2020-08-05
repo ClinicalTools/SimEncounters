@@ -1,5 +1,4 @@
-﻿using ClinicalTools.ClinicalEncounters;
-using ClinicalTools.SimEncounters.Data;
+﻿using ClinicalTools.SimEncounters.Data;
 using UnityEngine;
 using Zenject;
 
@@ -11,6 +10,8 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private string defaultEncounterFileName;
         public BaseReaderSceneDrawer ReaderDrawer { get => readerDrawer; set => readerDrawer = value; }
         [SerializeField] private BaseReaderSceneDrawer readerDrawer;
+        public GameObject StartScreen { get => startScreen; set => startScreen = value; }
+        [SerializeField] private GameObject startScreen;
 
         protected IMetadataReader MetadataReader { get; set; }
         protected IUserEncounterReader EncounterReader { get; set; }
@@ -31,7 +32,10 @@ namespace ClinicalTools.SimEncounters.Reader
             metadataResult.AddOnCompletedListener(MetadataRetrieved);
         }
 
-        protected override void StartAsLaterScene() { }
+        protected override void StartAsLaterScene() {
+            if (StartScreen != null)
+                StartScreen.SetActive(true);
+        }
 
 
         public virtual void MetadataRetrieved(WaitedResult<EncounterMetadata> metadata)

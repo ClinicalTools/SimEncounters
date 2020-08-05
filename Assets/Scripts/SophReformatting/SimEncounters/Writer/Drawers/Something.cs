@@ -22,8 +22,14 @@ namespace ClinicalTools.SimEncounters.Writer
 
         public virtual OrderedCollection<Panel> SerializeChildren(OrderedCollection<BaseWriterPanel> writerPanels)
         {
-            var panelsArr = new KeyValuePair<string, BaseWriterPanel>[writerPanels.Count];
+            List<KeyValuePair<string, BaseWriterPanel>> nonNullPanels = new List<KeyValuePair<string, BaseWriterPanel>>();
             foreach (var panel in writerPanels) {
+                if (panel.Value != null)
+                    nonNullPanels.Add(panel);
+            }
+
+            var panelsArr = new KeyValuePair<string, BaseWriterPanel>[nonNullPanels.Count];
+            foreach (var panel in nonNullPanels) {
                 var index = panel.Value.transform.GetSiblingIndex();
                 panelsArr[index] = panel;
             }
