@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -10,8 +11,13 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private string defaultEncounterFileName;
         public BaseReaderSceneDrawer ReaderDrawer { get => readerDrawer; set => readerDrawer = value; }
         [SerializeField] private BaseReaderSceneDrawer readerDrawer;
-        public GameObject StartScreen { get => startScreen; set => startScreen = value; }
-        [SerializeField] private GameObject startScreen;
+
+        public List<GameObject> StandaloneSceneObjects { get => standaloneSceneObjects; set => standaloneSceneObjects = value; }
+        [SerializeField] private List<GameObject> standaloneSceneObjects;
+        // I can't find a good antonym for standalone
+        // Variable naming is truly the hardest part of programming
+        public List<GameObject> NonStandaloneSceneObjects { get => nonStandaloneSceneObjects; set => nonStandaloneSceneObjects = value; }
+        [SerializeField] private List<GameObject> nonStandaloneSceneObjects;
 
         protected IMetadataReader MetadataReader { get; set; }
         protected IUserEncounterReader EncounterReader { get; set; }
@@ -30,11 +36,25 @@ namespace ClinicalTools.SimEncounters.Reader
             };
             var metadataResult = MetadataReader.GetMetadata(User.Guest, tempMetadata);
             metadataResult.AddOnCompletedListener(MetadataRetrieved);
+
+#if STANDALONE_SCENE
+            foreach (var standaloneSceneObject in StandaloneSceneObjects)
+                standaloneSceneObject.SetActive(true);
+            foreach (var nonStandaloneSceneObject in NonStandaloneSceneObjects)
+                nonStandaloneSceneObject.SetActive(false);
+#else
+            foreach (var standaloneSceneObject in StandaloneSceneObjects)
+                standaloneSceneObject.SetActive(false);
+            foreach (var nonStandaloneSceneObject in NonStandaloneSceneObjects)
+                nonStandaloneSceneObject.SetActive(true);
+#endif
         }
 
         protected override void StartAsLaterScene() {
-            if (StartScreen != null)
-                StartScreen.SetActive(true);
+            foreach (var standaloneSceneObject in StandaloneSceneObjects)
+                standaloneSceneObject.SetActive(false);
+            foreach (var nonStandaloneSceneObject in NonStandaloneSceneObjects)
+                nonStandaloneSceneObject.SetActive(true);
         }
 
 
