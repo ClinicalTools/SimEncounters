@@ -9,11 +9,6 @@ namespace ClinicalTools.Layout
         public RectTransform RectTransform => (RectTransform)transform;
         public event Action<Transform> RectTransformDimensionsChange;
 
-        protected override void Awake()
-        {
-            base.Awake();
-        }
-
         protected override void OnRectTransformDimensionsChange()
         {
             RectTransformDimensionsChange?.Invoke(transform);
