@@ -2,15 +2,53 @@
 
 namespace ClinicalTools.SimEncounters
 {
-    public class WaitedResult<T>
+    public class WaitableResult
     {
-        public T Value { get; protected set; }
-        public Exception Exception { get; }
+        public WaitedResult Result { get; protected set; }
+        public bool IsCompleted() => Result != null;
+        private event Action<WaitedResult> Completed;
 
-        public WaitedResult(T value) => Value = value;
-        public WaitedResult(Exception exception) => Exception = exception;
+        public WaitableResult(bool completed = false)
+        {
+            if (completed)
+                Result = new WaitedResult();
+        }
+        public WaitableResult(Exception exception) => Result = new WaitedResult(exception);
 
-        public bool IsError() => Exception != null;
+        public void SetCompleted()
+        {
+            if (IsCompleted())
+                throw new Exception("Result already completed.");
+
+            Result = new WaitedResult();
+            Complete();
+        }
+        public void SetError(Exception exception)
+        {
+            if (IsCompleted())
+                throw new Exception("Result already set.");
+
+            Result = new WaitedResult(exception);
+            Complete();
+        }
+
+        protected void Complete()
+        {
+            if (Completed == null)
+                return;
+
+            Completed(Result);
+            foreach (Delegate d in Completed.GetInvocationList())
+                Completed -= (Action<WaitedResult>)d;
+        }
+
+        public void AddOnCompletedListener(Action<WaitedResult> action)
+        {
+            if (IsCompleted())
+                action.Invoke(Result);
+            else
+                Completed += action;
+        }
     }
 
     public class WaitableResult<T>

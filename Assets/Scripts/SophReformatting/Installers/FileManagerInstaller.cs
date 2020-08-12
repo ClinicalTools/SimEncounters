@@ -6,6 +6,8 @@ namespace ClinicalTools.SimEncounters
 {
     public class FileManagerInstaller
     {
+        public void BindFileManagerWithId(DiContainer subcontainer, SaveType saveType)
+            => subcontainer.Bind<IFileManager>().WithId(saveType).FromSubContainerResolve().ByMethod(GetFileManagerInstaller(saveType)).AsTransient();
         public void BindFileManager(DiContainer subcontainer, SaveType saveType)
             => subcontainer.Bind<IFileManager>().FromSubContainerResolve().ByMethod(GetFileManagerInstaller(saveType)).AsTransient();
 

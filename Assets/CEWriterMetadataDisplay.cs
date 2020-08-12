@@ -105,8 +105,13 @@ namespace ClinicalTools.ClinicalEncounters.Writer
 
         protected virtual void Publish()
         {
-            Save();
-            ServerWriter.Save(CurrentUser, CurrentEncounter);
+            Serialize();
+            var savingResult = ServerWriter.Save(CurrentUser, CurrentEncounter);
+            savingResult.AddOnCompletedListener(PublishingFinished);
+
+            gameObject.SetActive(false);
         }
+
+        protected virtual void PublishingFinished(WaitedResult result) => LocalWriter.Save(CurrentUser, CurrentEncounter);
     }
 }

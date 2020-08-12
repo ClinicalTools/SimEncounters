@@ -52,17 +52,17 @@ namespace ClinicalTools.SimEncounters.MainMenu
             return form;
         }
 
-        private void ProcessResults(WaitableResult<User> result, WaitedResult<ServerResult> serverResult)
+        private void ProcessResults(WaitableResult<User> result, WaitedResult<string> serverResult)
         {
-            if (serverResult.Value.Outcome != ServerOutcome.Success)
+            if (serverResult.IsError())
             {
-                result.SetError(new Exception(serverResult.Value.Message));
+                result.SetError(serverResult.Exception);
                 return;
             }
 
-            var user = UserParser.Parse(serverResult.Value.Message);
+            var user = UserParser.Parse(serverResult.Value);
             if (user == null)
-                result.SetError(new Exception($"Could not parse user: {serverResult.Value.Message}"));
+                result.SetError(new Exception($"Could not parse user: {serverResult.Value}"));
             else
                 result.SetResult(user);
         }

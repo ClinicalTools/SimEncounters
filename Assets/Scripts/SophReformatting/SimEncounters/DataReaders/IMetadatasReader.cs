@@ -120,14 +120,14 @@ namespace ClinicalTools.SimEncounters
         }
 
 
-        private void ProcessResults(WaitableResult<List<EncounterMetadata>> result, WaitedResult<ServerResult> serverOutput)
+        private void ProcessResults(WaitableResult<List<EncounterMetadata>> result, WaitedResult<string> serverOutput)
         {
-            if (serverOutput == null || serverOutput.Value.Outcome != ServerOutcome.Success) {
-                result.SetError(new Exception(serverOutput?.Value.Message));
+            if (serverOutput == null || serverOutput.IsError()) {
+                result.SetError(serverOutput.Exception);
                 return;
             }
 
-            var metadatas = parser.Parse(serverOutput.Value.Message);
+            var metadatas = parser.Parse(serverOutput.Value);
             result.SetResult(metadatas);
         }
     }

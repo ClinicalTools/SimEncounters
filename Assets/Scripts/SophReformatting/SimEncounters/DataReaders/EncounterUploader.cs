@@ -2,6 +2,7 @@
 using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.Extensions;
 using ClinicalTools.SimEncounters.XmlSerialization;
+using System;
 using System.Text;
 using System.Xml;
 using UnityEngine;
@@ -26,17 +27,20 @@ namespace ClinicalTools.SimEncounters.Writer
         }
 
         private const string PHP_FILE = "UploadEncounter.php";
-        public void Save(User user, Encounter encounter)
+        public WaitableResult Save(User user, Encounter encounter)
         {
             if (user.IsGuest)
-                return;
+                return new WaitableResult(true);
 
             var url = UrlBuilder.BuildUrl(PHP_FILE);
             var form = CreateForm(user, encounter);
 
             var webRequest = UnityWebRequest.Post(url, form);
             var serverResults = ServerReader.Begin(webRequest);
-            serverResults.AddOnCompletedListener(ProcessResults);
+
+            var result = new WaitableResult();
+            serverResults.AddOnCompletedListener((serverResult) => ProcessResults(result, serverResult, encounter.Metadata));
+            return result;
         }
 
 
@@ -108,7 +112,7 @@ namespace ClinicalTools.SimEncounters.Writer
         private const string DescriptionVariable = "description";
         private const string SummaryVariable = "summary";
         private const string TagsVariable = "tags";
-        private const string ModifiedVariable = "modified";
+        private const string DateModifiedVariable = "modified";
         private const string AudienceVariable = "audience";
         private const string VersionVariable = "version";
         private const string VersionValue = "0.1";
@@ -124,7 +128,8 @@ namespace ClinicalTools.SimEncounters.Writer
             form.AddField(DescriptionVariable, metadata.Subtitle);
             form.AddField(SummaryVariable, metadata.Description);
             form.AddField(TagsVariable, string.Join(", ", metadata.Categories));
-            form.AddField(ModifiedVariable, metadata.DateModified.ToString());
+            metadata.ResetDateModified();
+            form.AddField(DateModifiedVariable, metadata.DateModified.ToString());
             form.AddField(AudienceVariable, metadata.Audience);
             form.AddField(VersionVariable, VersionValue);
             form.AddField(UrlVariable, metadata.Url);
@@ -139,9 +144,24 @@ namespace ClinicalTools.SimEncounters.Writer
          */
         private byte[] GetFileAsByteArray(string data) => Encoding.UTF8.GetBytes(data);
 
-        private void ProcessResults(WaitedResult<ServerResult> serverResult)
+        private void ProcessResults(WaitableResult actionResult, WaitedResult<string> serverResult, EncounterMetadata metadata)
         {
-            Debug.Log("Returned text from PHP: \n" + serverResult.Value.Message);
+            if (serverResult.IsError()) {
+                actionResult.SetError(serverResult.Exception);
+                return;
+            }
+
+            Debug.Log("Returned text from PHP: \n" + serverResult.Value);
+            if (string.IsNullOrWhiteSpace(serverResult.Value)) {
+                actionResult.SetError(new Exception("No text returned from the server."));
+                return;
+            }
+
+            var splitStr = serverResult.Value.Split('|');
+            if (int.TryParse(splitStr[0], out var recordNumber))
+                metadata.RecordNumber = recordNumber;
+
+            actionResult.SetCompleted();
         }
     }
 }

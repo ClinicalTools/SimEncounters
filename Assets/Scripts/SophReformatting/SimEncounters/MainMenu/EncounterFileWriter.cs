@@ -5,13 +5,13 @@ using System.Xml;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class LocalEncounterWriter : IEncounterWriter
+    public class EncounterFileWriter : IEncounterWriter
     {
         protected IMetadataWriter MetadataWriter { get; }
         protected IFileManager FileManager { get; }
         protected ISerializationFactory<EncounterImageData> ImageDataSerializer { get; }
         protected ISerializationFactory<EncounterContent> EncounterContentSerializer { get; }
-        public LocalEncounterWriter(
+        public EncounterFileWriter(
             IMetadataWriter metadataWriter,
             IFileManager fileManager, 
             ISerializationFactory<EncounterImageData> imageDataSerializer, 
@@ -23,7 +23,7 @@ namespace ClinicalTools.SimEncounters
             EncounterContentSerializer = encounterContentSerializer;
         }
 
-        public void Save(User user, Encounter encounter)
+        public WaitableResult Save(User user, Encounter encounter)
         {
             MetadataWriter.Save(user, encounter.Metadata);
 
@@ -36,6 +36,8 @@ namespace ClinicalTools.SimEncounters
             var imagesSerializer = new XmlSerializer(imagesDoc);
             ImageDataSerializer.Serialize(imagesSerializer, encounter.Images);
             FileManager.SetFileText(user, FileType.Image, encounter.Metadata, imagesDoc.OuterXml);
+
+            return new WaitableResult(true);
         }
     }
 
@@ -56,6 +58,7 @@ namespace ClinicalTools.SimEncounters
 
         public void Save(User user, EncounterMetadata metadata)
         {
+            metadata.ResetDateModified();
             var metadataText = MetadataSerializer.Serialize(metadata);
             FileManager.SetFileText(user, FileType.Metadata, metadata, metadataText);
         }

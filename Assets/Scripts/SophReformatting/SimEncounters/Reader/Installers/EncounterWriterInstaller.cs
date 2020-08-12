@@ -25,14 +25,21 @@ namespace ClinicalTools.SimEncounters.Writer
 
         protected virtual void BindEncounterWriterInstaller(DiContainer subcontainer, SaveType saveType)
         {
-            subcontainer.Bind<IEncounterWriter>().To<EncounterWriter>().AsTransient().WhenNotInjectedInto<EncounterWriter>();
             if (saveType == SaveType.Server) {
-                subcontainer.Bind<IEncounterWriter>().To<EncounterUploader>().AsTransient().WhenInjectedInto<EncounterWriter>();
-            } else {
-                subcontainer.Bind<IEncounterWriter>().To<LocalEncounterWriter>().AsTransient().WhenInjectedInto<EncounterWriter>();
-                subcontainer.Bind<IMetadataWriter>().To<LocalMetadataWriter>().AsTransient();
-                FileManagerInstaller.BindFileManager(subcontainer, saveType);
+                subcontainer.Bind<IEncounterWriter>().To<EncounterUploader>().AsTransient();
+                return;
             }
+
+            if (saveType == SaveType.Local) {
+                subcontainer.Bind<IEncounterWriter>().To<LocalEncounterWriter>().AsTransient().WhenNotInjectedInto<LocalEncounterWriter>();
+                subcontainer.Bind<IEncounterWriter>().To<EncounterFileWriter>().AsTransient().WhenInjectedInto<LocalEncounterWriter>();
+                FileManagerInstaller.BindFileManagerWithId(subcontainer, SaveType.Local);
+                FileManagerInstaller.BindFileManagerWithId(subcontainer, SaveType.Autosave);
+            } else {
+                subcontainer.Bind<IEncounterWriter>().To<EncounterFileWriter>().AsTransient();
+            }
+            subcontainer.Bind<IMetadataWriter>().To<LocalMetadataWriter>().AsTransient();
+            FileManagerInstaller.BindFileManager(subcontainer, saveType);
         }
     }
 }

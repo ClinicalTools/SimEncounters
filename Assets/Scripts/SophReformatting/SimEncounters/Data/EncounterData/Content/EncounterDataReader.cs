@@ -14,6 +14,15 @@ namespace ClinicalTools.SimEncounters
             if (result.IsCompleted() || !content.IsCompleted() || !imageData.IsCompleted())
                 return;
 
+            if (content.Result.IsError()) {
+                result.SetError(content.Result.Exception);
+                return;
+            }
+            if (imageData.Result.IsError()) {
+                result.SetError(imageData.Result.Exception);
+                return;
+            }
+
             if (imageData.Result.Value is CEEncounterImageData ceImageData)
                 UpdateLegacySections(content.Result.Value, ceImageData);
 

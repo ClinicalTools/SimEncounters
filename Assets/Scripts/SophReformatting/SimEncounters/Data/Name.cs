@@ -34,8 +34,8 @@ namespace ClinicalTools.SimEncounters.Data
             LastName = lastName;
         }
 
-
-        public override string ToString() => string.Join(" ", Honorific, FirstName, LastName);
+        // slightly inefficient
+        public override string ToString() => string.Join(" ", Honorific, FirstName, LastName).Trim();
 
         public int CompareTo(Name other)
         {

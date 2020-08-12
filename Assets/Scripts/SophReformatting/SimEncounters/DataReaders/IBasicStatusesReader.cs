@@ -148,14 +148,14 @@ namespace ClinicalTools.SimEncounters
 
             return UnityWebRequest.Post(url, form);
         }
-        private void ProcessResults(WaitableResult<Dictionary<int, EncounterBasicStatus>> result, WaitedResult<ServerResult> serverOutput)
+        private void ProcessResults(WaitableResult<Dictionary<int, EncounterBasicStatus>> result, WaitedResult<string> serverOutput)
         {
-            if (serverOutput == null || serverOutput.Value.Outcome != ServerOutcome.Success) {
-                result.SetError(new Exception(serverOutput?.Value.Message));
+            if (serverOutput == null || serverOutput.IsError()) {
+                result.SetError(serverOutput.Exception);
                 return;
             }
 
-            var statuses = parser.Parse(serverOutput.Value.Message);
+            var statuses = parser.Parse(serverOutput.Value);
             result.SetResult(statuses);
         }
     }

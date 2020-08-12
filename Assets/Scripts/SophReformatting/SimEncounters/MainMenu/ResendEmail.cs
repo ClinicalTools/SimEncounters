@@ -44,18 +44,18 @@ namespace ClinicalTools.SimEncounters.MainMenu
         }
 
         private const string errorSuffix = "--Could not send email";
-        private void ProcessResults(WaitedResult<ServerResult> serverResult)
+        private void ProcessResults(WaitedResult<string> serverResult)
         {
-            if (serverResult.Value.Outcome != ServerOutcome.Success) {
+            if (serverResult.IsError()) {
                 //MessageHandler.ShowMessage(serverResult.Message, true);
                 return;
             } 
-            if (!serverResult.Value.Message.EndsWith(errorSuffix)) {
+            if (!serverResult.Value.EndsWith(errorSuffix)) {
                 //MessageHandler.ShowMessage(serverResult.Message, false);
                 return;
             }
 
-            var error = serverResult.Value.Message.Substring(0, serverResult.Value.Message.Length - errorSuffix.Length);
+            var error = serverResult.Value.Substring(0, serverResult.Value.Length - errorSuffix.Length);
             //MessageHandler.ShowMessage(error, true);
         }
     }

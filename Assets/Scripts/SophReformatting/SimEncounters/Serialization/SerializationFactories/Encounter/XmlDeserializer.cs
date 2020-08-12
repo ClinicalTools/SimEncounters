@@ -182,9 +182,6 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
             var pairs = new List<KeyValuePair<string, T>>();
             foreach (var node in elementNodes) {
                 var key = keyValuePairInfo.Key.FindNodeText(node);
-                if (string.IsNullOrWhiteSpace(key))
-                    continue;
-
                 var value = GetValue(node, keyValuePairInfo.Value, serializationFactory);
                 if (value == null)
                     continue;

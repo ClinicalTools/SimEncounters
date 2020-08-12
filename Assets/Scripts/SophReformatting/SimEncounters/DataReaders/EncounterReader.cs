@@ -26,6 +26,10 @@ namespace ClinicalTools.SimEncounters
             EncounterMetadata metadata,
             WaitedResult<EncounterData> data)
         {
+            if (data.IsError()) {
+                result.SetError(data.Exception);
+                return;
+            }
             var encounterData = new Encounter(metadata, data.Value.Content, data.Value.ImageData);
             result.SetResult(encounterData);
         }

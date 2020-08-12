@@ -50,15 +50,15 @@ namespace ClinicalTools.SimEncounters
         }
 
         private void ProcessResults(WaitableResult<EncounterStatus> result,
-            WaitedResult<ServerResult> serverOutput, EncounterBasicStatus basicStatus)
+            WaitedResult<string> serverOutput, EncounterBasicStatus basicStatus)
         {
-            if (serverOutput == null || serverOutput.Value.Outcome != ServerOutcome.Success)
+            if (serverOutput == null || serverOutput.IsError())
             {
-                result.SetError(new Exception(serverOutput?.Value.Message));
+                result.SetError(new Exception(serverOutput?.Value));
                 return;
             }
 
-            var contentStatus = parser.Parse(serverOutput.Value.Message);
+            var contentStatus = parser.Parse(serverOutput.Value);
             var status = new EncounterStatus(basicStatus, contentStatus);
             result.SetResult(status);
         }

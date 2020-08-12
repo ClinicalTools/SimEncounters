@@ -73,6 +73,7 @@ namespace ClinicalTools.ClinicalEncounters.MainMenu
         protected virtual void StartCase()
         {
             CurrentMetadata.AuthorAccountId = SceneInfo.User.AccountId;
+            CurrentMetadata.AuthorName = SceneInfo.User.Name;
             CurrentMetadata.Name.FirstName = FirstNameField.text;
             CurrentMetadata.Name.LastName = LastNameField.text;
             CurrentMetadata.Description = DescriptionField.text;

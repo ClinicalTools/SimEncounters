@@ -12,7 +12,8 @@ namespace ClinicalTools.SimEncounters.Writer
         {
             User = loadingEncounterSceneInfo.User;
             LoadingScreen = loadingEncounterSceneInfo.LoadingScreen;
-            Encounter = loadingEncounterSceneInfo.Encounter.Result.Value;
+            if (!loadingEncounterSceneInfo.Encounter.Result.IsError())
+                Encounter = loadingEncounterSceneInfo.Encounter.Result.Value;
         }
     }
 }

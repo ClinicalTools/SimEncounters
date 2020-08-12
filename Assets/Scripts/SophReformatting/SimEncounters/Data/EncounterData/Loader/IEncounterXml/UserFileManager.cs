@@ -104,7 +104,7 @@ namespace ClinicalTools.SimEncounters
             var files = Directory.GetFiles(GetFolder(user), $"{metadata.Filename}*");
             foreach (var file in files) {
                 foreach (FileType fileType in Enum.GetValues(typeof(FileType))) {
-                    if (!file.EndsWith(fileExtensionManager.GetExtension(fileType), StringComparison.InvariantCultureIgnoreCase))
+                    if (!file.EndsWith($".{fileExtensionManager.GetExtension(fileType)}", StringComparison.InvariantCultureIgnoreCase))
                         continue;
 
                     File.Delete(file);

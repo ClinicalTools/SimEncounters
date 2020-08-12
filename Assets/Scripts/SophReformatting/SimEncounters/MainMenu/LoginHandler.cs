@@ -65,7 +65,7 @@ namespace ClinicalTools.SimEncounters
         }
         protected virtual void ProcessAutoLoginResult(WaitedResult<User> user)
         {
-            if (user.Value == null)
+            if (user.IsError() || user.Value == null)
                 ShowManualLogin();
             else
                 CurrentWaitableResult.SetResult(user.Value);

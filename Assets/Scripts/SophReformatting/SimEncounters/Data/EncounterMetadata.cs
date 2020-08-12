@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ClinicalTools.SimEncounters.Data
 {
@@ -24,7 +25,7 @@ namespace ClinicalTools.SimEncounters.Data
         public virtual string EditorVersion { get; set; } = "0";
         public virtual bool IsTemplate { get; set; }
         public virtual bool IsPublic { get; set; }
-        public virtual string GetDesiredFilename() => RecordNumber + '_' + Title;
+        public virtual string GetDesiredFilename() => $"{RecordNumber}_{Title}";
 
 
         public EncounterMetadata() { }
@@ -40,5 +41,8 @@ namespace ClinicalTools.SimEncounters.Data
         }
 
         public virtual string GetRecordNumberString() => RecordNumber.ToString("D6");
+
+        private readonly DateTime unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        public virtual long ResetDateModified() => DateModified = (long)(DateTime.UtcNow - unixEpoch).TotalSeconds;
     }
 }

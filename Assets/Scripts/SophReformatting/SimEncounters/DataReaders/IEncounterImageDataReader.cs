@@ -29,7 +29,10 @@ namespace ClinicalTools.SimEncounters
 
         private void ProcessResults(WaitableResult<EncounterImageData> result, WaitedResult<string> fileText)
         {
-            result.SetResult(parser.Parse(fileText.Value));
+            if (fileText.IsError())
+                result.SetError(fileText.Exception);
+            else
+                result.SetResult(parser.Parse(fileText.Value));
         }
     }
     public class ServerImageDataReader : IImageDataReader
@@ -78,9 +81,9 @@ namespace ClinicalTools.SimEncounters
             return UnityWebRequest.Get(url);
         }
 
-        private void ProcessResults(WaitableResult<EncounterImageData> result, WaitedResult<ServerResult> serverResult)
+        private void ProcessResults(WaitableResult<EncounterImageData> result, WaitedResult<string> serverResult)
         {
-            result.SetResult(parser.Parse(serverResult.Value.Message));
+            result.SetResult(parser.Parse(serverResult.Value));
         }
     }
 }
