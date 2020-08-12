@@ -17,7 +17,7 @@ namespace ClinicalTools.SimEncounters
         {
             subcontainer.Bind<IStringSplitter>().To<DoubleColonStringSplitter>().AsTransient();
             subcontainer.Bind<IParser<List<EncounterMetadata>>>().To<ListParser<EncounterMetadata>>().AsTransient();
-            subcontainer.Bind<IParser<EncounterMetadata>>().To<CEEncounterMetadataDeserializer>().AsTransient()
+            subcontainer.Bind<IParser<EncounterMetadata>>().To<BestCEEncounterMetadataDeserializer>().AsTransient()
                     .WhenNotInjectedInto<CEEncounterMetadataDeserializer>();
             subcontainer.Bind<IParser<EncounterMetadata>>().To<LegacyCEEncounterMetadataParser>().AsTransient()
                     .WhenInjectedInto<CEEncounterMetadataDeserializer>();

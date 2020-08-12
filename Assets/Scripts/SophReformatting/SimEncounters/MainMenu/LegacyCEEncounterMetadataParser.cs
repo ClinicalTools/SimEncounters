@@ -14,6 +14,94 @@ namespace ClinicalTools.SimEncounters
 
 namespace ClinicalTools.ClinicalEncounters
 {
+    public class BestCEEncounterMetadataDeserializer : IParser<EncounterMetadata>
+    {
+        private readonly IParser<EncounterMetadata> legacyParser;
+        public BestCEEncounterMetadataDeserializer()
+            => legacyParser = new CEEncounterMetadataDeserializer(new LegacyCEEncounterMetadataParser());
+
+        private const char CaseInfoDivider = '|';
+        private const char CategoryDivider = ';';
+        private const int EncounterParts = 16;
+        private const int RecordNumberIndex = 0;
+        private const int AuthorAccountIdIndex = 1;
+        private const int AuthorNameIndex = 2;
+        private const int TitleIndex = 3;
+        private const int DifficultyIndex = 4;
+        private const int DescriptionIndex = 5;
+        private const int SummaryIndex = 6;
+        private const int TagsIndex = 7;
+        private const int ModifiedIndex = 8;
+        private const int AudienceIndex = 9;
+        private const int VersionIndex = 10;
+        private const int RatingIndex = 11;
+        private const int IsPublicIndex = 12;
+        private const int IsTemplate = 13;
+        private const int UrlIndex = 14;
+        private const int CompletionCodeIndex = 15;
+
+
+        public EncounterMetadata Parse(string text)
+        {
+            try {
+                var parsedItem = text.Split(CaseInfoDivider);
+                if (parsedItem == null || parsedItem.Length != EncounterParts)
+                    return legacyParser.Parse(text);
+
+                var metadata = new CEEncounterMetadata() {
+                    RecordNumber = int.Parse(parsedItem[RecordNumberIndex]),
+                    AuthorAccountId = int.Parse(parsedItem[AuthorAccountIdIndex]),
+                    AuthorName = GetName(parsedItem[AuthorNameIndex]),
+                    Name = GetName(parsedItem[TitleIndex]),
+                    Difficulty = GetDifficulty(parsedItem[DifficultyIndex]),
+                    Description = parsedItem[DescriptionIndex],
+                    Subtitle = parsedItem[SummaryIndex],
+                    DateModified = long.Parse(parsedItem[ModifiedIndex]),
+                    Audience = parsedItem[AudienceIndex],
+                    EditorVersion = parsedItem[VersionIndex],
+                    Rating = float.Parse(parsedItem[RatingIndex]),
+                    IsPublic = GetBoolValue(parsedItem[IsPublicIndex]),
+                    IsTemplate = GetBoolValue(parsedItem[IsTemplate]),
+                    Url = parsedItem[UrlIndex].Trim(),
+                    CompletionCode = parsedItem[CompletionCodeIndex].Trim()
+                };
+                if (float.TryParse(parsedItem[RatingIndex], out var rating))
+                    metadata.Rating = rating;
+                metadata.Categories.AddRange(parsedItem[TagsIndex].Split(CategoryDivider));
+
+                return metadata;
+            } catch (Exception) {
+                return null;
+            }
+        }
+
+        protected Name GetName(string name) {
+            var nameParts = name.Split(CategoryDivider);
+            switch (nameParts.Length) {
+                case 0:
+                    return new Name();
+                case 1:
+                    return new Name(nameParts[0]);
+                case 2:
+                    return new Name(nameParts[0], nameParts[1]);
+                default:
+                    return new Name(nameParts[0], nameParts[1], nameParts[2]);
+            }
+        }
+
+        protected Difficulty GetDifficulty(string difficulty)
+        {
+            if (difficulty.Equals("intermediate", StringComparison.InvariantCultureIgnoreCase))
+                return Difficulty.Intermediate;
+            else if (difficulty.Equals("beginner", StringComparison.InvariantCultureIgnoreCase))
+                return Difficulty.Beginner;
+            else if (difficulty.Equals("advanced", StringComparison.InvariantCultureIgnoreCase))
+                return Difficulty.Advanced;
+            return Difficulty.Beginner;
+        }
+
+        protected bool GetBoolValue(string value) => value == "1";
+    }
     public class CEEncounterMetadataDeserializer : IParser<EncounterMetadata>
     {
         private readonly IParser<EncounterMetadata> legacyParser;
@@ -90,50 +178,6 @@ namespace ClinicalTools.ClinicalEncounters
         }
 
         protected bool GetBoolValue(string value) => value == "1";
-    }
-
-    public class CEEncounterMetadataSerializer : IStringSerializer<EncounterMetadata>
-    {
-        public virtual string Serialize(EncounterMetadata metadata)
-        {
-            string firstName, lastName, url, completionCode;
-            if (metadata is CEEncounterMetadata ceMetadata) {
-                firstName = ceMetadata.Name.FirstName;
-                lastName = ceMetadata.Name.LastName;
-                url = ceMetadata.Url;
-                completionCode = ceMetadata.CompletionCode;
-            } else {
-                firstName = "";
-                lastName = "";
-                url = "";
-                completionCode = "";
-            }
-            var str = "" + metadata.AuthorAccountId;
-            str += AppendValue(metadata.Filename);
-            str += AppendValue(metadata.AuthorName.ToString());
-            str += AppendValue(firstName);
-            str += AppendValue(lastName);
-            str += AppendValue(metadata.RecordNumber.ToString());
-            str += AppendValue(metadata.Difficulty.ToString());
-            str += AppendValue(metadata.Description);
-            str += AppendValue(metadata.Subtitle);
-            str += AppendValue(string.Join(categoryDivider, metadata.Categories));
-            str += AppendValue(metadata.DateModified.ToString());
-            str += AppendValue(metadata.Audience);
-            str += AppendValue(metadata.EditorVersion);
-            str += AppendValue(metadata.Rating.ToString());
-            str += AppendValue(metadata.IsPublic);
-            str += AppendValue(metadata.IsTemplate);
-            str += AppendValue(url);
-            str += AppendValue(completionCode);
-
-            return str;
-        }
-
-        private const string caseInfoDivider = "|";
-        private const string categoryDivider = ";";
-        protected virtual string AppendValue(bool value) => caseInfoDivider + (value ? "1" : "0");
-        protected virtual string AppendValue(string value) => caseInfoDivider + value;
     }
     public class LegacyCEEncounterMetadataParser : IParser<EncounterMetadata>
     {
