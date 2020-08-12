@@ -6,12 +6,13 @@ namespace ClinicalTools.SimEncounters.Data
     {
         Beginner, Intermediate, Advanced
     }
+
     public class EncounterMetadata
     {
         public virtual float Rating { get; set; } = -1;
         public virtual int RecordNumber { get; set; }
         public virtual string Filename { get; set; }
-        public virtual string AuthorName { get; set; }
+        public virtual Name AuthorName { get; set; }
         public virtual int AuthorAccountId { get; set; }
         public virtual string Title { get; set; }
         public virtual long DateModified { get; set; }
@@ -23,6 +24,8 @@ namespace ClinicalTools.SimEncounters.Data
         public virtual string EditorVersion { get; set; } = "0";
         public virtual bool IsTemplate { get; set; }
         public virtual bool IsPublic { get; set; }
+        public virtual string GetDesiredFilename() => RecordNumber + '_' + Title;
+
 
         public EncounterMetadata() { }
 

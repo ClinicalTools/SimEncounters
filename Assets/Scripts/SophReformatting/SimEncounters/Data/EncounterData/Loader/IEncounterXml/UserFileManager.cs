@@ -65,8 +65,7 @@ namespace ClinicalTools.SimEncounters
         protected string GetFolder(User user)
         {
             string accountStr;
-            using (MD5 md5 = MD5.Create())
-            {
+            using (MD5 md5 = MD5.Create()) {
                 byte[] bytes = md5.ComputeHash(Encoding.UTF8.GetBytes(user.AccountId.ToString()));
                 StringBuilder sb = new StringBuilder();
                 foreach (var b in bytes)
@@ -80,6 +79,38 @@ namespace ClinicalTools.SimEncounters
                 Directory.CreateDirectory(path);
 
             return path;
+        }
+
+
+        public void UpdateFilename(User user, EncounterMetadata metadata)
+        {
+            string oldFilePrefix = metadata.Filename;
+            string newFilePrefix = metadata.GetDesiredFilename();
+            if (newFilePrefix == oldFilePrefix)
+                return;
+
+            metadata.Filename = newFilePrefix;
+
+            var files = Directory.GetFiles(GetFolder(user), $"{oldFilePrefix}*");
+            foreach (var file in files) {
+                // a better replacement should be used to prevent extra things from replaced
+                // on Windows, this would only cause an error if the user folder shared a name with the file
+                File.Move(file, file.Replace(oldFilePrefix, newFilePrefix));
+            }
+        }
+
+        public void DeleteFiles(User user, EncounterMetadata metadata)
+        {
+            var files = Directory.GetFiles(GetFolder(user), $"{metadata.Filename}*");
+            foreach (var file in files) {
+                foreach (FileType fileType in Enum.GetValues(typeof(FileType))) {
+                    if (!file.EndsWith(fileExtensionManager.GetExtension(fileType), StringComparison.InvariantCultureIgnoreCase))
+                        continue;
+
+                    File.Delete(file);
+                    break;
+                }
+            }
         }
     }
 }

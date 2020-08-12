@@ -8,7 +8,7 @@ namespace ClinicalTools.SimEncounters
 {
     public class DefaultFileManager : IFileManager
     {
-        protected string DemoDirectory => Application.streamingAssetsPath + "/Default/";
+        protected string DefaultDirectory => Application.streamingAssetsPath + "/Default/";
         protected string EncounterFilename => "encounter";
 
         private readonly IFileExtensionManager fileExtensionManager;
@@ -46,9 +46,14 @@ namespace ClinicalTools.SimEncounters
 
         protected string GetFile(FileType fileType)
         {
-            var path = Path.Combine(DemoDirectory, EncounterFilename);
+            var path = Path.Combine(DefaultDirectory, EncounterFilename);
             var extension = fileExtensionManager.GetExtension(fileType);
             return $"{path}.{extension}";
         }
+
+        public void UpdateFilename(User user, EncounterMetadata metadata)
+            => throw new Exception("Cannot update names of default files");
+        public void DeleteFiles(User user, EncounterMetadata metadata)
+            => throw new Exception("Cannot delete default files");
     }
 }

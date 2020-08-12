@@ -53,10 +53,9 @@ namespace ClinicalTools.ClinicalEncounters
                     RecordNumber = int.Parse(parsedItem[recordNumberIndex]),
                     Filename = parsedItem[filenameIndex],
                     AuthorAccountId = int.Parse(parsedItem[authorAccountIdIndex]),
-                    AuthorName = parsedItem[authorNameIndex],
+                    AuthorName = new Name(parsedItem[authorNameIndex]),
                     Rating = float.Parse(parsedItem[ratingIndex]),
-                    FirstName = parsedItem[firstNameIndex],
-                    LastName = parsedItem[lastNameIndex],
+                    Name = new Name(parsedItem[firstNameIndex], parsedItem[lastNameIndex]),
                     Difficulty = GetDifficulty(parsedItem[difficultyIndex]),
                     Description = parsedItem[descriptionIndex],
                     Subtitle = parsedItem[subtitleIndex],
@@ -99,8 +98,8 @@ namespace ClinicalTools.ClinicalEncounters
         {
             string firstName, lastName, url, completionCode;
             if (metadata is CEEncounterMetadata ceMetadata) {
-                firstName = ceMetadata.FirstName;
-                lastName = ceMetadata.LastName;
+                firstName = ceMetadata.Name.FirstName;
+                lastName = ceMetadata.Name.LastName;
                 url = ceMetadata.Url;
                 completionCode = ceMetadata.CompletionCode;
             } else {
@@ -111,7 +110,7 @@ namespace ClinicalTools.ClinicalEncounters
             }
             var str = "" + metadata.AuthorAccountId;
             str += AppendValue(metadata.Filename);
-            str += AppendValue(metadata.AuthorName);
+            str += AppendValue(metadata.AuthorName.ToString());
             str += AppendValue(firstName);
             str += AppendValue(lastName);
             str += AppendValue(metadata.RecordNumber.ToString());
@@ -192,9 +191,8 @@ namespace ClinicalTools.ClinicalEncounters
                 RecordNumber = int.Parse(parsedItem[recordNumberIndex]),
                 Filename = GetFilename(parsedItem[filenameIndex]),
                 AuthorAccountId = int.Parse(parsedItem[authorAccountIdIndex]),
-                AuthorName = parsedItem[authorNameIndex],
-                FirstName = name[0],
-                LastName = name[1],
+                AuthorName = new Name(parsedItem[authorNameIndex]),
+                Name = new Name(name[0], name[1]),
                 Difficulty = GetDifficulty(parsedItem[difficultyIndex]),
                 Description = parsedItem[descriptionIndex],
                 Subtitle = parsedItem[subtitleIndex],

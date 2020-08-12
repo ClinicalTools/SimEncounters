@@ -5,8 +5,8 @@ namespace ClinicalTools.ClinicalEncounters
     {
         public override string Value {
             get {
-                if (Metadata != null)
-                    Metadata.FirstName = base.Value;
+                if (Metadata?.Name != null)
+                    Metadata.Name.FirstName = base.Value;
                 return null;
             }
         }
@@ -14,8 +14,8 @@ namespace ClinicalTools.ClinicalEncounters
         {
             base.Initialize(encounter);
 
-            if (Metadata != null)
-                InputField.text = Metadata.FirstName;
+            if (Metadata?.Name != null)
+                InputField.text = Metadata.Name.FirstName;
         }
     }
 }

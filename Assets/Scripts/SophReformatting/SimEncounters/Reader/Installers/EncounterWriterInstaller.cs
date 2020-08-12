@@ -1,5 +1,4 @@
-﻿using ClinicalTools.ClinicalEncounters.Writer;
-using ClinicalTools.SimEncounters.Data;
+﻿using ClinicalTools.SimEncounters.Data;
 using System;
 using Zenject;
 
@@ -28,8 +27,7 @@ namespace ClinicalTools.SimEncounters.Writer
         {
             subcontainer.Bind<IEncounterWriter>().To<EncounterWriter>().AsTransient().WhenNotInjectedInto<EncounterWriter>();
             if (saveType == SaveType.Server) {
-                subcontainer.Bind<IEncounterWriter>().To<EncounterMainDataUploader>().AsTransient().WhenInjectedInto<EncounterWriter>();
-                subcontainer.Bind<IMetadataWriter>().To<CEMetadataUploader>().AsTransient();
+                subcontainer.Bind<IEncounterWriter>().To<EncounterUploader>().AsTransient().WhenInjectedInto<EncounterWriter>();
             } else {
                 subcontainer.Bind<IEncounterWriter>().To<LocalEncounterWriter>().AsTransient().WhenInjectedInto<EncounterWriter>();
                 subcontainer.Bind<IMetadataWriter>().To<LocalMetadataWriter>().AsTransient();

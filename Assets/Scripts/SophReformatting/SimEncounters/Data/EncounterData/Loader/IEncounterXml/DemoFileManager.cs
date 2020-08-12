@@ -113,5 +113,10 @@ namespace ClinicalTools.SimEncounters
             var encounters = serverResult.Value.Message.Split(splitChars, StringSplitOptions.RemoveEmptyEntries);
             demoEncounters.SetResult(encounters);
         }
+
+        public void UpdateFilename(User user, EncounterMetadata metadata)
+            => throw new Exception("Cannot update names of demo files");
+        public void DeleteFiles(User user, EncounterMetadata metadata)
+            => throw new Exception("Cannot delete demo files");
     }
 }

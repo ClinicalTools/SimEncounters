@@ -36,7 +36,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             SetLabelText(AudienceLabel, encounterMetadata.Audience);
             SetLabelText(DescriptionLabel, encounterMetadata.Description);
             SetLabelText(SubtitleLabel, encounterMetadata.Subtitle);
-            SetAuthor(AuthorLabel, encounterMetadata.AuthorName);
+            SetAuthor(AuthorLabel, encounterMetadata.AuthorName.ToString());
             SetTitle(TitleLabel, encounterMetadata.Title);
             SetDifficulty(Difficulty, encounterMetadata.Difficulty);
             SetDateModified(DateModifiedLabel, encounterMetadata.DateModified);

@@ -10,6 +10,7 @@ using Zenject;
 
 namespace ClinicalTools.ClinicalEncounters.MainMenu
 {
+
     public class CEAddEncounterPopup : BaseAddEncounterPopup
     {
         public TMP_InputField FirstNameField { get => firstNameField; set => firstNameField = value; }
@@ -72,12 +73,12 @@ namespace ClinicalTools.ClinicalEncounters.MainMenu
         protected virtual void StartCase()
         {
             CurrentMetadata.AuthorAccountId = SceneInfo.User.AccountId;
-            CurrentMetadata.FirstName = FirstNameField.text;
-            CurrentMetadata.LastName = LastNameField.text;
+            CurrentMetadata.Name.FirstName = FirstNameField.text;
+            CurrentMetadata.Name.LastName = LastNameField.text;
             CurrentMetadata.Description = DescriptionField.text;
             var rand = new System.Random((int)DateTime.UtcNow.Ticks);
-            CurrentMetadata.RecordNumber = rand.Next(100000, 1000000);
-            CurrentMetadata.Filename = $"{CurrentMetadata.RecordNumber}{CurrentMetadata.FirstName} {CurrentMetadata.LastName}";
+            CurrentMetadata.RecordNumber = -rand.Next(100000, 1000000);
+            CurrentMetadata.Filename = $"{CurrentMetadata.RecordNumber}{CurrentMetadata.Name.FirstName} {CurrentMetadata.Name.LastName}";
             var encounter = new WaitableResult<Encounter>();
             var writerInfo = new LoadingWriterSceneInfo(SceneInfo.User, SceneInfo.LoadingScreen, encounter);
             EncounterData.AddOnCompletedListener((result) => Something(encounter, result));

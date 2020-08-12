@@ -7,8 +7,8 @@ namespace ClinicalTools.ClinicalEncounters
         {
             base.Initialize(encounter);
 
-            if (Metadata != null)
-                Label.text = Metadata.FirstName;
+            if (Metadata?.Name != null)
+                Label.text = Metadata.Name.FirstName;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClinicalTools.SimEncounters.Data;
+using System;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
@@ -24,9 +25,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             return new User(accountId) {
                 Username = userParts[USERNAME_INDEX],
                 Email = userParts[EMAIL_INDEX],
-                FirstName = userParts[FIRST_NAME_INDEX],
-                LastName = userParts[LAST_NAME_INDEX],
-                Honorific = userParts[HONORIFIC_INDEX]
+                Name = new Name(userParts[HONORIFIC_INDEX], userParts[FIRST_NAME_INDEX], userParts[LAST_NAME_INDEX])
             };
         }
 
