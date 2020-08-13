@@ -66,6 +66,16 @@ namespace ClinicalTools.SimEncounters
                     AddMetadata(metadataGroups, metadatasResult.Key, metadata);
             }
 
+            // Server metadata filename should be changed to match the local filename
+            // This ensures that the old files are properly renamed if using the server version
+            foreach (var metadataGroup in metadataGroups) {
+                var group = metadataGroup.Value;
+                if (!group.ContainsKey(SaveType.Local) || !group.ContainsKey(SaveType.Server))
+                    continue;
+
+                group[SaveType.Server].Filename = group[SaveType.Local].Filename;
+            }
+
             result.SetResult(metadataGroups);
         }
 

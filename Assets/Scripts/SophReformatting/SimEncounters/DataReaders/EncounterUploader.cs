@@ -68,7 +68,7 @@ namespace ClinicalTools.SimEncounters.Writer
         private void AddFormModeFields(WWWForm form, EncounterMetadata metadata)
         {
             string mode;
-            if (metadata.RecordNumber >= 0) {
+            if (metadata.RecordNumber >= 0 && metadata.RecordNumber < 1000) {
                 form.AddField(RecordNumberVariable, metadata.RecordNumber);
                 mode = UpdateModeValue;
             } else {

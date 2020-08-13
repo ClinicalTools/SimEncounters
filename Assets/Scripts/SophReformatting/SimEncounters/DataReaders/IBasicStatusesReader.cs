@@ -43,9 +43,10 @@ namespace ClinicalTools.SimEncounters
             }
 
             var statuses = listResults[0].Result.Value;
-            for (int i = 1; i < listResults.Count; i++)
-                statuses = CombineStatuses(statuses, listResults[i].Result.Value);
-
+            for (int i = 1; i < listResults.Count; i++) { 
+                if (!listResults[i].Result.IsError())
+                    statuses = CombineStatuses(statuses, listResults[i].Result.Value);
+            }
             result.SetResult(statuses);
         }
 

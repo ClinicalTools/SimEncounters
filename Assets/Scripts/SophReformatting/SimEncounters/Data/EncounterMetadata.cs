@@ -8,6 +8,7 @@ namespace ClinicalTools.SimEncounters.Data
         Beginner, Intermediate, Advanced
     }
 
+    [Serializable]
     public class EncounterMetadata
     {
         public virtual float Rating { get; set; } = -1;

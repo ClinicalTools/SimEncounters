@@ -39,7 +39,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         private void ProcessResults(WaitableResult<User> result, WaitedResult<string> serverResult)
         {
-            if (serverResult.Value == null || serverResult.IsError()) {
+            if (serverResult.IsError() || string.IsNullOrWhiteSpace(serverResult.Value)) {
                 result.SetError(serverResult.Exception);
                 return;
             }

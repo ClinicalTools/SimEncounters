@@ -31,9 +31,9 @@ namespace ClinicalTools.ClinicalEncounters
             str += AppendValue(metadata.DateModified.ToString());
             str += AppendValue(metadata.Audience);
             str += AppendValue(metadata.EditorVersion);
-            str += AppendValue(metadata.Rating.ToString());
             str += AppendValue(metadata.IsPublic);
             str += AppendValue(metadata.IsTemplate);
+            str += AppendValue(metadata.Rating.ToString());
             str += AppendValue(url);
             str += AppendValue(completionCode);
 

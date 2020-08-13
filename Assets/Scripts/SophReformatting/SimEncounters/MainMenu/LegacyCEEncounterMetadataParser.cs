@@ -2,6 +2,7 @@
 using ClinicalTools.SimEncounters.Data;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using static MenuCase;
 
 namespace ClinicalTools.SimEncounters
@@ -20,6 +21,9 @@ namespace ClinicalTools.ClinicalEncounters
         public BestCEEncounterMetadataDeserializer()
             => legacyParser = new CEEncounterMetadataDeserializer(new LegacyCEEncounterMetadataParser());
 
+        // Ideally I'd use JSON objects, and I've set the PHP to allow them.
+        // Unfortunately, it would drastically increase the size of the menu information the server gives
+        // It would also cause more work to support it, so for now, I'll stick with more simplistic storage methods
         private const char CaseInfoDivider = '|';
         private const char CategoryDivider = ';';
         private const int EncounterParts = 16;
@@ -34,9 +38,9 @@ namespace ClinicalTools.ClinicalEncounters
         private const int ModifiedIndex = 8;
         private const int AudienceIndex = 9;
         private const int VersionIndex = 10;
-        private const int RatingIndex = 11;
-        private const int IsPublicIndex = 12;
-        private const int IsTemplate = 13;
+        private const int IsPublicIndex = 11;
+        private const int IsTemplateIndex = 12;
+        private const int RatingIndex = 13;
         private const int UrlIndex = 14;
         private const int CompletionCodeIndex = 15;
 
@@ -59,9 +63,9 @@ namespace ClinicalTools.ClinicalEncounters
                     DateModified = long.Parse(parsedItem[ModifiedIndex]),
                     Audience = parsedItem[AudienceIndex],
                     EditorVersion = parsedItem[VersionIndex],
-                    Rating = float.Parse(parsedItem[RatingIndex]),
                     IsPublic = GetBoolValue(parsedItem[IsPublicIndex]),
-                    IsTemplate = GetBoolValue(parsedItem[IsTemplate]),
+                    IsTemplate = GetBoolValue(parsedItem[IsTemplateIndex]),
+                    Rating = float.Parse(parsedItem[RatingIndex]),
                     Url = parsedItem[UrlIndex].Trim(),
                     CompletionCode = parsedItem[CompletionCodeIndex].Trim()
                 };
@@ -69,13 +73,16 @@ namespace ClinicalTools.ClinicalEncounters
                     metadata.Rating = rating;
                 metadata.Categories.AddRange(parsedItem[TagsIndex].Split(CategoryDivider));
 
+                metadata.Filename = metadata.GetDesiredFilename();
+
                 return metadata;
             } catch (Exception) {
                 return null;
             }
         }
 
-        protected Name GetName(string name) {
+        protected Name GetName(string name)
+        {
             var nameParts = name.Split(CategoryDivider);
             switch (nameParts.Length) {
                 case 0:
