@@ -14,6 +14,10 @@ namespace ClinicalTools.ClinicalEncounters.Writer
     {
         public TextMeshProUGUI Title { get => title; set => title = value; }
         [SerializeField] private TextMeshProUGUI title;
+        public TMP_InputField FirstName { get => firstName; set => firstName = value; }
+        [SerializeField] private TMP_InputField firstName;
+        public TMP_InputField LastName { get => lastName; set => lastName = value; }
+        [SerializeField] private TMP_InputField lastName;
         public TMP_InputField Summary { get => summary; set => summary = value; }
         [SerializeField] private TMP_InputField summary;
         public TMP_InputField Description { get => description; set => description = value; }
@@ -63,6 +67,7 @@ namespace ClinicalTools.ClinicalEncounters.Writer
             CurrentEncounter = encounter;
             var metadata = encounter.Metadata;
             Title.text = metadata.Title;
+            Title.text = metadata.Title;
             Summary.text = metadata.Subtitle;
             Description.text = metadata.Description;
             Tags.text = string.Join("; ", metadata.Categories);
@@ -73,6 +78,8 @@ namespace ClinicalTools.ClinicalEncounters.Writer
             if (metadata is CEEncounterMetadata ceMetadata) {
                 URL.text = ceMetadata.Url;
                 CompletionCode.text = ceMetadata.CompletionCode;
+                FirstName.text = ceMetadata.Name.FirstName;
+                LastName.text = ceMetadata.Name.LastName;
             }
         }
 
@@ -93,6 +100,8 @@ namespace ClinicalTools.ClinicalEncounters.Writer
             if (metadata is CEEncounterMetadata ceMetadata) {
                 ceMetadata.Url = URL.text.Trim();
                 ceMetadata.CompletionCode = CompletionCode.text.Trim();
+                ceMetadata.Name.FirstName = FirstName.text;
+                ceMetadata.Name.LastName = LastName.text;
             }
         }
         protected virtual void Save()
