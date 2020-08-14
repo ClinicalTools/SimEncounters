@@ -26,8 +26,19 @@ namespace ClinicalTools.SimEncounters.Data
         public virtual string EditorVersion { get; set; } = "0";
         public virtual bool IsTemplate { get; set; }
         public virtual bool IsPublic { get; set; }
-        public virtual string GetDesiredFilename() => $"{RecordNumber}_{Title}";
+        public virtual string GetDesiredFilename()
+        {
+            var desiredFilename = $"{RecordNumber}_{Title}";
+            var filename = "";
+            foreach (var ch in desiredFilename) {
+                if (char.IsLetterOrDigit(ch) || ch == '-' || ch == '_')
+                    filename += ch;
+                else if (char.IsWhiteSpace(ch))
+                    filename += '_';
+            }
 
+            return filename;
+        }
 
         public EncounterMetadata() { }
 

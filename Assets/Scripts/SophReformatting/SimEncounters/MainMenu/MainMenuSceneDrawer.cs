@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClinicalTools.SimEncounters.Data;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,5 +37,42 @@ namespace ClinicalTools.SimEncounters.MainMenu
             Logout?.Invoke();
         }
         public override void Hide() => Encounters.Hide();
+
+        protected virtual void Start()
+        {
+            //ImaginationOverflow.UniversalDeepLinking.DeepLinkManager.Instance.LinkActivated += Instance_LinkActivated;
+        }
+
+        private void Instance_LinkActivated()//ImaginationOverflow.UniversalDeepLinking.LinkActivation s)
+        {
+            // go to encounter case
+            if (false) {
+                SceneInfo.Result.RemoveListeners();
+                SceneInfo.LoadingScreen.Show();
+                //SceneInfo.Result.AddOnCompletedListener();
+            }
+            //
+            //  my activation code
+            //
+        }
+    }
+
+    public class EncounterStarter
+    {
+        public void StartEncounter(int recordNumber)
+        {
+
+        }
+
+        public void StartEncounter(IEnumerable<MenuEncounter> encounters, int recordNumber)
+        {
+            foreach (var encounter in encounters) {
+                var typedMetadata = encounter.GetLatestTypedMetada();
+                if (typedMetadata.Value.RecordNumber != recordNumber)
+                    continue;
+
+                // launch reader with it
+            }
+        }
     }
 }

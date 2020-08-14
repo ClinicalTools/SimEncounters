@@ -85,8 +85,7 @@ namespace ClinicalTools.SimEncounters
                 return;
 
             Completed(Result);
-            foreach (Delegate d in Completed.GetInvocationList())
-                Completed -= (Action<WaitedResult<T>>)d;
+            RemoveListeners();
         }
 
         public void AddOnCompletedListener(Action<WaitedResult<T>> action)
@@ -95,6 +94,15 @@ namespace ClinicalTools.SimEncounters
                 action.Invoke(Result);
             else
                 Completed += action;
+        }
+
+        public void RemoveListeners()
+        {
+            if (Completed == null)
+                return;
+
+            foreach (Delegate d in Completed.GetInvocationList())
+                Completed -= (Action<WaitedResult<T>>)d;
         }
     }
 }

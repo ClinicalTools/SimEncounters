@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ClinicalTools.SimEncounters.Data
 {
@@ -34,9 +35,17 @@ namespace ClinicalTools.SimEncounters.Data
             LastName = lastName;
         }
 
-        // slightly inefficient
-        public override string ToString() => string.Join(" ", Honorific, FirstName, LastName).Trim();
-
+        public override string ToString()
+        {
+            List<string> nameParts = new List<string>(3);
+            if (!string.IsNullOrWhiteSpace(Honorific) && !Honorific.Equals("--", StringComparison.InvariantCultureIgnoreCase))
+                nameParts.Add(Honorific);
+            if (!string.IsNullOrWhiteSpace(FirstName))
+                nameParts.Add(FirstName);
+            if (!string.IsNullOrWhiteSpace(LastName))
+                nameParts.Add(LastName);
+            return string.Join(" ", nameParts);
+        }
         public int CompareTo(Name other)
         {
             int value = LastName.CompareTo(other.LastName);
