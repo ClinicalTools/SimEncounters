@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using ImaginationOverflow.UniversalDeepLinking;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -78,13 +79,12 @@ namespace ClinicalTools.SimEncounters.Reader
         public void Display(LoadingReaderSceneInfo sceneInfo)
         {
             SceneInfo = sceneInfo;
-            //ImaginationOverflow.UniversalDeepLinking.DeepLinkManager.Instance.LinkActivated += Instance_LinkActivated;
+            DeepLinkManager.Instance.LinkActivated += Instance_LinkActivated;
             ReaderDrawer.Display(sceneInfo);
         }
 
-        /*
-        private string RecordNumberKey = "recordNumber";
-        protected virtual void Instance_LinkActivated(ImaginationOverflow.UniversalDeepLinking.LinkActivation s)
+        private const string RecordNumberKey = "r";
+        protected virtual void Instance_LinkActivated(LinkActivation s)
         {
             if (!s.QueryString.ContainsKey(RecordNumberKey))
                 return;
@@ -95,6 +95,6 @@ namespace ClinicalTools.SimEncounters.Reader
 
             SceneInfo.Result.RemoveListeners();
             EncounterQuickStarter.StartEncounter(SceneInfo.User, SceneInfo.LoadingScreen, recordNumber);
-        }*/
+        }
     }
 }

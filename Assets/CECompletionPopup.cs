@@ -65,8 +65,14 @@ namespace ClinicalTools.ClinicalEncounters.Reader
 
         protected virtual void StartUrl()
         {
-            if (!string.IsNullOrWhiteSpace(CurrentMetadata.Url))
-                Application.OpenURL(CurrentMetadata.Url);
+            if (string.IsNullOrWhiteSpace(CurrentMetadata.Url))
+                return;
+
+#if MOBILE
+            InAppBrowser.OpenURL(CurrentMetadata.Url);
+#else
+            Application.OpenURL(CurrentMetadata.Url);
+#endif
         }
 
         protected virtual void Hide() => gameObject.SetActive(false);

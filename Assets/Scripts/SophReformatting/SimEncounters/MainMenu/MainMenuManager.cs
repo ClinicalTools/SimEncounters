@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ImaginationOverflow.UniversalDeepLinking;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -58,7 +59,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
         public void Display(LoadingMenuSceneInfo sceneInfo)
         {
             SceneInfo = sceneInfo;
-            //ImaginationOverflow.UniversalDeepLinking.DeepLinkManager.Instance.LinkActivated += Instance_LinkActivated;
+            DeepLinkManager.Instance.LinkActivated += Instance_LinkActivated;
             MenuDrawer.Display(sceneInfo);
         }
         protected virtual void Logout()
@@ -80,9 +81,9 @@ namespace ClinicalTools.SimEncounters.MainMenu
             MenuDrawer.Display(menuSceneInfo);
         }
 
-        /*
-        private string RecordNumberKey = "recordNumber";
-        protected virtual void Instance_LinkActivated(ImaginationOverflow.UniversalDeepLinking.LinkActivation s)
+
+        private const string RecordNumberKey = "r";
+        protected virtual void Instance_LinkActivated(LinkActivation s)
         {
             if (!s.QueryString.ContainsKey(RecordNumberKey))
                 return;
@@ -93,6 +94,6 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
             SceneInfo.Result.RemoveListeners();
             EncounterQuickStarter.StartEncounter(SceneInfo.User, SceneInfo.LoadingScreen, SceneInfo.MenuEncountersInfo, recordNumber);
-        }*/
+        }
     }
 }
