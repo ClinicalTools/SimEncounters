@@ -109,8 +109,10 @@ namespace ClinicalTools.SimEncounters.Writer
         private const string FirstNameVariable = "firstName";
         private const string LastNameVariable = "lastName";
         private const string DifficultyVariable = "difficulty";
+        //private const string SubtitleVariable = "description";
+        //private const string DescriptionVariable = "summary";
+        private const string SubtitleVariable = "subtitle";
         private const string DescriptionVariable = "description";
-        private const string SummaryVariable = "summary";
         private const string TagsVariable = "tags";
         private const string DateModifiedVariable = "modified";
         private const string AudienceVariable = "audience";
@@ -125,9 +127,9 @@ namespace ClinicalTools.SimEncounters.Writer
             form.AddField(FirstNameVariable, metadata.Name.FirstName);
             form.AddField(LastNameVariable, metadata.Name.LastName);
             form.AddField(DifficultyVariable, metadata.Difficulty.ToString());
-            form.AddField(DescriptionVariable, metadata.Subtitle);
-            form.AddField(SummaryVariable, metadata.Description);
-            form.AddField(TagsVariable, string.Join(", ", metadata.Categories));
+            form.AddField(SubtitleVariable, metadata.Subtitle);
+            form.AddField(DescriptionVariable, metadata.Description);
+            form.AddField(TagsVariable, string.Join(";", metadata.Categories));
             metadata.ResetDateModified();
             form.AddField(DateModifiedVariable, metadata.DateModified.ToString());
             form.AddField(AudienceVariable, metadata.Audience);

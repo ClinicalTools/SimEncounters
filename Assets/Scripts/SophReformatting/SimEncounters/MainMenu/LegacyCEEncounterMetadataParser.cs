@@ -32,8 +32,8 @@ namespace ClinicalTools.ClinicalEncounters
         private const int AuthorNameIndex = 2;
         private const int TitleIndex = 3;
         private const int DifficultyIndex = 4;
-        private const int DescriptionIndex = 5;
-        private const int SummaryIndex = 6;
+        private const int SubtitleIndex = 5;
+        private const int DescriptionIndex = 6;
         private const int TagsIndex = 7;
         private const int ModifiedIndex = 8;
         private const int AudienceIndex = 9;
@@ -58,8 +58,8 @@ namespace ClinicalTools.ClinicalEncounters
                     AuthorName = GetName(parsedItem[AuthorNameIndex]),
                     Name = GetName(parsedItem[TitleIndex]),
                     Difficulty = GetDifficulty(parsedItem[DifficultyIndex]),
+                    Subtitle = parsedItem[SubtitleIndex],
                     Description = parsedItem[DescriptionIndex],
-                    Subtitle = parsedItem[SummaryIndex],
                     DateModified = long.Parse(parsedItem[ModifiedIndex]),
                     Audience = parsedItem[AudienceIndex],
                     EditorVersion = parsedItem[VersionIndex],

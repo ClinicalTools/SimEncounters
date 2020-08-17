@@ -1,7 +1,6 @@
 ﻿using ClinicalTools.SimEncounters;
 using ClinicalTools.SimEncounters.Data;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace ClinicalTools.ClinicalEncounters
@@ -25,8 +24,8 @@ namespace ClinicalTools.ClinicalEncounters
             str += AppendValue(metadata.AuthorName);
             str += AppendValue(name);
             str += AppendValue(metadata.Difficulty.ToString());
-            str += AppendValue(metadata.Description);
             str += AppendValue(metadata.Subtitle);
+            str += AppendValue(metadata.Description);
             str += AppendValue(metadata.Categories);
             str += AppendValue(metadata.DateModified.ToString());
             str += AppendValue(metadata.Audience);
