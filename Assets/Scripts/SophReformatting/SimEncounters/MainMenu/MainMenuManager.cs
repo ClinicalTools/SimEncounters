@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -21,7 +22,13 @@ namespace ClinicalTools.SimEncounters.MainMenu
         [SerializeField] private GameObject welcomeScreen;
 
         protected IMenuEncountersInfoReader MenuInfoReader { get; set; }
-        [Inject] public virtual void Inject(IMenuEncountersInfoReader menuInfoReader) => MenuInfoReader = menuInfoReader;
+        protected IEncounterQuickStarter EncounterQuickStarter { get; set; }
+        [Inject]
+        public virtual void Inject(IMenuEncountersInfoReader menuInfoReader, IEncounterQuickStarter encounterQuickStarter)
+        {
+            MenuInfoReader = menuInfoReader;
+            EncounterQuickStarter = encounterQuickStarter;
+        }
 
         protected override void Awake()
         {
@@ -46,8 +53,14 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
             Destroy(LoadingScreen.gameObject);
         }
-        public void Display(LoadingMenuSceneInfo sceneInfo) => MenuDrawer.Display(sceneInfo);
 
+        protected LoadingMenuSceneInfo SceneInfo { get; set; }
+        public void Display(LoadingMenuSceneInfo sceneInfo)
+        {
+            SceneInfo = sceneInfo;
+            //ImaginationOverflow.UniversalDeepLinking.DeepLinkManager.Instance.LinkActivated += Instance_LinkActivated;
+            MenuDrawer.Display(sceneInfo);
+        }
         protected virtual void Logout()
         {
             var user = LoginHandler.Login();
@@ -66,5 +79,20 @@ namespace ClinicalTools.SimEncounters.MainMenu
             var menuSceneInfo = new LoadingMenuSceneInfo(user, LoadingScreen, menuEncounters);
             MenuDrawer.Display(menuSceneInfo);
         }
+
+        /*
+        private string RecordNumberKey = "recordNumber";
+        protected virtual void Instance_LinkActivated(ImaginationOverflow.UniversalDeepLinking.LinkActivation s)
+        {
+            if (!s.QueryString.ContainsKey(RecordNumberKey))
+                return;
+
+            var recordNumberStr = s.QueryString[RecordNumberKey];
+            if (!int.TryParse(recordNumberStr, out int recordNumber))
+                return;
+
+            SceneInfo.Result.RemoveListeners();
+            EncounterQuickStarter.StartEncounter(SceneInfo.User, SceneInfo.LoadingScreen, SceneInfo.MenuEncountersInfo, recordNumber);
+        }*/
     }
 }

@@ -71,7 +71,11 @@ namespace ClinicalTools.ClinicalEncounters
                 };
                 if (float.TryParse(parsedItem[RatingIndex], out var rating))
                     metadata.Rating = rating;
-                metadata.Categories.AddRange(parsedItem[TagsIndex].Split(CategoryDivider));
+                var categories = parsedItem[TagsIndex].Split(CategoryDivider);
+                if (categories.Length == 1)
+                    categories = parsedItem[TagsIndex].Split(',');
+                foreach (var category in categories)
+                    metadata.Categories.Add(category.Trim());
 
                 metadata.Filename = metadata.GetDesiredFilename();
 

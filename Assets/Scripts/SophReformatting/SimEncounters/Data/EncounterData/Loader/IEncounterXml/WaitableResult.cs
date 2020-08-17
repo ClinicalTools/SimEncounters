@@ -104,5 +104,16 @@ namespace ClinicalTools.SimEncounters
             foreach (Delegate d in Completed.GetInvocationList())
                 Completed -= (Action<WaitedResult<T>>)d;
         }
+
+        public void CopyValueWhenCompleted(WaitableResult<T> destination) 
+            => AddOnCompletedListener((source) => CopyValue(source, destination));
+
+        private void CopyValue(WaitedResult<T> source, WaitableResult<T> destination)
+        {
+            if (source.IsError())
+                destination.SetError(source.Exception);
+            else
+                destination.SetResult(source.Value);
+        }
     }
 }

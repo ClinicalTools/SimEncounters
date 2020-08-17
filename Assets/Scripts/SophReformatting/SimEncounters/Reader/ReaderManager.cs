@@ -21,11 +21,13 @@ namespace ClinicalTools.SimEncounters.Reader
 
         protected IMetadataReader MetadataReader { get; set; }
         protected IUserEncounterReader EncounterReader { get; set; }
+        protected IEncounterQuickStarter EncounterQuickStarter { get; set; }
         [Inject]
-        public virtual void Inject(IMetadataReader metadataReader, IUserEncounterReader encounterReader)
+        public virtual void Inject(IMetadataReader metadataReader, IUserEncounterReader encounterReader, IEncounterQuickStarter encounterQuickStarter)
         {
             MetadataReader = metadataReader;
             EncounterReader = encounterReader;
+            EncounterQuickStarter = encounterQuickStarter;
         }
         protected override void StartAsInitialScene()
         {
@@ -50,7 +52,8 @@ namespace ClinicalTools.SimEncounters.Reader
 #endif
         }
 
-        protected override void StartAsLaterScene() {
+        protected override void StartAsLaterScene()
+        {
             foreach (var standaloneSceneObject in StandaloneSceneObjects)
                 standaloneSceneObject.SetActive(false);
             foreach (var nonStandaloneSceneObject in NonStandaloneSceneObjects)
@@ -70,6 +73,28 @@ namespace ClinicalTools.SimEncounters.Reader
 
             Display(sceneInfo);
         }
-        public virtual void Display(LoadingReaderSceneInfo sceneInfo) => ReaderDrawer.Display(sceneInfo);
+
+        protected LoadingReaderSceneInfo SceneInfo { get; set; }
+        public void Display(LoadingReaderSceneInfo sceneInfo)
+        {
+            SceneInfo = sceneInfo;
+            //ImaginationOverflow.UniversalDeepLinking.DeepLinkManager.Instance.LinkActivated += Instance_LinkActivated;
+            ReaderDrawer.Display(sceneInfo);
+        }
+
+        /*
+        private string RecordNumberKey = "recordNumber";
+        protected virtual void Instance_LinkActivated(ImaginationOverflow.UniversalDeepLinking.LinkActivation s)
+        {
+            if (!s.QueryString.ContainsKey(RecordNumberKey))
+                return;
+
+            var recordNumberStr = s.QueryString[RecordNumberKey];
+            if (!int.TryParse(recordNumberStr, out int recordNumber))
+                return;
+
+            SceneInfo.Result.RemoveListeners();
+            EncounterQuickStarter.StartEncounter(SceneInfo.User, SceneInfo.LoadingScreen, recordNumber);
+        }*/
     }
 }
