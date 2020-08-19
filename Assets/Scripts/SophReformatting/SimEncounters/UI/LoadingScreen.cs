@@ -44,13 +44,13 @@ namespace ClinicalTools.SimEncounters
         public virtual void Show()
         {
             gameObject.SetActive(true);
-            //CanvasGroup.alpha = 0;
+            CanvasGroup.alpha = 1;
         }
 
         public virtual void Stop()
         {
-            //if (gameObject.activeInHierarchy)
-                //StartCoroutine(Hide());
+            if (gameObject.activeInHierarchy)
+                StartCoroutine(Hide());
         }
 
         private const float FADE_TIME = 1;

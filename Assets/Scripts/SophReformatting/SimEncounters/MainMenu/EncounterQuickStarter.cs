@@ -21,6 +21,7 @@ namespace ClinicalTools.SimEncounters
         {
             MenuEncountersReader = menuInfoReader;
             SceneStarter = sceneStarter;
+            EncounterReader = encounterReader;
         }
 
         public void StartEncounter(User user, ILoadingScreen loadingScreen, int recordNumber)

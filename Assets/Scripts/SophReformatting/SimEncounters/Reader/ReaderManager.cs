@@ -23,12 +23,16 @@ namespace ClinicalTools.SimEncounters.Reader
         protected IMetadataReader MetadataReader { get; set; }
         protected IUserEncounterReader EncounterReader { get; set; }
         protected IEncounterQuickStarter EncounterQuickStarter { get; set; }
+        protected QuickActionFactory LinkActionFactory { get; set; }
         [Inject]
-        public virtual void Inject(IMetadataReader metadataReader, IUserEncounterReader encounterReader, IEncounterQuickStarter encounterQuickStarter)
+        public virtual void Inject(
+            IMetadataReader metadataReader, IUserEncounterReader encounterReader, 
+            IEncounterQuickStarter encounterQuickStarter, QuickActionFactory linkActionFactory)
         {
             MetadataReader = metadataReader;
             EncounterReader = encounterReader;
             EncounterQuickStarter = encounterQuickStarter;
+            LinkActionFactory = linkActionFactory;
         }
         protected override void StartAsInitialScene()
         {
@@ -83,18 +87,24 @@ namespace ClinicalTools.SimEncounters.Reader
             ReaderDrawer.Display(sceneInfo);
         }
 
-        private const string RecordNumberKey = "r";
+
+        public void TestLink()
+        {
+            var dictionary = new Dictionary<string, string>();
+            dictionary.Add("r", "73");
+            var linkActivation = new LinkActivation("lift://encounter?r=73", "r=73", dictionary);
+
+            Instance_LinkActivated(linkActivation);
+        }
+
         protected virtual void Instance_LinkActivated(LinkActivation s)
         {
-            if (!s.QueryString.ContainsKey(RecordNumberKey))
-                return;
-
-            var recordNumberStr = s.QueryString[RecordNumberKey];
-            if (!int.TryParse(recordNumberStr, out int recordNumber))
+            QuickAction quickAction = LinkActionFactory.GetLinkAction(s);
+            if (quickAction.Action == QuickActionType.NA)
                 return;
 
             SceneInfo.Result.RemoveListeners();
-            EncounterQuickStarter.StartEncounter(SceneInfo.User, SceneInfo.LoadingScreen, recordNumber);
+            EncounterQuickStarter.StartEncounter(SceneInfo.User, SceneInfo.LoadingScreen, quickAction.EncounterId);
         }
     }
 }

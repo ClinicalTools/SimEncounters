@@ -19,6 +19,7 @@ namespace ClinicalTools.SimEncounters
             container.Bind<IReaderSceneStarter>().To<ReaderSceneStarter>().AsTransient();
             container.Bind<IWriterSceneStarter>().To<WriterSceneStarter>().AsTransient();
             container.Bind<IEncounterQuickStarter>().To<EncounterQuickStarter>().AsTransient();
+            container.Bind<QuickActionFactory>().To<QuickActionFactory>().AsTransient();
 
             container.Bind<string>().FromInstance(WriterScene).WhenInjectedInto<WriterSceneStarter>();
             container.Bind<string>().FromInstance(MenuScene).WhenInjectedInto<MenuSceneStarter>();

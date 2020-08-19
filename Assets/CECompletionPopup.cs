@@ -67,7 +67,6 @@ namespace ClinicalTools.ClinicalEncounters.Reader
         {
             if (string.IsNullOrWhiteSpace(CurrentMetadata.Url))
                 return;
-
 #if MOBILE
             InAppBrowser.OpenURL(CurrentMetadata.Url);
 #else

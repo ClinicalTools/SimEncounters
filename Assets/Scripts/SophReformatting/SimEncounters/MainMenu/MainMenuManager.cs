@@ -24,11 +24,13 @@ namespace ClinicalTools.SimEncounters.MainMenu
 
         protected IMenuEncountersInfoReader MenuInfoReader { get; set; }
         protected IEncounterQuickStarter EncounterQuickStarter { get; set; }
+        protected QuickActionFactory LinkActionFactory { get; set; }
         [Inject]
-        public virtual void Inject(IMenuEncountersInfoReader menuInfoReader, IEncounterQuickStarter encounterQuickStarter)
+        public virtual void Inject(IMenuEncountersInfoReader menuInfoReader, IEncounterQuickStarter encounterQuickStarter, QuickActionFactory linkActionFactory)
         {
             MenuInfoReader = menuInfoReader;
             EncounterQuickStarter = encounterQuickStarter;
+            LinkActionFactory = linkActionFactory;
         }
 
         protected override void Awake()
@@ -78,22 +80,26 @@ namespace ClinicalTools.SimEncounters.MainMenu
         {
             var menuEncounters = MenuInfoReader.GetMenuEncountersInfo(user);
             var menuSceneInfo = new LoadingMenuSceneInfo(user, LoadingScreen, menuEncounters);
-            MenuDrawer.Display(menuSceneInfo);
+            Display(menuSceneInfo);
         }
 
+        public void TestLink()
+        {
+            var dictionary = new Dictionary<string, string>();
+            dictionary.Add("id", "73");
+            var linkActivation = new LinkActivation("lift://encounter?id=73", "id=73", dictionary);
 
-        private const string RecordNumberKey = "r";
+            Instance_LinkActivated(linkActivation);
+        }
+
         protected virtual void Instance_LinkActivated(LinkActivation s)
         {
-            if (!s.QueryString.ContainsKey(RecordNumberKey))
-                return;
-
-            var recordNumberStr = s.QueryString[RecordNumberKey];
-            if (!int.TryParse(recordNumberStr, out int recordNumber))
+            QuickAction quickAction = LinkActionFactory.GetLinkAction(s);
+            if (quickAction.Action == QuickActionType.NA)
                 return;
 
             SceneInfo.Result.RemoveListeners();
-            EncounterQuickStarter.StartEncounter(SceneInfo.User, SceneInfo.LoadingScreen, SceneInfo.MenuEncountersInfo, recordNumber);
+            EncounterQuickStarter.StartEncounter(SceneInfo.User, SceneInfo.LoadingScreen, SceneInfo.MenuEncountersInfo, quickAction.EncounterId);
         }
     }
 }
