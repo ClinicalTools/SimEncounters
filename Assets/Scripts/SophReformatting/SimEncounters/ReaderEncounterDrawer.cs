@@ -78,7 +78,7 @@ namespace ClinicalTools.SimEncounters.Reader
         protected virtual void EnableFinishButton()
         {
             FinishButton.interactable = true;
-            FinishButton.image.color = Color.white;
+            //FinishButton.image.color = Color.white;
             FinishButtonText.color = Color.white;
         }
 

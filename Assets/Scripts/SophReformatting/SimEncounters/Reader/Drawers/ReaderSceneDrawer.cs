@@ -89,7 +89,7 @@ namespace ClinicalTools.SimEncounters.Reader
         private UserEncounter userEncounter;
         protected virtual void EncounterLoaded(WaitedResult<ReaderSceneInfo> sceneInfo)
         {
-            sceneInfo.Value.LoadingScreen.Stop();
+            sceneInfo.Value.LoadingScreen?.Stop();
             userEncounter = sceneInfo.Value.Encounter;
             if (started)
                 EncounterDrawer.Display(sceneInfo.Value.Encounter);

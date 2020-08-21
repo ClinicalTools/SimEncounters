@@ -66,8 +66,6 @@ namespace ClinicalTools.SimEncounters.MainMenu
             ToggleViewButton.Show();
         }
 
-
-
         private IEnumerable<MenuEncounter> FilterEncounterDetails(IEnumerable<MenuEncounter> encounters)
         {
             var filter = Sidebar.SearchStuff.Filters.EncounterFilter;

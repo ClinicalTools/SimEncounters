@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 114769579792927056}
   - component: {fileID: 114464686709592452}
   - component: {fileID: 114125565199847670}
+  - component: {fileID: 2960427308199364829}
   m_Layer: 5
   m_Name: Toggle
   m_TagString: Untagged
@@ -64,7 +65,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3647059, g: 0.6862745, b: 0.6784314, a: 1}
+  m_Color: {r: 0.2784314, g: 0.4666667, b: 0.6980392, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -188,7 +189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorOn: {r: 0, g: 0.2509804, b: 0.9568628, a: 1}
-  colorOff: {r: 0.3647059, g: 0.6862745, b: 0.6784314, a: 1}
+  colorOff: {r: 0.2784314, g: 0.4666667, b: 0.6980392, a: 1}
   bubbleOn: {fileID: 21300000, guid: f0d5373bb7ab6c84fb1c92378978a0f7, type: 3}
   bubbleOff: {fileID: 21300000, guid: 3637b38deb793bb4eaffcdcb17895177, type: 3}
 --- !u!114 &114125565199847670
@@ -211,6 +212,19 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &2960427308199364829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1087890618318784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ae2e44fec0dd134d87c03445b40205e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorType: 0
 --- !u!1 &1206910559997894
 GameObject:
   m_ObjectHideFlags: 0
@@ -931,6 +945,7 @@ MonoBehaviour:
   stripes: {fileID: 1926779152258280851}
   coloredImages:
   - {fileID: 7540779948275195959}
+  answeredColoredImages: []
   closeButton: {fileID: 7906305233692645070}
   controlledObjects: []
   correctObjects: []

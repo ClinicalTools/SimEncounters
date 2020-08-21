@@ -8,37 +8,29 @@ namespace ClinicalTools.SimEncounters.MainMenu
 {
     public class SortingOrderUI : MonoBehaviour
     {
-        [SerializeField] private Toggle patientNameAscending;
         public Toggle PatientNameAscending { get => patientNameAscending; set => patientNameAscending = value; }
-
-        [SerializeField] private Toggle patientNameDescending;
+        [SerializeField] private Toggle patientNameAscending;
         public Toggle PatientNameDescending { get => patientNameDescending; set => patientNameDescending = value; }
-
-        [SerializeField] private Toggle datePublishedAscending;
+        [SerializeField] private Toggle patientNameDescending;
         public Toggle DatePublishedAscending { get => datePublishedAscending; set => datePublishedAscending = value; }
-
-        [SerializeField] private Toggle datePublishedDescending;
+        [SerializeField] private Toggle datePublishedAscending;
         public Toggle DatePublishedDescending { get => datePublishedDescending; set => datePublishedDescending = value; }
-
-        [SerializeField] private Toggle authorAscending;
+        [SerializeField] private Toggle datePublishedDescending;
         public Toggle AuthorAscending { get => authorAscending; set => authorAscending = value; }
-
-        [SerializeField] private Toggle authorDescending;
+        [SerializeField] private Toggle authorAscending;
         public Toggle AuthorDescending { get => authorDescending; set => authorDescending = value; }
-
-        [SerializeField] private Toggle difficultyAscending;
+        [SerializeField] private Toggle authorDescending;
         public Toggle DifficultyAscending { get => difficultyAscending; set => difficultyAscending = value; }
-
-        [SerializeField] private Toggle difficultyDescending;
+        [SerializeField] private Toggle difficultyAscending;
         public Toggle DifficultyDescending { get => difficultyDescending; set => difficultyDescending = value; }
+        [SerializeField] private Toggle difficultyDescending;
 
-        public Comparison<MenuEncounter> Comparison { get; protected set; }
+        public Comparison<MenuEncounter> Comparison { get; protected set; } = ComparePatientNameAscending;
         public event Action<Comparison<MenuEncounter>> SortingOrderChanged;
 
         public void Awake()
         {
             PatientNameAscending.isOn = true;
-            Comparison = ComparePatientNameAscending;
 
             PatientNameAscending.AddOnSelectListener(() => SetComparer(ComparePatientNameAscending));
             PatientNameDescending.AddOnSelectListener(() => SetComparer(ComparePatientNameDescending));
@@ -56,21 +48,21 @@ namespace ClinicalTools.SimEncounters.MainMenu
             SortingOrderChanged?.Invoke(comparison);
         }
 
-        protected int ComparePatientNameAscending(MenuEncounter x, MenuEncounter y)
+        protected static int ComparePatientNameAscending(MenuEncounter x, MenuEncounter y)
             => x.GetLatestMetadata().Title.CompareTo(y.GetLatestMetadata().Title);
-        protected int ComparePatientNameDescending(MenuEncounter x, MenuEncounter y)
+        protected static int ComparePatientNameDescending(MenuEncounter x, MenuEncounter y)
             => y.GetLatestMetadata().Title.CompareTo(x.GetLatestMetadata().Title);
-        protected int CompareDatePublishedAscending(MenuEncounter x, MenuEncounter y)
+        protected static int CompareDatePublishedAscending(MenuEncounter x, MenuEncounter y)
             => x.GetLatestMetadata().DateModified.CompareTo(y.GetLatestMetadata().DateModified);
-        protected int CompareDatePublishedDescending(MenuEncounter x, MenuEncounter y)
+        protected static int CompareDatePublishedDescending(MenuEncounter x, MenuEncounter y)
             => y.GetLatestMetadata().DateModified.CompareTo(x.GetLatestMetadata().DateModified);
-        protected int CompareAuthorAscending(MenuEncounter x, MenuEncounter y)
+        protected static int CompareAuthorAscending(MenuEncounter x, MenuEncounter y)
             => x.GetLatestMetadata().AuthorName.CompareTo(y.GetLatestMetadata().AuthorName);
-        protected int CompareAuthorDescending(MenuEncounter x, MenuEncounter y)
+        protected static int CompareAuthorDescending(MenuEncounter x, MenuEncounter y)
             => y.GetLatestMetadata().AuthorName.CompareTo(x.GetLatestMetadata().AuthorName);
-        protected int CompareDifficultyAscending(MenuEncounter x, MenuEncounter y)
+        protected static int CompareDifficultyAscending(MenuEncounter x, MenuEncounter y)
             => x.GetLatestMetadata().Difficulty.CompareTo(y.GetLatestMetadata().Difficulty);
-        protected int CompareDifficultyDescending(MenuEncounter x, MenuEncounter y)
+        protected static int CompareDifficultyDescending(MenuEncounter x, MenuEncounter y)
             => y.GetLatestMetadata().Difficulty.CompareTo(x.GetLatestMetadata().Difficulty);
     }
 }
