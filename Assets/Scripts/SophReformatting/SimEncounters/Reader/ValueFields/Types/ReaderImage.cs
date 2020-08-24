@@ -58,7 +58,7 @@ namespace ClinicalTools.SimEncounters.Reader
         public override void Initialize(Encounter encounter, string value)
         {
             this.value = value;
-            var sprites = encounter.Images.Sprites;
+            var sprites = encounter.Content.ImageContent.Sprites;
             if (value != null && sprites.ContainsKey(value))
                 SetSprite(sprites[value]);
             else

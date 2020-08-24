@@ -1,5 +1,6 @@
 ﻿using ClinicalTools.SimEncounters.Data;
-using ClinicalTools.SimEncounters.Extensions;
+using ClinicalTools.UI;
+using ClinicalTools.UI.Extensions;
 using System;
 using System.Collections.Generic;
 using TMPro;

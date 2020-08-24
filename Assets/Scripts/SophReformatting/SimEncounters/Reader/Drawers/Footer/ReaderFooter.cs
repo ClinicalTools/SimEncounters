@@ -77,7 +77,7 @@ namespace ClinicalTools.SimEncounters.Reader
 
             bool nextTabButtonVisible = false, nextSectionButtonVisible = false, finishButtonVisible = false;
             if (IsLast(CurrentSection.Data.Tabs, tab.Data)) {
-                if (IsLast(UserEncounter.Data.Content.Sections, CurrentSection.Data))
+                if (IsLast(UserEncounter.Data.Content.NonImageContent.Sections, CurrentSection.Data))
                     finishButtonVisible = true;
                 else
                     nextSectionButtonVisible = true;
@@ -88,7 +88,7 @@ namespace ClinicalTools.SimEncounters.Reader
             NextSectionButton.gameObject.SetActive(nextSectionButtonVisible);
             FinishButton.gameObject.SetActive(finishButtonVisible);
 
-            PageInfoLabel.text = $"Page: {UserEncounter.Data.Content.GetCurrentTabNumber()}";
+            PageInfoLabel.text = $"Page: {UserEncounter.Data.Content.NonImageContent.GetCurrentTabNumber()}";
 
         }
 
@@ -97,8 +97,8 @@ namespace ClinicalTools.SimEncounters.Reader
         protected virtual void GoToNextSection()
         {
             var content = UserEncounter.Data.Content;
-            var nextSectionIndex = content.CurrentSectionIndex + 1;
-            var nextSectionKey = content.Sections[nextSectionIndex].Key;
+            var nextSectionIndex = content.NonImageContent.CurrentSectionIndex + 1;
+            var nextSectionKey = content.NonImageContent.Sections[nextSectionIndex].Key;
             var nextSection = UserEncounter.GetSection(nextSectionKey);
             var selectedArgs = new UserSectionSelectedEventArgs(nextSection);
             SectionSelected?.Invoke(this, selectedArgs);

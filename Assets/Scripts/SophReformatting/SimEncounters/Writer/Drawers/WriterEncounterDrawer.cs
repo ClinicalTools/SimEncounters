@@ -27,7 +27,7 @@ namespace ClinicalTools.SimEncounters.Writer
             Encounter = encounter;
 
             SectionSelector.Display(encounter);
-            SelectSection(encounter.Content.Sections[encounter.Content.CurrentSectionIndex].Value);
+            SelectSection(encounter.Content.NonImageContent.Sections[encounter.Content.NonImageContent.CurrentSectionIndex].Value);
         }
 
         public override void Serialize() => TabDrawer.Serialize();
@@ -40,7 +40,7 @@ namespace ClinicalTools.SimEncounters.Writer
                 return;
 
             CurrentSection = selectedSection;
-            Encounter.Content.SetCurrentSection(selectedSection);
+            Encounter.Content.NonImageContent.SetCurrentSection(selectedSection);
 
             SectionSelector.SelectSection(selectedSection);
 

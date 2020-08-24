@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.SerializationFactories
 {
-    public class ImageDataFactory : ISerializationFactory<EncounterImageData>
+    public class ImageDataFactory : ISerializationFactory<EncounterImageContent>
     {
         protected virtual ISerializationFactory<Sprite> SpriteFactory { get; } 
         public ImageDataFactory(ISerializationFactory<Sprite> spriteFactory)
@@ -16,15 +16,15 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
         protected virtual CollectionInfo IconsInfo { get; } = new CollectionInfo("icons", "icon");
         protected virtual CollectionInfo SpritesInfo { get; } = new CollectionInfo("sprites", "sprite");
 
-        public virtual bool ShouldSerialize(EncounterImageData value) => value != null;
+        public virtual bool ShouldSerialize(EncounterImageContent value) => value != null;
 
-        public void Serialize(XmlSerializer serializer, EncounterImageData value)
+        public void Serialize(XmlSerializer serializer, EncounterImageContent value)
         {
             //serializer.AddKeyValuePairs(IconsInfo, value.Icons, SpriteFactory);
             serializer.AddKeyValuePairs(SpritesInfo, value.Sprites, SpriteFactory);
         }
 
-        public virtual EncounterImageData Deserialize(XmlDeserializer deserializer)
+        public virtual EncounterImageContent Deserialize(XmlDeserializer deserializer)
         {
             var imageData = CreateImageData(deserializer);
 
@@ -33,11 +33,11 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
             return imageData;
         }
         
-        protected virtual EncounterImageData CreateImageData(XmlDeserializer deserializer) => new EncounterImageData();
+        protected virtual EncounterImageContent CreateImageData(XmlDeserializer deserializer) => new EncounterImageContent();
 
         protected virtual List<KeyValuePair<string, Sprite>> GetSprites(XmlDeserializer deserializer)
             => deserializer.GetKeyValuePairs(SpritesInfo, SpriteFactory);
-        protected virtual void AddSprites(XmlDeserializer deserializer, EncounterImageData imageData)
+        protected virtual void AddSprites(XmlDeserializer deserializer, EncounterImageContent imageData)
         {
             var spritePairs = GetSprites(deserializer);
             if (spritePairs == null)

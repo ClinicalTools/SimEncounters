@@ -1,5 +1,6 @@
 ﻿using ClinicalTools.Layout;
 using ClinicalTools.SimEncounters.Data;
+using ClinicalTools.UI;
 using System;
 using TMPro;
 using UnityEngine;
@@ -34,8 +35,8 @@ namespace ClinicalTools.SimEncounters.Writer
 
     public class WriterTabToggle : BaseWriterTabToggle
     {
-        public EncounterToggleBehaviour SelectToggle { get => selectToggle; set => selectToggle = value; }
-        [SerializeField] private EncounterToggleBehaviour selectToggle;
+        public SelectableToggle SelectToggle { get => selectToggle; set => selectToggle = value; }
+        [SerializeField] private SelectableToggle selectToggle;
         public TextMeshProUGUI NameLabel { get => nameLabel; set => nameLabel = value; }
         [SerializeField] private TextMeshProUGUI nameLabel;
         public Button EditButton { get => editButton; set => editButton = value; }

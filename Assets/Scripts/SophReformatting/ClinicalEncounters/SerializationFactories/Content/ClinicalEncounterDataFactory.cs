@@ -11,8 +11,8 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
         protected virtual IKeyGenerator KeyGenerator { get; }
 
         public ClinicalEncounterDataFactory(IKeyGenerator keyGenerator, 
-            ISerializationFactory<Section> sectionFactory, ISerializationFactory<VariableData> variablesFactory)
-            : base(sectionFactory, variablesFactory)
+            ISerializationFactory<Section> sectionFactory)
+            : base(sectionFactory)
         {
             KeyGenerator = keyGenerator;
         }

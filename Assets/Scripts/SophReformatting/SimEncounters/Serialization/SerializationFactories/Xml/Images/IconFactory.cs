@@ -1,9 +1,9 @@
-﻿using ClinicalTools.SimEncounters.Data;
+﻿using ClinicalTools.ClinicalEncounters.Data;
 using ClinicalTools.SimEncounters.XmlSerialization;
 using System;
 using UnityEngine;
 
-namespace ClinicalTools.SimEncounters.SerializationFactories
+namespace ClinicalTools.ClinicalEncounters.SerializationFactories
 {
     public class IconFactory : ISerializationFactory<LegacyIcon>
     {

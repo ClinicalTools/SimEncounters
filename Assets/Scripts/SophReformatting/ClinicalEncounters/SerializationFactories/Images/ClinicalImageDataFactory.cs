@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ClinicalTools.ClinicalEncounters.Data;
 using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.SerializationFactories;
 using ClinicalTools.SimEncounters.XmlSerialization;
@@ -27,7 +28,7 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
             );
 
 
-        public override EncounterImageData Deserialize(XmlDeserializer deserializer)
+        public override EncounterImageContent Deserialize(XmlDeserializer deserializer)
         {
             var imageData = new CEEncounterImageData();
 

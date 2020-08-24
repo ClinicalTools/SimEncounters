@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using ClinicalTools.UI;
 using System;
 using TMPro;
 using UnityEngine;
@@ -8,8 +9,8 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderTabToggle : MonoBehaviour
     {
-        public EncounterToggleBehaviour SelectToggle { get => selectToggle; set => selectToggle = value; }
-        [SerializeField] private EncounterToggleBehaviour selectToggle;
+        public SelectableToggle SelectToggle { get => selectToggle; set => selectToggle = value; }
+        [SerializeField] private SelectableToggle selectToggle;
         public TextMeshProUGUI NameLabel { get => nameLabel; set => nameLabel = value; }
         [SerializeField] private TextMeshProUGUI nameLabel;
         public GameObject Visited { get => visited; set => visited = value; }

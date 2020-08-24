@@ -8,11 +8,9 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
     public class SectionFactory : ISerializationFactory<Section>
     {
         protected virtual ISerializationFactory<Tab> TabFactory { get; }
-        protected virtual ISerializationFactory<ConditionalData> ConditionalsFactory { get; }
-        public SectionFactory(ISerializationFactory<Tab> tabFactory, ISerializationFactory<ConditionalData> conditionalsFactory)
+        public SectionFactory(ISerializationFactory<Tab> tabFactory)
         {
             TabFactory = tabFactory;
-            ConditionalsFactory = conditionalsFactory;
         }
 
         protected virtual NodeInfo NameInfo { get; set; } = new NodeInfo("name");
@@ -30,7 +28,6 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
             serializer.AddString(IconKeyInfo, value.IconKey);
             serializer.AddColor(ColorInfo, value.Color);
             serializer.AddKeyValuePairs(TabsInfo, value.Tabs, TabFactory);
-            serializer.AddValue(ConditionsInfo, value.Conditions, ConditionalsFactory);
         }
 
         public virtual Section Deserialize(XmlDeserializer deserializer)
@@ -38,7 +35,6 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
             var section = CreateSection(deserializer);
 
             SetTabs(deserializer, section);
-            AddConditions(deserializer, section);
 
             return section;
         }
@@ -69,10 +65,5 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
             foreach (var tab in tabs)
                 section.Tabs.Add(tab);
         }
-
-        protected virtual ConditionalData GetConditions(XmlDeserializer deserializer)
-            => deserializer.GetValue(ConditionsInfo, ConditionalsFactory);
-        protected virtual void AddConditions(XmlDeserializer deserializer, Section section)
-            => section.Conditions = GetConditions(deserializer);
     }
 }

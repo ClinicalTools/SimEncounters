@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ClinicalTools.ClinicalEncounters.Data;
 using ClinicalTools.SimEncounters.Collections;
 using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.SerializationFactories;
@@ -13,8 +14,8 @@ namespace ClinicalTools.ClinicalEncounters.SerializationFactories
         protected virtual IKeyGenerator KeyGenerator { get; }
 
         public ClinicalSectionFactory(IKeyGenerator keyGenerator, 
-            ISerializationFactory<Tab> tabFactory, ISerializationFactory<ConditionalData> conditionalsFactory)
-            : base(tabFactory, conditionalsFactory)
+            ISerializationFactory<Tab> tabFactory)
+            : base(tabFactory)
         {
             KeyGenerator = keyGenerator;
         }

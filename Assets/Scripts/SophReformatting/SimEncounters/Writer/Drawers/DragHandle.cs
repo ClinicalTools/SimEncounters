@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClinicalTools.UI;
+using System;
 using UnityEngine.EventSystems;
 
 namespace ClinicalTools.SimEncounters.Writer

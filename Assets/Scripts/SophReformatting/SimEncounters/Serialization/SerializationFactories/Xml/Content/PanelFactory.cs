@@ -11,16 +11,13 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
         protected virtual PanelFactory ChildPanelFactory => this;
 
         protected virtual ISerializationFactory<PinData> PinsFactory { get; }
-        protected virtual ISerializationFactory<ConditionalData> ConditionalsFactory { get; }
-        public PanelFactory(ISerializationFactory<PinData> pinsFactory, ISerializationFactory<ConditionalData> conditionalsFactory)
+        public PanelFactory(ISerializationFactory<PinData> pinsFactory)
         {
             PinsFactory = pinsFactory;
-            ConditionalsFactory = conditionalsFactory;
         }
 
 
         protected virtual NodeInfo TypeInfo { get; } = new NodeInfo("type");
-        protected virtual NodeInfo ConditionsInfo { get; } = new NodeInfo("conditions");
         protected virtual NodeInfo PinsInfo { get; } = new NodeInfo("pins");
 
         protected virtual CollectionInfo DataInfo { get; } = new CollectionInfo("values", "value");
@@ -34,7 +31,6 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
             serializer.AddString(TypeInfo, value.Type);
             serializer.AddStringKeyValuePairs(DataInfo, value.Values);
             serializer.AddKeyValuePairs(ChildPanelsInfo, value.ChildPanels, ChildPanelFactory);
-            serializer.AddValue(ConditionsInfo, value.Conditions, ConditionalsFactory);
             serializer.AddValue(PinsInfo, value.Pins, PinsFactory);
         }
 
@@ -44,7 +40,6 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
 
             AddData(deserializer, panel);
             AddChildPanels(deserializer, panel);
-            AddConditions(deserializer, panel);
             AddPins(deserializer, panel);
 
             return panel;
@@ -87,10 +82,6 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
             }
         }
 
-        protected virtual ConditionalData GetConditions(XmlDeserializer deserializer)
-            => deserializer.GetValue(ConditionsInfo, ConditionalsFactory);
-        protected virtual void AddConditions(XmlDeserializer deserializer, Panel panel)
-            => panel.Conditions = GetConditions(deserializer);
 
         protected virtual PinData GetPins(XmlDeserializer deserializer)
             => deserializer.GetValue(PinsInfo, PinsFactory);

@@ -42,7 +42,7 @@ namespace ClinicalTools.SimEncounters.Writer
         {
             value = imageKey;
 
-            var sprites = CurrentEncounter.Images.Sprites;
+            var sprites = CurrentEncounter.Content.ImageContent.Sprites;
             Color imageColor;
             if (imageKey != null && sprites.ContainsKey(imageKey)) {
                 Image.sprite = sprites[imageKey];
@@ -57,7 +57,7 @@ namespace ClinicalTools.SimEncounters.Writer
 
         protected virtual void SelectImage()
         {
-            var newImageKey = SpritePopup.SelectSprite(CurrentEncounter.Images.Sprites, Value);
+            var newImageKey = SpritePopup.SelectSprite(CurrentEncounter.Content.ImageContent.Sprites, Value);
             newImageKey.AddOnCompletedListener(ImageSelected);
         }
 

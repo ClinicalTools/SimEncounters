@@ -58,7 +58,7 @@ namespace ClinicalTools.SimEncounters.Reader
             Footer.Display(userEncounter);
             SectionSelector.Display(userEncounter);
 
-            var currentSection = userEncounter.Data.Content.GetCurrentSectionKey();
+            var currentSection = userEncounter.Data.Content.NonImageContent.GetCurrentSectionKey();
             SelectSection(userEncounter.GetSection(currentSection));
 
             if (userEncounter.IsRead())
@@ -90,7 +90,7 @@ namespace ClinicalTools.SimEncounters.Reader
                 return;
 
             CurrentSection = selectedSection;
-            UserEncounter.Data.Content.SetCurrentSection(selectedSection.Data);
+            UserEncounter.Data.Content.NonImageContent.SetCurrentSection(selectedSection.Data);
 
             SectionSelector.SelectSection(selectedSection);
             Footer.SelectSection(selectedSection);

@@ -25,8 +25,8 @@ namespace ClinicalTools.SimEncounters
             subcontainer.Bind<IParser<Dictionary<int, EncounterBasicStatus>>>().To<DictionaryParser<int, EncounterBasicStatus>>().AsTransient();
             subcontainer.Bind<IParser<KeyValuePair<int, EncounterBasicStatus>>>().To<KeyedEncounterStatusParser>().AsTransient();
 
-            subcontainer.Bind<IParser<EncounterContent>>().To<XmlDeserializerParser<EncounterContent>>().AsTransient();
-            subcontainer.Bind<IParser<EncounterImageData>>().To<XmlDeserializerParser<EncounterImageData>>().AsTransient();
+            subcontainer.Bind<IParser<EncounterNonImageContent>>().To<XmlDeserializerParser<EncounterNonImageContent>>().AsTransient();
+            subcontainer.Bind<IParser<EncounterImageContent>>().To<XmlDeserializerParser<EncounterImageContent>>().AsTransient();
             subcontainer.Bind<IParser<XmlDocument>>().To<XmlParser>().AsTransient();
 
             subcontainer.Bind<IParser<EncounterContentStatus>>().To<EncounterContentStatusParser>().AsTransient();
@@ -45,8 +45,8 @@ namespace ClinicalTools.SimEncounters
         {
             new DictionaryParser<int, EncounterBasicStatus>(null, null);
             new ListParser<EncounterMetadata>(null, null);
-            new XmlDeserializerParser<EncounterContent>(null, null);
-            new XmlDeserializerParser<EncounterImageData>(null, null);
+            new XmlDeserializerParser<EncounterNonImageContent>(null, null);
+            new XmlDeserializerParser<EncounterImageContent>(null, null);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 using System;
+using ClinicalTools.UI;
 
 namespace ClinicalTools.SimEncounters.Reader
 {

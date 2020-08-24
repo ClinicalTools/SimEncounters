@@ -47,6 +47,7 @@
   <PropertyGroup>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <UnityProjectGenerator>Unity/VSTU</UnityProjectGenerator>
+    <UnityProjectGeneratorVersion>4.8.0.0</UnityProjectGeneratorVersion>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>Android:13</UnityBuildTarget>
     <UnityVersion>2019.4.8f1</UnityVersion>
@@ -63,8 +64,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Aaaa.cs" />
-    <Compile Include="Assets\Abcdef.cs" />
     <Compile Include="Assets\Addons\CielaSpike\Thread Ninja\Example\ExampleScript.cs" />
     <Compile Include="Assets\Addons\CielaSpike\Thread Ninja\Ninja.cs" />
     <Compile Include="Assets\Addons\CielaSpike\Thread Ninja\Task.cs" />
@@ -72,150 +71,23 @@
     <Compile Include="Assets\Addons\CielaSpike\Thread Ninja\ThreadNinjaMonoBehaviourExtensions.cs" />
     <Compile Include="Assets\Addons\ReorderableArray\Demo\Demo.cs" />
     <Compile Include="Assets\Addons\ReorderableArray\NotReorderableAttribute.cs" />
-    <Compile Include="Assets\BMIField.cs" />
-    <Compile Include="Assets\BaseCompletionPopup.cs" />
-    <Compile Include="Assets\BaseWriterDisplay.cs" />
-    <Compile Include="Assets\BoolCondFields.cs" />
-    <Compile Include="Assets\BoolGroup.cs" />
-    <Compile Include="Assets\BoolRow.cs" />
-    <Compile Include="Assets\CECompletionPopup.cs" />
-    <Compile Include="Assets\CEWriterMetadataDisplay.cs" />
-    <Compile Include="Assets\ClinicalSerializationFactoryInstaller.cs" />
-    <Compile Include="Assets\ColorImageValueField.cs" />
-    <Compile Include="Assets\CondFields.cs" />
-    <Compile Include="Assets\CondGroup.cs" />
-    <Compile Include="Assets\CondRow.cs" />
-    <Compile Include="Assets\DisabledButtonTooltip.cs" />
-    <Compile Include="Assets\DisabledToggleTooltip.cs" />
-    <Compile Include="Assets\HiddenValueField.cs" />
     <Compile Include="Assets\InAppBrowser\Example\BrowserOpener.cs" />
     <Compile Include="Assets\InAppBrowser\Example\JSExecute.cs" />
     <Compile Include="Assets\InAppBrowser\Example\LocalFileOpener.cs" />
     <Compile Include="Assets\InAppBrowser\Scripts\InAppBrowser.cs" />
     <Compile Include="Assets\InAppBrowser\Scripts\InAppBrowserBridge.cs" />
-    <Compile Include="Assets\IntCondFields.cs" />
-    <Compile Include="Assets\IntGroup.cs" />
-    <Compile Include="Assets\IntRow.cs" />
-    <Compile Include="Assets\MainMenuCategorySelectorUI.cs" />
-    <Compile Include="Assets\MenuBarToggle.cs" />
-    <Compile Include="Assets\MenuCategorySelector.cs" />
+    <Compile Include="Assets\Logger.cs" />
     <Compile Include="Assets\OnColorToggle.cs" />
-    <Compile Include="Assets\OtherTest.cs" />
-    <Compile Include="Assets\PageButtonsUI.cs" />
-    <Compile Include="Assets\PanelButtonsUI.cs" />
-    <Compile Include="Assets\RatingDisplayUI.cs" />
-    <Compile Include="Assets\ReaderRatingUI.cs" />
-    <Compile Include="Assets\Resources\Writer\TMPro\AutofillTMP.cs" />
-    <Compile Include="Assets\Resources\Writer\TMPro\InputFieldScrollOver.cs" />
-    <Compile Include="Assets\Resources\Writer\TMPro\InputStartChanged.cs" />
-    <Compile Include="Assets\Resources\Writer\TMPro\TMPInputFieldOverrideScript.cs" />
-    <Compile Include="Assets\SceneManagerInstaller.cs" />
     <Compile Include="Assets\Scripts\ArmController.cs" />
     <Compile Include="Assets\Scripts\AutoTrim.cs" />
-    <Compile Include="Assets\Scripts\CaseVariable.cs" />
-    <Compile Include="Assets\Scripts\CondData.cs" />
     <Compile Include="Assets\Scripts\CorrectRows.cs" />
     <Compile Include="Assets\Scripts\DateFieldEnforcer.cs" />
     <Compile Include="Assets\Scripts\EnableFeedback.cs" />
-    <Compile Include="Assets\Scripts\EncounterBool.cs" />
-    <Compile Include="Assets\Scripts\EncounterInt.cs" />
-    <Compile Include="Assets\Scripts\EntryValue\Date.cs" />
-    <Compile Include="Assets\Scripts\EntryValue\DateValue.cs" />
-    <Compile Include="Assets\Scripts\EntryValue\DeprecatedEntryValue.cs" />
-    <Compile Include="Assets\Scripts\EntryValue\DeprecatedType.cs" />
-    <Compile Include="Assets\Scripts\EntryValue\DropdownValue.cs" />
-    <Compile Include="Assets\Scripts\EntryValue\EntryValue.cs" />
-    <Compile Include="Assets\Scripts\EntryValue\EntryValueHelper.cs" />
-    <Compile Include="Assets\Scripts\EntryValue\ImageValue.cs" />
-    <Compile Include="Assets\Scripts\EntryValue\InputFieldValue.cs" />
-    <Compile Include="Assets\Scripts\EntryValue\PinValue.cs" />
-    <Compile Include="Assets\Scripts\EntryValue\TextValue.cs" />
-    <Compile Include="Assets\Scripts\EntryValue\ToggleValue.cs" />
-    <Compile Include="Assets\Scripts\Extensions.cs" />
-    <Compile Include="Assets\Scripts\Global\CameraController.cs" />
-    <Compile Include="Assets\Scripts\Global\CanvasAspectRatioFitter.cs" />
-    <Compile Include="Assets\Scripts\Global\ChangeSceneScript.cs" />
-    <Compile Include="Assets\Scripts\Global\ChangeSidePanelScript.cs" />
-    <Compile Include="Assets\Scripts\Global\CollapseContentScript.cs" />
-    <Compile Include="Assets\Scripts\Global\Course.cs" />
-    <Compile Include="Assets\Scripts\Global\ExitGameScript.cs" />
-    <Compile Include="Assets\Scripts\Global\Fields\FitOnHideRow.cs" />
-    <Compile Include="Assets\Scripts\Global\Fields\HexField.cs" />
-    <Compile Include="Assets\Scripts\Global\Fields\MaxFieldDigits.cs" />
-    <Compile Include="Assets\Scripts\Global\Fields\MaxLines.cs" />
-    <Compile Include="Assets\Scripts\Global\Fields\RemoveSelect.cs" />
-    <Compile Include="Assets\Scripts\Global\Fields\TabColumn.cs" />
-    <Compile Include="Assets\Scripts\Global\Fields\TabField.cs" />
-    <Compile Include="Assets\Scripts\Global\Fields\TabGroup.cs" />
-    <Compile Include="Assets\Scripts\Global\Fields\TabRow.cs" />
-    <Compile Include="Assets\Scripts\Global\Fields\TextDropdownTabField.cs" />
-    <Compile Include="Assets\Scripts\Global\Fields\ToggleOther.cs" />
-    <Compile Include="Assets\Scripts\Global\Fields\ToggledChildrenColor.cs" />
-    <Compile Include="Assets\Scripts\Global\FilePickerScript.cs" />
-    <Compile Include="Assets\Scripts\Global\GameObjectExtensions.cs" />
-    <Compile Include="Assets\Scripts\Global\GameResolution.cs" />
-    <Compile Include="Assets\Scripts\Global\GlobalData.cs" />
-    <Compile Include="Assets\Scripts\Global\InputFieldResizer.cs" />
-    <Compile Include="Assets\Scripts\Global\InstructionLoaderScript.cs" />
-    <Compile Include="Assets\Scripts\Global\LayoutGroupFixScript.cs" />
-    <Compile Include="Assets\Scripts\Global\MultiFieldHoverScript.cs" />
-    <Compile Include="Assets\Scripts\Global\NextFrame.cs" />
-    <Compile Include="Assets\Scripts\Global\PauseAnimationScript.cs" />
-    <Compile Include="Assets\Scripts\Global\RandomVitalsScript.cs" />
-    <Compile Include="Assets\Scripts\Global\ResizeCanvas.cs" />
-    <Compile Include="Assets\Scripts\Global\ScaleImage.cs" />
-    <Compile Include="Assets\Scripts\Global\ScrollbarResetScript.cs" />
-    <Compile Include="Assets\Scripts\Global\StayOnScreen.cs" />
-    <Compile Include="Assets\Scripts\Global\ToggleIconScript.cs" />
-    <Compile Include="Assets\Scripts\Global\ToggleTargetOppositeScript.cs" />
-    <Compile Include="Assets\Scripts\Global\ToggleTargetScript.cs" />
-    <Compile Include="Assets\Scripts\Global\Tracker.cs" />
-    <Compile Include="Assets\Scripts\Global\WrapTextScript.cs" />
+    <Compile Include="Assets\Scripts\ExtensionsOld.cs" />
     <Compile Include="Assets\Scripts\HideOnEmpty.cs" />
-    <Compile Include="Assets\Scripts\Menu Scripts\AccountDropdown.cs" />
-    <Compile Include="Assets\Scripts\Menu Scripts\AccountSettingsScript.cs" />
-    <Compile Include="Assets\Scripts\Menu Scripts\HideOnGuest.cs" />
-    <Compile Include="Assets\Scripts\Menu Scripts\LoginManager.cs" />
-    <Compile Include="Assets\Scripts\Menu Scripts\MenuCase.cs" />
-    <Compile Include="Assets\Scripts\Menu Scripts\MenuSlide.cs" />
-    <Compile Include="Assets\Scripts\Menu Scripts\RegistrationScript.cs" />
-    <Compile Include="Assets\Scripts\Menu Scripts\ServerControls.cs" />
-    <Compile Include="Assets\Scripts\Menu Scripts\WriterQuickStart.cs" />
     <Compile Include="Assets\Scripts\MobileCursor.cs" />
-    <Compile Include="Assets\Scripts\NoUnselectGroup.cs" />
     <Compile Include="Assets\Scripts\ObjectFinder.cs" />
     <Compile Include="Assets\Scripts\Pause.cs" />
-    <Compile Include="Assets\Scripts\Reader\DialogueAnswerChecker.cs" />
-    <Compile Include="Assets\Scripts\Reader\DialogueChoiceScript.cs" />
-    <Compile Include="Assets\Scripts\Reader\Feedback\ConsultationFeedback.cs" />
-    <Compile Include="Assets\Scripts\Reader\Feedback\DialogueFeedback.cs" />
-    <Compile Include="Assets\Scripts\Reader\Feedback\EntryFeedback.cs" />
-    <Compile Include="Assets\Scripts\Reader\Feedback\FeedbackScript.cs" />
-    <Compile Include="Assets\Scripts\Reader\Feedback\MedicalTestFeedback.cs" />
-    <Compile Include="Assets\Scripts\Reader\Feedback\TreatmentFeedback.cs" />
-    <Compile Include="Assets\Scripts\Reader\HideLabelScript.cs" />
-    <Compile Include="Assets\Scripts\Reader\HideOnMouseHoverScript.cs" />
-    <Compile Include="Assets\Scripts\Reader\NumberEntriesScript.cs" />
-    <Compile Include="Assets\Scripts\Reader\PinHandler.cs" />
-    <Compile Include="Assets\Scripts\Reader\QuizObjScript.cs" />
-    <Compile Include="Assets\Scripts\Reader\ReaderCaseOverviewScript.cs" />
-    <Compile Include="Assets\Scripts\Reader\ReaderDataScript.cs" />
-    <Compile Include="Assets\Scripts\Reader\ReaderDialogueManagerScript.cs" />
-    <Compile Include="Assets\Scripts\Reader\ReaderEntryManagerScript.cs" />
-    <Compile Include="Assets\Scripts\Reader\ReaderImageUploaderScript.cs" />
-    <Compile Include="Assets\Scripts\Reader\ReaderMoveableObjectCursorScript.cs" />
-    <Compile Include="Assets\Scripts\Reader\ReaderNextTabScript.cs" />
-    <Compile Include="Assets\Scripts\Reader\ReaderOpenImageUploadPanelScript.cs" />
-    <Compile Include="Assets\Scripts\Reader\ReaderSerialScript.cs" />
-    <Compile Include="Assets\Scripts\Reader\ReaderSwapSectionScript.cs" />
-    <Compile Include="Assets\Scripts\Reader\ReaderSwapTabScript.cs" />
-    <Compile Include="Assets\Scripts\Reader\ReaderTabManager.cs" />
-    <Compile Include="Assets\Scripts\Reader\ReaderTextboxImageSizer.cs" />
-    <Compile Include="Assets\Scripts\Reader\SendEmailCertificateScript.cs" />
-    <Compile Include="Assets\Scripts\Reader\SwipeHandler.cs" />
-    <Compile Include="Assets\Scripts\Reader\SwipeManager.cs" />
-    <Compile Include="Assets\Scripts\Reader\TMPClickableLinksScript.cs" />
-    <Compile Include="Assets\Scripts\Reader\ToggleSetup.cs" />
     <Compile Include="Assets\Scripts\ResetCategories.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\SerializationFactories\Content\ClinicalEncounterDataFactory.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\SerializationFactories\Content\ClinicalPanelFactory.cs" />
@@ -227,6 +99,16 @@
     <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\SerializationFactories\Pins\ClinicalDialoguePinFactory.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\SerializationFactories\Pins\ClinicalPinDataFactory.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\SerializationFactories\Pins\ClinicalQuizPinFactory.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\aaaa\CECompletionPopup.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\aaaa\CEEncounterDataReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\aaaa\CEEncounterImageData.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\aaaa\CEEncounterMetadata.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\aaaa\CEEncounterReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\aaaa\CESection.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\aaaa\CEWriterMetadataDisplay.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\aaaa\ClinicalSerializationFactoryInstaller.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\aaaa\LegacyIcon.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\ClinicalEncounters\aaaa\WebGLCompletionPopup.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\ColorUi\ColorBehaviour.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\ColorUi\ColorImage.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\ColorUi\ColorLabel.cs" />
@@ -281,105 +163,85 @@
     <Compile Include="Assets\Scripts\SophReformatting\Layout Elements\NullableFloat.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Layout Elements\TMProLabelLayoutElement.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\Layout Elements\UIElement.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Collection\IApply.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Collection\IKeyGenerator.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Collection\KeyGenerator.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Collection\KeyedCollection.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Collection\OrderedCollection.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\CEEncounterMetadata.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Category.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Branching\Conditionals\BoolConditional.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Branching\Conditionals\CaseConditional.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Branching\Conditionals\ConditionData.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Branching\Conditionals\IntConditional.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Branching\Variables\VarType.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Branching\Variables\VariableData.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Content\CESection.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Content\EncounterContent.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Content\EncounterDataReader.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Content\EncounterDataReaderSelector.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Content\IEncounterDataReader.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Content\IEncounterDataReaderSelector.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Content\Panel.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Content\Section.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Content\Tab.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Encounter.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Images\EncounterImageData.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Images\LegacyIcon.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Loader\IEncounterXml\DefaultFileManager.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Loader\IEncounterXml\DemoFileManager.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Loader\IEncounterXml\IFileExtensionManager.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Loader\IEncounterXml\IFileManager.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Loader\IEncounterXml\UserFileManager.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Loader\IEncounterXml\WaitableResult.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Loader\IEncounterXml\WaitedResult.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Loader\SimAsyncOperation.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Loader\XmlParser.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Pins\DialoguePin.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Pins\PinData.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterData\Pins\QuizPin.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\EncounterMetadata.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\MenuEncounter.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Name.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\OptionType.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Status\EncounterBasicStatus.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Status\EncounterContentStatus.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Status\EncounterStatus.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Status\PanelStatus.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Status\SectionStatus.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Status\TabStatus.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\UserEncounter\UserDialoguePin.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\UserEncounter\UserEncounter.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\UserEncounter\UserPanel.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\UserEncounter\UserPinGroup.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\UserEncounter\UserQuizPin.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\UserEncounter\UserSection.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\UserEncounter\UserTab.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\DataReaders\CEEncounterReader.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\DataReaders\EncounterReader.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\DataReaders\EncounterUploader.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\DataReaders\IBasicStatusesReader.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\DataReaders\ICategoriesReader.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\DataReaders\IDetailedStatusReader.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\DataReaders\IEncounterContentReader.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\DataReaders\IEncounterImageDataReader.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\DataReaders\IEncounterReader.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\DataReaders\IMenuEncountersReader.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\DataReaders\IMetadataGroupsReader.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\DataReaders\IMetadatasReader.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\DataReaders\IUserEncounterReader.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\DataReaders\LocalEncounterWriter.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\DataReaders\ServerDetailedStatusReader.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\DataReaders\UserEncounterReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\Encounter\Data\Content\EncounterNonImageContent.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\Encounter\Data\Content\Panel.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\Encounter\Data\Content\Pins\DialoguePin.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\Encounter\Data\Content\Pins\PinData.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\Encounter\Data\Content\Pins\QuizPin.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\Encounter\Data\Content\Section.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\Encounter\Data\Content\Tab.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\Encounter\Data\EncounterContent.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\Encounter\Data\EncounterImageContent.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\Encounter\Encounter.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\Encounter\EncounterMetadata.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\Menu\Category.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\Menu\IMenuEncountersInfo.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\Menu\MenuEncounter.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\Menu\MenuEncountersInfo.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\Name.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\OptionType.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\Status\EncounterBasicStatus.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\Status\EncounterContentStatus.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\Status\EncounterStatus.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\Status\PanelStatus.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\Status\SectionStatus.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\Status\TabStatus.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\UserEncounter\UserDialoguePin.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\UserEncounter\UserEncounter.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\UserEncounter\UserPanel.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\UserEncounter\UserPinGroup.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\UserEncounter\UserQuizPin.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\UserEncounter\UserSection.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\ActualData\UserEncounter\UserTab.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Encounter\Data\Content\IEncounterContentReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Encounter\Data\Content\LegacyServerContentDataReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Encounter\Data\Content\LocalContentDataReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Encounter\Data\Content\ServerContentDataReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Encounter\Data\EncounterDataReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Encounter\Data\EncounterDataReaderSelector.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Encounter\Data\IEncounterDataReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Encounter\Data\IEncounterDataReaderSelector.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Encounter\Data\Images\IEncounterImageDataReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Encounter\Data\Images\LegacyServerImageDataReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Encounter\Data\Images\LocalImageDataReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Encounter\Data\Images\ServerImageDataReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Encounter\EncounterReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Encounter\IEncounterReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Encounter\Metadata\Multiple\IMetadataGroupsReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Encounter\Metadata\Multiple\IMetadatasReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Encounter\Metadata\Multiple\LegacyServerMetadatasReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Encounter\Metadata\Multiple\LocalMetadatasReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Encounter\Metadata\Multiple\MetadataGroupsReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Encounter\Metadata\Multiple\ServerMetadatasReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Encounter\Metadata\Single\IMetadataReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Encounter\Metadata\Single\LocalMetadataReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Menu\IMenuEncountersInfoReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Menu\IMenuEncountersReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Menu\MenuEncountersInfoReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Menu\MenuEncountersReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Status\Basic\BasicStatusesReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Status\Basic\IBasicStatusesReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Status\Basic\LocalBasicStatusesReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Status\Basic\ServerBasicStatusesReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Status\Detailed\IDetailedStatusReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Status\Detailed\LocalDetailedStatusReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\Status\Detailed\ServerDetailedStatusReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\UserEncounter\IUserEncounterReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Readers\UserEncounter\UserEncounterReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Writers\EncounterUploader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Data\Writers\LocalEncounterWriter.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Extensions.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\AudienceFilterUI.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\AutofillThing.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\BaseAddEncounterPopup.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\BaseMenuSceneDrawer.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\CEAddEncounterPopup.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\CEEncounterMetadataSerializer.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\DetailedStatusWriter.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\DifficultyFilterUI.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\EncounterButtonsUI.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\EncounterFileWriter.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\EncounterFilterBehaviour.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\EncounterInfoParser.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\EncounterInfoUI.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\EncounterQuickStarter.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\EncounterSelectorReaderButtons.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\EncounterSelectorWriterButtons.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\ExitButtonsUI.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\FileDetailedStatusWriter.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\FilenameUpdater.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\FilterGroupUI.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\IEncounterStarter.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\IEncounterWriter.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\IMenuSceneDrawer.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\IParser.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\IServerReader.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\IUrlBuilder.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\KeyedEncounterStatusParser.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\LabeledToggle.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\LegacyCEEncounterMetadataParser.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\FileManager\DefaultFileManager.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\FileManager\DemoFileManager.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\FileManager\Extensions\AutosaveFileExtensionManager.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\FileManager\Extensions\FileExtensionManager.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\FileManager\Extensions\IFileExtensionManager.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\FileManager\IFileManager.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\FileManager\UserFileManager.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\Login\AutoLogin.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\Login\ILoginManager.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\Login\IPasswordLoginManager.cs" />
@@ -387,35 +249,68 @@
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\Login\ManualLogin.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\Login\PasswordLogin.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\Login\UserParser.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\LoginHandler.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\MainMenuCategoryUI.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\MainMenuEncounterUI.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\MainMenuEncountersViewUI.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\MainMenuManager.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\MainMenuSceneDrawer.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\MenuSceneStarter.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\MetadataSelector.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\OverviewUI.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\QuickAction.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\QuitUI.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\ReaderMenuEncountersUI.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\ReaderWriterMainMenuSceneDrawer.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\RegisterUser.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\ResendEmail.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\ResetPassword.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\SearchFilterUI.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\SearchStuffUI.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\ServerCasesInfoReader.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\ServerDataReader.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\ServerDetailedStatusWriter.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\ServerReader.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\ServerResult.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\SidebarUI.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\SortingOrderUI.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\UrlBuilder.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\UserDropdownUI.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\UserSettingsUI.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\WriterMenuEncountersUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\AudienceFilterUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\AutofillThing.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\BaseAddEncounterPopup.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\BaseMenuSceneDrawer.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\CEAddEncounterPopup.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\CEEncounterMetadataSerializer.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\DetailedStatusWriter.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\DifficultyFilterUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\EncounterButtonsUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\EncounterFileWriter.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\EncounterFilterBehaviour.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\EncounterInfoParser.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\EncounterInfoUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\EncounterQuickStarter.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\EncounterSelectorReaderButtons.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\EncounterSelectorWriterButtons.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\ExitButtonsUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\FileDetailedStatusWriter.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\FilenameUpdater.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\FilterGroupUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\IEncounterStarter.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\IEncounterWriter.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\IMenuSceneDrawer.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\IParser.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\IServerReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\IUrlBuilder.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\KeyedEncounterStatusParser.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\LabeledToggle.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\LegacyCEEncounterMetadataParser.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\LoginHandler.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\MainMenuCategorySelectorUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\MainMenuCategoryUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\MainMenuEncounterUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\MainMenuEncountersViewUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\MainMenuManager.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\MainMenuSceneDrawer.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\MenuCategorySelector.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\MenuInstaller.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\MenuSceneStarter.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\MetadataSelector.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\OverviewUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\QuickAction.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\QuitUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\ReaderMenuEncountersUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\ReaderWriterMainMenuSceneDrawer.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\RegisterUser.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\ResendEmail.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\ResetPassword.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\SearchFilterUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\SearchStuffUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\ServerCasesInfoReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\ServerDataReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\ServerDetailedStatusWriter.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\ServerReader.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\ServerResult.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\SidebarUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\SortingOrderUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\ToggleViewButtonUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\UrlBuilder.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\UserDropdownUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\UserSettingsUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\aaaa\WriterMenuEncountersUI.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Drawers\BaseReaderSceneDrawer.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Drawers\BaseUserEncounterDrawer.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Drawers\Footer\BaseReaderFooter.cs" />
@@ -496,37 +391,29 @@
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\ValueFields\Types\ReaderImage.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\ValueFields\Types\ReaderLabelField.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\ValueFields\Types\ReaderPatientImage.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\aaaa\BaseCompletionPopup.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\ReaderEncounterDrawer.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Scene\SceneManager.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\SceneInfo\IMenuEncountersInfo.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\SceneInfo\LoadingMenuSceneInfo.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\SceneInfo\MenuSceneInfo.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\CharEnumerator.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\ICharEnumeratorParser.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\IDetailedStatusWriter.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\Parser\ColorParser.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\Parser\Status\EncounterContentStatusParser.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\Parser\Status\EncounterStatusSerializer.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\Parser\Status\KeyParser.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\Parser\Status\SectionStatusParser.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\Parser\Status\SectionStatusSerializer.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\Parser\Status\TabStatusParser.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\Parser\Status\TabStatusSerializer.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\Parser\Encounter\EncounterContentStatusParser.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\Parser\Encounter\EncounterStatusSerializer.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\Parser\Encounter\SectionStatusParser.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\Parser\Encounter\SectionStatusSerializer.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\Parser\Encounter\TabStatusParser.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\Parser\Encounter\TabStatusSerializer.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\Parser\KeyParser.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\Parser\XmlParser.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\SerializationFactories\Encounter\CollectionInfo.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\SerializationFactories\Encounter\ISerializationFactory.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\SerializationFactories\Encounter\NodeFinder.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\SerializationFactories\Encounter\XmlDeserializer.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\SerializationFactories\Encounter\XmlSerializer.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\SerializationFactories\Encounter\old\Abc.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\SerializationFactories\Encounter\old\ListXmlHandler.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\SerializationFactories\Encounter\old\XmlHandler.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\SerializationFactories\Encounter\old\XmlHelper.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\SerializationFactories\Xml\Branching\Conditionals\BoolConditionalFactory.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\SerializationFactories\Xml\Branching\Conditionals\ConditionalDataFactory.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\SerializationFactories\Xml\Branching\Conditionals\IntConditionalFactory.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\SerializationFactories\Xml\Branching\Variables\EncounterBoolFactory.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\SerializationFactories\Xml\Branching\Variables\EncounterIntFactory.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\SerializationFactories\Xml\Branching\Variables\VariableDataFactory.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\SerializationFactories\SerializationFactoryInstaller.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\SerializationFactories\Xml\Content\EncounterDataFactory.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\SerializationFactories\Xml\Content\PanelFactory.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\SerializationFactories\Xml\Content\SectionFactory.cs" />
@@ -537,22 +424,17 @@
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\SerializationFactories\Xml\Pins\DialoguePinFactory.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\SerializationFactories\Xml\Pins\PinDataFactory.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Serialization\SerializationFactories\Xml\Pins\QuizPinFactory.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\UI\BaseRearrangeableGroup.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\UI\DraggableGroup.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\UI\EncounterToggleBehaviour.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\UI\HorizontalDraggableGroup.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\UI\IDraggable.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\UI\ILoadingScreen.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\UI\LoadingScreen.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\UI\LoadingScreenUI.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\UI\MouseInput.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\UI\VerticalDraggableGroup.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\User\User.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\User\UserStatus.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\ValueFields\BaseValueField.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\ValueFields\ColorImageValueField.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\ValueFields\DropdownValueField.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\ValueFields\FirstNameLabelField.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\ValueFields\FirstNameTextField.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\ValueFields\HiddenValueField.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\ValueFields\LabelValueField.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\ValueFields\LastNameLabelField.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\ValueFields\LastNameTextField.cs" />
@@ -561,6 +443,8 @@
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\ValueFields\RecordNumberLabel.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\ValueFields\TextValueField.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\ValueFields\ToggleValueField.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Waitable\WaitableResult.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Waitable\WaitedResult.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Characters\WriterCharactersPopup.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Drawers\BaseConfirmationPopup.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\Drawers\BaseDragHandle.cs" />
@@ -622,108 +506,213 @@
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\LoadingWriterSceneInfo.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\WriterSceneInfo.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\WriterSceneManager.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\aaaa\BMIField.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\aaaa\BaseWriterDisplay.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\aaaa\CEImageUploaderUI.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\aaaa\ImageUploaderUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\aaaa\MedicalTestOptionsRetriever.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\aaaa\TabScrollButtonScript.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Writer\aaaa\TabScrollScript.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\aaaaa\BasicMessageHandler.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\aaaaa\DropdownOption.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\aaaaa\DropdownTextfield.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\aaaaa\MedicalTestOptionsRetriever.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\aaaaa\MenuInstaller.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\aaaaa\MessageHandler.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\aaaaa\OptionsRetriever.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\aaaaa\RatingDisplayUI.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\aaaaa\SceneManagerInstaller.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\UI\DropdownTextfield\DropdownOption.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\UI\DropdownTextfield\DropdownTextfield.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\UI\DropdownTextfield\OptionsRetriever.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\UI\Extensions.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\UI\ExtraFunctionality\NoUnselectGroup.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\UI\ExtraFunctionality\SelectableToggle.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\UI\ExtraFunctionality\SizeOverflowingLabelToFitLine.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\UI\MessageHandler\BaseBasicMessageHandler.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\UI\MessageHandler\BaseMessageHandler.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\UI\MessageHandler\BasicMessageHandler.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\UI\MessageHandler\MessageHandler.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\UI\MouseInput\MouseInput.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\UI\MouseInput\SwipeHandler.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\UI\RearrangeableGroup\BaseRearrangeableGroup.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\UI\RearrangeableGroup\DraggableGroup.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\UI\RearrangeableGroup\HorizontalDraggableGroup.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\UI\RearrangeableGroup\IDraggable.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\UI\RearrangeableGroup\VerticalDraggableGroup.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\UI\Sizing\SetDimensionsBasedOnResolution.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\UI\Tooltip\DisabledButtonTooltip.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\UI\Tooltip\DisabledToggleTooltip.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\UI\Tooltip\Tooltip.cs" />
     <Compile Include="Assets\Scripts\TMProLinks.cs" />
     <Compile Include="Assets\Scripts\UpdateStars.cs" />
-    <Compile Include="Assets\Scripts\VR\DialogueSelect.cs" />
-    <Compile Include="Assets\Scripts\VR\DialogueSpawn.cs" />
-    <Compile Include="Assets\Scripts\VR\XMLManager.cs" />
-    <Compile Include="Assets\Scripts\VarData.cs" />
     <Compile Include="Assets\Scripts\VerticalFitOnScreen.cs" />
     <Compile Include="Assets\Scripts\ViewBtnCheck.cs" />
-    <Compile Include="Assets\Scripts\Writer\AttachPortraitScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\BMICalcScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\ButtonListenerFunctionsScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\ButtonScripts\AddCharacterButtonScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\ButtonScripts\AddEnrtyButtonScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\ButtonScripts\OpenConditionalPanel.cs" />
-    <Compile Include="Assets\Scripts\Writer\ButtonScripts\OpenImageUploadPanelScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\ButtonScripts\PinOnClickScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\ButtonScripts\RemoveDialogueScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\ButtonScripts\RemoveEntryScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\ButtonScripts\ScriptButtonFixScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\ButtonScripts\SectionEditorScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\ButtonScripts\SwapSectionScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\ButtonScripts\SwapTabScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\ButtonScripts\TabEditorScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\CECursor.cs" />
-    <Compile Include="Assets\Scripts\Writer\CEScrollRect.cs" />
-    <Compile Include="Assets\Scripts\Writer\ConfirmationScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\ContentTipInfoScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\ContentTipScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\ControlDropdownBorders.cs" />
-    <Compile Include="Assets\Scripts\Writer\DataScripts\ChangedInputScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\DataScripts\CharacterManagerScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\DataScripts\DefaultDataScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\DataScripts\DiagnosisCountScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\DataScripts\DialogueEntryScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\DataScripts\FlagEventScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\DataScripts\GetPatientNameScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\DataScripts\GlobalDataScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\DataScripts\LabEntryScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\DataScripts\MedicalTestsHandlerScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\DataScripts\SectionDataScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\DataScripts\SpriteHolderScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\DataScripts\TabInfoScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\DataScripts\TextureScale.cs" />
-    <Compile Include="Assets\Scripts\Writer\DestroyObjectScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\DialogueDraggingScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\DialogueManagerScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\DragOverrideScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\EnableSceneScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\FitImage.cs" />
-    <Compile Include="Assets\Scripts\Writer\HelpOverlayScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\HelpOverlayTag.cs" />
-    <Compile Include="Assets\Scripts\Writer\HistoryFieldManagerScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\ImageUploaderScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\InputFieldOverrideScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\LoadCharacterScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\LoadingScreenManager.cs" />
-    <Compile Include="Assets\Scripts\Writer\MoveableObjectCursorScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\NewCaseSpawnPanelsScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\PinManagerScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\PinTabScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\PublishCheck.cs" />
-    <Compile Include="Assets\Scripts\Writer\QuizManagerScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\RefreshSizeFitter.cs" />
-    <Compile Include="Assets\Scripts\Writer\SelectCustomColorScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\SerialScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\SetGenderScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\TabAndSectionDragScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\TabManaging\AddTabScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\TabManaging\DataScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\TabManaging\EditSectionScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\TabManaging\EditTabScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\TabManaging\TabManager.cs" />
-    <Compile Include="Assets\Scripts\Writer\ToolTipInfoScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\UpdateAge.cs" />
-    <Compile Include="Assets\Scripts\Writer\UpdateName.cs" />
-    <Compile Include="Assets\Scripts\Writer\UpdatePatientImage.cs" />
-    <Compile Include="Assets\Scripts\Writer\WriterEventManager.cs" />
-    <Compile Include="Assets\Scripts\Writer\XMLData\AutoCompleteEntryScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\XMLData\SaveCaseScript.cs" />
-    <Compile Include="Assets\Scripts\Writer\XMLData\SubmitToXML.cs" />
-    <Compile Include="Assets\Scripts\Writer\XMLData\UploadToServer.cs" />
-    <Compile Include="Assets\SerializationFactoryInstaller.cs" />
-    <Compile Include="Assets\SetDimensionsBasedOnResolution.cs" />
-    <Compile Include="Assets\SizeToLine.cs" />
-    <Compile Include="Assets\ToggleViewButtonUI.cs" />
-    <Compile Include="Assets\Tooltip.cs" />
-    <Compile Include="Assets\VarGroup.cs" />
-    <Compile Include="Assets\VarRow.cs" />
-    <Compile Include="Assets\WebGLCompletionPopup.cs" />
+    <Compile Include="Assets\Scripts\old\EntryValue\Date.cs" />
+    <Compile Include="Assets\Scripts\old\EntryValue\DateValue.cs" />
+    <Compile Include="Assets\Scripts\old\EntryValue\DeprecatedEntryValue.cs" />
+    <Compile Include="Assets\Scripts\old\EntryValue\DeprecatedType.cs" />
+    <Compile Include="Assets\Scripts\old\EntryValue\DropdownValue.cs" />
+    <Compile Include="Assets\Scripts\old\EntryValue\EntryValue.cs" />
+    <Compile Include="Assets\Scripts\old\EntryValue\EntryValueHelper.cs" />
+    <Compile Include="Assets\Scripts\old\EntryValue\ImageValue.cs" />
+    <Compile Include="Assets\Scripts\old\EntryValue\InputFieldValue.cs" />
+    <Compile Include="Assets\Scripts\old\EntryValue\PinValue.cs" />
+    <Compile Include="Assets\Scripts\old\EntryValue\TextValue.cs" />
+    <Compile Include="Assets\Scripts\old\EntryValue\ToggleValue.cs" />
+    <Compile Include="Assets\Scripts\old\Global\CameraController.cs" />
+    <Compile Include="Assets\Scripts\old\Global\CanvasAspectRatioFitter.cs" />
+    <Compile Include="Assets\Scripts\old\Global\ChangeSceneScript.cs" />
+    <Compile Include="Assets\Scripts\old\Global\ChangeSidePanelScript.cs" />
+    <Compile Include="Assets\Scripts\old\Global\CollapseContentScript.cs" />
+    <Compile Include="Assets\Scripts\old\Global\Course.cs" />
+    <Compile Include="Assets\Scripts\old\Global\ExitGameScript.cs" />
+    <Compile Include="Assets\Scripts\old\Global\Fields\FitOnHideRow.cs" />
+    <Compile Include="Assets\Scripts\old\Global\Fields\HexField.cs" />
+    <Compile Include="Assets\Scripts\old\Global\Fields\MaxFieldDigits.cs" />
+    <Compile Include="Assets\Scripts\old\Global\Fields\MaxLines.cs" />
+    <Compile Include="Assets\Scripts\old\Global\Fields\RemoveSelect.cs" />
+    <Compile Include="Assets\Scripts\old\Global\Fields\TabColumn.cs" />
+    <Compile Include="Assets\Scripts\old\Global\Fields\TabField.cs" />
+    <Compile Include="Assets\Scripts\old\Global\Fields\TabGroup.cs" />
+    <Compile Include="Assets\Scripts\old\Global\Fields\TabRow.cs" />
+    <Compile Include="Assets\Scripts\old\Global\Fields\TextDropdownTabField.cs" />
+    <Compile Include="Assets\Scripts\old\Global\Fields\ToggleOther.cs" />
+    <Compile Include="Assets\Scripts\old\Global\Fields\ToggledChildrenColor.cs" />
+    <Compile Include="Assets\Scripts\old\Global\FilePickerScript.cs" />
+    <Compile Include="Assets\Scripts\old\Global\GameObjectExtensions.cs" />
+    <Compile Include="Assets\Scripts\old\Global\GameResolution.cs" />
+    <Compile Include="Assets\Scripts\old\Global\GlobalData.cs" />
+    <Compile Include="Assets\Scripts\old\Global\InputFieldResizer.cs" />
+    <Compile Include="Assets\Scripts\old\Global\InstructionLoaderScript.cs" />
+    <Compile Include="Assets\Scripts\old\Global\LayoutGroupFixScript.cs" />
+    <Compile Include="Assets\Scripts\old\Global\MultiFieldHoverScript.cs" />
+    <Compile Include="Assets\Scripts\old\Global\NextFrame.cs" />
+    <Compile Include="Assets\Scripts\old\Global\PauseAnimationScript.cs" />
+    <Compile Include="Assets\Scripts\old\Global\RandomVitalsScript.cs" />
+    <Compile Include="Assets\Scripts\old\Global\ResizeCanvas.cs" />
+    <Compile Include="Assets\Scripts\old\Global\ScaleImage.cs" />
+    <Compile Include="Assets\Scripts\old\Global\ScrollbarResetScript.cs" />
+    <Compile Include="Assets\Scripts\old\Global\StayOnScreen.cs" />
+    <Compile Include="Assets\Scripts\old\Global\ToggleIconScript.cs" />
+    <Compile Include="Assets\Scripts\old\Global\ToggleTargetOppositeScript.cs" />
+    <Compile Include="Assets\Scripts\old\Global\ToggleTargetScript.cs" />
+    <Compile Include="Assets\Scripts\old\Global\Tracker.cs" />
+    <Compile Include="Assets\Scripts\old\Global\WrapTextScript.cs" />
+    <Compile Include="Assets\Scripts\old\Menu Scripts\AccountDropdown.cs" />
+    <Compile Include="Assets\Scripts\old\Menu Scripts\AccountSettingsScript.cs" />
+    <Compile Include="Assets\Scripts\old\Menu Scripts\HideOnGuest.cs" />
+    <Compile Include="Assets\Scripts\old\Menu Scripts\LoginManager.cs" />
+    <Compile Include="Assets\Scripts\old\Menu Scripts\MenuCase.cs" />
+    <Compile Include="Assets\Scripts\old\Menu Scripts\MenuSlide.cs" />
+    <Compile Include="Assets\Scripts\old\Menu Scripts\RegistrationScript.cs" />
+    <Compile Include="Assets\Scripts\old\Menu Scripts\ServerControls.cs" />
+    <Compile Include="Assets\Scripts\old\Menu Scripts\WriterQuickStart.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\DialogueAnswerChecker.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\DialogueChoiceScript.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\Feedback\ConsultationFeedback.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\Feedback\DialogueFeedback.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\Feedback\EntryFeedback.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\Feedback\FeedbackScript.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\Feedback\MedicalTestFeedback.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\Feedback\TreatmentFeedback.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\HideLabelScript.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\HideOnMouseHoverScript.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\NumberEntriesScript.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\PinHandler.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\QuizObjScript.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\ReaderCaseOverviewScript.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\ReaderDataScript.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\ReaderDialogueManagerScript.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\ReaderEntryManagerScript.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\ReaderImageUploaderScript.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\ReaderMoveableObjectCursorScript.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\ReaderNextTabScript.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\ReaderOpenImageUploadPanelScript.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\ReaderSerialScript.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\ReaderSwapSectionScript.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\ReaderSwapTabScript.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\ReaderTabManager.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\ReaderTextboxImageSizer.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\SendEmailCertificateScript.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\SwipeManager.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\TMPClickableLinksScript.cs" />
+    <Compile Include="Assets\Scripts\old\Reader\ToggleSetup.cs" />
+    <Compile Include="Assets\Scripts\old\VR\DialogueSelect.cs" />
+    <Compile Include="Assets\Scripts\old\VR\DialogueSpawn.cs" />
+    <Compile Include="Assets\Scripts\old\VR\XMLManager.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\AttachPortraitScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\BMICalcScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\ButtonListenerFunctionsScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\ButtonScripts\AddCharacterButtonScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\ButtonScripts\AddEnrtyButtonScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\ButtonScripts\OpenConditionalPanel.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\ButtonScripts\OpenImageUploadPanelScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\ButtonScripts\PinOnClickScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\ButtonScripts\RemoveDialogueScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\ButtonScripts\RemoveEntryScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\ButtonScripts\ScriptButtonFixScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\ButtonScripts\SectionEditorScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\ButtonScripts\SwapSectionScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\ButtonScripts\SwapTabScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\ButtonScripts\TabEditorScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\CECursor.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\CEScrollRect.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\ConfirmationScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\ContentTipInfoScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\ContentTipScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\ControlDropdownBorders.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\DataScripts\ChangedInputScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\DataScripts\CharacterManagerScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\DataScripts\DefaultDataScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\DataScripts\DiagnosisCountScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\DataScripts\DialogueEntryScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\DataScripts\FlagEventScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\DataScripts\GetPatientNameScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\DataScripts\GlobalDataScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\DataScripts\LabEntryScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\DataScripts\MedicalTestsHandlerScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\DataScripts\SectionDataScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\DataScripts\SpriteHolderScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\DataScripts\TabInfoScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\DataScripts\TextureScale.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\DestroyObjectScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\DialogueDraggingScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\DialogueManagerScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\DragOverrideScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\EnableSceneScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\FitImage.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\HelpOverlayScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\HelpOverlayTag.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\HistoryFieldManagerScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\ImageUploaderScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\InputFieldOverrideScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\LoadCharacterScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\LoadingScreenManager.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\MoveableObjectCursorScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\NewCaseSpawnPanelsScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\PinManagerScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\PinTabScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\PublishCheck.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\QuizManagerScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\RefreshSizeFitter.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\SelectCustomColorScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\SerialScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\SetGenderScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\TMPro\AutofillTMP.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\TMPro\InputFieldScrollOver.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\TMPro\InputStartChanged.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\TMPro\TMPInputFieldOverrideScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\TabAndSectionDragScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\TabManaging\AddTabScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\TabManaging\DataScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\TabManaging\EditSectionScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\TabManaging\EditTabScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\TabManaging\TabManager.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\ToolTipInfoScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\UpdateAge.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\UpdateName.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\UpdatePatientImage.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\WriterEventManager.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\XMLData\AutoCompleteEntryScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\XMLData\SaveCaseScript.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\XMLData\SubmitToXML.cs" />
+    <Compile Include="Assets\Scripts\old\Writer\XMLData\UploadToServer.cs" />
     <Compile Include="Assets\WebGLCopyAndPaste\Scripts\WebGLCopyAndPaste.cs" />
-    <None Include="Assets\Scripts\VR\test.xml" />
+    <None Include="Assets\Scripts\old\VR\test.xml" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
@@ -921,28 +910,28 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.8f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="ImaginationOverflow.UniversalDeepLinking.Core">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Assets/Plugins/ImaginationOverflow/UniversalDeepLinking/libs/ImaginationOverflow.UniversalDeepLinking.Core.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Assets/Plugins/ImaginationOverflow/UniversalDeepLinking/libs/ImaginationOverflow.UniversalDeepLinking.Core.dll</HintPath>
     </Reference>
     <Reference Include="ImaginationOverflow.UniversalDeepLinking">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Assets/Plugins/ImaginationOverflow/UniversalDeepLinking/libs/ImaginationOverflow.UniversalDeepLinking.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Assets/Plugins/ImaginationOverflow/UniversalDeepLinking/libs/ImaginationOverflow.UniversalDeepLinking.dll</HintPath>
     </Reference>
     <Reference Include="ImaginationOverflow.UniversalDeepLinking.Editor">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Assets/Plugins/ImaginationOverflow/UniversalDeepLinking/libs/ImaginationOverflow.UniversalDeepLinking.Editor.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Assets/Plugins/ImaginationOverflow/UniversalDeepLinking/libs/ImaginationOverflow.UniversalDeepLinking.Editor.dll</HintPath>
     </Reference>
     <Reference Include="ImaginationOverflow.UniversalDeepLinking.Platform">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Assets/Plugins/ImaginationOverflow/UniversalDeepLinking/libs/ImaginationOverflow.UniversalDeepLinking.Platform.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Assets/Plugins/ImaginationOverflow/UniversalDeepLinking/libs/ImaginationOverflow.UniversalDeepLinking.Platform.dll</HintPath>
     </Reference>
     <Reference Include="Zenject-usage">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Assets/Plugins/Zenject/Source/Usage/Zenject-usage.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Assets/Plugins/Zenject/Source/Usage/Zenject-usage.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Editor.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Tracker.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/PackageCache/com.unity.analytics@3.3.5/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/PackageCache/com.unity.analytics@3.3.5/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.8f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -1299,55 +1288,55 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.8f1/Editor/Data/MonoBleedingEdge/lib/mono/unityscript/Boo.Lang.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="LuviKunG.SDSEditor.Editor">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/LuviKunG.SDSEditor.Editor.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/LuviKunG.SDSEditor.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.XR.LegacyInputHelpers">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Sprite.Editor">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Tilemap.Editor">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.SpatialTracking">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SpatialTracking">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualStudio.Editor">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.DataPrivacy">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.XR.LegacyInputHelpers">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

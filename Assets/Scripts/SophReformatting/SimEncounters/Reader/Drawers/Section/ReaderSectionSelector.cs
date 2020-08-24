@@ -25,7 +25,7 @@ namespace ClinicalTools.SimEncounters.Reader
             SectionButtons.Clear();
 
             UserEncounter = encounter;
-            foreach (var section in encounter.Data.Content.Sections) {
+            foreach (var section in encounter.Data.Content.NonImageContent.Sections) {
                 var userSection = encounter.GetSection(section.Key);
                 AddButton(userSection);
             }

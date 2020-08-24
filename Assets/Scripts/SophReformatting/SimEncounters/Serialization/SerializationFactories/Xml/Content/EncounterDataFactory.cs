@@ -4,31 +4,26 @@ using System.Collections.Generic;
 
 namespace ClinicalTools.SimEncounters.SerializationFactories
 {
-    public class EncounterDataFactory : ISerializationFactory<EncounterContent>
+    public class EncounterDataFactory : ISerializationFactory<EncounterNonImageContent>
     {
         protected virtual ISerializationFactory<Section> SectionFactory { get; }
-        protected virtual ISerializationFactory<VariableData> VariablesFactory { get; }
 
-        public EncounterDataFactory(ISerializationFactory<Section> sectionFactory, ISerializationFactory<VariableData> variablesFactory)
+        public EncounterDataFactory(ISerializationFactory<Section> sectionFactory)
         {
             SectionFactory = sectionFactory;
-            VariablesFactory = variablesFactory;
         }
-
-        protected virtual NodeInfo VariablesInfo { get; } = new NodeInfo("variables");
 
         protected virtual CollectionInfo SectionsInfo { get; } = new CollectionInfo("sections", "section");
 
 
-        public virtual bool ShouldSerialize(EncounterContent value) => value != null;
+        public virtual bool ShouldSerialize(EncounterNonImageContent value) => value != null;
 
-        public void Serialize(XmlSerializer serializer, EncounterContent value)
+        public void Serialize(XmlSerializer serializer, EncounterNonImageContent value)
         {
-            serializer.AddValue(VariablesInfo, value.Variables, VariablesFactory);
             serializer.AddKeyValuePairs(SectionsInfo, value.Sections, SectionFactory);
         }
 
-        public EncounterContent Deserialize(XmlDeserializer deserializer)
+        public EncounterNonImageContent Deserialize(XmlDeserializer deserializer)
         {
             var encounterData = CreateEncounterData(deserializer);
 
@@ -37,18 +32,14 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
             return encounterData;
         }
 
-        protected virtual VariableData GetVariables(XmlDeserializer deserializer)
-            => deserializer.GetValue(VariablesInfo, VariablesFactory);
-        protected virtual EncounterContent CreateEncounterData(XmlDeserializer deserializer)
+        protected virtual EncounterNonImageContent CreateEncounterData(XmlDeserializer deserializer)
         {
-            var variables = GetVariables(deserializer);
-
-            return new EncounterContent(variables);
+            return new EncounterNonImageContent();
         }
 
         protected virtual List<KeyValuePair<string, Section>> GetSections(XmlDeserializer deserializer)
             => deserializer.GetKeyValuePairs(SectionsInfo, SectionFactory);
-        protected virtual void AddSections(XmlDeserializer deserializer, EncounterContent encounterData)
+        protected virtual void AddSections(XmlDeserializer deserializer, EncounterNonImageContent encounterData)
         {
             var sectionPairs = GetSections(deserializer);
             if (sectionPairs == null)

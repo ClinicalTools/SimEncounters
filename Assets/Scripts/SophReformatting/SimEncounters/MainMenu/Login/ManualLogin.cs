@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using ClinicalTools.UI;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;

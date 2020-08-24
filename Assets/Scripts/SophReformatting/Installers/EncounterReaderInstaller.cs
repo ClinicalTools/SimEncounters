@@ -1,4 +1,5 @@
-﻿using ClinicalTools.SimEncounters.Data;
+﻿using ClinicalTools.ClinicalEncounters;
+using ClinicalTools.SimEncounters.Data;
 using System;
 using Zenject;
 

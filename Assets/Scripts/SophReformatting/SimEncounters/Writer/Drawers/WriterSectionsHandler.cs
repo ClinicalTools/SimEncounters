@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using ClinicalTools.UI;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,7 +41,7 @@ namespace ClinicalTools.SimEncounters.Writer
             SectionButtons.Clear();
 
             CurrentEncounter = encounter;
-            foreach (var section in encounter.Content.Sections)
+            foreach (var section in encounter.Content.NonImageContent.Sections)
                 AddSectionButton(encounter, section.Value);
         }
         protected virtual void AddSection()
@@ -54,7 +55,7 @@ namespace ClinicalTools.SimEncounters.Writer
             if (section.Value == null)
                 return;
 
-            CurrentEncounter.Content.Sections.Add(section.Value);
+            CurrentEncounter.Content.NonImageContent.Sections.Add(section.Value);
             AddSectionButton(CurrentEncounter, section.Value);
 
             var sectionSelectedArgs = new SectionSelectedEventArgs(section.Value);
@@ -90,7 +91,7 @@ namespace ClinicalTools.SimEncounters.Writer
             var button = SectionButtons[section];
             RearrangeableGroup.Remove(button);
             SectionButtons.Remove(section);
-            CurrentEncounter.Content.Sections.Remove(section);
+            CurrentEncounter.Content.NonImageContent.Sections.Remove(section);
 
             CurrentSection = section;
             SectionDeleted?.Invoke(section);
@@ -106,7 +107,8 @@ namespace ClinicalTools.SimEncounters.Writer
 
         private void SectionsRearranged(object sender, RearrangedEventArgs2 e)
         {
-            CurrentEncounter.Content.Sections.MoveValue(e.NewIndex, e.OldIndex);
+            var sections = CurrentEncounter.Content.NonImageContent.Sections;
+            sections.MoveValue(e.NewIndex, e.OldIndex);
         }
     }
 }

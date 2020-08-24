@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Data;
+using ClinicalTools.UI;
 using System;
 using TMPro;
 using UnityEngine;
@@ -9,8 +10,8 @@ namespace ClinicalTools.SimEncounters.Reader
 {
     public class ReaderSectionToggle : MonoBehaviour
     {
-        public EncounterToggleBehaviour SelectToggle { get => selectToggle; set => selectToggle = value; }
-        [SerializeField] private EncounterToggleBehaviour selectToggle;
+        public SelectableToggle SelectToggle { get => selectToggle; set => selectToggle = value; }
+        [SerializeField] private SelectableToggle selectToggle;
         public Image Image { get => image; set => image = value; }
         [SerializeField] private Image image;
         public Image Icon { get => icon; set => icon = value; }
@@ -40,7 +41,7 @@ namespace ClinicalTools.SimEncounters.Reader
             UserSection = userSection;
             var section = userSection.Data;
             SetColor(false);
-            var icons = userSection.Encounter.Data.Images.Icons;
+            var icons = userSection.Encounter.Data.Content.ImageContent.Icons;
             if (section.IconKey != null && icons.ContainsKey(section.IconKey))
                 Icon.sprite = icons[section.IconKey];
 

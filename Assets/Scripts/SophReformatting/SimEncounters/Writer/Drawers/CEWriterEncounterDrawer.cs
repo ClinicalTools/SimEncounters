@@ -32,15 +32,15 @@ namespace ClinicalTools.SimEncounters.Writer
 
         protected virtual void SetPatientImage()
         {
-            var spriteKey = PatientSpriteSelector.SelectSprite(Encounter.Images.Sprites, PatientImageKey);
+            var spriteKey = PatientSpriteSelector.SelectSprite(Encounter.Content.ImageContent.Sprites, PatientImageKey);
             spriteKey.AddOnCompletedListener((key) => PatientImageSet());
         }
 
         protected virtual void PatientImageSet()
         {
             Sprite sprite;
-            if (Encounter.Images.Sprites.ContainsKey(PatientImageKey))
-                sprite = Encounter.Images.Sprites[PatientImageKey];
+            if (Encounter.Content.ImageContent.Sprites.ContainsKey(PatientImageKey))
+                sprite = Encounter.Content.ImageContent.Sprites[PatientImageKey];
             else
                 sprite = null;
             PatientImage.sprite = sprite;
