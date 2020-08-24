@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using ClinicalTools.SimEncounters;
 using ClinicalTools.SimEncounters.Collections;
-using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.SerializationFactories;
 using ClinicalTools.SimEncounters.XmlSerialization;
 

@@ -1,4 +1,4 @@
-﻿using ClinicalTools.SimEncounters.Data;
+﻿
 using ClinicalTools.SimEncounters.XmlSerialization;
 
 namespace ClinicalTools.SimEncounters.SerializationFactories

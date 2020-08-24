@@ -1,7 +1,7 @@
 ﻿using ClinicalTools.SimEncounters.Collections;
 using System.Collections.Generic;
 
-namespace ClinicalTools.SimEncounters.Data
+namespace ClinicalTools.SimEncounters
 {
     public class Panel
     {

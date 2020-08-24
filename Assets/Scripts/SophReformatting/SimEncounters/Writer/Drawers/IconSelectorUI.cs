@@ -1,4 +1,4 @@
-﻿using ClinicalTools.SimEncounters.Data;
+﻿
 using ClinicalTools.UI.Extensions;
 using UnityEngine;
 using UnityEngine.UI;

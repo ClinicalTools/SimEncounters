@@ -1,5 +1,4 @@
 ﻿using ClinicalTools.SimEncounters;
-using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.MainMenu;
 using ClinicalTools.SimEncounters.Writer;
 using System;

@@ -1,6 +1,4 @@
-﻿using ClinicalTools.SimEncounters.Data;
-
-namespace ClinicalTools.SimEncounters
+﻿namespace ClinicalTools.SimEncounters
 {
     public class LocalContentDataReader : IEncounterContentReader
     {

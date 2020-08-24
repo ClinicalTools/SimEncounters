@@ -1,6 +1,4 @@
-﻿using ClinicalTools.ClinicalEncounters.Data;
-using ClinicalTools.SimEncounters;
-using ClinicalTools.SimEncounters.Data;
+﻿using ClinicalTools.SimEncounters;
 
 namespace ClinicalTools.ClinicalEncounters
 {

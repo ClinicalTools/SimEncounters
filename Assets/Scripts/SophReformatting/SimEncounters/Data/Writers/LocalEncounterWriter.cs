@@ -1,4 +1,4 @@
-﻿using ClinicalTools.SimEncounters.Data;
+﻿
 using Zenject;
 
 namespace ClinicalTools.SimEncounters.Writer

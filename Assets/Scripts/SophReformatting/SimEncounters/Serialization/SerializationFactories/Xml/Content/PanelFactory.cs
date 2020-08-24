@@ -1,5 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.XmlSerialization;
-using ClinicalTools.SimEncounters.Data;
+
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;

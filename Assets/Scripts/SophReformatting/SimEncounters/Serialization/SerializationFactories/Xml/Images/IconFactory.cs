@@ -1,5 +1,4 @@
-﻿using ClinicalTools.ClinicalEncounters.Data;
-using ClinicalTools.SimEncounters.XmlSerialization;
+﻿using ClinicalTools.SimEncounters.XmlSerialization;
 using System;
 using UnityEngine;
 

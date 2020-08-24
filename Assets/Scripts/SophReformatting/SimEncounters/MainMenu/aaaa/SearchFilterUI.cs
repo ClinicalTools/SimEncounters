@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using TMPro;
-using ClinicalTools.SimEncounters.Data;
+
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {

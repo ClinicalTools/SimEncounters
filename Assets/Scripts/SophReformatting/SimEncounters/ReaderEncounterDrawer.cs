@@ -1,5 +1,4 @@
-﻿using ClinicalTools.SimEncounters.Data;
-using System;
+﻿using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

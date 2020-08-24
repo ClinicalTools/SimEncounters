@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace ClinicalTools.SimEncounters.Data
+namespace ClinicalTools.SimEncounters
 {
 
     public class Section

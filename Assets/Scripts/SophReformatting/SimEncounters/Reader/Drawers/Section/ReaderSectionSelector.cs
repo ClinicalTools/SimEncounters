@@ -1,5 +1,4 @@
-﻿using ClinicalTools.SimEncounters.Data;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 

@@ -1,5 +1,4 @@
 ﻿using ClinicalTools.ClinicalEncounters;
-using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.Extensions;
 using ClinicalTools.SimEncounters.XmlSerialization;
 using System;

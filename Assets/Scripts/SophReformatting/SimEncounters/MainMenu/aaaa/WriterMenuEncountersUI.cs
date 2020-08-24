@@ -40,7 +40,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             ShowTemplatesToggle.Selected -= DisplayTemplates;
         }
 
-        private void EncounterSelected(Data.MenuEncounter encounter) => Overview.DisplayForEdit(SceneInfo, encounter);
+        private void EncounterSelected(MenuEncounter encounter) => Overview.DisplayForEdit(SceneInfo, encounter);
 
         public void Initialize()
         {
@@ -87,7 +87,7 @@ namespace ClinicalTools.SimEncounters.MainMenu
             if (SceneInfo != null) 
                 DisplayEncounters(SceneInfo.MenuEncountersInfo.GetTemplates());
         }
-        protected virtual void DisplayEncounters(IEnumerable<Data.MenuEncounter> encounters)
+        protected virtual void DisplayEncounters(IEnumerable<MenuEncounter> encounters)
                 => EncounterSelector.DisplayForEdit(SceneInfo, encounters);
 
         public override void Hide()

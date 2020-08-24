@@ -1,7 +1,7 @@
 ﻿using ClinicalTools.SimEncounters.Collections;
 using UnityEngine;
 
-namespace ClinicalTools.SimEncounters.Data
+namespace ClinicalTools.SimEncounters
 {
 
     public class EncounterImageContent

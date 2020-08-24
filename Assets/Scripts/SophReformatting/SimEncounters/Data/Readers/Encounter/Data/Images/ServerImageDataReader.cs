@@ -1,5 +1,4 @@
-﻿using ClinicalTools.SimEncounters.Data;
-using UnityEngine.Networking;
+﻿using UnityEngine.Networking;
 
 namespace ClinicalTools.SimEncounters
 {

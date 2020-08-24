@@ -1,7 +1,7 @@
-﻿using ClinicalTools.SimEncounters.Data;
+﻿using ClinicalTools.SimEncounters;
 using System.Collections.Generic;
 
-namespace ClinicalTools.ClinicalEncounters.Data
+namespace ClinicalTools.ClinicalEncounters
 {
     public class CEEncounterImageData : EncounterImageContent
     {

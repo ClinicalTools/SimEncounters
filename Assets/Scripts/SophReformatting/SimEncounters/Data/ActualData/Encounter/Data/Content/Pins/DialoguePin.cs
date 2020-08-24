@@ -1,6 +1,6 @@
 ﻿using ClinicalTools.SimEncounters.Collections;
 
-namespace ClinicalTools.SimEncounters.Data
+namespace ClinicalTools.SimEncounters
 {
     public class DialoguePin
     {

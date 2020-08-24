@@ -1,5 +1,5 @@
 ﻿using ClinicalTools.ClinicalEncounters;
-using ClinicalTools.SimEncounters.Data;
+
 using ClinicalTools.SimEncounters.Loading;
 using ClinicalTools.SimEncounters.MainMenu;
 using System.Collections.Generic;

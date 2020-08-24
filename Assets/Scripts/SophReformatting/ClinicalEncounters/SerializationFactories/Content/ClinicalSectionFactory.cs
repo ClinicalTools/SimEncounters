@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using ClinicalTools.ClinicalEncounters.Data;
+﻿using System.Collections.Generic;
+using ClinicalTools.SimEncounters;
 using ClinicalTools.SimEncounters.Collections;
-using ClinicalTools.SimEncounters.Data;
 using ClinicalTools.SimEncounters.SerializationFactories;
 using ClinicalTools.SimEncounters.XmlSerialization;
-using UnityEngine;
 
 namespace ClinicalTools.ClinicalEncounters.SerializationFactories
 {

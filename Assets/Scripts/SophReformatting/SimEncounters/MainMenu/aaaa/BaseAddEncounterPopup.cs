@@ -1,4 +1,4 @@
-﻿using ClinicalTools.SimEncounters.Data;
+﻿
 using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.MainMenu

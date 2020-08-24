@@ -1,8 +1,8 @@
-﻿using ClinicalTools.SimEncounters.Data;
+﻿using ClinicalTools.SimEncounters;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ClinicalTools.ClinicalEncounters.Data
+namespace ClinicalTools.ClinicalEncounters
 {
     public class CESection : Section
     {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ClinicalTools.ClinicalEncounters.Data
+namespace ClinicalTools.ClinicalEncounters
 {
     public class LegacyIcon
     {

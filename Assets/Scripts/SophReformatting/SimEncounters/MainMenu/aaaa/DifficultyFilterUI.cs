@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
-using ClinicalTools.SimEncounters.Data;
+
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {

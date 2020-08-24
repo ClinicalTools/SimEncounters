@@ -2,7 +2,7 @@
 using ClinicalTools.SimEncounters.MainMenu;
 using ClinicalTools.SimEncounters.Writer;
 #endif
-using ClinicalTools.SimEncounters.Data;
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;

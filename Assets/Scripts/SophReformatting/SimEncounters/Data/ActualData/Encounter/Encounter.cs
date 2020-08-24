@@ -1,4 +1,4 @@
-﻿namespace ClinicalTools.SimEncounters.Data
+﻿namespace ClinicalTools.SimEncounters
 {
     public class Encounter
     {

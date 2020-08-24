@@ -1,8 +1,6 @@
-﻿using ClinicalTools.SimEncounters.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
 
 namespace ClinicalTools.SimEncounters.Reader
 {

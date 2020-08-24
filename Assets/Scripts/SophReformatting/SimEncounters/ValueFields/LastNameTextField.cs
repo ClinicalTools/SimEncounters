@@ -1,4 +1,5 @@
-﻿using ClinicalTools.SimEncounters.Data;
+﻿using ClinicalTools.SimEncounters;
+
 namespace ClinicalTools.ClinicalEncounters
 {
     public class LastNameTextField : NameTextField
