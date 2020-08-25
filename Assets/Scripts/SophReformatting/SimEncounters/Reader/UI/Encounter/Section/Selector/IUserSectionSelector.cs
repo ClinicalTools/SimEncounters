@@ -1,8 +1,8 @@
-﻿namespace ClinicalTools.SimEncounters.Reader
+﻿namespace ClinicalTools.SimEncounters
 {
     public interface IUserSectionSelector
     {
-        event SectionSelectedHandler SectionSelected;
+        event UserSectionSelectedHandler SectionSelected;
         void SelectSection(UserSection userSection);
     }
 }

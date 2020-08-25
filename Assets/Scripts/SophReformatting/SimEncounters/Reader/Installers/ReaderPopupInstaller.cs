@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace ClinicalTools.SimEncounters.Reader
+namespace ClinicalTools.SimEncounters
 {
     public class ReaderPopupInstaller : MonoInstaller
     {

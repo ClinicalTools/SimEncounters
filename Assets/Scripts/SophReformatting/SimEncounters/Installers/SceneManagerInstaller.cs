@@ -1,5 +1,4 @@
-﻿using ClinicalTools.SimEncounters.MainMenu;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 namespace ClinicalTools.SimEncounters

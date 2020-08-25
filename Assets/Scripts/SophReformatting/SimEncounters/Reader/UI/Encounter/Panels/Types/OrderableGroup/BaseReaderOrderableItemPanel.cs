@@ -3,7 +3,7 @@ using ClinicalTools.UI;
 using System;
 using UnityEngine;
 
-namespace ClinicalTools.SimEncounters.Reader
+namespace ClinicalTools.SimEncounters
 {
     public abstract class BaseReaderOrderableItemPanel : BaseReaderPanel, IDraggable
     {

@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace ClinicalTools.SimEncounters.MainMenu
+namespace ClinicalTools.SimEncounters
 {
     public abstract class BaseEncounterSelectorButtons : MonoBehaviour
     {

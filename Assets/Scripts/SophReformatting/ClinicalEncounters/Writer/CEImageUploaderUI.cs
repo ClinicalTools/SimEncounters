@@ -1,10 +1,9 @@
 ﻿using ClinicalTools.SimEncounters;
 using ClinicalTools.SimEncounters.Collections;
-using ClinicalTools.SimEncounters.Writer;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ClinicalTools.ClinicalEncounters.Writer
+namespace ClinicalTools.ClinicalEncounters
 {
     public class CEImageUploaderUI : ImageUploaderUI
     {

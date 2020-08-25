@@ -1,5 +1,4 @@
 ﻿using ClinicalTools.SimEncounters;
-using ClinicalTools.SimEncounters.Writer;
 using System;
 using System.Linq;
 using TMPro;
@@ -7,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace ClinicalTools.ClinicalEncounters.Writer
+namespace ClinicalTools.ClinicalEncounters
 {
     public class CEWriterMetadataDisplay : BaseSaveEncounterDisplay
     {

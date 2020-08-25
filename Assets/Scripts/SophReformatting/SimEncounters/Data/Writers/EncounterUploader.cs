@@ -7,7 +7,7 @@ using System.Xml;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace ClinicalTools.SimEncounters.Writer
+namespace ClinicalTools.SimEncounters
 {
     public class EncounterUploader : IEncounterWriter
     {

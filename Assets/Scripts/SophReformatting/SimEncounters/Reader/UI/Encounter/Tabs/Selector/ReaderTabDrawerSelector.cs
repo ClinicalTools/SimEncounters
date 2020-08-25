@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace ClinicalTools.SimEncounters.Reader
+namespace ClinicalTools.SimEncounters
 {
     public class ReaderTabDrawerSelector : BaseUserTabDrawer
     {

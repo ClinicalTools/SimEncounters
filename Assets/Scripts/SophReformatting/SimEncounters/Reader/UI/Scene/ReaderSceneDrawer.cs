@@ -1,6 +1,4 @@
 ﻿#if !STANDALONE_SCENE
-using ClinicalTools.SimEncounters.MainMenu;
-using ClinicalTools.SimEncounters.Writer;
 #endif
 
 using System.Collections.Generic;
@@ -8,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace ClinicalTools.SimEncounters.Reader
+namespace ClinicalTools.SimEncounters
 {
     public class ReaderSceneDrawer : BaseReaderSceneDrawer
     {

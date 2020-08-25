@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 using System;
 
-namespace ClinicalTools.SimEncounters.MainMenu
+namespace ClinicalTools.SimEncounters
 {
     public class ChangeSidePanelScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {

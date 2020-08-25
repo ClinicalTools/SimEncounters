@@ -4,7 +4,7 @@ using System;
 using ClinicalTools.UI.Extensions;
 
 
-namespace ClinicalTools.SimEncounters.MainMenu
+namespace ClinicalTools.SimEncounters
 {
     public class SortingOrderUI : MonoBehaviour
     {

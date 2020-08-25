@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
 
-namespace ClinicalTools.SimEncounters.Reader
+namespace ClinicalTools.SimEncounters
 {
     public class ReaderOrderableItemPanelUI : BaseReaderOrderableItemPanel, IDraggable, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
     {

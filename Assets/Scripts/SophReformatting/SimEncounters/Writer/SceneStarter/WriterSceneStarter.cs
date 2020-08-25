@@ -1,5 +1,4 @@
-﻿using ClinicalTools.SimEncounters.Writer;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
 {

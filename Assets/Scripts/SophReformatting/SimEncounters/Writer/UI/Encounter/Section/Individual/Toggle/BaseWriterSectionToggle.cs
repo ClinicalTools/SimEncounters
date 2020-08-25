@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ClinicalTools.SimEncounters.Writer
+namespace ClinicalTools.SimEncounters
 {
     public abstract class BaseWriterSectionToggle : MonoBehaviour, IDraggable
     {

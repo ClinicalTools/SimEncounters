@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using ClinicalTools.SimEncounters.MainMenu;
 using ClinicalTools.SimEncounters;
 
 public class RegistrationScript : MonoBehaviour

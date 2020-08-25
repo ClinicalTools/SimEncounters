@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using TMPro;
 
-namespace ClinicalTools.SimEncounters.MainMenu
+namespace ClinicalTools.SimEncounters
 {
     public class LabeledToggle : MonoBehaviour
     {

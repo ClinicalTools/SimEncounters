@@ -3,7 +3,7 @@ using System;
 using TMPro;
 
 
-namespace ClinicalTools.SimEncounters.MainMenu
+namespace ClinicalTools.SimEncounters
 {
     public class SearchFilterUI : EncounterFilterBehaviour
     {

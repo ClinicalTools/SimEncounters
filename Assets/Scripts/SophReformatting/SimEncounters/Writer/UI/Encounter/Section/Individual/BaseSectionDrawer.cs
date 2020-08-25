@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace ClinicalTools.SimEncounters.Writer
+namespace ClinicalTools.SimEncounters
 {
     public abstract class BaseSectionDrawer : MonoBehaviour
     {

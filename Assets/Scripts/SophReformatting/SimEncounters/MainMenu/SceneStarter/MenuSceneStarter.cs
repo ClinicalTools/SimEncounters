@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ClinicalTools.SimEncounters.MainMenu
+namespace ClinicalTools.SimEncounters
 {
     public class MenuSceneStarter : IMenuSceneStarter
     {

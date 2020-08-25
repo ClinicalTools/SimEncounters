@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-namespace ClinicalTools.SimEncounters.Reader
+namespace ClinicalTools.SimEncounters
 {
     public abstract class BaseUserSectionSelector : MonoBehaviour, IUserSectionSelector
     {
         public abstract void Display(UserEncounter encounter);
-        public abstract event SectionSelectedHandler SectionSelected;
+        public abstract event UserSectionSelectedHandler SectionSelected;
         public abstract void SelectSection(UserSection section);
     }
 }

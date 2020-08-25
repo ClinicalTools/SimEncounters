@@ -1,12 +1,11 @@
 ﻿using ClinicalTools.SimEncounters;
-using ClinicalTools.SimEncounters.Reader;
 using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ClinicalTools.ClinicalEncounters.Reader
+namespace ClinicalTools.ClinicalEncounters
 {
     public class CECompletionPopup : BaseCompletionPopup
     {

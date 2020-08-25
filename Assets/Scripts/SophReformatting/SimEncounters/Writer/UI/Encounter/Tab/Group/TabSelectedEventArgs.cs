@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ClinicalTools.SimEncounters.Writer
+namespace ClinicalTools.SimEncounters
 {
     public delegate void TabSelectedHandler(object sender, TabSelectedEventArgs e);
     public class TabSelectedEventArgs : EventArgs

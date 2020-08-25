@@ -5,7 +5,7 @@ using Zenject;
 using System;
 using ClinicalTools.UI;
 
-namespace ClinicalTools.SimEncounters.Reader
+namespace ClinicalTools.SimEncounters
 {
     public class ReaderOrderableGroupPanelUI : BaseReaderPanel
     {

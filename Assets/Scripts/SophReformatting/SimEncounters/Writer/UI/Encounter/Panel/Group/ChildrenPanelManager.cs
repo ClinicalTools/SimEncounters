@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ClinicalTools.SimEncounters.Writer
+namespace ClinicalTools.SimEncounters
 {
     public class ChildrenPanelManager
     {

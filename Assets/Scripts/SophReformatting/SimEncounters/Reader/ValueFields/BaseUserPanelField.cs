@@ -1,4 +1,4 @@
-﻿namespace ClinicalTools.SimEncounters.Reader
+﻿namespace ClinicalTools.SimEncounters
 {
     public abstract class BaseUserPanelField : BaseField
     {

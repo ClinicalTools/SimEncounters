@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ClinicalTools.SimEncounters.Reader
+namespace ClinicalTools.SimEncounters
 {
     public class ReaderFooter : BaseReaderFooter
     {
@@ -20,7 +20,7 @@ namespace ClinicalTools.SimEncounters.Reader
         [SerializeField] private TextMeshProUGUI finishButtonText;
 
 
-        public override event SectionSelectedHandler SectionSelected;
+        public override event UserSectionSelectedHandler SectionSelected;
         public override event UserTabSelectedHandler TabSelected;
 
         public override event Action Finished;

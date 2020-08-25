@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace ClinicalTools.SimEncounters.MainMenu
+namespace ClinicalTools.SimEncounters
 {
     public class MainMenuEncountersViewUI : BaseViewEncounterSelector
     {

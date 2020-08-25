@@ -1,6 +1,6 @@
 ﻿using TMPro;
 
-namespace ClinicalTools.SimEncounters.Writer
+namespace ClinicalTools.SimEncounters
 {
     public class LabelValueField : BaseValueField
     {

@@ -2,7 +2,7 @@
 using System;
 using UnityEngine.EventSystems;
 
-namespace ClinicalTools.SimEncounters.Writer
+namespace ClinicalTools.SimEncounters
 {
     public class DragHandle : BaseDragHandle, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
     {

@@ -1,5 +1,4 @@
-﻿using ClinicalTools.SimEncounters.MainMenu;
-using Zenject;
+﻿using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {

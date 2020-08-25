@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ClinicalTools.SimEncounters.Reader
+namespace ClinicalTools.SimEncounters
 {
     public interface ICompletable
     {

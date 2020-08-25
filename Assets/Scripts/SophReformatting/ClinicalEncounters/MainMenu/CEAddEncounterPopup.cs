@@ -1,13 +1,11 @@
 ﻿using ClinicalTools.SimEncounters;
-using ClinicalTools.SimEncounters.MainMenu;
-using ClinicalTools.SimEncounters.Writer;
 using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace ClinicalTools.ClinicalEncounters.MainMenu
+namespace ClinicalTools.ClinicalEncounters
 {
 
     public class CEAddEncounterPopup : BaseAddEncounterPopup

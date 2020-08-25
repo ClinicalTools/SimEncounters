@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace ClinicalTools.SimEncounters.MainMenu
+namespace ClinicalTools.SimEncounters
 {
 
     public delegate bool Filter<in T>(T x);

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace ClinicalTools.SimEncounters.Writer
+namespace ClinicalTools.SimEncounters
 {
     [Serializable]
     public class OptionWriterPanel

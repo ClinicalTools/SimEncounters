@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ClinicalTools.SimEncounters.Reader
+namespace ClinicalTools.SimEncounters
 {
     public class UserSectionSelectedEventArgs : EventArgs
     {
@@ -10,5 +10,5 @@ namespace ClinicalTools.SimEncounters.Reader
             SelectedSection = selectedSection;
         }
     }
-    public delegate void SectionSelectedHandler(object sender, UserSectionSelectedEventArgs e);
+    public delegate void UserSectionSelectedHandler(object sender, UserSectionSelectedEventArgs e);
 }

@@ -1,7 +1,7 @@
 ﻿using ClinicalTools.SimEncounters.Collections;
 using UnityEngine;
 
-namespace ClinicalTools.SimEncounters.Writer
+namespace ClinicalTools.SimEncounters
 {
     public abstract class BaseSpriteSelector : MonoBehaviour
     {

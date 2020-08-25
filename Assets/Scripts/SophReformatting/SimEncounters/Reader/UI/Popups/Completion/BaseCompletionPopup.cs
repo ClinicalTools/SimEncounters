@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace ClinicalTools.SimEncounters.Reader
+namespace ClinicalTools.SimEncounters
 {
     public abstract class BaseCompletionPopup : MonoBehaviour
     {

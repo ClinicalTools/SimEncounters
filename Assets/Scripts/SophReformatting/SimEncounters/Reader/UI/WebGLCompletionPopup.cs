@@ -1,11 +1,10 @@
 ﻿using ClinicalTools.SimEncounters;
-using ClinicalTools.SimEncounters.Reader;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ClinicalTools.SimEncounters.Reader
+namespace ClinicalTools.SimEncounters
 {
     public class WebGLCompletionPopup : BaseCompletionPopup
     {

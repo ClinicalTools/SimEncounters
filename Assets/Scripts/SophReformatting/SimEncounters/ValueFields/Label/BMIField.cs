@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace ClinicalTools.ClinicalEncounters.Writer
+namespace ClinicalTools.ClinicalEncounters
 {
     public class BMIField : BaseField
     {

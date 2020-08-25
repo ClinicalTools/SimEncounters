@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ClinicalTools.SimEncounters.Reader
+namespace ClinicalTools.SimEncounters
 {
     public class ReaderSectionSelector : BaseUserSectionSelector
     {
@@ -13,7 +13,7 @@ namespace ClinicalTools.SimEncounters.Reader
         public virtual ToggleGroup SectionsToggleGroup { get => sectionsToggleGroup; set => sectionsToggleGroup = value; }
         [SerializeField] private ToggleGroup sectionsToggleGroup;
 
-        public override event SectionSelectedHandler SectionSelected;
+        public override event UserSectionSelectedHandler SectionSelected;
 
         protected UserEncounter UserEncounter { get; set; }
         protected Dictionary<UserSection, ReaderSectionToggle> SectionButtons { get; } = new Dictionary<UserSection, ReaderSectionToggle>();

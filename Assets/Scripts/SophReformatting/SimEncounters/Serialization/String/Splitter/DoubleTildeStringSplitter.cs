@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ClinicalTools.SimEncounters.MainMenu
+namespace ClinicalTools.SimEncounters
 {
     public class DoubleTildeStringSplitter : IStringSplitter
     {

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace ClinicalTools.SimEncounters.Writer
+namespace ClinicalTools.SimEncounters
 {
     public class WriterSectionToggle : BaseWriterSectionToggle
     {

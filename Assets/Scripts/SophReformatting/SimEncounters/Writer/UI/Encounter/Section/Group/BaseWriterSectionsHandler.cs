@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace ClinicalTools.SimEncounters.Writer
+namespace ClinicalTools.SimEncounters
 {
     public abstract class BaseWriterSectionsHandler : MonoBehaviour, ISectionSelector
     {

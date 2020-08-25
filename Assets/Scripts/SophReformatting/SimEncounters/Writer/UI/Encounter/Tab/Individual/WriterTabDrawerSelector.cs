@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ClinicalTools.SimEncounters.Writer
+namespace ClinicalTools.SimEncounters
 {
     public class WriterTabDrawerSelector : BaseTabDrawer
     {

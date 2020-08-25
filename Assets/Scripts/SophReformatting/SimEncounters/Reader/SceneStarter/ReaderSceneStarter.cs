@@ -1,5 +1,4 @@
-﻿using ClinicalTools.SimEncounters.Reader;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
 {

@@ -2,7 +2,7 @@ using ClinicalTools.UI;
 using UnityEngine;
 using Zenject;
 
-namespace ClinicalTools.SimEncounters.MainMenu
+namespace ClinicalTools.SimEncounters
 {
     public class MenuInstaller : MonoInstaller
     {
