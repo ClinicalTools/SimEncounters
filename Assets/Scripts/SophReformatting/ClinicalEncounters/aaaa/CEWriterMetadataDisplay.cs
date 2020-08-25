@@ -9,7 +9,7 @@ using Zenject;
 
 namespace ClinicalTools.ClinicalEncounters.Writer
 {
-    public class CEWriterMetadataDisplay : BaseWriterDisplay
+    public class CEWriterMetadataDisplay : BaseSaveEncounterDisplay
     {
         public TextMeshProUGUI Title { get => title; set => title = value; }
         [SerializeField] private TextMeshProUGUI title;

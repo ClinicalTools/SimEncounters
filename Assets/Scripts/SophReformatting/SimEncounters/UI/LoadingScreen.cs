@@ -1,14 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
 {
-    public abstract class LoginThing : MonoBehaviour, ILoginManager
-    {
-        public abstract WaitableResult<User> Login();
-    }
-
     public class LoadingScreen : MonoBehaviour, ILoadingScreen
     {
         public static LoadingScreen Instance { get; protected set; }

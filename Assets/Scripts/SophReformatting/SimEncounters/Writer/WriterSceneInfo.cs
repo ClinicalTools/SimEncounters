@@ -1,6 +1,4 @@
-﻿
-
-namespace ClinicalTools.SimEncounters.Writer
+﻿namespace ClinicalTools.SimEncounters.Writer
 {
     public class WriterSceneInfo
     {

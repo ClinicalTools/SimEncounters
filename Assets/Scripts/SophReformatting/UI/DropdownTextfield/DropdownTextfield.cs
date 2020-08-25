@@ -131,9 +131,4 @@ namespace ClinicalTools.UI
             OptionsScrollRect.EnsureChildIsShowing((RectTransform)highlightedOption.transform);
         }
     }
-
-    public abstract class BaseOptionsRetriever : MonoBehaviour
-    {
-        public abstract IEnumerable<string> GetOptions();
-    }
 }

@@ -2,9 +2,9 @@
 {
     public class EncounterDataReader : IEncounterDataReader
     {
-        protected IEncounterContentReader ContentReader { get; }
-        protected IImageDataReader ImageDataReader { get; }
-        public EncounterDataReader(IEncounterContentReader contentReader, IImageDataReader imageDataReader)
+        protected INonImageContentReader ContentReader { get; }
+        protected IImageContentReader ImageDataReader { get; }
+        public EncounterDataReader(INonImageContentReader contentReader, IImageContentReader imageDataReader)
         {
             ContentReader = contentReader;
             ImageDataReader = imageDataReader;
@@ -13,7 +13,7 @@
         public virtual WaitableResult<EncounterContent> GetEncounterData(User user, EncounterMetadata metadata)
         {
             var encounterData = new WaitableResult<EncounterContent>();
-            var content = ContentReader.GetEncounterContent(user, metadata);
+            var content = ContentReader.GetNonImageContent(user, metadata);
             var imageData = ImageDataReader.GetImageData(user, metadata);
 
             content.AddOnCompletedListener((result) => ProcessResults(encounterData, content, imageData));

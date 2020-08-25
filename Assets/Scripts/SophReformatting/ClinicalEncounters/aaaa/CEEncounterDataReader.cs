@@ -4,7 +4,7 @@ namespace ClinicalTools.ClinicalEncounters
 {
     public class CEEncounterDataReader : EncounterDataReader
     {
-        public CEEncounterDataReader(IEncounterContentReader contentReader, IImageDataReader imageDataReader) 
+        public CEEncounterDataReader(INonImageContentReader contentReader, IImageContentReader imageDataReader) 
             : base(contentReader, imageDataReader) { }
 
         protected override void ProcessResults(WaitableResult<EncounterContent> result,
