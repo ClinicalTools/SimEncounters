@@ -4,11 +4,6 @@ using UnityEngine.EventSystems;
 
 namespace ClinicalTools.UI
 {
-    public abstract class BaseTooltip : MonoBehaviour
-    {
-        public abstract void Show();
-    }
-
     public class Tooltip : BaseTooltip, IPointerDownHandler
     {
         public CanvasGroup Group { get => group; set => group = value; }

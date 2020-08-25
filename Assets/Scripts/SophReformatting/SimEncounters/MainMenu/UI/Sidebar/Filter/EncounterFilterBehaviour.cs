@@ -1,7 +1,5 @@
-﻿
-using System;
+﻿using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {

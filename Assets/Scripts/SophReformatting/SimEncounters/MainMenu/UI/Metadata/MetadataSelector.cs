@@ -6,11 +6,6 @@ using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public abstract class BaseMetadataSelector : MonoBehaviour
-    {
-        public abstract WaitableResult<KeyValuePair<SaveType, EncounterMetadata>> GetMetadata(MenuEncounter menuEncounter); 
-    }
-
     public class MetadataSelector : BaseMetadataSelector
     { 
         public TextMeshProUGUI Label { get => label; set => label = value; }

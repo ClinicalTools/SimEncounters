@@ -6,12 +6,6 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public abstract class BaseViewEncounterSelector : BaseEncounterSelector
-    {
-        public abstract string ViewName { get; set; }
-        public abstract Sprite ViewSprite { get; set; }
-    }
-
     public class MainMenuEncountersViewUI : BaseViewEncounterSelector
     {
         public override string ViewName { get => viewName; set => viewName = value; }

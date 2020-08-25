@@ -1,9 +1,5 @@
-﻿
-using System.Diagnostics;
-
-namespace ClinicalTools.SimEncounters
+﻿namespace ClinicalTools.SimEncounters
 {
-
     public class DetailedStatusWriter : IDetailedStatusWriter
     {
         protected IDetailedStatusWriter ServerDetailedStatusWriter { get; }

@@ -2,10 +2,6 @@
 
 namespace ClinicalTools.SimEncounters.MainMenu
 {
-    public interface IMenuSceneStarter
-    {
-        void StartScene(LoadingMenuSceneInfo encounterSceneInfo);
-    }
     public class MenuSceneStarter : IMenuSceneStarter
     {
         protected string ScenePath { get; }
