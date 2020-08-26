@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -17,21 +18,33 @@ namespace ClinicalTools.SimEncounters
         public Button ConfirmButton { get => confirmButton; set => confirmButton = value; }
         [SerializeField] private Button confirmButton;
 
+        protected AndroidBackButton BackButton { get; set; }
+
+        [Inject]
+        public virtual void Inject(AndroidBackButton backButton)
+            => BackButton = backButton;
+
         protected Action ConfirmationAction { get; set; }
+        protected Action CancellationAction { get; set; }
+
 
         protected virtual void Awake()
         {
             foreach (var cancelButton in CancelButtons)
-                cancelButton.onClick.AddListener(Close);
+                cancelButton.onClick.AddListener(Cancel);
             ConfirmButton.onClick.AddListener(Confirm);
         }
 
         public override void ShowConfirmation(Action confirmAction, string title, string description)
+            => ShowConfirmation(confirmAction, null, title, description);
+        public override void ShowConfirmation(Action confirmAction, Action cancelAction, string title, string description)
         {
             ConfirmationAction = confirmAction;
+            CancellationAction = cancelAction;
             Title.text = title;
             Description.text = description;
             gameObject.SetActive(true);
+            BackButton.Register(Cancel);
         }
 
         protected virtual void Confirm()
@@ -40,10 +53,18 @@ namespace ClinicalTools.SimEncounters
             Close();
         }
 
+        protected virtual void Cancel()
+        {
+            CancellationAction?.Invoke();
+            Close();
+        }
+
         protected virtual void Close()
         {
             ConfirmationAction = null;
+            CancellationAction = null;
             gameObject.SetActive(false);
+            BackButton.Deregister(Cancel);
         }
     }
 }

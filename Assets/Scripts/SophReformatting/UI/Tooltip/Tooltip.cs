@@ -9,10 +9,24 @@ namespace ClinicalTools.UI
         public CanvasGroup Group { get => group; set => group = value; }
         [SerializeField] private CanvasGroup group;
 
-        public virtual void OnPointerDown(PointerEventData eventData) => Group.alpha = 0;
+        public virtual void OnPointerDown(PointerEventData eventData) 
+            => Group.alpha = 0;
+
+        private bool showFrame = false;
+        public void Update()
+        {
+            if (showFrame) {
+                showFrame = false;
+                return;
+            }
+
+            if (Input.GetMouseButtonDown(0))
+                Group.alpha = 0;
+        }
 
         public override void Show()
         {
+            showFrame = true;
             if (HideEnumerator != null)
                 StopCoroutine(HideEnumerator);
             HideEnumerator = Hide();

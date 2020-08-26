@@ -32,14 +32,18 @@ namespace ClinicalTools.SimEncounters
 #endif
         protected IDetailedStatusWriter StatusWriter { get; set; }
         protected BaseConfirmationPopup ConfirmationPopup { get; set; }
+        protected AndroidBackButton BackButton { get; set; }
 
         [Inject]
         public virtual void Inject(
 #if !STANDALONE_SCENE
-            IMenuSceneStarter menuSceneStarter, IMenuEncountersInfoReader menuInfoReader, 
+            IMenuSceneStarter menuSceneStarter, 
+            IMenuEncountersInfoReader menuInfoReader, 
             IWriterSceneStarter writerSceneStarter, 
 #endif
-            IDetailedStatusWriter statusWriter, BaseConfirmationPopup confirmationPopup)
+            IDetailedStatusWriter statusWriter, 
+            BaseConfirmationPopup confirmationPopup,
+            AndroidBackButton backButton)
         {
 #if !STANDALONE_SCENE
             WriterSceneStarter = writerSceneStarter;
@@ -48,6 +52,7 @@ namespace ClinicalTools.SimEncounters
 #endif
             StatusWriter = statusWriter;
             ConfirmationPopup = confirmationPopup;
+            BackButton = backButton;
         }
 
         protected virtual void Awake()
@@ -71,7 +76,7 @@ namespace ClinicalTools.SimEncounters
 
             foreach (var mainMenuButton in MainMenuButtons)
                 mainMenuButton.onClick.AddListener(ConfirmExitScene);
-
+            BackButton.Register(ConfirmExitScene);
 #if !STANDALONE_SCENE
             if (ExitButton != null)
                 ExitButton.onClick.AddListener(OpenWriter);
@@ -99,8 +104,8 @@ namespace ClinicalTools.SimEncounters
         private const string EXIT_CONFIRMATION_TITLE = "EXIT APPLICATION";
 #endif
         protected virtual void ConfirmExitScene()
-            => ConfirmationPopup.ShowConfirmation(ExitScene, EXIT_CONFIRMATION_TITLE,
-                "Are you sure you want to exit?");
+            => ConfirmationPopup.ShowConfirmation(ExitScene, CancelExitScene, 
+                EXIT_CONFIRMATION_TITLE, "Are you sure you want to exit?");
 
         protected virtual void ExitScene()
         {
@@ -116,6 +121,8 @@ namespace ClinicalTools.SimEncounters
             Application.Quit();
 #endif
         }
+
+        protected virtual void CancelExitScene() => BackButton.Register(ConfirmExitScene);
 
 #if !STANDALONE_SCENE
         protected virtual void OpenWriter()

@@ -12,12 +12,15 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private BaseMessageHandler messageHandler;
         public BaseMetadataSelector MetadataSelector { get => metadataSelector; set => metadataSelector = value; }
         [SerializeField] private BaseMetadataSelector metadataSelector;
+        public AndroidBackButton BackButton { get => backButton; set => backButton = value; }
+        [SerializeField] private AndroidBackButton backButton;
 
         public override void InstallBindings()
         {
             Application.logMessageReceived += Logger.Application_logMessageReceived;
             Container.Bind<IEncounterStarter>().To<EncounterEditStarter>().AsTransient().WhenInjectedInto<EncounterSelectorWriterButtons>();
             Container.Bind<IEncounterStarter>().To<EncounterReadStarter>().AsTransient().WhenInjectedInto<EncounterSelectorReaderButtons>();
+            Container.BindInstance(BackButton);
             Container.BindInstance(AddEncounterPopup);
             Container.BindInstance(MessageHandler);
             Container.BindInstance(MetadataSelector);

@@ -16,6 +16,8 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private BaseUserPinGroupDrawer pinButtonsPrefab;
         public BaseConfirmationPopup ConfirmationPopup { get => confirmationPopup; set => confirmationPopup = value; }
         [SerializeField] private BaseConfirmationPopup confirmationPopup;
+        public AndroidBackButton BackButton { get => backButton; set => backButton = value; }
+        [SerializeField] private AndroidBackButton backButton;
 
         public override void InstallBindings()
         {
@@ -24,6 +26,7 @@ namespace ClinicalTools.SimEncounters
             Container.BindInstance(PinButtonsPrefab);
             Container.BindInstance(ImagePopup);
             Container.BindInstance(ConfirmationPopup);
+            Container.BindInstance(BackButton);
 
             Container.Bind<IDetailedStatusWriter>().To<DetailedStatusWriter>().AsTransient();
             Container.Bind<ServerDetailedStatusWriter>().To<ServerDetailedStatusWriter>().AsTransient();
