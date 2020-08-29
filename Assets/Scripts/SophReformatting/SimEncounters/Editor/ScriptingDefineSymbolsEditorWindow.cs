@@ -40,27 +40,35 @@ namespace ClinicalTools.SimEncounters
 {
     public class ScriptingDefineSymbolsEditorWindow : EditorWindow
     {
-        private static readonly GUIContent CONTENT_BUTTON_REVERT 
+        private static readonly GUIContent CONTENT_BUTTON_REVERT
             = new GUIContent("Revert", "Revert all Scripting Define Symbols changes.");
-        private static readonly GUIContent CONTENT_BUTTON_APPLY 
+        private static readonly GUIContent CONTENT_BUTTON_APPLY
             = new GUIContent("Apply", "Apply all Scripting Define Symbols changes. " +
                 "This will made unity recompile if your current build target group is active.");
 
-        private static readonly GUIContent CONTENT_DEMO_TOGGLE = new GUIContent("Demo");
-        private static readonly GUIContent CONTENT_MOBILE_TOGGLE = new GUIContent("Mobile");
-        private static readonly GUIContent CONTENT_STANDALONE_TOGGLE 
-            = new GUIContent("Standalone", "Is this the only scene in the build.");
+        private static readonly GUIContent CONTENT_TOGGLE_DEMO = new GUIContent("Demo");
+        private static readonly GUIContent CONTENT_TOGGLE_MOBILE = new GUIContent("Mobile");
+        private static readonly GUIContent CONTENT_TOGGLE_STANDALONE
+            = new GUIContent("Standalone Scene", 
+                "Should be true if this is the only scene in the build.");
 
-        private static readonly GUIContent CONTENT_LABEL_DESCRIPTION 
-            = new GUIContent("Scripting Define Symbols");
+        private static readonly GUIContent CONTENT_LABEL_DESCRIPTION
+            = new GUIContent("Sim Encounters Scripting Define Symbols");
 
         private const string DemoSymbol = "DEMO";
         private const string MobileSymbol = "MOBILE";
-        private const string StandaloneSymbol = "STANDALONE_SCENE";
+        private const string StandaloneSceneSymbol = "STANDALONE_SCENE";
 
         private const string WindowTitle = "Scripting Define Symbols";
 
-        [MenuItem("Window/Sim Encounters Scripting Define Symbols", false)]
+        private const string WarningDescription =
+            "All changes on current active build target will be revert. " +
+            "Do you want to apply change?";
+
+        private const string DisabledSdsMessage =
+            "Scripting Define Symbols is disabled on this build target group.";
+
+        [MenuItem("Window/Sim Encounters/Scripting Define Symbols Editor", false)]
         public static ScriptingDefineSymbolsEditorWindow OpenWindow()
         {
             var window = GetWindow<ScriptingDefineSymbolsEditorWindow>(false, WindowTitle, true);
@@ -69,8 +77,7 @@ namespace ClinicalTools.SimEncounters
         }
 
         private BuildTargetGroup buildTargetGroup = BuildTargetGroup.Unknown;
-        private BuildTargetGroup inspectorBuildTargetGroup = BuildTargetGroup.Unknown;
-        private HashSet<string> sdsSet = new HashSet<string>();
+        private readonly HashSet<string> sdsSet = new HashSet<string>();
         private bool isDirty = false;
 
         private void OnEnable()
@@ -82,109 +89,133 @@ namespace ClinicalTools.SimEncounters
         private void OnGUI()
         {
             using (var horizontalScope = new EditorGUILayout.HorizontalScope(EditorStyles.toolbar)) {
-                if (GUILayout.Button(CONTENT_BUTTON_REVERT, EditorStyles.toolbarButton)) {
+                if (GUILayout.Button(CONTENT_BUTTON_REVERT, EditorStyles.toolbarButton))
                     UpdateScriptDefineSymbolsParameters();
-                }
+
                 using (var disableScope = new EditorGUI.DisabledGroupScope(!isDirty)) {
-                    if (GUILayout.Button(CONTENT_BUTTON_APPLY, EditorStyles.toolbarButton)) {
+                    if (GUILayout.Button(CONTENT_BUTTON_APPLY, EditorStyles.toolbarButton))
                         ApplyChangesScriptingDefineSymbols();
-                    }
                 }
+
                 GUILayout.FlexibleSpace();
-                using (var changeScope = new EditorGUI.ChangeCheckScope()) {
-                    inspectorBuildTargetGroup = (BuildTargetGroup)EditorGUILayout.EnumPopup(GUIContent.none, buildTargetGroup, EditorStyles.toolbarDropDown, GUILayout.Width(100.0f));
-                    if (changeScope.changed && buildTargetGroup != inspectorBuildTargetGroup) {
-                        if (isDirty) {
-                            if (EditorUtility.DisplayDialog("Warning", "All changes on current active build target will be revert. Do you want to apply change?", "Yes", "No")) {
-                                ApplyChangesScriptingDefineSymbols();
-                            }
-                        }
-                        buildTargetGroup = inspectorBuildTargetGroup;
-                        UpdateScriptDefineSymbolsParameters();
-                    }
-                }
+                DrawBuildTargetsDropdown();
             }
 
             if (buildTargetGroup == BuildTargetGroup.Unknown) {
-                EditorGUILayout.HelpBox("Scripting Define Symbols is disabled on this build target group.", MessageType.Info, true);
+                EditorGUILayout.HelpBox(DisabledSdsMessage, MessageType.Info, true);
                 return;
             }
 
             EditorGUILayout.Space();
             EditorGUI.indentLevel++;
+            DrawSymbolToggles();
+            EditorGUI.indentLevel--;
+        }
+
+        private void DrawBuildTargetsDropdown()
+        {
+            BuildTargetGroup inspectorBuildTargetGroup;
+            using (var changeScope = new EditorGUI.ChangeCheckScope()) {
+                inspectorBuildTargetGroup = (BuildTargetGroup)EditorGUILayout.EnumPopup(
+                    GUIContent.none, buildTargetGroup, EditorStyles.toolbarDropDown,
+                    GUILayout.Width(100.0f));
+
+                if (!changeScope.changed || buildTargetGroup == inspectorBuildTargetGroup)
+                    return;
+            }
+
+            if (isDirty &&
+                    EditorUtility.DisplayDialog("Warning", WarningDescription, "Yes", "No")) {
+
+                ApplyChangesScriptingDefineSymbols();
+            }
+
+            buildTargetGroup = inspectorBuildTargetGroup;
+            UpdateScriptDefineSymbolsParameters();
+        }
+
+        private void DrawSymbolToggles()
+        {
             EditorGUILayout.LabelField(CONTENT_LABEL_DESCRIPTION, EditorStyles.boldLabel);
             EditorGUILayout.Space();
             EditorGUI.indentLevel++;
-            ShowToggle(DemoSymbol, CONTENT_DEMO_TOGGLE);
-            ShowToggle(MobileSymbol, CONTENT_MOBILE_TOGGLE);
-            ShowToggle(StandaloneSymbol, CONTENT_STANDALONE_TOGGLE);
-            EditorGUI.indentLevel--;
+            ShowSymbolToggle(DemoSymbol, CONTENT_TOGGLE_DEMO);
+            ShowSymbolToggle(MobileSymbol, CONTENT_TOGGLE_MOBILE);
+            ShowSymbolToggle(StandaloneSceneSymbol, CONTENT_TOGGLE_STANDALONE);
             EditorGUI.indentLevel--;
         }
 
-        private void ShowToggle(string symbol, GUIContent content)
+        private void ShowSymbolToggle(string symbol, GUIContent content)
         {
             var hasSymbol = sdsSet.Contains(symbol);
-            if (EditorGUILayout.Toggle(content, hasSymbol)) {
-                if (hasSymbol)
-                    return;
+            var shouldHaveSymbol = EditorGUILayout.Toggle(content, hasSymbol);
 
+            if (shouldHaveSymbol == hasSymbol)
+                return;
+
+            if (shouldHaveSymbol)
                 sdsSet.Add(symbol);
-                isDirty = true;
-            } else if (hasSymbol) {
+            else
                 sdsSet.Remove(symbol);
-                isDirty = true;
-            }
+
+            isDirty = true;
         }
 
-        private List<string> GetListScriptDefineSymbolsParameters(string sds)
-                => new List<string>(sds.Split(';'));
-        private HashSet<string> GetHashSetScriptDefineSymbolsParameters(string sds)
+        private void AddHashSetScriptDefineSymbolsParameters(
+            string sds, HashSet<string> sdsSet)
         {
-            var listSds = GetListScriptDefineSymbolsParameters(sds);
-            var setSds = new HashSet<string>();
-            foreach (var symbol in listSds) {
-                if (!setSds.Contains(symbol))
-                    setSds.Add(symbol);
+            var sdsList = new List<string>(sds.Split(';'));
+            foreach (var symbol in sdsList) {
+                if (!sdsSet.Contains(symbol))
+                    sdsSet.Add(symbol);
             }
-            return setSds;
         }
 
         private void UpdateActiveBuildTargetGroup()
         {
-            buildTargetGroup = inspectorBuildTargetGroup = BuildPipeline.GetBuildTargetGroup(EditorUserBuildSettings.activeBuildTarget);
+            buildTargetGroup =
+                BuildPipeline.GetBuildTargetGroup(EditorUserBuildSettings.activeBuildTarget);
         }
 
         private void UpdateScriptDefineSymbolsParameters()
         {
             var sds = PlayerSettings.GetScriptingDefineSymbolsForGroup(buildTargetGroup);
-            if (string.IsNullOrWhiteSpace(sds))
-                sdsSet = new HashSet<string>();
-            else
-                sdsSet = GetHashSetScriptDefineSymbolsParameters(sds);
+
+            sdsSet.Clear();
+            if (!string.IsNullOrWhiteSpace(sds))
+                AddHashSetScriptDefineSymbolsParameters(sds, sdsSet);
 
             isDirty = false;
         }
 
         private void ApplyChangesScriptingDefineSymbols()
         {
-            if (sdsSet.Count > 0) {
-                StringBuilder sb = new StringBuilder();
-                var sdsArr = sdsSet.ToArray();
-                sb.Append(sdsArr[0]);
-                for (int i = 1; i < sdsArr.Length; i++) {
-                    var symbol = sdsArr[i];
-                    if (!string.IsNullOrWhiteSpace(symbol)) {
-                        sb.Append(';');
-                        sb.Append(symbol);
-                    } else {
-                        sdsSet.Remove(symbol);
-                    }
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(buildTargetGroup,
+                GetScriptingDefineSymbolsString());
+            isDirty = false;
+        }
+
+        private string GetScriptingDefineSymbolsString()
+        {
+            if (sdsSet.Count == 0)
+                return "";
+
+            StringBuilder sb = new StringBuilder();
+            var sdsArr = sdsSet.ToArray();
+
+            sb.Append(sdsArr[0]);
+            for (int i = 1; i < sdsArr.Length; i++) {
+                var symbol = sdsArr[i];
+                if (string.IsNullOrWhiteSpace(symbol)) {
+                    sdsSet.Remove(symbol);
+                    continue;
                 }
-                PlayerSettings.SetScriptingDefineSymbolsForGroup(buildTargetGroup, sb.ToString());
-            } else {
-                PlayerSettings.SetScriptingDefineSymbolsForGroup(buildTargetGroup, "");
+
+                sb.Append(';');
+                sb.Append(symbol);
             }
+
+            return sb.ToString();
         }
     }
 }
