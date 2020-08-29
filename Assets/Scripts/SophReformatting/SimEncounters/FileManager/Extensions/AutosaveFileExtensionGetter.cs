@@ -1,6 +1,6 @@
 ﻿namespace ClinicalTools.SimEncounters
 {
-    public class AutosaveFileExtensionManager : IFileExtensionManager
+    public class AutosaveFileExtensionGetter : IFileExtensionGetter
     {
         public string GetExtension(FileType fileType)
         {

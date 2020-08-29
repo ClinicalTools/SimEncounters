@@ -14,13 +14,13 @@ namespace ClinicalTools.SimEncounters
         {
             switch (saveType) {
                 case SaveType.Default:
-                    return BindFileManager<DefaultFileManager, FileExtensionManager>;
+                    return BindFileManager<DefaultFileManager, FileExtensionGetter>;
                 case SaveType.Autosave:
-                    return BindFileManager<UserFileManager, AutosaveFileExtensionManager>;
+                    return BindFileManager<UserFileManager, AutosaveFileExtensionGetter>;
                 case SaveType.Demo:
-                    return BindFileManager<DemoFileManager, FileExtensionManager>;
+                    return BindFileManager<DemoFileManager, FileExtensionGetter>;
                 case SaveType.Local:
-                    return BindFileManager<UserFileManager, FileExtensionManager>;
+                    return BindFileManager<UserFileManager, FileExtensionGetter>;
                 default:
                     UnityEngine.Debug.LogError("FileManager cannot be created for a server save type.");
                     return null;
@@ -29,10 +29,11 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void BindFileManager<TFileManager, TFileExtensionManager>(DiContainer subcontainer)
             where TFileManager : IFileManager
-            where TFileExtensionManager : IFileExtensionManager
+            where TFileExtensionManager : IFileExtensionGetter
         {
             subcontainer.Bind<IFileManager>().To<TFileManager>().AsTransient();
-            subcontainer.Bind<IFileExtensionManager>().To<TFileExtensionManager>().AsTransient();
+            subcontainer.Bind<IFilenameGetter>().To<FilenameGetter>().AsTransient();
+            subcontainer.Bind<IFileExtensionGetter>().To<TFileExtensionManager>().AsTransient();
         }
     }
 }

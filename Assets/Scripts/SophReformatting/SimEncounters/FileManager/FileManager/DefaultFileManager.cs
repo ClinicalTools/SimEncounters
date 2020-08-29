@@ -10,9 +10,9 @@ namespace ClinicalTools.SimEncounters
         protected string DefaultDirectory => Application.streamingAssetsPath + "/Default/";
         protected string EncounterFilename => "encounter";
 
-        private readonly IFileExtensionManager fileExtensionManager;
+        private readonly IFileExtensionGetter fileExtensionManager;
         private readonly IServerReader serverReader;
-        public DefaultFileManager(IFileExtensionManager fileExtensionManager, IServerReader serverReader)
+        public DefaultFileManager(IFileExtensionGetter fileExtensionManager, IServerReader serverReader)
         {
             this.fileExtensionManager = fileExtensionManager;
             this.serverReader = serverReader;

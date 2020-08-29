@@ -37,7 +37,7 @@ namespace ClinicalTools.SimEncounters
 
         private void AddNewTab(WaitedResult<Tab> tab)
         {
-            if (tab?.Value == null)
+            if (tab.IsError() || tab.Value == null)
                 return;
 
             CurrentSection.Tabs.Add(tab.Value);

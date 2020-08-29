@@ -57,7 +57,17 @@ namespace ClinicalTools.SimEncounters
             SceneInfo = sceneInfo;
             DeepLinkManager.Instance.LinkActivated += Instance_LinkActivated;
             MenuDrawer.Display(sceneInfo);
+
+            sceneInfo.Result.AddOnCompletedListener(SceneInfoLoaded);
         }
+        protected virtual void SceneInfoLoaded(WaitedResult<MenuSceneInfo> sceneInfo)
+        {
+            if (!sceneInfo.HasValue())
+                return;
+            if (sceneInfo.Value.LoadingScreen != null)
+                sceneInfo.Value.LoadingScreen.Stop();
+        }
+
         protected virtual void Logout()
         {
             var user = LoginHandler.Login();

@@ -5,32 +5,54 @@ namespace ClinicalTools.SimEncounters
 {
     public class WriterSceneManager : SceneManager, ILoadingWriterSceneDrawer
     {
+        public string DefaultEncounterFileName { get => defaultEncounterFileName; set => defaultEncounterFileName = value; }
+        [SerializeField] private string defaultEncounterFileName;
         public BaseLoadingWriterSceneDrawer WriterDrawer { get => writerDrawer; set => writerDrawer = value; }
         [SerializeField] private BaseLoadingWriterSceneDrawer writerDrawer;
 
-        public void Display(LoadingWriterSceneInfo sceneInfo) => WriterDrawer.Display(sceneInfo);
-
+        protected IMetadataReader MetadataReader { get; set; }
         protected IEncounterReader EncounterReader { get; set; }
-        [Inject] public virtual void Inject(IEncounterReader encounterReader) => EncounterReader = encounterReader;
-
+        [Inject]
+        public virtual void Inject(IMetadataReader metadataReader, IEncounterReader encounterReader)
+        {
+            MetadataReader = metadataReader;
+            EncounterReader = encounterReader;
+        }
         protected override void StartAsInitialScene()
         {
-            var metadata = new EncounterMetadata() {
-                Filename = "289342Dave Abbott",
-                Title = "Chad Wright",
-                Subtitle = "Chronic Knee Pain",
-                Audience = "MD/DO/PA/NP",
-                Description = "Chad Wright is a 35 yo male presenting with chronic knee pain that started with a high school football injury. " +
-                "His pain management has included chronic opioid therapy in recent years. " +
-                "He now presents as a new patient requesting a prescription for opioids.",
-                Difficulty = Difficulty.Intermediate
+            var tempMetadata = new EncounterMetadata() {
+                Filename = DefaultEncounterFileName
             };
+            var metadataResult = MetadataReader.GetMetadata(User.Guest, tempMetadata);
+            metadataResult.AddOnCompletedListener(MetadataRetrieved);
+        }
 
-            var encounter = EncounterReader.GetEncounter(User.Guest, metadata, SaveType.Demo);
+        public virtual void MetadataRetrieved(WaitedResult<EncounterMetadata> metadata)
+        {
+            if (!metadata.HasValue()) {
+                Debug.LogError("Metadata is null.");
+                return;
+            }
+
+            var encounter = EncounterReader.GetEncounter(User.Guest, metadata.Value, SaveType.Demo);
             var sceneInfo = new LoadingWriterSceneInfo(User.Guest, null, encounter);
             Display(sceneInfo);
         }
 
         protected override void StartAsLaterScene() { }
+
+
+        public void Display(LoadingWriterSceneInfo sceneInfo)
+        {
+            WriterDrawer.Display(sceneInfo);
+            sceneInfo.Result.AddOnCompletedListener(SceneInfoLoaded);
+        }
+        protected virtual void SceneInfoLoaded(WaitedResult<WriterSceneInfo> sceneInfo)
+        {
+            if (!sceneInfo.HasValue())
+                return;
+            if (sceneInfo.Value.LoadingScreen != null)
+                sceneInfo.Value.LoadingScreen.Stop();
+        }
     }
 }

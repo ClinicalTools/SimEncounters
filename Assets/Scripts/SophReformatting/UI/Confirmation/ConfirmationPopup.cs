@@ -18,11 +18,12 @@ namespace ClinicalTools.SimEncounters
         public Button ConfirmButton { get => confirmButton; set => confirmButton = value; }
         [SerializeField] private Button confirmButton;
 
+#if MOBILE
         protected AndroidBackButton BackButton { get; set; }
-
         [Inject]
         public virtual void Inject(AndroidBackButton backButton)
             => BackButton = backButton;
+#endif
 
         protected Action ConfirmationAction { get; set; }
         protected Action CancellationAction { get; set; }
@@ -44,7 +45,9 @@ namespace ClinicalTools.SimEncounters
             Title.text = title;
             Description.text = description;
             gameObject.SetActive(true);
+#if MOBILE
             BackButton.Register(Cancel);
+#endif
         }
 
         protected virtual void Confirm()
@@ -64,7 +67,9 @@ namespace ClinicalTools.SimEncounters
             ConfirmationAction = null;
             CancellationAction = null;
             gameObject.SetActive(false);
+#if MOBILE
             BackButton.Deregister(Cancel);
+#endif
         }
     }
 }

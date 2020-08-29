@@ -25,5 +25,6 @@ namespace ClinicalTools.SimEncounters
         public WaitedResult(Exception exception) => Exception = exception;
 
         public bool IsError() => Exception != null;
+        public bool HasValue() => Exception == null && Value != null;
     }
 }

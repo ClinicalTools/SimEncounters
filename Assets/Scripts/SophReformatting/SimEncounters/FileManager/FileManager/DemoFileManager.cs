@@ -11,9 +11,9 @@ namespace ClinicalTools.SimEncounters
         protected string DemoDirectory => Application.streamingAssetsPath + "/DemoCases/";
         protected string EncountersListFilename => "list.txt";
 
-        private readonly IFileExtensionManager fileExtensionManager;
+        private readonly IFileExtensionGetter fileExtensionManager;
         private readonly IServerReader serverReader;
-        public DemoFileManager(IFileExtensionManager fileExtensionManager, IServerReader serverReader)
+        public DemoFileManager(IFileExtensionGetter fileExtensionManager, IServerReader serverReader)
         {
             this.fileExtensionManager = fileExtensionManager;
             this.serverReader = serverReader;

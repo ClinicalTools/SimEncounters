@@ -51,7 +51,7 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void AddNewSection(WaitedResult<Section> section)
         {
-            if (section.Value == null)
+            if (section.IsError() || section.Value == null)
                 return;
 
             CurrentEncounter.Content.NonImageContent.Sections.Add(section.Value);

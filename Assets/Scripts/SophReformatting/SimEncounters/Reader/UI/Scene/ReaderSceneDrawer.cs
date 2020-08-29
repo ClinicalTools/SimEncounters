@@ -37,11 +37,11 @@ namespace ClinicalTools.SimEncounters
         [Inject]
         public virtual void Inject(
 #if !STANDALONE_SCENE
-            IMenuSceneStarter menuSceneStarter, 
-            IMenuEncountersInfoReader menuInfoReader, 
-            IWriterSceneStarter writerSceneStarter, 
+            IMenuSceneStarter menuSceneStarter,
+            IMenuEncountersInfoReader menuInfoReader,
+            IWriterSceneStarter writerSceneStarter,
 #endif
-            IDetailedStatusWriter statusWriter, 
+            IDetailedStatusWriter statusWriter,
             BaseConfirmationPopup confirmationPopup,
             AndroidBackButton backButton)
         {
@@ -76,7 +76,8 @@ namespace ClinicalTools.SimEncounters
 
             foreach (var mainMenuButton in MainMenuButtons)
                 mainMenuButton.onClick.AddListener(ConfirmExitScene);
-            BackButton.Register(ConfirmExitScene);
+            if (BackButton != null)
+                BackButton.Register(ConfirmExitScene);
 #if !STANDALONE_SCENE
             if (ExitButton != null)
                 ExitButton.onClick.AddListener(OpenWriter);
@@ -104,7 +105,7 @@ namespace ClinicalTools.SimEncounters
         private const string EXIT_CONFIRMATION_TITLE = "EXIT APPLICATION";
 #endif
         protected virtual void ConfirmExitScene()
-            => ConfirmationPopup.ShowConfirmation(ExitScene, CancelExitScene, 
+            => ConfirmationPopup.ShowConfirmation(ExitScene, CancelExitScene,
                 EXIT_CONFIRMATION_TITLE, "Are you sure you want to exit?");
 
         protected virtual void ExitScene()
@@ -122,7 +123,11 @@ namespace ClinicalTools.SimEncounters
 #endif
         }
 
-        protected virtual void CancelExitScene() => BackButton.Register(ConfirmExitScene);
+        protected virtual void CancelExitScene()
+        {
+            if (BackButton != null)
+                BackButton.Register(ConfirmExitScene);
+        }
 
 #if !STANDALONE_SCENE
         protected virtual void OpenWriter()
@@ -140,6 +145,11 @@ namespace ClinicalTools.SimEncounters
         }
         protected void OnApplicationQuit() => SaveStatus();
 
-        protected virtual void SaveStatus() => StatusWriter.WriteStatus(userEncounter);
+        protected virtual void SaveStatus()
+        {
+            var status = userEncounter.Status;
+            status.BasicStatus.Completed = status.ContentStatus.Read;
+            StatusWriter.WriteStatus(userEncounter);
+        }
     }
 }
