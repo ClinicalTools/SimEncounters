@@ -17,10 +17,8 @@ namespace ClinicalTools.SimEncounters
         protected User()
         {
             IsGuest = true;
-
-            // temporarily use CTI information as the guest user to allow local cases to be viewable
-            AccountId = 25;
-            Username = "cti";
+            AccountId = 0;
+            Username = "Guest";
         }
 
         public User(int accountId) => AccountId = accountId;

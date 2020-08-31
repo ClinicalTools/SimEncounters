@@ -1,4 +1,6 @@
-﻿using ImaginationOverflow.UniversalDeepLinking;
+﻿#if !STANDALONE_SCENE
+using ImaginationOverflow.UniversalDeepLinking;
+#endif
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -55,7 +57,9 @@ namespace ClinicalTools.SimEncounters
         public void Display(LoadingMenuSceneInfo sceneInfo)
         {
             SceneInfo = sceneInfo;
+#if !STANDALONE_SCENE
             DeepLinkManager.Instance.LinkActivated += Instance_LinkActivated;
+#endif
             MenuDrawer.Display(sceneInfo);
 
             sceneInfo.Result.AddOnCompletedListener(SceneInfoLoaded);
@@ -87,6 +91,7 @@ namespace ClinicalTools.SimEncounters
             Display(menuSceneInfo);
         }
 
+#if !STANDALONE_SCENE
         public void TestLink()
         {
             var dictionary = new Dictionary<string, string>();
@@ -105,5 +110,6 @@ namespace ClinicalTools.SimEncounters
             SceneInfo.Result.RemoveListeners();
             EncounterQuickStarter.StartEncounter(SceneInfo.User, SceneInfo.LoadingScreen, SceneInfo.MenuEncountersInfo, quickAction.EncounterId);
         }
+#endif
     }
 }

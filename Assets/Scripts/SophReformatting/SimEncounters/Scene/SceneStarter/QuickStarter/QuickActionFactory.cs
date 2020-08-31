@@ -1,9 +1,12 @@
-﻿using ImaginationOverflow.UniversalDeepLinking;
+﻿#if !STANDALONE_SCENE
+using ImaginationOverflow.UniversalDeepLinking;
+#endif
 
 namespace ClinicalTools.SimEncounters
 {
     public class QuickActionFactory
     {
+#if !STANDALONE_SCENE
         private const string RecordNumberKey = "id";
         public virtual QuickAction GetLinkAction(LinkActivation linkAction)
         {
@@ -16,5 +19,6 @@ namespace ClinicalTools.SimEncounters
 
             return new QuickAction(QuickActionType.Reader, recordNumber);
         }
+#endif
     }
 }
