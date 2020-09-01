@@ -4,6 +4,8 @@ namespace ClinicalTools.SimEncounters
 {
     public class WaitableResult
     {
+        public static WaitableResult CompletedResult = new WaitableResult(true);
+
         public WaitedResult Result { get; protected set; }
         public bool IsCompleted() => Result != null;
         private event Action<WaitedResult> Completed;
@@ -105,7 +107,7 @@ namespace ClinicalTools.SimEncounters
                 Completed -= (Action<WaitedResult<T>>)d;
         }
 
-        public void CopyValueWhenCompleted(WaitableResult<T> destination) 
+        public void CopyValueWhenCompleted(WaitableResult<T> destination)
             => AddOnCompletedListener((source) => CopyValue(source, destination));
 
         private void CopyValue(WaitedResult<T> source, WaitableResult<T> destination)

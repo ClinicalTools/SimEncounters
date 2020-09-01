@@ -5,7 +5,9 @@ namespace ClinicalTools.SimEncounters
 {
     public abstract class BaseConfirmationPopup : MonoBehaviour
     {
-        public abstract void ShowConfirmation(Action confirmAction, string title, string description);
-        public abstract void ShowConfirmation(Action confirmAction, Action cancelAction, string title, string description);
+        public abstract void ShowConfirmation(Action confirmationAction, string title, string description,
+            string confirmationText = "Yes", string cancellationText = "Cancel");
+        public abstract void ShowConfirmation(Action confirmationAction, Action cancellationAction, string title, string description,
+            string confirmationText = "Yes", string cancellationText = "Cancel");
     }
 }

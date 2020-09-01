@@ -29,7 +29,7 @@ namespace ClinicalTools.SimEncounters
         public WaitableResult Save(User user, Encounter encounter)
         {
             if (user.IsGuest)
-                return new WaitableResult(true);
+                return WaitableResult.CompletedResult;
 
             var url = UrlBuilder.BuildUrl(PHP_FILE);
             var form = CreateForm(user, encounter);

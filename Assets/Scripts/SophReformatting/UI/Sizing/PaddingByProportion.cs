@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace ClinicalTools.UI
 {
-    public class PaddingByPercent : UIBehaviour
+    public class PaddingByProportion : UIBehaviour
     {
         [SerializeField] private float left;
         [SerializeField] private float right;
@@ -26,17 +26,20 @@ namespace ClinicalTools.UI
         protected override void OnRectTransformDimensionsChange()
         {
             base.OnRectTransformDimensionsChange();
-            var rect = ((RectTransform)transform.parent).rect;
+            var rect = ((RectTransform)transform).rect;
             Group.padding.left = Mathf.RoundToInt(left * rect.width);
             Group.padding.right = Mathf.RoundToInt(right * rect.width);
             Group.padding.top = Mathf.RoundToInt(top * rect.height);
             Group.padding.bottom = Mathf.RoundToInt(bottom * rect.height);
             if (Group is VerticalLayoutGroup verticalLayoutGroup)
-                verticalLayoutGroup.spacing = spacing * rect.height;
+                verticalLayoutGroup.spacing = GetHeightSpacing(rect);
             if (Group is HorizontalLayoutGroup horizontalLayoutGroup)
-                horizontalLayoutGroup.spacing = spacing * rect.width;
+                horizontalLayoutGroup.spacing = GetWidthSpacing(rect);
             if (Group is GridLayoutGroup gridLayoutGroup)
-                gridLayoutGroup.spacing = new Vector2(spacing * rect.width, spacing * rect.height);
+                gridLayoutGroup.spacing = new Vector2(GetWidthSpacing(rect), GetHeightSpacing(rect));
         }
+
+        protected virtual float GetWidthSpacing(Rect rect) => spacing * rect.width;
+        protected virtual float GetHeightSpacing(Rect rect) => spacing * rect.height;
     }
 }

@@ -13,10 +13,14 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private TextMeshProUGUI title;
         public TextMeshProUGUI Description { get => description; set => description = value; }
         [SerializeField] private TextMeshProUGUI description;
-        public List<Button> CancelButtons { get => cancelButtons; set => cancelButtons = value; }
-        [SerializeField] private List<Button> cancelButtons;
-        public Button ConfirmButton { get => confirmButton; set => confirmButton = value; }
-        [SerializeField] private Button confirmButton;
+        public Button ConfirmationButton { get => confirmationButton; set => confirmationButton = value; }
+        [SerializeField] private Button confirmationButton;
+        public List<Button> CancellationButtons { get => cancellationButtons; set => cancellationButtons = value; }
+        [SerializeField] private List<Button> cancellationButtons;
+        public TextMeshProUGUI ConfirmationLabel { get => confirmationLabel; set => confirmationLabel = value; }
+        [SerializeField] private TextMeshProUGUI confirmationLabel;
+        public TextMeshProUGUI CancellationLabel { get => cancellationLabel; set => cancellationLabel = value; }
+        [SerializeField] private TextMeshProUGUI cancellationLabel;
 
 #if MOBILE
         protected AndroidBackButton BackButton { get; set; }
@@ -31,20 +35,24 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void Awake()
         {
-            foreach (var cancelButton in CancelButtons)
-                cancelButton.onClick.AddListener(Cancel);
-            ConfirmButton.onClick.AddListener(Confirm);
+            foreach (var cancellationButton in CancellationButtons)
+                cancellationButton.onClick.AddListener(Cancel);
+            ConfirmationButton.onClick.AddListener(Confirm);
         }
 
-        public override void ShowConfirmation(Action confirmAction, string title, string description)
-            => ShowConfirmation(confirmAction, null, title, description);
-        public override void ShowConfirmation(Action confirmAction, Action cancelAction, string title, string description)
+        public override void ShowConfirmation(Action confirmationAction, string title, string description,
+            string confirmationText = "Yes", string cancellationText = "Cancel")
+            => ShowConfirmation(confirmationAction, null, title, description, confirmationText, cancellationText);
+        public override void ShowConfirmation(Action confirmationAction, Action cancellationAction, string title, string description,
+            string confirmationText = "Yes", string cancellationText = "Cancel")
         {
-            ConfirmationAction = confirmAction;
-            CancellationAction = cancelAction;
+            ConfirmationAction = confirmationAction;
+            CancellationAction = cancellationAction;
             Title.text = title;
             Description.text = description;
             gameObject.SetActive(true);
+            ConfirmationLabel.text = confirmationText.ToUpper();
+            CancellationLabel.text = cancellationText.ToUpper();
 #if MOBILE
             BackButton.Register(Cancel);
 #endif

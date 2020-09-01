@@ -50,12 +50,15 @@ namespace ClinicalTools.SimEncounters
             return filesText;
         }
 
-        protected void ReadFiles(WaitedResult<string[]> demoEncounters, WaitableResult<string[]> result, FileType fileType) {
-            if (demoEncounters == null)
+        protected void ReadFiles(WaitedResult<string[]> demoEncounters, WaitableResult<string[]> result, FileType fileType)
+        {
+            if (demoEncounters == null || !demoEncounters.HasValue() || demoEncounters.Value.Length == 0) {
+                result.SetResult(new string[0]);
                 return;
+            }
 
             var serverResults = new WaitableResult<string>[demoEncounters.Value.Length];
-            for (int i = 0; i <demoEncounters.Value.Length; i++) {
+            for (int i = 0; i < demoEncounters.Value.Length; i++) {
                 var filePath = GetFile(fileType, demoEncounters.Value[i]);
                 var webRequest = UnityWebRequest.Get(filePath);
                 serverResults[i] = serverReader.Begin(webRequest);
@@ -63,7 +66,8 @@ namespace ClinicalTools.SimEncounters
             }
         }
 
-        protected void SetFilesResults(WaitableResult<string[]> result, WaitableResult<string>[] serverResults) { 
+        protected void SetFilesResults(WaitableResult<string[]> result, WaitableResult<string>[] serverResults)
+        {
             foreach (var serverResult in serverResults) {
                 if (serverResult == null || !serverResult.IsCompleted())
                     return;
@@ -102,11 +106,10 @@ namespace ClinicalTools.SimEncounters
 
         protected void SetEncounters(WaitedResult<string> serverResult)
         {
-            if (demoEncounters == null || demoEncounters.IsCompleted())
-                return;
-
-            if (serverResult.IsError())
+            if (demoEncounters == null || demoEncounters.IsCompleted() || serverResult.IsError()) {
                 demoEncounters.SetError(new Exception("Could not get demo encounters from file."));
+                return;
+            }
 
             var splitChars = new char[] { '\n', '\r' };
             var encounters = serverResult.Value.Split(splitChars, StringSplitOptions.RemoveEmptyEntries);

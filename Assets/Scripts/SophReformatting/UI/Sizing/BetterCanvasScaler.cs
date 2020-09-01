@@ -14,8 +14,8 @@ namespace ClinicalTools.UI
         protected override void HandleConstantPhysicalSize()
         {
 #if UNITY_EDITOR
-        var editorDPI = new NullableFloat(null);
-        float currentDpi = (editorDPI.Value != null) ? (float)editorDPI.Value : Screen.dpi;
+            var editorDPI = new NullableFloat(72);
+            float currentDpi = (editorDPI.Value != null) ? (float)editorDPI.Value : Screen.dpi;
 #else
             float currentDpi = Screen.dpi;
 
@@ -29,9 +29,12 @@ namespace ClinicalTools.UI
                 case Unit.Points: targetDPI = 72; break;
                 case Unit.Picas: targetDPI = 6; break;
             }
+            //targetDPI *= 2;
+
+            var spriteDpiProportion = dpi / m_DefaultSpriteDPI;
 
             SetScaleFactor(dpi / targetDPI);
-            SetReferencePixelsPerUnit(m_ReferencePixelsPerUnit * targetDPI / m_DefaultSpriteDPI);
+            SetReferencePixelsPerUnit(m_ReferencePixelsPerUnit * targetDPI / m_DefaultSpriteDPI / spriteDpiProportion);
         }
 
 

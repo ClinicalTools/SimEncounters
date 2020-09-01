@@ -35,7 +35,7 @@ namespace ClinicalTools.SimEncounters
             ImageDataSerializer.Serialize(imagesSerializer, encounter.Content.ImageContent);
             FileManager.SetFileText(user, FileType.Image, encounter.Metadata, imagesDoc.OuterXml);
 
-            return new WaitableResult(true);
+            return WaitableResult.CompletedResult;
         }
     }
 }
