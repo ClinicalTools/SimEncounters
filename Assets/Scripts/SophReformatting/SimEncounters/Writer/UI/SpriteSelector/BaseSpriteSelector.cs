@@ -5,6 +5,6 @@ namespace ClinicalTools.SimEncounters
 {
     public abstract class BaseSpriteSelector : MonoBehaviour
     {
-        public abstract WaitableResult<string> SelectSprite(KeyedCollection<Sprite> sprites, string spriteKey);
+        public abstract WaitableTask<string> SelectSprite(KeyedCollection<Sprite> sprites, string spriteKey);
     }
 }

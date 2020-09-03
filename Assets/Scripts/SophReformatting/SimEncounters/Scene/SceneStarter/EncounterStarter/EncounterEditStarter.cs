@@ -25,7 +25,7 @@ namespace ClinicalTools.SimEncounters
             result.AddOnCompletedListener((value) => MetadataSelected(sceneInfo, value));
         }
 
-        protected virtual void MetadataSelected(MenuSceneInfo sceneInfo, WaitedResult<KeyValuePair<SaveType, EncounterMetadata>> metadata)
+        protected virtual void MetadataSelected(MenuSceneInfo sceneInfo, TaskResult<KeyValuePair<SaveType, EncounterMetadata>> metadata)
             => MetadataSelected(sceneInfo, metadata.Value);
         protected virtual void MetadataSelected(MenuSceneInfo sceneInfo,  KeyValuePair<SaveType, EncounterMetadata> metadata)
         {

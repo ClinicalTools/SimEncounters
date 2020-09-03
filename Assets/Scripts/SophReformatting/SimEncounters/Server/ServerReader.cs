@@ -8,15 +8,15 @@ namespace ClinicalTools.SimEncounters
          * Downloads all available and applicable menu files to display on the main manu.
          * Returns them as a MenuCase item
          */
-        public WaitableResult<string> Begin(UnityWebRequest webRequest)
+        public WaitableTask<string> Begin(UnityWebRequest webRequest)
         {
-            var result = new WaitableResult<string>();
+            var result = new WaitableTask<string>();
             var requestOperation = webRequest.SendWebRequest();
             requestOperation.completed += (asyncOperation) => ProcessWebrequest(webRequest, result);
             return result;
         }
 
-        protected void ProcessWebrequest(UnityWebRequest webRequest, WaitableResult<string> result)
+        protected void ProcessWebrequest(UnityWebRequest webRequest, WaitableTask<string> result)
         {
             try { 
                 var serverResult = GetResults(webRequest);

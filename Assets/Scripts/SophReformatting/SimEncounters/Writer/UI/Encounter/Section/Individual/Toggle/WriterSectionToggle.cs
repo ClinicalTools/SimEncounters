@@ -86,7 +86,7 @@ namespace ClinicalTools.SimEncounters
             section.AddOnCompletedListener(FinishEdit);
         }
 
-        protected virtual void FinishEdit(WaitedResult<Section> editedSection)
+        protected virtual void FinishEdit(TaskResult<Section> editedSection)
         {
             if (editedSection.IsError())
                 return;

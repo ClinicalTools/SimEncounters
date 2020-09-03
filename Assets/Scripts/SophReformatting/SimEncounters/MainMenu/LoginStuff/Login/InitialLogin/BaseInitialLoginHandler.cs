@@ -2,6 +2,6 @@
 {
     public abstract class BaseInitialLoginHandler : BaseLoginHandler
     {
-        public abstract WaitableResult<User> InitialLogin(ILoadingScreen loadingScreen);
+        public abstract WaitableTask<User> InitialLogin(ILoadingScreen loadingScreen);
     }
 }

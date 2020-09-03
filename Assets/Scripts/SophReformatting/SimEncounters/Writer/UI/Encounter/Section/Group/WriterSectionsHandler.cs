@@ -49,7 +49,7 @@ namespace ClinicalTools.SimEncounters
             newSection.AddOnCompletedListener(AddNewSection);
         }
 
-        protected virtual void AddNewSection(WaitedResult<Section> section)
+        protected virtual void AddNewSection(TaskResult<Section> section)
         {
             if (section.IsError() || section.Value == null)
                 return;

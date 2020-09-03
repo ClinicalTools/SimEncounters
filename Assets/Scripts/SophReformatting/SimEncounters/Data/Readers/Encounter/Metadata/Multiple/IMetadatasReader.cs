@@ -4,6 +4,6 @@ namespace ClinicalTools.SimEncounters
 {
     public interface IMetadatasReader
     {
-        WaitableResult<List<EncounterMetadata>> GetMetadatas(User user);
+        WaitableTask<List<EncounterMetadata>> GetMetadatas(User user);
     }
 }

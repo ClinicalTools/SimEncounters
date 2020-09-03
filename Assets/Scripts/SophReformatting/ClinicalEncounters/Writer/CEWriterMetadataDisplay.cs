@@ -119,6 +119,6 @@ namespace ClinicalTools.ClinicalEncounters
             gameObject.SetActive(false);
         }
 
-        protected virtual void PublishingFinished(WaitedResult result) => LocalWriter.Save(CurrentUser, CurrentEncounter);
+        protected virtual void PublishingFinished(TaskResult result) => LocalWriter.Save(CurrentUser, CurrentEncounter);
     }
 }

@@ -2,6 +2,6 @@
 {
     public interface IImageContentReader
     {
-        WaitableResult<EncounterImageContent> GetImageData(User user, EncounterMetadata metadata);
+        WaitableTask<EncounterImageContent> GetImageData(User user, EncounterMetadata metadata);
     }
 }

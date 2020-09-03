@@ -32,6 +32,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
@@ -49,7 +50,7 @@ namespace ClinicalTools.SimEncounters
         private static readonly GUIContent CONTENT_TOGGLE_DEMO = new GUIContent("Demo");
         private static readonly GUIContent CONTENT_TOGGLE_MOBILE = new GUIContent("Mobile");
         private static readonly GUIContent CONTENT_TOGGLE_STANDALONE
-            = new GUIContent("Standalone Scene", 
+            = new GUIContent("Standalone Scene",
                 "Should be true if this is the only scene in the build.");
 
         private static readonly GUIContent CONTENT_LABEL_DESCRIPTION
@@ -82,11 +83,26 @@ namespace ClinicalTools.SimEncounters
 
         private void OnEnable()
         {
-            UpdateActiveBuildTargetGroup();
+            buildTargetGroup = GetActiveBuildTargetGroup();
             UpdateScriptDefineSymbolsParameters();
         }
 
         private void OnGUI()
+        {
+            DrawToolbar();
+
+            if (buildTargetGroup == BuildTargetGroup.Unknown) {
+                EditorGUILayout.HelpBox(DisabledSdsMessage, MessageType.Info, true);
+                return;
+            }
+
+            EditorGUILayout.Space();
+            EditorGUI.indentLevel++;
+            DrawSymbolToggles();
+            EditorGUI.indentLevel--;
+        }
+
+        private void DrawToolbar()
         {
             using (var horizontalScope = new EditorGUILayout.HorizontalScope(EditorStyles.toolbar)) {
                 if (GUILayout.Button(CONTENT_BUTTON_REVERT, EditorStyles.toolbarButton))
@@ -100,16 +116,6 @@ namespace ClinicalTools.SimEncounters
                 GUILayout.FlexibleSpace();
                 DrawBuildTargetsDropdown();
             }
-
-            if (buildTargetGroup == BuildTargetGroup.Unknown) {
-                EditorGUILayout.HelpBox(DisabledSdsMessage, MessageType.Info, true);
-                return;
-            }
-
-            EditorGUILayout.Space();
-            EditorGUI.indentLevel++;
-            DrawSymbolToggles();
-            EditorGUI.indentLevel--;
         }
 
         private void DrawBuildTargetsDropdown()
@@ -124,15 +130,15 @@ namespace ClinicalTools.SimEncounters
                     return;
             }
 
-            if (isDirty &&
-                    EditorUtility.DisplayDialog("Warning", WarningDescription, "Yes", "No")) {
-
+            if (isDirty && DisplayWarning())
                 ApplyChangesScriptingDefineSymbols();
-            }
 
             buildTargetGroup = inspectorBuildTargetGroup;
             UpdateScriptDefineSymbolsParameters();
         }
+
+        private bool DisplayWarning()
+            => EditorUtility.DisplayDialog("Warning", WarningDescription, "Yes", "No");
 
         private void DrawSymbolToggles()
         {
@@ -171,11 +177,8 @@ namespace ClinicalTools.SimEncounters
             }
         }
 
-        private void UpdateActiveBuildTargetGroup()
-        {
-            buildTargetGroup =
-                BuildPipeline.GetBuildTargetGroup(EditorUserBuildSettings.activeBuildTarget);
-        }
+        private BuildTargetGroup GetActiveBuildTargetGroup()
+            => BuildPipeline.GetBuildTargetGroup(EditorUserBuildSettings.activeBuildTarget);
 
         private void UpdateScriptDefineSymbolsParameters()
         {
@@ -190,8 +193,8 @@ namespace ClinicalTools.SimEncounters
 
         private void ApplyChangesScriptingDefineSymbols()
         {
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(buildTargetGroup,
-                GetScriptingDefineSymbolsString());
+            var symbolsString = GetScriptingDefineSymbolsString();
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(buildTargetGroup, symbolsString);
             isDirty = false;
         }
 
@@ -203,19 +206,22 @@ namespace ClinicalTools.SimEncounters
             StringBuilder sb = new StringBuilder();
             var sdsArr = sdsSet.ToArray();
 
-            sb.Append(sdsArr[0]);
-            for (int i = 1; i < sdsArr.Length; i++) {
-                var symbol = sdsArr[i];
-                if (string.IsNullOrWhiteSpace(symbol)) {
-                    sdsSet.Remove(symbol);
-                    continue;
-                }
-
-                sb.Append(';');
-                sb.Append(symbol);
-            }
+            foreach (var symbol in sdsArr)
+                AppendSymbolToString(sb, symbol);
 
             return sb.ToString();
+        }
+
+        private void AppendSymbolToString(StringBuilder stringBuilder, string symbol)
+        {
+            if (string.IsNullOrWhiteSpace(symbol)) {
+                sdsSet.Remove(symbol);
+                return;
+            }
+
+            if (stringBuilder.Length > 0)
+                stringBuilder.Append(';');
+            stringBuilder.Append(symbol);
         }
     }
 }

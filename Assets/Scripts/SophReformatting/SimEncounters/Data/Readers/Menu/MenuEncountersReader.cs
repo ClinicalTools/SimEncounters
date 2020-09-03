@@ -13,12 +13,12 @@ namespace ClinicalTools.SimEncounters
             this.basicStatusesReader = basicStatusesReader;
         }
 
-        public WaitableResult<List<MenuEncounter>> GetMenuEncounters(User user)
+        public WaitableTask<List<MenuEncounter>> GetMenuEncounters(User user)
         {
             var metadataGroups = metadataGroupsReader.GetMetadataGroups(user);
             var statuses = basicStatusesReader.GetBasicStatuses(user);
 
-            var menuEncounters = new WaitableResult<List<MenuEncounter>>();
+            var menuEncounters = new WaitableTask<List<MenuEncounter>>();
 
             void processResults() => ProcessResults(menuEncounters, metadataGroups, statuses);
             metadataGroups.AddOnCompletedListener((result) => processResults());
@@ -27,9 +27,9 @@ namespace ClinicalTools.SimEncounters
             return menuEncounters;
         }
 
-        protected void ProcessResults(WaitableResult<List<MenuEncounter>> result,
-            WaitableResult<Dictionary<int, Dictionary<SaveType, EncounterMetadata>>> metadataGroups,
-            WaitableResult<Dictionary<int, EncounterBasicStatus>> statuses)
+        protected void ProcessResults(WaitableTask<List<MenuEncounter>> result,
+            WaitableTask<Dictionary<int, Dictionary<SaveType, EncounterMetadata>>> metadataGroups,
+            WaitableTask<Dictionary<int, EncounterBasicStatus>> statuses)
         {
             if (result.IsCompleted() || !metadataGroups.IsCompleted() || !statuses.IsCompleted())
                 return;
@@ -47,7 +47,7 @@ namespace ClinicalTools.SimEncounters
         }
 
         protected MenuEncounter GetMenuEncounter(KeyValuePair<int, Dictionary<SaveType, EncounterMetadata>> metadataGroup,
-            WaitableResult<Dictionary<int, EncounterBasicStatus>> statuses)
+            WaitableTask<Dictionary<int, EncounterBasicStatus>> statuses)
         {
             EncounterBasicStatus status = null;
             if (statuses.Result.Value?.ContainsKey(metadataGroup.Key) == true)

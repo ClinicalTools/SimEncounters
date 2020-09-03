@@ -26,7 +26,7 @@ namespace ClinicalTools.SimEncounters
         protected virtual void BindEncounterWriterInstaller(DiContainer subcontainer, SaveType saveType)
         {
             if (saveType == SaveType.Server) {
-                subcontainer.Bind<IEncounterWriter>().To<EncounterUploader>().AsTransient();
+                subcontainer.Bind<IEncounterWriter>().To<ServerEncounterWriter>().AsTransient();
                 return;
             }
 

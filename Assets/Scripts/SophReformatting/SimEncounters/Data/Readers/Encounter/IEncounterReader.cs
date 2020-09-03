@@ -4,6 +4,6 @@ namespace ClinicalTools.SimEncounters
 {
     public interface IEncounterReader
     {
-        WaitableResult<Encounter> GetEncounter(User user, EncounterMetadata metadata, SaveType saveType);
+        WaitableTask<Encounter> GetEncounter(User user, EncounterMetadata metadata, SaveType saveType);
     }
 }

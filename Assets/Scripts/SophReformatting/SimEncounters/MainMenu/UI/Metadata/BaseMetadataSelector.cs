@@ -5,6 +5,6 @@ namespace ClinicalTools.SimEncounters
 {
     public abstract class BaseMetadataSelector : MonoBehaviour
     {
-        public abstract WaitableResult<KeyValuePair<SaveType, EncounterMetadata>> GetMetadata(MenuEncounter menuEncounter); 
+        public abstract WaitableTask<KeyValuePair<SaveType, EncounterMetadata>> GetMetadata(MenuEncounter menuEncounter); 
     }
 }

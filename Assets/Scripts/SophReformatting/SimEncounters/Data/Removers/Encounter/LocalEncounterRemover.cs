@@ -14,11 +14,11 @@ namespace ClinicalTools.SimEncounters
             AutosaveFileManager = autosaveFileManager;
         }
 
-        public WaitableResult Delete(User user, EncounterMetadata encounterMetadata)
+        public WaitableTask Delete(User user, EncounterMetadata encounterMetadata)
         {
             LocalFileManager.DeleteFiles(user, encounterMetadata);
             AutosaveFileManager.DeleteFiles(user, encounterMetadata);
-            return WaitableResult.CompletedResult;
+            return WaitableTask.CompletedTask;
         }
     }
 }

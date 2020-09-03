@@ -4,6 +4,6 @@ namespace ClinicalTools.SimEncounters
 {
     public interface IBasicStatusesReader
     {
-        WaitableResult<Dictionary<int, EncounterBasicStatus>> GetBasicStatuses(User user);
+        WaitableTask<Dictionary<int, EncounterBasicStatus>> GetBasicStatuses(User user);
     }
 }

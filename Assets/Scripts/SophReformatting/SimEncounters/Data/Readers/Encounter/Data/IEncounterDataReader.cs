@@ -2,6 +2,6 @@
 {
     public interface IEncounterDataReader
     {
-        WaitableResult<EncounterContent> GetEncounterData(User user, EncounterMetadata metadata);
+        WaitableTask<EncounterContent> GetEncounterData(User user, EncounterMetadata metadata);
     }
 }

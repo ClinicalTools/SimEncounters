@@ -8,21 +8,21 @@
             this.dataReaderSelector = dataReaderSelector;
         }
 
-        public virtual WaitableResult<Encounter> GetEncounter(User user, EncounterMetadata metadata, SaveType saveType)
+        public virtual WaitableTask<Encounter> GetEncounter(User user, EncounterMetadata metadata, SaveType saveType)
         { 
             var dataReader = dataReaderSelector.GetEncounterDataReader(saveType);
 
             var data = dataReader.GetEncounterData(user, metadata);
 
-            var encounterData = new WaitableResult<Encounter>();
+            var encounterData = new WaitableTask<Encounter>();
             data.AddOnCompletedListener((result) => ProcessResults(encounterData, metadata, result));
 
             return encounterData;
         }
 
-        protected virtual void ProcessResults(WaitableResult<Encounter> result,
+        protected virtual void ProcessResults(WaitableTask<Encounter> result,
             EncounterMetadata metadata,
-            WaitedResult<EncounterContent> data)
+            TaskResult<EncounterContent> data)
         {
             if (data.IsError()) {
                 result.SetError(data.Exception);

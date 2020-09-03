@@ -9,49 +9,49 @@ namespace ClinicalTools.SimEncounters
     {
         private readonly IUrlBuilder urlBuilder;
         private readonly IServerReader serverReader;
-        private readonly IParser<Dictionary<int, EncounterBasicStatus>> parser;
-        public ServerBasicStatusesReader(IUrlBuilder urlBuilder, IServerReader serverReader, IParser<Dictionary<int, EncounterBasicStatus>> parser)
+        private readonly IStringDeserializer<Dictionary<int, EncounterBasicStatus>> parser;
+        public ServerBasicStatusesReader(IUrlBuilder urlBuilder, IServerReader serverReader, IStringDeserializer<Dictionary<int, EncounterBasicStatus>> parser)
         {
             this.urlBuilder = urlBuilder;
             this.serverReader = serverReader;
             this.parser = parser;
         }
 
-        public WaitableResult<Dictionary<int, EncounterBasicStatus>> GetBasicStatuses(User user)
+        public WaitableTask<Dictionary<int, EncounterBasicStatus>> GetBasicStatuses(User user)
         {
             if (user.IsGuest)
-                return new WaitableResult<Dictionary<int, EncounterBasicStatus>>(new Exception("Guest user has no server statuses."));
+                return new WaitableTask<Dictionary<int, EncounterBasicStatus>>(new Exception("Guest user has no server statuses."));
 
             var webRequest = GetWebRequest(user);
             var serverOutput = serverReader.Begin(webRequest);
-            var statuses = new WaitableResult<Dictionary<int, EncounterBasicStatus>>();
+            var statuses = new WaitableTask<Dictionary<int, EncounterBasicStatus>>();
             serverOutput.AddOnCompletedListener((result) => ProcessResults(statuses, result));
 
             return statuses;
         }
 
-        private const string menuPhp = "Track.php";
-        private const string actionVariable = "ACTION";
-        private const string downloadAction = "download";
-        private const string usernameVariable = "username";
+        private const string PhpFile = "DownloadStatus.php";
+        private const string ModeVariable = "mode";
+        private const string ModeValue = "download";
+        private const string AccountIdVariable = "accountId";
         protected UnityWebRequest GetWebRequest(User user)
         {
-            var url = urlBuilder.BuildUrl(menuPhp);
+            var url = urlBuilder.BuildUrl(PhpFile);
             var form = new WWWForm();
 
-            form.AddField(actionVariable, downloadAction);
-            form.AddField(usernameVariable, user.Username);
+            form.AddField(ModeVariable, ModeValue);
+            form.AddField(AccountIdVariable, user.AccountId);
 
             return UnityWebRequest.Post(url, form);
         }
-        private void ProcessResults(WaitableResult<Dictionary<int, EncounterBasicStatus>> result, WaitedResult<string> serverOutput)
+        private void ProcessResults(WaitableTask<Dictionary<int, EncounterBasicStatus>> result, TaskResult<string> serverOutput)
         {
             if (serverOutput == null || serverOutput.IsError()) {
                 result.SetError(serverOutput.Exception);
                 return;
             }
 
-            var statuses = parser.Parse(serverOutput.Value);
+            var statuses = parser.Deserialize(serverOutput.Value);
             result.SetResult(statuses);
         }
     }

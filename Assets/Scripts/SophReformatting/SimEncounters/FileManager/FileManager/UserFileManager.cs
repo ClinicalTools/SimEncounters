@@ -27,23 +27,23 @@ namespace ClinicalTools.SimEncounters
 
             File.WriteAllText(filepath, contents);
         }
-        public WaitableResult<string> GetFileText(User user, FileType fileType, EncounterMetadata metadata)
+        public WaitableTask<string> GetFileText(User user, FileType fileType, EncounterMetadata metadata)
         {
             var filepath = GetFilepath(user, fileType, metadata);
             if (!File.Exists(filepath))
-                return new WaitableResult<string>(new Exception("File doesn't exist"));
+                return new WaitableTask<string>(new Exception("File doesn't exist"));
             var text = File.ReadAllText(filepath);
-            return new WaitableResult<string>(text);
+            return new WaitableTask<string>(text);
         }
 
-        public WaitableResult<string[]> GetFilesText(User user, FileType fileType)
+        public WaitableTask<string[]> GetFilesText(User user, FileType fileType)
         {
             var filepaths = GetFilepaths(user, fileType);
             var texts = new string[filepaths.Length];
             for (int i = 0; i < filepaths.Length; i++)
                 texts[i] = File.ReadAllText(filepaths[i]);
 
-            return new WaitableResult<string[]>(texts);
+            return new WaitableTask<string[]>(texts);
         }
 
         protected string GetFilepath(User user, FileType fileType, EncounterMetadata metadata)

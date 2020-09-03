@@ -7,19 +7,19 @@ namespace ClinicalTools.SimEncounters
     {
         private readonly IUrlBuilder urlBuilder;
         private readonly IServerReader serverReader;
-        private readonly IParser<List<EncounterMetadata>> parser;
-        public LegacyServerMetadatasReader(IUrlBuilder urlBuilder, IServerReader serverReader, IParser<List<EncounterMetadata>> parser)
+        private readonly IStringDeserializer<List<EncounterMetadata>> parser;
+        public LegacyServerMetadatasReader(IUrlBuilder urlBuilder, IServerReader serverReader, IStringDeserializer<List<EncounterMetadata>> parser)
         {
             this.urlBuilder = urlBuilder;
             this.serverReader = serverReader;
             this.parser = parser;
         }
 
-        public WaitableResult<List<EncounterMetadata>> GetMetadatas(User user)
+        public WaitableTask<List<EncounterMetadata>> GetMetadatas(User user)
         {
             var webRequest = GetWebRequest(user);
             var serverOutput = serverReader.Begin(webRequest);
-            var metadatas = new WaitableResult<List<EncounterMetadata>>();
+            var metadatas = new WaitableTask<List<EncounterMetadata>>();
             serverOutput.AddOnCompletedListener((result) => ProcessResults(metadatas, result));
 
             return metadatas;
@@ -41,14 +41,14 @@ namespace ClinicalTools.SimEncounters
         }
 
 
-        private void ProcessResults(WaitableResult<List<EncounterMetadata>> result, WaitedResult<string> serverOutput)
+        private void ProcessResults(WaitableTask<List<EncounterMetadata>> result, TaskResult<string> serverOutput)
         {
             if (serverOutput == null || serverOutput.IsError()) {
                 result.SetError(serverOutput.Exception);
                 return;
             }
 
-            var metadatas = parser.Parse(serverOutput.Value);
+            var metadatas = parser.Deserialize(serverOutput.Value);
             result.SetResult(metadatas);
         }
     }

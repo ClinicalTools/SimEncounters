@@ -34,11 +34,11 @@ namespace ClinicalTools.SimEncounters
             CreateButton.onClick.AddListener(AddSection);
         }
 
-        protected WaitableResult<Section> CurrentWaitableSection { get; set; }
-        public virtual WaitableResult<Section> CreateSection(Encounter encounter)
+        protected WaitableTask<Section> CurrentWaitableSection { get; set; }
+        public virtual WaitableTask<Section> CreateSection(Encounter encounter)
         {
             CurrentWaitableSection?.SetError(new Exception("New popup opened"));
-            CurrentWaitableSection = new WaitableResult<Section>();
+            CurrentWaitableSection = new WaitableTask<Section>();
 
             NameField.text = "";
             gameObject.SetActive(true);

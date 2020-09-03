@@ -9,7 +9,7 @@ namespace ClinicalTools.SimEncounters
             Container.Bind<StayLoggedIn>().To<StayLoggedIn>().AsTransient();
             Container.Bind<ILoginHandler>().To<AutoLogin>().AsTransient();
             Container.Bind<IPasswordLoginHandler>().To<PasswordLogin>().AsTransient();
-            Container.Bind<UserParser>().To<UserParser>().AsTransient();
+            Container.Bind<UserDeserializer>().To<UserDeserializer>().AsTransient();
         }
     }
 }

@@ -2,6 +2,6 @@
 {
     public interface IDetailedStatusReader
     {
-        WaitableResult<EncounterStatus> GetDetailedStatus(User user, EncounterMetadata metadata, EncounterBasicStatus basicStatus);
+        WaitableTask<EncounterStatus> GetDetailedStatus(User user, EncounterMetadata metadata, EncounterBasicStatus basicStatus);
     }
 }

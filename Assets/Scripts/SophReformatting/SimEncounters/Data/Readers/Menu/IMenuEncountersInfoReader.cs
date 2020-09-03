@@ -2,6 +2,6 @@
 {
     public interface IMenuEncountersInfoReader
     {
-        WaitableResult<IMenuEncountersInfo> GetMenuEncountersInfo(User user);
+        WaitableTask<IMenuEncountersInfo> GetMenuEncountersInfo(User user);
     }
 }

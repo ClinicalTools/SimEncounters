@@ -4,6 +4,6 @@ namespace ClinicalTools.SimEncounters
 {
     public interface IMenuEncountersReader
     {
-        WaitableResult<List<MenuEncounter>> GetMenuEncounters(User user);
+        WaitableTask<List<MenuEncounter>> GetMenuEncounters(User user);
     }
 }

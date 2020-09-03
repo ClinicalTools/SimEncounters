@@ -30,15 +30,15 @@ namespace ClinicalTools.SimEncounters
         public TabTypeButtonUI TypeButtonPrefab { get => typeButtonPrefab; set => typeButtonPrefab = value; }
         [SerializeField] private TabTypeButtonUI typeButtonPrefab;
 
-        protected WaitableResult<Tab> CurrentWaitableTab { get; set; }
+        protected WaitableTask<Tab> CurrentWaitableTab { get; set; }
 
         protected BaseMessageHandler MessageHandler { get; set; }
         [Inject] public virtual void Inject(BaseMessageHandler messageHandler) => MessageHandler = messageHandler;
 
-        public virtual WaitableResult<Tab> CreateTab()
+        public virtual WaitableTask<Tab> CreateTab()
         {
             CurrentWaitableTab?.SetError(new Exception("New popup opened"));
-            CurrentWaitableTab = new WaitableResult<Tab>();
+            CurrentWaitableTab = new WaitableTask<Tab>();
 
             gameObject.SetActive(true);
             TabGroups.allowSwitchOff = true;

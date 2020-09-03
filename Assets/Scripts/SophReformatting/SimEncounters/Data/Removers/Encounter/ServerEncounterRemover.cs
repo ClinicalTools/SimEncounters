@@ -15,10 +15,10 @@ namespace ClinicalTools.SimEncounters
         }
 
         private const string PhpFile = "DeleteEncounter.php";
-        public WaitableResult Delete(User user, EncounterMetadata metadata)
+        public WaitableTask Delete(User user, EncounterMetadata metadata)
         {
             if (user.IsGuest)
-                return WaitableResult.CompletedResult;
+                return WaitableTask.CompletedTask;
 
             var url = UrlBuilder.BuildUrl(PhpFile);
             var form = CreateForm(user, metadata);
@@ -26,7 +26,7 @@ namespace ClinicalTools.SimEncounters
             var webRequest = UnityWebRequest.Post(url, form);
             var serverResults = ServerReader.Begin(webRequest);
 
-            var result = new WaitableResult();
+            var result = new WaitableTask();
             serverResults.AddOnCompletedListener((serverResult) => ProcessResults(result, serverResult, metadata));
             return result;
         }
@@ -47,7 +47,7 @@ namespace ClinicalTools.SimEncounters
             return form;
         }
 
-        private void ProcessResults(WaitableResult actionResult, WaitedResult<string> serverResult, EncounterMetadata metadata)
+        private void ProcessResults(WaitableTask actionResult, TaskResult<string> serverResult, EncounterMetadata metadata)
         {
             if (serverResult.IsError()) {
                 actionResult.SetError(serverResult.Exception);

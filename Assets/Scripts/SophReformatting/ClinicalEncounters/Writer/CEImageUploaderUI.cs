@@ -12,7 +12,7 @@ namespace ClinicalTools.ClinicalEncounters
 
         protected string PatientImageKey { get; } = "patientImage";
 
-        public override WaitableResult<string> SelectSprite(KeyedCollection<Sprite> sprites, string spriteKey)
+        public override WaitableTask<string> SelectSprite(KeyedCollection<Sprite> sprites, string spriteKey)
         {
             var waitableSprite = base.SelectSprite(sprites, spriteKey);
 

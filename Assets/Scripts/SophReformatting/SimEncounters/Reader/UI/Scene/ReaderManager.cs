@@ -66,7 +66,7 @@ namespace ClinicalTools.SimEncounters
         }
 
 
-        public virtual void MetadataRetrieved(WaitedResult<EncounterMetadata> metadata)
+        public virtual void MetadataRetrieved(TaskResult<EncounterMetadata> metadata)
         {
             if (metadata.Value == null) {
                 Debug.LogError("Metadata is null.");

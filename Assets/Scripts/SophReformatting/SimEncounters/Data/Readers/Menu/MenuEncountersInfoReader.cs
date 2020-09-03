@@ -10,16 +10,16 @@ namespace ClinicalTools.SimEncounters
             this.menuEncountersReader = menuEncountersReader;
         }
 
-        public virtual WaitableResult<IMenuEncountersInfo> GetMenuEncountersInfo(User user)
+        public virtual WaitableTask<IMenuEncountersInfo> GetMenuEncountersInfo(User user)
         {
-            var categories = new WaitableResult<IMenuEncountersInfo>();
+            var categories = new WaitableTask<IMenuEncountersInfo>();
 
             var menuEncounters = menuEncountersReader.GetMenuEncounters(user);
             menuEncounters.AddOnCompletedListener((result) => ProcessResults(user, categories, result));
 
             return categories;
         }
-        protected virtual void ProcessResults(User user, WaitableResult<IMenuEncountersInfo> result, WaitedResult<List<MenuEncounter>> menuEncounters)
+        protected virtual void ProcessResults(User user, WaitableTask<IMenuEncountersInfo> result, TaskResult<List<MenuEncounter>> menuEncounters)
         {
             if (menuEncounters.Value == null) {
                 result.SetError(null);

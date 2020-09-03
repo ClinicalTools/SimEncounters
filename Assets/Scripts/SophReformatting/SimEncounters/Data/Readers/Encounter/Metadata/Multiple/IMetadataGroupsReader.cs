@@ -4,6 +4,6 @@ namespace ClinicalTools.SimEncounters
 {
     public interface IMetadataGroupsReader
     {
-        WaitableResult<Dictionary<int, Dictionary<SaveType, EncounterMetadata>>> GetMetadataGroups(User user);
+        WaitableTask<Dictionary<int, Dictionary<SaveType, EncounterMetadata>>> GetMetadataGroups(User user);
     }
 }

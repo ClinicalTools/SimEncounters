@@ -11,8 +11,8 @@ namespace ClinicalTools.SimEncounters
         private string value = null;
 
         protected Image Image { get; set; }
-        protected IParser<Color> ColorParser { get; set; }
-        [Inject] public virtual void Inject(IParser<Color> colorParser) => ColorParser = colorParser;
+        protected IStringDeserializer<Color> ColorParser { get; set; }
+        [Inject] public virtual void Inject(IStringDeserializer<Color> colorParser) => ColorParser = colorParser;
 
         protected virtual void Awake() => Image = GetComponent<Image>();
 
@@ -21,7 +21,7 @@ namespace ClinicalTools.SimEncounters
         public override void Initialize(string value)
         {
             this.value = value;
-            Image.color = ColorParser.Parse(value);
+            Image.color = ColorParser.Deserialize(value);
         }
     }
 }

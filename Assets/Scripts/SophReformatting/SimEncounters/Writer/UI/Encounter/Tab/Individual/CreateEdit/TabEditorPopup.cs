@@ -34,9 +34,9 @@ namespace ClinicalTools.SimEncounters
             ApplyButton.onClick.AddListener(Apply);
             RemoveButton.onClick.AddListener(ConfirmRemove);
         }
-        protected WaitableResult<Tab> CurrentWaitableTab { get; set; }
+        protected WaitableTask<Tab> CurrentWaitableTab { get; set; }
         protected Tab CurrentTab { get; set; }
-        public virtual WaitableResult<Tab> EditTab(Encounter encounter, Tab tab)
+        public virtual WaitableTask<Tab> EditTab(Encounter encounter, Tab tab)
         {
             CurrentTab = tab;
 
@@ -46,7 +46,7 @@ namespace ClinicalTools.SimEncounters
 
             if (CurrentWaitableTab?.IsCompleted() == false)
                 CurrentWaitableTab.SetError(new Exception("New popup opened"));
-            CurrentWaitableTab = new WaitableResult<Tab>();
+            CurrentWaitableTab = new WaitableTask<Tab>();
             return CurrentWaitableTab;
         }
         protected virtual void Apply()

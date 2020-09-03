@@ -1,5 +1,4 @@
-﻿using ClinicalTools.SimEncounters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,7 +10,7 @@ namespace ClinicalTools.SimEncounters
         public List<Button> CloseButtons { get => closeButtons; set => closeButtons = value; }
         [SerializeField] private List<Button> closeButtons = new List<Button>();
 
-        public override event Action ExitScene;
+        public override event Action ExitScene { add { } remove { } }
 
         protected virtual void Awake()
         {

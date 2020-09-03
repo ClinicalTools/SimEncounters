@@ -10,11 +10,11 @@ namespace ClinicalTools.SimEncounters
             this.basicStatusesReaders = basicStatusesReaders;
         }
 
-        public WaitableResult<Dictionary<int, EncounterBasicStatus>> GetBasicStatuses(User user)
+        public WaitableTask<Dictionary<int, EncounterBasicStatus>> GetBasicStatuses(User user)
         {
-            var statuses = new WaitableResult<Dictionary<int, EncounterBasicStatus>>();
+            var statuses = new WaitableTask<Dictionary<int, EncounterBasicStatus>>();
 
-            var results = new List<WaitableResult<Dictionary<int, EncounterBasicStatus>>>();
+            var results = new List<WaitableTask<Dictionary<int, EncounterBasicStatus>>>();
             foreach (var basicStatusesReader in basicStatusesReaders)
                 results.Add(basicStatusesReader.GetBasicStatuses(user));
 
@@ -24,8 +24,8 @@ namespace ClinicalTools.SimEncounters
             return statuses;
         }
 
-        private void ProcessResults(WaitableResult<Dictionary<int, EncounterBasicStatus>> result,
-            List<WaitableResult<Dictionary<int, EncounterBasicStatus>>> listResults)
+        private void ProcessResults(WaitableTask<Dictionary<int, EncounterBasicStatus>> result,
+            List<WaitableTask<Dictionary<int, EncounterBasicStatus>>> listResults)
         {
             if (result.IsCompleted())
                 return;

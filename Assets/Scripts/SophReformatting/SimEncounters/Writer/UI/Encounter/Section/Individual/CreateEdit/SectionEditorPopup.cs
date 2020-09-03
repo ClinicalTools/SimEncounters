@@ -41,16 +41,16 @@ namespace ClinicalTools.SimEncounters
             RemoveButton.onClick.AddListener(ConfirmRemove);
         }
 
-        protected WaitableResult<Section> CurrentWaitableSection { get; set; }
+        protected WaitableTask<Section> CurrentWaitableSection { get; set; }
         protected Section CurrentSection { get; set; }
-        public virtual WaitableResult<Section> EditSection(Encounter encounter, Section section)
+        public virtual WaitableTask<Section> EditSection(Encounter encounter, Section section)
         {
             CurrentSection = section;
 
             if (CurrentWaitableSection?.IsCompleted() == false)
                 CurrentWaitableSection.SetError(new Exception("New popup opened"));
 
-            CurrentWaitableSection = new WaitableResult<Section>();
+            CurrentWaitableSection = new WaitableTask<Section>();
             gameObject.SetActive(true);
 
             NameField.text = section.Name;

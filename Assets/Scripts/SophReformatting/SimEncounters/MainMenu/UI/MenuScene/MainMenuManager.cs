@@ -64,7 +64,7 @@ namespace ClinicalTools.SimEncounters
 
             sceneInfo.Result.AddOnCompletedListener(SceneInfoLoaded);
         }
-        protected virtual void SceneInfoLoaded(WaitedResult<MenuSceneInfo> sceneInfo)
+        protected virtual void SceneInfoLoaded(TaskResult<MenuSceneInfo> sceneInfo)
         {
             if (!sceneInfo.HasValue())
                 return;
@@ -83,7 +83,7 @@ namespace ClinicalTools.SimEncounters
             user.AddOnCompletedListener(Login);
         }
 
-        protected virtual void Login(WaitedResult<User> user) => Login(user.Value);
+        protected virtual void Login(TaskResult<User> user) => Login(user.Value);
         protected virtual void Login(User user)
         {
             var menuEncounters = MenuInfoReader.GetMenuEncountersInfo(user);

@@ -9,24 +9,24 @@ namespace ClinicalTools.SimEncounters
     {
         private readonly IUrlBuilder urlBuilder;
         private readonly IServerReader serverReader;
-        private readonly IParser<EncounterContentStatus> parser;
-        public ServerDetailedStatusReader(IUrlBuilder urlBuilder, IServerReader serverReader, IParser<EncounterContentStatus> parser)
+        private readonly IStringDeserializer<EncounterContentStatus> parser;
+        public ServerDetailedStatusReader(IUrlBuilder urlBuilder, IServerReader serverReader, IStringDeserializer<EncounterContentStatus> parser)
         {
             this.urlBuilder = urlBuilder;
             this.serverReader = serverReader;
             this.parser = parser;
         }
 
-        public WaitableResult<EncounterStatus> GetDetailedStatus(User user,
+        public WaitableTask<EncounterStatus> GetDetailedStatus(User user,
             EncounterMetadata metadata, EncounterBasicStatus basicStatus)
         {
             if (user.IsGuest)
-                return new WaitableResult<EncounterStatus>(
+                return new WaitableTask<EncounterStatus>(
                     new EncounterStatus(new EncounterBasicStatus(), new EncounterContentStatus()));
 
             var webRequest = GetWebRequest(user, metadata);
             var serverOutput = serverReader.Begin(webRequest);
-            var detailedStatus = new WaitableResult<EncounterStatus>();
+            var detailedStatus = new WaitableTask<EncounterStatus>();
             serverOutput.AddOnCompletedListener((result) => ProcessResults(detailedStatus, result, basicStatus));
 
             return detailedStatus;
@@ -49,8 +49,8 @@ namespace ClinicalTools.SimEncounters
             return UnityWebRequest.Post(url, form);
         }
 
-        private void ProcessResults(WaitableResult<EncounterStatus> result,
-            WaitedResult<string> serverOutput, EncounterBasicStatus basicStatus)
+        private void ProcessResults(WaitableTask<EncounterStatus> result,
+            TaskResult<string> serverOutput, EncounterBasicStatus basicStatus)
         {
             if (serverOutput == null || serverOutput.IsError())
             {
@@ -58,7 +58,7 @@ namespace ClinicalTools.SimEncounters
                 return;
             }
 
-            var contentStatus = parser.Parse(serverOutput.Value);
+            var contentStatus = parser.Deserialize(serverOutput.Value);
             var status = new EncounterStatus(basicStatus, contentStatus);
             result.SetResult(status);
         }

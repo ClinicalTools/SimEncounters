@@ -4,10 +4,10 @@
     {
         public User User { get; }
         public ILoadingScreen LoadingScreen { get; }
-        public WaitableResult<IMenuEncountersInfo> MenuEncountersInfo { get; }
-        public WaitableResult<MenuSceneInfo> Result = new WaitableResult<MenuSceneInfo>();
+        public WaitableTask<IMenuEncountersInfo> MenuEncountersInfo { get; }
+        public WaitableTask<MenuSceneInfo> Result = new WaitableTask<MenuSceneInfo>();
 
-        public LoadingMenuSceneInfo(User user, ILoadingScreen loadingScreen, WaitableResult<IMenuEncountersInfo> menuEncountersInfo)
+        public LoadingMenuSceneInfo(User user, ILoadingScreen loadingScreen, WaitableTask<IMenuEncountersInfo> menuEncountersInfo)
         {
             User = user;
             LoadingScreen = loadingScreen;
@@ -15,7 +15,7 @@
             MenuEncountersInfo.AddOnCompletedListener(CategoriesRetrieved);
         }
 
-        private void CategoriesRetrieved(WaitedResult<IMenuEncountersInfo> menuEncountersInfo)
+        private void CategoriesRetrieved(TaskResult<IMenuEncountersInfo> menuEncountersInfo)
         {
             var loadedInfo = new MenuSceneInfo(this);
             Result.SetResult(loadedInfo);

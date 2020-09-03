@@ -21,7 +21,7 @@ namespace ClinicalTools.SimEncounters
             EncounterContentSerializer = encounterContentSerializer;
         }
 
-        public WaitableResult Save(User user, Encounter encounter)
+        public WaitableTask Save(User user, Encounter encounter)
         {
             MetadataWriter.Save(user, encounter.Metadata);
 
@@ -35,7 +35,7 @@ namespace ClinicalTools.SimEncounters
             ImageDataSerializer.Serialize(imagesSerializer, encounter.Content.ImageContent);
             FileManager.SetFileText(user, FileType.Image, encounter.Metadata, imagesDoc.OuterXml);
 
-            return WaitableResult.CompletedResult;
+            return WaitableTask.CompletedTask;
         }
     }
 }

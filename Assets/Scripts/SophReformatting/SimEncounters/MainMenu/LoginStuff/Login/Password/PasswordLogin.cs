@@ -8,24 +8,24 @@ namespace ClinicalTools.SimEncounters
     {
         protected IServerReader ServerReader { get; }
         protected IUrlBuilder WebAddress { get; }
-        protected UserParser UserParser { get; }
+        protected UserDeserializer UserDeserializer { get; }
 
-        public PasswordLogin(IServerReader serverReader, IUrlBuilder webAddress, UserParser userParser)
+        public PasswordLogin(IServerReader serverReader, IUrlBuilder webAddress, UserDeserializer userParser)
         {
             ServerReader = serverReader;
             WebAddress = webAddress;
-            UserParser = userParser;
+            UserDeserializer = userParser;
         }
 
 
         protected virtual Exception NoUsernameOrEmailException { get; } = new Exception("No username or email provided.");
         protected virtual Exception NoPasswordException { get; } = new Exception("No password provided.");
-        public WaitableResult<User> Login(string username, string email, string password)
+        public WaitableTask<User> Login(string username, string email, string password)
         {
             if (string.IsNullOrWhiteSpace(username) && string.IsNullOrWhiteSpace(email))
-                return new WaitableResult<User>(NoUsernameOrEmailException);
+                return new WaitableTask<User>(NoUsernameOrEmailException);
             if (string.IsNullOrWhiteSpace(password))
-                return new WaitableResult<User>(NoPasswordException);
+                return new WaitableTask<User>(NoPasswordException);
 
             var form = CreateForm(username, email, password);
 
@@ -33,7 +33,7 @@ namespace ClinicalTools.SimEncounters
             var webRequest = UnityWebRequest.Post(address, form);
             var serverResult = ServerReader.Begin(webRequest);
 
-            var user = new WaitableResult<User>();
+            var user = new WaitableTask<User>();
             serverResult.AddOnCompletedListener((result) => ProcessResults(user, result));
 
             return user;
@@ -52,7 +52,7 @@ namespace ClinicalTools.SimEncounters
             return form;
         }
 
-        private void ProcessResults(WaitableResult<User> result, WaitedResult<string> serverResult)
+        private void ProcessResults(WaitableTask<User> result, TaskResult<string> serverResult)
         {
             if (serverResult.IsError())
             {
@@ -60,7 +60,7 @@ namespace ClinicalTools.SimEncounters
                 return;
             }
 
-            var user = UserParser.Parse(serverResult.Value);
+            var user = UserDeserializer.Deserialize(serverResult.Value);
             if (user == null)
                 result.SetError(new Exception($"Could not parse user: {serverResult.Value}"));
             else

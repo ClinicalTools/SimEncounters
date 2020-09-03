@@ -28,22 +28,20 @@ namespace ClinicalTools.SimEncounters
             Container.BindInstance(ConfirmationPopup);
             Container.BindInstance(BackButton);
 
-            Container.Bind<IDetailedStatusWriter>().To<DetailedStatusWriter>().AsTransient();
-            Container.Bind<ServerDetailedStatusWriter>().To<ServerDetailedStatusWriter>().AsTransient();
-            Container.Bind<FileDetailedStatusWriter>().To<FileDetailedStatusWriter>().AsTransient();
+            Container.Bind<IStatusWriter>().To<LocalStatusWriter>().AsTransient();
 
             Container.Bind<IReaderPanelDisplay>().To<ReaderPanelDisplay>().AsTransient();
             Container.Bind<FeedbackColorInfo>().To<FeedbackColorInfo>().AsTransient();
-            Container.Bind<IParser<Color>>().To<ColorParser>().AsTransient();
+            Container.Bind<IStringDeserializer<Color>>().To<ColorDeserializer>().AsTransient();
 
-            Container.Bind<EncounterStatusSerializer>().To<EncounterStatusSerializer>().AsTransient();
+            Container.Bind<EncounterContentStatusSerializer>().To<EncounterContentStatusSerializer>().AsTransient();
             Container.Bind<SectionStatusSerializer>().To<SectionStatusSerializer>().AsTransient();
             Container.Bind<TabStatusSerializer>().To<TabStatusSerializer>().AsTransient();
 
-            Container.Bind<IParser<EncounterContentStatus>>().To<EncounterContentStatusParser>().AsTransient();
-            Container.Bind<ICharEnumeratorParser<SectionStatus>>().To<SectionStatusParser>().AsTransient();
-            Container.Bind<ICharEnumeratorParser<TabStatus>>().To<TabStatusParser>().AsTransient();
-            Container.Bind<ICharEnumeratorParser<string>>().To<KeyParser>().AsTransient();
+            Container.Bind<IStringDeserializer<EncounterContentStatus>>().To<EncounterContentStatusDeserializer>().AsTransient();
+            Container.Bind<ICharEnumeratorDeserializer<SectionStatus>>().To<SectionStatusDeserializer>().AsTransient();
+            Container.Bind<ICharEnumeratorDeserializer<TabStatus>>().To<TabStatusDeserializer>().AsTransient();
+            Container.Bind<ICharEnumeratorDeserializer<string>>().To<KeyDeserializer>().AsTransient();
         }
     }
 }

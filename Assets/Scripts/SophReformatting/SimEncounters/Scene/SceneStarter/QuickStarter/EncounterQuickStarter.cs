@@ -23,7 +23,7 @@ namespace ClinicalTools.SimEncounters
             StartEncounter(user, loadingScreen, encounters, recordNumber);
         }
 
-        public void StartEncounter(User user, ILoadingScreen loadingScreen, WaitableResult<IMenuEncountersInfo> encounters, int recordNumber)
+        public void StartEncounter(User user, ILoadingScreen loadingScreen, WaitableTask<IMenuEncountersInfo> encounters, int recordNumber)
         {
             loadingScreen.Show();
             var encounter = GetEncounter(user, encounters, recordNumber);
@@ -31,15 +31,15 @@ namespace ClinicalTools.SimEncounters
             SceneStarter.StartScene(loadingSceneInfo);
         }
 
-        protected virtual WaitableResult<UserEncounter> GetEncounter(User user, WaitableResult<IMenuEncountersInfo> encounters, int recordNumber)
+        protected virtual WaitableTask<UserEncounter> GetEncounter(User user, WaitableTask<IMenuEncountersInfo> encounters, int recordNumber)
         {
-            var result = new WaitableResult<UserEncounter>();
+            var result = new WaitableTask<UserEncounter>();
             encounters.AddOnCompletedListener((encountersResult) => SetUserEncounter(result, user, encountersResult, recordNumber));
 
             return result;
         }
 
-        protected virtual void SetUserEncounter(WaitableResult<UserEncounter> result, User user, WaitedResult<IMenuEncountersInfo> encounters, int recordNumber)
+        protected virtual void SetUserEncounter(WaitableTask<UserEncounter> result, User user, TaskResult<IMenuEncountersInfo> encounters, int recordNumber)
         {
             if (encounters.IsError()) {
                 result.SetError(encounters.Exception);

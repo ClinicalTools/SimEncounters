@@ -7,9 +7,9 @@ namespace ClinicalTools.ClinicalEncounters
         public CEEncounterDataReader(INonImageContentReader contentReader, IImageContentReader imageDataReader) 
             : base(contentReader, imageDataReader) { }
 
-        protected override void ProcessResults(WaitableResult<EncounterContent> result,
-            WaitableResult<EncounterNonImageContent> content,
-            WaitableResult<EncounterImageContent> imageData)
+        protected override void ProcessResults(WaitableTask<EncounterContent> result,
+            WaitableTask<EncounterNonImageContent> content,
+            WaitableTask<EncounterImageContent> imageData)
         {
             if (result.IsCompleted() || !content.IsCompleted() || !imageData.IsCompleted())
                 return;

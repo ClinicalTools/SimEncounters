@@ -1,5 +1,4 @@
-﻿
-using Zenject;
+﻿using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -18,7 +17,7 @@ namespace ClinicalTools.SimEncounters
             AutosaveFileManager = autosaveFileManager;
         }
 
-        public WaitableResult Save(User user, Encounter encounter)
+        public WaitableTask Save(User user, Encounter encounter)
         {
             AutosaveFileManager.DeleteFiles(user, encounter.Metadata);
             LocalFileManager.UpdateFilename(user, encounter.Metadata);

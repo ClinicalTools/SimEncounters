@@ -6,10 +6,15 @@ namespace ClinicalTools.UI
 {
     public class PaddingByProportion : UIBehaviour
     {
+        public virtual float Left { get => left; set => left = value; }
         [SerializeField] private float left;
+        public virtual float Right { get => right; set => right = value; }
         [SerializeField] private float right;
+        public virtual float Top { get => top; set => top = value; }
         [SerializeField] private float top;
+        public virtual float Bottom { get => bottom; set => bottom = value; }
         [SerializeField] private float bottom;
+        public virtual float Spacing { get => spacing; set => spacing = value; }
         [SerializeField] private float spacing;
 
         private LayoutGroup group;

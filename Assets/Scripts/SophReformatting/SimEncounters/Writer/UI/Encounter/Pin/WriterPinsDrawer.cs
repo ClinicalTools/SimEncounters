@@ -51,7 +51,7 @@ namespace ClinicalTools.SimEncounters
             newDialogue.AddOnCompletedListener(SetDialogue);
         }
 
-        protected virtual void SetDialogue(WaitedResult<DialoguePin> dialogue)
+        protected virtual void SetDialogue(TaskResult<DialoguePin> dialogue)
         {
             if (dialogue.IsError())
                 return;
@@ -72,7 +72,7 @@ namespace ClinicalTools.SimEncounters
             newQuiz.AddOnCompletedListener(SetQuiz);
         }
 
-        protected virtual void SetQuiz(WaitedResult<QuizPin> quiz)
+        protected virtual void SetQuiz(TaskResult<QuizPin> quiz)
         {
             if (quiz.IsError())
                 return;

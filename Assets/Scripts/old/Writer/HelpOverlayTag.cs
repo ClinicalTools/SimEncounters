@@ -10,11 +10,6 @@ public class HelpOverlayTag : MonoBehaviour {
 
     public bool ignorePosition;
 
-    private Transform helpOverlay;
-    private Transform helpPopUp;
-
-    private float maxHeight = 0.791f;
-    private float minHeight = 0.015f;
     /*
     void Awake()
     {

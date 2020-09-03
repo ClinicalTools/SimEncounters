@@ -30,7 +30,7 @@ namespace ClinicalTools.SimEncounters
         protected IMenuSceneStarter MenuSceneStarter { get; set; }
         protected IMenuEncountersInfoReader MenuInfoReader { get; set; }
 #endif
-        protected IDetailedStatusWriter StatusWriter { get; set; }
+        protected IStatusWriter StatusWriter { get; set; }
         protected BaseConfirmationPopup ConfirmationPopup { get; set; }
         protected AndroidBackButton BackButton { get; set; }
 
@@ -41,7 +41,7 @@ namespace ClinicalTools.SimEncounters
             IMenuEncountersInfoReader menuInfoReader,
             IWriterSceneStarter writerSceneStarter,
 #endif
-            IDetailedStatusWriter statusWriter,
+            IStatusWriter statusWriter,
             BaseConfirmationPopup confirmationPopup,
             AndroidBackButton backButton)
         {
@@ -91,7 +91,7 @@ namespace ClinicalTools.SimEncounters
         }
 
         private UserEncounter userEncounter;
-        protected virtual void EncounterLoaded(WaitedResult<ReaderSceneInfo> sceneInfo)
+        protected virtual void EncounterLoaded(TaskResult<ReaderSceneInfo> sceneInfo)
         {
             sceneInfo.Value.LoadingScreen?.Stop();
             userEncounter = sceneInfo.Value.Encounter;
@@ -132,7 +132,7 @@ namespace ClinicalTools.SimEncounters
 #if !STANDALONE_SCENE
         protected virtual void OpenWriter()
         {
-            var encounter = new WaitableResult<Encounter>(userEncounter.Data);
+            var encounter = new WaitableTask<Encounter>(userEncounter.Data);
             var writerSceneInfo = new LoadingWriterSceneInfo(LoadingSceneInfo.User, LoadingSceneInfo.LoadingScreen, encounter);
             WriterSceneStarter.StartScene(writerSceneInfo);
         }

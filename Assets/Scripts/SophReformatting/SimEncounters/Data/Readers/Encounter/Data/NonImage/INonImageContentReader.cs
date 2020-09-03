@@ -2,6 +2,6 @@
 {
     public interface INonImageContentReader
     {
-        WaitableResult<EncounterNonImageContent> GetNonImageContent(User user, EncounterMetadata metadata);
+        WaitableTask<EncounterNonImageContent> GetNonImageContent(User user, EncounterMetadata metadata);
     }
 }

@@ -14,25 +14,25 @@ namespace ClinicalTools.SimEncounters
         protected virtual void InstallParserBindings(DiContainer subcontainer)
         {
             subcontainer.Bind<IStringSplitter>().To<DoubleColonStringSplitter>().AsTransient();
-            subcontainer.Bind<IParser<List<EncounterMetadata>>>().To<ListParser<EncounterMetadata>>().AsTransient();
-            subcontainer.Bind<IParser<EncounterMetadata>>().To<BestCEEncounterMetadataDeserializer>().AsTransient()
+            subcontainer.Bind<IStringDeserializer<List<EncounterMetadata>>>().To<ListDeserializer<EncounterMetadata>>().AsTransient();
+            subcontainer.Bind<IStringDeserializer<EncounterMetadata>>().To<BestCEEncounterMetadataDeserializer>().AsTransient()
                     .WhenNotInjectedInto<CEEncounterMetadataDeserializer>();
-            subcontainer.Bind<IParser<EncounterMetadata>>().To<LegacyCEEncounterMetadataParser>().AsTransient()
+            subcontainer.Bind<IStringDeserializer<EncounterMetadata>>().To<LegacyCEEncounterMetadataParser>().AsTransient()
                     .WhenInjectedInto<CEEncounterMetadataDeserializer>();
 
-            subcontainer.Bind<IParser<Dictionary<int, EncounterBasicStatus>>>().To<DictionaryParser<int, EncounterBasicStatus>>().AsTransient();
-            subcontainer.Bind<IParser<KeyValuePair<int, EncounterBasicStatus>>>().To<KeyedEncounterStatusParser>().AsTransient();
+            subcontainer.Bind<IStringDeserializer<Dictionary<int, EncounterBasicStatus>>>().To<DictionaryDeserializer<int, EncounterBasicStatus>>().AsTransient();
+            subcontainer.Bind<IStringDeserializer<KeyValuePair<int, EncounterBasicStatus>>>().To<KeyedEncounterStatusDeserializer>().AsTransient();
 
-            subcontainer.Bind<IParser<EncounterNonImageContent>>().To<XmlDeserializerParser<EncounterNonImageContent>>().AsTransient();
-            subcontainer.Bind<IParser<EncounterImageContent>>().To<XmlDeserializerParser<EncounterImageContent>>().AsTransient();
-            subcontainer.Bind<IParser<XmlDocument>>().To<XmlParser>().AsTransient();
+            subcontainer.Bind<IStringDeserializer<EncounterNonImageContent>>().To<XmlStringDeserializer<EncounterNonImageContent>>().AsTransient();
+            subcontainer.Bind<IStringDeserializer<EncounterImageContent>>().To<XmlStringDeserializer<EncounterImageContent>>().AsTransient();
+            subcontainer.Bind<IStringDeserializer<XmlDocument>>().To<XmlDocumentDeserializer>().AsTransient();
 
-            subcontainer.Bind<IParser<EncounterContentStatus>>().To<EncounterContentStatusParser>().AsTransient();
-            subcontainer.Bind<ICharEnumeratorParser<SectionStatus>>().To<SectionStatusParser>().AsTransient();
-            subcontainer.Bind<ICharEnumeratorParser<TabStatus>>().To<TabStatusParser>().AsTransient();
-            subcontainer.Bind<ICharEnumeratorParser<string>>().To<KeyParser>().AsTransient();
+            subcontainer.Bind<IStringDeserializer<EncounterContentStatus>>().To<EncounterContentStatusDeserializer>().AsTransient();
+            subcontainer.Bind<ICharEnumeratorDeserializer<SectionStatus>>().To<SectionStatusDeserializer>().AsTransient();
+            subcontainer.Bind<ICharEnumeratorDeserializer<TabStatus>>().To<TabStatusDeserializer>().AsTransient();
+            subcontainer.Bind<ICharEnumeratorDeserializer<string>>().To<KeyDeserializer>().AsTransient();
 
-            subcontainer.Bind<IParser<Color>>().To<ColorParser>().AsTransient();
+            subcontainer.Bind<IStringDeserializer<Color>>().To<ColorDeserializer>().AsTransient();
         }
 
         /// <summary>
@@ -41,10 +41,10 @@ namespace ClinicalTools.SimEncounters
         /// </summary>
         public static void ForceIL2CPPToKeepNeededGenericConstructors()
         {
-            new DictionaryParser<int, EncounterBasicStatus>(null, null);
-            new ListParser<EncounterMetadata>(null, null);
-            new XmlDeserializerParser<EncounterNonImageContent>(null, null);
-            new XmlDeserializerParser<EncounterImageContent>(null, null);
+            new DictionaryDeserializer<int, EncounterBasicStatus>(null, null);
+            new ListDeserializer<EncounterMetadata>(null, null);
+            new XmlStringDeserializer<EncounterNonImageContent>(null, null);
+            new XmlStringDeserializer<EncounterImageContent>(null, null);
         }
     }
 }

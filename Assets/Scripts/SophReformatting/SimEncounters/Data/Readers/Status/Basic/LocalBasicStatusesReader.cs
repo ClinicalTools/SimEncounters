@@ -6,16 +6,16 @@ namespace ClinicalTools.SimEncounters
     public class LocalBasicStatusesReader : IBasicStatusesReader
     {
         private readonly IFileManager fileManager;
-        private readonly IParser<KeyValuePair<int, EncounterBasicStatus>> parser;
-        public LocalBasicStatusesReader(IFileManager fileManager, IParser<KeyValuePair<int, EncounterBasicStatus>> parser)
+        private readonly IStringDeserializer<KeyValuePair<int, EncounterBasicStatus>> parser;
+        public LocalBasicStatusesReader(IFileManager fileManager, IStringDeserializer<KeyValuePair<int, EncounterBasicStatus>> parser)
         {
             this.fileManager = fileManager;
             this.parser = parser;
         }
 
-        public WaitableResult<Dictionary<int, EncounterBasicStatus>> GetBasicStatuses(User user)
+        public WaitableTask<Dictionary<int, EncounterBasicStatus>> GetBasicStatuses(User user)
         {
-            var statuses = new WaitableResult<Dictionary<int, EncounterBasicStatus>>();
+            var statuses = new WaitableTask<Dictionary<int, EncounterBasicStatus>>();
 
             var fileTexts = fileManager.GetFilesText(user, FileType.BasicStatus);
             fileTexts.AddOnCompletedListener((result) => ProcessResults(statuses, result));
@@ -23,7 +23,7 @@ namespace ClinicalTools.SimEncounters
             return statuses;
         }
 
-        private void ProcessResults(WaitableResult<Dictionary<int, EncounterBasicStatus>> result, WaitedResult<string[]> fileTexts)
+        private void ProcessResults(WaitableTask<Dictionary<int, EncounterBasicStatus>> result, TaskResult<string[]> fileTexts)
         {
             if (fileTexts == null) {
                 result.SetError(null);
@@ -32,7 +32,7 @@ namespace ClinicalTools.SimEncounters
 
             var statuses = new Dictionary<int, EncounterBasicStatus>();
             foreach (var fileText in fileTexts.Value) {
-                var metadata = parser.Parse(fileText);
+                var metadata = parser.Deserialize(fileText);
                 if (statuses.ContainsKey(metadata.Key)) {
                     Debug.LogError($"Duplicate saved status for key {metadata.Key}");
                     continue;

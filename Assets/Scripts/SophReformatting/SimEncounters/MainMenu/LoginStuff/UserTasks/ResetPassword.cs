@@ -48,7 +48,7 @@ namespace ClinicalTools.SimEncounters
         }
 
         private const string errorSuffix = "--Could not send email";
-        private void ProcessResults(WaitedResult<string> serverResult)
+        private void ProcessResults(TaskResult<string> serverResult)
         {
             if (serverResult.IsError()) {
                 //MessageHandler.ShowMessage(serverResult.Message, true);

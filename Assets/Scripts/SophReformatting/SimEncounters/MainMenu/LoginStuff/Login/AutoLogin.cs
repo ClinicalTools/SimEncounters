@@ -8,21 +8,21 @@ namespace ClinicalTools.SimEncounters
     {
         protected IServerReader ServerReader { get; }
         protected IUrlBuilder WebAddress { get; }
-        protected UserParser UserParser { get; }
+        protected UserDeserializer UserDeserializer { get; }
 
-        public AutoLogin(IServerReader serverReader, IUrlBuilder webAddress, UserParser userParser)
+        public AutoLogin(IServerReader serverReader, IUrlBuilder webAddress, UserDeserializer userDeserializer)
         {
             ServerReader = serverReader;
             WebAddress = webAddress;
-            UserParser = userParser;
+            UserDeserializer = userDeserializer;
         }
 
-        public WaitableResult<User> Login()
+        public WaitableTask<User> Login()
         {
             var webRequest = GetWebRequest();
             var serverResult = ServerReader.Begin(webRequest);
 
-            var user = new WaitableResult<User>();
+            var user = new WaitableTask<User>();
             serverResult.AddOnCompletedListener((result) => ProcessResults(user, result));
 
             return user;
@@ -37,14 +37,14 @@ namespace ClinicalTools.SimEncounters
             return UnityWebRequest.Post(address, form);
         }
 
-        private void ProcessResults(WaitableResult<User> result, WaitedResult<string> serverResult)
+        private void ProcessResults(WaitableTask<User> result, TaskResult<string> serverResult)
         {
             if (serverResult.IsError() || string.IsNullOrWhiteSpace(serverResult.Value)) {
                 result.SetError(serverResult.Exception);
                 return;
             }
 
-            var user = UserParser.Parse(serverResult.Value);
+            var user = UserDeserializer.Deserialize(serverResult.Value);
             if (user == null)
                 result.SetError(new Exception($"Could not parse user: {serverResult.Value}"));
             else

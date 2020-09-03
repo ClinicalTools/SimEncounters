@@ -48,7 +48,7 @@ namespace ClinicalTools.SimEncounters
             return form;
         }
 
-        private void ProcessResults(WaitedResult<string> serverResults)
+        private void ProcessResults(TaskResult<string> serverResults)
         {
             if (serverResults.IsError()) {
                 //MessageHandler.ShowMessage(serverResults.Message, true);

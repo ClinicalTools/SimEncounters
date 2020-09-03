@@ -11,16 +11,16 @@
             ManualLogin = manualLogin;
         }
 
-        public WaitableResult<User> Login()
+        public WaitableTask<User> Login()
         {
-            var user = new WaitableResult<User>();
+            var user = new WaitableTask<User>();
             var autoLoginUser = AutoLogin.Login();
             autoLoginUser.AddOnCompletedListener((result) => AutoLoginCompleted(user, result));
 
             return user;
         }
 
-        private void AutoLoginCompleted(WaitableResult<User> result, WaitedResult<User> autoLoginUser)
+        private void AutoLoginCompleted(WaitableTask<User> result, TaskResult<User> autoLoginUser)
         {
             if (!autoLoginUser.IsError()) {
                 result.SetResult(autoLoginUser.Value);
@@ -31,7 +31,7 @@
             manualLoginUser.AddOnCompletedListener((manualLoginResult) => ManualLoginCompleted(result, manualLoginResult));
         }
 
-        private void ManualLoginCompleted(WaitableResult<User> result, WaitedResult<User> manualLoginUser)
+        private void ManualLoginCompleted(WaitableTask<User> result, TaskResult<User> manualLoginUser)
         {
             if (manualLoginUser.IsError())
                 result.SetError(manualLoginUser.Exception);

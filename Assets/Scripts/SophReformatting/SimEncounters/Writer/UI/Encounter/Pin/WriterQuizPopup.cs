@@ -27,10 +27,10 @@ namespace ClinicalTools.SimEncounters
             ApplyButton.onClick.AddListener(Apply);
         }
 
-        protected WaitableResult<QuizPin> CurrentWaitableQuiz { get; set; }
+        protected WaitableTask<QuizPin> CurrentWaitableQuiz { get; set; }
         protected Encounter CurrentEncounter { get; set; }
         protected QuizPin CurrentQuiz { get; set; }
-        public virtual WaitableResult<QuizPin> EditQuiz(Encounter encounter, QuizPin quizPin)
+        public virtual WaitableTask<QuizPin> EditQuiz(Encounter encounter, QuizPin quizPin)
         {
             CurrentEncounter = encounter;
             CurrentQuiz = quizPin;
@@ -38,7 +38,7 @@ namespace ClinicalTools.SimEncounters
             if (CurrentWaitableQuiz?.IsCompleted() == false)
                 CurrentWaitableQuiz.SetError(new Exception("New popup opened"));
 
-            CurrentWaitableQuiz = new WaitableResult<QuizPin>();
+            CurrentWaitableQuiz = new WaitableTask<QuizPin>();
 
             gameObject.SetActive(true);
 

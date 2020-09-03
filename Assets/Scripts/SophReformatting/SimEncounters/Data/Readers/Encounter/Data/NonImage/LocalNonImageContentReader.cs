@@ -3,16 +3,16 @@
     public class LocalNonImageContentReader : INonImageContentReader
     {
         private readonly IFileManager fileManager;
-        private readonly IParser<EncounterNonImageContent> parser;
-        public LocalNonImageContentReader(IFileManager fileManager, IParser<EncounterNonImageContent> parser)
+        private readonly IStringDeserializer<EncounterNonImageContent> parser;
+        public LocalNonImageContentReader(IFileManager fileManager, IStringDeserializer<EncounterNonImageContent> parser)
         {
             this.fileManager = fileManager;
             this.parser = parser;
         }
 
-        public WaitableResult<EncounterNonImageContent> GetNonImageContent(User user, EncounterMetadata metadata)
+        public WaitableTask<EncounterNonImageContent> GetNonImageContent(User user, EncounterMetadata metadata)
         {
-            var content = new WaitableResult<EncounterNonImageContent>();
+            var content = new WaitableTask<EncounterNonImageContent>();
 
             var fileText = fileManager.GetFileText(user, FileType.Data, metadata);
             fileText.AddOnCompletedListener((result) => ProcessResults(content, result));
@@ -20,12 +20,12 @@
             return content;
         }
 
-        private void ProcessResults(WaitableResult<EncounterNonImageContent> result, WaitedResult<string> fileText)
+        private void ProcessResults(WaitableTask<EncounterNonImageContent> result, TaskResult<string> fileText)
         {
             if (fileText.IsError())
                 result.SetError(fileText.Exception);
             else
-                result.SetResult(parser.Parse(fileText.Value));
+                result.SetResult(parser.Deserialize(fileText.Value));
         }
     }
 }

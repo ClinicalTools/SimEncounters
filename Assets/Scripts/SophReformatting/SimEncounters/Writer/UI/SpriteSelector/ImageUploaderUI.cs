@@ -33,11 +33,11 @@ namespace ClinicalTools.SimEncounters
             UploadImageButton.onClick.AddListener(UploadImage);
         }
 
-        protected WaitableResult<string> CurrentWaitableSpriteKey { get; set; }
+        protected WaitableTask<string> CurrentWaitableSpriteKey { get; set; }
         protected KeyedCollection<Sprite> SpriteCollection { get; set; }
         protected string CurrentKey { get; set; }
         protected Sprite CurrentImage { get; set; }
-        public override WaitableResult<string> SelectSprite(KeyedCollection<Sprite> sprites, string spriteKey)
+        public override WaitableTask<string> SelectSprite(KeyedCollection<Sprite> sprites, string spriteKey)
         {
             if (CurrentWaitableSpriteKey?.IsCompleted() == false)
                 CurrentWaitableSpriteKey.SetError(new Exception("New popup opened"));
@@ -45,7 +45,7 @@ namespace ClinicalTools.SimEncounters
             gameObject.SetActive(true);
             SpriteCollection = sprites;
             CurrentKey = spriteKey;
-            CurrentWaitableSpriteKey = new WaitableResult<string>();
+            CurrentWaitableSpriteKey = new WaitableTask<string>();
 
             if (spriteKey != null && SpriteCollection.ContainsKey(spriteKey))
                 SetImage(SpriteCollection[spriteKey]);

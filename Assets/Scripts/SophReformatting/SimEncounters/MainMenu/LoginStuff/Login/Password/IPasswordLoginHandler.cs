@@ -2,6 +2,6 @@
 {
     public interface IPasswordLoginHandler
     {
-        WaitableResult<User> Login(string username, string email, string password);
+        WaitableTask<User> Login(string username, string email, string password);
     }
 }

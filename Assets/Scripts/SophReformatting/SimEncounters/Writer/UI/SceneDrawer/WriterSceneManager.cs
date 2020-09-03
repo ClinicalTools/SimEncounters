@@ -27,7 +27,7 @@ namespace ClinicalTools.SimEncounters
             metadataResult.AddOnCompletedListener(MetadataRetrieved);
         }
 
-        public virtual void MetadataRetrieved(WaitedResult<EncounterMetadata> metadata)
+        public virtual void MetadataRetrieved(TaskResult<EncounterMetadata> metadata)
         {
             if (!metadata.HasValue()) {
                 Debug.LogError("Metadata is null.");
@@ -47,7 +47,7 @@ namespace ClinicalTools.SimEncounters
             WriterDrawer.Display(sceneInfo);
             sceneInfo.Result.AddOnCompletedListener(SceneInfoLoaded);
         }
-        protected virtual void SceneInfoLoaded(WaitedResult<WriterSceneInfo> sceneInfo)
+        protected virtual void SceneInfoLoaded(TaskResult<WriterSceneInfo> sceneInfo)
         {
             if (!sceneInfo.HasValue())
                 return;

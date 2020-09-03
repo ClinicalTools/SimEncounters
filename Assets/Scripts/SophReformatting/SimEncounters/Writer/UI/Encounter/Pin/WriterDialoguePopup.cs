@@ -27,16 +27,16 @@ namespace ClinicalTools.SimEncounters
             ApplyButton.onClick.AddListener(Apply);
         }
 
-        protected WaitableResult<DialoguePin> CurrentWaitableDialogue { get; set; }
+        protected WaitableTask<DialoguePin> CurrentWaitableDialogue { get; set; }
         protected DialoguePin CurrentDialogue { get; set; }
-        public virtual WaitableResult<DialoguePin> EditDialogue(Encounter encounter, DialoguePin dialoguePin)
+        public virtual WaitableTask<DialoguePin> EditDialogue(Encounter encounter, DialoguePin dialoguePin)
         {
             CurrentDialogue = dialoguePin;
 
             if (CurrentWaitableDialogue?.IsCompleted() == false)
                 CurrentWaitableDialogue.SetError(new Exception("New popup opened"));
 
-            CurrentWaitableDialogue = new WaitableResult<DialoguePin>();
+            CurrentWaitableDialogue = new WaitableTask<DialoguePin>();
 
             gameObject.SetActive(true);
 

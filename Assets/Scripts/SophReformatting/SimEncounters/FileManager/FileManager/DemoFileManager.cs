@@ -22,9 +22,9 @@ namespace ClinicalTools.SimEncounters
         public void SetFileText(User user, FileType fileType, EncounterMetadata metadata, string contents)
             => throw new Exception("Cannot write to demo files");
 
-        public WaitableResult<string> GetFileText(User user, FileType fileType, EncounterMetadata metadata)
+        public WaitableTask<string> GetFileText(User user, FileType fileType, EncounterMetadata metadata)
         {
-            var fileText = new WaitableResult<string>();
+            var fileText = new WaitableTask<string>();
 
             var filePath = GetFile(fileType, metadata.Filename);
             var webRequest = UnityWebRequest.Get(filePath);
@@ -33,7 +33,7 @@ namespace ClinicalTools.SimEncounters
             return fileText;
         }
 
-        protected virtual void SetFileResult(WaitedResult<string> serverResult, WaitableResult<string> fileText)
+        protected virtual void SetFileResult(TaskResult<string> serverResult, WaitableTask<string> fileText)
         {
             if (serverResult.IsError())
                 fileText.SetError(serverResult.Exception);
@@ -41,23 +41,23 @@ namespace ClinicalTools.SimEncounters
                 fileText.SetResult(serverResult.Value);
         }
 
-        public WaitableResult<string[]> GetFilesText(User user, FileType fileType)
+        public WaitableTask<string[]> GetFilesText(User user, FileType fileType)
         {
-            var filesText = new WaitableResult<string[]>();
+            var filesText = new WaitableTask<string[]>();
             var demoEncounters = GetDemoEncounters();
             demoEncounters.AddOnCompletedListener((result) => ReadFiles(result, filesText, fileType));
 
             return filesText;
         }
 
-        protected void ReadFiles(WaitedResult<string[]> demoEncounters, WaitableResult<string[]> result, FileType fileType)
+        protected void ReadFiles(TaskResult<string[]> demoEncounters, WaitableTask<string[]> result, FileType fileType)
         {
             if (demoEncounters == null || !demoEncounters.HasValue() || demoEncounters.Value.Length == 0) {
                 result.SetResult(new string[0]);
                 return;
             }
 
-            var serverResults = new WaitableResult<string>[demoEncounters.Value.Length];
+            var serverResults = new WaitableTask<string>[demoEncounters.Value.Length];
             for (int i = 0; i < demoEncounters.Value.Length; i++) {
                 var filePath = GetFile(fileType, demoEncounters.Value[i]);
                 var webRequest = UnityWebRequest.Get(filePath);
@@ -66,7 +66,7 @@ namespace ClinicalTools.SimEncounters
             }
         }
 
-        protected void SetFilesResults(WaitableResult<string[]> result, WaitableResult<string>[] serverResults)
+        protected void SetFilesResults(WaitableTask<string[]> result, WaitableTask<string>[] serverResults)
         {
             foreach (var serverResult in serverResults) {
                 if (serverResult == null || !serverResult.IsCompleted())
@@ -89,13 +89,13 @@ namespace ClinicalTools.SimEncounters
             return $"{path}.{extension}";
         }
 
-        private WaitableResult<string[]> demoEncounters;
-        protected WaitableResult<string[]> GetDemoEncounters()
+        private WaitableTask<string[]> demoEncounters;
+        protected WaitableTask<string[]> GetDemoEncounters()
         {
             if (demoEncounters != null)
                 return demoEncounters;
 
-            demoEncounters = new WaitableResult<string[]>();
+            demoEncounters = new WaitableTask<string[]>();
             var demoEncountersPath = Path.Combine(DemoDirectory, EncountersListFilename);
             var webRequest = UnityWebRequest.Get(demoEncountersPath);
             var serverResult = serverReader.Begin(webRequest);
@@ -104,7 +104,7 @@ namespace ClinicalTools.SimEncounters
             return demoEncounters;
         }
 
-        protected void SetEncounters(WaitedResult<string> serverResult)
+        protected void SetEncounters(TaskResult<string> serverResult)
         {
             if (demoEncounters == null || demoEncounters.IsCompleted() || serverResult.IsError()) {
                 demoEncounters.SetError(new Exception("Could not get demo encounters from file."));

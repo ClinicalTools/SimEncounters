@@ -60,7 +60,7 @@ namespace ClinicalTools.SimEncounters
             newImageKey.AddOnCompletedListener(ImageSelected);
         }
 
-        protected virtual void ImageSelected(WaitedResult<string> imageKey)
+        protected virtual void ImageSelected(TaskResult<string> imageKey)
         {
             if (!imageKey.IsError())
                 SetSprite(imageKey.Value);

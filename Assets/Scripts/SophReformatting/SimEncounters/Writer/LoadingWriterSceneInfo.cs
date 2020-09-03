@@ -4,11 +4,11 @@
     {
         public User User { get; }
         public ILoadingScreen LoadingScreen { get; }
-        public WaitableResult<Encounter> Encounter { get; }
+        public WaitableTask<Encounter> Encounter { get; }
 
-        public WaitableResult<WriterSceneInfo> Result { get; } = new WaitableResult<WriterSceneInfo>();
+        public WaitableTask<WriterSceneInfo> Result { get; } = new WaitableTask<WriterSceneInfo>();
 
-        public LoadingWriterSceneInfo(User user, ILoadingScreen loadingScreen, WaitableResult<Encounter> encounter)
+        public LoadingWriterSceneInfo(User user, ILoadingScreen loadingScreen, WaitableTask<Encounter> encounter)
         {
             User = user;
             LoadingScreen = loadingScreen;
@@ -16,7 +16,7 @@
             Encounter.AddOnCompletedListener(EncounterRetrieved);
         }
 
-        private void EncounterRetrieved(WaitedResult<Encounter> encounter)
+        private void EncounterRetrieved(TaskResult<Encounter> encounter)
         {
             var loadedInfo = new WriterSceneInfo(this);
             Result.SetResult(loadedInfo);

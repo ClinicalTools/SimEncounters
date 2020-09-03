@@ -39,7 +39,7 @@ namespace ClinicalTools.ClinicalEncounters
 
         protected MenuSceneInfo SceneInfo { get; set; }
         protected CEEncounterMetadata CurrentMetadata { get; set; }
-        protected WaitableResult<EncounterContent> EncounterData { get; set; }
+        protected WaitableTask<EncounterContent> EncounterData { get; set; }
         public override void Display(MenuSceneInfo sceneInfo, MenuEncounter encounter)
         {
             SceneInfo = sceneInfo;
@@ -77,13 +77,13 @@ namespace ClinicalTools.ClinicalEncounters
             var rand = new System.Random((int)DateTime.UtcNow.Ticks);
             CurrentMetadata.RecordNumber = -rand.Next(100000, 1000000);
             CurrentMetadata.Filename = $"{CurrentMetadata.RecordNumber}{CurrentMetadata.Name.FirstName} {CurrentMetadata.Name.LastName}";
-            var encounter = new WaitableResult<Encounter>();
+            var encounter = new WaitableTask<Encounter>();
             var writerInfo = new LoadingWriterSceneInfo(SceneInfo.User, SceneInfo.LoadingScreen, encounter);
             EncounterData.AddOnCompletedListener((result) => Something(encounter, result));
             SceneStarter.StartScene(writerInfo);
         }
 
-        protected virtual void Something(WaitableResult<Encounter> encounter, WaitedResult<EncounterContent> encounterData)
+        protected virtual void Something(WaitableTask<Encounter> encounter, TaskResult<EncounterContent> encounterData)
         {
             var result = new Encounter(CurrentMetadata, encounterData.Value);
             encounter.SetResult(result);

@@ -2,6 +2,6 @@
 {
     public interface ILoginHandler
     {
-        WaitableResult<User> Login();
+        WaitableTask<User> Login();
     }
 }

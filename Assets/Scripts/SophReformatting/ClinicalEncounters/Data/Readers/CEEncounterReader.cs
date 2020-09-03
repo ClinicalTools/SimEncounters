@@ -7,9 +7,9 @@ namespace ClinicalTools.ClinicalEncounters
         public CEEncounterReader(IEncounterDataReaderSelector dataReaderSelector)
             : base(dataReaderSelector) { }
 
-        protected override void ProcessResults(WaitableResult<Encounter> result,
+        protected override void ProcessResults(WaitableTask<Encounter> result,
             EncounterMetadata metadata,
-            WaitedResult<EncounterContent> data)
+            TaskResult<EncounterContent> data)
         {
             if (data.Value.ImageContent is CEEncounterImageData ceImageData)
                 UpdateLegacySections(data.Value.NonImageContent, ceImageData);

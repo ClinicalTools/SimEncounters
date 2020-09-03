@@ -80,7 +80,7 @@ namespace ClinicalTools.SimEncounters
             EncounterWriter.Save(SceneInfo.User, SceneInfo.Encounter);
 
             var encounter = new UserEncounter(SceneInfo.User, SceneInfo.Encounter, new EncounterStatus(new EncounterBasicStatus(), new EncounterContentStatus()));
-            var encounterResult = new WaitableResult<UserEncounter>(encounter);
+            var encounterResult = new WaitableTask<UserEncounter>(encounter);
             var loadingInfo = new LoadingReaderSceneInfo(SceneInfo.User, SceneInfo.LoadingScreen, encounterResult);
             ReaderSceneStarter.StartScene(loadingInfo);
         }

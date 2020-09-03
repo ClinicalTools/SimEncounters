@@ -23,9 +23,9 @@ namespace ClinicalTools.SimEncounters
                 metadatasReaders.Add(SaveType.Demo, demoMetadatasReader);
         }
 
-        public WaitableResult<Dictionary<int, Dictionary<SaveType, EncounterMetadata>>> GetMetadataGroups(User user)
+        public WaitableTask<Dictionary<int, Dictionary<SaveType, EncounterMetadata>>> GetMetadataGroups(User user)
         {
-            var metadatasResults = new Dictionary<SaveType, WaitableResult<List<EncounterMetadata>>>();
+            var metadatasResults = new Dictionary<SaveType, WaitableTask<List<EncounterMetadata>>>();
 #if DEMO
             if (metadatasReaders.ContainsKey(SaveType.Demo))
                 metadatasResults.Add(SaveType.Demo, metadatasReaders[SaveType.Demo].GetMetadatas(user));
@@ -33,7 +33,7 @@ namespace ClinicalTools.SimEncounters
             foreach (var metadatasReader in metadatasReaders)
                 metadatasResults.Add(metadatasReader.Key, metadatasReader.Value.GetMetadatas(user));
 #endif
-            var metadataGroups = new WaitableResult<Dictionary<int, Dictionary<SaveType, EncounterMetadata>>>();
+            var metadataGroups = new WaitableTask<Dictionary<int, Dictionary<SaveType, EncounterMetadata>>>();
 
             foreach (var metadatasResult in metadatasResults)
                 metadatasResult.Value.AddOnCompletedListener((result) => ProcessResult(metadataGroups, metadatasResults));
@@ -41,8 +41,8 @@ namespace ClinicalTools.SimEncounters
             return metadataGroups;
         }
 
-        private void ProcessResult(WaitableResult<Dictionary<int, Dictionary<SaveType, EncounterMetadata>>> result,
-            Dictionary<SaveType, WaitableResult<List<EncounterMetadata>>> metadatasResults)
+        private void ProcessResult(WaitableTask<Dictionary<int, Dictionary<SaveType, EncounterMetadata>>> result,
+            Dictionary<SaveType, WaitableTask<List<EncounterMetadata>>> metadatasResults)
         {
             if (result.IsCompleted())
                 return;

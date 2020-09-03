@@ -29,12 +29,12 @@ namespace ClinicalTools.SimEncounters
         }
 
         protected virtual MenuEncounter CurrentEncounter { get; set; }
-        protected virtual WaitableResult<KeyValuePair<SaveType, EncounterMetadata>> CurrentResult { get; set; }
-        public override WaitableResult<KeyValuePair<SaveType, EncounterMetadata>> GetMetadata(MenuEncounter menuEncounter)
+        protected virtual WaitableTask<KeyValuePair<SaveType, EncounterMetadata>> CurrentResult { get; set; }
+        public override WaitableTask<KeyValuePair<SaveType, EncounterMetadata>> GetMetadata(MenuEncounter menuEncounter)
         {
             var metadatas = menuEncounter.Metadata;
             if (!metadatas.ContainsKey(SaveType.Local))
-                return new WaitableResult<KeyValuePair<SaveType, EncounterMetadata>>(menuEncounter.GetLatestTypedMetada());
+                return new WaitableTask<KeyValuePair<SaveType, EncounterMetadata>>(menuEncounter.GetLatestTypedMetada());
 
             var localMetadata = metadatas[SaveType.Local];
             var localModifiedTime = localMetadata.DateModified;
@@ -42,10 +42,10 @@ namespace ClinicalTools.SimEncounters
             var newerServer = IsMetadataNewer(metadatas, SaveType.Server, localModifiedTime);
             var newerAutosave = IsMetadataNewer(metadatas, SaveType.Autosave, localModifiedTime);
             if (!newerServer && !newerAutosave)
-                return new WaitableResult<KeyValuePair<SaveType, EncounterMetadata>>(new KeyValuePair<SaveType, EncounterMetadata>(SaveType.Local, localMetadata));
+                return new WaitableTask<KeyValuePair<SaveType, EncounterMetadata>>(new KeyValuePair<SaveType, EncounterMetadata>(SaveType.Local, localMetadata));
 
             CurrentEncounter = menuEncounter;
-            CurrentResult = new WaitableResult<KeyValuePair<SaveType, EncounterMetadata>>();
+            CurrentResult = new WaitableTask<KeyValuePair<SaveType, EncounterMetadata>>();
 
             gameObject.SetActive(true);
             serverButton.gameObject.SetActive(newerServer);

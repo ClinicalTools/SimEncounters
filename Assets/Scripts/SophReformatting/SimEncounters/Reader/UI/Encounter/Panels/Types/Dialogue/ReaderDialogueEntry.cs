@@ -14,8 +14,8 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private List<GameObject> characterImages;
 
         protected IReaderPanelDisplay PanelDisplay { get; set; }
-        protected virtual IParser<Color> ColorParser { get; set; }
-        [Inject] public virtual void Inject(IReaderPanelDisplay panelDisplay, IParser<Color> colorParser)
+        protected virtual IStringDeserializer<Color> ColorParser { get; set; }
+        [Inject] public virtual void Inject(IReaderPanelDisplay panelDisplay, IStringDeserializer<Color> colorParser)
         {
             PanelDisplay = panelDisplay;
             ColorParser = colorParser;
@@ -28,7 +28,7 @@ namespace ClinicalTools.SimEncounters
             PanelDisplay.Display(panel, transform, transform);
             var data = panel.Data.Values;
             if (data.ContainsKey(colorKey))
-                Border.color = ColorParser.Parse(data[colorKey]);
+                Border.color = ColorParser.Deserialize(data[colorKey]);
             if (data.ContainsKey(characterKey))
                 SetCharacterImage(data[characterKey]);
 

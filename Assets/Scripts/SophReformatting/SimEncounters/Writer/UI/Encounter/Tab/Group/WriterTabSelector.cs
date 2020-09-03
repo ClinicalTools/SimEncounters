@@ -35,7 +35,7 @@ namespace ClinicalTools.SimEncounters
             newTab.AddOnCompletedListener(AddNewTab);
         }
 
-        private void AddNewTab(WaitedResult<Tab> tab)
+        private void AddNewTab(TaskResult<Tab> tab)
         {
             if (tab.IsError() || tab.Value == null)
                 return;

@@ -1,6 +1,4 @@
-﻿
-
-namespace ClinicalTools.SimEncounters
+﻿namespace ClinicalTools.SimEncounters
 {
     public class TabStatusSerializer
     {

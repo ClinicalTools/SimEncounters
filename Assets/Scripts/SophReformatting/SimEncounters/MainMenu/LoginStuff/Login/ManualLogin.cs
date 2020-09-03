@@ -36,12 +36,12 @@ namespace ClinicalTools.SimEncounters
             GuestButton.onClick.AddListener(GuestLogin);
         }
 
-        protected virtual WaitableResult<User> CurrentWaitableResult { get; set; }
-        public override WaitableResult<User> Login()
+        protected virtual WaitableTask<User> CurrentWaitableResult { get; set; }
+        public override WaitableTask<User> Login()
         {
             gameObject.SetActive(true);
 
-            CurrentWaitableResult = new WaitableResult<User>();
+            CurrentWaitableResult = new WaitableTask<User>();
 
             UsernameField.text = "";
             PasswordField.text = "";
@@ -66,7 +66,7 @@ namespace ClinicalTools.SimEncounters
             user.AddOnCompletedListener(ServerUserResponse);
         }
 
-        protected void ServerUserResponse(WaitedResult<User> result)
+        protected void ServerUserResponse(TaskResult<User> result)
         {
             if (result.IsError()) {
                 MessageHandler.ShowMessage($"Could not login: {result.Exception.Message}", MessageType.Error);

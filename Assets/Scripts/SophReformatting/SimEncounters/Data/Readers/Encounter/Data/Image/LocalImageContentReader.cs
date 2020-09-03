@@ -3,16 +3,16 @@
     public class LocalImageContentReader : IImageContentReader
     {
         private readonly IFileManager fileManager;
-        private readonly IParser<EncounterImageContent> parser;
-        public LocalImageContentReader(IFileManager fileManager, IParser<EncounterImageContent> parser)
+        private readonly IStringDeserializer<EncounterImageContent> parser;
+        public LocalImageContentReader(IFileManager fileManager, IStringDeserializer<EncounterImageContent> parser)
         {
             this.fileManager = fileManager;
             this.parser = parser;
         }
 
-        public WaitableResult<EncounterImageContent> GetImageData(User user, EncounterMetadata metadata)
+        public WaitableTask<EncounterImageContent> GetImageData(User user, EncounterMetadata metadata)
         {
-            var imageData = new WaitableResult<EncounterImageContent>();
+            var imageData = new WaitableTask<EncounterImageContent>();
 
             var fileText = fileManager.GetFileText(user, FileType.Image, metadata);
             fileText.AddOnCompletedListener((result) => ProcessResults(imageData, result));
@@ -20,12 +20,12 @@
             return imageData;
         }
 
-        private void ProcessResults(WaitableResult<EncounterImageContent> result, WaitedResult<string> fileText)
+        private void ProcessResults(WaitableTask<EncounterImageContent> result, TaskResult<string> fileText)
         {
             if (fileText.IsError())
                 result.SetError(fileText.Exception);
             else
-                result.SetResult(parser.Parse(fileText.Value));
+                result.SetResult(parser.Deserialize(fileText.Value));
         }
     }
 }

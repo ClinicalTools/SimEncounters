@@ -69,7 +69,7 @@ namespace ClinicalTools.SimEncounters
             loadingSceneInfo.Result.AddOnCompletedListener(SceneInfoLoaded);
         }
 
-        protected virtual void SceneInfoLoaded(WaitedResult<MenuSceneInfo> sceneInfo)
+        protected virtual void SceneInfoLoaded(TaskResult<MenuSceneInfo> sceneInfo)
         {
             sceneInfo.Value.LoadingScreen?.Stop();
             foreach (var downloadingMessageObject in DownloadingMessageObjects)

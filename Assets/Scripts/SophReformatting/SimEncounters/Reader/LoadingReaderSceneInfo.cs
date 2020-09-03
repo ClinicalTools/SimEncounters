@@ -7,12 +7,12 @@ namespace ClinicalTools.SimEncounters
     {
         public User User { get; }
         public ILoadingScreen LoadingScreen { get; }
-        public WaitableResult<UserEncounter> Encounter { get; }
+        public WaitableTask<UserEncounter> Encounter { get; }
         public List<MenuEncounter> SuggestedEncounters { get; } = new List<MenuEncounter>();
 
-        public WaitableResult<ReaderSceneInfo> Result { get; } = new WaitableResult<ReaderSceneInfo>();
+        public WaitableTask<ReaderSceneInfo> Result { get; } = new WaitableTask<ReaderSceneInfo>();
 
-        public LoadingReaderSceneInfo(User user, ILoadingScreen loadingScreen, WaitableResult<UserEncounter> encounter)
+        public LoadingReaderSceneInfo(User user, ILoadingScreen loadingScreen, WaitableTask<UserEncounter> encounter)
         {
             User = user;
             LoadingScreen = loadingScreen;
@@ -20,7 +20,7 @@ namespace ClinicalTools.SimEncounters
             Encounter.AddOnCompletedListener(EncounterRetrieved);
         }
 
-        private void EncounterRetrieved(WaitedResult<UserEncounter> encounter)
+        private void EncounterRetrieved(TaskResult<UserEncounter> encounter)
         {
             var loadedInfo = new ReaderSceneInfo(this);
             Result.SetResult(loadedInfo);

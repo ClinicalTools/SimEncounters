@@ -21,9 +21,9 @@ namespace ClinicalTools.SimEncounters
         public void SetFileText(User user, FileType fileType, EncounterMetadata metadata, string contents)
             => throw new Exception("Cannot write to default files");
 
-        public WaitableResult<string> GetFileText(User user, FileType fileType, EncounterMetadata metadata)
+        public WaitableTask<string> GetFileText(User user, FileType fileType, EncounterMetadata metadata)
         {
-            var fileText = new WaitableResult<string>();
+            var fileText = new WaitableTask<string>();
 
             var filePath = GetFile(fileType);
             var webRequest = UnityWebRequest.Get(filePath);
@@ -32,7 +32,7 @@ namespace ClinicalTools.SimEncounters
             return fileText;
         }
 
-        protected virtual void SetFileResult(WaitedResult<string> serverResult, WaitableResult<string> fileText)
+        protected virtual void SetFileResult(TaskResult<string> serverResult, WaitableTask<string> fileText)
         {
             if (serverResult.IsError())
                 fileText.SetError(serverResult.Exception);
@@ -40,8 +40,8 @@ namespace ClinicalTools.SimEncounters
                 fileText.SetResult(serverResult.Value);
         }
 
-        public WaitableResult<string[]> GetFilesText(User user, FileType fileType)
-            => new WaitableResult<string[]>(new Exception());
+        public WaitableTask<string[]> GetFilesText(User user, FileType fileType)
+            => new WaitableTask<string[]>(new Exception());
 
         protected string GetFile(FileType fileType)
         {

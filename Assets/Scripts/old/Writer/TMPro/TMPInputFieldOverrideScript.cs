@@ -45,36 +45,5 @@ public class TMPInputFieldOverrideScript : TMP_InputField {
     {
         base.OnDeselect(eventData);
         return;
-        Transform suggestions = transform.Find("Suggestions");
-        Transform closeSuggestions = transform.Find("CloseSuggestions");
-        /*if (suggestions.childCount > 0) {
-			foreach (Transform t in suggestions.GetComponentsInChildren<Transform>()) {
-Search
-
-
-
-
-
-Avatar image
-
-				if (!t.name.Equals (suggestions.name))
-					continue;//t.gameObject.SetActive (false);
-			}
-		}*/
-        //image.sprite = spriteState.disabledSprite;
-
-        NextFrame.Function(delegate {
-            if (EventSystem.current.currentSelectedGameObject == null || !EventSystem.current.currentSelectedGameObject.transform.IsChildOf(gameObject.transform)) {
-                m_CaretVisible = false;
-                suggestions.gameObject.SetActive(false);
-                closeSuggestions?.gameObject.SetActive(false);
-                GetComponentInParent<AutofillTMP>().ResetSelected();
-                DeactivateInputField();
-            } else {
-                EventSystem.current.SetSelectedGameObject(gameObject);
-            }
-        });
-
-        base.OnDeselect(eventData);
     }
 }
