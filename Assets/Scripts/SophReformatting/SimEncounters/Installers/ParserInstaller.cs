@@ -23,6 +23,8 @@ namespace ClinicalTools.SimEncounters
             subcontainer.Bind<IStringDeserializer<Dictionary<int, EncounterBasicStatus>>>().To<DictionaryDeserializer<int, EncounterBasicStatus>>().AsTransient();
             subcontainer.Bind<IStringDeserializer<KeyValuePair<int, EncounterBasicStatus>>>().To<KeyedEncounterStatusDeserializer>().AsTransient();
 
+            subcontainer.Bind<IStringSerializer<KeyValuePair<int, EncounterBasicStatus>>>().To<KeyedEncounterStatusSerializer>().AsTransient();
+
             subcontainer.Bind<IStringDeserializer<EncounterNonImageContent>>().To<XmlStringDeserializer<EncounterNonImageContent>>().AsTransient();
             subcontainer.Bind<IStringDeserializer<EncounterImageContent>>().To<XmlStringDeserializer<EncounterImageContent>>().AsTransient();
             subcontainer.Bind<IStringDeserializer<XmlDocument>>().To<XmlDocumentDeserializer>().AsTransient();

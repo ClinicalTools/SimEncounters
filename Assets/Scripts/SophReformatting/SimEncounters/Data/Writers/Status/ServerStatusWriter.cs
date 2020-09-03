@@ -7,9 +7,10 @@ namespace ClinicalTools.SimEncounters
     {
         protected IUrlBuilder WebAddress { get; }
         protected IServerReader ServerReader { get; }
-        protected EncounterContentStatusSerializer StatusSerializer { get; }
-        public ServerStatusWriter(IUrlBuilder webAddress, IServerReader serverReader, 
-            EncounterContentStatusSerializer statusSerializer)
+        protected IStringSerializer<EncounterContentStatus> StatusSerializer { get; }
+        public ServerStatusWriter(IUrlBuilder webAddress, 
+            IServerReader serverReader,
+            IStringSerializer<EncounterContentStatus> statusSerializer)
         {
             WebAddress = webAddress;
             ServerReader = serverReader;

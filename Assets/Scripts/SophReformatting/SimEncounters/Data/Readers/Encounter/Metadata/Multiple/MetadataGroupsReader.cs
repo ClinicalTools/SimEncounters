@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Zenject;
 
 namespace ClinicalTools.SimEncounters
@@ -54,7 +53,7 @@ namespace ClinicalTools.SimEncounters
 
             var metadataGroups = new Dictionary<int, Dictionary<SaveType, EncounterMetadata>>();
             foreach (var metadatasResult in metadatasResults) {
-                if (metadatasResult.Value.Result == null)
+                if (!metadatasResult.Value.Result.HasValue())
                     continue;
 
                 foreach (var metadata in metadatasResult.Value.Result.Value)
@@ -74,7 +73,8 @@ namespace ClinicalTools.SimEncounters
             result.SetResult(metadataGroups);
         }
 
-        private void AddMetadata(Dictionary<int, Dictionary<SaveType, EncounterMetadata>> metadataGroups, SaveType saveType, EncounterMetadata metadata)
+        private void AddMetadata(Dictionary<int, Dictionary<SaveType, EncounterMetadata>> metadataGroups, 
+            SaveType saveType, EncounterMetadata metadata)
         {
             Dictionary<SaveType, EncounterMetadata> metadataGroup;
             if (metadataGroups.ContainsKey(metadata.RecordNumber)) {

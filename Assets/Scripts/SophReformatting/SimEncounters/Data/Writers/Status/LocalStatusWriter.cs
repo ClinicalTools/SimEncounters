@@ -1,22 +1,33 @@
-﻿namespace ClinicalTools.SimEncounters
+﻿using System.Collections.Generic;
+
+namespace ClinicalTools.SimEncounters
 {
     public class LocalStatusWriter : IStatusWriter
     {
         protected IFileManager FileManager { get; }
-        protected EncounterContentStatusSerializer StatusSerializer { get; }
-        public LocalStatusWriter(IFileManager fileManager, EncounterContentStatusSerializer statusSerializer)
+        protected IStringSerializer<EncounterContentStatus> ContentStatusSerializer { get; }
+        protected IStringSerializer<KeyValuePair<int, EncounterBasicStatus>> BasicStatusSerializer { get; }
+        public LocalStatusWriter(
+            IFileManager fileManager,
+            IStringSerializer<EncounterContentStatus> contentStatusSerializer,
+            IStringSerializer<KeyValuePair<int, EncounterBasicStatus>> basicStatusSerializer)
         {
             FileManager = fileManager;
-            StatusSerializer = statusSerializer;
+            ContentStatusSerializer = contentStatusSerializer;
+            BasicStatusSerializer = basicStatusSerializer;
         }
 
         public WaitableTask WriteStatus(UserEncounter encounter)
         {
-            var basicStatusString = $"{encounter.Data.Metadata.RecordNumber}::{(encounter.Status.BasicStatus.Completed ? 1 : 0)}::{encounter.Status.BasicStatus.Rating}";
-            FileManager.SetFileText(encounter.User, FileType.BasicStatus, encounter.Data.Metadata, basicStatusString);
+            var metadata = encounter.Data.Metadata;
+            var status = encounter.Status;
 
-            var statusString = StatusSerializer.Serialize(encounter.Status.ContentStatus);
-            FileManager.SetFileText(encounter.User, FileType.DetailedStatus, encounter.Data.Metadata, statusString);
+            var statusKeyValuePair = new KeyValuePair<int, EncounterBasicStatus>(metadata.RecordNumber, status.BasicStatus);
+            var basicStatusString = BasicStatusSerializer.Serialize(statusKeyValuePair);
+            FileManager.SetFileText(encounter.User, FileType.BasicStatus, metadata, basicStatusString);
+
+            var statusString = ContentStatusSerializer.Serialize(status.ContentStatus);
+            FileManager.SetFileText(encounter.User, FileType.DetailedStatus, metadata, statusString);
 
             return WaitableTask.CompletedTask;
         }

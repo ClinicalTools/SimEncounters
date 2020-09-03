@@ -25,8 +25,8 @@ namespace ClinicalTools.SimEncounters
 
         private void ProcessResults(WaitableTask<Dictionary<int, EncounterBasicStatus>> result, TaskResult<string[]> fileTexts)
         {
-            if (fileTexts == null) {
-                result.SetError(null);
+            if (!fileTexts.HasValue()) {
+                result.SetResult(new Dictionary<int, EncounterBasicStatus>());
                 return;
             }
 

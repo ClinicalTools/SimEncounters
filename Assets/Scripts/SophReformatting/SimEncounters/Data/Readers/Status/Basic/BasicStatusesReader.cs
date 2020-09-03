@@ -34,9 +34,9 @@ namespace ClinicalTools.SimEncounters
                     return;
             }
 
-            var statuses = listResults[0].Result.Value;
-            for (int i = 1; i < listResults.Count; i++) { 
-                if (!listResults[i].Result.IsError())
+            var statuses = new Dictionary<int, EncounterBasicStatus>();;
+            for (int i = 0; i < listResults.Count; i++) { 
+                if (listResults[i].Result.HasValue())
                     statuses = CombineStatuses(statuses, listResults[i].Result.Value);
             }
             result.SetResult(statuses);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
@@ -61,6 +62,7 @@ namespace ClinicalTools.SimEncounters
 
             var extension = fileExtensionGetter.GetExtension(fileType);
             var filepaths = Directory.GetFiles(folder, $"*.{extension}");
+            filepaths = filepaths.Where((path) => path.EndsWith(extension, StringComparison.InvariantCultureIgnoreCase)).ToArray();
 
             return filepaths;
         }

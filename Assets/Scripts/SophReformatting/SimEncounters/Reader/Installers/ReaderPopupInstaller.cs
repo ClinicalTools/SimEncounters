@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using Zenject;
 
@@ -34,7 +33,7 @@ namespace ClinicalTools.SimEncounters
             Container.Bind<FeedbackColorInfo>().To<FeedbackColorInfo>().AsTransient();
             Container.Bind<IStringDeserializer<Color>>().To<ColorDeserializer>().AsTransient();
 
-            Container.Bind<EncounterContentStatusSerializer>().To<EncounterContentStatusSerializer>().AsTransient();
+            Container.Bind<IStringSerializer<EncounterContentStatus>>().To<EncounterContentStatusSerializer>().AsTransient();
             Container.Bind<SectionStatusSerializer>().To<SectionStatusSerializer>().AsTransient();
             Container.Bind<TabStatusSerializer>().To<TabStatusSerializer>().AsTransient();
 
