@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 namespace ClinicalTools.UI
 {
+    [ExecuteAlways]
     public class PaddingByProportion : UIBehaviour
     {
         public virtual float Left { get => left; set => left = value; }
@@ -18,8 +19,7 @@ namespace ClinicalTools.UI
         [SerializeField] private float spacing;
 
         private LayoutGroup group;
-        protected LayoutGroup Group
-        {
+        protected LayoutGroup Group {
             get {
                 if (group == null)
                     group = GetComponent<LayoutGroup>();
@@ -27,24 +27,89 @@ namespace ClinicalTools.UI
             }
         }
 
+        protected override void Awake()
+        {
+            base.Awake();
+            UpdateAll();
+        }
 
+        private Rect currentRect;
         protected override void OnRectTransformDimensionsChange()
         {
             base.OnRectTransformDimensionsChange();
-            var rect = ((RectTransform)transform).rect;
-            Group.padding.left = Mathf.RoundToInt(left * rect.width);
-            Group.padding.right = Mathf.RoundToInt(right * rect.width);
-            Group.padding.top = Mathf.RoundToInt(top * rect.height);
-            Group.padding.bottom = Mathf.RoundToInt(bottom * rect.height);
-            if (Group is VerticalLayoutGroup verticalLayoutGroup)
-                verticalLayoutGroup.spacing = GetHeightSpacing(rect);
-            if (Group is HorizontalLayoutGroup horizontalLayoutGroup)
-                horizontalLayoutGroup.spacing = GetWidthSpacing(rect);
-            if (Group is GridLayoutGroup gridLayoutGroup)
-                gridLayoutGroup.spacing = new Vector2(GetWidthSpacing(rect), GetHeightSpacing(rect));
+            UpdateAll();
         }
 
-        protected virtual float GetWidthSpacing(Rect rect) => spacing * rect.width;
-        protected virtual float GetHeightSpacing(Rect rect) => spacing * rect.height;
+        protected virtual void UpdateAll()
+        {
+            currentRect = ((RectTransform)transform).rect;
+            UpdateLeft();
+            UpdateRight();
+            UpdateTop();
+            UpdateBottom();
+            UpdateSpacing();
+        }
+
+        protected virtual void Update()
+        {
+            if (currentRect == default)
+                currentRect = ((RectTransform)transform).rect;
+
+            if (lastLeft != Left)
+                UpdateLeft();
+            if (lastRight != Right)
+                UpdateRight();
+            if (lastTop != Top)
+                UpdateTop();
+            if (lastBottom != Bottom)
+                UpdateBottom();
+            if (lastSpacing != Spacing)
+                UpdateSpacing();
+        }
+
+
+        private float lastLeft;
+        protected void UpdateLeft()
+        {
+            lastLeft = Left;
+            Group.padding.left = Mathf.RoundToInt(Left * currentRect.width);
+        }
+
+        private float lastRight;
+        protected void UpdateRight()
+        {
+            lastRight = Right;
+            Group.padding.right = Mathf.RoundToInt(Right * currentRect.width);
+        }
+
+        private float lastTop;
+        protected void UpdateTop()
+        {
+            lastTop = Top;
+            Group.padding.top = Mathf.RoundToInt(Top * currentRect.height);
+        }
+
+        private float lastBottom;
+        protected void UpdateBottom()
+        {
+            lastBottom = Bottom;
+            Group.padding.bottom = Mathf.RoundToInt(Bottom * currentRect.height);
+        }
+
+        private float lastSpacing;
+        protected void UpdateSpacing()
+        {
+            lastSpacing = Spacing;
+            if (Group is VerticalLayoutGroup verticalLayoutGroup)
+                verticalLayoutGroup.spacing = GetHeightSpacing(currentRect);
+            if (Group is HorizontalLayoutGroup horizontalLayoutGroup)
+                horizontalLayoutGroup.spacing = GetWidthSpacing(currentRect);
+            if (Group is GridLayoutGroup gridLayoutGroup)
+                gridLayoutGroup.spacing = new Vector2(GetWidthSpacing(currentRect), GetHeightSpacing(currentRect));
+
+        }
+
+        protected virtual float GetWidthSpacing(Rect rect) => Spacing * rect.width;
+        protected virtual float GetHeightSpacing(Rect rect) => Spacing * rect.height;
     }
 }

@@ -51,7 +51,7 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void EnsureButtonIsShowing(UserTab tab, RectTransform tabButtonTransform)
         {
-            if (tab == CurrentTab)
+            if (tab == CurrentTab && TabButtonsScroll != null)
                 TabButtonsScroll.EnsureChildIsShowing((RectTransform)TabButtons[tab].transform);
         }
 

@@ -1,9 +1,4 @@
 ﻿using ClinicalTools.Layout;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,10 +6,13 @@ namespace ClinicalTools.UI
 {
     public class BetterCanvasScaler : CanvasScaler
     {
+        // Some things only work with ints (like layout group padding),
+        // so small width and height numbers don't allow for the precision sometimes needed
+        private float scalar = 1f;
         protected override void HandleConstantPhysicalSize()
         {
 #if UNITY_EDITOR
-            var editorDPI = new NullableFloat(72);
+            var editorDPI = new NullableFloat(96);
             float currentDpi = (editorDPI.Value != null) ? (float)editorDPI.Value : Screen.dpi;
 #else
             float currentDpi = Screen.dpi;
@@ -29,14 +27,12 @@ namespace ClinicalTools.UI
                 case Unit.Points: targetDPI = 72; break;
                 case Unit.Picas: targetDPI = 6; break;
             }
-            //targetDPI *= 2;
+            targetDPI *= scalar;
 
             var spriteDpiProportion = dpi / m_DefaultSpriteDPI;
 
             SetScaleFactor(dpi / targetDPI);
             SetReferencePixelsPerUnit(m_ReferencePixelsPerUnit * targetDPI / m_DefaultSpriteDPI / spriteDpiProportion);
         }
-
-
     }
 }

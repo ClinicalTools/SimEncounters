@@ -1,8 +1,8 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ClinicalTools.UI
 {
+    [ExecuteAlways]
     public class SetAnchorsByAspectRatio : MonoBehaviour
     {
         public Vector2 LandscapeMinAnchor { get => landscapeMinAnchor; set => landscapeMinAnchor = value; }
@@ -26,38 +26,60 @@ namespace ClinicalTools.UI
 
         protected virtual void Update() => UpdateSize();
 
-        private const float Tolerance = .00001f;
-        private Vector2 canvasSize = new Vector2();
+        private const float Tolerance = .0001f;
+        private Vector2Int canvasSize;
+
+        private Vector2 lastLandscapeMinAnchor, lastLandscapeMaxAnchor, lastPortraitMinAnchor, lastPortraitMaxAnchor;
         protected virtual void UpdateSize()
         {
-            var currentCanvasSize = new Vector2(Screen.width, Screen.height);
-            if (currentCanvasSize == canvasSize)
+            var currentCanvasSize = new Vector2Int(Screen.width, Screen.height);
+            if (currentCanvasSize != canvasSize) {
+                canvasSize = currentCanvasSize;
+
+                UpdateMinAnchor();
+                UpdateMaxAnchor();
                 return;
+            }
 
-            canvasSize = currentCanvasSize;
-            var currentAspectRatio = canvasSize.y / canvasSize.x;
+            if (lastLandscapeMinAnchor != LandscapeMinAnchor || lastPortraitMinAnchor != PortraitMinAnchor)
+                UpdateMinAnchor();
+            if (lastLandscapeMaxAnchor != LandscapeMaxAnchor || lastPortraitMaxAnchor != PortraitMaxAnchor)
+                UpdateMaxAnchor();
 
-            var rectTransform = (RectTransform)transform;
-            var anchorMin = rectTransform.anchorMin;
-            var anchorMax = rectTransform.anchorMax;
-
-            if (LandscapeMinAnchor.x > Tolerance || PortraitMinAnchor.x > Tolerance)
-                anchorMin.x = GetValue(currentAspectRatio, LandscapeMinAnchor.x, PortraitMinAnchor.x);
-            if (LandscapeMinAnchor.y > Tolerance || PortraitMinAnchor.y > Tolerance)
-                anchorMin.y = GetValue(currentAspectRatio, LandscapeMinAnchor.y, PortraitMinAnchor.y);
-
-            if (LandscapeMaxAnchor.x > Tolerance || PortraitMaxAnchor.x > Tolerance)
-                anchorMax.x = GetValue(currentAspectRatio, LandscapeMaxAnchor.x, PortraitMaxAnchor.x);
-            if (LandscapeMaxAnchor.y > Tolerance || PortraitMaxAnchor.y > Tolerance)
-                anchorMax.y = GetValue(currentAspectRatio, LandscapeMaxAnchor.y, PortraitMaxAnchor.y);
-
-            rectTransform.anchorMin = anchorMin;
-            rectTransform.anchorMax = anchorMax;
-            rectTransform.offsetMin = new Vector2();
-            rectTransform.offsetMax = new Vector2();
         }
 
-        private float GetValue(float currentAspectRatio, float landscapeValue, float portraitValue)
+        protected virtual void UpdateMinAnchor()
+        {
+            lastLandscapeMinAnchor = LandscapeMinAnchor;
+            lastPortraitMinAnchor = PortraitMinAnchor;
+
+            var rectTransform = (RectTransform)transform;
+            SetAnchor(canvasSize, rectTransform.anchorMin, LandscapeMinAnchor, PortraitMinAnchor);
+            rectTransform.offsetMin = Vector2.zero;
+        }
+
+        protected virtual void UpdateMaxAnchor()
+        {
+            lastLandscapeMaxAnchor = LandscapeMaxAnchor;
+            lastPortraitMaxAnchor = PortraitMaxAnchor;
+
+            var rectTransform = (RectTransform)transform;
+            SetAnchor(canvasSize, rectTransform.anchorMax, LandscapeMaxAnchor, PortraitMaxAnchor);
+            rectTransform.offsetMax = Vector2.zero;
+        }
+
+        protected virtual void SetAnchor(Vector2Int canvasSize, Vector2 currentAnchor, 
+            Vector2 landscapeAnchor, Vector2 portraitAnchor)
+        {
+            var aspectRatio = canvasSize.y / canvasSize.x;
+            if (landscapeAnchor.x > Tolerance || portraitAnchor.x > Tolerance)
+                currentAnchor.x = GetValue(aspectRatio, landscapeAnchor.x, portraitAnchor.x);
+            if (landscapeAnchor.y > Tolerance || portraitAnchor.y > Tolerance)
+                currentAnchor.y = GetValue(aspectRatio, landscapeAnchor.y, portraitAnchor.y);
+        }
+
+
+        protected virtual float GetValue(float currentAspectRatio, float landscapeValue, float portraitValue)
         {
             var slope = (portraitValue - landscapeValue)
                             / (PortraitAspectRatio - LandscapeAspectRatio);

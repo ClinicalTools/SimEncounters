@@ -8,13 +8,15 @@ namespace ClinicalTools.SimEncounters.UI
     {
         PrimaryColor = 0,
         DarkColor = 1,
-        LightColor = 2
+        LightColor = 2,
+        OffBlack = 3
     }
     public class ColorManager : MonoBehaviour
     {
         private static readonly Color primaryColor = new Color(0.2784314f, 0.4666667f, 0.6980392f);
         private static readonly Color darkColor = new Color(0.1960784f, 0.3529412f, 0.5529412f);
         private static readonly Color lightColor = new Color(0.4150943f, 0.601305f, 0.8301887f);
+        private static readonly Color offBlackColor = new Color(0.1490196f, 0.1882353f, 0.2196078f);
 
         public static Color GetColor(ColorType colorType)
         {
@@ -25,6 +27,8 @@ namespace ClinicalTools.SimEncounters.UI
                     return darkColor;
                 case ColorType.LightColor:
                     return lightColor;
+                case ColorType.OffBlack:
+                    return offBlackColor;
                 default:
                     return primaryColor;
             }

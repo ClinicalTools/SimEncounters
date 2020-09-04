@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace ClinicalTools.UI
@@ -88,7 +87,7 @@ namespace ClinicalTools.UI
         protected virtual float GetAspectRatioProportion(Vector2 dimensions)
             => dimensions.x / dimensions.y;
 
-        private const float Tolerance = .00001f;
+        private const float Tolerance = .0001f;
         protected virtual bool ShouldSizeHeight() => CellHeightPerWidth > Tolerance;
     }
 }

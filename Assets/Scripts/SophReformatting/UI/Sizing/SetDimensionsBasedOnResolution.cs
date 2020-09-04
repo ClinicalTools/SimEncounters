@@ -61,7 +61,7 @@ namespace ClinicalTools.UI
         protected virtual float GetX(Vector2 vector) => vector.x;
         protected virtual float GetY(Vector2 vector) => vector.y;
 
-        private const float Tolerance = .00001f;
+        private const float Tolerance = .0001f;
         private bool ShouldSize(Func<Vector2, float> primaryValueGetter)
             => primaryValueGetter(LandscapeDimensions) > Tolerance || primaryValueGetter(PortraitDimensions) > Tolerance;
 
