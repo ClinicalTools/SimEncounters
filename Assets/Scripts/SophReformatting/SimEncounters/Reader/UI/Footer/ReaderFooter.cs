@@ -56,7 +56,8 @@ namespace ClinicalTools.SimEncounters
         {
             FinishButton.interactable = true;
             //FinishButton.image.color = Color.white;
-            FinishButtonText.color = Color.white;
+            if (FinishButtonText != null)
+                FinishButtonText.color = Color.white;
         }
 
         protected UserSection CurrentSection { get; set; }

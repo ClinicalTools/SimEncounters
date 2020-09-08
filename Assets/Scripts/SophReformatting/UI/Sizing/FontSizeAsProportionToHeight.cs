@@ -1,6 +1,8 @@
-﻿using TMPro;
+﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace ClinicalTools.UI
 {
@@ -19,6 +21,7 @@ namespace ClinicalTools.UI
                 return text;
             }
         }
+        protected LayoutGroup parentGroup;
 
         private const float Tolerance = .0001f;
         private float height;
@@ -26,6 +29,8 @@ namespace ClinicalTools.UI
         protected override void Awake()
         {
             base.Awake();
+            if (transform.parent != null)
+                parentGroup = transform.parent.GetComponent<LayoutGroup>();
             UpdateFontSize();
         }
 
@@ -44,7 +49,7 @@ namespace ClinicalTools.UI
         private float lastFontSizePerHeight;
         protected void Update()
         {
-            if (lastFontSizePerHeight != FontSizePerHeight) 
+            if (lastFontSizePerHeight != FontSizePerHeight)
                 UpdateFontSize();
         }
 
@@ -55,7 +60,26 @@ namespace ClinicalTools.UI
 
             lastFontSizePerHeight = FontSizePerHeight;
             Text.fontSize = FontSizePerHeight * height;
+
+            if (parentGroup != null)
+                SetDirty((RectTransform)parentGroup.transform);
         }
 
+        protected void SetDirty(RectTransform rectTransform)
+        {
+            if (!IsActive())
+                return;
+
+            if (!CanvasUpdateRegistry.IsRebuildingLayout())
+                LayoutRebuilder.MarkLayoutForRebuild(rectTransform);
+            else
+                StartCoroutine(DelayedSetDirty(rectTransform));
+        }
+
+        protected IEnumerator DelayedSetDirty(RectTransform rectTransform)
+        {
+            yield return null;
+            LayoutRebuilder.MarkLayoutForRebuild(rectTransform);
+        }
     }
 }

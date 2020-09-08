@@ -40,9 +40,11 @@ namespace ClinicalTools.SimEncounters
             UserSection = userSection;
             var section = userSection.Data;
             SetColor(false);
-            var icons = userSection.Encounter.Data.Content.ImageContent.Icons;
-            if (section.IconKey != null && icons.ContainsKey(section.IconKey))
-                Icon.sprite = icons[section.IconKey];
+            if (Icon != null) {
+                var icons = userSection.Encounter.Data.Content.ImageContent.Icons;
+                if (section.IconKey != null && icons.ContainsKey(section.IconKey))
+                    Icon.sprite = icons[section.IconKey];
+            }
 
             NameLabel.text = userSection.Data.Name;
             Visited.SetActive(userSection.IsRead());
@@ -50,10 +52,7 @@ namespace ClinicalTools.SimEncounters
         }
 
         private void StatusChanged() => Visited.SetActive(UserSection.IsRead());
-        public void Select()
-        {
-            SelectToggle.Select();
-        }
+        public void Select() => SelectToggle.Select();
 
         public void SetToggleGroup(ToggleGroup group) => SelectToggle.SetToggleGroup(group);
 
@@ -69,7 +68,8 @@ namespace ClinicalTools.SimEncounters
             }
 
             Image.color = backgroundColor;
-            Icon.color = foregroundColor;
+            if (Icon != null)
+                Icon.color = foregroundColor;
             NameLabel.color = foregroundColor;
         }
     }

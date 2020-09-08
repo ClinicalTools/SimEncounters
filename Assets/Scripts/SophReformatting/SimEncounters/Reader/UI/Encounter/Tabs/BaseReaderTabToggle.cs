@@ -1,0 +1,14 @@
+﻿using System;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace ClinicalTools.SimEncounters
+{
+    public abstract class BaseReaderTabToggle : MonoBehaviour
+    {
+        public abstract event Action Selected;
+        public abstract void Display(UserTab tab);
+        public abstract void SetToggleGroup(ToggleGroup group);
+        public abstract void Select();
+    }
+}

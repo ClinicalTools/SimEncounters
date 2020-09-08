@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters
 {
-
     public class ReaderEncounterDrawer : BaseUserEncounterDrawer, ICompletable
     {
         public BaseUserSectionSelector SectionSelector { get => sectionSelector; set => sectionSelector = value; }

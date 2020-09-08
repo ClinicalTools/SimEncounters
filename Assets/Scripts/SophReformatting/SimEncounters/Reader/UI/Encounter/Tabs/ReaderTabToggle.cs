@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderTabToggle : MonoBehaviour
+    public class ReaderTabToggle : BaseReaderTabToggle
     {
         public SelectableToggle SelectToggle { get => selectToggle; set => selectToggle = value; }
         [SerializeField] private SelectableToggle selectToggle;
@@ -16,12 +16,12 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private GameObject visited;
 
 
-        public event Action Selected;
+        public override event Action Selected;
 
         protected virtual void Awake() => SelectToggle.Selected += () => Selected?.Invoke();
 
         protected UserTab CurrentTab { get; set; }
-        public void Display(UserTab tab)
+        public override void Display(UserTab tab)
         {
             CurrentTab = tab;
             NameLabel.text = tab.Data.Name;
@@ -30,10 +30,11 @@ namespace ClinicalTools.SimEncounters
             tab.StatusChanged += StatusChanged;
         }
 
-        public void SetToggleGroup(ToggleGroup group) => SelectToggle.SetToggleGroup(group);
+        public override void SetToggleGroup(ToggleGroup group) 
+            => SelectToggle.SetToggleGroup(group);
 
         protected virtual void StatusChanged() => Visited.SetActive(CurrentTab.IsRead());
-        public virtual void Select() => SelectToggle.Select();
+        public override void Select() => SelectToggle.Select();
         protected virtual void OnDestroy() => CurrentTab.StatusChanged -= StatusChanged;
     }
 }

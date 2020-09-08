@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -17,6 +18,8 @@ namespace ClinicalTools.UI
         [SerializeField] private float bottom;
         public virtual float Spacing { get => spacing; set => spacing = value; }
         [SerializeField] private float spacing;
+
+        protected virtual RectTransform RectTransform => (RectTransform)transform;
 
         private LayoutGroup group;
         protected LayoutGroup Group {
@@ -53,7 +56,7 @@ namespace ClinicalTools.UI
         protected virtual void Update()
         {
             if (currentRect == default)
-                currentRect = ((RectTransform)transform).rect;
+                currentRect = RectTransform.rect;
 
             if (lastLeft != Left)
                 UpdateLeft();
@@ -73,6 +76,7 @@ namespace ClinicalTools.UI
         {
             lastLeft = Left;
             Group.padding.left = Mathf.RoundToInt(Left * currentRect.width);
+            SetDirty();
         }
 
         private float lastRight;
@@ -80,6 +84,7 @@ namespace ClinicalTools.UI
         {
             lastRight = Right;
             Group.padding.right = Mathf.RoundToInt(Right * currentRect.width);
+            SetDirty();
         }
 
         private float lastTop;
@@ -87,6 +92,7 @@ namespace ClinicalTools.UI
         {
             lastTop = Top;
             Group.padding.top = Mathf.RoundToInt(Top * currentRect.height);
+            SetDirty();
         }
 
         private float lastBottom;
@@ -94,6 +100,7 @@ namespace ClinicalTools.UI
         {
             lastBottom = Bottom;
             Group.padding.bottom = Mathf.RoundToInt(Bottom * currentRect.height);
+            SetDirty();
         }
 
         private float lastSpacing;
@@ -106,10 +113,30 @@ namespace ClinicalTools.UI
                 horizontalLayoutGroup.spacing = GetWidthSpacing(currentRect);
             if (Group is GridLayoutGroup gridLayoutGroup)
                 gridLayoutGroup.spacing = new Vector2(GetWidthSpacing(currentRect), GetHeightSpacing(currentRect));
-
         }
 
         protected virtual float GetWidthSpacing(Rect rect) => Spacing * rect.width;
         protected virtual float GetHeightSpacing(Rect rect) => Spacing * rect.height;
+
+
+        /// <summary>
+        /// Mark the LayoutGroup as dirty.
+        /// </summary>
+        protected void SetDirty()
+        {
+            if (Group == null || !IsActive())
+                return;
+
+            if (!CanvasUpdateRegistry.IsRebuildingLayout())
+                LayoutRebuilder.MarkLayoutForRebuild(RectTransform);
+            else
+                StartCoroutine(DelayedSetDirty());
+        }
+
+        protected IEnumerator DelayedSetDirty()
+        {
+            yield return null;
+            LayoutRebuilder.MarkLayoutForRebuild(RectTransform);
+        }
     }
 }

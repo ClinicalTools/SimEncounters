@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -9,11 +10,14 @@ namespace ClinicalTools.UI
     {
         public float WidthPerHeight { get => widthPerHeight; set => widthPerHeight = value; }
         [SerializeField] private float widthPerHeight = 1;
+        public float InitialHeightProportionToParent { get => initialHeightProportionToParent; set => initialHeightProportionToParent = value; }
+        [SerializeField] private float initialHeightProportionToParent = 0;
 
         // I would assign LayoutElement in Awake, but Awake isn't always guaranteed in Editor mode
         private bool checkedForLayoutElement;
         private LayoutElement layoutElement;
-        protected virtual LayoutElement LayoutElement {
+        protected virtual LayoutElement LayoutElement
+        {
             get {
                 if (!checkedForLayoutElement) {
                     checkedForLayoutElement = true;
@@ -27,6 +31,9 @@ namespace ClinicalTools.UI
         protected override void Awake()
         {
             base.Awake();
+            if (InitialHeightProportionToParent > 0 && transform.parent != null)
+                height = ((RectTransform)transform.parent).rect.height * InitialHeightProportionToParent;
+
             UpdateWidth();
         }
 
@@ -59,10 +66,12 @@ namespace ClinicalTools.UI
             lastFontSizePerHeight = WidthPerHeight;
 
             var width = WidthPerHeight * height;
-            if (LayoutElement != null && !LayoutElement.ignoreLayout)
-                LayoutElement.preferredWidth = width;
-            else
+            if (LayoutElement == null || LayoutElement.ignoreLayout) {
                 ((RectTransform)transform).SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
+                return;
+            }
+
+            LayoutElement.preferredWidth = width;
         }
     }
 }
