@@ -48,5 +48,13 @@ namespace ClinicalTools.SimEncounters
             tabNumber += Sections[CurrentSectionIndex].Value.CurrentTabIndex;
             return tabNumber;
         }
+        public int GetTabCount()
+        {
+            var tabNumber = 0;
+            foreach (var section in Sections)
+                tabNumber += section.Value.Tabs.Count;
+
+            return tabNumber;
+        }
     }
 }

@@ -1,13 +1,11 @@
-﻿#if !STANDALONE_SCENE
-#endif
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
+
     public class ReaderSceneDrawer : BaseReaderSceneDrawer
     {
         public virtual List<Button> MainMenuButtons { get => mainMenuButtons; set => mainMenuButtons = value; }

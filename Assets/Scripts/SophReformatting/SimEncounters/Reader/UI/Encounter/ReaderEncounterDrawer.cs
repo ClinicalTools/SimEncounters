@@ -19,6 +19,8 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private BaseReaderFooter footer;
         public Button FinishButton { get => finishButton; set => finishButton = value; }
         [SerializeField] private Button finishButton;
+        public Image ProgressBar { get => progressBar; set => progressBar = value; }
+        [SerializeField] private Image progressBar;
         public virtual TextMeshProUGUI FinishButtonText { get => finishButtonText; set => finishButtonText = value; }
         [SerializeField] private TextMeshProUGUI finishButtonText;
         public BaseUserEncounterDrawer GeneralEncounterDrawer { get => generalEncounterDrawer; set => generalEncounterDrawer = value; }
@@ -104,12 +106,29 @@ namespace ClinicalTools.SimEncounters
                 return;
             CurrentTab = selectedTab;
 
+
             CurrentSection.Data.SetCurrentTab(selectedTab.Data);
             TabSelector.SelectTab(selectedTab);
             Footer.SelectTab(selectedTab);
             TabDrawer.Display(selectedTab);
 
             selectedTab.SetRead(true);
+
+            UpdateProgressBar();
+        }
+
+        private float tabCount;
+        private void UpdateProgressBar()
+        {
+            if (ProgressBar == null)
+                return;
+
+            var nonImageContent = UserEncounter.Data.Content.NonImageContent;
+            if (tabCount == 0)
+                tabCount = nonImageContent.GetTabCount();
+
+            var tabNumber = nonImageContent.GetCurrentTabNumber();
+            ProgressBar.fillAmount = tabNumber / tabCount;
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
 {
-    public abstract class BaseUserEncounterDrawer : MonoBehaviour
+    public abstract class BaseUserEncounterDrawer : MonoBehaviour, IUserEncounterDrawer
     {
         public abstract void Display(UserEncounter userEncounter);
     }
