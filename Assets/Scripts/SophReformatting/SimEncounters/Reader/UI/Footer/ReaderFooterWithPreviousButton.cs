@@ -23,14 +23,14 @@ namespace ClinicalTools.SimEncounters
         public override event UserSectionSelectedHandler SectionSelected;
         public override event UserTabSelectedHandler TabSelected;
 
-        public override event Action Finished;
+        public override event Action Completed;
 
 
         protected virtual void Awake()
         {
             NextButton.onClick.AddListener(GoToNext);
             PreviousButton.onClick.AddListener(GoToPrevious);
-            FinishButton.onClick.AddListener(() => Finished?.Invoke());
+            FinishButton.onClick.AddListener(() => Completed?.Invoke());
         }
 
         protected UserEncounter UserEncounter { get; set; }
@@ -88,7 +88,7 @@ namespace ClinicalTools.SimEncounters
             else if (NonImageContent.CurrentSectionIndex + 1 < NonImageContent.Sections.Count)
                 GoToNextSection();
             else
-                Finished?.Invoke();
+                Completed?.Invoke();
         }
         protected virtual void GoToPrevious()
         {

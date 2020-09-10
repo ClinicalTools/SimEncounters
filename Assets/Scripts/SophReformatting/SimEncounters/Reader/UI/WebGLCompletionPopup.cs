@@ -17,7 +17,7 @@ namespace ClinicalTools.SimEncounters
             foreach (var closeButton in CloseButtons)
                 closeButton.onClick.AddListener(Hide);
         }
-        public override void Display(Encounter encounter) => gameObject.SetActive(true);
+        public override void CompletionDraw(Encounter encounter) => gameObject.SetActive(true);
         protected virtual void Hide() => gameObject.SetActive(false);
     }
 }

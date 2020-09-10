@@ -5,7 +5,6 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-
     public class ReaderSceneDrawer : BaseReaderSceneDrawer
     {
         public virtual List<Button> MainMenuButtons { get => mainMenuButtons; set => mainMenuButtons = value; }
@@ -59,7 +58,7 @@ namespace ClinicalTools.SimEncounters
 #if STANDALONE_SCENE
                 completable.Finish += () => WebGLCompletionPopup.Display(userEncounter.Data);
 #else
-                completable.Finish += () => CompletionPopup.Display(userEncounter.Data);
+                completable.Completed += () => CompletionPopup.CompletionDraw(userEncounter.Data);
 #endif
             }
             CompletionPopup.ExitScene += ExitScene;

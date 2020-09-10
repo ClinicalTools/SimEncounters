@@ -26,7 +26,7 @@ namespace ClinicalTools.SimEncounters
         public BaseUserEncounterDrawer GeneralEncounterDrawer { get => generalEncounterDrawer; set => generalEncounterDrawer = value; }
         [SerializeField] private BaseUserEncounterDrawer generalEncounterDrawer;
 
-        public event Action Finish;
+        public event Action Completed;
 
         protected virtual void Awake()
         {
@@ -34,14 +34,14 @@ namespace ClinicalTools.SimEncounters
             Footer.SectionSelected += OnSectionSelected;
             TabSelector.TabSelected += OnTabSelected;
             Footer.TabSelected += OnTabSelected;
-            Footer.Finished += Finished;
+            Footer.Completed += Finished;
             FinishButton.onClick.AddListener(Finished);
 #if STANDALONE_SCENE
             FinishButton.gameObject.SetActive(false);
 #endif
         }
 
-        private void Finished() => Finish?.Invoke();
+        private void Finished() => Completed?.Invoke();
 
         protected UserEncounter UserEncounter { get; set; }
         public override void Display(UserEncounter userEncounter)

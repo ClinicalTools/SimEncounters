@@ -4,6 +4,6 @@ namespace ClinicalTools.SimEncounters
 {
     public interface ICompletable
     {
-        event Action Finish;
+        event Action Completed;
     }
 }

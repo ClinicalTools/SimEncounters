@@ -51,7 +51,7 @@ namespace ClinicalTools.ClinicalEncounters
         }
 
         protected CEEncounterMetadata CurrentMetadata { get; set; }
-        public override void Display(Encounter encounter)
+        public override void CompletionDraw(Encounter encounter)
         {
             gameObject.SetActive(true);
             if (!(encounter.Metadata is CEEncounterMetadata ceMetadata))
