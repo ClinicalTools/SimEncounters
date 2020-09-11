@@ -6,6 +6,9 @@ namespace ClinicalTools.SimEncounters
 {
     public class ReaderSectionSelector : BaseUserSectionSelector
     {
+        public virtual bool StartSectionAtFirstTab { get => startSectionAtFirstTab; set => startSectionAtFirstTab = value; }
+        [SerializeField] private bool startSectionAtFirstTab;
+
         public virtual Transform SectionButtonsParent { get => sectionButtonsParent; set => sectionButtonsParent = value; }
         [SerializeField] private Transform sectionButtonsParent;
         public virtual ReaderSectionToggle SectionButtonPrefab { get => sectionButtonPrefab; set => sectionButtonPrefab = value; }
@@ -43,6 +46,8 @@ namespace ClinicalTools.SimEncounters
         protected void OnSelected(UserSection section)
         {
             var selectedArgs = new UserSectionSelectedEventArgs(section);
+            if (StartSectionAtFirstTab)
+                section.Data.CurrentTabIndex = 0;
             CurrentSection = section;
             SectionSelected?.Invoke(this, selectedArgs);
         }

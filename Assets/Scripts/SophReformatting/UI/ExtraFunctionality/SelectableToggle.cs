@@ -12,13 +12,18 @@ namespace ClinicalTools.UI
         public Toggle Toggle { get => toggle; set => toggle = value; }
         [SerializeField] private Toggle toggle;
 
-        protected void Awake()
+        protected void Awake() => Initialize();
+        private bool initialized = false;
+        protected virtual void Initialize()
         {
+            if (initialized)
+                return;
             toggle.onValueChanged.AddListener(ToggleChanged);
         }
 
         public void Select()
         {
+            Initialize();
             // changing to selected color should be instantaneous here, so fade duration needs to be temporarily changed
             var fadeDuration = Toggle.colors.fadeDuration;
             SetToggleFadeDuration(0);

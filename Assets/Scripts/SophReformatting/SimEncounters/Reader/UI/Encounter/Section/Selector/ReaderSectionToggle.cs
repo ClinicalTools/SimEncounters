@@ -23,8 +23,15 @@ namespace ClinicalTools.SimEncounters
         public Action Selected;
         public Action Unselected;
 
-        protected virtual void Awake()
+        protected virtual void Awake() => Initialize();
+
+        private bool initialized = false;
+        protected virtual void Initialize()
         {
+            if (initialized)
+                return;
+
+            initialized = true;
             SelectToggle.Selected += () => Selected?.Invoke();
             Selected += () => SetColor(true);
             SelectToggle.Unselected += () => Unselected?.Invoke();
@@ -34,6 +41,8 @@ namespace ClinicalTools.SimEncounters
         protected UserSection UserSection { get; set; }
         public void Display(UserSection userSection)
         {
+            Initialize();
+
             if (UserSection != null)
                 userSection.StatusChanged -= StatusChanged;
 

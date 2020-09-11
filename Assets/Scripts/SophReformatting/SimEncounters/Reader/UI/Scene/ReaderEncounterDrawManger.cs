@@ -75,8 +75,10 @@ namespace ClinicalTools.SimEncounters
         {
             if (CurrentTab == selectedTab)
                 return;
+
             CurrentTab = selectedTab;
             CurrentSection.Data.SetCurrentTab(selectedTab.Data);
+            CurrentTab.SetRead(true);
 
             foreach (var tabSelector in TabSelectors)
                 tabSelector.SelectTab(CurrentTab);
