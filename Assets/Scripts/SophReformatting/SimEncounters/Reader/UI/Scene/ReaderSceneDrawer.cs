@@ -58,7 +58,7 @@ namespace ClinicalTools.SimEncounters
 #if STANDALONE_SCENE
                 completable.Finish += () => WebGLCompletionPopup.Display(userEncounter.Data);
 #else
-                completable.Completed += () => CompletionPopup.CompletionDraw(userEncounter.Data);
+                completable.Completed += () => CompletionPopup.CompletionDraw(LoadingSceneInfo.Result.Result.Value);
 #endif
             }
             CompletionPopup.ExitScene += ExitScene;

@@ -3,10 +3,11 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderMobileFooter : BaseReaderFooter
+    public class ReaderMobileFooter : BaseReaderFooter, IReaderSceneDrawer
     {
         public virtual TextMeshProUGUI PageInfoLabel { get => pageInfoLabel; set => pageInfoLabel = value; }
         [SerializeField] private TextMeshProUGUI pageInfoLabel;
@@ -25,7 +26,14 @@ namespace ClinicalTools.SimEncounters
 
         public override event Action Completed;
 
-
+        protected IUserMenuSceneStarter MenuSceneStarter { get; set; }
+        protected AndroidBackButton BackButton { get; set; }
+        [Inject]
+        public virtual void Inject(IUserMenuSceneStarter menuSceneStarter, AndroidBackButton backButton)
+        {
+            MenuSceneStarter = menuSceneStarter;
+            BackButton = backButton;
+        }
         protected virtual void Awake()
         {
             NextButton.onClick.AddListener(GoToNext);
@@ -33,6 +41,16 @@ namespace ClinicalTools.SimEncounters
                 PreviousButton.onClick.AddListener(GoToPrevious);
             PrimaryFinishButton.onClick.AddListener(() => Completed?.Invoke());
             SecondaryFinishButton.onClick.AddListener(() => Completed?.Invoke());
+
+            BackButton.Register(BackButtonPressed);
+        }
+
+        protected User User { get; set; }
+        protected ILoadingScreen LoadingScreen { get; set; }
+        public void Display(LoadingReaderSceneInfo sceneInfo)
+        {
+            User = sceneInfo.User;
+            LoadingScreen = sceneInfo.LoadingScreen;
         }
 
         protected UserEncounter UserEncounter { get; set; }
@@ -99,12 +117,18 @@ namespace ClinicalTools.SimEncounters
             else
                 Completed?.Invoke();
         }
+        protected virtual void BackButtonPressed() {
+            BackButton.Register(BackButtonPressed);
+            GoToPrevious();
+        }
         protected virtual void GoToPrevious()
         {
             if (CurrentSection.Data.CurrentTabIndex > 0)
-                GoToNextTab();
+                GoToPreviousTab();
             else if (NonImageContent.CurrentSectionIndex > 0)
-                GoToNextSection();
+                GoToPreviousSection();
+            else
+                MenuSceneStarter.ConfirmStartingMenuScene(User, LoadingScreen);
         }
 
         protected virtual void GoToNextSection()

@@ -1,11 +1,14 @@
-﻿
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderInfoPopupUI : PopupUI
+    public class ReaderEncounterInfoPopupUI : BaseReaderEncounterInfoPopup
     {
+        public List<Button> CloseButtons { get => closeButtons; set => closeButtons = value; }
+        [SerializeField] private List<Button> closeButtons = new List<Button>();
         public virtual TextMeshProUGUI Title { get => title; set => title = value; }
         [SerializeField] private TextMeshProUGUI title;
         public virtual TextMeshProUGUI Subtitle { get => subtitle; set => subtitle = value; }
@@ -19,8 +22,17 @@ namespace ClinicalTools.SimEncounters
         public virtual DifficultyUI Difficulty { get => difficulty; set => difficulty = value; }
         [SerializeField] private DifficultyUI difficulty;
 
-        public void Display(EncounterMetadata metadata)
+        protected virtual void Awake()
         {
+            foreach (var closeButton in CloseButtons)
+                closeButton.onClick.AddListener(Hide);
+        }
+
+        public override void ShowEncounterInfo(UserEncounter userEncounter)
+        {
+            gameObject.SetActive(true);
+            var metadata = userEncounter.Data.Metadata;
+
             Title.text = metadata.Title;
             Subtitle.text = metadata.Subtitle;
             Description.text = metadata.Description;
@@ -28,5 +40,6 @@ namespace ClinicalTools.SimEncounters
             Audience.text = metadata.Audience;
             Difficulty.Display(metadata.Difficulty);
         }
+        protected virtual void Hide() => gameObject.SetActive(false);
     }
 }

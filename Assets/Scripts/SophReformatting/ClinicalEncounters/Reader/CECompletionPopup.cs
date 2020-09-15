@@ -51,8 +51,10 @@ namespace ClinicalTools.ClinicalEncounters
         }
 
         protected CEEncounterMetadata CurrentMetadata { get; set; }
-        public override void CompletionDraw(Encounter encounter)
+        public override void CompletionDraw(ReaderSceneInfo sceneInfo)
         {
+            var encounter = sceneInfo.Encounter.Data;
+
             gameObject.SetActive(true);
             if (!(encounter.Metadata is CEEncounterMetadata ceMetadata))
                 return;
@@ -88,6 +90,4 @@ namespace ClinicalTools.ClinicalEncounters
 #endif
         }
     }
-
-
 }

@@ -4,9 +4,10 @@ using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderCompletableEncounterHandler : ReaderFullEncounterHandler, ICompletable
+    public class ReaderCompletableEncounterHandler : ReaderFullEncounterHandler, ICompletable, IReaderSceneDrawer
     {
         protected List<ICompletable> Completables { get; } = new List<ICompletable>();
+        protected List<IReaderSceneDrawer> SceneDrawers { get; } = new List<IReaderSceneDrawer>();
 
         public event Action Completed;
 
@@ -16,6 +17,8 @@ namespace ClinicalTools.SimEncounters
 
             if (readerObject is ICompletable completable)
                 Completables.Add(completable);
+            if (readerObject is IReaderSceneDrawer sceneDrawer)
+                SceneDrawers.Add(sceneDrawer);
         }
 
         protected override void AddListeners()
@@ -27,5 +30,11 @@ namespace ClinicalTools.SimEncounters
         }
 
         protected virtual void OnCompleted() => Completed?.Invoke();
+
+        public void Display(LoadingReaderSceneInfo sceneInfo)
+        {
+            foreach (var sceneDrawer in SceneDrawers)
+                sceneDrawer.Display(sceneInfo);
+        }
     }
 }

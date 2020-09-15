@@ -5,6 +5,12 @@ namespace ClinicalTools.SimEncounters
 {
     public class ReaderPopupInstaller : MonoInstaller
     {
+        public BaseInstructionsPopup InstructionsPopup { get => instructionsPopup; set => instructionsPopup = value; }
+        [SerializeField] private BaseInstructionsPopup instructionsPopup;
+        public BaseSettingsPopup SettingsPopup { get => settingsPopup; set => settingsPopup = value; }
+        [SerializeField] private BaseSettingsPopup settingsPopup;
+        public BaseReaderEncounterInfoPopup EncounterInfoPopup { get => encounterInfoPopup; set => encounterInfoPopup = value; }
+        [SerializeField] private BaseReaderEncounterInfoPopup encounterInfoPopup;
         public UserDialoguePinDrawer DialoguePopup { get => dialoguePopup; set => dialoguePopup = value; }
         [SerializeField] private UserDialoguePinDrawer dialoguePopup;
         public UserQuizPinDrawer QuizPopup { get => quizPopup; set => quizPopup = value; }
@@ -20,12 +26,18 @@ namespace ClinicalTools.SimEncounters
 
         public override void InstallBindings()
         {
+            Container.BindInstance(InstructionsPopup);
+            Container.BindInstance(SettingsPopup);
+            Container.BindInstance(EncounterInfoPopup);
             Container.BindInstance(DialoguePopup);
             Container.BindInstance(QuizPopup);
             Container.BindInstance(PinButtonsPrefab);
             Container.BindInstance(ImagePopup);
             Container.BindInstance(ConfirmationPopup);
             Container.BindInstance(BackButton);
+
+
+            Container.Bind<IUserMenuSceneStarter>().To<UserMenuSceneStarter>().AsTransient();
 
             Container.Bind<IStatusWriter>().To<LocalStatusWriter>().AsTransient();
 

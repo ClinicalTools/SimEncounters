@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
 {
-    public abstract class BaseCompletionPopup : MonoBehaviour, ICompletionDrawer
+    public abstract class BaseCompletionPopup : ReaderBehaviour, ICompletionDrawer
     {
         public abstract event Action ExitScene;
-        public abstract void CompletionDraw(Encounter encounter);
+        public abstract void CompletionDraw(ReaderSceneInfo readerSceneInfo);
     }
 }

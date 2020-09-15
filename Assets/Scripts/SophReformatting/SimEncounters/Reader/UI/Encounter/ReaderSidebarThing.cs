@@ -1,17 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using ClinicalTools.UI;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
     public class ReaderSidebarThing : MonoBehaviour
     {
-        public Animator SidebarAnimator { get => sidebarAnimator; set => sidebarAnimator = value; }
-        [SerializeField] private Animator sidebarAnimator;
         public List<Button> OpenSidebarButtons { get => openSidebarButtons; set => openSidebarButtons = value; }
         [SerializeField] private List<Button> openSidebarButtons;
         public List<Button> CloseSidebarButtons { get => closeSidebarButtons; set => closeSidebarButtons = value; }
         [SerializeField] private List<Button> closeSidebarButtons;
+        public GameObject Sidebar { get => sidebar; set => sidebar = value; }
+        [SerializeField] private GameObject sidebar;
+        public CanvasGroup SidebarMainPanel { get => sidebarMainPanel; set => sidebarMainPanel = value; }
+        [SerializeField] private CanvasGroup sidebarMainPanel;
+        public CanvasGroup SidebarDimBackground { get => sidebarDimBackground; set => sidebarDimBackground = value; }
+        [SerializeField] private CanvasGroup sidebarDimBackground;
+
+        protected AndroidBackButton BackButton { get; set; }
+        [Inject] public virtual void Inject(AndroidBackButton backButton) => BackButton = backButton;
 
         protected void Awake()
         {
@@ -19,12 +29,144 @@ namespace ClinicalTools.SimEncounters
                 openButton.onClick.AddListener(OpenSidebar);
             foreach (var closeButton in CloseSidebarButtons)
                 closeButton.onClick.AddListener(CloseSidebar);
+            InitializeSidebarParamaters();
         }
 
-        protected virtual void OpenSidebar() => SetSidebarShowing(true);
-        protected virtual void CloseSidebar() => SetSidebarShowing(false);
+        protected virtual void OpenSidebar() => StartCoroutine(OpenSidebarEnumerator());
+        protected virtual void CloseSidebar() => StartCoroutine(CloseSidebarEnumerator());
 
-        protected virtual void SetSidebarShowing(bool showing) 
-            => SidebarAnimator.SetBool("Showing", showing);
+        SwipeManager swipeManager;
+        SwipeParameter OpenSidebarSwipeParamater, CloseSidebarSwipeParamater;
+        protected virtual void InitializeSidebarParamaters()
+        {
+            OpenSidebarSwipeParamater = new SwipeParameter {
+                AngleRange = new AngleRange(-30, 30),
+                StartPositionRange = new Rect(0, 0, Screen.width / 3, 10000)
+            };
+            OpenSidebarSwipeParamater.OnSwipeStart += OpenSwipeStart;
+            OpenSidebarSwipeParamater.OnSwipeUpdate += OpenSwipeUpdate;
+            OpenSidebarSwipeParamater.OnSwipeEnd += OpenSwipeEnd;
+
+            CloseSidebarSwipeParamater = new SwipeParameter {
+                AngleRange = new AngleRange(150, 210),
+                StartPositionRange = new Rect(0, 0, 10000, 10000)
+            };
+            CloseSidebarSwipeParamater.OnSwipeStart += CloseSwipeStart;
+            CloseSidebarSwipeParamater.OnSwipeUpdate += CloseSwipeUpdate;
+            CloseSidebarSwipeParamater.OnSwipeEnd += CloseSwipeEnd;
+
+            swipeManager = GetComponentInParent<SwipeManager>();
+            swipeManager.AddSwipeAction(OpenSidebarSwipeParamater);
+        }
+
+        protected virtual void OpenSwipeStart(Swipe swipe)
+        {
+            BeginShowingSidebar();
+            OpenSwipeUpdate(swipe);
+        }
+        protected virtual void OpenSwipeUpdate(Swipe swipe)
+            => SetSidebar(GetDistance(swipe) / .8f);
+        protected virtual void OpenSwipeEnd(Swipe swipe)
+        {
+            if (GetDistance(swipe) > .4f)
+                StartCoroutine(OpenSidebarEnumerator());
+            else
+                StartCoroutine(CloseSidebarEnumerator());
+        }
+
+
+        protected virtual void CloseSwipeStart(Swipe swipe)
+        {
+            BeginHidingSidebar();
+            CloseSwipeUpdate(swipe);
+        }
+        protected virtual void CloseSwipeUpdate(Swipe swipe)
+            => SetSidebar(1 + (GetDistance(swipe) / .8f));
+        protected virtual void CloseSwipeEnd(Swipe swipe)
+        {
+            if (GetDistance(swipe) < -.4f)
+                StartCoroutine(CloseSidebarEnumerator());
+            else
+                StartCoroutine(OpenSidebarEnumerator());
+        }
+
+
+        protected virtual float GetDistance(Swipe swipe)
+            => (swipe.LastPosition.x - swipe.StartPosition.x) / Screen.width;
+
+
+        protected virtual void SetSidebar(float proportionOfAnimation)
+        {
+            proportionOfAnimation = Mathf.Clamp01(proportionOfAnimation);
+
+            var x = proportionOfAnimation * .8f;
+            var alpha = proportionOfAnimation;
+            sidebarDimBackground.alpha = alpha;
+
+            var rectTransform = (RectTransform)SidebarMainPanel.transform;
+            var anchorMin = rectTransform.anchorMin;
+            anchorMin.x = x - .8f;
+            rectTransform.anchorMin = anchorMin;
+            var anchorMax = rectTransform.anchorMax;
+            anchorMax.x = x;
+            rectTransform.anchorMax = anchorMax;
+        }
+
+        protected void BeginShowingSidebar()
+            => Sidebar.SetActive(true);
+        protected void CompleteShowingSidebar()
+        {
+            SidebarMainPanel.interactable = true;
+            swipeManager.AddSwipeAction(CloseSidebarSwipeParamater);
+            swipeManager.RemoveSwipeAction(OpenSidebarSwipeParamater);
+
+            BackButton.Register(StartCloseEnumerator);
+        }
+
+
+        protected void BeginHidingSidebar()
+        {
+            SidebarMainPanel.interactable = false;
+            BackButton.Deregister(StartCloseEnumerator);
+        }
+        protected void CompleteHidingSidebar()
+        {
+            Sidebar.SetActive(false);
+            swipeManager.AddSwipeAction(OpenSidebarSwipeParamater);
+            swipeManager.RemoveSwipeAction(CloseSidebarSwipeParamater);
+        }
+
+
+        private const float OpenTime = .3f;
+        public IEnumerator OpenSidebarEnumerator()
+        {
+            BeginShowingSidebar();
+
+            var proportionOfAnimation = sidebarDimBackground.alpha;
+            while (proportionOfAnimation < 1) {
+                proportionOfAnimation += Time.deltaTime / OpenTime;
+                SetSidebar(proportionOfAnimation);
+                yield return null;
+            }
+            SetSidebar(1);
+            CompleteShowingSidebar();
+        }
+
+
+        private const float HideTime = .3f;
+        protected void StartCloseEnumerator() => StartCoroutine(CloseSidebarEnumerator());
+        public IEnumerator CloseSidebarEnumerator()
+        {
+            BeginHidingSidebar();
+
+            var proportionOfAnimation = sidebarDimBackground.alpha;
+            while (proportionOfAnimation > 0) {
+                proportionOfAnimation -= Time.deltaTime / HideTime;
+                SetSidebar(proportionOfAnimation);
+                yield return null;
+            }
+            SetSidebar(0);
+            CompleteHidingSidebar();
+        }
     }
 }

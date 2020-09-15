@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderMobileSidebar : MonoBehaviour, IUserEncounterDrawer, IUserSectionSelector
+    public class ReaderMobileSidebar : MonoBehaviour, IUserEncounterDrawer, IUserSectionSelector, IReaderSceneDrawer
     {
         public virtual event UserSectionSelectedHandler SectionSelected;
 
@@ -12,6 +12,7 @@ namespace ClinicalTools.SimEncounters
 
         protected List<IUserEncounterDrawer> EncounterDrawers { get; } = new List<IUserEncounterDrawer>();
         protected List<IUserSectionSelector> SectionSelectors { get; } = new List<IUserSectionSelector>();
+        protected List<IReaderSceneDrawer> SceneDrawers { get; } = new List<IReaderSceneDrawer>();
 
         protected virtual void Awake() => Initialize();
 
@@ -33,9 +34,10 @@ namespace ClinicalTools.SimEncounters
         {
             if (sidebarObject is IUserEncounterDrawer encounterDrawer)
                 EncounterDrawers.Add(encounterDrawer);
-
             if (sidebarObject is IUserSectionSelector sectionSelector)
                 SectionSelectors.Add(sectionSelector);
+            if (sidebarObject is IReaderSceneDrawer sceneDrawer)
+                SceneDrawers.Add(sceneDrawer);
         }
 
         protected virtual void AddListeners()
@@ -44,9 +46,15 @@ namespace ClinicalTools.SimEncounters
                 sectionSelector.SectionSelected += OnSectionSelected;
         }
 
-        public virtual void Display(UserEncounter userEncounter)
+        public void Display(LoadingReaderSceneInfo sceneInfo)
         {
             Initialize();
+            foreach (var sceneDrawer in SceneDrawers)
+                sceneDrawer.Display(sceneInfo);
+        }
+
+        public virtual void Display(UserEncounter userEncounter)
+        {
             foreach (var encounterDrawer in EncounterDrawers)
                 encounterDrawer.Display(userEncounter);
         }

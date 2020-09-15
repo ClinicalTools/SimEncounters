@@ -12,8 +12,6 @@ namespace ClinicalTools.SimEncounters
         protected List<ICompletable> Completables { get; } = new List<ICompletable>();
         protected List<ICompletionDrawer> CompleteDrawers { get; } = new List<ICompletionDrawer>();
 
-        protected List<IMainMenuStarter> MainMenuStarters { get; } = new List<IMainMenuStarter>();
-
         protected ReaderEncounterDrawManger EncounterDrawManger { get; } = new ReaderEncounterDrawManger();
 
 
@@ -21,6 +19,8 @@ namespace ClinicalTools.SimEncounters
         {
             foreach (var readerObject in ReaderObjects)
                 AddReaderObject(readerObject);
+
+            AddListeners();
         }
 
         protected virtual void AddReaderObject(MonoBehaviour readerObject)
@@ -32,16 +32,10 @@ namespace ClinicalTools.SimEncounters
                 Completables.Add(completable);
             if (readerObject is ICompletionDrawer completeDrawer)
                 CompleteDrawers.Add(completeDrawer);
-
-            if (readerObject is IMainMenuStarter mainMenuStarter)
-                MainMenuStarters.Add(mainMenuStarter);
         }
 
         protected virtual void AddListeners()
         {
-            foreach (var mainMenuStarter in MainMenuStarters)
-                mainMenuStarter.StartMainMenu += StartMainMenu;
-
             foreach (var completable in Completables)
                 completable.Completed += CompletedEncounter;
         }
@@ -69,15 +63,12 @@ namespace ClinicalTools.SimEncounters
             EncounterDrawManger.DrawEncounter(ReaderObjects, sceneInfo.Value.Encounter);
         }
 
-        protected virtual void StartMainMenu()
-        {
-
-        }
+        protected virtual void StartMainMenu() { }
 
         protected virtual void CompletedEncounter()
         {
             foreach (var completeDrawer in CompleteDrawers)
-                completeDrawer.CompletionDraw(SceneInfo?.Encounter.Data);
+                completeDrawer.CompletionDraw(SceneInfo);
         }
     }
 }

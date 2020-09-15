@@ -196,6 +196,7 @@ GameObject:
   - component: {fileID: 8936889770540770566}
   - component: {fileID: 8936889770540770564}
   - component: {fileID: 8936889770540770565}
+  - component: {fileID: 4807640801154059387}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -316,6 +317,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4807640801154059387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8936889770540770552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ebda9bd627808c48b8eade07562322a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 8936889770540770565}
 --- !u!1 &8936889770578541186
 GameObject:
   m_ObjectHideFlags: 0
@@ -612,6 +626,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8936889770874678178}
   - component: {fileID: 8936889770874678177}
+  - component: {fileID: 7538837480584713046}
   - component: {fileID: 8936889770874678176}
   - component: {fileID: 8936889770874678179}
   - component: {fileID: 8936889770874678190}
@@ -650,6 +665,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8936889770874678181}
   m_CullTransparentMesh: 0
+--- !u!114 &7538837480584713046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8936889770874678181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8533697f67971114989699496a44d120, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 8936889770874678179}
+  showConfirmation: 1
 --- !u!114 &8936889770874678176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -863,6 +892,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb67701df43ac924e823007af0a05b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  openMenuButton: {fileID: 7538837480584713046}
+  infoButton: {fileID: 4807640801154059387}
   titleLabel: {fileID: 9051695592568261984}
 --- !u!222 &8936889771709712172
 CanvasRenderer:
