@@ -6,15 +6,14 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderDialogueChoice : BaseReaderDialogueChoice
+    public class ReaderMobileDialogueChoice : BaseReaderDialogueChoice
     {
-        public virtual GameObject Instructions { get => instructions; set => instructions = value; }
-        [SerializeField] private GameObject instructions;
-        public Button ShowOptionsButton { get => showOptionsButton; set => showOptionsButton = value; }
-        [SerializeField] private Button showOptionsButton;
         public BaseDialogueOptionsDrawer ChildPanelCreator { get => childPanelCreator; set => childPanelCreator = value; }
         [SerializeField] private BaseDialogueOptionsDrawer childPanelCreator;
-
+        public virtual GameObject CompletedObject { get => completedObject; set => completedObject = value; }
+        [SerializeField] private GameObject completedObject;
+        public virtual GameObject IncompletedObject { get => incompletedObject; set => incompletedObject = value; }
+        [SerializeField] private GameObject incompletedObject;
 
         public override event Action Completed;
 
@@ -23,10 +22,6 @@ namespace ClinicalTools.SimEncounters
 
         protected List<BaseReaderDialogueOption> Options { get; set; }
 
-        protected virtual void Awake()
-        {
-            ShowOptionsButton.onClick.AddListener(ShowOptions);
-        }
 
         public override void Display(UserPanel panel)
         {
@@ -39,23 +34,10 @@ namespace ClinicalTools.SimEncounters
 
         private void Option_CorrectlySelected(BaseReaderDialogueOption selectedOption)
         {
-            foreach (var option in Options) {
-                if (option != selectedOption)
-                    option.gameObject.SetActive(false);
-            }
-            Instructions.gameObject.SetActive(false);
-            ShowOptionsButton.gameObject.SetActive(true);
+            CompletedObject.gameObject.SetActive(true);
+            IncompletedObject.gameObject.SetActive(false);
+            selectedOption.transform.SetParent(CompletedObject.transform);
             Completed?.Invoke();
-        }
-
-        protected virtual void ShowOptions()
-        {
-            foreach (var option in Options) {
-                option.gameObject.SetActive(true);
-                option.CloseFeedback();
-            }
-            Instructions.gameObject.SetActive(true);
-            ShowOptionsButton.gameObject.SetActive(false);
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -49,10 +48,10 @@ namespace ClinicalTools.UI
             UpdateWidth();
         }
 
-        private float lastFontSizePerHeight;
+        private float lastWidthPerHeight;
         protected virtual void Update()
         {
-            if (lastFontSizePerHeight != WidthPerHeight)
+            if (lastWidthPerHeight != WidthPerHeight)
                 UpdateWidth();
         }
 
@@ -63,7 +62,7 @@ namespace ClinicalTools.UI
             if (height < Tolerance)
                 height = ((RectTransform)transform).rect.height;
 
-            lastFontSizePerHeight = WidthPerHeight;
+            lastWidthPerHeight = WidthPerHeight;
 
             var width = WidthPerHeight * height;
             if (LayoutElement == null || LayoutElement.ignoreLayout) {

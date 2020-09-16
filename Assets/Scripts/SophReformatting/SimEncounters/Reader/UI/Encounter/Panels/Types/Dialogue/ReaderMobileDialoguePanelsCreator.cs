@@ -1,11 +1,15 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderDialoguePanelsCreator : BaseReaderPanelsCreator
+    public class ReaderMobileDialoguePanelsCreator : BaseReaderPanelsCreator
     {
+        public Image Background { get => background; set => background = value; }
+        [SerializeField] private Image background;
+        public Color ChoiceBackgroundColor { get => choiceBackgroundColor; set => choiceBackgroundColor = value; }
+        [SerializeField] private Color choiceBackgroundColor;
         public BaseReaderPanel DialogueEntryLeft { get => dialogueEntryLeft; set => dialogueEntryLeft = value; }
         [SerializeField] private BaseReaderPanel dialogueEntryLeft;
         public BaseReaderPanel DialogueEntryRight { get => dialogueEntryRight; set => dialogueEntryRight = value; }
@@ -24,6 +28,8 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void DeserializeChildren(List<BaseReaderPanel> readerPanels, List<UserPanel> panels, int startIndex)
         {
+            Background.color = Color.white;
+
             if (startIndex < readerPanels.Count)
                 return;
 
@@ -42,11 +48,10 @@ namespace ClinicalTools.SimEncounters
         private const string ProviderName = "Provider";
         protected virtual BaseReaderPanel CreateEntry(UserPanel panel)
         {
-            BaseReaderPanel entryPrefab;
-            if (panel.Data.Values.ContainsKey(CharacterNameKey) && panel.Data.Values[CharacterNameKey] == ProviderName)
-                entryPrefab = DialogueEntryRight;
-            else
-                entryPrefab = DialogueEntryLeft;
+            var values = panel.Data.Values;
+            BaseReaderPanel entryPrefab = 
+                (values.ContainsKey(CharacterNameKey) && values[CharacterNameKey] == ProviderName) ?
+                DialogueEntryRight : DialogueEntryLeft;
 
             var panelDisplay = Instantiate(entryPrefab, transform);
             panelDisplay.Display(panel);
@@ -55,6 +60,8 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual BaseReaderDialogueChoice CreateChoice(List<BaseReaderPanel> readerPanels, List<UserPanel> panels, int panelIndex)
         {
+            Background.color = ChoiceBackgroundColor;
+
             var panelDisplay = Instantiate(DialogueChoice, transform);
             panelDisplay.Display(panels[panelIndex]);
 

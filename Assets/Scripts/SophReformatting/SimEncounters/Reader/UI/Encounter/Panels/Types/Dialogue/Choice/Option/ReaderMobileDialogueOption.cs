@@ -5,8 +5,12 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderDialogueOption : BaseReaderDialogueOption
+    public class ReaderMobileDialogueOption : BaseReaderDialogueOption
     {
+        public virtual GameObject CorrectlySelectedObject { get => correctlySelectedObject; set => correctlySelectedObject = value; }
+        [SerializeField] private GameObject correctlySelectedObject;
+        public virtual GameObject NormalObject { get => normalObject; set => normalObject = value; }
+        [SerializeField] private GameObject normalObject;
         public virtual Toggle Toggle { get => toggle; set => toggle = value; }
         [SerializeField] private Toggle toggle;
         public virtual Color OnColor { get => onColor; set => onColor = value; }
@@ -24,26 +28,32 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void Awake()
         {
-            OffColor = OnColor; 
+            OffColor = OnColor;
             Toggle.onValueChanged.AddListener(GetFeedback);
         }
 
         public override void Display(UserPanel panel)
-        {
-            BasicPanelDrawer.Display(panel, transform, transform);
-        }
+            => BasicPanelDrawer.Display(panel, transform, transform);
 
         protected virtual void GetFeedback(bool isOn)
         {
-            if (isOn) {
-                Border.color = OnColor;
-                Feedback.ShowFeedback(isOn);
-                if (Feedback.OptionType == OptionType.Correct)
-                    CorrectlySelected?.Invoke(this);
-            } else {
+            if (!isOn) {
+                Toggle.interactable = true;
                 Border.color = OffColor;
                 Feedback.CloseFeedback();
+                return;
+            } 
+
+            if (Feedback.OptionType != OptionType.Correct) {
+                Toggle.interactable = false;
+                Border.color = OnColor;
+                Feedback.ShowFeedback(isOn);
+                return;
             }
+
+            CorrectlySelectedObject.SetActive(true);
+            NormalObject.SetActive(false);
+            CorrectlySelected?.Invoke(this);
         }
 
         public override void SetGroup(ToggleGroup group) => Toggle.group = group;

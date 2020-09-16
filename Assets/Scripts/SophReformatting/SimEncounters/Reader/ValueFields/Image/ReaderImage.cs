@@ -78,6 +78,14 @@ namespace ClinicalTools.SimEncounters
             var spriteRatio = spriteHeight / spriteWidth;
 
             Image.sprite = sprite;
+            if (EnlargeImageButton != null) {
+                EnlargeImageButton.onClick.RemoveAllListeners();
+                EnlargeImageButton.onClick.AddListener(() => SpritePopup.Display(sprite));
+            }
+
+            if (LayoutElement == null)
+                return;
+
             if (spriteRatio > MaxRatio && MaxHeight > 0) {
                 LayoutElement.preferredHeight = GetSideLength(spriteHeight, MaxHeight);
                 LayoutElement.preferredWidth = LayoutElement.preferredHeight * spriteRatio;
@@ -88,11 +96,6 @@ namespace ClinicalTools.SimEncounters
 
             LayoutElement.minWidth = LayoutElement.preferredWidth;
             LayoutElement.minHeight = LayoutElement.preferredHeight;
-
-            if (EnlargeImageButton != null) {
-                EnlargeImageButton.onClick.RemoveAllListeners();
-                EnlargeImageButton.onClick.AddListener(() => SpritePopup.Display(sprite));
-            }
         }
 
         protected float GetSideLength(float preferredLength, float maxLength)

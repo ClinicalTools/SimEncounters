@@ -74,7 +74,8 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void StartEncounter()
         {
-            SceneInfo.LoadingScreen.Stop();
+            if (SceneInfo.LoadingScreen != null)
+                SceneInfo.LoadingScreen.Stop();
             EncounterDrawManger.DrawEncounter(ReaderObjects, SceneInfo.Encounter);
         }
 
