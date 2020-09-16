@@ -85,6 +85,9 @@ namespace ClinicalTools.ClinicalEncounters
         protected virtual void Serialize()
         {
             var metadata = CurrentEncounter.Metadata;
+            var sprites = CurrentEncounter.Content.ImageContent.Sprites;
+            metadata.Sprite = (sprites.ContainsKey("patientImage")) ? sprites["patientImage"] : null;
+
             metadata.Subtitle = Summary.text;
             metadata.Description = Description.text;
             metadata.Categories.Clear();

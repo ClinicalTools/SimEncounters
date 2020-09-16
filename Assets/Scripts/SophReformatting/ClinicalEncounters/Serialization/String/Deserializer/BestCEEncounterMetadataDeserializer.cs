@@ -1,5 +1,7 @@
 ﻿using ClinicalTools.SimEncounters;
+using ClinicalTools.SimEncounters.SerializationFactories;
 using System;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace ClinicalTools.ClinicalEncounters
@@ -7,6 +9,7 @@ namespace ClinicalTools.ClinicalEncounters
     public class BestCEEncounterMetadataDeserializer : IStringDeserializer<EncounterMetadata>
     {
         private readonly IStringDeserializer<EncounterMetadata> legacyParser;
+        private readonly ISpriteDeserializer spriteDeserializer = new SpriteDeserializer();
         public BestCEEncounterMetadataDeserializer()
             => legacyParser = new CEEncounterMetadataDeserializer(new LegacyCEEncounterMetadataParser());
 
@@ -32,13 +35,15 @@ namespace ClinicalTools.ClinicalEncounters
         private const int RatingIndex = 13;
         private const int UrlIndex = 14;
         private const int CompletionCodeIndex = 15;
-
+        private const int ImageWidthIndex = 16;
+        private const int ImageHeightIndex = 17;
+        private const int ImageDataIndex = 18;
 
         public EncounterMetadata Deserialize(string text)
         {
             try {
                 var parsedItem = text.Split(CaseInfoDivider);
-                if (parsedItem == null || parsedItem.Length != EncounterParts)
+                if (parsedItem == null || parsedItem.Length < EncounterParts)
                     return legacyParser.Deserialize(text);
 
                 var metadata = new CEEncounterMetadata() {
@@ -67,6 +72,10 @@ namespace ClinicalTools.ClinicalEncounters
                     metadata.Categories.Add(UnityWebRequest.UnEscapeURL(category).Trim());
 
                 metadata.Filename = metadata.GetDesiredFilename();
+
+                if (parsedItem.Length + 1 >= ImageDataIndex)
+                    metadata.Sprite = GetSprite(parsedItem[ImageWidthIndex], parsedItem[ImageHeightIndex], 
+                        UnityWebRequest.UnEscapeURL(parsedItem[ImageDataIndex]));
 
                 return metadata;
             } catch (Exception) {
@@ -106,5 +115,9 @@ namespace ClinicalTools.ClinicalEncounters
         }
 
         protected bool GetBoolValue(string value) => value == "1";
+
+        protected Sprite GetSprite(string widthText, string heightText, string spriteText)
+            => (int.TryParse(widthText, out var width) && int.TryParse(heightText, out var height))
+                ? spriteDeserializer.Deserialize(width, height, spriteText) : null;
     }
 }

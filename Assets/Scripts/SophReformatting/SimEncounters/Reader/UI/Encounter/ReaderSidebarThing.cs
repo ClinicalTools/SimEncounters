@@ -117,6 +117,7 @@ namespace ClinicalTools.SimEncounters
         protected void CompleteShowingSidebar()
         {
             SidebarMainPanel.interactable = true;
+            SidebarDimBackground.interactable = true;
             swipeManager.AddSwipeAction(CloseSidebarSwipeParamater);
             swipeManager.RemoveSwipeAction(OpenSidebarSwipeParamater);
 
@@ -127,6 +128,7 @@ namespace ClinicalTools.SimEncounters
         protected void BeginHidingSidebar()
         {
             SidebarMainPanel.interactable = false;
+            SidebarDimBackground.interactable = false;
             BackButton.Deregister(StartCloseEnumerator);
         }
         protected void CompleteHidingSidebar()

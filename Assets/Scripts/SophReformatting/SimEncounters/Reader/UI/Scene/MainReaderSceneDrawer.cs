@@ -59,11 +59,24 @@ namespace ClinicalTools.SimEncounters
                 return;
 
             SceneInfo = sceneInfo.Value;
-
-            EncounterDrawManger.DrawEncounter(ReaderObjects, sceneInfo.Value.Encounter);
+            if (started)
+                StartEncounter();
         }
 
-        protected virtual void StartMainMenu() { }
+        private bool started;
+        protected virtual void Start()
+        {
+            started = true;
+            if (SceneInfo != null)
+                StartEncounter();
+        }
+
+
+        protected virtual void StartEncounter()
+        {
+            SceneInfo.LoadingScreen.Stop();
+            EncounterDrawManger.DrawEncounter(ReaderObjects, SceneInfo.Encounter);
+        }
 
         protected virtual void CompletedEncounter()
         {

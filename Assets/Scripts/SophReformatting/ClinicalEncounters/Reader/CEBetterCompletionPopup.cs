@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.SimEncounters;
+using ClinicalTools.UI;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -21,6 +22,8 @@ namespace ClinicalTools.ClinicalEncounters
         [SerializeField] private TMP_InputField completionCodeLabel;
         public Button CopyCodeButton { get => copyCodeButton; set => copyCodeButton = value; }
         [SerializeField] private Button copyCodeButton;
+        public Tooltip CopiedTooltip { get => copiedTooltip; set => copiedTooltip = value; }
+        [SerializeField] private Tooltip copiedTooltip;
 
         public override event Action ExitScene { add { } remove { } }
 
@@ -64,6 +67,8 @@ namespace ClinicalTools.ClinicalEncounters
             };
             textEditor.SelectAll();
             textEditor.Copy();
+
+            CopiedTooltip.Show();
         }
     }
 }

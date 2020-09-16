@@ -1,12 +1,16 @@
 ﻿using ClinicalTools.SimEncounters;
+using ClinicalTools.SimEncounters.SerializationFactories;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace ClinicalTools.ClinicalEncounters
 {
     public class CEEncounterMetadataSerializer : IStringSerializer<EncounterMetadata>
     {
+        public IStringSerializer<Sprite> SpriteSerializer { get; set; } = new SpriteSerializer();
+
         public virtual string Serialize(EncounterMetadata metadata)
         {
             Name name;
@@ -35,6 +39,11 @@ namespace ClinicalTools.ClinicalEncounters
             str += AppendValue(metadata.Rating.ToString());
             str += AppendValue(url);
             str += AppendValue(completionCode);
+            if (metadata.Sprite != null) {
+                str += AppendValue(metadata.Sprite.texture.width.ToString());
+                str += AppendValue(metadata.Sprite.texture.height.ToString());
+                str += AppendValue(SpriteSerializer.Serialize(metadata.Sprite));
+            }
 
             return str;
         }
@@ -43,13 +52,8 @@ namespace ClinicalTools.ClinicalEncounters
         private const string CategoryDivider = ";";
         protected virtual string AppendValue(bool value) => CaseInfoDivider + (value ? "1" : "0");
         protected virtual string AppendValue(string value) => CaseInfoDivider + UnityWebRequest.EscapeURL(value);
-        protected virtual string AppendValue(IEnumerable<string> values)
-        {
-            var str = "";
-            foreach (var value in values)
-                str += AppendValue(value);
-            return str;
-        }
+        protected virtual string AppendValue(IEnumerable<string> values) 
+            => CaseInfoDivider + string.Join(CategoryDivider, values);
         protected virtual string AppendValue(Name name) => $"{CaseInfoDivider}" +
             $"{UnityWebRequest.EscapeURL(name.Honorific)}{CategoryDivider}" +
             $"{UnityWebRequest.EscapeURL(name.FirstName)}{CategoryDivider}" +

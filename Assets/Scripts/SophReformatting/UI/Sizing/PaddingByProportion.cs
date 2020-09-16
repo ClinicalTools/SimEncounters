@@ -8,6 +8,8 @@ namespace ClinicalTools.UI
     [ExecuteAlways]
     public class PaddingByProportion : UIBehaviour
     {
+        public virtual bool UseProportionOfParent { get => useProportionOfParent; set => useProportionOfParent = value; }
+        [SerializeField] private bool useProportionOfParent;
         public virtual float Left { get => left; set => left = value; }
         [SerializeField] private float left;
         public virtual float Right { get => right; set => right = value; }
@@ -19,7 +21,8 @@ namespace ClinicalTools.UI
         public virtual float Spacing { get => spacing; set => spacing = value; }
         [SerializeField] private float spacing;
 
-        protected virtual RectTransform RectTransform => (RectTransform)transform;
+        protected virtual RectTransform RectTransform
+            => UseProportionOfParent ? (RectTransform)transform.parent : (RectTransform)transform;
 
         private LayoutGroup group;
         protected LayoutGroup Group {
@@ -45,7 +48,8 @@ namespace ClinicalTools.UI
 
         protected virtual void UpdateAll()
         {
-            currentRect = ((RectTransform)transform).rect;
+            lastUseProportionOfParent = UseProportionOfParent;
+            currentRect = RectTransform.rect;
             UpdateLeft();
             UpdateRight();
             UpdateTop();
@@ -53,8 +57,14 @@ namespace ClinicalTools.UI
             UpdateSpacing();
         }
 
+        private bool lastUseProportionOfParent;
         protected virtual void Update()
         {
+            if (lastUseProportionOfParent != UseProportionOfParent) {
+                UpdateAll();
+                return;
+            }
+
             if (currentRect == default)
                 currentRect = RectTransform.rect;
 

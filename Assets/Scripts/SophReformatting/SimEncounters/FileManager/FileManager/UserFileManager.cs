@@ -9,7 +9,7 @@ namespace ClinicalTools.SimEncounters
 {
     public class UserFileManager : IFileManager
     {
-        protected virtual string LocalSavesPath => Application.persistentDataPath + "/LocalSaves/";
+        protected virtual string LocalSavesPath => Path.Combine(Application.persistentDataPath, "LocalSaves");
 
         private readonly IFilenameGetter filenameGetter;
         private readonly IFileExtensionGetter fileExtensionGetter;

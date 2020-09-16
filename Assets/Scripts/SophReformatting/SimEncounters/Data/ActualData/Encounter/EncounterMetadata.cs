@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -26,6 +27,7 @@ namespace ClinicalTools.SimEncounters
         public virtual string EditorVersion { get; set; } = "0";
         public virtual bool IsTemplate { get; set; }
         public virtual bool IsPublic { get; set; }
+        public virtual Sprite Sprite { get; set; }
         public virtual string GetDesiredFilename()
         {
             var desiredFilename = $"{RecordNumber}_{Title}";

@@ -26,9 +26,10 @@ namespace ClinicalTools.SimEncounters
             foreach (var encounterView in EncounterViews)
                 encounterView.EncounterSelected += EncountersView_Selected;
 
-            ToggleViewButton.Display(GetNextView());
-            ToggleViewButton.Selected += ChangeView;
-
+            if (ToggleViewButton != null) {
+                ToggleViewButton.Display(GetNextView());
+                ToggleViewButton.Selected += ChangeView;
+            }
             Sidebar.SearchStuff.SortingOrder.SortingOrderChanged += (sortingOrder) => ShowEncounters();
             Sidebar.SearchStuff.Filters.FilterChanged += (filter) => ShowEncounters();
         }
@@ -62,7 +63,8 @@ namespace ClinicalTools.SimEncounters
             ShowEncounters();
 
             Sidebar.Show();
-            ToggleViewButton.Show();
+            if (ToggleViewButton != null)
+                ToggleViewButton.Show();
         }
 
         private IEnumerable<MenuEncounter> FilterEncounterDetails(IEnumerable<MenuEncounter> encounters)
@@ -86,7 +88,7 @@ namespace ClinicalTools.SimEncounters
         }
 
         private void EncountersView_Selected(MenuEncounter menuEncounter) => EncounterSelected?.Invoke(menuEncounter);
-        
+
         protected void ChangeView()
         {
             EncounterViews[currentViewIndex].Hide();
@@ -95,7 +97,8 @@ namespace ClinicalTools.SimEncounters
             if (currentViewIndex >= EncounterViews.Count)
                 currentViewIndex = 0;
 
-            ToggleViewButton.Display(GetNextView());
+            if (ToggleViewButton != null)
+                ToggleViewButton.Display(GetNextView());
             ShowEncounters();
         }
 
@@ -108,7 +111,8 @@ namespace ClinicalTools.SimEncounters
         public override void Hide()
         {
             EncounterViews[currentViewIndex].Hide();
-            ToggleViewButton.Hide();
+            if (ToggleViewButton != null)
+                ToggleViewButton.Hide();
             Sidebar.Hide();
         }
     }

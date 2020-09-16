@@ -12,12 +12,13 @@ namespace ClinicalTools.UI
         protected override void HandleConstantPhysicalSize()
         {
 #if UNITY_EDITOR
-            var editorDPI = new NullableFloat(96);
+            var editorDPI = new NullableFloat(null);
             float currentDpi = (editorDPI.Value != null) ? (float)editorDPI.Value : Screen.dpi;
 #else
             float currentDpi = Screen.dpi;
 
 #endif
+            //currentDpi = 96;
             float dpi = (currentDpi == 0 ? m_FallbackScreenDPI : currentDpi);
             float targetDPI = 1;
             switch (m_PhysicalUnit) {

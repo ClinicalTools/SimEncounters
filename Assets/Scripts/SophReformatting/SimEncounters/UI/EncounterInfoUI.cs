@@ -3,11 +3,14 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters
 {
     public class EncounterInfoUI : MonoBehaviour
     {
+        public virtual Image Sprite { get => sprite; set => sprite = value; }
+        [SerializeField] private Image sprite;
         public virtual TextMeshProUGUI TitleLabel { get => titleLabel; set => titleLabel = value; }
         [SerializeField] private TextMeshProUGUI titleLabel;
         public virtual TextMeshProUGUI SubtitleLabel { get => subtitleLabel; set => subtitleLabel = value; }
@@ -33,6 +36,8 @@ namespace ClinicalTools.SimEncounters
         {
             gameObject.SetActive(true);
 
+            if (encounterMetadata.Sprite != null && Sprite != null)
+                Sprite.sprite = encounterMetadata.Sprite;
             SetLabelText(AudienceLabel, encounterMetadata.Audience);
             SetLabelText(DescriptionLabel, encounterMetadata.Description);
             SetLabelText(SubtitleLabel, encounterMetadata.Subtitle);
