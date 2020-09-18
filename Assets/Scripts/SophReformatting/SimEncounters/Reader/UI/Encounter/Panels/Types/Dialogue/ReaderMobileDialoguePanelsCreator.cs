@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ClinicalTools.SimEncounters.UI;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,8 +9,8 @@ namespace ClinicalTools.SimEncounters
     {
         public Image Background { get => background; set => background = value; }
         [SerializeField] private Image background;
-        public Color ChoiceBackgroundColor { get => choiceBackgroundColor; set => choiceBackgroundColor = value; }
-        [SerializeField] private Color choiceBackgroundColor;
+        public ColorType ChoiceBackgroundColor { get => choiceBackgroundColor; set => choiceBackgroundColor = value; }
+        [SerializeField] private ColorType choiceBackgroundColor;
         public BaseReaderPanel DialogueEntryLeft { get => dialogueEntryLeft; set => dialogueEntryLeft = value; }
         [SerializeField] private BaseReaderPanel dialogueEntryLeft;
         public BaseReaderPanel DialogueEntryRight { get => dialogueEntryRight; set => dialogueEntryRight = value; }
@@ -60,7 +61,7 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual BaseReaderDialogueChoice CreateChoice(List<BaseReaderPanel> readerPanels, List<UserPanel> panels, int panelIndex)
         {
-            Background.color = ChoiceBackgroundColor;
+            Background.color = ColorManager.GetColor(ChoiceBackgroundColor);
 
             var panelDisplay = Instantiate(DialogueChoice, transform);
             panelDisplay.Display(panels[panelIndex]);
