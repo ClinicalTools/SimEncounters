@@ -9,6 +9,8 @@ namespace ClinicalTools.SimEncounters
     {
         public List<Button> CloseButtons { get => closeButtons; set => closeButtons = value; }
         [SerializeField] private List<Button> closeButtons = new List<Button>();
+        public virtual Image Image { get => image; set => image = value; }
+        [SerializeField] private Image image;
         public virtual TextMeshProUGUI Title { get => title; set => title = value; }
         [SerializeField] private TextMeshProUGUI title;
         public virtual TextMeshProUGUI Subtitle { get => subtitle; set => subtitle = value; }
@@ -33,6 +35,7 @@ namespace ClinicalTools.SimEncounters
             gameObject.SetActive(true);
             var metadata = userEncounter.Data.Metadata;
 
+            Image.sprite = metadata.Sprite;
             Title.text = metadata.Title;
             Subtitle.text = metadata.Subtitle;
             Description.text = metadata.Description;

@@ -40,7 +40,8 @@ namespace ClinicalTools.SimEncounters
             if (PreviousButton != null)
                 PreviousButton.onClick.AddListener(GoToPrevious);
             PrimaryFinishButton.onClick.AddListener(() => Completed?.Invoke());
-            SecondaryFinishButton.onClick.AddListener(() => Completed?.Invoke());
+            if (SecondaryFinishButton != null)
+                SecondaryFinishButton.onClick.AddListener(() => Completed?.Invoke());
 
             BackButton.Register(BackButtonPressed);
         }
@@ -54,7 +55,8 @@ namespace ClinicalTools.SimEncounters
         }
 
         protected UserEncounter UserEncounter { get; set; }
-        protected EncounterNonImageContent NonImageContent => UserEncounter.Data.Content.NonImageContent;
+        protected EncounterNonImageContent NonImageContent 
+            => UserEncounter.Data.Content.NonImageContent;
         public override void Display(UserEncounter encounter)
         {
             UserEncounter = encounter;
@@ -99,13 +101,15 @@ namespace ClinicalTools.SimEncounters
                 tabCount = nonImageContent.GetTabCount();
 
             var lastTab = currentTabNumber == tabCount;
-            NextButton.gameObject.SetActive(!lastTab);
-            SecondaryFinishButton.gameObject.SetActive(lastTab);
+            NextButton.gameObject.SetActive(!lastTab); 
+            if (SecondaryFinishButton != null)
+                SecondaryFinishButton.gameObject.SetActive(lastTab);
 
             PageInfoLabel.text = $"Page: {currentTabNumber}/{tabCount}";
         }
 
-        protected virtual bool IsLast<T>(OrderedCollection<T> values, T value) => values.IndexOf(value) == values.Count - 1;
+        protected virtual bool IsLast<T>(OrderedCollection<T> values, T value) 
+            => values.IndexOf(value) == values.Count - 1;
 
         protected virtual void GoToNext()
         {

@@ -25,7 +25,8 @@ namespace ClinicalTools.UI
             => UseProportionOfParent ? (RectTransform)transform.parent : (RectTransform)transform;
 
         private LayoutGroup group;
-        protected LayoutGroup Group {
+        protected LayoutGroup Group
+        {
             get {
                 if (group == null)
                     group = GetComponent<LayoutGroup>();
@@ -39,22 +40,27 @@ namespace ClinicalTools.UI
             UpdateAll();
         }
 
-        private Rect currentRect;
         protected override void OnRectTransformDimensionsChange()
         {
             base.OnRectTransformDimensionsChange();
             UpdateAll();
         }
 
+        private Rect currentRect;
         protected virtual void UpdateAll()
         {
             lastUseProportionOfParent = UseProportionOfParent;
             currentRect = RectTransform.rect;
-            UpdateLeft();
-            UpdateRight();
-            UpdateTop();
-            UpdateBottom();
-            UpdateSpacing();
+            if (Left != 0)
+                UpdateLeft();
+            if (Right != 0)
+                UpdateRight();
+            if (Top != 0)
+                UpdateTop();
+            if (Bottom != 0)
+                UpdateBottom();
+            if (Spacing != 0)
+                UpdateSpacing();
         }
 
         private bool lastUseProportionOfParent;
@@ -65,8 +71,11 @@ namespace ClinicalTools.UI
                 return;
             }
 
-            if (currentRect == default)
+            if (currentRect == default) { 
                 currentRect = RectTransform.rect;
+                UpdateAll();
+                return;
+            }
 
             if (lastLeft != Left)
                 UpdateLeft();
