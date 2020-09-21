@@ -21,8 +21,13 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private CanvasGroup sidebarDimBackground;
 
         protected AndroidBackButton BackButton { get; set; }
-        [Inject] public virtual void Inject(AndroidBackButton backButton) => BackButton = backButton;
-
+        SwipeManager swipeManager;
+        [Inject]
+        public virtual void Inject(AndroidBackButton backButton, SwipeManager swipeManager)
+        {
+            BackButton = backButton;
+            this.swipeManager = swipeManager;
+        }
         protected void Awake()
         {
             foreach (var openButton in OpenSidebarButtons)
@@ -35,7 +40,6 @@ namespace ClinicalTools.SimEncounters
         protected virtual void OpenSidebar() => StartCoroutine(OpenSidebarEnumerator());
         protected virtual void CloseSidebar() => StartCoroutine(CloseSidebarEnumerator());
 
-        SwipeManager swipeManager;
         SwipeParameter OpenSidebarSwipeParamater, CloseSidebarSwipeParamater;
         protected virtual void InitializeSidebarParamaters()
         {
@@ -55,7 +59,6 @@ namespace ClinicalTools.SimEncounters
             CloseSidebarSwipeParamater.OnSwipeUpdate += CloseSwipeUpdate;
             CloseSidebarSwipeParamater.OnSwipeEnd += CloseSwipeEnd;
 
-            swipeManager = GetComponentInParent<SwipeManager>();
             swipeManager.AddSwipeAction(OpenSidebarSwipeParamater);
         }
 

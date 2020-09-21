@@ -5,6 +5,7 @@ namespace ClinicalTools.UI
 {
     public class SwipeManager : MonoBehaviour
     {
+        public bool AllowSwipe { get; set;  } = true;
         private HashSet<SwipeParameter> SwipeParameters { get; } = new HashSet<SwipeParameter>();
 
         public void AddSwipeAction(SwipeParameter swipeParameter)
@@ -19,7 +20,7 @@ namespace ClinicalTools.UI
         }
         private void Update()
         {
-            if (Input.touches.Length == 1 || Input.GetMouseButton(0))
+            if (AllowSwipe && (Input.touches.Length == 1 || Input.GetMouseButton(0)))
                 TouchPosition(GetTouchPosition());
             else if (startPosition != null)
                 FinishSwipe();

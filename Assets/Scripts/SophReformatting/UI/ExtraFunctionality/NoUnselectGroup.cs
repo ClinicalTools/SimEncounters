@@ -13,10 +13,8 @@ namespace ClinicalTools.UI
 
         protected virtual void Update()
         {
-            if (allowSwitchOff && AnyTogglesOn()) {
+            if (allowSwitchOff && AnyTogglesOn())
                 allowSwitchOff = false;
-            }
         }
-
     }
 }

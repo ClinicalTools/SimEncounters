@@ -1,3 +1,4 @@
+using ClinicalTools.UI;
 using UnityEngine;
 using Zenject;
 
@@ -23,6 +24,8 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private BaseConfirmationPopup confirmationPopup;
         public AndroidBackButton BackButton { get => backButton; set => backButton = value; }
         [SerializeField] private AndroidBackButton backButton;
+        public SwipeManager SwipeManager { get => swipeManager; set => swipeManager = value; }
+        [SerializeField] private SwipeManager swipeManager;
 
         public override void InstallBindings()
         {
@@ -35,6 +38,7 @@ namespace ClinicalTools.SimEncounters
             Container.BindInstance(ImagePopup);
             Container.BindInstance(ConfirmationPopup);
             Container.BindInstance(BackButton);
+            Container.BindInstance(SwipeManager);
 
 
             Container.Bind<IUserMenuSceneStarter>().To<UserMenuSceneStarter>().AsTransient();
