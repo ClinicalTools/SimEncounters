@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -13,6 +14,9 @@ namespace ClinicalTools.SimEncounters
         protected List<ICompletionDrawer> CompleteDrawers { get; } = new List<ICompletionDrawer>();
 
         protected ReaderEncounterDrawManger EncounterDrawManger { get; } = new ReaderEncounterDrawManger();
+        protected IStatusWriter StatusWriter { get; set; }
+        [Inject] public virtual void Inject(IStatusWriter statusWriter) => StatusWriter = statusWriter;
+
 
 
         protected virtual void Awake()
@@ -83,6 +87,27 @@ namespace ClinicalTools.SimEncounters
         {
             foreach (var completeDrawer in CompleteDrawers)
                 completeDrawer.CompletionDraw(SceneInfo);
+        }
+
+        protected virtual void OnDestroy()
+        {
+            if (SceneInfo != null)
+                StatusWriter.WriteStatus(SceneInfo.Encounter);
+        }
+        protected void OnApplicationPause(bool pauseStatus)
+        {
+            if (pauseStatus)
+                SaveStatus();
+        }
+
+        protected virtual void SaveStatus()
+        {
+            if (SceneInfo?.Encounter == null)
+                return;
+
+            var status = SceneInfo.Encounter.Status;
+            status.BasicStatus.Completed = status.ContentStatus.Read;
+            StatusWriter.WriteStatus(SceneInfo.Encounter);
         }
     }
 }

@@ -26,10 +26,10 @@ namespace ClinicalTools.SimEncounters
 
         public override event Action Completed;
 
-        protected IUserMenuSceneStarter MenuSceneStarter { get; set; }
+        protected IUserEncounterMenuSceneStarter MenuSceneStarter { get; set; }
         protected AndroidBackButton BackButton { get; set; }
         [Inject]
-        public virtual void Inject(IUserMenuSceneStarter menuSceneStarter, AndroidBackButton backButton)
+        public virtual void Inject(IUserEncounterMenuSceneStarter menuSceneStarter, AndroidBackButton backButton)
         {
             MenuSceneStarter = menuSceneStarter;
             BackButton = backButton;
@@ -132,7 +132,7 @@ namespace ClinicalTools.SimEncounters
             else if (NonImageContent.CurrentSectionIndex > 0)
                 GoToPreviousSection();
             else
-                MenuSceneStarter.ConfirmStartingMenuScene(User, LoadingScreen);
+                MenuSceneStarter.ConfirmStartingMenuScene(UserEncounter, LoadingScreen);
         }
 
         protected virtual void GoToNextSection()

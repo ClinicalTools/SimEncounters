@@ -40,8 +40,7 @@ namespace ClinicalTools.SimEncounters
             Container.BindInstance(BackButton);
             Container.BindInstance(SwipeManager);
 
-
-            Container.Bind<IUserMenuSceneStarter>().To<UserMenuSceneStarter>().AsTransient();
+            Container.Bind<IUserEncounterMenuSceneStarter>().To<UserEncounterMenuSceneStarter>().AsTransient();
 
             Container.Bind<IStatusWriter>().To<LocalStatusWriter>().AsTransient();
 

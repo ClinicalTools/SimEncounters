@@ -16,6 +16,7 @@ namespace ClinicalTools.SimEncounters
 
         public void Display(UserEncounter userEncounter)
         {
+            OpenMenuButton.Display(userEncounter);
             InfoButton.Display(userEncounter);
             TitleLabel.text = userEncounter.Data.Metadata.Title;
         }

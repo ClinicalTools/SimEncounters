@@ -20,6 +20,9 @@ namespace ClinicalTools.SimEncounters
 
         public override List<BaseReaderPanel> DrawChildPanels(IEnumerable<UserPanel> childPanels)
         {
+            foreach (Transform child in transform)
+                Destroy(child.gameObject);
+
             var panels = new List<BaseReaderPanel>();
             var childList = new List<UserPanel>(childPanels);
             DeserializeChildren(panels, childList, 0);
