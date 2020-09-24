@@ -71,6 +71,8 @@ namespace ClinicalTools.UI
         protected virtual void SetAnchor(Vector2Int canvasSize, Vector2 currentAnchor, 
             Vector2 landscapeAnchor, Vector2 portraitAnchor)
         {
+            if (canvasSize.x == 0)
+                return;
             var aspectRatio = canvasSize.y / canvasSize.x;
             if (landscapeAnchor.x > Tolerance || portraitAnchor.x > Tolerance)
                 currentAnchor.x = GetValue(aspectRatio, landscapeAnchor.x, portraitAnchor.x);

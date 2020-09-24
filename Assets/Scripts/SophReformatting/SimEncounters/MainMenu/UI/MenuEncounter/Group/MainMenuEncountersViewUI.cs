@@ -26,7 +26,8 @@ namespace ClinicalTools.SimEncounters
         protected virtual bool IsRead { get; set; }
 
         protected BaseAddEncounterPopup AddEncounterPopup { get; set; }
-        [Inject] protected virtual void Inject(BaseAddEncounterPopup addEncounterPopup)
+        [Inject]
+        protected virtual void Inject(BaseAddEncounterPopup addEncounterPopup)
             => AddEncounterPopup = addEncounterPopup;
         protected virtual void Awake()
         {
@@ -40,11 +41,13 @@ namespace ClinicalTools.SimEncounters
             IsRead = true;
             Display(sceneInfo, encounters);
         }
+
         public override void DisplayForEdit(MenuSceneInfo sceneInfo, IEnumerable<MenuEncounter> encounters)
         {
             IsRead = false;
             Display(sceneInfo, encounters);
         }
+
         protected virtual void Display(MenuSceneInfo sceneInfo, IEnumerable<MenuEncounter> encounters)
         {
             SceneInfo = sceneInfo;

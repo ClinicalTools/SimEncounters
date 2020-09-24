@@ -8,23 +8,20 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
 {
     public class XmlSerializer
     {
-
         protected virtual XmlNode Node { get; }
 
-        public const string DEFAULT_BASE_TAG_NAME = "data";
+        public const string DefaultBaseTagName = "data";
         public XmlSerializer(XmlDocument xmlDocument)
         {
             Node = xmlDocument.DocumentElement;
-            if (Node == null) { 
-                Node = xmlDocument.CreateElement(DEFAULT_BASE_TAG_NAME);
-                xmlDocument.AppendChild(Node);
-            }
+            if (Node != null)
+                return;
+
+            Node = xmlDocument.CreateElement(DefaultBaseTagName);
+            xmlDocument.AppendChild(Node);
         }
 
-        protected XmlSerializer(XmlNode node)
-        {
-            Node = node;
-        }
+        protected XmlSerializer(XmlNode node) => Node = node;
 
         private const bool NODE_NAME_FIRST_LETTER_CAPITALIZED = false;
         protected virtual XmlElement CreateElement(string name, XmlNode parent)
@@ -53,6 +50,7 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
             if (!string.IsNullOrWhiteSpace(value))
                 CreateElement(nodeData.Name, value, Node);
         }
+
         public virtual void AddBool(NodeInfo nodeData, bool value)
             => CreateElement(nodeData.Name, value.ToString(), Node);
         public virtual void AddInt(NodeInfo nodeData, int value)

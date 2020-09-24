@@ -32,7 +32,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
@@ -41,17 +40,21 @@ namespace ClinicalTools.SimEncounters
 {
     public class ScriptingDefineSymbolsEditorWindow : EditorWindow
     {
-        private static readonly GUIContent CONTENT_BUTTON_REVERT
+        private static readonly GUIContent RevertButtonContent
             = new GUIContent("Revert", "Revert all Scripting Define Symbols changes.");
-        private static readonly GUIContent CONTENT_BUTTON_APPLY
+        private static readonly GUIContent ApplyButtonContent
             = new GUIContent("Apply", "Apply all Scripting Define Symbols changes. " +
                 "This will made unity recompile if your current build target group is active.");
 
-        private static readonly GUIContent CONTENT_TOGGLE_DEMO = new GUIContent("Demo");
-        private static readonly GUIContent CONTENT_TOGGLE_MOBILE = new GUIContent("Mobile");
-        private static readonly GUIContent CONTENT_TOGGLE_STANDALONE
+        private static readonly GUIContent DemoToggleContent = new GUIContent("Demo");
+        private static readonly GUIContent MobileToggleContent = new GUIContent("Mobile");
+        private static readonly GUIContent StandaloneToggleContent
             = new GUIContent("Standalone Scene",
                 "Should be true if this is the only scene in the build.");
+        private static readonly GUIContent LocalhostToggleContent
+            = new GUIContent("Use Localhost",
+                "Whether to use localhost as the server");
+
 
         private static readonly GUIContent CONTENT_LABEL_DESCRIPTION
             = new GUIContent("Sim Encounters Scripting Define Symbols");
@@ -59,6 +62,7 @@ namespace ClinicalTools.SimEncounters
         private const string DemoSymbol = "DEMO";
         private const string MobileSymbol = "MOBILE";
         private const string StandaloneSceneSymbol = "STANDALONE_SCENE";
+        private const string LocalhostSymbol = "LOCALHOST";
 
         private const string WindowTitle = "Scripting Define Symbols";
 
@@ -105,11 +109,11 @@ namespace ClinicalTools.SimEncounters
         private void DrawToolbar()
         {
             using (var horizontalScope = new EditorGUILayout.HorizontalScope(EditorStyles.toolbar)) {
-                if (GUILayout.Button(CONTENT_BUTTON_REVERT, EditorStyles.toolbarButton))
+                if (GUILayout.Button(RevertButtonContent, EditorStyles.toolbarButton))
                     UpdateScriptDefineSymbolsParameters();
 
                 using (var disableScope = new EditorGUI.DisabledGroupScope(!isDirty)) {
-                    if (GUILayout.Button(CONTENT_BUTTON_APPLY, EditorStyles.toolbarButton))
+                    if (GUILayout.Button(ApplyButtonContent, EditorStyles.toolbarButton))
                         ApplyChangesScriptingDefineSymbols();
                 }
 
@@ -145,9 +149,10 @@ namespace ClinicalTools.SimEncounters
             EditorGUILayout.LabelField(CONTENT_LABEL_DESCRIPTION, EditorStyles.boldLabel);
             EditorGUILayout.Space();
             EditorGUI.indentLevel++;
-            ShowSymbolToggle(DemoSymbol, CONTENT_TOGGLE_DEMO);
-            ShowSymbolToggle(MobileSymbol, CONTENT_TOGGLE_MOBILE);
-            ShowSymbolToggle(StandaloneSceneSymbol, CONTENT_TOGGLE_STANDALONE);
+            ShowSymbolToggle(DemoSymbol, DemoToggleContent);
+            ShowSymbolToggle(MobileSymbol, MobileToggleContent);
+            ShowSymbolToggle(StandaloneSceneSymbol, StandaloneToggleContent);
+            ShowSymbolToggle(LocalhostSymbol, LocalhostToggleContent);
             EditorGUI.indentLevel--;
         }
 

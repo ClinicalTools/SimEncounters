@@ -1,6 +1,4 @@
-﻿#define LOCALHOST
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ClinicalTools.SimEncounters
 {
