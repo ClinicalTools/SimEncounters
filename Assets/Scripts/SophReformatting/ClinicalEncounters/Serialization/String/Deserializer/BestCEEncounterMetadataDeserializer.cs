@@ -1,6 +1,7 @@
 ﻿using ClinicalTools.SimEncounters;
 using ClinicalTools.SimEncounters.SerializationFactories;
 using System;
+using System.Linq.Expressions;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -117,7 +118,15 @@ namespace ClinicalTools.ClinicalEncounters
         protected bool GetBoolValue(string value) => value == "1";
 
         protected Sprite GetSprite(string widthText, string heightText, string spriteText)
-            => (int.TryParse(widthText, out var width) && int.TryParse(heightText, out var height))
-                ? spriteDeserializer.Deserialize(width, height, spriteText) : null;
+        {
+            if (!int.TryParse(widthText, out var width) || !int.TryParse(heightText, out var height))
+                return null;
+
+            try {
+                return spriteDeserializer.Deserialize(width, height, spriteText);
+            } catch (Exception) {
+                return null;
+            }
+        }
     }
 }

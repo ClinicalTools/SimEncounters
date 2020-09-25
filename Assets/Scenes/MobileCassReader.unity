@@ -427,6 +427,7 @@ MonoBehaviour:
   sectionBorders:
   - {fileID: 114853416893415440}
   - {fileID: 114988187461042114}
+  titleLabel: {fileID: 0}
 --- !u!1 &28911089
 GameObject:
   m_ObjectHideFlags: 0
@@ -4849,7 +4850,6 @@ GameObject:
   - component: {fileID: 413761290}
   - component: {fileID: 413761289}
   - component: {fileID: 413761288}
-  - component: {fileID: 413761291}
   - component: {fileID: 413761292}
   - component: {fileID: 413761293}
   m_Layer: 5
@@ -4937,18 +4937,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 413761286}
   m_CullTransparentMesh: 0
---- !u!114 &413761291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 413761286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 295e914d8e9b9a143ba361684c98fc5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &413761292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4962,6 +4950,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   closeButtons: []
+  image: {fileID: 0}
   title: {fileID: 782403612}
   subtitle: {fileID: 54282104}
   description: {fileID: 448177460}
@@ -12682,6 +12671,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b368a67963eb6841b2a1710b6f7fd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  instructionsPopup: {fileID: 0}
+  settingsPopup: {fileID: 0}
+  encounterInfoPopup: {fileID: 0}
   dialoguePopup: {fileID: 1198825905}
   quizPopup: {fileID: 1303801777}
   imagePopup: {fileID: 2063669440}
@@ -12689,6 +12681,7 @@ MonoBehaviour:
     type: 3}
   confirmationPopup: {fileID: 1774521973589434}
   backButton: {fileID: 1598577220}
+  swipeManager: {fileID: 0}
 --- !u!1 &1407912951
 GameObject:
   m_ObjectHideFlags: 0
@@ -14400,8 +14393,8 @@ GameObject:
   - component: {fileID: 1595584730}
   - component: {fileID: 1595584729}
   - component: {fileID: 1595584735}
-  - component: {fileID: 1595584737}
   - component: {fileID: 1595584733}
+  - component: {fileID: 1595584734}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -14509,8 +14502,23 @@ MonoBehaviour:
   tabDrawer: {fileID: 1490031692}
   footer: {fileID: 3692146273919135707}
   finishButton: {fileID: 1410107439}
+  progressBar: {fileID: 0}
   finishButtonText: {fileID: 1322290917}
-  generalEncounterDrawer: {fileID: 1595584737}
+  generalEncounterDrawer: {fileID: 1595584734}
+--- !u!114 &1595584734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595584728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a07196b312298d44b945722f5c5ecdce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  encounterTitle: {fileID: 114877847424808806}
+  infoPopup: {fileID: 413761292}
 --- !u!114 &1595584735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14529,20 +14537,6 @@ MonoBehaviour:
   encounterDrawer: {fileID: 1595584733}
   completionPopup: {fileID: 7079643196224874328}
   webGLCompletionPopup: {fileID: 3479447670238439526}
---- !u!114 &1595584737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1595584728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6dd0656badb321045a716364723a9c72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  encounterTitle: {fileID: 114877847424808806}
-  infoPopup: {fileID: 413761292}
 --- !u!1 &1598577219
 GameObject:
   m_ObjectHideFlags: 0
@@ -14768,7 +14762,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ecee629172602db4ab0e91cdffa0127a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 35c6cc39605a2224b9db6ccb0320016f, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -20557,6 +20551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb1fe46d8f7cfca4f905573ed1d767e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startSectionAtFirstTab: 0
   sectionButtonsParent: {fileID: 1101264404}
   sectionButtonPrefab: {fileID: 1398057217119590740, guid: 37cf7a2e14a17104eba42b5e59c33e94,
     type: 3}

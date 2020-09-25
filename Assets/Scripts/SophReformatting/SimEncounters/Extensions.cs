@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace ClinicalTools.SimEncounters.Extensions
@@ -20,12 +19,6 @@ namespace ClinicalTools.SimEncounters.Extensions
         }
 
         public static void AddField(this WWWForm form, string fieldName, bool value)
-        {
-            int num;
-            if (value) num = 1;
-            else num = 0;
-
-            form.AddField(fieldName, num);
-        }
+            => form.AddField(fieldName, (value) ? 1 : 0);
     }
 }

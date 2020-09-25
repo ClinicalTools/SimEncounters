@@ -14,14 +14,19 @@ namespace ClinicalTools.SimEncounters
     {
         protected IServerReader ServerReader { get; }
         protected IUrlBuilder UrlBuilder { get; }
+        protected IStringSerializer<Sprite> SpriteSerializer { get; }
         protected ISerializationFactory<EncounterImageContent> ImageDataSerializer { get; }
         protected ISerializationFactory<EncounterNonImageContent> EncounterContentSerializer { get; }
-        public ServerEncounterWriter(IServerReader serverReader, IUrlBuilder urlBuilder,
+        public ServerEncounterWriter(
+            IServerReader serverReader, 
+            IUrlBuilder urlBuilder, 
+            IStringSerializer<Sprite> spriteSerializer,
             ISerializationFactory<EncounterImageContent> imageDataSerializer,
             ISerializationFactory<EncounterNonImageContent> encounterContentSerializer)
         {
             ServerReader = serverReader;
             UrlBuilder = urlBuilder;
+            SpriteSerializer = spriteSerializer;
             ImageDataSerializer = imageDataSerializer;
             EncounterContentSerializer = encounterContentSerializer;
         }
@@ -119,6 +124,9 @@ namespace ClinicalTools.SimEncounters
         private const string CompletionCodeVariable = "urlkey";
         private const string PublicVariable = "public";
         private const string TemplateVariable = "template";
+        private const string SpriteDataVariable = "imageData";
+        private const string SpriteWidthVariable = "imageWidth";
+        private const string SpriteHeightVariable = "imageHeight";
         private void AddMetadataFields(WWWForm form, CEEncounterMetadata metadata)
         {
             AddEscapedField(form, FirstNameVariable, metadata.Name.FirstName);
@@ -135,6 +143,12 @@ namespace ClinicalTools.SimEncounters
             AddEscapedField(form, CompletionCodeVariable, metadata.CompletionCode);
             form.AddField(PublicVariable, metadata.IsPublic);
             form.AddField(TemplateVariable, metadata.IsTemplate);
+            if (metadata.Sprite == null)
+                return;
+
+            form.AddField(SpriteDataVariable, SpriteSerializer.Serialize(metadata.Sprite));
+            form.AddField(SpriteWidthVariable, metadata.Sprite.texture.width);
+            form.AddField(SpriteHeightVariable, metadata.Sprite.texture.height);
         }
 
         private void AddEscapedField(WWWForm form, string variable, string value)

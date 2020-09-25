@@ -35,7 +35,8 @@ namespace ClinicalTools.SimEncounters
             gameObject.SetActive(true);
             var metadata = userEncounter.Data.Metadata;
 
-            Image.sprite = metadata.Sprite;
+            if (Image != null)
+                Image.sprite = metadata.Sprite;
             Title.text = metadata.Title;
             Subtitle.text = metadata.Subtitle;
             Description.text = metadata.Description;
