@@ -1,18 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderMobileSidebar : MonoBehaviour, IUserEncounterDrawer, IUserSectionSelector, IReaderSceneDrawer
+    public interface ICloseSidebar
+    {
+        event Action CloseSidebar;
+    }
+
+    public class ReaderMobileSidebar : MonoBehaviour, IUserEncounterDrawer, IUserSectionSelector, IReaderSceneDrawer, ICloseSidebar
     {
         public virtual event UserSectionSelectedHandler SectionSelected;
 
         public List<MonoBehaviour> SidebarObjects { get => sidebarObjects; }
         [SerializeField] private List<MonoBehaviour> sidebarObjects = new List<MonoBehaviour>();
+        public List<Button> CloseButtons { get => closeButtons; }
+        [SerializeField] private List<Button> closeButtons = new List<Button>();
 
         protected List<IUserEncounterDrawer> EncounterDrawers { get; } = new List<IUserEncounterDrawer>();
         protected List<IUserSectionSelector> SectionSelectors { get; } = new List<IUserSectionSelector>();
         protected List<IReaderSceneDrawer> SceneDrawers { get; } = new List<IReaderSceneDrawer>();
+
+        public event Action CloseSidebar;
+
 
         protected virtual void Awake() => Initialize();
 
@@ -26,6 +38,8 @@ namespace ClinicalTools.SimEncounters
 
             foreach (var sidebarObject in SidebarObjects)
                 AddSidebarObject(sidebarObject);
+            foreach (var closeButton in CloseButtons)
+                closeButton.onClick.AddListener(() => CloseSidebar?.Invoke());
 
             AddListeners();
         }
@@ -60,7 +74,11 @@ namespace ClinicalTools.SimEncounters
         }
 
         public virtual void OnSectionSelected(object sender, UserSectionSelectedEventArgs e)
-            => SectionSelected?.Invoke(sender, e);
+        {
+            CloseSidebar?.Invoke();
+            SectionSelected?.Invoke(sender, e);
+        }
+
         public void SelectSection(UserSection userSection)
         {
             foreach (var sectionSelector in SectionSelectors)

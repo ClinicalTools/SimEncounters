@@ -9,10 +9,11 @@ namespace ClinicalTools.SimEncounters
 {
     public class ReaderSidebarThing : MonoBehaviour
     {
-        public List<Button> OpenSidebarButtons { get => openSidebarButtons; set => openSidebarButtons = value; }
-        [SerializeField] private List<Button> openSidebarButtons;
-        public List<Button> CloseSidebarButtons { get => closeSidebarButtons; set => closeSidebarButtons = value; }
-        [SerializeField] private List<Button> closeSidebarButtons;
+        public List<MonoBehaviour> SidebarControllers { get => sidebarControllers; }
+        [SerializeField] private List<MonoBehaviour> sidebarControllers = new List<MonoBehaviour>();
+
+        public List<Button> OpenSidebarButtons { get => openSidebarButtons; }
+        [SerializeField] private List<Button> openSidebarButtons = new List<Button>();
         public GameObject Sidebar { get => sidebar; set => sidebar = value; }
         [SerializeField] private GameObject sidebar;
         public CanvasGroup SidebarMainPanel { get => sidebarMainPanel; set => sidebarMainPanel = value; }
@@ -21,20 +22,26 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private CanvasGroup sidebarDimBackground;
 
         protected AndroidBackButton BackButton { get; set; }
-        SwipeManager swipeManager;
+        private SwipeManager swipeManager;
         [Inject]
         public virtual void Inject(AndroidBackButton backButton, SwipeManager swipeManager)
         {
             BackButton = backButton;
             this.swipeManager = swipeManager;
         }
-        protected void Awake()
+        protected virtual void Awake()
         {
             foreach (var openButton in OpenSidebarButtons)
                 openButton.onClick.AddListener(OpenSidebar);
-            foreach (var closeButton in CloseSidebarButtons)
-                closeButton.onClick.AddListener(CloseSidebar);
+            foreach (var sidebarController in SidebarControllers)
+                InitializeSidebarController(sidebarController);
             InitializeSidebarParamaters();
+        }
+
+        protected virtual void InitializeSidebarController(MonoBehaviour sidebarController)
+        {
+            if (sidebarController is ICloseSidebar closeSidebar)
+                closeSidebar.CloseSidebar += CloseSidebar;
         }
 
         protected virtual void OpenSidebar() => StartCoroutine(OpenSidebarEnumerator());

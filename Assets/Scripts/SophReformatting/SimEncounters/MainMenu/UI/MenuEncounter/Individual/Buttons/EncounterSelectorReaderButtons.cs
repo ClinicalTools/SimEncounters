@@ -11,6 +11,8 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private Button readButton;
         public virtual TextMeshProUGUI ReadText { get => readText; set => readText = value; }
         [SerializeField] private TextMeshProUGUI readText;
+        public virtual bool UseCaps { get => useCaps; set => useCaps = value; }
+        [SerializeField] private bool useCaps;
 
         protected IEncounterStarter EncounterStarter { get; set; }
         [Inject] protected virtual void Inject(IEncounterStarter encounterStarter) => EncounterStarter = encounterStarter;
@@ -27,7 +29,10 @@ namespace ClinicalTools.SimEncounters
             gameObject.SetActive(true);
 
             ReadButton.gameObject.SetActive(true);
-            ReadText.text = GetReadButtonText(menuEncounter.Status);
+            var readText = GetReadButtonText(menuEncounter.Status);
+            if (UseCaps)
+                readText = readText.ToUpper();
+            ReadText.text = readText;
         }
 
         public override void Hide() => gameObject.SetActive(false);
