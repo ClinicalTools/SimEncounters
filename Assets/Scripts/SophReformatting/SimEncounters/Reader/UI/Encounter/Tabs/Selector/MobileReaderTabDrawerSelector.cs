@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -9,12 +10,17 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private Transform tabParent;
         public TMP_Text TabName { get => tabName; set => tabName = value; }
         [SerializeField] private TMP_Text tabName;
+        public ScrollRect ScrollRect { get => scrollRect; set => scrollRect = value; }
+        [SerializeField] private ScrollRect scrollRect;
 
         protected BaseUserTabDrawer CurrentTabDrawer { get; set; }
         public override void Display(UserTab tab)
         {
             if (CurrentTabDrawer != null)
                 Destroy(CurrentTabDrawer.gameObject);
+
+            if (ScrollRect != null)
+                ScrollRect.verticalNormalizedPosition = 1;
 
             TabName.text = tab.Data.Name;
             var prefab = GetTabPrefab(tab.Data);

@@ -4,7 +4,6 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-
     public class ReaderImage : BaseEncounterField
     {
         public override string Name => name;
@@ -14,6 +13,8 @@ namespace ClinicalTools.SimEncounters
         public GameObject ImageGroup { get => imageGroup; set => imageGroup = value; }
         [SerializeField] private GameObject imageGroup;
 
+        public bool SetMinValues { get => setMinValues; set => setMinValues = value; }
+        [SerializeField] private bool setMinValues = true;
         public bool ExpandToMax { get => expandToMax; set => expandToMax = value; }
         [SerializeField] private bool expandToMax;
         public float MaxWidth { get => maxWidth; set => maxWidth = value; }
@@ -94,8 +95,10 @@ namespace ClinicalTools.SimEncounters
                 LayoutElement.preferredHeight = LayoutElement.preferredWidth * spriteRatio;
             }
 
-            LayoutElement.minWidth = LayoutElement.preferredWidth;
-            LayoutElement.minHeight = LayoutElement.preferredHeight;
+            if (SetMinValues) {
+                LayoutElement.minWidth = LayoutElement.preferredWidth;
+                LayoutElement.minHeight = LayoutElement.preferredHeight;
+            }
         }
 
         protected float GetSideLength(float preferredLength, float maxLength)

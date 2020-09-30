@@ -6,31 +6,34 @@ namespace ClinicalTools.SimEncounters
 {
     public class WriterPanelValueDisplay : IWriterPanelValueDisplay
     {
-        public virtual BaseField[] Display(Encounter encounter, Panel panel, Transform transform)
+        public virtual INamedField[] Display(Encounter encounter, Panel panel, Transform transform)
         {
-            var fields = transform.GetComponentsInChildren<BaseField>(true);
-            var values = panel.Values;
-            foreach (var field in fields) {
-                var hasValue = values.ContainsKey(field.Name);
-                string value = hasValue ? values[field.Name] : null;
-
-                if (field is BaseValueField valueField) {
-                    if (hasValue)
-                        valueField.Initialize(value);
-                    else
-                        valueField.Initialize();
-                } else if (field is BaseEncounterField encounterField) {
-                    if (hasValue)
-                        encounterField.Initialize(encounter, value);
-                    else
-                        encounterField.Initialize(encounter);
-                }
-            }
+            var fields = transform.GetComponentsInChildren<INamedField>(true);
+            foreach (var field in fields)
+                InitializeField(encounter, panel.Values, field);
 
             return fields;
         }
 
-        public virtual Dictionary<string, string> Serialize(IEnumerable<BaseField> fields)
+        protected virtual void InitializeField(Encounter encounter, IDictionary<string, string> values, INamedField field)
+        {
+            var hasValue = values.ContainsKey(field.Name);
+            string value = hasValue ? values[field.Name] : null;
+
+            if (field is IValueField valueField) {
+                if (hasValue)
+                    valueField.Initialize(value);
+                else
+                    valueField.Initialize();
+            } else if (field is IEncounterField encounterField) {
+                if (hasValue)
+                    encounterField.Initialize(encounter, value);
+                else
+                    encounterField.Initialize(encounter);
+            }
+        }
+
+        public virtual Dictionary<string, string> Serialize(IEnumerable<INamedField> fields)
         {
             var values = new Dictionary<string, string>();
             foreach (var valueField in fields) {

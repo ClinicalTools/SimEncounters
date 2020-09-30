@@ -35,7 +35,6 @@ public class ResizeCanvas : MonoBehaviour
 
     public void CallResize(float value)
     {
-        TMP_Text x = null;
         ScaleResize(value);
         GlobalData.resizeVal = value;
     }

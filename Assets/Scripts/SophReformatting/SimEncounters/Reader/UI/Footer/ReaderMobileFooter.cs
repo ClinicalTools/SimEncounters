@@ -55,7 +55,7 @@ namespace ClinicalTools.SimEncounters
         }
 
         protected UserEncounter UserEncounter { get; set; }
-        protected EncounterNonImageContent NonImageContent 
+        protected EncounterNonImageContent NonImageContent
             => UserEncounter.Data.Content.NonImageContent;
         public override void Display(UserEncounter encounter)
         {
@@ -97,18 +97,21 @@ namespace ClinicalTools.SimEncounters
 
             var nonImageContent = UserEncounter.Data.Content.NonImageContent;
             var currentTabNumber = nonImageContent.GetCurrentTabNumber();
+
+            PreviousButton.gameObject.SetActive(currentTabNumber > 1);
+
             if (tabCount == 0)
                 tabCount = nonImageContent.GetTabCount();
 
             var lastTab = currentTabNumber == tabCount;
-            NextButton.gameObject.SetActive(!lastTab); 
+            NextButton.gameObject.SetActive(!lastTab);
             if (SecondaryFinishButton != null)
                 SecondaryFinishButton.gameObject.SetActive(lastTab);
 
             PageInfoLabel.text = $"Page: {currentTabNumber}/{tabCount}";
         }
 
-        protected virtual bool IsLast<T>(OrderedCollection<T> values, T value) 
+        protected virtual bool IsLast<T>(OrderedCollection<T> values, T value)
             => values.IndexOf(value) == values.Count - 1;
 
         protected virtual void GoToNext()
@@ -121,7 +124,8 @@ namespace ClinicalTools.SimEncounters
             else
                 Completed?.Invoke();
         }
-        protected virtual void BackButtonPressed() {
+        protected virtual void BackButtonPressed()
+        {
             BackButton.Register(BackButtonPressed);
             GoToPrevious();
         }

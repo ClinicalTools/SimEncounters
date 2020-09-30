@@ -1,5 +1,4 @@
-﻿using ClinicalTools.Layout;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace ClinicalTools.UI
@@ -8,16 +7,12 @@ namespace ClinicalTools.UI
     {
         // Some things only work with ints (like layout group padding),
         // so small width and height numbers don't allow for the precision sometimes needed
-        private float scalar = 1f;
+        public static float Scalar { get; set; } = 1.1f;
         protected override void HandleConstantPhysicalSize()
         {
-#if UNITY_EDITOR
-            var editorDPI = new NullableFloat(null);
-            float currentDpi = (editorDPI.Value != null) ? (float)editorDPI.Value : Screen.dpi;
-#else
-            float currentDpi = Screen.dpi;
+            var editorDPI = m_FallbackScreenDPI * Screen.height / 2500 * CanvasResizer.GetResizeValue();
+            float currentDpi = editorDPI;
 
-#endif
             //currentDpi = 96;
             float dpi = (currentDpi == 0 ? m_FallbackScreenDPI : currentDpi);
             float targetDPI = 1;
@@ -28,7 +23,6 @@ namespace ClinicalTools.UI
                 case Unit.Points: targetDPI = 72; break;
                 case Unit.Picas: targetDPI = 6; break;
             }
-            targetDPI *= scalar;
 
             var spriteDpiProportion = dpi / m_DefaultSpriteDPI;
 

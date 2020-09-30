@@ -22,7 +22,7 @@ namespace ClinicalTools.SimEncounters
             if (PinsDrawer != null)
                 PinsDrawer.Display(encounter, new PinData());
         }
-        protected BaseField[] Fields { get; set; }
+        protected INamedField[] Fields { get; set; }
         public override void Display(Encounter encounter, Panel panel)
         {
             CurrentEncounter = encounter;

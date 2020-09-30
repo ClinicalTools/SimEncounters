@@ -28,21 +28,21 @@ namespace ClinicalTools.SimEncounters
             return pinButtons;
         }
 
-        protected virtual BaseField[] InitializePanelValueFields(UserPanel userPanel, Transform transform)
+        protected virtual INamedField[] InitializePanelValueFields(UserPanel userPanel, Transform transform)
         {
-            var fields = transform.GetComponentsInChildren<BaseField>(true);
+            var fields = transform.GetComponentsInChildren<INamedField>(true);
             var values = userPanel.Data.Values;
             var encounter = userPanel.Encounter.Data;
             foreach (var field in fields) {
                 var hasValue = values.ContainsKey(field.Name);
                 string value = hasValue ? values[field.Name] : null;
 
-                if (field is BaseValueField valueField) {
+                if (field is IValueField valueField) {
                     if (hasValue)
                         valueField.Initialize(value);
                     else
                         valueField.Initialize();
-                } else if (field is BaseEncounterField encounterField) {
+                } else if (field is IEncounterField encounterField) {
                     if (hasValue)
                         encounterField.Initialize(encounter, value);
                     else

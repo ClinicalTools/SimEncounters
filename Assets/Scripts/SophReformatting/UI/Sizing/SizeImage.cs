@@ -25,21 +25,25 @@ namespace ClinicalTools.SimEncounters.UI
         protected Texture2D Texture { get; set; }
         protected int ScreenHeight { get; set; }
         protected float LastScale { get; set; }
+        protected float LossyScale { get; set; }
         protected virtual void Awake() => UpdateSize();
         protected virtual void Update()
         {
-            if (Texture != Image.sprite.texture || ScreenHeight != Screen.height || LastScale != Scale)
+            if (RectTransform.lossyScale.y != LossyScale || Texture != Image.sprite.texture || ScreenHeight != Screen.height || LastScale != Scale)
                 UpdateSize();
         }
 
         protected virtual void UpdateSize()
         {
+            LossyScale = RectTransform.lossyScale.y;
             LastScale = Scale;
             ScreenHeight = Screen.height;
             Texture = Image.sprite.texture;
             if (Texture == null)
                 return;
-            var heightProportion = Screen.height / DefaultScreenHeight;
+
+            var scaledScreenHeight = ScreenHeight / RectTransform.lossyScale.y;
+            var heightProportion = scaledScreenHeight / DefaultScreenHeight;
             heightProportion *= Scale;
             var height = heightProportion * Texture.height;
             var width = heightProportion * Texture.width;
