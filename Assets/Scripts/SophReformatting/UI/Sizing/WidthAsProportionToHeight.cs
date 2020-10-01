@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -27,9 +28,15 @@ namespace ClinicalTools.UI
             }
         }
 
+        protected LayoutGroup ParentGroup { get; set; }
+
         protected override void Awake()
         {
             base.Awake();
+
+            if (transform.parent != null)
+                ParentGroup = transform.parent.GetComponent<LayoutGroup>();
+
             if (InitialHeightProportionToParent > 0 && transform.parent != null)
                 height = ((RectTransform)transform.parent).rect.height * InitialHeightProportionToParent;
 
@@ -71,6 +78,27 @@ namespace ClinicalTools.UI
             }
 
             LayoutElement.preferredWidth = width;
+
+            if (ParentGroup != null)
+                SetDirty((RectTransform)ParentGroup.transform);
+        }
+
+
+        protected void SetDirty(RectTransform rectTransform)
+        {
+            if (!IsActive())
+                return;
+
+            if (!CanvasUpdateRegistry.IsRebuildingLayout())
+                LayoutRebuilder.MarkLayoutForRebuild(rectTransform);
+            else
+                StartCoroutine(DelayedSetDirty(rectTransform));
+        }
+
+        protected IEnumerator DelayedSetDirty(RectTransform rectTransform)
+        {
+            yield return null;
+            LayoutRebuilder.MarkLayoutForRebuild(rectTransform);
         }
     }
 }

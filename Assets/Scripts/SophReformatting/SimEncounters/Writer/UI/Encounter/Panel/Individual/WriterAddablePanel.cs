@@ -53,7 +53,7 @@ namespace ClinicalTools.SimEncounters
             if (PinsDrawer != null)
                 PinsDrawer.Display(encounter, new PinData());
         }
-        protected INamedField[] Fields { get; set; }
+        protected IPanelField[] Fields { get; set; }
         public override void Display(Encounter encounter, Panel panel)
         {
             CurrentEncounter = encounter;

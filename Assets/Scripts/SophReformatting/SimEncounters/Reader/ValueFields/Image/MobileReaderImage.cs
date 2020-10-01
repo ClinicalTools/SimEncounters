@@ -5,7 +5,7 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class MobileReaderImage : UIBehaviour, IEncounterField
+    public class MobileReaderImage : UIBehaviour, IEncounterPanelField
     {
         private float width;
 

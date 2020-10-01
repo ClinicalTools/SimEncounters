@@ -49,20 +49,21 @@ namespace ClinicalTools.SimEncounters
             UserSection = userSection;
             var section = userSection.Data;
             SetColor(false);
-            if (Icon != null) {
-                var icons = userSection.Encounter.Data.Content.ImageContent.Icons;
-                if (section.IconKey != null && icons.ContainsKey(section.IconKey))
-                    Icon.sprite = icons[section.IconKey];
-            }
 
             NameLabel.text = userSection.Data.Name;
             Visited.SetActive(userSection.IsRead());
             userSection.StatusChanged += StatusChanged;
+
+            if (Icon == null)
+                return;
+
+            var icons = userSection.Encounter.Data.Content.ImageContent.Icons;
+            if (section.IconKey != null && icons.ContainsKey(section.IconKey))
+                Icon.sprite = icons[section.IconKey];
         }
 
         private void StatusChanged() => Visited.SetActive(UserSection.IsRead());
         public void Select() => SelectToggle.Select();
-
         public void SetToggleGroup(ToggleGroup group) => SelectToggle.SetToggleGroup(group);
 
         protected virtual void SetColor(bool isOn)

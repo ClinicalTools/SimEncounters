@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.UI;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class DragOverrideScript : CEScrollRect
@@ -16,7 +17,9 @@ public class DragOverrideScript : CEScrollRect
     protected virtual bool CanDrag()
     {
 #if MOBILE
-        return (MouseInput.Instance == null || MouseInput.Instance.CanDrag) && content.rect.height > viewport.rect.height;
+        return (MouseInput.Instance == null || MouseInput.Instance.CanDrag) 
+            && content.rect.height > viewport.rect.height
+            && Input.touches.Length < 2;
 #else  
         return false;
 #endif

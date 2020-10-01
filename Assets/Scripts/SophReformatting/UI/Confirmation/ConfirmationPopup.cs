@@ -25,13 +25,8 @@ namespace ClinicalTools.SimEncounters
 
 #if MOBILE
         protected AndroidBackButton BackButton { get; set; }
-        protected SwipeManager SwipeManager { get; set; }
         [Inject]
-        public virtual void Inject(AndroidBackButton backButton, SwipeManager swipeManager)
-        { 
-            BackButton = backButton;
-            SwipeManager = swipeManager;
-        }
+        public virtual void Inject(AndroidBackButton backButton) => BackButton = backButton;
 #endif
 
         protected Action ConfirmationAction { get; set; }
@@ -60,7 +55,6 @@ namespace ClinicalTools.SimEncounters
             CancellationLabel.text = cancellationText.ToUpper();
 #if MOBILE
             BackButton.Register(Cancel);
-            SwipeManager.AllowSwipe = false;
 #endif
         }
 
@@ -75,7 +69,7 @@ namespace ClinicalTools.SimEncounters
             CancellationAction?.Invoke();
             Close();
         }
-
+  
         protected virtual void Close()
         {
             ConfirmationAction = null;
@@ -83,7 +77,6 @@ namespace ClinicalTools.SimEncounters
             gameObject.SetActive(false);
 #if MOBILE
             BackButton.Deregister(Cancel);
-            SwipeManager.AllowSwipe = true;
 #endif
         }
     }

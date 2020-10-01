@@ -142,7 +142,12 @@ namespace ClinicalTools.SimEncounters
         protected virtual void GoToNextSection()
             => GoToSection(NonImageContent.CurrentSectionIndex + 1);
         protected virtual void GoToPreviousSection()
-            => GoToSection(NonImageContent.CurrentSectionIndex - 1);
+        {
+            var previousSectionIndex = NonImageContent.CurrentSectionIndex - 1;
+            var section = NonImageContent.Sections[previousSectionIndex].Value;
+            section.CurrentTabIndex = section.Tabs.Count - 1;
+            GoToSection(previousSectionIndex);
+        }
         protected virtual void GoToSection(int sectionIndex)
         {
             var nextSectionKey = NonImageContent.Sections[sectionIndex].Key;

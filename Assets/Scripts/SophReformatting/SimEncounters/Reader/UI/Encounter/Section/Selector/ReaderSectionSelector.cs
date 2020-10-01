@@ -45,6 +45,9 @@ namespace ClinicalTools.SimEncounters
         protected UserSection CurrentSection { get; set; }
         protected void OnSelected(UserSection section)
         {
+            if (CurrentSection == section)
+                return;
+
             var selectedArgs = new UserSectionSelectedEventArgs(section);
             if (StartSectionAtFirstTab)
                 section.Data.CurrentTabIndex = 0;
@@ -58,7 +61,13 @@ namespace ClinicalTools.SimEncounters
             if (CurrentSection == section)
                 return;
 
+            CurrentSection = section;
             SectionButtons[section].Select();
+            foreach (var sectionButton in SectionButtons) {
+                if (sectionButton.Key == section)
+                    continue;
+                sectionButton.Value.SelectToggle.Toggle.isOn = false;
+            }
         }
     }
 }

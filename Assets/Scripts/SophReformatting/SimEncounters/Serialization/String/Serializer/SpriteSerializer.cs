@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace ClinicalTools.SimEncounters.SerializationFactories
+namespace ClinicalTools.SimEncounters
 {
     public class SpriteSerializer : IStringSerializer<Sprite>
     {

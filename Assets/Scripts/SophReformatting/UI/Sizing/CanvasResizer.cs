@@ -5,7 +5,7 @@ namespace ClinicalTools.UI
     public class CanvasResizer : MonoBehaviour
     {
         public static float GetResizeValue() 
-            => (Instance == null) ? 1.1f : 1f + .8f * Instance.ResizeValue;
+            => (Instance == null) ? 1.1f : 1f + .8f * ResizeValue01;
         public static CanvasResizer Instance { get; set; }
 
         protected void Awake() => Instance = this;
@@ -40,7 +40,12 @@ namespace ClinicalTools.UI
             }
         }
 
-        public float ResizeValue = .1f;
+        private static float resizeValue = .1f;
+        public static float ResizeValue01 { 
+            get => resizeValue;
+            set => resizeValue = Mathf.Clamp01(value);
+        }
+
         private void CalcZoomScale(Vector2 touch1, Vector2 touch2)
         {
             if (zooming)
@@ -54,8 +59,7 @@ namespace ClinicalTools.UI
             float deltaTouch = Mathf.Abs(Vector2.Distance(touch1, touch2));
             float deltaDistance = deltaTouch - prevDistance;
 
-            ResizeValue += deltaDistance / DistanceToMax;
-            ResizeValue = Mathf.Clamp01(ResizeValue);
+            ResizeValue01 += deltaDistance / DistanceToMax;
 
             prevDistance = deltaTouch;
         }

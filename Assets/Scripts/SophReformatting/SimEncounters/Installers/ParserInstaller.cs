@@ -35,6 +35,8 @@ namespace ClinicalTools.SimEncounters
             subcontainer.Bind<ICharEnumeratorDeserializer<string>>().To<KeyDeserializer>().AsTransient();
 
             subcontainer.Bind<IStringDeserializer<Color>>().To<ColorDeserializer>().AsTransient();
+
+            subcontainer.Bind<IStringSerializer<Sprite>>().To<SpriteSerializer>().AsTransient();
         }
 
         /// <summary>

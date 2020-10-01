@@ -6,26 +6,26 @@ namespace ClinicalTools.SimEncounters
 {
     public class WriterPanelValueDisplay : IWriterPanelValueDisplay
     {
-        public virtual INamedField[] Display(Encounter encounter, Panel panel, Transform transform)
+        public virtual IPanelField[] Display(Encounter encounter, Panel panel, Transform transform)
         {
-            var fields = transform.GetComponentsInChildren<INamedField>(true);
+            var fields = transform.GetComponentsInChildren<IPanelField>(true);
             foreach (var field in fields)
                 InitializeField(encounter, panel.Values, field);
 
             return fields;
         }
 
-        protected virtual void InitializeField(Encounter encounter, IDictionary<string, string> values, INamedField field)
+        protected virtual void InitializeField(Encounter encounter, IDictionary<string, string> values, IPanelField field)
         {
             var hasValue = values.ContainsKey(field.Name);
             string value = hasValue ? values[field.Name] : null;
 
-            if (field is IValueField valueField) {
+            if (field is IValuePanelField valueField) {
                 if (hasValue)
                     valueField.Initialize(value);
                 else
                     valueField.Initialize();
-            } else if (field is IEncounterField encounterField) {
+            } else if (field is IEncounterPanelField encounterField) {
                 if (hasValue)
                     encounterField.Initialize(encounter, value);
                 else
@@ -33,7 +33,7 @@ namespace ClinicalTools.SimEncounters
             }
         }
 
-        public virtual Dictionary<string, string> Serialize(IEnumerable<INamedField> fields)
+        public virtual Dictionary<string, string> Serialize(IEnumerable<IPanelField> fields)
         {
             var values = new Dictionary<string, string>();
             foreach (var valueField in fields) {

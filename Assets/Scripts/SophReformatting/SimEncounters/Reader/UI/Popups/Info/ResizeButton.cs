@@ -22,17 +22,17 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void Resize()
         {
-            CanvasResizer.Instance.ResizeValue += GetResizeValue();
+            CanvasResizer.ResizeValue01 += GetResizeValue();
             Update();
         }
 
         private float lastResizeValue = -1f;
         protected virtual void Update()
         {
-            if (lastResizeValue == CanvasResizer.Instance.ResizeValue)
+            if (lastResizeValue == CanvasResizer.ResizeValue01)
                 return;
 
-            lastResizeValue = CanvasResizer.Instance.ResizeValue;
+            lastResizeValue = CanvasResizer.ResizeValue01;
             Button.interactable = Enlarge ? lastResizeValue < .95f : lastResizeValue > .05f;
         }
 

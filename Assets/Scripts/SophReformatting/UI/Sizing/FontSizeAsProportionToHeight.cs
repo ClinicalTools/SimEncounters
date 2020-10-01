@@ -21,7 +21,7 @@ namespace ClinicalTools.UI
                 return text;
             }
         }
-        protected LayoutGroup parentGroup;
+        protected LayoutGroup ParentGroup { get; set; }
 
         private const float Tolerance = .0001f;
         private float height;
@@ -30,7 +30,7 @@ namespace ClinicalTools.UI
         {
             base.Awake();
             if (transform.parent != null)
-                parentGroup = transform.parent.GetComponent<LayoutGroup>();
+                ParentGroup = transform.parent.GetComponent<LayoutGroup>();
             UpdateFontSize();
         }
 
@@ -61,8 +61,8 @@ namespace ClinicalTools.UI
             lastFontSizePerHeight = FontSizePerHeight;
             Text.fontSize = FontSizePerHeight * height;
 
-            if (parentGroup != null)
-                SetDirty((RectTransform)parentGroup.transform);
+            if (ParentGroup != null)
+                SetDirty((RectTransform)ParentGroup.transform);
         }
 
         protected void SetDirty(RectTransform rectTransform)

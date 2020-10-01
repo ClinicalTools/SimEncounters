@@ -20,7 +20,7 @@ namespace ClinicalTools.UI
         }
         private void Update()
         {
-            if (AllowSwipe && (Input.touches.Length == 1 || Input.GetMouseButton(0)))
+            if (AllowSwipe && (Input.touches.Length == 1 || (Input.touches.Length == 0 && Input.GetMouseButton(0))))
                 TouchPosition(GetTouchPosition());
             else if (startPosition != null)
                 FinishSwipe();
