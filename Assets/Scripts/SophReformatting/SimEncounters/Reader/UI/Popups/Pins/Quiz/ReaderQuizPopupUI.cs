@@ -1,4 +1,4 @@
-﻿
+﻿using ClinicalTools.UI;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +13,8 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private BaseReaderPanelsCreator panelCreator;
         public ScrollRect ScrollRect { get => scrollRect; set => scrollRect = value; }
         [SerializeField] private ScrollRect scrollRect;
+        public ScrollRectGradient ScrollGradient { get => scrollGradient; set => scrollGradient = value; }
+        [SerializeField] private ScrollRectGradient scrollGradient;
 
         protected List<BaseReaderPanel> ReaderPanels { get; set; }
 
@@ -28,6 +30,8 @@ namespace ClinicalTools.SimEncounters
             ReaderPanels = PanelCreator.DrawChildPanels(quizPin.GetPanels());
 
             ScrollRect.normalizedPosition = Vector2.one;
+            if (ScrollGradient != null)
+                ScrollGradient.ResetGradients();
         }
 
         protected virtual void Hide()

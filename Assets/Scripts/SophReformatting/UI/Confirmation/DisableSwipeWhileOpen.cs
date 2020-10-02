@@ -11,8 +11,8 @@ namespace ClinicalTools.SimEncounters
         [Inject]
         public virtual void Inject(SwipeManager swipeManager) => SwipeManager = swipeManager;
 
-        protected virtual void OnEnable() => SwipeManager.AllowSwipe = false;
-        protected virtual void OnDisable() => SwipeManager.AllowSwipe = true;
+        protected virtual void OnEnable() => SwipeManager.DisableSwipe();
+        protected virtual void OnDisable() => SwipeManager.ReenableSwipe();
 #endif
     }
 }

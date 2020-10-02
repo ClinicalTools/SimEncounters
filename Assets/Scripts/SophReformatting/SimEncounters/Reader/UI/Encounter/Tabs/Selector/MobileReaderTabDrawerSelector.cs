@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using ClinicalTools.UI;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,8 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private TMP_Text tabName;
         public ScrollRect ScrollRect { get => scrollRect; set => scrollRect = value; }
         [SerializeField] private ScrollRect scrollRect;
+        public ScrollRectGradient ScrollGradient { get => scrollGradient; set => scrollGradient = value; }
+        [SerializeField] private ScrollRectGradient scrollGradient;
 
         protected BaseUserTabDrawer CurrentTabDrawer { get; set; }
         public override void Display(UserTab tab)
@@ -21,6 +24,8 @@ namespace ClinicalTools.SimEncounters
 
             if (ScrollRect != null)
                 ScrollRect.verticalNormalizedPosition = 1;
+            if (ScrollGradient != null)
+                ScrollGradient.ResetGradients();
 
             TabName.text = tab.Data.Name;
             var prefab = GetTabPrefab(tab.Data);

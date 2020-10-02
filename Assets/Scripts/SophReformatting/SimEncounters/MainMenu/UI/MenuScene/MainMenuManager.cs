@@ -15,8 +15,8 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private LoadingScreen loadingScreen;
         public BaseInitialLoginHandler LoginHandler { get => login; set => login = value; }
         [SerializeField] private BaseInitialLoginHandler login;
-        public GameObject WelcomeScreen { get => welcomeScreen; set => welcomeScreen = value; }
-        [SerializeField] private GameObject welcomeScreen;
+        public List<GameObject> WelcomeScreens { get => welcomeScreens; }
+        [SerializeField] private List<GameObject> welcomeScreens = new List<GameObject>();
 
         protected IMenuEncountersInfoReader MenuInfoReader { get; set; }
         protected IEncounterQuickStarter EncounterQuickStarter { get; set; }
@@ -47,8 +47,8 @@ namespace ClinicalTools.SimEncounters
 
         protected override void StartAsLaterScene()
         {
-            if (WelcomeScreen != null)
-                WelcomeScreen.SetActive(false);
+            foreach (var welcomeScreen in WelcomeScreens)
+                welcomeScreen.SetActive(false);
 
             Destroy(LoadingScreen.gameObject);
         }

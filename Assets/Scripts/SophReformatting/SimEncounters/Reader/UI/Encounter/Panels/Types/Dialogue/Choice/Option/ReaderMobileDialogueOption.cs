@@ -13,6 +13,9 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private GameObject normalObject;
         public virtual Toggle Toggle { get => toggle; set => toggle = value; }
         [SerializeField] private Toggle toggle;
+        public virtual Sprite OnSprite { get => onSprite; set => onSprite = value; }
+        [SerializeField] private Sprite onSprite;
+        protected Sprite OffSprite { get; set; }
         public virtual Color OnColor { get => onColor; set => onColor = value; }
         [SerializeField] private Color onColor;
         protected Color OffColor { get; set; }
@@ -29,6 +32,7 @@ namespace ClinicalTools.SimEncounters
         protected virtual void Awake()
         {
             OffColor = OnColor;
+            OffSprite = Toggle.image.sprite;
             Toggle.onValueChanged.AddListener(GetFeedback);
         }
 
@@ -40,6 +44,7 @@ namespace ClinicalTools.SimEncounters
             if (!isOn) {
                 Toggle.interactable = true;
                 Border.color = OffColor;
+                Toggle.image.sprite = OffSprite;
                 Feedback.CloseFeedback();
                 return;
             } 
@@ -47,6 +52,7 @@ namespace ClinicalTools.SimEncounters
             if (Feedback.OptionType != OptionType.Correct) {
                 Toggle.interactable = false;
                 Border.color = OnColor;
+                Toggle.image.sprite = OnSprite;
                 Feedback.ShowFeedback(isOn);
                 return;
             }

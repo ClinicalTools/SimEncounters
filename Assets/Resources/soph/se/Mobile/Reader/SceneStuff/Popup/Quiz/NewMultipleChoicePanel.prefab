@@ -251,6 +251,7 @@ GameObject:
   - component: {fileID: 2602743842525467516}
   - component: {fileID: 8195901123714128100}
   - component: {fileID: 2460042383006473371}
+  - component: {fileID: 7599632976655784319}
   m_Layer: 5
   m_Name: SubmitButton
   m_TagString: Untagged
@@ -314,7 +315,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 0.890809
 --- !u!114 &1576087900063777629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -406,6 +407,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorType: 4
+--- !u!114 &7599632976655784319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3284639354970582314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f158c6fe3ddf74f428e31e3a40c72b34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4930348542247110300
 GameObject:
   m_ObjectHideFlags: 0
@@ -421,6 +434,7 @@ GameObject:
   - component: {fileID: 3706679157382321234}
   - component: {fileID: 3842644363140168082}
   - component: {fileID: 5611335060888192994}
+  - component: {fileID: 1093544830647964175}
   m_Layer: 5
   m_Name: Feedback
   m_TagString: Untagged
@@ -489,8 +503,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 0
+    m_Left: 60
+    m_Right: 60
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
@@ -526,8 +540,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
-  m_MinWidth: -1
-  m_MinHeight: -1
+  m_MinWidth: 0
+  m_MinHeight: 0
   m_PreferredWidth: -1
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
@@ -553,6 +567,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 301f99badaf208e4299be500420360e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1093544830647964175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4930348542247110300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab213a18ef57689489a6282379401bb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useProportionOfParent: 0
+  left: 0.06
+  right: 0.06
+  top: 0
+  bottom: 0
+  spacing: 0
 --- !u!1 &5855129533444244720
 GameObject:
   m_ObjectHideFlags: 0
@@ -853,6 +885,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imageGroup: {fileID: 5856063273245120906}
+  setMinValues: 1
   expandToMax: 0
   maxWidth: 256
   maxHeight: -1
@@ -1633,6 +1666,7 @@ GameObject:
   - component: {fileID: 5936612499846412580}
   - component: {fileID: 3618940574132790967}
   - component: {fileID: 3870025780155269130}
+  - component: {fileID: 7135318776845542001}
   m_Layer: 5
   m_Name: NewMultipleChoicePanel
   m_TagString: Untagged
@@ -1749,7 +1783,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: Multiple Choice
-  getFeedbackButton: {fileID: 0}
+  getFeedbackButton: {fileID: 1576087900063777629}
   childPanelCreator: {fileID: 7843692434095657683}
 --- !u!114 &3870025780155269130
 MonoBehaviour:
@@ -1764,6 +1798,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _containerSource: 2
+--- !u!114 &7135318776845542001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5856726618561694274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: 0
+  m_MinHeight: 0
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &5856771941302388604
 GameObject:
   m_ObjectHideFlags: 0

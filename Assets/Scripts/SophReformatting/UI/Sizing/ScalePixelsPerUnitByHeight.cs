@@ -20,15 +20,20 @@ namespace ClinicalTools.SimEncounters.UI
 
         private const float Tolerance = .0001f;
         private float height;
+        private float scale;
         protected override void OnRectTransformDimensionsChange()
         {
             base.OnRectTransformDimensionsChange();
 
             var currentHeight = RectTransform.rect.height;
-            if (Mathf.Abs(currentHeight - height) < Tolerance)
+            var currentScale = RectTransform.lossyScale.y;
+            if (Mathf.Abs(currentHeight - height) < Tolerance
+                && Mathf.Abs(currentScale - scale) < Tolerance) {
                 return;
+            }
 
             height = currentHeight;
+            scale = currentScale;
             UpdateSize();
         }
 
@@ -53,9 +58,10 @@ namespace ClinicalTools.SimEncounters.UI
 
             if (height == 0)
                 height = RectTransform.rect.height;
+            scale = RectTransform.lossyScale.y;
 
             var imageheight = Texture.height;
-            Image.pixelsPerUnitMultiplier = imageheight / height;
+            Image.pixelsPerUnitMultiplier =  imageheight / height / scale;
         }
     }
 }

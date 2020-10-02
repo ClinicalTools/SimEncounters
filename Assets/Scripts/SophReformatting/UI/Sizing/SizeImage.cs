@@ -10,6 +10,10 @@ namespace ClinicalTools.SimEncounters.UI
 
         public float Scale { get => scale; set => scale = value; }
         [SerializeField] private float scale = .5f;
+        public bool SizeWidth { get => sizeWidth; set => sizeWidth = value; }
+        [SerializeField] private bool sizeWidth = true;
+        public bool SizeHeight { get => sizeHeight; set => sizeHeight = value; }
+        [SerializeField] private bool sizeHeight = true;
 
         protected RectTransform RectTransform => (RectTransform)transform;
 
@@ -47,8 +51,10 @@ namespace ClinicalTools.SimEncounters.UI
             heightProportion *= Scale;
             var height = heightProportion * Texture.height;
             var width = heightProportion * Texture.width;
-            RectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
-            RectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+            if (SizeWidth)
+                RectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
+            if (SizeHeight)
+                RectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
         }
     }
 }
