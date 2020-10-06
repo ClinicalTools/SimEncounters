@@ -46,6 +46,7 @@ namespace ClinicalTools.SimEncounters
 
         private void ProcessResults(WaitableTask<EncounterImageContent> result, TaskResult<string> serverResult)
         {
+            UnityEngine.Debug.LogWarning(serverResult.Value);
             result.SetResult(parser.Deserialize(serverResult.Value));
         }
     }

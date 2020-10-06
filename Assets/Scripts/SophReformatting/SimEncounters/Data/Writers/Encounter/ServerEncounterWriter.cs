@@ -146,7 +146,7 @@ namespace ClinicalTools.SimEncounters
             if (metadata.Sprite == null)
                 return;
 
-            form.AddField(SpriteDataVariable, SpriteSerializer.Serialize(metadata.Sprite));
+            AddEscapedField(form, SpriteDataVariable, SpriteSerializer.Serialize(metadata.Sprite));
             form.AddField(SpriteWidthVariable, metadata.Sprite.texture.width);
             form.AddField(SpriteHeightVariable, metadata.Sprite.texture.height);
         }

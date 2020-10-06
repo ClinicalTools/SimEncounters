@@ -51,8 +51,10 @@ namespace ClinicalTools.SimEncounters
             Title.text = title;
             Description.text = description;
             gameObject.SetActive(true);
-            ConfirmationLabel.text = confirmationText.ToUpper();
-            CancellationLabel.text = cancellationText.ToUpper();
+            if (ConfirmationLabel != null)
+                ConfirmationLabel.text = confirmationText.ToUpper();
+            if (CancellationLabel != null)
+                CancellationLabel.text = cancellationText.ToUpper();
 #if MOBILE
             BackButton.Register(Cancel);
 #endif
@@ -69,7 +71,7 @@ namespace ClinicalTools.SimEncounters
             CancellationAction?.Invoke();
             Close();
         }
-  
+
         protected virtual void Close()
         {
             ConfirmationAction = null;

@@ -12,6 +12,7 @@ ScriptsOnlyBuild:
     - CEScrollRect
     - ChangeSceneScript
     - ClinicalTools.ClinicalEncounters.BMIField
+    - ClinicalTools.ClinicalEncounters.CEBetterCompletionPopup
     - ClinicalTools.ClinicalEncounters.CECompletionPopup
     - ClinicalTools.ClinicalEncounters.CEImageUploaderUI
     - ClinicalTools.ClinicalEncounters.CEWriterMetadataDisplay
@@ -33,6 +34,7 @@ ScriptsOnlyBuild:
     - ClinicalTools.SimEncounters.ConfirmationPopup
     - ClinicalTools.SimEncounters.DifficultyUI
     - ClinicalTools.SimEncounters.DisableOnAndroidBackupButton
+    - ClinicalTools.SimEncounters.DisableSwipeWhileOpen
     - ClinicalTools.SimEncounters.DragHandle
     - ClinicalTools.SimEncounters.DropdownValueField
     - ClinicalTools.SimEncounters.EncounterButtonsUI
@@ -44,14 +46,19 @@ ScriptsOnlyBuild:
     - ClinicalTools.SimEncounters.HiddenValueField
     - ClinicalTools.SimEncounters.IconSelectorUI
     - ClinicalTools.SimEncounters.ImageUploaderUI
+    - ClinicalTools.SimEncounters.InstructionsPopup
     - ClinicalTools.SimEncounters.LabelValueField
     - ClinicalTools.SimEncounters.LoginInstaller
     - ClinicalTools.SimEncounters.MainMenuCategorySelectorUI
     - ClinicalTools.SimEncounters.MainMenuEncounterUI
     - ClinicalTools.SimEncounters.MainMenuEncountersViewUI
     - ClinicalTools.SimEncounters.MedicalTestOptionsRetriever
+    - ClinicalTools.SimEncounters.MenuCategorySelector
     - ClinicalTools.SimEncounters.MetadataSelector
     - ClinicalTools.SimEncounters.MobileDesktopInstaller
+    - ClinicalTools.SimEncounters.MobileReaderImage
+    - ClinicalTools.SimEncounters.MobileReaderTabDrawerSelector
+    - ClinicalTools.SimEncounters.MobileReaderTabToggle
     - ClinicalTools.SimEncounters.NumberedWriterPanel
     - ClinicalTools.SimEncounters.OverviewUI
     - ClinicalTools.SimEncounters.ParserInstaller
@@ -60,6 +67,7 @@ ScriptsOnlyBuild:
     - ClinicalTools.SimEncounters.ReaderCheckboxPanelsDrawer
     - ClinicalTools.SimEncounters.ReaderCheckboxesPanel
     - ClinicalTools.SimEncounters.ReaderCheckboxesTab
+    - ClinicalTools.SimEncounters.ReaderCompletableEncounterHandler
     - ClinicalTools.SimEncounters.ReaderDialogueChoice
     - ClinicalTools.SimEncounters.ReaderDialogueEntry
     - ClinicalTools.SimEncounters.ReaderDialogueOption
@@ -69,16 +77,28 @@ ScriptsOnlyBuild:
     - ClinicalTools.SimEncounters.ReaderDialoguePopupUI
     - ClinicalTools.SimEncounters.ReaderEncounterDrawer
     - ClinicalTools.SimEncounters.ReaderEncounterInfo
+    - ClinicalTools.SimEncounters.ReaderEncounterInfoPopupUI
     - ClinicalTools.SimEncounters.ReaderFeedbackUI
     - ClinicalTools.SimEncounters.ReaderFooter
     - ClinicalTools.SimEncounters.ReaderImage
     - ClinicalTools.SimEncounters.ReaderImagePopupUI
-    - ClinicalTools.SimEncounters.ReaderInfoPopupUI
     - ClinicalTools.SimEncounters.ReaderLabelField
     - ClinicalTools.SimEncounters.ReaderManager
+    - ClinicalTools.SimEncounters.ReaderMobileDialogueChoice
+    - ClinicalTools.SimEncounters.ReaderMobileDialogueOption
+    - ClinicalTools.SimEncounters.ReaderMobileDialoguePanelsCreator
+    - ClinicalTools.SimEncounters.ReaderMobileFooter
+    - ClinicalTools.SimEncounters.ReaderMobileImagePopupUI
+    - ClinicalTools.SimEncounters.ReaderMobileMainTopBar
+    - ClinicalTools.SimEncounters.ReaderMobileSectionSelector
+    - ClinicalTools.SimEncounters.ReaderMobileSectionToggle
+    - ClinicalTools.SimEncounters.ReaderMobileSideBottomBar
+    - ClinicalTools.SimEncounters.ReaderMobileSideTopBar
+    - ClinicalTools.SimEncounters.ReaderMobileSidebar
     - ClinicalTools.SimEncounters.ReaderMultipleChoiceOption
     - ClinicalTools.SimEncounters.ReaderMultipleChoiceOptionsDrawer
     - ClinicalTools.SimEncounters.ReaderMultipleChoicePanel
+    - ClinicalTools.SimEncounters.ReaderOpenMenuButton
     - ClinicalTools.SimEncounters.ReaderOrderableGroupPanelUI
     - ClinicalTools.SimEncounters.ReaderOrderableItemPanelUI
     - ClinicalTools.SimEncounters.ReaderOrderablePanelsDrawer
@@ -88,6 +108,7 @@ ScriptsOnlyBuild:
     - ClinicalTools.SimEncounters.ReaderPinButtonUI
     - ClinicalTools.SimEncounters.ReaderPinButtonsUI
     - ClinicalTools.SimEncounters.ReaderPopupInstaller
+    - ClinicalTools.SimEncounters.ReaderProgressBar
     - ClinicalTools.SimEncounters.ReaderQuizPanelsCreator
     - ClinicalTools.SimEncounters.ReaderQuizPinButton
     - ClinicalTools.SimEncounters.ReaderQuizPopupUI
@@ -100,11 +121,16 @@ ScriptsOnlyBuild:
     - ClinicalTools.SimEncounters.ReaderTabSelector
     - ClinicalTools.SimEncounters.ReaderTabToggle
     - ClinicalTools.SimEncounters.RecordNumberLabel
+    - ClinicalTools.SimEncounters.ResizeButton
     - ClinicalTools.SimEncounters.SceneManagerInstaller
     - ClinicalTools.SimEncounters.SectionCreatorPopup
     - ClinicalTools.SimEncounters.SectionEditorPopup
     - ClinicalTools.SimEncounters.SerializationFactoryInstaller
     - ClinicalTools.SimEncounters.ServerInstaller
+    - ClinicalTools.SimEncounters.SettingsPopup
+    - ClinicalTools.SimEncounters.ShowEncounterInfoButton
+    - ClinicalTools.SimEncounters.ShowInstructionsButton
+    - ClinicalTools.SimEncounters.ShowSettingsButton
     - ClinicalTools.SimEncounters.TabCreatorPopup
     - ClinicalTools.SimEncounters.TabEditorPopup
     - ClinicalTools.SimEncounters.TabScrollButtonScript
@@ -114,6 +140,8 @@ ScriptsOnlyBuild:
     - ClinicalTools.SimEncounters.ToggleValueField
     - ClinicalTools.SimEncounters.UI.ColorImage
     - ClinicalTools.SimEncounters.UI.ColorLabel
+    - ClinicalTools.SimEncounters.UI.ScalePixelsPerUnitByHeight
+    - ClinicalTools.SimEncounters.UI.SizeImage
     - ClinicalTools.SimEncounters.ValueSliderUI
     - ClinicalTools.SimEncounters.WebGLCompletionPopup
     - ClinicalTools.SimEncounters.WriterAddablePanel
@@ -135,12 +163,19 @@ ScriptsOnlyBuild:
     - ClinicalTools.UI.DisabledButtonTooltip
     - ClinicalTools.UI.DropdownTextfield
     - ClinicalTools.UI.FontSizeAsProportionToHeight
+    - ClinicalTools.UI.GridCellSizeBasedOnResolution
+    - ClinicalTools.UI.HeightAsProportionToWidth
     - ClinicalTools.UI.MessageHandler
     - ClinicalTools.UI.MouseInput
     - ClinicalTools.UI.NoUnselectGroup
     - ClinicalTools.UI.OptionsRetriever
+    - ClinicalTools.UI.PaddingByProportion
+    - ClinicalTools.UI.ScrollRectGradient
     - ClinicalTools.UI.SelectableToggle
+    - ClinicalTools.UI.SetAsDirtyWhenResized
+    - ClinicalTools.UI.SetDimensionsAsProportionOfParent
     - ClinicalTools.UI.SizeOverflowingLabelToFitLine
+    - ClinicalTools.UI.SwitchImageToggle
     - ClinicalTools.UI.Tooltip
     - ClinicalTools.UI.VerticalDraggableGroup
     - ClinicalTools.UI.WidthAsProportionToHeight
@@ -188,7 +223,6 @@ ScriptsOnlyBuild:
     - PinManagerScript
     - PinOnClickScript
     - PinTabScript
-    - ReaderCaseOverviewScript
     - ReaderDialogueManagerScript
     - ReaderEntryManagerScript
     - ReaderNextTabScript
@@ -206,7 +240,7 @@ ScriptsOnlyBuild:
     - SetGenderScript
     - StayOnScreen
     - SubmitToXML
-    - SwipeManager
+    - SwipeManagerOld
     - TMPClickableLinksScript
     - TMPInputFieldOverrideScript
     - TabColumn
@@ -222,6 +256,8 @@ ScriptsOnlyBuild:
     - UpdateName
     - UpdateStars
     - VerticalFitOnScreen
+    ReorderableArray.dll:
+    - UnityEditor.ReorderableArrayEditor
     Unity.2D.Tilemap.Editor.dll:
     - UnityEditor.Tilemaps.GridPaintingState
     - UnityEditor.Tilemaps.GridPaletteBrushes
@@ -294,9 +330,13 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 49
       Script: {instanceID: 0}
+    - Class: 74
+      Script: {instanceID: 0}
     - Class: 84
       Script: {instanceID: 0}
     - Class: 90
+      Script: {instanceID: 0}
+    - Class: 91
       Script: {instanceID: 0}
     - Class: 95
       Script: {instanceID: 0}
@@ -305,537 +345,605 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 668}
     - Class: 114
-      Script: {instanceID: 11234}
+      Script: {instanceID: 11316}
     - Class: 114
-      Script: {instanceID: 11236}
+      Script: {instanceID: 11318}
     - Class: 114
-      Script: {instanceID: 11238}
+      Script: {instanceID: 11320}
     - Class: 114
-      Script: {instanceID: 11240}
-    - Class: 114
-      Script: {instanceID: 11242}
-    - Class: 114
-      Script: {instanceID: 11244}
-    - Class: 114
-      Script: {instanceID: 11246}
-    - Class: 114
-      Script: {instanceID: 11248}
-    - Class: 114
-      Script: {instanceID: 11250}
-    - Class: 114
-      Script: {instanceID: 11252}
-    - Class: 114
-      Script: {instanceID: 11254}
-    - Class: 114
-      Script: {instanceID: 11256}
-    - Class: 114
-      Script: {instanceID: 11258}
-    - Class: 114
-      Script: {instanceID: 11260}
-    - Class: 114
-      Script: {instanceID: 11274}
-    - Class: 114
-      Script: {instanceID: 11280}
-    - Class: 114
-      Script: {instanceID: 11304}
-    - Class: 114
-      Script: {instanceID: 11314}
+      Script: {instanceID: 11322}
     - Class: 114
       Script: {instanceID: 11324}
     - Class: 114
+      Script: {instanceID: 11326}
+    - Class: 114
+      Script: {instanceID: 11328}
+    - Class: 114
+      Script: {instanceID: 11330}
+    - Class: 114
+      Script: {instanceID: 11332}
+    - Class: 114
       Script: {instanceID: 11334}
     - Class: 114
-      Script: {instanceID: 11346}
+      Script: {instanceID: 11336}
     - Class: 114
-      Script: {instanceID: 11394}
+      Script: {instanceID: 11338}
+    - Class: 114
+      Script: {instanceID: 11340}
+    - Class: 114
+      Script: {instanceID: 11342}
+    - Class: 114
+      Script: {instanceID: 11356}
+    - Class: 114
+      Script: {instanceID: 11362}
+    - Class: 114
+      Script: {instanceID: 11386}
+    - Class: 114
+      Script: {instanceID: 11396}
     - Class: 114
       Script: {instanceID: 11398}
     - Class: 114
       Script: {instanceID: 11406}
     - Class: 114
-      Script: {instanceID: 11434}
+      Script: {instanceID: 11416}
+    - Class: 114
+      Script: {instanceID: 11428}
     - Class: 114
       Script: {instanceID: 11478}
     - Class: 114
-      Script: {instanceID: 11480}
+      Script: {instanceID: 11482}
     - Class: 114
-      Script: {instanceID: 11498}
+      Script: {instanceID: 11488}
     - Class: 114
-      Script: {instanceID: 11504}
+      Script: {instanceID: 11492}
     - Class: 114
       Script: {instanceID: 11508}
     - Class: 114
-      Script: {instanceID: 11526}
+      Script: {instanceID: 11524}
     - Class: 114
-      Script: {instanceID: 11556}
+      Script: {instanceID: 11568}
     - Class: 114
-      Script: {instanceID: 11584}
+      Script: {instanceID: 11570}
+    - Class: 114
+      Script: {instanceID: 11588}
+    - Class: 114
+      Script: {instanceID: 11594}
     - Class: 114
       Script: {instanceID: 11598}
     - Class: 114
-      Script: {instanceID: 11628}
+      Script: {instanceID: 11618}
     - Class: 114
-      Script: {instanceID: 11640}
+      Script: {instanceID: 11648}
     - Class: 114
-      Script: {instanceID: 11662}
+      Script: {instanceID: 11676}
     - Class: 114
-      Script: {instanceID: 11672}
+      Script: {instanceID: 11690}
     - Class: 114
-      Script: {instanceID: 11714}
+      Script: {instanceID: 11720}
     - Class: 114
-      Script: {instanceID: 11740}
+      Script: {instanceID: 11734}
+    - Class: 114
+      Script: {instanceID: 11750}
+    - Class: 114
+      Script: {instanceID: 11758}
+    - Class: 114
+      Script: {instanceID: 11768}
     - Class: 114
       Script: {instanceID: 11814}
     - Class: 114
-      Script: {instanceID: 11830}
+      Script: {instanceID: 11844}
     - Class: 114
-      Script: {instanceID: 11878}
+      Script: {instanceID: 11920}
     - Class: 114
-      Script: {instanceID: 11900}
+      Script: {instanceID: 11934}
     - Class: 114
-      Script: {instanceID: 11978}
+      Script: {instanceID: 11940}
     - Class: 114
-      Script: {instanceID: 11992}
+      Script: {instanceID: 11994}
     - Class: 114
-      Script: {instanceID: 12012}
+      Script: {instanceID: 12018}
     - Class: 114
-      Script: {instanceID: 12052}
+      Script: {instanceID: 12056}
     - Class: 114
-      Script: {instanceID: 12058}
+      Script: {instanceID: 12084}
     - Class: 114
-      Script: {instanceID: 12060}
+      Script: {instanceID: 12098}
     - Class: 114
-      Script: {instanceID: 12066}
+      Script: {instanceID: 12112}
     - Class: 114
-      Script: {instanceID: 12072}
+      Script: {instanceID: 12130}
     - Class: 114
-      Script: {instanceID: 12090}
+      Script: {instanceID: 12174}
     - Class: 114
-      Script: {instanceID: 12094}
+      Script: {instanceID: 12180}
     - Class: 114
-      Script: {instanceID: 12100}
+      Script: {instanceID: 12182}
     - Class: 114
-      Script: {instanceID: 12122}
+      Script: {instanceID: 12188}
     - Class: 114
-      Script: {instanceID: 12128}
+      Script: {instanceID: 12196}
     - Class: 114
-      Script: {instanceID: 12148}
+      Script: {instanceID: 12198}
     - Class: 114
-      Script: {instanceID: 12184}
+      Script: {instanceID: 12200}
     - Class: 114
-      Script: {instanceID: 12186}
+      Script: {instanceID: 12218}
     - Class: 114
-      Script: {instanceID: 12192}
+      Script: {instanceID: 12222}
     - Class: 114
-      Script: {instanceID: 12194}
+      Script: {instanceID: 12228}
     - Class: 114
-      Script: {instanceID: 12240}
+      Script: {instanceID: 12252}
     - Class: 114
-      Script: {instanceID: 12242}
+      Script: {instanceID: 12258}
     - Class: 114
-      Script: {instanceID: 12256}
-    - Class: 114
-      Script: {instanceID: 12316}
+      Script: {instanceID: 12282}
     - Class: 114
       Script: {instanceID: 12320}
     - Class: 114
+      Script: {instanceID: 12322}
+    - Class: 114
       Script: {instanceID: 12328}
     - Class: 114
-      Script: {instanceID: 12340}
+      Script: {instanceID: 12330}
     - Class: 114
-      Script: {instanceID: 12342}
+      Script: {instanceID: 12376}
     - Class: 114
-      Script: {instanceID: 12358}
+      Script: {instanceID: 12382}
     - Class: 114
-      Script: {instanceID: 12380}
+      Script: {instanceID: 12384}
     - Class: 114
-      Script: {instanceID: 12390}
+      Script: {instanceID: 12398}
     - Class: 114
-      Script: {instanceID: 12408}
+      Script: {instanceID: 12458}
     - Class: 114
-      Script: {instanceID: 12414}
+      Script: {instanceID: 12462}
     - Class: 114
-      Script: {instanceID: 12444}
-    - Class: 114
-      Script: {instanceID: 12446}
-    - Class: 114
-      Script: {instanceID: 12472}
+      Script: {instanceID: 12470}
     - Class: 114
       Script: {instanceID: 12482}
     - Class: 114
-      Script: {instanceID: 12504}
+      Script: {instanceID: 12484}
     - Class: 114
-      Script: {instanceID: 12536}
+      Script: {instanceID: 12500}
+    - Class: 114
+      Script: {instanceID: 12520}
+    - Class: 114
+      Script: {instanceID: 12526}
+    - Class: 114
+      Script: {instanceID: 12534}
     - Class: 114
       Script: {instanceID: 12552}
     - Class: 114
-      Script: {instanceID: 12566}
+      Script: {instanceID: 12558}
     - Class: 114
-      Script: {instanceID: 12574}
+      Script: {instanceID: 12590}
     - Class: 114
-      Script: {instanceID: 12602}
+      Script: {instanceID: 12592}
     - Class: 114
-      Script: {instanceID: 12628}
+      Script: {instanceID: 12616}
     - Class: 114
-      Script: {instanceID: 12710}
+      Script: {instanceID: 12626}
     - Class: 114
-      Script: {instanceID: 12714}
+      Script: {instanceID: 12652}
     - Class: 114
-      Script: {instanceID: 12716}
+      Script: {instanceID: 12686}
     - Class: 114
-      Script: {instanceID: 12780}
+      Script: {instanceID: 12704}
     - Class: 114
-      Script: {instanceID: 12788}
+      Script: {instanceID: 12722}
     - Class: 114
-      Script: {instanceID: 12800}
+      Script: {instanceID: 12730}
     - Class: 114
-      Script: {instanceID: 12804}
+      Script: {instanceID: 12756}
     - Class: 114
-      Script: {instanceID: 12820}
+      Script: {instanceID: 12786}
     - Class: 114
-      Script: {instanceID: 12890}
+      Script: {instanceID: 12822}
     - Class: 114
-      Script: {instanceID: 12900}
+      Script: {instanceID: 12870}
     - Class: 114
-      Script: {instanceID: 12926}
+      Script: {instanceID: 12874}
     - Class: 114
-      Script: {instanceID: 12930}
+      Script: {instanceID: 12876}
     - Class: 114
-      Script: {instanceID: 12950}
+      Script: {instanceID: 12940}
     - Class: 114
-      Script: {instanceID: 12960}
+      Script: {instanceID: 12948}
     - Class: 114
-      Script: {instanceID: 12974}
+      Script: {instanceID: 12962}
     - Class: 114
-      Script: {instanceID: 12980}
+      Script: {instanceID: 12966}
     - Class: 114
-      Script: {instanceID: 13002}
+      Script: {instanceID: 12982}
     - Class: 114
-      Script: {instanceID: 13008}
+      Script: {instanceID: 13004}
     - Class: 114
-      Script: {instanceID: 13028}
+      Script: {instanceID: 13058}
     - Class: 114
-      Script: {instanceID: 13036}
+      Script: {instanceID: 13068}
     - Class: 114
-      Script: {instanceID: 13042}
+      Script: {instanceID: 13094}
     - Class: 114
-      Script: {instanceID: 13060}
+      Script: {instanceID: 13098}
     - Class: 114
-      Script: {instanceID: 13062}
+      Script: {instanceID: 13122}
     - Class: 114
-      Script: {instanceID: 13074}
+      Script: {instanceID: 13134}
     - Class: 114
-      Script: {instanceID: 13172}
+      Script: {instanceID: 13148}
     - Class: 114
-      Script: {instanceID: 13176}
+      Script: {instanceID: 13154}
     - Class: 114
-      Script: {instanceID: 13186}
+      Script: {instanceID: 13174}
     - Class: 114
-      Script: {instanceID: 13214}
+      Script: {instanceID: 13180}
     - Class: 114
-      Script: {instanceID: 13224}
+      Script: {instanceID: 13200}
     - Class: 114
-      Script: {instanceID: 13248}
+      Script: {instanceID: 13210}
     - Class: 114
-      Script: {instanceID: 13256}
+      Script: {instanceID: 13216}
     - Class: 114
-      Script: {instanceID: 13342}
+      Script: {instanceID: 13236}
     - Class: 114
-      Script: {instanceID: 13348}
+      Script: {instanceID: 13238}
     - Class: 114
-      Script: {instanceID: 13352}
+      Script: {instanceID: 13252}
+    - Class: 114
+      Script: {instanceID: 13350}
+    - Class: 114
+      Script: {instanceID: 13354}
     - Class: 114
       Script: {instanceID: 13364}
     - Class: 114
-      Script: {instanceID: 13406}
+      Script: {instanceID: 13392}
     - Class: 114
-      Script: {instanceID: 13416}
+      Script: {instanceID: 13402}
     - Class: 114
-      Script: {instanceID: 13436}
+      Script: {instanceID: 13428}
     - Class: 114
-      Script: {instanceID: 13448}
+      Script: {instanceID: 13434}
     - Class: 114
-      Script: {instanceID: 13474}
+      Script: {instanceID: 13530}
     - Class: 114
-      Script: {instanceID: 13524}
+      Script: {instanceID: 13532}
     - Class: 114
-      Script: {instanceID: 13558}
+      Script: {instanceID: 13538}
     - Class: 114
-      Script: {instanceID: 13562}
+      Script: {instanceID: 13542}
     - Class: 114
-      Script: {instanceID: 13576}
+      Script: {instanceID: 13554}
     - Class: 114
-      Script: {instanceID: 13588}
+      Script: {instanceID: 13598}
     - Class: 114
-      Script: {instanceID: 13622}
+      Script: {instanceID: 13610}
     - Class: 114
-      Script: {instanceID: 13626}
+      Script: {instanceID: 13632}
     - Class: 114
-      Script: {instanceID: 13636}
+      Script: {instanceID: 13646}
     - Class: 114
-      Script: {instanceID: 13660}
+      Script: {instanceID: 13672}
     - Class: 114
-      Script: {instanceID: 13674}
+      Script: {instanceID: 13684}
     - Class: 114
-      Script: {instanceID: 13676}
+      Script: {instanceID: 13724}
     - Class: 114
-      Script: {instanceID: 13682}
+      Script: {instanceID: 13758}
     - Class: 114
-      Script: {instanceID: 13718}
+      Script: {instanceID: 13762}
     - Class: 114
-      Script: {instanceID: 13726}
+      Script: {instanceID: 13772}
     - Class: 114
-      Script: {instanceID: 13734}
+      Script: {instanceID: 13784}
     - Class: 114
-      Script: {instanceID: 13778}
+      Script: {instanceID: 13822}
     - Class: 114
-      Script: {instanceID: 13810}
+      Script: {instanceID: 13826}
     - Class: 114
-      Script: {instanceID: 13832}
+      Script: {instanceID: 13838}
     - Class: 114
-      Script: {instanceID: 13836}
+      Script: {instanceID: 13864}
     - Class: 114
-      Script: {instanceID: 13844}
+      Script: {instanceID: 13880}
     - Class: 114
-      Script: {instanceID: 13874}
+      Script: {instanceID: 13882}
     - Class: 114
-      Script: {instanceID: 13878}
+      Script: {instanceID: 13888}
     - Class: 114
-      Script: {instanceID: 13890}
-    - Class: 114
-      Script: {instanceID: 13910}
+      Script: {instanceID: 13926}
     - Class: 114
       Script: {instanceID: 13934}
     - Class: 114
-      Script: {instanceID: 13954}
+      Script: {instanceID: 13942}
     - Class: 114
-      Script: {instanceID: 13960}
+      Script: {instanceID: 13988}
     - Class: 114
-      Script: {instanceID: 14030}
+      Script: {instanceID: 14020}
     - Class: 114
-      Script: {instanceID: 14036}
+      Script: {instanceID: 14034}
     - Class: 114
-      Script: {instanceID: 14048}
+      Script: {instanceID: 14042}
     - Class: 114
-      Script: {instanceID: 14052}
+      Script: {instanceID: 14046}
     - Class: 114
-      Script: {instanceID: 14056}
+      Script: {instanceID: 14054}
     - Class: 114
-      Script: {instanceID: 14072}
+      Script: {instanceID: 14086}
     - Class: 114
-      Script: {instanceID: 14078}
-    - Class: 114
-      Script: {instanceID: 14082}
+      Script: {instanceID: 14090}
     - Class: 114
       Script: {instanceID: 14102}
     - Class: 114
-      Script: {instanceID: 14104}
+      Script: {instanceID: 14122}
     - Class: 114
-      Script: {instanceID: 14106}
+      Script: {instanceID: 14146}
     - Class: 114
-      Script: {instanceID: 14126}
-    - Class: 114
-      Script: {instanceID: 14130}
-    - Class: 114
-      Script: {instanceID: 14150}
-    - Class: 114
-      Script: {instanceID: 14160}
-    - Class: 114
-      Script: {instanceID: 14164}
+      Script: {instanceID: 14166}
     - Class: 114
       Script: {instanceID: 14172}
     - Class: 114
-      Script: {instanceID: 14176}
+      Script: {instanceID: 14254}
     - Class: 114
-      Script: {instanceID: 14220}
+      Script: {instanceID: 14256}
     - Class: 114
-      Script: {instanceID: 14226}
+      Script: {instanceID: 14262}
     - Class: 114
-      Script: {instanceID: 14236}
+      Script: {instanceID: 14274}
     - Class: 114
-      Script: {instanceID: 14252}
+      Script: {instanceID: 14278}
     - Class: 114
-      Script: {instanceID: 14266}
+      Script: {instanceID: 14282}
     - Class: 114
-      Script: {instanceID: 14290}
+      Script: {instanceID: 14298}
     - Class: 114
-      Script: {instanceID: 14292}
+      Script: {instanceID: 14304}
     - Class: 114
-      Script: {instanceID: 14302}
+      Script: {instanceID: 14308}
     - Class: 114
-      Script: {instanceID: 14320}
+      Script: {instanceID: 14332}
     - Class: 114
-      Script: {instanceID: 14326}
+      Script: {instanceID: 14334}
     - Class: 114
-      Script: {instanceID: 14330}
+      Script: {instanceID: 14336}
     - Class: 114
-      Script: {instanceID: 14350}
+      Script: {instanceID: 14358}
     - Class: 114
-      Script: {instanceID: 14364}
+      Script: {instanceID: 14362}
     - Class: 114
-      Script: {instanceID: 14368}
+      Script: {instanceID: 14382}
+    - Class: 114
+      Script: {instanceID: 14392}
+    - Class: 114
+      Script: {instanceID: 14396}
     - Class: 114
       Script: {instanceID: 14404}
     - Class: 114
-      Script: {instanceID: 14420}
+      Script: {instanceID: 14408}
     - Class: 114
-      Script: {instanceID: 14434}
+      Script: {instanceID: 14456}
     - Class: 114
       Script: {instanceID: 14466}
     - Class: 114
       Script: {instanceID: 14474}
     - Class: 114
-      Script: {instanceID: 14480}
+      Script: {instanceID: 14484}
     - Class: 114
-      Script: {instanceID: 14490}
+      Script: {instanceID: 14498}
     - Class: 114
-      Script: {instanceID: 14504}
+      Script: {instanceID: 14522}
     - Class: 114
       Script: {instanceID: 14524}
     - Class: 114
-      Script: {instanceID: 14528}
+      Script: {instanceID: 14534}
     - Class: 114
-      Script: {instanceID: 14544}
+      Script: {instanceID: 14548}
     - Class: 114
-      Script: {instanceID: 14546}
+      Script: {instanceID: 14554}
     - Class: 114
-      Script: {instanceID: 14578}
+      Script: {instanceID: 14560}
+    - Class: 114
+      Script: {instanceID: 14564}
     - Class: 114
       Script: {instanceID: 14584}
     - Class: 114
-      Script: {instanceID: 14588}
+      Script: {instanceID: 14596}
     - Class: 114
-      Script: {instanceID: 14592}
+      Script: {instanceID: 14600}
     - Class: 114
-      Script: {instanceID: 14598}
+      Script: {instanceID: 14604}
     - Class: 114
-      Script: {instanceID: 14606}
+      Script: {instanceID: 14612}
     - Class: 114
-      Script: {instanceID: 14632}
+      Script: {instanceID: 14646}
     - Class: 114
       Script: {instanceID: 14656}
     - Class: 114
-      Script: {instanceID: 14724}
+      Script: {instanceID: 14668}
     - Class: 114
-      Script: {instanceID: 14744}
+      Script: {instanceID: 14682}
     - Class: 114
-      Script: {instanceID: 14764}
+      Script: {instanceID: 14718}
     - Class: 114
-      Script: {instanceID: 14798}
+      Script: {instanceID: 14726}
     - Class: 114
-      Script: {instanceID: 14816}
+      Script: {instanceID: 14732}
+    - Class: 114
+      Script: {instanceID: 14742}
+    - Class: 114
+      Script: {instanceID: 14756}
+    - Class: 114
+      Script: {instanceID: 14774}
+    - Class: 114
+      Script: {instanceID: 14778}
+    - Class: 114
+      Script: {instanceID: 14794}
+    - Class: 114
+      Script: {instanceID: 14796}
+    - Class: 114
+      Script: {instanceID: 14826}
+    - Class: 114
+      Script: {instanceID: 14832}
+    - Class: 114
+      Script: {instanceID: 14836}
+    - Class: 114
+      Script: {instanceID: 14842}
+    - Class: 114
+      Script: {instanceID: 14848}
+    - Class: 114
+      Script: {instanceID: 14856}
     - Class: 114
       Script: {instanceID: 14862}
     - Class: 114
-      Script: {instanceID: 14868}
+      Script: {instanceID: 14886}
     - Class: 114
-      Script: {instanceID: 14884}
+      Script: {instanceID: 14910}
     - Class: 114
-      Script: {instanceID: 14904}
+      Script: {instanceID: 14962}
     - Class: 114
-      Script: {instanceID: 14926}
+      Script: {instanceID: 14964}
     - Class: 114
-      Script: {instanceID: 14952}
+      Script: {instanceID: 14968}
     - Class: 114
-      Script: {instanceID: 14960}
+      Script: {instanceID: 14984}
     - Class: 114
-      Script: {instanceID: 14978}
+      Script: {instanceID: 15004}
     - Class: 114
-      Script: {instanceID: 14980}
+      Script: {instanceID: 15060}
     - Class: 114
-      Script: {instanceID: 14990}
+      Script: {instanceID: 15078}
     - Class: 114
-      Script: {instanceID: 15008}
+      Script: {instanceID: 15126}
     - Class: 114
-      Script: {instanceID: 15026}
+      Script: {instanceID: 15132}
     - Class: 114
-      Script: {instanceID: 15066}
-    - Class: 114
-      Script: {instanceID: 15102}
-    - Class: 114
-      Script: {instanceID: 15104}
-    - Class: 114
-      Script: {instanceID: 15120}
-    - Class: 114
-      Script: {instanceID: 15148}
+      Script: {instanceID: 15136}
     - Class: 114
       Script: {instanceID: 15150}
     - Class: 114
-      Script: {instanceID: 15156}
+      Script: {instanceID: 15158}
     - Class: 114
-      Script: {instanceID: 15178}
+      Script: {instanceID: 15172}
     - Class: 114
       Script: {instanceID: 15194}
     - Class: 114
-      Script: {instanceID: 15200}
+      Script: {instanceID: 15220}
     - Class: 114
-      Script: {instanceID: 15210}
+      Script: {instanceID: 15228}
     - Class: 114
-      Script: {instanceID: 15216}
+      Script: {instanceID: 15246}
     - Class: 114
-      Script: {instanceID: 15218}
+      Script: {instanceID: 15248}
     - Class: 114
-      Script: {instanceID: 15226}
+      Script: {instanceID: 15256}
     - Class: 114
-      Script: {instanceID: 15262}
-    - Class: 114
-      Script: {instanceID: 15272}
+      Script: {instanceID: 15274}
     - Class: 114
       Script: {instanceID: 15288}
     - Class: 114
-      Script: {instanceID: 15312}
+      Script: {instanceID: 15290}
     - Class: 114
       Script: {instanceID: 15324}
     - Class: 114
-      Script: {instanceID: 15352}
+      Script: {instanceID: 15332}
     - Class: 114
-      Script: {instanceID: 15356}
+      Script: {instanceID: 15364}
     - Class: 114
-      Script: {instanceID: 15388}
+      Script: {instanceID: 15370}
+    - Class: 114
+      Script: {instanceID: 15372}
     - Class: 114
       Script: {instanceID: 15390}
     - Class: 114
-      Script: {instanceID: 15392}
-    - Class: 114
       Script: {instanceID: 15418}
+    - Class: 114
+      Script: {instanceID: 15422}
     - Class: 114
       Script: {instanceID: 15424}
     - Class: 114
       Script: {instanceID: 15430}
     - Class: 114
-      Script: {instanceID: 15440}
-    - Class: 114
       Script: {instanceID: 15454}
     - Class: 114
-      Script: {instanceID: 15472}
+      Script: {instanceID: 15470}
     - Class: 114
-      Script: {instanceID: 15480}
+      Script: {instanceID: 15476}
+    - Class: 114
+      Script: {instanceID: 15486}
+    - Class: 114
+      Script: {instanceID: 15488}
     - Class: 114
       Script: {instanceID: 15494}
     - Class: 114
-      Script: {instanceID: 191140}
+      Script: {instanceID: 15496}
     - Class: 114
-      Script: {instanceID: 191146}
+      Script: {instanceID: 15504}
     - Class: 114
-      Script: {instanceID: 193070}
+      Script: {instanceID: 15536}
     - Class: 114
-      Script: {instanceID: 205336}
+      Script: {instanceID: 15540}
     - Class: 114
-      Script: {instanceID: 212676}
+      Script: {instanceID: 15550}
     - Class: 114
-      Script: {instanceID: 212820}
+      Script: {instanceID: 15566}
     - Class: 114
-      Script: {instanceID: 212916}
+      Script: {instanceID: 15588}
     - Class: 114
-      Script: {instanceID: 213010}
+      Script: {instanceID: 15598}
     - Class: 114
-      Script: {instanceID: 219596}
+      Script: {instanceID: 15626}
     - Class: 114
-      Script: {instanceID: 219834}
+      Script: {instanceID: 15630}
     - Class: 114
-      Script: {instanceID: 220104}
+      Script: {instanceID: 15660}
     - Class: 114
-      Script: {instanceID: 220108}
+      Script: {instanceID: 15662}
+    - Class: 114
+      Script: {instanceID: 15664}
+    - Class: 114
+      Script: {instanceID: 15668}
+    - Class: 114
+      Script: {instanceID: 15678}
+    - Class: 114
+      Script: {instanceID: 15698}
+    - Class: 114
+      Script: {instanceID: 15704}
+    - Class: 114
+      Script: {instanceID: 15712}
+    - Class: 114
+      Script: {instanceID: 15726}
+    - Class: 114
+      Script: {instanceID: 15740}
+    - Class: 114
+      Script: {instanceID: 15758}
+    - Class: 114
+      Script: {instanceID: 15766}
+    - Class: 114
+      Script: {instanceID: 15780}
+    - Class: 114
+      Script: {instanceID: 43838}
+    - Class: 114
+      Script: {instanceID: 43840}
+    - Class: 114
+      Script: {instanceID: 835608}
+    - Class: 114
+      Script: {instanceID: 858824}
+    - Class: 114
+      Script: {instanceID: 865894}
+    - Class: 114
+      Script: {instanceID: 866038}
+    - Class: 114
+      Script: {instanceID: 866134}
+    - Class: 114
+      Script: {instanceID: 866228}
+    - Class: 114
+      Script: {instanceID: 868384}
+    - Class: 114
+      Script: {instanceID: 868622}
+    - Class: 114
+      Script: {instanceID: 868892}
+    - Class: 114
+      Script: {instanceID: 868896}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -973,10 +1081,16 @@ ScriptsOnlyBuild:
     className: CanvasScaler
   - hash:
       serializedVersion: 2
-      Hash: ef75ccdea264c2b6492a8d127ee18a6c
+      Hash: 6366a5dc9a9ac604623d479d50747271
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
     className: ReaderDialoguePopupUI
+  - hash:
+      serializedVersion: 2
+      Hash: 176303d934b3fa11032f01726b761773
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: ReaderProgressBar
   - hash:
       serializedVersion: 2
       Hash: 9d7831060fc030294f6c4e9c2702d9b9
@@ -1055,6 +1169,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp-firstpass.dll
     namespaceName: Crosstales.Common.Util
     className: BackgroundController
+  - hash:
+      serializedVersion: 2
+      Hash: f7abd846a4ef17b28fb0e5e9cd41b130
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: ReaderMobileDialogueChoice
   - hash:
       serializedVersion: 2
       Hash: 1c792f01de221cd01603fb23bc657cd3
@@ -1207,6 +1327,12 @@ ScriptsOnlyBuild:
     className: MonoInstallerBase
   - hash:
       serializedVersion: 2
+      Hash: 1a38cfe22e4e07da6d3c4f125f9688a6
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: MobileReaderTabToggle
+  - hash:
+      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
@@ -1303,10 +1429,22 @@ ScriptsOnlyBuild:
     className: DropdownOption
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.UI
+    className: CanvasResizer
+  - hash:
+      serializedVersion: 2
       Hash: 6700b0b67eb021b40d4ef72eadc97283
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.Layout
     className: HorizontalGroup
+  - hash:
+      serializedVersion: 2
+      Hash: 2919c31e55b5ead17c542e103a1a5525
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.ClinicalEncounters
+    className: CEBetterCompletionPopup
   - hash:
       serializedVersion: 2
       Hash: ca132a0a8de26009690e50c9d486c795
@@ -1363,6 +1501,12 @@ ScriptsOnlyBuild:
     className: TMProLinks
   - hash:
       serializedVersion: 2
+      Hash: 9d4ab46bf1d5881ea9ae9b3398815bef
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: ReaderMobileSectionToggle
+  - hash:
+      serializedVersion: 2
       Hash: 18c222bef9ae745ce69ddde9b74337ca
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.EventSystems
@@ -1373,6 +1517,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ObjectFinder
+  - hash:
+      serializedVersion: 2
+      Hash: 185bd4bb06a2b4c98c721651e825d291
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: SettingsPopup
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -1393,7 +1543,7 @@ ScriptsOnlyBuild:
     className: LoadCharacterScript
   - hash:
       serializedVersion: 2
-      Hash: c94c03921c2726ac8b6fb86a828566e3
+      Hash: 0d6c6c3cff38c638b62df6cd303b9a11
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
     className: EncounterInfoUI
@@ -1459,6 +1609,18 @@ ScriptsOnlyBuild:
     className: SetGenderScript
   - hash:
       serializedVersion: 2
+      Hash: 8a10d1fc6029b3f51d0abc87582fa9fd
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: ShowSettingsButton
+  - hash:
+      serializedVersion: 2
+      Hash: 6f36fd629a33c50fa59310713b1b8f81
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: ReaderMobileSideBottomBar
+  - hash:
+      serializedVersion: 2
       Hash: 500dcfa22c2a0b592251a315f677e23d
     assemblyName: Assembly-CSharp-firstpass.dll
     namespaceName: Crosstales.Common.Util
@@ -1505,6 +1667,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
     className: ReaderPanelsCreator
+  - hash:
+      serializedVersion: 2
+      Hash: 2cd85f33a0622b695019ff404fa73e75
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: ReaderFullEncounterHandler
   - hash:
       serializedVersion: 2
       Hash: 18ee9b1f824dcebc6318a53f98ecc285
@@ -1559,6 +1727,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.XR.LegacyInputHelpers.dll
     namespaceName: UnityEngine.XR.LegacyInputHelpers
     className: TransitionArmModel
+  - hash:
+      serializedVersion: 2
+      Hash: 0bf940b1cf373b61e54855b67e35d5bc
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: ReaderEncounterInfo
   - hash:
       serializedVersion: 2
       Hash: 8762d53c1c5886ddc983cfc894523901
@@ -1645,10 +1819,16 @@ ScriptsOnlyBuild:
     className: SurviveSceneSwitch
   - hash:
       serializedVersion: 2
-      Hash: a5029a376a088f93332e8f3c451c4a84
+      Hash: 0f3ea382a87fa298d41031b718d45f87
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
     className: ReaderImage
+  - hash:
+      serializedVersion: 2
+      Hash: 38d40c6870a949142b91672fd5762d80
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: ResizeButton
   - hash:
       serializedVersion: 2
       Hash: 87f2bfb5e38d46f7928228b39b2a0d7e
@@ -1789,7 +1969,7 @@ ScriptsOnlyBuild:
     className: ControlTrack
   - hash:
       serializedVersion: 2
-      Hash: 21b92958827ba6d79acbfc03574243da
+      Hash: d683a3715ccc15e90f71bcfeba2ed23b
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.UI
     className: GridCellSizeBasedOnResolution
@@ -1831,7 +2011,7 @@ ScriptsOnlyBuild:
     className: TabField
   - hash:
       serializedVersion: 2
-      Hash: 0b173491a314efa3962b434be9c419af
+      Hash: 6b2fa26eb0d935957a1d4212dc4e240f
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
     className: ReaderEncounterDrawer
@@ -1865,6 +2045,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: OpenConditionalPanel
+  - hash:
+      serializedVersion: 2
+      Hash: f9481aa79cc5cf661e1b46337b6c4d21
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: ReaderMobileSideTopBar
   - hash:
       serializedVersion: 2
       Hash: 8df755367e6b6592b04d0058b10fe321
@@ -2065,7 +2251,7 @@ ScriptsOnlyBuild:
     className: MultiFieldHoverScript
   - hash:
       serializedVersion: 2
-      Hash: 075d82c9e4aac7bb64368e71ec1c2381
+      Hash: 6b45c92d960708a83e31c38ee6d16212
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
     className: ReaderPopupInstaller
@@ -2155,10 +2341,10 @@ ScriptsOnlyBuild:
     className: RemoteTestResultSender
   - hash:
       serializedVersion: 2
-      Hash: a7c84b3d33431d6132c9b6de02c3b8dd
+      Hash: 86efe515a7d6feb8f40df3931da8d251
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.UI
-    className: PaddingByPercent
+    className: PaddingByProportion
   - hash:
       serializedVersion: 2
       Hash: 5f5a9a234c3bd20df56c0a07949aabac
@@ -2191,7 +2377,7 @@ ScriptsOnlyBuild:
     className: ConsultationFeedback
   - hash:
       serializedVersion: 2
-      Hash: 39faf8ed834a62966b569dbf85c2d3cc
+      Hash: 0b2edc5f47769d759ba7161a4f588fcf
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
     className: ReaderSectionDrawer
@@ -2201,6 +2387,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
     className: WriterAddablePanel
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.UI
+    className: SwipeManager
   - hash:
       serializedVersion: 2
       Hash: c0a6733cd99d481960d861d49938bad0
@@ -2215,7 +2407,7 @@ ScriptsOnlyBuild:
     className: TextDropdownTabField
   - hash:
       serializedVersion: 2
-      Hash: a5029a376a088f93332e8f3c451c4a84
+      Hash: 0f3ea382a87fa298d41031b718d45f87
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
     className: ReaderPatientImage
@@ -2249,6 +2441,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
     className: WriterTab
+  - hash:
+      serializedVersion: 2
+      Hash: 8a10d1fc6029b3f51d0abc87582fa9fd
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: ShowInstructionsButton
   - hash:
       serializedVersion: 2
       Hash: f84d945e5e1ca985698660fc26e9657f
@@ -2425,6 +2623,12 @@ ScriptsOnlyBuild:
     className: ColorLabel
   - hash:
       serializedVersion: 2
+      Hash: 7c85de23bf4094b6a7b050deb8a0ae41
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters.UI
+    className: SizeImage
+  - hash:
+      serializedVersion: 2
       Hash: 26412917ac80cec38844a2b1b9f6ff3b
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
@@ -2551,6 +2755,12 @@ ScriptsOnlyBuild:
     className: AddTabScript
   - hash:
       serializedVersion: 2
+      Hash: 185bd4bb06a2b4c98c721651e825d291
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: InstructionsPopup
+  - hash:
+      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
@@ -2599,7 +2809,7 @@ ScriptsOnlyBuild:
     className: AndroidBackButton
   - hash:
       serializedVersion: 2
-      Hash: 60e45ba14181cdf7fc86697e6ebf257c
+      Hash: c28ff950295a41c4bdb7d56067209652
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
     className: ReaderTabSelector
@@ -2725,12 +2935,6 @@ ScriptsOnlyBuild:
     className: UpdatePatientImage
   - hash:
       serializedVersion: 2
-      Hash: ceebf81b07f37ab38086c10dc4bf20b8
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: ClinicalTools.SimEncounters
-    className: ReaderEncounterInfo
-  - hash:
-      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
@@ -2753,6 +2957,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
     className: SearchFilterUI
+  - hash:
+      serializedVersion: 2
+      Hash: f76d61decb7be333294ff7b123bdc41e
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: MobileReaderImage
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -2779,7 +2989,7 @@ ScriptsOnlyBuild:
     className: ReaderDialogueOptionsDrawer
   - hash:
       serializedVersion: 2
-      Hash: ef75ccdea264c2b6492a8d127ee18a6c
+      Hash: 6366a5dc9a9ac604623d479d50747271
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
     className: ReaderQuizPopupUI
@@ -2795,6 +3005,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
     className: SectionCreatorPopup
+  - hash:
+      serializedVersion: 2
+      Hash: b87140352fe139813c3de7e380510207
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: ReaderMobileFooter
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -2839,6 +3055,12 @@ ScriptsOnlyBuild:
     className: ReaderMenuEncountersUI
   - hash:
       serializedVersion: 2
+      Hash: 080d5d809e36bbf6c538b29071e5f541
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: ReaderMobileDialoguePanelsCreator
+  - hash:
+      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
@@ -2849,6 +3071,18 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TextMeshProUGUI
+  - hash:
+      serializedVersion: 2
+      Hash: 463e7bce04f4484a0015c7fadc6eb1a2
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.UI
+    className: ScrollRectGradient
+  - hash:
+      serializedVersion: 2
+      Hash: 2cd85f33a0622b695019ff404fa73e75
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: MainReaderSceneDrawer
   - hash:
       serializedVersion: 2
       Hash: 68f02ad4de8dd85a1d98794c1adb0446
@@ -2863,7 +3097,13 @@ ScriptsOnlyBuild:
     className: CEWriterEncounterDrawer
   - hash:
       serializedVersion: 2
-      Hash: 7769bc39367552a559a9b803100fc4bf
+      Hash: 0d6fa810b7e3249d480bd7f51182c1de
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: ReaderMobileDialogueOption
+  - hash:
+      serializedVersion: 2
+      Hash: 69852785af46c4cc07f0fdda4571ec2d
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.UI
     className: WidthAsProportionToHeight
@@ -2885,6 +3125,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Analytics.DataPrivacy.dll
     namespaceName: UnityEngine.Analytics
     className: DataPrivacyButton
+  - hash:
+      serializedVersion: 2
+      Hash: ee20d80db0e71b45fa52fb7b04c4606c
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.UI
+    className: UrlButton
   - hash:
       serializedVersion: 2
       Hash: a122760205206c2e49334eb8dd811fba
@@ -2998,7 +3244,7 @@ ScriptsOnlyBuild:
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
-    className: SwipeManager
+    className: SwipeManagerOld
   - hash:
       serializedVersion: 2
       Hash: 9f37e9145456c99bfd5b07f31e402758
@@ -3017,6 +3263,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
     className: ReaderDialoguePinButton
+  - hash:
+      serializedVersion: 2
+      Hash: def4afad26272bc2ea715b4aa7058e05
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.UI
+    className: SwitchImageToggle
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -3043,10 +3295,28 @@ ScriptsOnlyBuild:
     className: PinTabScript
   - hash:
       serializedVersion: 2
+      Hash: 1fbe451f6ccb5b1b1926ee8792a233fc
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: ReaderMobileMainTopBar
+  - hash:
+      serializedVersion: 2
+      Hash: ade1c0ebdc9c1bb55e364766d03b9a12
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: ReaderMobileImagePopupUI
+  - hash:
+      serializedVersion: 2
       Hash: 433f8454951bafad0dcd0b62e3b4c361
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ReaderDataScript
+  - hash:
+      serializedVersion: 2
+      Hash: ab1f635d4d58f0b7eba8e8f6a3fac1f2
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: MobileReaderTabDrawerSelector
   - hash:
       serializedVersion: 2
       Hash: 93340e9f3a02b5c6023b1a3afc7bd019
@@ -3061,10 +3331,10 @@ ScriptsOnlyBuild:
     className: ReaderImageUploaderScript
   - hash:
       serializedVersion: 2
-      Hash: 55b76055e6adc9d41982e52308d86134
+      Hash: 27d91222bd2e8c09b844a143aa589ed7
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
-    className: ReaderInfoPopupUI
+    className: ReaderEncounterInfoPopupUI
   - hash:
       serializedVersion: 2
       Hash: ec51e6b194a989eaf1021719b8876aa8
@@ -3091,7 +3361,7 @@ ScriptsOnlyBuild:
     className: TabAndSectionDragScript
   - hash:
       serializedVersion: 2
-      Hash: 3950b16c0b5db796e92dc6aaea35e30e
+      Hash: 0f8c47a6eac6462d46a1a27429380c65
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
     className: ReaderSectionSelector
@@ -3139,10 +3409,22 @@ ScriptsOnlyBuild:
     className: UpdateName
   - hash:
       serializedVersion: 2
+      Hash: 1bc912fa2791944e5767f5e3347597a6
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.UI
+    className: HeightAsProportionToWidth
+  - hash:
+      serializedVersion: 2
       Hash: d791aa6007fa3640be1164ea75bb087d
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_StyleSheet
+  - hash:
+      serializedVersion: 2
+      Hash: 8a10d1fc6029b3f51d0abc87582fa9fd
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: ShowEncounterInfoButton
   - hash:
       serializedVersion: 2
       Hash: 862507a74f74fad61ca25d31214e3486
@@ -3151,7 +3433,7 @@ ScriptsOnlyBuild:
     className: ReaderSceneDrawer
   - hash:
       serializedVersion: 2
-      Hash: 83f7c2f8932562c0501f7cb2ea02b8b0
+      Hash: dce33a6e86de4216720654952b8bcf49
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
     className: MainMenuManager
@@ -3229,7 +3511,7 @@ ScriptsOnlyBuild:
     className: WriterPinsDrawer
   - hash:
       serializedVersion: 2
-      Hash: e11571557cd55ec0983e587121c353fb
+      Hash: 1f004f5ce435d5f349a90e13dfd2d9b6
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
     className: ConfirmationPopup
@@ -3241,7 +3523,7 @@ ScriptsOnlyBuild:
     className: MaxLines
   - hash:
       serializedVersion: 2
-      Hash: 2cf9e0cb307573c50d0b379ab5563eeb
+      Hash: 5be8a4f56913a086e109dac84ea66caf
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
     className: EncounterSelectorReaderButtons
@@ -3249,8 +3531,20 @@ ScriptsOnlyBuild:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.UI
+    className: SetAsDirtyWhenResized
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ArmController
+  - hash:
+      serializedVersion: 2
+      Hash: f154420ca6a8fbc94d27b43f89add181
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: ReaderMobileSectionSelector
   - hash:
       serializedVersion: 2
       Hash: 460b07fe586dad5913c697cf57e4b8a0
@@ -3269,6 +3563,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: InstructionLoaderScript
+  - hash:
+      serializedVersion: 2
+      Hash: 27ab1876a57797b1facfa3de1f1677c8
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: ReaderMobileSidebar
   - hash:
       serializedVersion: 2
       Hash: 8cd1cbba27f3cb1717254f668e9e0d5a
@@ -3311,6 +3611,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
     className: ToggleViewButtonUI
+  - hash:
+      serializedVersion: 2
+      Hash: 2cd85f33a0622b695019ff404fa73e75
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: ReaderCompletableEncounterHandler
   - hash:
       serializedVersion: 2
       Hash: 70deadf4824d21aa33937e44151885e3
@@ -3379,6 +3685,12 @@ ScriptsOnlyBuild:
     className: AutofillTMP
   - hash:
       serializedVersion: 2
+      Hash: b2fd72a41fed4ce0ca82c23ad0cb9423
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.UI
+    className: SetDimensionsAsProportionOfParent
+  - hash:
+      serializedVersion: 2
       Hash: e5bbb1a9211aa7fd2efbea668a21c6e2
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
@@ -3401,6 +3713,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
     className: EncounterSearchUI
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters.UI
+    className: ScalePixelsPerUnitByHeight
   - hash:
       serializedVersion: 2
       Hash: a63fc1a3b035e5a0b5839cd7f7b3086e
@@ -3499,12 +3817,6 @@ ScriptsOnlyBuild:
     className: CharacterManagerScript
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: ClinicalTools.SimEncounters.UI
-    className: ColorManager
-  - hash:
-      serializedVersion: 2
       Hash: 03237d436ef52e395456a7d63bf7b3f4
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
@@ -3523,10 +3835,28 @@ ScriptsOnlyBuild:
     className: ScrollbarResetScript
   - hash:
       serializedVersion: 2
+      Hash: ee98729079998eb63435f99f41b30b9e
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: SomethingEpic
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: DisableSwipeWhileOpen
+  - hash:
+      serializedVersion: 2
       Hash: 8220b46879dc5e37db1b940c938f5744
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: SignalEmitter
+  - hash:
+      serializedVersion: 2
+      Hash: 83a7740eea1138f7f812f4f15178161e
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: ReaderOpenMenuButton
   - hash:
       serializedVersion: 2
       Hash: 7072231382eb3c4871b3dd75ad0227e1
@@ -3551,6 +3881,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: ClinicalTools.SimEncounters
     className: SectionEditorPopup
+  - hash:
+      serializedVersion: 2
+      Hash: 206d5b9debb553e7754288aace4d476b
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ClinicalTools.SimEncounters
+    className: ReaderSidebarThing
   - hash:
       serializedVersion: 2
       Hash: 3d0a6f0bf5451f539513d019a308eef9
@@ -3620,4 +3956,5 @@ ScriptsOnlyBuild:
   platform: 20
   scenePathNames:
   - Assets/Scenes/MobileCassReader.unity
-  playerPath: C:/Users/tanner/Desktop/Builds/Jeffrey Austin/WebGL/2020-08-31c/BriannaRutimi
+  playerPath: C:/Users/tanner/Desktop/Builds/Cases/Jeffrey Austin/WebGL/2020-10-05a/Jeffrey
+    Timeza

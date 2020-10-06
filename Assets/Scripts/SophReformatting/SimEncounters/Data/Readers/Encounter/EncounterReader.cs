@@ -9,7 +9,8 @@
         }
 
         public virtual WaitableTask<Encounter> GetEncounter(User user, EncounterMetadata metadata, SaveType saveType)
-        { 
+        {
+            UnityEngine.Debug.Log("d0");
             var dataReader = dataReaderSelector.GetEncounterDataReader(saveType);
 
             var data = dataReader.GetEncounterData(user, metadata);

@@ -4,9 +4,15 @@ namespace ClinicalTools.UI
 {
     public class CanvasResizer : MonoBehaviour
     {
+        protected static CanvasResizer Instance { get; set; }
+
+        private static float resizeValue = 1f;
+        public static float ResizeValue01 {
+            get => resizeValue;
+            set => resizeValue = Mathf.Clamp01(value);
+        }
         public static float GetResizeValue() 
             => (Instance == null) ? 1.1f : 1f + .8f * ResizeValue01;
-        public static CanvasResizer Instance { get; set; }
 
         protected void Awake() => Instance = this;
 
@@ -38,12 +44,6 @@ namespace ClinicalTools.UI
                     CalcZoomScale(touch1, touch2);
                     break;
             }
-        }
-
-        private static float resizeValue = .1f;
-        public static float ResizeValue01 { 
-            get => resizeValue;
-            set => resizeValue = Mathf.Clamp01(value);
         }
 
         private void CalcZoomScale(Vector2 touch1, Vector2 touch2)

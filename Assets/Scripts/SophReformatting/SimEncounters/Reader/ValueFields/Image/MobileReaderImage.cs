@@ -102,7 +102,6 @@ namespace ClinicalTools.SimEncounters
             if (MaxHeight > 0)
                 height = Mathf.Min(height, MaxHeight);
             LayoutElement.preferredHeight = height;
-
         }
     }
 }

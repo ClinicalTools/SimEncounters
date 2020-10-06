@@ -12,9 +12,12 @@ namespace ClinicalTools.SimEncounters
 
         public override void Display(UserEncounter userEncounter)
         {
+            EncounterTitle.text = userEncounter.Data.Metadata.Title;
+
+            if (InfoPopup == null)
+                return;
             InfoPopup.ShowEncounterInfo(userEncounter);
             InfoPopup.gameObject.SetActive(false);
-            EncounterTitle.text = userEncounter.Data.Metadata.Title;
         }
     }
 }

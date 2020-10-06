@@ -5,9 +5,6 @@ namespace ClinicalTools.UI
 {
     public class GridCellSizeBasedOnResolution : MonoBehaviour
     {
-        public RectTransform Canvas { get => canvas; set => canvas = value; }
-        [SerializeField] private RectTransform canvas;
-
         public float LandscapeCellsPerRow { get => landscapeCellsPerRow; set => landscapeCellsPerRow = value; }
         [Tooltip("Cells per row in a 1920x1080 resolution")]
         [SerializeField] private float landscapeCellsPerRow;
@@ -34,8 +31,7 @@ namespace ClinicalTools.UI
         private Rect padding;
         protected virtual void UpdateSize()
         {
-            var canvasRect = Canvas.rect;
-            var currentCanvasSize = new Vector2(canvasRect.width, canvasRect.height);
+            var currentCanvasSize = new Vector2(Screen.width, Screen.height);
             var rectTrans = (RectTransform)transform;
             var currentRect = rectTrans.rect;
             var currentPadding = new Rect(Grid.padding.top, Grid.padding.bottom, Grid.padding.left, Grid.padding.right);

@@ -73,6 +73,7 @@ namespace ClinicalTools.SimEncounters
                 return;
             }
 
+            UnityEngine.Debug.Log("f0");
             var fullEncounter = EncounterReader.GetUserEncounter(User.Guest, metadata.Value, new EncounterBasicStatus(), SaveType.Demo);
             var sceneInfo = new LoadingReaderSceneInfo(User.Guest, null, fullEncounter);
 
@@ -93,9 +94,20 @@ namespace ClinicalTools.SimEncounters
 #if !STANDALONE_SCENE
         public void TestLink()
         {
+            var idNum = "73";
             var dictionary = new Dictionary<string, string>();
-            dictionary.Add("r", "73");
-            var linkActivation = new LinkActivation("lift://encounter?r=73", "r=73", dictionary);
+            dictionary.Add(IdKey, idNum);
+            var linkActivation = new LinkActivation($"lift://encounter?{IdKey}={idNum}", $"{IdKey}={idNum}", dictionary);
+
+            Instance_LinkActivated(linkActivation);
+        }
+        private const string IdKey = "id";
+        public void TestLink2()
+        {
+            var idNum = "95";
+            var dictionary = new Dictionary<string, string>();
+            dictionary.Add(IdKey, idNum);
+            var linkActivation = new LinkActivation($"lift://encounter?{IdKey}={idNum}", $"{IdKey}={idNum}", dictionary);
 
             Instance_LinkActivated(linkActivation);
         }

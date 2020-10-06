@@ -124,7 +124,7 @@ namespace ClinicalTools.ClinicalEncounters
 
             try {
                 return spriteDeserializer.Deserialize(width, height, spriteText);
-            } catch (Exception) {
+            } catch (Exception ex) {
                 return null;
             }
         }
