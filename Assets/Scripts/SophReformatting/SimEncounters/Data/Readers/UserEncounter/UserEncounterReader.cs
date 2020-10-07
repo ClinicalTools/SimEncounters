@@ -14,7 +14,6 @@ namespace ClinicalTools.SimEncounters
 
         public WaitableTask<UserEncounter> GetUserEncounter(User user, EncounterMetadata metadata, EncounterBasicStatus basicStatus, SaveType saveType)
         {
-            UnityEngine.Debug.Log("e0");
             var encounterData = dataReader.GetEncounter(user, metadata, saveType);
             var detailedStatus = detailedStatusReader.GetDetailedStatus(user, metadata, basicStatus);
 

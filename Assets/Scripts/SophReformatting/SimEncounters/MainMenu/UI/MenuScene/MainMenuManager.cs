@@ -92,6 +92,8 @@ namespace ClinicalTools.SimEncounters
         }
 
 #if !STANDALONE_SCENE
+        protected virtual void OnDestroy() => DeepLinkManager.Instance.LinkActivated -= Instance_LinkActivated;
+
         public void TestLink()
         {
             var dictionary = new Dictionary<string, string>();
@@ -103,6 +105,9 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void Instance_LinkActivated(LinkActivation s)
         {
+            if (Instance != this)
+                return;
+
             QuickAction quickAction = LinkActionFactory.GetLinkAction(s);
             if (quickAction.Action == QuickActionType.NA)
                 return;

@@ -98,9 +98,12 @@ namespace ClinicalTools.SimEncounters
             if (LayoutElement == null)
                 return;
 
-            var height = spriteRatio * width;
-            if (MaxHeight > 0)
-                height = Mathf.Min(height, MaxHeight);
+            var height = width * spriteRatio;
+            if (MaxHeight > Tolerance && MaxHeight < height) {
+                height = MaxHeight;
+                LayoutElement.preferredWidth = MaxHeight / spriteRatio;
+                LayoutElement.flexibleWidth = -1;
+            }
             LayoutElement.preferredHeight = height;
         }
     }

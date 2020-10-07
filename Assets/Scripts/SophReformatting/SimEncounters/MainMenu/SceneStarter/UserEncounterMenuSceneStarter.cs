@@ -1,4 +1,6 @@
-﻿namespace ClinicalTools.SimEncounters
+﻿using System.Diagnostics;
+
+namespace ClinicalTools.SimEncounters
 {
     public class UserEncounterMenuSceneStarter : UserMenuSceneStarter, IUserEncounterMenuSceneStarter
     {
@@ -32,30 +34,38 @@
         {
             var task = new WaitableTask<IMenuEncountersInfo>();
             var categories = MenuInfoReader.GetMenuEncountersInfo(userEncounter.User);
-            categories.AddOnCompletedListener((result) => 
+            categories.AddOnCompletedListener((result) =>
                 CompleteMenuEncountersInfoTask(task, result, userEncounter));
             return task;
         }
 
-        protected virtual void CompleteMenuEncountersInfoTask(WaitableTask<IMenuEncountersInfo> task, 
+        protected virtual void CompleteMenuEncountersInfoTask(WaitableTask<IMenuEncountersInfo> task,
             TaskResult<IMenuEncountersInfo> result, UserEncounter userEncounter)
         {
-            userEncounter.Status.BasicStatus.Completed = userEncounter.Status.ContentStatus.Read;
+            if (userEncounter?.Status != null)
+                userEncounter.Status.BasicStatus.Completed = userEncounter.Status.ContentStatus.Read;
 
-            if (result.IsError()) { 
+            if (result.IsError()) {
                 task.SetError(result.Exception);
                 return;
             }
-            if (result.Value == null) { 
+
+            if (result.Value == null) {
                 task.SetResult(null);
                 return;
             }
+
             foreach (var encounter in result.Value.GetEncounters()) {
                 if (encounter.GetLatestMetadata().RecordNumber != userEncounter.Data.Metadata.RecordNumber)
                     continue;
-                encounter.Status = userEncounter.Status.BasicStatus;
+
+                if (userEncounter.Status != null)
+                    encounter.Status = userEncounter.Status.BasicStatus;
+                else
+                    encounter.Status = new EncounterBasicStatus();
                 break;
             }
+
             task.SetResult(result.Value);
         }
     }

@@ -12,8 +12,6 @@
 
         public virtual WaitableTask<EncounterContent> GetEncounterData(User user, EncounterMetadata metadata)
         {
-            UnityEngine.Debug.Log("b0");
-
             var encounterData = new WaitableTask<EncounterContent>();
             var content = ContentReader.GetNonImageContent(user, metadata);
             var imageData = ImageDataReader.GetImageData(user, metadata);

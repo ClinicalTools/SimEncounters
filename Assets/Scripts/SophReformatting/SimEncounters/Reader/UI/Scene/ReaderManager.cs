@@ -73,7 +73,6 @@ namespace ClinicalTools.SimEncounters
                 return;
             }
 
-            UnityEngine.Debug.Log("f0");
             var fullEncounter = EncounterReader.GetUserEncounter(User.Guest, metadata.Value, new EncounterBasicStatus(), SaveType.Demo);
             var sceneInfo = new LoadingReaderSceneInfo(User.Guest, null, fullEncounter);
 
@@ -92,6 +91,8 @@ namespace ClinicalTools.SimEncounters
 
 
 #if !STANDALONE_SCENE
+        protected virtual void OnDestroy() => DeepLinkManager.Instance.LinkActivated -= Instance_LinkActivated;
+
         public void TestLink()
         {
             var idNum = "73";

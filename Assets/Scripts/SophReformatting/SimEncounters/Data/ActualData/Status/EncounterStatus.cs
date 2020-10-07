@@ -1,7 +1,4 @@
-﻿
-using System.Collections.Generic;
-
-namespace ClinicalTools.SimEncounters
+﻿namespace ClinicalTools.SimEncounters
 {
     public class EncounterStatus
     {
@@ -10,6 +7,11 @@ namespace ClinicalTools.SimEncounters
         public long Timestamp { get; set; }
 
         public EncounterStatus(EncounterBasicStatus basicStatus, EncounterContentStatus contentStatus) {
+            if (basicStatus == null)
+                basicStatus = new EncounterBasicStatus();
+            if (contentStatus == null)
+                contentStatus = new EncounterContentStatus();
+
             BasicStatus = basicStatus;
             ContentStatus = contentStatus;
         }
