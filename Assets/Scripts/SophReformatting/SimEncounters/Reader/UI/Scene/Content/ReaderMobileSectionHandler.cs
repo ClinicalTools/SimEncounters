@@ -15,14 +15,14 @@ namespace ClinicalTools.SimEncounters
         protected override void Awake()
         {
             CurrentSectionContent = MainSectionContentDefault;
-            AddReaderObject(CurrentSectionContent);
+            Register(CurrentSectionContent);
             base.Awake();
         }
 
         protected MonoBehaviour CurrentSectionContent { get; set; }
         protected RectTransform CurrentSectionRectTransform => (RectTransform)CurrentSectionContent.transform;
-        protected MonoBehaviour NewSectionContent { get; set; }
-        protected RectTransform NewSectionContentRectTransform => (RectTransform)NewSectionContent.transform;
+        protected MonoBehaviour PreviousSectionContent { get; set; }
+        protected RectTransform PreviousSectionRectTransform => (RectTransform)PreviousSectionContent.transform;
 
         protected virtual OrderedCollection<Section> Sections { get; set; }
         protected virtual UserSection CurrentSection { get; set; }
@@ -32,36 +32,52 @@ namespace ClinicalTools.SimEncounters
             base.Display(userEncounter);
         }
 
+        private bool showSectionAnimation = false;
         public override void Display(UserSection userSection)
         {
-            if (CurrentSection == null)
-                CurrentSection = userSection;
-            else if (CurrentSection != userSection)
+            if (showSectionAnimation) {
                 ChangeSections(userSection);
+                showSectionAnimation = false;
+            }
+
+            CurrentSection = userSection;
 
             base.Display(userSection);
         }
 
+        protected override void OnSectionSelected(object sender, UserSectionSelectedEventArgs e)
+        {
+            showSectionAnimation = true;
+            base.OnSectionSelected(sender, e);
+        }
+
+        private Coroutine currentCoroutine;
         protected virtual void ChangeSections(UserSection userSection)
         {
-            Deregister(CurrentSectionContent);
-            NewSectionContent = Instantiate(MainSectionContentPrefab, transform);
-            NewSectionContentRectTransform.SetSiblingIndex(0);
+            if (currentCoroutine != null)
+                StopCoroutine(currentCoroutine);
+            if (PreviousSectionContent != null)
+                Destroy(PreviousSectionContent.gameObject);
 
-            AddReaderObject(NewSectionContent);
+            PreviousSectionContent = CurrentSectionContent;
+            CurrentSectionContent = Instantiate(MainSectionContentPrefab, transform);
+            CurrentSectionRectTransform.SetSiblingIndex(0);
 
+            Deregister(PreviousSectionContent);
+            Register(CurrentSectionContent);
+
+            IEnumerator shiftSectionRoutine;
             if (Sections.IndexOf(userSection.Data) > Sections.IndexOf(CurrentSection.Data))
-                StartCoroutine(ShiftSectionForward());
+                shiftSectionRoutine = ShiftSectionForward();
             else
-                StartCoroutine(ShiftSectionBackward());
-
-            CurrentSection = userSection;
+                shiftSectionRoutine = ShiftSectionBackward();
+            currentCoroutine = StartCoroutine(shiftSectionRoutine);
         }
 
         private const float MoveTime = .5f;
         protected virtual IEnumerator ShiftSectionForward()
         {
-            float moveAmount = 0;
+            var moveAmount = 0f;
 
             while (moveAmount < 1) {
                 moveAmount += Time.deltaTime / MoveTime;
@@ -69,8 +85,8 @@ namespace ClinicalTools.SimEncounters
                 yield return null;
             }
 
-            Destroy(CurrentSectionContent.gameObject);
-            CurrentSectionContent = NewSectionContent;
+            SetMoveAmountForward(moveAmount);
+            Destroy(PreviousSectionContent.gameObject);
         }
 
         protected virtual void SetMoveAmountForward(float moveAmount)
@@ -78,15 +94,15 @@ namespace ClinicalTools.SimEncounters
             moveAmount = Mathf.Clamp01(moveAmount);
             moveAmount = Curve(moveAmount);
 
-            CurrentSectionRectTransform.anchorMin = new Vector2(0 - moveAmount, CurrentSectionRectTransform.anchorMin.y);
-            CurrentSectionRectTransform.anchorMax = new Vector2(1 - moveAmount, CurrentSectionRectTransform.anchorMax.y);
-            NewSectionContentRectTransform.anchorMin = new Vector2(1 - moveAmount, CurrentSectionRectTransform.anchorMin.y);
-            NewSectionContentRectTransform.anchorMax = new Vector2(2 - moveAmount, CurrentSectionRectTransform.anchorMax.y);
+            PreviousSectionRectTransform.anchorMin = new Vector2(0 - moveAmount, CurrentSectionRectTransform.anchorMin.y);
+            PreviousSectionRectTransform.anchorMax = new Vector2(1 - moveAmount, CurrentSectionRectTransform.anchorMax.y);
+            CurrentSectionRectTransform.anchorMin = new Vector2(1 - moveAmount, CurrentSectionRectTransform.anchorMin.y);
+            CurrentSectionRectTransform.anchorMax = new Vector2(2 - moveAmount, CurrentSectionRectTransform.anchorMax.y);
         }
 
         protected virtual IEnumerator ShiftSectionBackward()
         {
-            float moveAmount = 0;
+            var moveAmount = 0f;
 
             while (moveAmount < 1) {
                 moveAmount += Time.deltaTime / MoveTime;
@@ -94,8 +110,7 @@ namespace ClinicalTools.SimEncounters
                 yield return null;
             }
 
-            Destroy(CurrentSectionContent.gameObject);
-            CurrentSectionContent = NewSectionContent;
+            Destroy(PreviousSectionContent.gameObject);
         }
 
         protected virtual void SetMoveAmountBackward(float moveAmount)
@@ -103,10 +118,10 @@ namespace ClinicalTools.SimEncounters
             moveAmount = Mathf.Clamp01(moveAmount);
             moveAmount = Curve(moveAmount);
 
-            CurrentSectionRectTransform.anchorMin = new Vector2(0 + moveAmount, CurrentSectionRectTransform.anchorMin.y);
-            CurrentSectionRectTransform.anchorMax = new Vector2(1 + moveAmount, CurrentSectionRectTransform.anchorMax.y);
-            NewSectionContentRectTransform.anchorMin = new Vector2(-1 + moveAmount, CurrentSectionRectTransform.anchorMin.y);
-            NewSectionContentRectTransform.anchorMax = new Vector2(0 + moveAmount, CurrentSectionRectTransform.anchorMax.y);
+            PreviousSectionRectTransform.anchorMin = new Vector2(0 + moveAmount, CurrentSectionRectTransform.anchorMin.y);
+            PreviousSectionRectTransform.anchorMax = new Vector2(1 + moveAmount, CurrentSectionRectTransform.anchorMax.y);
+            CurrentSectionRectTransform.anchorMin = new Vector2(-1 + moveAmount, CurrentSectionRectTransform.anchorMin.y);
+            CurrentSectionRectTransform.anchorMax = new Vector2(0 + moveAmount, CurrentSectionRectTransform.anchorMax.y);
         }
 
         protected virtual float Curve(float value) => Mathf.Clamp01(1 - (Mathf.Pow(2 * (1 - value), 2) / 4));

@@ -88,8 +88,11 @@ namespace ClinicalTools.SimEncounters
 
         protected UserTab CurrentTab { get; set; }
         private int tabCount;
+        private float lastTimeCreated;
         public override void SelectTab(UserTab tab)
         {
+            lastTimeCreated = Time.realtimeSinceStartup;
+
             if (CurrentTab == tab)
                 return;
             CurrentTab = tab;
@@ -114,8 +117,13 @@ namespace ClinicalTools.SimEncounters
         protected virtual bool IsLast<T>(OrderedCollection<T> values, T value)
             => values.IndexOf(value) == values.Count - 1;
 
+        private const float MinTabChangeTime = 0.0f;
+
         protected virtual void GoToNext()
         {
+            if (Time.realtimeSinceStartup - lastTimeCreated < MinTabChangeTime)
+                return;
+
             var section = CurrentSection.Data;
             if (section.CurrentTabIndex + 1 < section.Tabs.Count)
                 GoToNextTab();
@@ -131,6 +139,9 @@ namespace ClinicalTools.SimEncounters
         }
         protected virtual void GoToPrevious()
         {
+            if (Time.realtimeSinceStartup - lastTimeCreated < MinTabChangeTime)
+                return;
+
             if (CurrentSection.Data.CurrentTabIndex > 0)
                 GoToPreviousTab();
             else if (NonImageContent.CurrentSectionIndex > 0)

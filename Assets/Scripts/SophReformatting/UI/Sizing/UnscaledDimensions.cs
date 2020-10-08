@@ -8,6 +8,8 @@ namespace ClinicalTools.SimEncounters.UI
     [ExecuteAlways]
     public class UnscaledDimensions : UIBehaviour
     {
+        private const float DefaultScreenHeight = 1030;
+
         protected RectTransform RectTransform => (RectTransform)transform;
 
         public float Height { get => height; set => height = value; }
@@ -57,12 +59,15 @@ namespace ClinicalTools.SimEncounters.UI
             UpdateSize();
         }
 
+        private float heightProportion;
         private const float Tolerance = .001f;
         protected virtual void UpdateSize()
         {
             LossyScale = transform.lossyScale;
             LastHeight = Height;
             LastWidth = Width;
+            var scaledScreenHeight = Screen.height / LossyScale.y;
+            heightProportion = scaledScreenHeight / DefaultScreenHeight;
 
             if (LayoutElement != null && !LayoutElement.ignoreLayout)
                 UpdateLayoutElementSize();
@@ -87,8 +92,8 @@ namespace ClinicalTools.SimEncounters.UI
             SetDirty((RectTransform)transform.parent);
         }
 
-        protected float GetActualWidth() => Width / LossyScale.x;
-        protected float GetActualHeight() => Height / LossyScale.y;
+        protected float GetActualWidth() => Width * heightProportion;
+        protected float GetActualHeight() => Height * heightProportion;
 
         protected void SetDirty(RectTransform rectTransform)
         {

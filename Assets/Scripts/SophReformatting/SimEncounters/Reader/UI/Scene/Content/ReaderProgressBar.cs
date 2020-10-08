@@ -34,12 +34,12 @@ namespace ClinicalTools.SimEncounters
 
             for (var i = 0; i < sections.Count; i++) {
                 var sectionDot = Instantiate(SectionDotPrefab, transform);
-                sectionDot.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rect.height);
+                var position = 1f * tabs / totalTabCount;
+                sectionDot.anchorMin = new Vector2(position, 0);
+                sectionDot.anchorMax = new Vector2(position, 1);
                 sectionDot.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rect.height);
-                var position = rect.width * tabs / totalTabCount;
-                var anchoredPosition = sectionDot.anchoredPosition;
-                anchoredPosition.x = position;
-                sectionDot.anchoredPosition = anchoredPosition;
+
+                sectionDot.anchoredPosition = Vector2.zero;
 
                 tabs += sections[i].Value.Tabs.Count;
             }

@@ -21,22 +21,10 @@ namespace ClinicalTools.SimEncounters
         protected virtual void Awake()
         {
             foreach (var readerObject in ReaderObjects)
-                AddReaderObject(readerObject);
-
-            AddListeners();
+                Register(readerObject);
         }
 
-        protected virtual void AddListeners()
-        {
-            foreach (var sectionSelector in SectionSelectors)
-                sectionSelector.SectionSelected += OnSectionSelected;
-
-            foreach (var tabSelector in TabSelectors)
-                tabSelector.TabSelected += OnTabSelected;
-        }
-
-
-        protected virtual void AddReaderObject(MonoBehaviour readerObject)
+        protected virtual void Register(MonoBehaviour readerObject)
         {
             if (readerObject is IUserEncounterDrawer encounterDrawer)
                 EncounterDrawers.Add(encounterDrawer);
@@ -45,10 +33,14 @@ namespace ClinicalTools.SimEncounters
             if (readerObject is IUserTabDrawer tabDrawer)
                 TabDrawers.Add(tabDrawer);
 
-            if (readerObject is IUserSectionSelector sectionSelector)
+            if (readerObject is IUserSectionSelector sectionSelector) {
                 SectionSelectors.Add(sectionSelector);
-            if (readerObject is IUserTabSelector tabSelector)
+                sectionSelector.SectionSelected += OnSectionSelected;
+            }
+            if (readerObject is IUserTabSelector tabSelector) {
                 TabSelectors.Add(tabSelector);
+                tabSelector.TabSelected += OnTabSelected;
+            }
         }
 
         protected virtual void Deregister(MonoBehaviour readerObject)

@@ -14,6 +14,9 @@ namespace ClinicalTools.SimEncounters
         public BaseReaderSceneDrawer ReaderDrawer { get => readerDrawer; set => readerDrawer = value; }
         [SerializeField] private BaseReaderSceneDrawer readerDrawer;
 
+        public LoadingScreen LoadingScreen { get => loadingScreen; set => loadingScreen = value; }
+        [SerializeField] private LoadingScreen loadingScreen;
+
         public List<GameObject> StandaloneSceneObjects { get => standaloneSceneObjects; set => standaloneSceneObjects = value; }
         [SerializeField] private List<GameObject> standaloneSceneObjects;
 
@@ -63,6 +66,8 @@ namespace ClinicalTools.SimEncounters
                 standaloneSceneObject.SetActive(false);
             foreach (var nonStandaloneSceneObject in NonStandaloneSceneObjects)
                 nonStandaloneSceneObject.SetActive(true);
+
+            Destroy(LoadingScreen.gameObject);
         }
 
 
@@ -74,7 +79,7 @@ namespace ClinicalTools.SimEncounters
             }
 
             var fullEncounter = EncounterReader.GetUserEncounter(User.Guest, metadata.Value, new EncounterBasicStatus(), SaveType.Demo);
-            var sceneInfo = new LoadingReaderSceneInfo(User.Guest, null, fullEncounter);
+            var sceneInfo = new LoadingReaderSceneInfo(User.Guest, LoadingScreen, fullEncounter);
 
             Display(sceneInfo);
         }

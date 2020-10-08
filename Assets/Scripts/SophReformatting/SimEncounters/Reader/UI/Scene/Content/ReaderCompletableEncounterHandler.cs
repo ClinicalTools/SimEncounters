@@ -12,24 +12,18 @@ namespace ClinicalTools.SimEncounters
 
         public event Action Completed;
 
-        protected override void AddReaderObject(MonoBehaviour readerObject)
+        protected override void Register(MonoBehaviour readerObject)
         {
-            base.AddReaderObject(readerObject);
+            base.Register(readerObject);
 
-            if (readerObject is ICompletable completable)
-                Completables.Add(completable);
             if (readerObject is ICompletionDrawer completionDrawer)
                 CompletionDrawers.Add(completionDrawer);
             if (readerObject is IReaderSceneDrawer sceneDrawer)
                 SceneDrawers.Add(sceneDrawer);
-        }
-
-        protected override void AddListeners()
-        {
-            base.AddListeners();
-
-            foreach (var completable in Completables)
+            if (readerObject is ICompletable completable) {
+                Completables.Add(completable);
                 completable.Completed += OnCompleted;
+            }
         }
 
         protected override void Deregister(MonoBehaviour readerObject)
