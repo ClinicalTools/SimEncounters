@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class MobileReaderTabToggle : BaseReaderTabToggle
+    public class MobileReaderTabToggle : BaseReaderTabToggle, ICompletionDrawer
     {
         public SelectableToggle SelectToggle { get => selectToggle; set => selectToggle = value; }
         [SerializeField] private SelectableToggle selectToggle;
@@ -50,5 +50,7 @@ namespace ClinicalTools.SimEncounters
         }
 
         public override void Select() => SelectToggle.Select();
+
+        public void CompletionDraw(ReaderSceneInfo readerSceneInfo) => SetVisited();
     }
 }

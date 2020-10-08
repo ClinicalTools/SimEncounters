@@ -14,6 +14,8 @@ namespace ClinicalTools.SimEncounters
 
         public string Prefix { get => prefix; set => prefix = value; }
         [SerializeField] private string prefix;
+        public bool Trim { get => trim; set => trim = value; }
+        [SerializeField] private bool trim;
 
         private TextMeshProUGUI label;
         protected TextMeshProUGUI Label {
@@ -38,8 +40,12 @@ namespace ClinicalTools.SimEncounters
             var text = "";
             if (Prefix != null)
                 text += Prefix;
-            if (value != null)
+            if (value != null) {
+                if (Trim)
+                    value = value.Trim();
+
                 text += value;
+            }
             Label.text = text;
         }
 

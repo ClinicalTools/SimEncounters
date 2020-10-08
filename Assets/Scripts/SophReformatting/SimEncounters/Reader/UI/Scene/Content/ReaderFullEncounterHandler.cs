@@ -51,33 +51,51 @@ namespace ClinicalTools.SimEncounters
                 TabSelectors.Add(tabSelector);
         }
 
-        public void Display(UserEncounter userEncounter)
+        protected virtual void Deregister(MonoBehaviour readerObject)
+        {
+            if (readerObject is IUserEncounterDrawer encounterDrawer)
+                EncounterDrawers.Remove(encounterDrawer);
+            if (readerObject is IUserSectionDrawer sectionDrawer)
+                SectionDrawers.Remove(sectionDrawer);
+            if (readerObject is IUserTabDrawer tabDrawer)
+                TabDrawers.Remove(tabDrawer);
+
+            if (readerObject is IUserSectionSelector sectionSelector) {
+                SectionSelectors.Remove(sectionSelector);
+                sectionSelector.SectionSelected -= OnSectionSelected;
+            }
+            if (readerObject is IUserTabSelector tabSelector) {
+                TabSelectors.Remove(tabSelector);
+                tabSelector.TabSelected -= OnTabSelected;
+            }
+        }
+
+        public virtual void Display(UserEncounter userEncounter)
         {
             foreach (var encounterDrawer in EncounterDrawers)
                 encounterDrawer.Display(userEncounter);
         }
-        public void Display(UserSection userSection)
+        public virtual void Display(UserSection userSection)
         {
             foreach (var sectionDrawer in SectionDrawers)
                 sectionDrawer.Display(userSection);
         }
-        public void Display(UserTab userTab)
+        public virtual void Display(UserTab userTab)
         {
             foreach (var tabDrawer in TabDrawers)
                 tabDrawer.Display(userTab);
         }
 
-        protected virtual UserSection CurrentSection { get; set; }
-        private void OnSectionSelected(object sender, UserSectionSelectedEventArgs e)
+        protected virtual void OnSectionSelected(object sender, UserSectionSelectedEventArgs e)
             => SectionSelected?.Invoke(sender, e);
-        public void SelectSection(UserSection userSection)
+        public virtual void SelectSection(UserSection userSection)
         {
             foreach (var sectionSelector in SectionSelectors)
                 sectionSelector.SelectSection(userSection);
         }
 
         protected virtual UserTab CurrentTab { get; set; }
-        private void OnTabSelected(object sender, UserTabSelectedEventArgs e)
+        protected virtual void OnTabSelected(object sender, UserTabSelectedEventArgs e)
             => TabSelected?.Invoke(sender, e);
         public virtual void SelectTab(UserTab userTab)
         {

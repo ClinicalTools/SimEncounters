@@ -164,6 +164,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scale: 0.5
+  sizeWidth: 1
+  sizeHeight: 1
 --- !u!1 &2212313809505639633
 GameObject:
   m_ObjectHideFlags: 0
@@ -341,6 +343,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scale: 0.5
+  sizeWidth: 1
+  sizeHeight: 1
 --- !u!1 &3118636273525859377
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,6 +355,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4188346206903506434}
   - component: {fileID: 2702126505589489807}
+  - component: {fileID: 7821083697171228618}
   m_Layer: 5
   m_Name: PatientImg
   m_TagString: Untagged
@@ -386,6 +391,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3118636273525859377}
   m_CullTransparentMesh: 0
+--- !u!114 &7821083697171228618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3118636273525859377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f874365dd40e09243b5a766db2475c72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  height: 175
+  width: 175
 --- !u!1 &3420844942332621156
 GameObject:
   m_ObjectHideFlags: 0
@@ -679,6 +698,7 @@ GameObject:
   - component: {fileID: 153273832108029461}
   - component: {fileID: 8793346008055749608}
   - component: {fileID: 6430338014530572904}
+  - component: {fileID: 6975169348656936526}
   m_Layer: 5
   m_Name: DialoguePinButton
   m_TagString: Untagged
@@ -891,6 +911,20 @@ MonoBehaviour:
   top: 0
   bottom: 0
   spacing: 0.05
+--- !u!114 &6975169348656936526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5802585011594355923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f874365dd40e09243b5a766db2475c72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  height: 250
+  width: 0
 --- !u!1 &5802691550734245189
 GameObject:
   m_ObjectHideFlags: 0
@@ -903,6 +937,7 @@ GameObject:
   - component: {fileID: 6024439610950375381}
   - component: {fileID: 5842296009572555803}
   - component: {fileID: 5843087506379268381}
+  - component: {fileID: 2906405505364503530}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -981,13 +1016,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
-  m_MinWidth: 175
+  m_MinWidth: -1
   m_MinHeight: -1
   m_PreferredWidth: 175
   m_PreferredHeight: -1
   m_FlexibleWidth: 0
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &2906405505364503530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5802691550734245189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f874365dd40e09243b5a766db2475c72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  height: 0
+  width: 175
 --- !u!1 &5868399587003809333
 GameObject:
   m_ObjectHideFlags: 0

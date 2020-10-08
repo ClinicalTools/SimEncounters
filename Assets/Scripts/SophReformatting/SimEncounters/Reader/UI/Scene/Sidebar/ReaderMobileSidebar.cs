@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +11,12 @@ namespace ClinicalTools.SimEncounters
         event Action CloseSidebar;
     }
 
-    public class ReaderMobileSidebar : MonoBehaviour, IUserEncounterDrawer, IUserSectionSelector, IReaderSceneDrawer, ICloseSidebar
+    public interface IOpenSidebar
+    {
+        event Action OpenSidebar;
+    }
+
+    public class ReaderMobileSidebar : MonoBehaviour, IUserEncounterDrawer, IUserSectionSelector, IReaderSceneDrawer, ICloseSidebar, IOpenSidebar
     {
         public virtual event UserSectionSelectedHandler SectionSelected;
 
@@ -24,6 +30,7 @@ namespace ClinicalTools.SimEncounters
         protected List<IReaderSceneDrawer> SceneDrawers { get; } = new List<IReaderSceneDrawer>();
 
         public event Action CloseSidebar;
+        public event Action OpenSidebar;
 
 
         protected virtual void Awake() => Initialize();
@@ -69,12 +76,16 @@ namespace ClinicalTools.SimEncounters
 
         public virtual void Display(UserEncounter userEncounter)
         {
+            StartCoroutine(CloseAfterSecond());
             foreach (var encounterDrawer in EncounterDrawers)
                 encounterDrawer.Display(userEncounter);
         }
 
+        protected UserSection CurrentSection { get; set; }
+
         public virtual void OnSectionSelected(object sender, UserSectionSelectedEventArgs e)
         {
+            CurrentSection = e.SelectedSection;
             CloseSidebar?.Invoke();
             SectionSelected?.Invoke(sender, e);
         }
@@ -83,6 +94,19 @@ namespace ClinicalTools.SimEncounters
         {
             foreach (var sectionSelector in SectionSelectors)
                 sectionSelector.SelectSection(userSection);
+
+            if (CurrentSection == userSection)
+                return;
+
+            CurrentSection = userSection;
+            //OpenSidebar?.Invoke();
+            //StartCoroutine(CloseAfterSecond());
+        }
+
+        protected IEnumerator CloseAfterSecond()
+        {
+            yield return new WaitForSeconds(2f);
+            CloseSidebar?.Invoke();
         }
     }
 }

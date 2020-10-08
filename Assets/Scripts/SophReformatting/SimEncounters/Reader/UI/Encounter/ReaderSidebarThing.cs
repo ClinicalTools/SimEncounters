@@ -42,6 +42,8 @@ namespace ClinicalTools.SimEncounters
         {
             if (sidebarController is ICloseSidebar closeSidebar)
                 closeSidebar.CloseSidebar += CloseSidebar;
+            if (sidebarController is IOpenSidebar openSidebar)
+                openSidebar.OpenSidebar += OpenSidebar;
         }
 
         protected virtual void OpenSidebar() => StartCoroutine(OpenSidebarEnumerator());
