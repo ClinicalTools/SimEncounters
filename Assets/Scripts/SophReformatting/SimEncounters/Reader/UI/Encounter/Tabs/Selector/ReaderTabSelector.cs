@@ -17,8 +17,15 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private ScrollRect tabButtonsScroll;
 
         public override event UserTabSelectedHandler TabSelected;
+
+        protected UserSection Section { get; set; }
         public override void Display(UserSection userSection)
         {
+            if (Section == userSection)
+                return;
+
+            Section = userSection;
+
             foreach (var tabButton in TabButtons)
                 Destroy(tabButton.Value.gameObject);
             TabButtons.Clear();
@@ -40,9 +47,11 @@ namespace ClinicalTools.SimEncounters
         protected UserTab CurrentTab { get; set; }
         protected void OnSelected(UserTab tab)
         {
-            var selectedArgs = new UserTabSelectedEventArgs(tab);
-            CurrentTab = tab;
-            TabSelected?.Invoke(this, selectedArgs);
+            if (CurrentTab != tab) {
+                CurrentTab = tab;
+                var selectedArgs = new UserTabSelectedEventArgs(tab);
+                TabSelected?.Invoke(this, selectedArgs);
+            }
 
             var tabButtonTransform = (RectTransform)TabButtons[tab].transform;
             EnsureButtonIsShowing(tab, tabButtonTransform);
@@ -55,10 +64,10 @@ namespace ClinicalTools.SimEncounters
                 TabButtonsScroll.EnsureChildIsShowing((RectTransform)TabButtons[tab].transform);
         }
 
-        public override void SelectTab(UserTab userTab)
+        public override void Display(UserTab userTab)
         {
-            if (userTab != CurrentTab)
-                TabButtons[userTab].Select();
+            CurrentTab = userTab;
+            TabButtons[userTab].Select();
         }
     }
 }

@@ -80,18 +80,8 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void OnSectionSelected(object sender, UserSectionSelectedEventArgs e)
             => SectionSelected?.Invoke(sender, e);
-        public virtual void SelectSection(UserSection userSection)
-        {
-            foreach (var sectionSelector in SectionSelectors)
-                sectionSelector.SelectSection(userSection);
-        }
 
         protected virtual void OnTabSelected(object sender, UserTabSelectedEventArgs e)
             => TabSelected?.Invoke(sender, e);
-        public virtual void SelectTab(UserTab userTab)
-        {
-            foreach (var tabSelector in TabSelectors)
-                tabSelector.SelectTab(userTab);
-        }
     }
 }

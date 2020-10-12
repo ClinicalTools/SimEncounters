@@ -90,10 +90,10 @@ namespace ClinicalTools.SimEncounters
             SectionSelected?.Invoke(sender, e);
         }
 
-        public void SelectSection(UserSection userSection)
+        public void Display(UserSection userSection)
         {
             foreach (var sectionSelector in SectionSelectors)
-                sectionSelector.SelectSection(userSection);
+                sectionSelector.Display(userSection);
 
             if (CurrentSection == userSection)
                 return;

@@ -1,6 +1,7 @@
 ﻿using ClinicalTools.SimEncounters.UI;
 using ClinicalTools.UI;
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,7 +18,14 @@ namespace ClinicalTools.SimEncounters
 
         public override event Action Selected;
 
-        protected virtual void Awake() => SelectToggle.Selected += () => Selected?.Invoke();
+        protected virtual void OnEnable() => StartCoroutine(Aaaa());
+        protected virtual void OnDisable() => SelectToggle.Selected -= () => Selected?.Invoke();
+
+        protected virtual IEnumerator Aaaa()
+        {
+            yield return null;
+            SelectToggle.Selected += () => Selected?.Invoke();
+        }
 
         protected UserTab CurrentTab { get; set; }
         public override void Display(UserTab tab)

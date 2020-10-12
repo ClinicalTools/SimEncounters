@@ -19,7 +19,7 @@ namespace ClinicalTools.SimEncounters
 
             foreach (var readerObject in readerObjects)
                 AddReaderObject(readerObject);
-            
+
             AddListeners();
 
             foreach (var encounterDrawer in EncounterDrawers)
@@ -61,8 +61,6 @@ namespace ClinicalTools.SimEncounters
             CurrentSection = selectedSection;
             UserEncounter.Data.Content.NonImageContent.SetCurrentSection(selectedSection.Data);
 
-            foreach (var sectionSelector in SectionSelectors)
-                sectionSelector.SelectSection(CurrentSection);
             foreach (var sectionDrawer in SectionDrawers)
                 sectionDrawer.Display(CurrentSection);
 
@@ -80,8 +78,6 @@ namespace ClinicalTools.SimEncounters
             CurrentSection.Data.SetCurrentTab(selectedTab.Data);
             CurrentTab.SetRead(true);
 
-            foreach (var tabSelector in TabSelectors)
-                tabSelector.SelectTab(CurrentTab);
             foreach (var tabDrawer in TabDrawers)
                 tabDrawer.Display(CurrentTab);
         }

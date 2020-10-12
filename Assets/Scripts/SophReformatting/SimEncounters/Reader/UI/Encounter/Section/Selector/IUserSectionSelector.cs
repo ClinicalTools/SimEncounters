@@ -1,8 +1,7 @@
 ﻿namespace ClinicalTools.SimEncounters
 {
-    public interface IUserSectionSelector
+    public interface IUserSectionSelector : IUserSectionDrawer
     {
         event UserSectionSelectedHandler SectionSelected;
-        void SelectSection(UserSection userSection);
     }
 }

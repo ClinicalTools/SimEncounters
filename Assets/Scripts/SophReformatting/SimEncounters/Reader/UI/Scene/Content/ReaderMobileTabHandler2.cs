@@ -1,20 +1,12 @@
 ﻿using ClinicalTools.SimEncounters.Collections;
 using ClinicalTools.UI;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class TabContent
-    {
-        public MonoBehaviour Behaviour { get; }
-        public RectTransform RectTransform => (RectTransform)Behaviour.transform;
-        public UserTab Tab { get; set; }
-
-        public TabContent(MonoBehaviour behaviour) => Behaviour = behaviour;
-    }
-
     public class ReaderMobileTabHandler2 : ReaderCompletableEncounterHandler
     {
         public MonoBehaviour TabContent1 { get => tabContent1; set => tabContent1 = value; }
@@ -35,109 +27,165 @@ namespace ClinicalTools.SimEncounters
             Contents[2] = new TabContent(tabContent3);
             Contents[3] = new TabContent(tabContent4);
 
-            Current = Contents[0];
-            Register(Current.Behaviour);
             base.Awake();
         }
 
-        protected ICurve Curve { get; set; }
-        [Inject] public virtual void Inject(ICurve curve) => Curve = curve;
+        protected IShifter Curve { get; set; }
+        [Inject] public virtual void Inject(IShifter curve) => Curve = curve;
 
         protected TabContent Current { get; set; }
         protected TabContent Next { get; set; }
         protected TabContent Last { get; set; }
         protected TabContent Leaving { get; set; }
 
-        protected virtual OrderedCollection<Tab> Tabs { get; set; }
+        protected virtual OrderedCollection<UserTab> Tabs { get; set; }
         public override void Display(UserSection userSection)
         {
-            Tabs = userSection.Data.Tabs;
+            Tabs = userSection.Tabs;
+            ClearCurrent();
+
             base.Display(userSection);
+        }
+
+        protected virtual void OnEnable() => ClearCurrent();
+
+        protected virtual void ClearCurrent()
+        {
+            Leaving = Current;
+            if (Current != null)
+                Deregister(Current.Behaviour);
+            Current = null;
         }
 
         public override void Display(UserTab userTab)
         {
-            if (Current.Tab != null)
-                ChangeTabs(userTab);
+            if (Current?.Tab == userTab)
+                return;
 
-            Current.Tab = userTab;
-
+            HandleTabStuff(userTab);
             base.Display(userTab);
         }
 
+        protected virtual void HandleTabStuff(UserTab currentTab)
+        {
+            var tabIndex = Tabs.IndexOf(currentTab);
+            var lastTab = (tabIndex > 0) ? Tabs[tabIndex - 1].Value : null;
+            var nextTab = (tabIndex < Tabs.Count - 1) ? Tabs[tabIndex + 1].Value : null;
+
+            ClearCurrent();
+            Last = null;
+            Next = null;
+
+            var unusedContent = new Stack<TabContent>();
+            foreach (var tabContent in Contents) {
+                if (tabContent.Tab == null)
+                    unusedContent.Push(tabContent);
+                else if (tabContent.Tab == lastTab)
+                    Last = tabContent;
+                else if (tabContent.Tab == currentTab)
+                    Current = tabContent;
+                else if (tabContent.Tab == nextTab)
+                    Next = tabContent;
+                else if (tabContent == Leaving)
+                    continue;
+                else
+                    unusedContent.Push(tabContent);
+            }
+
+            if (lastTab != null && Last == null) {
+                Last = unusedContent.Pop();
+                Last.Tab = lastTab;
+            }
+            if (currentTab != null && Current == null) {
+                Current = unusedContent.Pop();
+                Current.Tab = currentTab;
+            }
+            if (nextTab != null && Next == null) {
+                Next = unusedContent.Pop();
+                Next.Tab = nextTab;
+            }
+
+            Register(Current.Behaviour);
+
+            TabDraw();
+        }
 
         private Coroutine currentCoroutine;
-        protected virtual void ChangeTabs(UserTab userTab)
+        protected virtual void TabDraw()
         {
+            foreach (var tabContent in Contents)
+                tabContent.GameObject.SetActive(tabContent == Current || tabContent == Leaving);
+
             if (currentCoroutine != null)
                 StopCoroutine(currentCoroutine);
-            if (Leaving != null)
-                Destroy(Leaving.gameObject);
 
-            Leaving = Current;
-            Current = Instantiate(TabContentPrefab, transform);
-            CurrentTabRectTransform.SetSiblingIndex(0);
-
-            Deregister(Leaving);
-            Register(Current);
-
-            IEnumerator shiftSectionRoutine;
-            if (Tabs.IndexOf(userTab.Data) > Tabs.IndexOf(CurrentTab.Data))
-                shiftSectionRoutine = ShiftTabForward();
+            IEnumerator shiftSectionRoutine = GetShiftRoutine();
+            if (shiftSectionRoutine != null)
+                currentCoroutine = StartCoroutine(shiftSectionRoutine);
             else
-                shiftSectionRoutine = ShiftTabBackward();
-            currentCoroutine = StartCoroutine(shiftSectionRoutine);
+                Curve.SetPosition(Current.RectTransform);
         }
 
-        private const float MoveTime = .5f;
-        protected virtual IEnumerator ShiftTabForward()
+        protected IEnumerator GetShiftRoutine()
         {
-            var moveAmount = Curve.GetCurveX(-LeavingTabRectTransform.anchorMin.x);
-
-            while (moveAmount < 1) {
-                moveAmount += Time.deltaTime / MoveTime;
-                SetMoveAmountForward(moveAmount);
-                yield return null;
-            }
-
-            SetMoveAmountForward(moveAmount);
-            Destroy(Leaving.gameObject);
+            if (!gameObject.activeInHierarchy || Leaving == null)
+                return null;
+            else if (Tabs.IndexOf(Leaving.Tab) < Tabs.IndexOf(Current.Tab))
+                return Curve.ShiftForward(Leaving.RectTransform, Current.RectTransform);
+            else
+                return Curve.ShiftBackward(Leaving.RectTransform, Current.RectTransform);
         }
 
-        protected virtual void SetMoveAmountForward(float moveAmount)
-        {
-            moveAmount = Mathf.Clamp01(moveAmount);
-            moveAmount = Curve.GetCurveY(moveAmount);
 
-            LeavingTabRectTransform.anchorMin = new Vector2(0 - moveAmount, CurrentTabRectTransform.anchorMin.y);
-            LeavingTabRectTransform.anchorMax = new Vector2(1 - moveAmount, CurrentTabRectTransform.anchorMax.y);
-            CurrentTabRectTransform.anchorMin = new Vector2(1 - moveAmount, CurrentTabRectTransform.anchorMin.y);
-            CurrentTabRectTransform.anchorMax = new Vector2(2 - moveAmount, CurrentTabRectTransform.anchorMax.y);
+        protected virtual void SwipeStuff()
+        {
+
         }
 
-        protected virtual IEnumerator ShiftTabBackward()
+        protected virtual void SwipeLeft()
         {
-            var moveAmount = Curve.GetCurveX(LeavingTabRectTransform.anchorMin.x);
 
-            while (moveAmount < 1) {
-                moveAmount += Time.deltaTime / MoveTime;
-                SetMoveAmountBackward(moveAmount);
-                yield return null;
-            }
+        }
+        protected virtual void SwipeRight()
+        {
 
-            SetMoveAmountBackward(moveAmount);
-            Destroy(Leaving.gameObject);
+        }
+        private SwipeManager swipeManager;
+        protected virtual void InitializeSidebarParamaters()
+        {
+            var OpenSidebarSwipeParamater = new SwipeParameter {
+                AngleRange = new AngleRange(-30, 30)
+            };
+            //OpenSidebarSwipeParamater.OnSwipeStart += OpenSwipeStart;
+            //OpenSidebarSwipeParamater.OnSwipeUpdate += OpenSwipeUpdate;
+            //OpenSidebarSwipeParamater.OnSwipeEnd += OpenSwipeEnd;
+            swipeManager.AddSwipeAction(OpenSidebarSwipeParamater);
+
+            var RightSwipeParamater = new SwipeParameter {
+                AngleRange = new AngleRange(150, 210)
+            };
+            //RightSwipeParamater.OnSwipeStart += RightSwipeStart;
+            //RightSwipeParamater.OnSwipeUpdate += CloseSwipeUpdate;
+            //RightSwipeParamater.OnSwipeEnd += CloseSwipeEnd;
+
+            swipeManager.AddSwipeAction(RightSwipeParamater);
         }
 
-        protected virtual void SetMoveAmountBackward(float moveAmount)
+        private void RightSwipeStart(Swipe obj)
         {
-            moveAmount = Mathf.Clamp01(moveAmount);
-            moveAmount = Curve.GetCurveY(moveAmount);
-
-            LeavingTabRectTransform.anchorMin = new Vector2(0 + moveAmount, CurrentTabRectTransform.anchorMin.y);
-            LeavingTabRectTransform.anchorMax = new Vector2(1 + moveAmount, CurrentTabRectTransform.anchorMax.y);
-            CurrentTabRectTransform.anchorMin = new Vector2(-1 + moveAmount, CurrentTabRectTransform.anchorMin.y);
-            CurrentTabRectTransform.anchorMax = new Vector2(0 + moveAmount, CurrentTabRectTransform.anchorMax.y);
+            Next.GameObject.SetActive(true);
+            //CloseSwipeUpdate(swipe);
+        }
+        private void RightSwipeUpdate(Swipe obj)
+        {
+            obj.StartPosition.
+            //BeginHidingSidebar();
+            //CloseSwipeUpdate(swipe);
+        }
+        private void RightSwipeEnd(Swipe obj)
+        {
+            //BeginHidingSidebar();
+            //CloseSwipeUpdate(swipe);
         }
     }
 }

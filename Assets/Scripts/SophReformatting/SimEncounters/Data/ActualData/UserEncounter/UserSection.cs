@@ -37,7 +37,7 @@ namespace ClinicalTools.SimEncounters
             SetRead(true);
         }
 
-        protected virtual OrderedCollection<UserTab> Tabs { get; } = new OrderedCollection<UserTab>();
+        public virtual OrderedCollection<UserTab> Tabs { get; } = new OrderedCollection<UserTab>();
         public virtual IEnumerable<UserTab> GetTabs() => Tabs.Values;
         public virtual UserTab GetCurrentTab() => GetTab(Data.GetCurrentTabKey());
         public virtual UserTab GetTab(string key) => Tabs[key];

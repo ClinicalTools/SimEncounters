@@ -37,7 +37,7 @@ namespace ClinicalTools.SimEncounters
             SetRead(true);
         }
 
-        protected virtual OrderedCollection<UserSection> Sections { get; } = new OrderedCollection<UserSection>();
+        public virtual OrderedCollection<UserSection> Sections { get; } = new OrderedCollection<UserSection>();
         public virtual UserSection GetCurrentSection() 
             => GetSection(Data.Content.NonImageContent.GetCurrentSectionKey());
         public virtual UserSection GetSection(string key) => Sections[key];

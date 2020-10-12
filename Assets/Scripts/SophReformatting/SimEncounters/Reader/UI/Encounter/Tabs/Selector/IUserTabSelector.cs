@@ -1,8 +1,7 @@
 ﻿namespace ClinicalTools.SimEncounters
 {
-    public interface IUserTabSelector
+    public interface IUserTabSelector : IUserTabDrawer
     {
         event UserTabSelectedHandler TabSelected;
-        void SelectTab(UserTab userTab);
     }
 }

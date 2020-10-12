@@ -79,7 +79,7 @@ namespace ClinicalTools.SimEncounters
             => PrimaryFinishButton.gameObject.SetActive(true);
 
         protected UserSection CurrentSection { get; set; }
-        public override void SelectSection(UserSection section)
+        public override void Display(UserSection section)
         {
             if (CurrentSection == section)
                 return;
@@ -89,7 +89,7 @@ namespace ClinicalTools.SimEncounters
         protected UserTab CurrentTab { get; set; }
         private int tabCount;
         private float lastTimeCreated;
-        public override void SelectTab(UserTab tab)
+        public override void Display(UserTab tab)
         {
             lastTimeCreated = Time.realtimeSinceStartup;
 
@@ -151,7 +151,12 @@ namespace ClinicalTools.SimEncounters
         }
 
         protected virtual void GoToNextSection()
-            => GoToSection(NonImageContent.CurrentSectionIndex + 1);
+        {
+            var nextSectionIndex = NonImageContent.CurrentSectionIndex + 1;
+            var section = NonImageContent.Sections[nextSectionIndex].Value;
+            section.CurrentTabIndex = 0;
+            GoToSection(nextSectionIndex);
+        }
         protected virtual void GoToPreviousSection()
         {
             var previousSectionIndex = NonImageContent.CurrentSectionIndex - 1;

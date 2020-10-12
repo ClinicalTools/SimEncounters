@@ -17,7 +17,7 @@ namespace ClinicalTools.SimEncounters
         public virtual void SetCurrentTab(Tab tab)
         {
             if (!Tabs.Contains(tab))
-                throw new Exception($"Passed section is not contained in the collection of sections.");
+                throw new Exception($"Passed tab is not contained in the collection of tabs.");
             CurrentTabIndex = Tabs.IndexOf(tab);
         }
 

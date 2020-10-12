@@ -56,7 +56,7 @@ namespace ClinicalTools.SimEncounters
         }
 
 
-        public override void SelectSection(UserSection section)
+        public override void Display(UserSection section)
         {
             if (CurrentSection == section)
                 return;

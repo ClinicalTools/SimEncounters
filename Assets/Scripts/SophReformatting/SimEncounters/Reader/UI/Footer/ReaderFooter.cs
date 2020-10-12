@@ -61,7 +61,7 @@ namespace ClinicalTools.SimEncounters
         }
 
         protected UserSection CurrentSection { get; set; }
-        public override void SelectSection(UserSection section)
+        public override void Display(UserSection section)
         {
             if (CurrentSection == section)
                 return;
@@ -69,7 +69,7 @@ namespace ClinicalTools.SimEncounters
         }
 
         protected UserTab CurrentTab { get; set; }
-        public override void SelectTab(UserTab tab)
+        public override void Display(UserTab tab)
         {
             if (CurrentTab == tab)
                 return;

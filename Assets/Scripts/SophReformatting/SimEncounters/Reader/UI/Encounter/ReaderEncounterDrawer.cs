@@ -88,8 +88,8 @@ namespace ClinicalTools.SimEncounters
             CurrentSection = selectedSection;
             UserEncounter.Data.Content.NonImageContent.SetCurrentSection(selectedSection.Data);
 
-            SectionSelector.SelectSection(selectedSection);
-            Footer.SelectSection(selectedSection);
+            SectionSelector.Display(selectedSection);
+            Footer.Display(selectedSection);
 
             TabSelector.Display(selectedSection);
             SectionDrawer.Display(selectedSection);
@@ -108,8 +108,8 @@ namespace ClinicalTools.SimEncounters
 
 
             CurrentSection.Data.SetCurrentTab(selectedTab.Data);
-            TabSelector.SelectTab(selectedTab);
-            Footer.SelectTab(selectedTab);
+            TabSelector.Display(selectedTab);
+            Footer.Display(selectedTab);
             TabDrawer.Display(selectedTab);
 
             selectedTab.SetRead(true);
