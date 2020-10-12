@@ -86,7 +86,6 @@ namespace ClinicalTools.SimEncounters
                 sectionSelector.SelectSection(userSection);
         }
 
-        protected virtual UserTab CurrentTab { get; set; }
         protected virtual void OnTabSelected(object sender, UserTabSelectedEventArgs e)
             => TabSelected?.Invoke(sender, e);
         public virtual void SelectTab(UserTab userTab)
