@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace ClinicalTools.UI
@@ -38,9 +39,10 @@ namespace ClinicalTools.UI
             => (Input.touches.Length == 1) ? Input.touches[0].position : (Vector2)Input.mousePosition;
 
 
+        public bool IsSwiping() => currentSwipe != null;
         private Vector2? startPosition;
         private Swipe currentSwipe;
-        private SwipeParameter currentParameter;
+        protected List<SwipeParameter> CurrentParameters { get; } = new List<SwipeParameter>();
         public void TouchPosition(Vector2 position)
         {
             if (startPosition == null) {
@@ -50,8 +52,8 @@ namespace ClinicalTools.UI
 
             if (currentSwipe != null) {
                 currentSwipe.LastPosition = position;
-                if (currentParameter != null)
-                    currentParameter.SwipeUpdate(currentSwipe);
+                foreach (var parameter in CurrentParameters)
+                    parameter.SwipeUpdate(currentSwipe);
                 return;
             }
 
@@ -62,14 +64,10 @@ namespace ClinicalTools.UI
                 return;
 
             currentSwipe = new Swipe((Vector2)startPosition, position);
-            foreach (var swipeParameter in SwipeParameters) {
-                if (!swipeParameter.MeetsParamaters(currentSwipe))
-                    continue;
-
-                currentParameter = swipeParameter;
-                currentParameter.SwipeStart(currentSwipe);
-                return;
-            }
+            foreach (var parameter in SwipeParameters.Where(p => p.MeetsParamaters(currentSwipe)))
+                CurrentParameters.Add(parameter);
+            foreach (var parameter in CurrentParameters)
+                parameter.SwipeStart(currentSwipe);
         }
 
         public void FinishSwipe()
@@ -78,11 +76,9 @@ namespace ClinicalTools.UI
             if (currentSwipe == null)
                 return;
 
-            currentSwipe.Ended = true;
-            if (currentParameter != null) {
-                currentParameter.SwipeEnd(currentSwipe);
-                currentParameter = null;
-            }
+            foreach (var parameter in CurrentParameters)
+                parameter.SwipeEnd(currentSwipe);
+            CurrentParameters.Clear();
 
             currentSwipe = null;
         }

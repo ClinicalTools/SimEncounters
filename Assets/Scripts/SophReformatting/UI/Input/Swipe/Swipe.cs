@@ -5,7 +5,22 @@ namespace ClinicalTools.UI
     public class Swipe
     {
         public Vector2 StartPosition { get; }
-        public Vector2 LastPosition { get; set; }
+
+        private float lastTime;
+        private Vector2 lastPosition;
+        public Vector2 LastPosition {
+            get => lastPosition;
+            set {
+                var currentTime = Time.realtimeSinceStartup;
+                if (lastPosition != default)
+                    Velocity = (value - lastPosition) / (currentTime - lastTime);
+
+                lastTime = currentTime;
+                lastPosition = value;
+            }
+        }
+        public Vector2 Velocity { get; protected set; }
+
         public bool Ended { get; set; }
 
         public float InitialAngle { get; }

@@ -30,8 +30,14 @@ namespace ClinicalTools.SimEncounters
             base.Awake();
         }
 
+        protected SwipeManager SwipeManager { get; set; }
         protected IShifter Curve { get; set; }
-        [Inject] public virtual void Inject(IShifter curve) => Curve = curve;
+        [Inject]
+        public virtual void Inject(IShifter curve, SwipeManager swipeManager)
+        {
+            Curve = curve;
+            SwipeManager = swipeManager;
+        }
 
         protected TabContent Current { get; set; }
         protected TabContent Next { get; set; }
@@ -47,7 +53,15 @@ namespace ClinicalTools.SimEncounters
             base.Display(userSection);
         }
 
-        protected virtual void OnEnable() => ClearCurrent();
+        protected virtual void OnEnable()
+        {
+            if (SwipeParamater == null)
+                InitializeSwipeParamaters();
+            SwipeManager.AddSwipeAction(SwipeParamater);
+
+            ClearCurrent();
+        }
+        protected virtual void OnDisable() => SwipeManager.RemoveSwipeAction(SwipeParamater);
 
         protected virtual void ClearCurrent()
         {
@@ -131,61 +145,82 @@ namespace ClinicalTools.SimEncounters
             if (!gameObject.activeInHierarchy || Leaving == null)
                 return null;
             else if (Tabs.IndexOf(Leaving.Tab) < Tabs.IndexOf(Current.Tab))
-                return Curve.ShiftForward(Leaving.RectTransform, Current.RectTransform);
+                return ShiftForward(Leaving);
             else
-                return Curve.ShiftBackward(Leaving.RectTransform, Current.RectTransform);
+                return ShiftBackward(Leaving);
         }
 
-
-        protected virtual void SwipeStuff()
+        protected IEnumerator ShiftForward(TabContent leavingContent)
         {
-
+            SwipeManager.DisableSwipe();
+            yield return Curve.ShiftForward(leavingContent.RectTransform, Current.RectTransform);
+            SwipeManager.ReenableSwipe();
+        }
+        protected IEnumerator ShiftBackward(TabContent leavingContent)
+        {
+            SwipeManager.DisableSwipe();
+            yield return Curve.ShiftBackward(leavingContent.RectTransform, Current.RectTransform);
+            SwipeManager.ReenableSwipe();
         }
 
-        protected virtual void SwipeLeft()
+        SwipeParameter SwipeParamater { get; set; }
+        protected virtual void InitializeSwipeParamaters()
         {
-
-        }
-        protected virtual void SwipeRight()
-        {
-
-        }
-        private SwipeManager swipeManager;
-        protected virtual void InitializeSidebarParamaters()
-        {
-            var OpenSidebarSwipeParamater = new SwipeParameter {
-                AngleRange = new AngleRange(-30, 30)
-            };
-            //OpenSidebarSwipeParamater.OnSwipeStart += OpenSwipeStart;
-            //OpenSidebarSwipeParamater.OnSwipeUpdate += OpenSwipeUpdate;
-            //OpenSidebarSwipeParamater.OnSwipeEnd += OpenSwipeEnd;
-            swipeManager.AddSwipeAction(OpenSidebarSwipeParamater);
-
-            var RightSwipeParamater = new SwipeParameter {
-                AngleRange = new AngleRange(150, 210)
-            };
-            //RightSwipeParamater.OnSwipeStart += RightSwipeStart;
-            //RightSwipeParamater.OnSwipeUpdate += CloseSwipeUpdate;
-            //RightSwipeParamater.OnSwipeEnd += CloseSwipeEnd;
-
-            swipeManager.AddSwipeAction(RightSwipeParamater);
+            SwipeParamater = new SwipeParameter();
+            SwipeParamater.AngleRanges.Add(new AngleRange(-30, 30));
+            SwipeParamater.AngleRanges.Add(new AngleRange(150, 210));
+            SwipeParamater.OnSwipeStart += SwipeStart;
+            SwipeParamater.OnSwipeUpdate += SwipeUpdate;
+            SwipeParamater.OnSwipeEnd += SwipeEnd;
         }
 
-        private void RightSwipeStart(Swipe obj)
+        private void SwipeStart(Swipe obj)
         {
+            SwipeUpdate(obj);
+        }
+        private void SwipeUpdate(Swipe obj)
+        {
+            var dist = (obj.LastPosition.x - obj.StartPosition.x) / Screen.width;
+            if (dist > 0)
+                RightSwipeUpdate(Mathf.Clamp01(dist));
+            else
+                LeftSwipeUpdate(Mathf.Clamp01(-dist));
+        }
+
+        private void RightSwipeUpdate(float dist)
+        {
+            if (Next != null)
+                Next.GameObject.SetActive(false);
+            if (Last == null)
+                return;
+            Last.GameObject.SetActive(true);
+            Curve.SetMoveAmountBackward(Current.RectTransform, Last.RectTransform, dist);
+        }
+        private void LeftSwipeUpdate(float dist)
+        {
+            if (Last != null)
+                Last.GameObject.SetActive(false);
+            if (Next == null)
+                return;
             Next.GameObject.SetActive(true);
-            //CloseSwipeUpdate(swipe);
+            Curve.SetMoveAmountForward(Current.RectTransform, Next.RectTransform, dist);
         }
-        private void RightSwipeUpdate(Swipe obj)
+        private void SwipeEnd(Swipe obj)
         {
-            obj.StartPosition.
-            //BeginHidingSidebar();
-            //CloseSwipeUpdate(swipe);
-        }
-        private void RightSwipeEnd(Swipe obj)
-        {
-            //BeginHidingSidebar();
-            //CloseSwipeUpdate(swipe);
+            SwipeUpdate(obj);
+
+            var dist = (obj.LastPosition.x - obj.StartPosition.x) / Screen.width;
+            if (dist > 0 && Last != null) {
+                if (dist > .5f || obj.Velocity.x / Screen.dpi > 1.5f)
+                    OnTabSelected(this, new UserTabSelectedEventArgs(Last.Tab));
+                else
+                    StartCoroutine(ShiftForward(Last));
+            } else if (dist < 0 && Next != null) {
+                if (dist < -.5f || obj.Velocity.x / Screen.dpi < -1.5f)
+                    OnTabSelected(this, new UserTabSelectedEventArgs(Next.Tab));
+                else
+                    StartCoroutine(ShiftBackward(Next));
+            }
         }
     }
 }

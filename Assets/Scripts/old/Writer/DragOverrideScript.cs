@@ -4,6 +4,8 @@ using UnityEngine.EventSystems;
 
 public class DragOverrideScript : CEScrollRect
 {
+    public static bool DragAllowed { get; set; } = true;
+
     protected override void Start()
     {
 #if MOBILE
@@ -17,7 +19,7 @@ public class DragOverrideScript : CEScrollRect
     protected virtual bool CanDrag()
     {
 #if MOBILE
-        return (MouseInput.Instance == null || MouseInput.Instance.CanDrag) 
+        return DragAllowed && (MouseInput.Instance == null || MouseInput.Instance.CanDrag) 
             && content.rect.height > viewport.rect.height
             && Input.touches.Length < 2;
 #else  

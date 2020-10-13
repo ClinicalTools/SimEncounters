@@ -58,7 +58,7 @@ namespace ClinicalTools.UI
         protected virtual IEnumerator Shift(Action<RectTransform, RectTransform, float> moveAction,
             RectTransform leaving, RectTransform current)
         {
-            var moveAmount = 0f;
+            var moveAmount = Mathf.Clamp01(Curve.GetCurveX(Mathf.Abs(leaving.anchorMin.x)));
 
             while (moveAmount < 1f) {
                 moveAmount += Time.deltaTime / MoveTime;

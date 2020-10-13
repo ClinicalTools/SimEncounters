@@ -1,6 +1,5 @@
 ﻿using ClinicalTools.SimEncounters.Collections;
 using ClinicalTools.UI;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +9,8 @@ namespace ClinicalTools.SimEncounters
 {
     public class ReaderMobileSectionHandler2 : ReaderCompletableEncounterHandler
     {
+        public CanvasGroup CanvasGroup { get => canvasGroup; set => canvasGroup = value; }
+        [SerializeField] private CanvasGroup canvasGroup;
         public MonoBehaviour SectionContent1 { get => sectionContent1; set => sectionContent1 = value; }
         [SerializeField] private MonoBehaviour sectionContent1;
         public MonoBehaviour SectionContent2 { get => sectionContent2; set => sectionContent2 = value; }
@@ -31,8 +32,14 @@ namespace ClinicalTools.SimEncounters
             base.Awake();
         }
 
+        protected SwipeManager SwipeManager { get; set; }
         protected IShifter Curve { get; set; }
-        [Inject] public virtual void Inject(IShifter curve) => Curve = curve;
+        [Inject]
+        public virtual void Inject(IShifter curve, SwipeManager swipeManager)
+        {
+            Curve = curve;
+            SwipeManager = swipeManager;
+        }
 
         protected SectionContent Current { get; set; }
         protected SectionContent Next { get; set; }
@@ -48,7 +55,15 @@ namespace ClinicalTools.SimEncounters
             base.Display(userEncounter);
         }
 
-        protected virtual void OnEnable() => ClearCurrent();
+        protected virtual void OnEnable()
+        {
+            if (SwipeParamater == null)
+                InitializeSwipeParamaters();
+            SwipeManager.AddSwipeAction(SwipeParamater);
+
+            ClearCurrent();
+        }
+        protected virtual void OnDisable() => SwipeManager.RemoveSwipeAction(SwipeParamater);
 
         protected virtual void ClearCurrent()
         {
@@ -150,9 +165,95 @@ namespace ClinicalTools.SimEncounters
             if (!gameObject.activeInHierarchy || Leaving == null)
                 return null;
             else if (Sections.IndexOf(Leaving.Section) < Sections.IndexOf(Current.Section))
-                return Curve.ShiftForward(Leaving.RectTransform, Current.RectTransform);
+                return ShiftForward(Leaving);
             else
-                return Curve.ShiftBackward(Leaving.RectTransform, Current.RectTransform);
+                return ShiftBackward(Leaving);
+        }
+
+        protected IEnumerator ShiftForward(SectionContent leavingContent)
+        {
+            SwipeManager.DisableSwipe();
+            yield return Curve.ShiftForward(leavingContent.RectTransform, Current.RectTransform);
+            SwipeManager.ReenableSwipe();
+        }
+        protected IEnumerator ShiftBackward(SectionContent leavingContent)
+        {
+            SwipeManager.DisableSwipe();
+            yield return Curve.ShiftBackward(leavingContent.RectTransform, Current.RectTransform);
+            SwipeManager.ReenableSwipe();
+        }
+
+        SwipeParameter SwipeParamater { get; set; }
+        protected virtual void InitializeSwipeParamaters()
+        {
+            SwipeParamater = new SwipeParameter();
+            SwipeParamater.AngleRanges.Add(new AngleRange(-30, 30));
+            SwipeParamater.AngleRanges.Add(new AngleRange(150, 210));
+            SwipeParamater.OnSwipeStart += SwipeStart;
+            SwipeParamater.OnSwipeUpdate += SwipeUpdate;
+            SwipeParamater.OnSwipeEnd += SwipeEnd;
+        }
+
+        private void SwipeStart(Swipe obj)
+        {
+            DragOverrideScript.DragAllowed = false;
+            CanvasGroup.blocksRaycasts = false;
+            SwipeUpdate(obj);
+        }
+        private void SwipeUpdate(Swipe obj)
+        {
+            var dist = (obj.LastPosition.x - obj.StartPosition.x) / Screen.width;
+            if (dist > 0)
+                RightSwipeUpdate(Mathf.Clamp01(dist));
+            else
+                LeftSwipeUpdate(Mathf.Clamp01(-dist));
+        }
+
+        private bool swipingLeft, swipingRight;
+        private void RightSwipeUpdate(float dist)
+        {
+            if (Next != null)
+                Next.GameObject.SetActive(false);
+            if (Last == null || Current.Section.Data.CurrentTabIndex != 0) {
+                Curve.SetPosition(Current.RectTransform);
+                return;
+            }
+            swipingRight = true;
+            Last.GameObject.SetActive(true);
+            Curve.SetMoveAmountBackward(Current.RectTransform, Last.RectTransform, dist);
+        }
+        private void LeftSwipeUpdate(float dist)
+        {
+            if (Last != null)
+                Last.GameObject.SetActive(false);
+            if (Next == null || Current.Section.Data.CurrentTabIndex + 1 != Current.Section.Tabs.Count) {
+                Curve.SetPosition(Current.RectTransform);
+                return;
+            }
+            swipingLeft = true;
+            Next.GameObject.SetActive(true);
+            Curve.SetMoveAmountForward(Current.RectTransform, Next.RectTransform, dist);
+        }
+        private void SwipeEnd(Swipe obj)
+        {
+            DragOverrideScript.DragAllowed = true;
+            CanvasGroup.blocksRaycasts = true;
+
+            var dist = (obj.LastPosition.x - obj.StartPosition.x) / Screen.width;
+            if (swipingRight && dist > 0 && Last != null && Current.Section.Data.CurrentTabIndex == 0) {
+                if (dist > .5f || obj.Velocity.x / Screen.dpi > 1.5f)
+                    OnSectionSelected(this, new UserSectionSelectedEventArgs(Last.Section));
+                else
+                    StartCoroutine(ShiftForward(Last));
+            } else if (swipingLeft && dist < 0 && Next != null && Current.Section.Data.CurrentTabIndex + 1 == Current.Section.Tabs.Count) {
+                if (dist < -.5f || obj.Velocity.x / Screen.dpi < -1.5f)
+                    OnSectionSelected(this, new UserSectionSelectedEventArgs(Next.Section));
+                else
+                    StartCoroutine(ShiftBackward(Next));
+            }
+
+            swipingLeft = false;
+            swipingRight = false;
         }
     }
 }

@@ -53,22 +53,22 @@ namespace ClinicalTools.SimEncounters
         protected virtual void InitializeSidebarParamaters()
         {
             OpenSidebarSwipeParamater = new SwipeParameter {
-                AngleRange = new AngleRange(-30, 30),
                 StartPositionRange = new Rect(0, 0, Screen.width / 3, 10000)
             };
+            OpenSidebarSwipeParamater.AngleRanges.Add(new AngleRange(-30, 30));
             OpenSidebarSwipeParamater.OnSwipeStart += OpenSwipeStart;
             OpenSidebarSwipeParamater.OnSwipeUpdate += OpenSwipeUpdate;
             OpenSidebarSwipeParamater.OnSwipeEnd += OpenSwipeEnd;
 
             CloseSidebarSwipeParamater = new SwipeParameter {
-                AngleRange = new AngleRange(150, 210),
                 StartPositionRange = new Rect(0, 0, 10000, 10000)
             };
+            CloseSidebarSwipeParamater.AngleRanges.Add(new AngleRange(150, 210));
             CloseSidebarSwipeParamater.OnSwipeStart += CloseSwipeStart;
             CloseSidebarSwipeParamater.OnSwipeUpdate += CloseSwipeUpdate;
             CloseSidebarSwipeParamater.OnSwipeEnd += CloseSwipeEnd;
 
-            swipeManager.AddSwipeAction(OpenSidebarSwipeParamater);
+            //swipeManager.AddSwipeAction(OpenSidebarSwipeParamater);
         }
 
         protected virtual void OpenSwipeStart(Swipe swipe)
@@ -130,8 +130,8 @@ namespace ClinicalTools.SimEncounters
         {
             SidebarMainPanel.interactable = true;
             SidebarDimBackground.interactable = true;
-            swipeManager.AddSwipeAction(CloseSidebarSwipeParamater);
-            swipeManager.RemoveSwipeAction(OpenSidebarSwipeParamater);
+            //swipeManager.AddSwipeAction(CloseSidebarSwipeParamater);
+            //swipeManager.RemoveSwipeAction(OpenSidebarSwipeParamater);
 
             BackButton.Register(StartCloseEnumerator);
         }
@@ -146,8 +146,8 @@ namespace ClinicalTools.SimEncounters
         protected void CompleteHidingSidebar()
         {
             Sidebar.SetActive(false);
-            swipeManager.AddSwipeAction(OpenSidebarSwipeParamater);
-            swipeManager.RemoveSwipeAction(CloseSidebarSwipeParamater);
+            //swipeManager.AddSwipeAction(OpenSidebarSwipeParamater);
+            //swipeManager.RemoveSwipeAction(CloseSidebarSwipeParamater);
         }
 
 
@@ -165,7 +165,6 @@ namespace ClinicalTools.SimEncounters
             SetSidebar(1);
             CompleteShowingSidebar();
         }
-
 
         private const float HideTime = .3f;
         protected void StartCloseEnumerator() => StartCoroutine(CloseSidebarEnumerator());

@@ -61,6 +61,11 @@ namespace ClinicalTools.SimEncounters
                 SceneDrawers.Add(sceneDrawer);
         }
 
+        protected virtual void OnDisable()
+        {
+            foreach (var sectionSelector in SectionSelectors)
+                sectionSelector.SectionSelected += OnSectionSelected;
+        }
         protected virtual void AddListeners()
         {
             foreach (var sectionSelector in SectionSelectors)
