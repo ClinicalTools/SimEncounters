@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using ClinicalTools.SimEncounters.Collections;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -9,34 +12,42 @@ namespace ClinicalTools.SimEncounters
         protected PanelStatus Status { get; }
         public UserPinGroup PinGroup { get; }
 
-        public UserPanel(UserEncounter encounter, Panel panel, PanelStatus status)
+        public event Action StatusChanged;
+
+        public UserPanel(UserEncounter encounter, Panel data, PanelStatus status)
         {
             Encounter = encounter;
-            Data = panel;
+            Data = data;
             Status = status;
-            if (panel.Pins != null && panel.Pins.HasPin())
-                PinGroup = new UserPinGroup(encounter, panel.Pins);
+            if (data.Pins != null && data.Pins.HasPin()) { 
+                PinGroup = new UserPinGroup(encounter, data.Pins, status.PinGroupStatus);
+                PinGroup.StatusChanged += UpdateIsRead;
+            }
+
+            foreach (var panel in data.ChildPanels) {
+                var userPanel = new UserPanel(encounter, panel.Value, status.GetChildPanelStatus(panel.Key));
+                userPanel.StatusChanged += UpdateIsRead;
+                ChildPanels.Add(panel.Key, userPanel);
+            }
         }
 
-        protected virtual Dictionary<string, UserPanel> Panels { get; } = new Dictionary<string, UserPanel>();
-        public virtual List<UserPanel> GetChildPanels()
+        protected virtual void UpdateIsRead()
         {
-            var userPanels = new List<UserPanel>();
-            foreach (var panel in Data.ChildPanels)
-                userPanels.Add(GetPanel(panel.Key));
-
-            return userPanels;
+            if (!Status.Read && PinGroup?.IsRead() != false && !ChildPanels.Values.Any(p => !p.IsRead()))
+                SetRead(true);
         }
-        public virtual UserPanel GetPanel(string key)
+
+        public bool IsRead() => Status.Read;
+        public void SetRead(bool read)
         {
-            if (Panels.ContainsKey(key))
-                return Panels[key];
-
-            var panel = Data.ChildPanels[key];
-            //var panelStatus = Status.GetChildPanelStatus(key);
-            var userPanel = new UserPanel(Encounter, panel, null);
-            Panels.Add(key, userPanel);
-            return userPanel;
+            if (Status.Read == read)
+                return;
+            Status.Read = read;
+            StatusChanged?.Invoke();
         }
+        
+        public virtual OrderedCollection<UserPanel> ChildPanels { get; } = new OrderedCollection<UserPanel>();
+        public virtual IEnumerable<UserPanel> GetChildPanels() => ChildPanels.Values;
+        public virtual UserPanel GetChildPanel(string key) => ChildPanels[key];
     }
 }

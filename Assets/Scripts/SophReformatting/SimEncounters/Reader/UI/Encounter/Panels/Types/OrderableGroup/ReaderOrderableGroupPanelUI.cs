@@ -34,7 +34,7 @@ namespace ClinicalTools.SimEncounters
         {
             BasicPanelDrawer.Display(userPanel, transform, transform);
 
-            CorrectPanelOrder = userPanel.GetChildPanels();
+            CorrectPanelOrder = new List<UserPanel>(userPanel.GetChildPanels());
             var readerPanels = ChildPanelCreator.DrawChildPanels(CorrectPanelOrder);
             foreach (var readerPanel in readerPanels)
                 DraggableGroupUI.Add(readerPanel);

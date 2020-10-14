@@ -10,8 +10,8 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
     {
         protected virtual PanelFactory ChildPanelFactory => this;
 
-        protected virtual ISerializationFactory<PinData> PinsFactory { get; }
-        public PanelFactory(ISerializationFactory<PinData> pinsFactory)
+        protected virtual ISerializationFactory<PinGroup> PinsFactory { get; }
+        public PanelFactory(ISerializationFactory<PinGroup> pinsFactory)
         {
             PinsFactory = pinsFactory;
         }
@@ -83,7 +83,7 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
         }
 
 
-        protected virtual PinData GetPins(XmlDeserializer deserializer)
+        protected virtual PinGroup GetPins(XmlDeserializer deserializer)
             => deserializer.GetValue(PinsInfo, PinsFactory);
         protected virtual void AddPins(XmlDeserializer deserializer, Panel panel)
             => panel.Pins = GetPins(deserializer);

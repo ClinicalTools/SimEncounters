@@ -8,18 +8,36 @@ namespace ClinicalTools.SimEncounters
     {
         public virtual Button Button { get => button; set => button = value; }
         [SerializeField] private Button button;
+        public virtual GameObject Completed { get => completed; set => completed = value; }
+        [SerializeField] private GameObject completed;
 
         protected UserDialoguePinDrawer DialoguePopup { get; set; }
+        [Inject] public virtual void Inject(UserDialoguePinDrawer dialoguePopup) => DialoguePopup = dialoguePopup;
 
-        [Inject] public virtual void Inject(UserDialoguePinDrawer dialoguePopup)
-        {
-            DialoguePopup = dialoguePopup;
-        }
-
+        protected UserDialoguePin UserDialoguePin { get; set; }
         public override void Display(UserDialoguePin dialoguePin)
         {
+            if (UserDialoguePin != null)
+                UserDialoguePin.StatusChanged -= OnStatusChanged;
+
+            UserDialoguePin = dialoguePin;
+            UserDialoguePin.StatusChanged += OnStatusChanged;
+            OnStatusChanged();
+
             Button.onClick.RemoveAllListeners();
             Button.onClick.AddListener(() => DialoguePopup.Display(dialoguePin));
+        }
+
+        protected virtual void OnStatusChanged()
+        {
+            if (Completed != null)
+                Completed.SetActive(UserDialoguePin.IsRead());
+        }
+
+        protected virtual void OnDestroy()
+        {
+            if (UserDialoguePin != null)
+                UserDialoguePin.StatusChanged -= OnStatusChanged;
         }
     }
 }

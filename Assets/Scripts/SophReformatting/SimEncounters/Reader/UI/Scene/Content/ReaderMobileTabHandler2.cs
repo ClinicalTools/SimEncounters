@@ -106,13 +106,13 @@ namespace ClinicalTools.SimEncounters
                     unusedContent.Push(tabContent);
             }
 
+            if (Current == null) {
+                Current = unusedContent.Pop();
+                Current.Tab = currentTab;
+            }
             if (lastTab != null && Last == null) {
                 Last = unusedContent.Pop();
                 Last.Tab = lastTab;
-            }
-            if (currentTab != null && Current == null) {
-                Current = unusedContent.Pop();
-                Current.Tab = currentTab;
             }
             if (nextTab != null && Next == null) {
                 Next = unusedContent.Pop();
@@ -130,8 +130,10 @@ namespace ClinicalTools.SimEncounters
             foreach (var tabContent in Contents)
                 tabContent.GameObject.SetActive(tabContent == Current || tabContent == Leaving);
 
-            if (currentCoroutine != null)
+            if (currentCoroutine != null) {
                 StopCoroutine(currentCoroutine);
+                SwipeManager.ReenableSwipe();
+            }
 
             IEnumerator shiftSectionRoutine = GetShiftRoutine();
             if (shiftSectionRoutine != null)
@@ -151,19 +153,17 @@ namespace ClinicalTools.SimEncounters
         }
 
         protected IEnumerator ShiftForward(TabContent leavingContent)
-        {
-            SwipeManager.DisableSwipe();
-            yield return Curve.ShiftForward(leavingContent.RectTransform, Current.RectTransform);
-            SwipeManager.ReenableSwipe();
-        }
+            => Shift(Curve.ShiftForward(leavingContent.RectTransform, Current.RectTransform));
         protected IEnumerator ShiftBackward(TabContent leavingContent)
+            => Shift(Curve.ShiftBackward(leavingContent.RectTransform, Current.RectTransform));
+        protected IEnumerator Shift(IEnumerator enumerator)
         {
             SwipeManager.DisableSwipe();
-            yield return Curve.ShiftBackward(leavingContent.RectTransform, Current.RectTransform);
+            yield return enumerator;
             SwipeManager.ReenableSwipe();
         }
 
-        SwipeParameter SwipeParamater { get; set; }
+        protected SwipeParameter SwipeParamater { get; set; }
         protected virtual void InitializeSwipeParamaters()
         {
             SwipeParamater = new SwipeParameter();
@@ -214,12 +214,12 @@ namespace ClinicalTools.SimEncounters
                 if (dist > .5f || obj.Velocity.x / Screen.dpi > 1.5f)
                     OnTabSelected(this, new UserTabSelectedEventArgs(Last.Tab));
                 else
-                    StartCoroutine(ShiftForward(Last));
+                    currentCoroutine = StartCoroutine(ShiftForward(Last));
             } else if (dist < 0 && Next != null) {
                 if (dist < -.5f || obj.Velocity.x / Screen.dpi < -1.5f)
                     OnTabSelected(this, new UserTabSelectedEventArgs(Next.Tab));
                 else
-                    StartCoroutine(ShiftBackward(Next));
+                    currentCoroutine = StartCoroutine(ShiftBackward(Next));
             }
         }
     }

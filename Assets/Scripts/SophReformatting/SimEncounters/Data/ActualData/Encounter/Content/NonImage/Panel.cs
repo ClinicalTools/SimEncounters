@@ -8,7 +8,7 @@ namespace ClinicalTools.SimEncounters
         public string Type { get; set; }
         public IDictionary<string, string> Values { get; set; } = new Dictionary<string, string>();
         public OrderedCollection<Panel> ChildPanels { get; set; } = new OrderedCollection<Panel>();
-        public virtual PinData Pins { get; set; }
+        public virtual PinGroup Pins { get; set; }
 
         public Panel(string type)
         {

@@ -12,8 +12,9 @@ namespace ClinicalTools.SimEncounters
             if (Tabs.ContainsKey(key))
                 return Tabs[key];
 
-            var tabStatus = new TabStatus();
-            tabStatus.Read = Read;
+            var tabStatus = new TabStatus {
+                Read = Read
+            };
             Tabs.Add(key, tabStatus);
             return tabStatus;
         }

@@ -25,8 +25,8 @@
 
             while (enumerator.MoveNext() && enumerator.Current != END_CHAR) {
                 var sectionKey = keyParser.Deserialize(enumerator);
-                var sectionStatus = tabStatusParser.Deserialize(enumerator);
-                status.AddTabStatus(sectionKey, sectionStatus);
+                var tabStatus = tabStatusParser.Deserialize(enumerator);
+                status.AddTabStatus(sectionKey, tabStatus);
             }
 
             return status;

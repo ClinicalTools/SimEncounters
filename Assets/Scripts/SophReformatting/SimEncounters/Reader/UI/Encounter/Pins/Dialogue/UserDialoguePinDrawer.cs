@@ -2,7 +2,12 @@
 
 namespace ClinicalTools.SimEncounters
 {
-    public abstract class UserDialoguePinDrawer : MonoBehaviour
+    public interface IUserDialoguePinDrawer
+    {
+        void Display(UserDialoguePin dialoguePin);
+    }
+
+    public abstract class UserDialoguePinDrawer : MonoBehaviour, IUserDialoguePinDrawer
     {
         public abstract void Display(UserDialoguePin dialoguePin);
     }

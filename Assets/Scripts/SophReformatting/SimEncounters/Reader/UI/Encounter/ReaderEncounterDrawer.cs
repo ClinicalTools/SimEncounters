@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -67,7 +69,7 @@ namespace ClinicalTools.SimEncounters
         {
             if (!UserEncounter.IsRead())
                 return;
-            UserEncounter.StatusChanged -= UpdateFinishButtonActive; 
+            UserEncounter.StatusChanged -= UpdateFinishButtonActive;
             EnableFinishButton();
         }
 
@@ -112,9 +114,20 @@ namespace ClinicalTools.SimEncounters
             Footer.Display(selectedTab);
             TabDrawer.Display(selectedTab);
 
-            selectedTab.SetRead(true);
+            SetPanelsAsRead(selectedTab.GetPanels());
 
             UpdateProgressBar();
+        }
+
+        protected virtual void SetPanelsAsRead(IEnumerable<UserPanel> panels)
+        {
+            foreach (var panel in panels) {
+                var childPanels = new List<UserPanel>(panel.GetChildPanels());
+                if (childPanels.Count > 0)
+                    SetPanelsAsRead(childPanels);
+                else
+                    panel.SetRead(true);
+            }
         }
 
         private float tabCount;

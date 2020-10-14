@@ -27,8 +27,8 @@ namespace ClinicalTools.SimEncounters
         }
 
         protected Encounter CurrentEncounter { get; set; }
-        protected PinData CurrentPinData { get; set; }
-        public override void Display(Encounter encounter, PinData pinData)
+        protected PinGroup CurrentPinData { get; set; }
+        public override void Display(Encounter encounter, PinGroup pinData)
         {
             CurrentEncounter = encounter;
             CurrentPinData = pinData;
@@ -37,7 +37,7 @@ namespace ClinicalTools.SimEncounters
             DialoguePinButton.image.color = GetButtonColor(CurrentPinData?.Dialogue != null);
         }
 
-        public override PinData Serialize() => CurrentPinData;
+        public override PinGroup Serialize() => CurrentPinData;
 
         protected virtual void EditDialogue()
         {

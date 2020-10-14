@@ -3,8 +3,8 @@
     public class EncounterContentStatusSerializer : IStringSerializer<EncounterContentStatus>
     {
         private const char END_CHAR = ' ';
-        private readonly SectionStatusSerializer sectionStatusSerializer;
-        public EncounterContentStatusSerializer(SectionStatusSerializer sectionStatusSerializer)
+        private readonly IStatusSerializer<SectionStatus> sectionStatusSerializer;
+        public EncounterContentStatusSerializer(IStatusSerializer<SectionStatus> sectionStatusSerializer)
         {
             this.sectionStatusSerializer = sectionStatusSerializer;
         }
@@ -14,7 +14,7 @@
             var str = encounterStatus.Read ? "1" : "0";
 
             foreach (var section in encounterStatus.SectionStatuses) {
-                var sectionStr = sectionStatusSerializer.Serialize(encounterStatus, section.Value);
+                var sectionStr = sectionStatusSerializer.Serialize(section.Value, encounterStatus.Read);
                 if (!string.IsNullOrWhiteSpace(sectionStr))
                     str += section.Key + sectionStr + END_CHAR;
             }

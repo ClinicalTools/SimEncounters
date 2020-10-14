@@ -76,10 +76,22 @@ namespace ClinicalTools.SimEncounters
 
             CurrentTab = selectedTab;
             CurrentSection.Data.SetCurrentTab(selectedTab.Data);
-            CurrentTab.SetRead(true);
+
+            SetPanelsAsRead(selectedTab.GetPanels());
 
             foreach (var tabDrawer in TabDrawers)
                 tabDrawer.Display(CurrentTab);
+        }
+
+        protected virtual void SetPanelsAsRead(IEnumerable<UserPanel> panels)
+        {
+            foreach (var panel in panels) {
+                var childPanels = new List<UserPanel>(panel.GetChildPanels());
+                if (childPanels.Count > 0)
+                    SetPanelsAsRead(childPanels);
+                else
+                    panel.SetRead(true);
+            }
         }
     }
 }

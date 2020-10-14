@@ -2,39 +2,34 @@
 
 namespace ClinicalTools.SimEncounters
 {
-    public class DialogueStatus
-    {
-        public bool Read { get; set; }
-        protected Dictionary<string, PanelStatus> Panels { get; } = new Dictionary<string, PanelStatus>();
-    }
-    public class QuizStatus
-    {
-        public bool Read { get; set; }
-        protected Dictionary<string, PanelStatus> Panels { get; } = new Dictionary<string, PanelStatus>();
-    }
-
-    public class PinDataStatus
-    {
-        public bool Read { get; set; }
-        public QuizStatus QuizStatus { get; }
-        public DialogueStatus DialogueStatus { get; }
-
-    }
-
     public class PanelStatus
     {
         public bool Read { get; set; }
 
+        private PinGroupStatus pinDataStatus;
+        public PinGroupStatus PinGroupStatus {
+            get {
+                if (pinDataStatus == null)
+                    pinDataStatus = new PinGroupStatus { Read = Read };
+                return pinDataStatus;
+            }
+            set => pinDataStatus = value;
+        }
+
         protected Dictionary<string, PanelStatus> Panels { get; } = new Dictionary<string, PanelStatus>();
+        public virtual void AddPanelStatus(string key, PanelStatus status) => Panels.Add(key, status);
 
         public virtual PanelStatus GetChildPanelStatus(string key)
         {
             if (Panels.ContainsKey(key))
                 return Panels[key];
 
-            var panelStatus = new PanelStatus();
+            var panelStatus = new PanelStatus {
+                Read = Read
+            };
             Panels.Add(key, panelStatus);
             return panelStatus;
         }
+        public virtual IEnumerable<KeyValuePair<string, PanelStatus>> ChildPanelStatuses => Panels;
     }
 }

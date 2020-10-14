@@ -1,6 +1,7 @@
 ﻿using ClinicalTools.SimEncounters.Collections;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -18,8 +19,15 @@ namespace ClinicalTools.SimEncounters
 
             foreach (var panel in data.Panels) {
                 var userPanel = new UserPanel(encounter, panel.Value, status.GetPanelStatus(panel.Key));
+                userPanel.StatusChanged += UpdateIsRead;
                 Panels.Add(panel.Key, userPanel);
             }
+        }
+
+        protected virtual void UpdateIsRead()
+        {
+            if (!Status.Read && !Panels.Values.Any(p => !p.IsRead()))
+                SetRead(true);
         }
 
         public bool IsRead() => Status.Read;

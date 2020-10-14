@@ -135,8 +135,8 @@ namespace ClinicalTools.SimEncounters
                 Next.Section = nextSection;
             }
 
-            Last?.SetCurrentTab();
             Current.SetCurrentTab();
+            Last?.SetCurrentTab();
             Next?.SetFirstTab();
 
             Register(Current.Behaviour);
@@ -150,8 +150,10 @@ namespace ClinicalTools.SimEncounters
             foreach (var sectionContent in Contents)
                 sectionContent.GameObject.SetActive(sectionContent == Current || sectionContent == Leaving);
 
-            if (currentCoroutine != null)
+            if (currentCoroutine != null) {
                 StopCoroutine(currentCoroutine);
+                SwipeManager.ReenableSwipe();
+            }
 
             IEnumerator shiftSectionRoutine = GetShiftRoutine();
             if (shiftSectionRoutine != null)
@@ -171,19 +173,17 @@ namespace ClinicalTools.SimEncounters
         }
 
         protected IEnumerator ShiftForward(SectionContent leavingContent)
-        {
-            SwipeManager.DisableSwipe();
-            yield return Curve.ShiftForward(leavingContent.RectTransform, Current.RectTransform);
-            SwipeManager.ReenableSwipe();
-        }
+            => Shift(Curve.ShiftForward(leavingContent.RectTransform, Current.RectTransform));
         protected IEnumerator ShiftBackward(SectionContent leavingContent)
+            => Shift(Curve.ShiftBackward(leavingContent.RectTransform, Current.RectTransform));
+        protected IEnumerator Shift(IEnumerator enumerator)
         {
             SwipeManager.DisableSwipe();
-            yield return Curve.ShiftBackward(leavingContent.RectTransform, Current.RectTransform);
+            yield return enumerator;
             SwipeManager.ReenableSwipe();
         }
 
-        SwipeParameter SwipeParamater { get; set; }
+        protected SwipeParameter SwipeParamater { get; set; }
         protected virtual void InitializeSwipeParamaters()
         {
             SwipeParamater = new SwipeParameter();
@@ -244,12 +244,12 @@ namespace ClinicalTools.SimEncounters
                 if (dist > .5f || obj.Velocity.x / Screen.dpi > 1.5f)
                     OnSectionSelected(this, new UserSectionSelectedEventArgs(Last.Section));
                 else
-                    StartCoroutine(ShiftForward(Last));
+                    currentCoroutine = StartCoroutine(ShiftForward(Last));
             } else if (swipingLeft && dist < 0 && Next != null && Current.Section.Data.CurrentTabIndex + 1 == Current.Section.Tabs.Count) {
                 if (dist < -.5f || obj.Velocity.x / Screen.dpi < -1.5f)
                     OnSectionSelected(this, new UserSectionSelectedEventArgs(Next.Section));
                 else
-                    StartCoroutine(ShiftBackward(Next));
+                    currentCoroutine = StartCoroutine(ShiftBackward(Next));
             }
 
             swipingLeft = false;

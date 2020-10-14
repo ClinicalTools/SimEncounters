@@ -20,7 +20,7 @@ namespace ClinicalTools.SimEncounters
             var panelDisplay = new WriterPanelValueDisplay();
             Fields = panelDisplay.Display(encounter, CurrentPanel, transform);
             if (PinsDrawer != null)
-                PinsDrawer.Display(encounter, new PinData());
+                PinsDrawer.Display(encounter, new PinGroup());
         }
         protected IPanelField[] Fields { get; set; }
         public override void Display(Encounter encounter, Panel panel)
@@ -34,7 +34,7 @@ namespace ClinicalTools.SimEncounters
                 ChildPanelCreator.DrawChildPanels(encounter, panel.ChildPanels);
             if (PinsDrawer != null) {
                 if (panel.Pins == null)
-                    panel.Pins = new PinData();
+                    panel.Pins = new PinGroup();
                 PinsDrawer.Display(encounter, panel.Pins);
             }
         }

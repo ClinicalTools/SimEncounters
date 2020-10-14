@@ -1,5 +1,6 @@
 ﻿using ClinicalTools.SimEncounters.Collections;
 using System;
+using System.Linq;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -26,15 +27,8 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void UpdateIsRead()
         {
-            if (Status.ContentStatus.Read)
-                return;
-
-            foreach (var section in Sections.Values) {
-                if (!section.IsRead())
-                    return;
-            }
-
-            SetRead(true);
+            if (!Status.ContentStatus.Read && !Sections.Values.Any(s  => !s.IsRead())) 
+                SetRead(true);
         }
 
         public virtual OrderedCollection<UserSection> Sections { get; } = new OrderedCollection<UserSection>();

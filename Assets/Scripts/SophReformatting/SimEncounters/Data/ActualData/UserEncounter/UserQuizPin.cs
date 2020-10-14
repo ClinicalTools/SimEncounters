@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using ClinicalTools.SimEncounters.Collections;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -6,29 +9,40 @@ namespace ClinicalTools.SimEncounters
     {
         public UserEncounter Encounter { get; }
         public QuizPin Data { get; }
-        public UserQuizPin(UserEncounter encounter, QuizPin quiz)
+        public QuizStatus Status { get; }
+
+        public event Action StatusChanged;
+
+        public UserQuizPin(UserEncounter encounter, QuizPin quiz, QuizStatus status)
         {
             Encounter = encounter;
             Data = quiz;
-        }
-        protected virtual Dictionary<string, UserPanel> Panels { get; } = new Dictionary<string, UserPanel>();
-        public virtual List<UserPanel> GetPanels()
-        {
-            var userPanels = new List<UserPanel>();
-            foreach (var panel in Data.Questions)
-                userPanels.Add(GetPanel(panel.Key));
+            Status = status;
 
-            return userPanels;
+            foreach (var panel in Data.Questions) {
+                var userPanel = new UserPanel(encounter, panel.Value, status.GetPanelStatus(panel.Key));
+                userPanel.StatusChanged += UpdateIsRead;
+                Panels.Add(panel.Key, userPanel);
+            }
         }
-        public virtual UserPanel GetPanel(string key)
-        {
-            if (Panels.ContainsKey(key))
-                return Panels[key];
 
-            var panel = Data.Questions[key];
-            var userPanel = new UserPanel(Encounter, panel, null);
-            Panels.Add(key, userPanel);
-            return userPanel;
+        protected virtual void UpdateIsRead()
+        {
+            if (!Status.Read && !Panels.Values.Any(p => !p.IsRead()))
+                SetRead(true);
         }
+
+        public bool IsRead() => Status.Read;
+        public void SetRead(bool read)
+        {
+            if (Status.Read == read)
+                return;
+            Status.Read = read;
+            StatusChanged?.Invoke();
+        }
+
+        protected virtual OrderedCollection<UserPanel> Panels { get; } = new OrderedCollection<UserPanel>();
+        public virtual IEnumerable<UserPanel> GetPanels() => Panels.Values;
+        public virtual UserPanel GetPanel(string key) => Panels[key];
     }
 }

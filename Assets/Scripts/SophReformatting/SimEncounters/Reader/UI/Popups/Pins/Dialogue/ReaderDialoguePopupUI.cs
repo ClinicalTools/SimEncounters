@@ -1,5 +1,4 @@
-﻿
-using ClinicalTools.UI;
+﻿using ClinicalTools.UI;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,7 +26,12 @@ namespace ClinicalTools.SimEncounters
 
         public override void Display(UserDialoguePin dialoguePin)
         {
+            SetPanelsAsRead(dialoguePin.GetPanels());
+
             gameObject.SetActive(true);
+            if (PanelCreator is IUserDialoguePinDrawer dialoguePinDrawer)
+                dialoguePinDrawer.Display(dialoguePin);
+
             ReaderPanels = PanelCreator.DrawChildPanels(dialoguePin.GetPanels());
 
             ScrollRect.normalizedPosition = Vector2.one;
@@ -43,6 +47,17 @@ namespace ClinicalTools.SimEncounters
             }
 
             gameObject.SetActive(false);
+        }
+
+        protected virtual void SetPanelsAsRead(IEnumerable<UserPanel> panels)
+        {
+            foreach (var panel in panels) {
+                var childPanels = new List<UserPanel>(panel.GetChildPanels());
+                if (childPanels.Count > 0)
+                    SetPanelsAsRead(childPanels);
+                else
+                    panel.SetRead(true);
+            }
         }
     }
 }

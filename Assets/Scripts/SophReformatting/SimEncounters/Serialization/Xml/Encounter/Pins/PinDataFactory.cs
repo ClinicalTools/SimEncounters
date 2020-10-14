@@ -3,7 +3,7 @@ using ClinicalTools.SimEncounters.XmlSerialization;
 
 namespace ClinicalTools.SimEncounters.SerializationFactories
 {
-    public class PinDataFactory : ISerializationFactory<PinData>
+    public class PinDataFactory : ISerializationFactory<PinGroup>
     {
         protected virtual ISerializationFactory<DialoguePin> DialoguePinFactory { get; }
         protected virtual ISerializationFactory<QuizPin> QuizPinFactory { get; }
@@ -17,15 +17,15 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
             QuizPinFactory = quizPinFactory;
         }
 
-        public virtual bool ShouldSerialize(PinData value) => value != null && (value.Dialogue != null || value.Quiz != null);
+        public virtual bool ShouldSerialize(PinGroup value) => value != null && (value.Dialogue != null || value.Quiz != null);
 
-        public virtual void Serialize(XmlSerializer serializer, PinData value)
+        public virtual void Serialize(XmlSerializer serializer, PinGroup value)
         {
             serializer.AddValue(DialogueInfo, value.Dialogue, DialoguePinFactory);
             serializer.AddValue(QuizInfo, value.Quiz, QuizPinFactory);
         }
 
-        public virtual PinData Deserialize(XmlDeserializer deserializer)
+        public virtual PinGroup Deserialize(XmlDeserializer deserializer)
         {
             var pinData = CreatePinData(deserializer);
 
@@ -35,16 +35,16 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
             return pinData;
         }
 
-        protected virtual PinData CreatePinData(XmlDeserializer deserializer) => new PinData();
+        protected virtual PinGroup CreatePinData(XmlDeserializer deserializer) => new PinGroup();
 
         protected virtual DialoguePin GetDialogue(XmlDeserializer deserializer)
             => deserializer.GetValue(DialogueInfo, DialoguePinFactory);
-        protected virtual void AddDialogue(XmlDeserializer deserializer, PinData quizPin)
+        protected virtual void AddDialogue(XmlDeserializer deserializer, PinGroup quizPin)
             => quizPin.Dialogue = GetDialogue(deserializer);
 
         protected virtual QuizPin GetQuiz(XmlDeserializer deserializer)
             => deserializer.GetValue(QuizInfo, QuizPinFactory);
-        protected virtual void AddQuiz(XmlDeserializer deserializer, PinData quizPin)
+        protected virtual void AddQuiz(XmlDeserializer deserializer, PinGroup quizPin)
             => quizPin.Quiz = GetQuiz(deserializer);
 
     }

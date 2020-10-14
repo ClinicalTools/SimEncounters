@@ -49,8 +49,12 @@ namespace ClinicalTools.SimEncounters
             Container.Bind<IStringDeserializer<Color>>().To<ColorDeserializer>().AsTransient();
 
             Container.Bind<IStringSerializer<EncounterContentStatus>>().To<EncounterContentStatusSerializer>().AsTransient();
-            Container.Bind<SectionStatusSerializer>().To<SectionStatusSerializer>().AsTransient();
-            Container.Bind<TabStatusSerializer>().To<TabStatusSerializer>().AsTransient();
+            Container.Bind<IStatusSerializer<SectionStatus>>().To<SectionStatusSerializer>().AsTransient();
+            Container.Bind<IStatusSerializer<TabStatus>>().To<TabStatusSerializer>().AsTransient();
+            Container.Bind<IStatusSerializer<PanelStatus>>().To<PanelStatusSerializer>().AsTransient();
+            Container.Bind<IStatusSerializer<PinGroupStatus>>().To<PinGroupStatusSerializer>().AsTransient();
+            Container.Bind<IStatusSerializer<DialogueStatus>>().To<DialogueStatusSerializer>().AsTransient();
+            Container.Bind<IStatusSerializer<QuizStatus>>().To<QuizStatusSerializer>().AsTransient();
 
             Container.Bind<IStringDeserializer<EncounterContentStatus>>().To<EncounterContentStatusDeserializer>().AsTransient();
             Container.Bind<ICharEnumeratorDeserializer<SectionStatus>>().To<SectionStatusDeserializer>().AsTransient();

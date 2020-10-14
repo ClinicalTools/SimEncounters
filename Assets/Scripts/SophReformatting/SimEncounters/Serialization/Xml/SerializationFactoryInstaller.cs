@@ -20,7 +20,7 @@ namespace ClinicalTools.SimEncounters
             Container.Bind<ISerializationFactory<Tab>>().To<TabFactory>().AsTransient();
             Container.Bind<ISerializationFactory<Panel>>().To<PanelFactory>().AsTransient();
 
-            Container.Bind<ISerializationFactory<PinData>>().To<PinDataFactory>().AsTransient();
+            Container.Bind<ISerializationFactory<PinGroup>>().To<PinDataFactory>().AsTransient();
             Container.Bind<ISerializationFactory<DialoguePin>>().To<DialoguePinFactory>().AsTransient();
             Container.Bind<ISerializationFactory<QuizPin>>().To<QuizPinFactory>().AsTransient();
         }

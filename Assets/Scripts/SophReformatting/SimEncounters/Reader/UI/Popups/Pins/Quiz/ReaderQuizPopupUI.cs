@@ -26,6 +26,8 @@ namespace ClinicalTools.SimEncounters
 
         public override void Display(UserQuizPin quizPin)
         {
+            SetPanelsAsRead(quizPin.GetPanels());
+
             gameObject.SetActive(true);
             ReaderPanels = PanelCreator.DrawChildPanels(quizPin.GetPanels());
 
@@ -42,6 +44,17 @@ namespace ClinicalTools.SimEncounters
             }
 
             gameObject.SetActive(false);
+        }
+
+        protected virtual void SetPanelsAsRead(IEnumerable<UserPanel> panels)
+        {
+            foreach (var panel in panels) {
+                var childPanels = new List<UserPanel>(panel.GetChildPanels());
+                if (childPanels.Count > 0)
+                    SetPanelsAsRead(childPanels);
+                else
+                    panel.SetRead(true);
+            }
         }
     }
 }

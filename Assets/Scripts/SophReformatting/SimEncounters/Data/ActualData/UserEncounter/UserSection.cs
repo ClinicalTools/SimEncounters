@@ -1,6 +1,7 @@
 ﻿using ClinicalTools.SimEncounters.Collections;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -26,15 +27,8 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void UpdateIsRead()
         {
-            if (Status.Read)
-                return;
-
-            foreach (var tab in Tabs.Values) {
-                if (!tab.IsRead())
-                    return;
-            }
-
-            SetRead(true);
+            if (!Status.Read && !Tabs.Values.Any(t => !t.IsRead()))
+                SetRead(true);
         }
 
         public virtual OrderedCollection<UserTab> Tabs { get; } = new OrderedCollection<UserTab>();

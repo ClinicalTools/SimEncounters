@@ -22,7 +22,7 @@ namespace ClinicalTools.ClinicalEncounters
             Container.Bind<ISerializationFactory<Tab>>().To<ClinicalTabFactory>().AsTransient();
             Container.Bind<ISerializationFactory<Panel>>().To<ClinicalPanelFactory>().AsTransient();
 
-            Container.Bind<ISerializationFactory<PinData>>().To<ClinicalPinDataFactory>().AsTransient();
+            Container.Bind<ISerializationFactory<PinGroup>>().To<ClinicalPinDataFactory>().AsTransient();
             Container.Bind<ISerializationFactory<DialoguePin>>().To<ClinicalDialoguePinFactory>().AsTransient();
             Container.Bind<ISerializationFactory<QuizPin>>().To<ClinicalQuizPinFactory>().AsTransient();
         }
