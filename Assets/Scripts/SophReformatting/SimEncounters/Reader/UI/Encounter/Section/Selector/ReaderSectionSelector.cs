@@ -48,7 +48,7 @@ namespace ClinicalTools.SimEncounters
             if (CurrentSection == section)
                 return;
 
-            var selectedArgs = new UserSectionSelectedEventArgs(section);
+            var selectedArgs = new UserSectionSelectedEventArgs(section, ChangeType.JumpTo);
             if (StartSectionAtFirstTab)
                 section.Data.CurrentTabIndex = 0;
             CurrentSection = section;
@@ -56,15 +56,15 @@ namespace ClinicalTools.SimEncounters
         }
 
 
-        public override void Display(UserSection section)
+        public override void Display(UserSectionSelectedEventArgs eventArgs)
         {
-            if (CurrentSection == section)
+            if (CurrentSection == eventArgs.SelectedSection)
                 return;
 
-            CurrentSection = section;
-            SectionButtons[section].Select();
+            CurrentSection = eventArgs.SelectedSection;
+            SectionButtons[CurrentSection].Select();
             foreach (var sectionButton in SectionButtons) {
-                if (sectionButton.Key == section)
+                if (sectionButton.Key == CurrentSection)
                     continue;
                 sectionButton.Value.SelectToggle.Toggle.isOn = false;
             }

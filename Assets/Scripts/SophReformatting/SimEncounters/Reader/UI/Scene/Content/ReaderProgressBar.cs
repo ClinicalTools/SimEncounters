@@ -12,9 +12,9 @@ namespace ClinicalTools.SimEncounters
 
         private float tabCount;
 
-        public virtual void Display(UserTab tab)
+        public virtual void Display(UserTabSelectedEventArgs eventArgs)
         {
-            var nonImageContent = tab.Encounter.Data.Content.NonImageContent;
+            var nonImageContent = eventArgs.SelectedTab.Encounter.Data.Content.NonImageContent;
             if (tabCount == 0)
                 tabCount = nonImageContent.GetTabCount();
             var tabNumber = nonImageContent.GetCurrentTabNumber();

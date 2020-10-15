@@ -2,6 +2,6 @@
 {
     public interface IUserSectionDrawer
     {
-        void Display(UserSection userSection);
+        void Display(UserSectionSelectedEventArgs eventArgs);
     }
 }

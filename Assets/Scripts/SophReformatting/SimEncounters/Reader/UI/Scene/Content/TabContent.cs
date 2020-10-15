@@ -7,14 +7,12 @@ namespace ClinicalTools.SimEncounters
         public MonoBehaviour Behaviour { get; }
         public GameObject GameObject => Behaviour.gameObject;
         public RectTransform RectTransform => (RectTransform)Behaviour.transform;
-        private UserTab tab;
-        public UserTab Tab {
-            get => tab;
-            set {
-                tab = value;
-                if (tab != null && Behaviour is IUserTabDrawer tabDrawer)
-                    tabDrawer.Display(tab);
-            }
+        public UserTab Tab { get; protected set; }
+        public virtual void ChangeTab(UserTabSelectedEventArgs eventArgs)
+        {
+            Tab = eventArgs.SelectedTab;
+            if (Tab != null && Behaviour is IUserTabDrawer tabDrawer)
+                tabDrawer.Display(eventArgs);
         }
 
         public TabContent(MonoBehaviour behaviour) => Behaviour = behaviour;

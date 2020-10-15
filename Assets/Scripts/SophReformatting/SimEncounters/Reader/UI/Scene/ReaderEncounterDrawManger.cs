@@ -25,7 +25,7 @@ namespace ClinicalTools.SimEncounters
             foreach (var encounterDrawer in EncounterDrawers)
                 encounterDrawer.Display(userEncounter);
 
-            SelectSection(userEncounter.GetCurrentSection());
+            SelectSection(new UserSectionSelectedEventArgs(userEncounter.GetCurrentSection(), ChangeType.JumpTo));
         }
 
         protected virtual void AddReaderObject(MonoBehaviour readerObject)
@@ -53,34 +53,36 @@ namespace ClinicalTools.SimEncounters
         }
 
         protected virtual UserSection CurrentSection { get; set; }
-        private void OnSectionSelected(object sender, UserSectionSelectedEventArgs e) => SelectSection(e.SelectedSection);
-        private void SelectSection(UserSection selectedSection)
+        private void OnSectionSelected(object sender, UserSectionSelectedEventArgs e) => SelectSection(e);
+        private void SelectSection(UserSectionSelectedEventArgs eventArgs)
         {
-            if (CurrentSection == selectedSection)
+            if (CurrentSection == eventArgs.SelectedSection)
                 return;
-            CurrentSection = selectedSection;
-            UserEncounter.Data.Content.NonImageContent.SetCurrentSection(selectedSection.Data);
+            CurrentSection = eventArgs.SelectedSection;
+
+            UserEncounter.Data.Content.NonImageContent.SetCurrentSection(CurrentSection.Data);
 
             foreach (var sectionDrawer in SectionDrawers)
-                sectionDrawer.Display(CurrentSection);
+                sectionDrawer.Display(eventArgs);
 
-            SelectTab(selectedSection.GetCurrentTab());
+            var tabEventArgs = new UserTabSelectedEventArgs(CurrentSection.GetCurrentTab(), ChangeType.JumpTo);
+            SelectTab(tabEventArgs);
         }
 
         protected virtual UserTab CurrentTab { get; set; }
-        private void OnTabSelected(object sender, UserTabSelectedEventArgs e) => SelectTab(e.SelectedTab);
-        private void SelectTab(UserTab selectedTab)
+        private void OnTabSelected(object sender, UserTabSelectedEventArgs e) => SelectTab(e);
+        private void SelectTab(UserTabSelectedEventArgs eventArgs)
         {
-            if (CurrentTab == selectedTab)
+            if (CurrentTab == eventArgs.SelectedTab)
                 return;
 
-            CurrentTab = selectedTab;
-            CurrentSection.Data.SetCurrentTab(selectedTab.Data);
+            CurrentTab = eventArgs.SelectedTab;
+            CurrentSection.Data.SetCurrentTab(CurrentTab.Data);
 
-            SetPanelsAsRead(selectedTab.GetPanels());
+            SetPanelsAsRead(CurrentTab.GetPanels());
 
             foreach (var tabDrawer in TabDrawers)
-                tabDrawer.Display(CurrentTab);
+                tabDrawer.Display(eventArgs);
         }
 
         protected virtual void SetPanelsAsRead(IEnumerable<UserPanel> panels)

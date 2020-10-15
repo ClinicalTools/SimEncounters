@@ -4,8 +4,8 @@
     {
         public void CompletionDraw(ReaderSceneInfo readerSceneInfo)
         {
-            if (TabButtons[CurrentTab] is ICompletionDrawer completionDrawer)
-                completionDrawer.CompletionDraw(readerSceneInfo);
+            if (TabButtons?.ContainsKey(CurrentTab) == true)
+                TabButtons[CurrentTab].Select();
         }
     }
 }

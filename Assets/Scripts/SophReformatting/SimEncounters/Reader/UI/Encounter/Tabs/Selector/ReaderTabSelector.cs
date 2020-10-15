@@ -19,19 +19,18 @@ namespace ClinicalTools.SimEncounters
         public override event UserTabSelectedHandler TabSelected;
 
         protected UserSection Section { get; set; }
-        public override void Display(UserSection userSection)
+        public override void Display(UserSectionSelectedEventArgs eventArgs)
         {
-            if (Section == userSection)
+            if (Section == eventArgs.SelectedSection)
                 return;
-
-            Section = userSection;
+            Section = eventArgs.SelectedSection;
 
             foreach (var tabButton in TabButtons)
                 Destroy(tabButton.Value.gameObject);
             TabButtons.Clear();
 
-            foreach (var tab in userSection.Data.Tabs)
-                AddButton(userSection.GetTab(tab.Key));
+            foreach (var tab in Section.Data.Tabs)
+                AddButton(Section.GetTab(tab.Key));
         }
 
         protected Dictionary<UserTab, BaseReaderTabToggle> TabButtons { get; } = new Dictionary<UserTab, BaseReaderTabToggle>();
@@ -49,7 +48,7 @@ namespace ClinicalTools.SimEncounters
         {
             if (CurrentTab != tab) {
                 CurrentTab = tab;
-                var selectedArgs = new UserTabSelectedEventArgs(tab);
+                var selectedArgs = new UserTabSelectedEventArgs(tab, ChangeType.JumpTo);
                 TabSelected?.Invoke(this, selectedArgs);
             }
 
@@ -64,10 +63,10 @@ namespace ClinicalTools.SimEncounters
                 TabButtonsScroll.EnsureChildIsShowing((RectTransform)TabButtons[tab].transform);
         }
 
-        public override void Display(UserTab userTab)
+        public override void Display(UserTabSelectedEventArgs eventArgs)
         {
-            CurrentTab = userTab;
-            TabButtons[userTab].Select();
+            CurrentTab = eventArgs.SelectedTab;
+            TabButtons[CurrentTab].Select();
         }
     }
 }

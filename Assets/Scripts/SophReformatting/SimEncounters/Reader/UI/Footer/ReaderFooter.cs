@@ -61,22 +61,22 @@ namespace ClinicalTools.SimEncounters
         }
 
         protected UserSection CurrentSection { get; set; }
-        public override void Display(UserSection section)
+        public override void Display(UserSectionSelectedEventArgs eventArgs)
         {
-            if (CurrentSection == section)
+            if (CurrentSection == eventArgs.SelectedSection)
                 return;
-            CurrentSection = section;
+            CurrentSection = eventArgs.SelectedSection;
         }
 
         protected UserTab CurrentTab { get; set; }
-        public override void Display(UserTab tab)
+        public override void Display(UserTabSelectedEventArgs eventArgs)
         {
-            if (CurrentTab == tab)
+            if (CurrentTab == eventArgs.SelectedTab)
                 return;
-            CurrentTab = tab;
+            CurrentTab = eventArgs.SelectedTab;
 
             bool nextTabButtonVisible = false, nextSectionButtonVisible = false, finishButtonVisible = false;
-            if (IsLast(CurrentSection.Data.Tabs, tab.Data)) {
+            if (IsLast(CurrentSection.Data.Tabs, CurrentTab.Data)) {
                 if (IsLast(UserEncounter.Data.Content.NonImageContent.Sections, CurrentSection.Data))
                     finishButtonVisible = true;
                 else
@@ -100,7 +100,7 @@ namespace ClinicalTools.SimEncounters
             var nextSectionIndex = content.NonImageContent.CurrentSectionIndex + 1;
             var nextSectionKey = content.NonImageContent.Sections[nextSectionIndex].Key;
             var nextSection = UserEncounter.GetSection(nextSectionKey);
-            var selectedArgs = new UserSectionSelectedEventArgs(nextSection);
+            var selectedArgs = new UserSectionSelectedEventArgs(nextSection, ChangeType.Next);
             SectionSelected?.Invoke(this, selectedArgs);
         }
         protected virtual void GoToNextTab()
@@ -109,7 +109,7 @@ namespace ClinicalTools.SimEncounters
             var nextTabIndex = section.CurrentTabIndex + 1;
             var nextTabKey = section.Tabs[nextTabIndex].Key;
             var nextTab = CurrentSection.GetTab(nextTabKey);
-            var selectedArgs = new UserTabSelectedEventArgs(nextTab);
+            var selectedArgs = new UserTabSelectedEventArgs(nextTab, ChangeType.Next);
             TabSelected?.Invoke(this, selectedArgs);
         }
     }

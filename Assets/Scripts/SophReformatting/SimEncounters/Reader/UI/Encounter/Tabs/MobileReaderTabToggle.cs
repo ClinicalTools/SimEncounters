@@ -27,21 +27,33 @@ namespace ClinicalTools.SimEncounters
             SelectToggle.Selected += () => Selected?.Invoke();
         }
 
+        private bool initialized;
         protected UserTab CurrentTab { get; set; }
         public override void Display(UserTab tab)
         {
-            CurrentTab = tab;
+            if (CurrentTab == tab) {
+                UpdateIsVisited();
+                return;
+            }
 
+            CurrentTab = tab;
+            UpdateIsVisited();
+
+            if (initialized)
+                return;
+
+            initialized = true;
             SelectToggle.Unselected += ToggleUnselected;
             SelectToggle.Selected += ToggleSelected;
-            if (CurrentTab.IsRead())
-                SetVisited();
         }
 
         public override void SetToggleGroup(ToggleGroup group) => SelectToggle.SetToggleGroup(group);
 
-        protected virtual void SetVisited()
+        protected virtual void UpdateIsVisited()
         {
+            if (CurrentTab?.IsRead() != true)
+                return;
+
             VisitedCheck.SetActive(true);
             SelectToggle.Toggle.image.color = ColorManager.GetColor(ColorType.Green);
         }
@@ -50,15 +62,20 @@ namespace ClinicalTools.SimEncounters
         {
             SelectedImage.gameObject.SetActive(false);
             if (CurrentTab.IsRead())
-                SetVisited();
+                UpdateIsVisited();
         }
         protected virtual void ToggleSelected()
         {
             SelectedImage.gameObject.SetActive(true);
+            if (CurrentTab.IsRead())
+                UpdateIsVisited();
         }
 
-        public override void Select() => SelectToggle.Select();
-
-        public void CompletionDraw(ReaderSceneInfo readerSceneInfo) => SetVisited();
+        public override void Select()
+        {
+            SelectToggle.Select();
+            UpdateIsVisited();
+        }
+        public void CompletionDraw(ReaderSceneInfo readerSceneInfo) => UpdateIsVisited();
     }
 }

@@ -67,15 +67,15 @@ namespace ClinicalTools.SimEncounters
             foreach (var encounterDrawer in EncounterDrawers)
                 encounterDrawer.Display(userEncounter);
         }
-        public virtual void Display(UserSection userSection)
+        public virtual void Display(UserSectionSelectedEventArgs eventArgs)
         {
             foreach (var sectionDrawer in SectionDrawers)
-                sectionDrawer.Display(userSection);
+                sectionDrawer.Display(eventArgs);
         }
-        public virtual void Display(UserTab userTab)
+        public virtual void Display(UserTabSelectedEventArgs eventArgs)
         {
             foreach (var tabDrawer in TabDrawers)
-                tabDrawer.Display(userTab);
+                tabDrawer.Display(eventArgs);
         }
 
         protected virtual void OnSectionSelected(object sender, UserSectionSelectedEventArgs e)

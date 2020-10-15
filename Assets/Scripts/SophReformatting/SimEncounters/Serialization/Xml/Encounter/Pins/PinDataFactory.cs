@@ -17,7 +17,8 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
             QuizPinFactory = quizPinFactory;
         }
 
-        public virtual bool ShouldSerialize(PinGroup value) => value != null && (value.Dialogue != null || value.Quiz != null);
+        public virtual bool ShouldSerialize(PinGroup value) 
+            => value != null && (value.Dialogue != null || value.Quiz != null);
 
         public virtual void Serialize(XmlSerializer serializer, PinGroup value)
         {
@@ -46,6 +47,5 @@ namespace ClinicalTools.SimEncounters.SerializationFactories
             => deserializer.GetValue(QuizInfo, QuizPinFactory);
         protected virtual void AddQuiz(XmlDeserializer deserializer, PinGroup quizPin)
             => quizPin.Quiz = GetQuiz(deserializer);
-
     }
 }

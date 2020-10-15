@@ -12,14 +12,14 @@ namespace ClinicalTools.SimEncounters
         public virtual TMP_Text TitleLabel { get => titleLabel; set => titleLabel = value; }
         [SerializeField] private TMP_Text titleLabel;
 
-        public override void Display(UserSection section)
+        public override void Display(UserSectionSelectedEventArgs eventArgs)
         {
-            var color = section.Data.Color;
+            var color = eventArgs.SelectedSection.Data.Color;
             foreach (var sectionBorder in SectionBorders)
                 sectionBorder.color = color;
 
             if (TitleLabel != null)
-                TitleLabel.text = section.Data.Name;
+                TitleLabel.text = eventArgs.SelectedSection.Data.Name;
         }
     }
 }

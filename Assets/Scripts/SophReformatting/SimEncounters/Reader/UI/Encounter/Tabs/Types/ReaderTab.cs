@@ -8,9 +8,9 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private BaseReaderPanelsCreator panelCreator;
         public BaseReaderPanelsCreator PanelCreator { get => panelCreator; set => panelCreator = value; }
 
-        public override void Display(UserTab tab)
+        public override void Display(UserTabSelectedEventArgs eventArgs)
         {
-            PanelCreator.DrawChildPanels(tab.GetPanels());
+            PanelCreator.DrawChildPanels(eventArgs.SelectedTab.GetPanels());
         }
     }
 }

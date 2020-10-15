@@ -18,9 +18,9 @@ namespace ClinicalTools.SimEncounters
             GetFeedbackButton.onClick.AddListener(GetFeedback);
         }
 
-        public override void Display(UserTab userTab)
+        public override void Display(UserTabSelectedEventArgs eventArgs)
         {
-            Options = ChildPanelCreator.DrawChildPanels(userTab.GetPanels());
+            Options = ChildPanelCreator.DrawChildPanels(eventArgs.SelectedTab.GetPanels());
         }
 
         protected virtual void GetFeedback()

@@ -95,15 +95,15 @@ namespace ClinicalTools.SimEncounters
             SectionSelected?.Invoke(sender, e);
         }
 
-        public void Display(UserSection userSection)
+        public void Display(UserSectionSelectedEventArgs eventArgs)
         {
             foreach (var sectionSelector in SectionSelectors)
-                sectionSelector.Display(userSection);
+                sectionSelector.Display(eventArgs);
 
-            if (CurrentSection == userSection)
+            if (CurrentSection == eventArgs.SelectedSection)
                 return;
 
-            CurrentSection = userSection;
+            CurrentSection = eventArgs.SelectedSection;
             //OpenSidebar?.Invoke();
             //StartCoroutine(CloseAfterSecond());
         }

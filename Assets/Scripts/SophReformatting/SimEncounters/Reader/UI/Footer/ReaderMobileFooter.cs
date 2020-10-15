@@ -79,23 +79,23 @@ namespace ClinicalTools.SimEncounters
             => PrimaryFinishButton.gameObject.SetActive(true);
 
         protected UserSection CurrentSection { get; set; }
-        public override void Display(UserSection section)
+        public override void Display(UserSectionSelectedEventArgs eventArgs)
         {
-            if (CurrentSection == section)
+            if (CurrentSection == eventArgs.SelectedSection)
                 return;
-            CurrentSection = section;
+            CurrentSection = eventArgs.SelectedSection;
         }
 
         protected UserTab CurrentTab { get; set; }
         private int tabCount;
         private float lastTimeCreated;
-        public override void Display(UserTab tab)
+        public override void Display(UserTabSelectedEventArgs eventArgs)
         {
             lastTimeCreated = Time.realtimeSinceStartup;
 
-            if (CurrentTab == tab)
+            if (CurrentTab == eventArgs.SelectedTab)
                 return;
-            CurrentTab = tab;
+            CurrentTab = eventArgs.SelectedTab;
 
 
             var nonImageContent = UserEncounter.Data.Content.NonImageContent;
@@ -155,33 +155,33 @@ namespace ClinicalTools.SimEncounters
             var nextSectionIndex = NonImageContent.CurrentSectionIndex + 1;
             var section = NonImageContent.Sections[nextSectionIndex].Value;
             section.CurrentTabIndex = 0;
-            GoToSection(nextSectionIndex);
+            GoToSection(nextSectionIndex, ChangeType.Next);
         }
         protected virtual void GoToPreviousSection()
         {
             var previousSectionIndex = NonImageContent.CurrentSectionIndex - 1;
             var section = NonImageContent.Sections[previousSectionIndex].Value;
             section.CurrentTabIndex = section.Tabs.Count - 1;
-            GoToSection(previousSectionIndex);
+            GoToSection(previousSectionIndex, ChangeType.Previous);
         }
-        protected virtual void GoToSection(int sectionIndex)
+        protected virtual void GoToSection(int sectionIndex, ChangeType changeType)
         {
             var nextSectionKey = NonImageContent.Sections[sectionIndex].Key;
             var nextSection = UserEncounter.GetSection(nextSectionKey);
-            var selectedArgs = new UserSectionSelectedEventArgs(nextSection);
+            var selectedArgs = new UserSectionSelectedEventArgs(nextSection, changeType);
             SectionSelected?.Invoke(this, selectedArgs);
         }
 
         protected virtual void GoToNextTab()
-            => GoToTab(CurrentSection.Data.CurrentTabIndex + 1);
+            => GoToTab(CurrentSection.Data.CurrentTabIndex + 1, ChangeType.Next);
         protected virtual void GoToPreviousTab()
-            => GoToTab(CurrentSection.Data.CurrentTabIndex - 1);
-        protected virtual void GoToTab(int tabIndex)
+            => GoToTab(CurrentSection.Data.CurrentTabIndex - 1, ChangeType.Previous);
+        protected virtual void GoToTab(int tabIndex, ChangeType changeType)
         {
             var section = CurrentSection.Data;
             var nextTabKey = section.Tabs[tabIndex].Key;
             var nextTab = CurrentSection.GetTab(nextTabKey);
-            var selectedArgs = new UserTabSelectedEventArgs(nextTab);
+            var selectedArgs = new UserTabSelectedEventArgs(nextTab, changeType);
             TabSelected?.Invoke(this, selectedArgs);
         }
     }

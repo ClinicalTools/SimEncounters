@@ -17,7 +17,7 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private ScrollRectGradient scrollGradient;
 
         protected BaseUserTabDrawer CurrentTabDrawer { get; set; }
-        public override void Display(UserTab tab)
+        public override void Display(UserTabSelectedEventArgs eventArgs)
         {
             if (CurrentTabDrawer != null)
                 Destroy(CurrentTabDrawer.gameObject);
@@ -27,10 +27,11 @@ namespace ClinicalTools.SimEncounters
             if (ScrollGradient != null)
                 ScrollGradient.ResetGradients();
 
+            var tab = eventArgs.SelectedTab;
             TabName.text = tab.Data.Name;
             var prefab = GetTabPrefab(tab.Data);
             CurrentTabDrawer = Instantiate(prefab, TabParent);
-            CurrentTabDrawer.Display(tab);
+            CurrentTabDrawer.Display(eventArgs);
         }
 
         protected virtual BaseUserTabDrawer GetTabPrefab(Tab tab)

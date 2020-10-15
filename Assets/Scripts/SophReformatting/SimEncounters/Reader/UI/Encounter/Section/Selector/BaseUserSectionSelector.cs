@@ -6,6 +6,6 @@ namespace ClinicalTools.SimEncounters
     {
         public abstract void Display(UserEncounter encounter);
         public abstract event UserSectionSelectedHandler SectionSelected;
-        public abstract void Display(UserSection section);
+        public abstract void Display(UserSectionSelectedEventArgs eventArgs);
     }
 }
