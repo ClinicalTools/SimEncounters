@@ -1,153 +1,91 @@
 ﻿using ClinicalTools.SimEncounters.Collections;
 using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderMobileFooter : BaseReaderFooter, IReaderSceneDrawer
+    public interface ICompletionHandler
     {
-        public virtual TextMeshProUGUI PageInfoLabel { get => pageInfoLabel; set => pageInfoLabel = value; }
-        [SerializeField] private TextMeshProUGUI pageInfoLabel;
-        public virtual Button NextButton { get => nextButton; set => nextButton = value; }
-        [SerializeField] private Button nextButton;
-        public virtual Button PreviousButton { get => previousButton; set => previousButton = value; }
-        [SerializeField] private Button previousButton;
-        public virtual Button PrimaryFinishButton { get => primaryFinishButton; set => primaryFinishButton = value; }
-        [SerializeField] private Button primaryFinishButton;
-        public virtual Button SecondaryFinishButton { get => secondaryFinishButton; set => secondaryFinishButton = value; }
-        [SerializeField] private Button secondaryFinishButton;
+        event Action Completed;
+        void Complete();
+    }
+    public class CompletionHandler : ICompletionHandler
+    {
+        public event Action Completed;
+        public virtual void Complete() => Completed?.Invoke();
+    }
 
-
-        public override event UserSectionSelectedHandler SectionSelected;
-        public override event UserTabSelectedHandler TabSelected;
-
-        public override event Action Completed;
-
-        protected IUserEncounterMenuSceneStarter MenuSceneStarter { get; set; }
-        protected AndroidBackButton BackButton { get; set; }
+    public interface ILinearEncounterNavigator
+    {
+        bool HasNext();
+        void GoToNext();
+        bool HasPrevious();
+        void GoToPrevious();
+    }
+    public class LinearEncounterNavigator : ILinearEncounterNavigator
+    {
+        protected ISelector<UserEncounterSelectedEventArgs> UserEncounterSelector { get; set; }
+        protected ISelector<UserSectionSelectedEventArgs> UserSectionSelector { get; set; }
+        protected ISelector<UserTabSelectedEventArgs> UserTabSelector { get; set; }
         [Inject]
-        public virtual void Inject(IUserEncounterMenuSceneStarter menuSceneStarter, AndroidBackButton backButton)
+        public virtual void Inject(
+            ISelector<UserEncounterSelectedEventArgs> userEncounterSelector,
+            ISelector<UserSectionSelectedEventArgs> userSectionSelector,
+            ISelector<UserTabSelectedEventArgs> userTabSelector)
         {
-            MenuSceneStarter = menuSceneStarter;
-            BackButton = backButton;
-        }
-        protected virtual void Awake()
-        {
-            NextButton.onClick.AddListener(GoToNext);
-            if (PreviousButton != null)
-                PreviousButton.onClick.AddListener(GoToPrevious);
-            PrimaryFinishButton.onClick.AddListener(() => Completed?.Invoke());
-            if (SecondaryFinishButton != null)
-                SecondaryFinishButton.onClick.AddListener(() => Completed?.Invoke());
-
-            BackButton.Register(BackButtonPressed);
+            UserEncounterSelector = userEncounterSelector;
+            UserEncounterSelector.AddSelectedListener(OnEncounterSelected);
+            UserSectionSelector = userSectionSelector;
+            UserSectionSelector.AddSelectedListener(OnSectionSelected);
+            UserTabSelector = userTabSelector;
+            UserTabSelector.AddSelectedListener(OnTabSelected);
         }
 
-        protected User User { get; set; }
-        protected ILoadingScreen LoadingScreen { get; set; }
-        public void Display(LoadingReaderSceneInfo sceneInfo)
-        {
-            User = sceneInfo.User;
-            LoadingScreen = sceneInfo.LoadingScreen;
-        }
-
+        private int tabCount;
+        private int tabNumber;
         protected UserEncounter UserEncounter { get; set; }
         protected EncounterNonImageContent NonImageContent
             => UserEncounter.Data.Content.NonImageContent;
-        public override void Display(UserEncounter encounter)
+        protected virtual void OnEncounterSelected(object sender, UserEncounterSelectedEventArgs eventArgs)
         {
-            UserEncounter = encounter;
-
-            if (encounter.IsRead())
-                EnableFinishButton();
-            else
-                encounter.StatusChanged += UpdateFinishButtonActive;
+            UserEncounter = eventArgs.Encounter;
+            tabCount = NonImageContent.GetTabCount();
         }
-
-        protected virtual void UpdateFinishButtonActive()
-        {
-            if (!UserEncounter.IsRead())
-                return;
-            UserEncounter.StatusChanged -= UpdateFinishButtonActive;
-            EnableFinishButton();
-        }
-
-        protected virtual void EnableFinishButton()
-            => PrimaryFinishButton.gameObject.SetActive(true);
 
         protected UserSection CurrentSection { get; set; }
-        public override void Display(UserSectionSelectedEventArgs eventArgs)
-        {
-            if (CurrentSection == eventArgs.SelectedSection)
-                return;
-            CurrentSection = eventArgs.SelectedSection;
-        }
+        protected virtual void OnSectionSelected(object sender, UserSectionSelectedEventArgs eventArgs)
+            => CurrentSection = eventArgs.SelectedSection;
+
 
         protected UserTab CurrentTab { get; set; }
-        private int tabCount;
-        private float lastTimeCreated;
-        public override void Display(UserTabSelectedEventArgs eventArgs)
+        protected virtual void OnTabSelected(object sender, UserTabSelectedEventArgs eventArgs)
         {
-            lastTimeCreated = Time.realtimeSinceStartup;
-
             if (CurrentTab == eventArgs.SelectedTab)
                 return;
             CurrentTab = eventArgs.SelectedTab;
-
-
-            var nonImageContent = UserEncounter.Data.Content.NonImageContent;
-            var currentTabNumber = nonImageContent.GetCurrentTabNumber();
-
-            PreviousButton.gameObject.SetActive(currentTabNumber > 1);
-
-            if (tabCount == 0)
-                tabCount = nonImageContent.GetTabCount();
-
-            var lastTab = currentTabNumber == tabCount;
-            NextButton.gameObject.SetActive(!lastTab);
-            if (SecondaryFinishButton != null)
-                SecondaryFinishButton.gameObject.SetActive(lastTab);
-
-            PageInfoLabel.text = $"Page: {currentTabNumber}/{tabCount}";
+            tabNumber = NonImageContent.GetCurrentTabNumber();
         }
 
         protected virtual bool IsLast<T>(OrderedCollection<T> values, T value)
             => values.IndexOf(value) == values.Count - 1;
 
-        private const float MinTabChangeTime = 0.0f;
-
-        protected virtual void GoToNext()
+        public virtual bool HasNext() => tabNumber > 1;
+        public virtual void GoToNext()
         {
-            if (Time.realtimeSinceStartup - lastTimeCreated < MinTabChangeTime)
-                return;
-
-            var section = CurrentSection.Data;
-            if (section.CurrentTabIndex + 1 < section.Tabs.Count)
+            if (CurrentSection.Data.CurrentTabIndex + 1 < CurrentSection.Data.Tabs.Count)
                 GoToNextTab();
             else if (NonImageContent.CurrentSectionIndex + 1 < NonImageContent.Sections.Count)
                 GoToNextSection();
-            else
-                Completed?.Invoke();
         }
-        protected virtual void BackButtonPressed()
+        public virtual bool HasPrevious() => tabNumber < tabCount;
+        public virtual void GoToPrevious()
         {
-            BackButton.Register(BackButtonPressed);
-            GoToPrevious();
-        }
-        protected virtual void GoToPrevious()
-        {
-            if (Time.realtimeSinceStartup - lastTimeCreated < MinTabChangeTime)
-                return;
-
             if (CurrentSection.Data.CurrentTabIndex > 0)
                 GoToPreviousTab();
             else if (NonImageContent.CurrentSectionIndex > 0)
                 GoToPreviousSection();
-            else
-                MenuSceneStarter.ConfirmStartingMenuScene(UserEncounter, LoadingScreen);
         }
 
         protected virtual void GoToNextSection()
@@ -169,7 +107,7 @@ namespace ClinicalTools.SimEncounters
             var nextSectionKey = NonImageContent.Sections[sectionIndex].Key;
             var nextSection = UserEncounter.GetSection(nextSectionKey);
             var selectedArgs = new UserSectionSelectedEventArgs(nextSection, changeType);
-            SectionSelected?.Invoke(this, selectedArgs);
+            UserSectionSelector.Select(this, selectedArgs);
         }
 
         protected virtual void GoToNextTab()
@@ -182,7 +120,119 @@ namespace ClinicalTools.SimEncounters
             var nextTabKey = section.Tabs[tabIndex].Key;
             var nextTab = CurrentSection.GetTab(nextTabKey);
             var selectedArgs = new UserTabSelectedEventArgs(nextTab, changeType);
-            TabSelected?.Invoke(this, selectedArgs);
+            UserTabSelector.Select(this, selectedArgs);
         }
+    }
+
+
+
+    public class BackButtonEncounterNavigation
+    {
+        protected ILinearEncounterNavigator LinearEncounterNavigator { get; set; }
+        protected IUserEncounterMenuSceneStarter MenuSceneStarter { get; set; }
+        protected AndroidBackButton BackButton { get; set; }
+        [Inject]
+        public virtual void Inject(
+            ILinearEncounterNavigator linearEncounterNavigator,
+            IUserEncounterMenuSceneStarter menuSceneStarter,
+            AndroidBackButton backButton)
+        {
+            LinearEncounterNavigator = linearEncounterNavigator;            
+            MenuSceneStarter = menuSceneStarter;
+            
+            BackButton = backButton;
+            BackButton.Register(BackButtonThing);
+        }
+
+        protected virtual void BackButtonThing()
+        {
+            BackButton.Register(BackButtonThing);
+            if (LinearEncounterNavigator.HasPrevious())
+                LinearEncounterNavigator.GoToPrevious();
+            //else MenuSceneStarter.ConfirmStartingMenuScene(async,);
+
+        }
+    }
+
+    public class ReaderMobileFooter : MonoBehaviour
+    {
+        public virtual Button NextButton { get => nextButton; set => nextButton = value; }
+        [SerializeField] private Button nextButton;
+        public virtual Button PreviousButton { get => previousButton; set => previousButton = value; }
+        [SerializeField] private Button previousButton;
+        public virtual Button PrimaryFinishButton { get => primaryFinishButton; set => primaryFinishButton = value; }
+        [SerializeField] private Button primaryFinishButton;
+
+        protected ILinearEncounterNavigator LinearEncounterNavigator { get; set; }
+        protected ISelector<UserEncounterSelectedEventArgs> UserEncounterSelector { get; set; }
+        protected ISelector<UserTabSelectedEventArgs> UserTabSelector { get; set; }
+        protected ICompletionHandler CompletionHandler { get; set; }
+        protected IUserEncounterMenuSceneStarter MenuSceneStarter { get; set; }
+        [Inject]
+        public virtual void Inject(
+            ILinearEncounterNavigator linearEncounterNavigator,
+            ISelector<UserEncounterSelectedEventArgs> userEncounterSelector,
+            ISelector<UserTabSelectedEventArgs> userTabSelector,
+            ICompletionHandler completionHandler,
+            IUserEncounterMenuSceneStarter menuSceneStarter)
+        {
+            UserEncounterSelector = userEncounterSelector;
+            UserEncounterSelector.AddSelectedListener(OnEncounterSelected);
+            UserTabSelector = userTabSelector;
+            UserTabSelector.AddSelectedListener(OnTabSelected);
+
+            LinearEncounterNavigator = linearEncounterNavigator;
+            CompletionHandler = completionHandler;
+            MenuSceneStarter = menuSceneStarter;
+        }
+
+        protected virtual void Awake()
+        {
+            NextButton.onClick.AddListener(GoToNext);
+            if (PreviousButton != null)
+                PreviousButton.onClick.AddListener(GoToPrevious);
+            PrimaryFinishButton.onClick.AddListener(Complete);
+        }
+
+        protected UserEncounter UserEncounter { get; set; }
+        protected EncounterNonImageContent NonImageContent
+            => UserEncounter.Data.Content.NonImageContent;
+        protected virtual void OnEncounterSelected(object sender, UserEncounterSelectedEventArgs eventArgs)
+        {
+            UserEncounter = eventArgs.Encounter;
+
+            if (UserEncounter.IsRead())
+                EnableFinishButton();
+            else
+                UserEncounter.StatusChanged += UpdateFinishButtonActive;
+        }
+
+        protected virtual void UpdateFinishButtonActive()
+        {
+            if (!UserEncounter.IsRead())
+                return;
+            UserEncounter.StatusChanged -= UpdateFinishButtonActive;
+            EnableFinishButton();
+        }
+
+        protected virtual void EnableFinishButton()
+            => PrimaryFinishButton.gameObject.SetActive(true);
+
+        protected UserTab CurrentTab { get; set; }
+        protected virtual void OnTabSelected(object sender, UserTabSelectedEventArgs eventArgs)
+        {
+            if (CurrentTab == eventArgs.SelectedTab)
+                return;
+            CurrentTab = eventArgs.SelectedTab;
+
+            if (PreviousButton != null)
+                PreviousButton.gameObject.SetActive(LinearEncounterNavigator.HasPrevious());
+
+            NextButton.gameObject.SetActive(LinearEncounterNavigator.HasNext());
+        }
+
+        protected virtual void GoToNext() => LinearEncounterNavigator.GoToNext();
+        protected virtual void GoToPrevious() => LinearEncounterNavigator.GoToPrevious();
+        protected virtual void Complete() => CompletionHandler.Complete();
     }
 }

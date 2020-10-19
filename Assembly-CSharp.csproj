@@ -47,6 +47,7 @@
   <PropertyGroup>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <UnityProjectGenerator>Unity/VSTU</UnityProjectGenerator>
+    <UnityProjectGeneratorVersion>4.8.0.0</UnityProjectGeneratorVersion>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2019.4.12f1</UnityVersion>
@@ -332,7 +333,26 @@
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\UI\Sidebar\Filter\SearchFilterUI.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\UI\Sidebar\SidebarUI.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\MainMenu\UI\Sidebar\SortingOrder\SortingOrderUI.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Epic\IEpicUserSectionSelector.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Epic\CloseButton.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Epic\CloseHandlerInstaller.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Epic\EncounterPageNumberLabel.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Epic\EncounterSelector.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Epic\EncounterTitleLabel.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Epic\ISelector.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Epic\LoadingReaderSceneInfoSelector.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Epic\ReaderSceneInfoSelector.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Epic\ReaderSelectorInstaller.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Epic\Selector.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Epic\UserEncounterSelectedEventArgs.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Epic\UserEncounterSelector.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Epic\UserSectionSelector.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Epic\UserSectionSelectorBehaviour.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Epic\UserSectionSelectorInstaller.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Epic\UserSectionTitleLabel.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Epic\UserTabSelector.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Epic\UserTabSelectorBehaviour.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Epic\UserTabSelectorInstaller.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Epic\UserTabTitleLabel.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\Installers\ReaderPopupInstaller.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\LoadingReaderSceneInfo.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\ReaderSceneInfo.cs" />
@@ -440,8 +460,8 @@
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\UI\Scene\Content\ReaderMobileSectionHandler.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\UI\Scene\Content\ReaderMobileTabHandler.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\UI\Scene\Content\ReaderProgressBar.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\UI\Scene\Content\SectionContent.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\UI\Scene\Content\TabContent.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\UI\Scene\Content\UserSectionDrawer.cs" />
+    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\UI\Scene\Content\UserTabDrawer.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\UI\Scene\IMainMenuStarter.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\UI\Scene\IReaderSceneDrawer.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\UI\Scene\MainReaderSceneDrawer.cs" />
@@ -449,9 +469,7 @@
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\UI\Scene\ReaderManager.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\UI\Scene\ReaderOpenMenuButton.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\UI\Scene\ReaderSceneDrawer.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\UI\Scene\Sidebar\ReaderMobileMainTopBar.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\UI\Scene\Sidebar\ReaderMobileSideBottomBar.cs" />
-    <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\UI\Scene\Sidebar\ReaderMobileSideTopBar.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\UI\Scene\Sidebar\ReaderMobileSidebar.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\UI\WebGLCompletionPopup.cs" />
     <Compile Include="Assets\Scripts\SophReformatting\SimEncounters\Reader\ValueFields\BaseUserPanelField.cs" />
@@ -1050,28 +1068,28 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.12f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="ImaginationOverflow.UniversalDeepLinking.Core">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Assets/Plugins/ImaginationOverflow/UniversalDeepLinking/libs/ImaginationOverflow.UniversalDeepLinking.Core.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Assets/Plugins/ImaginationOverflow/UniversalDeepLinking/libs/ImaginationOverflow.UniversalDeepLinking.Core.dll</HintPath>
     </Reference>
     <Reference Include="ImaginationOverflow.UniversalDeepLinking">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Assets/Plugins/ImaginationOverflow/UniversalDeepLinking/libs/ImaginationOverflow.UniversalDeepLinking.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Assets/Plugins/ImaginationOverflow/UniversalDeepLinking/libs/ImaginationOverflow.UniversalDeepLinking.dll</HintPath>
     </Reference>
     <Reference Include="ImaginationOverflow.UniversalDeepLinking.Editor">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Assets/Plugins/ImaginationOverflow/UniversalDeepLinking/libs/ImaginationOverflow.UniversalDeepLinking.Editor.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Assets/Plugins/ImaginationOverflow/UniversalDeepLinking/libs/ImaginationOverflow.UniversalDeepLinking.Editor.dll</HintPath>
     </Reference>
     <Reference Include="ImaginationOverflow.UniversalDeepLinking.Platform">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Assets/Plugins/ImaginationOverflow/UniversalDeepLinking/libs/ImaginationOverflow.UniversalDeepLinking.Platform.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Assets/Plugins/ImaginationOverflow/UniversalDeepLinking/libs/ImaginationOverflow.UniversalDeepLinking.Platform.dll</HintPath>
     </Reference>
     <Reference Include="Zenject-usage">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Assets/Plugins/Zenject/Source/Usage/Zenject-usage.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Assets/Plugins/Zenject/Source/Usage/Zenject-usage.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Editor.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Tracker.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/PackageCache/com.unity.analytics@3.3.5/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/PackageCache/com.unity.analytics@3.3.5/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.12f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -1428,61 +1446,61 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.12f1/Editor/Data/MonoBleedingEdge/lib/mono/unityscript/Boo.Lang.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="LuviKunG.SDSEditor.Editor">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/LuviKunG.SDSEditor.Editor.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/LuviKunG.SDSEditor.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Purchasing">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/UnityEngine.Purchasing.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/UnityEngine.Purchasing.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.Purchasing">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/UnityEditor.Purchasing.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/UnityEditor.Purchasing.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.XR.LegacyInputHelpers">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Sprite.Editor">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Tilemap.Editor">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.SpatialTracking">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SpatialTracking">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualStudio.Editor">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.DataPrivacy">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.XR.LegacyInputHelpers">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>C:/Users/tanner/Documents/GitHub/SimEncounters/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>C:/Users/Nehipasta/Projects/SimEncounters/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

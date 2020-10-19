@@ -1,0 +1,49 @@
+﻿using TMPro;
+using UnityEngine;
+using Zenject;
+
+namespace ClinicalTools.SimEncounters
+{
+    [RequireComponent(typeof(TextMeshProUGUI))]
+    public class EncounterPageNumberLabel : MonoBehaviour
+    {
+        private TextMeshProUGUI label;
+        protected TextMeshProUGUI Label
+        {
+            get {
+                if (label == null)
+                    label = GetComponent<TextMeshProUGUI>();
+                return label;
+            }
+        }
+
+        protected ISelector<UserTabSelectedEventArgs> UserTabSelector { get; set; }
+        protected ICompletionHandler CompletionHandler { get; set; }
+        protected IUserEncounterMenuSceneStarter MenuSceneStarter { get; set; }
+        [Inject]
+        public virtual void Inject(
+            ISelector<UserTabSelectedEventArgs> userTabSelector)
+        {
+            UserTabSelector = userTabSelector;
+            UserTabSelector.AddSelectedListener(OnTabSelected);
+        }
+
+        protected int TabCount { get; set; } = -1;
+        protected UserTab CurrentTab { get; set; }
+        protected EncounterNonImageContent NonImageContent
+            => CurrentTab.Encounter.Data.Content.NonImageContent;
+        protected virtual void OnTabSelected(object sender, UserTabSelectedEventArgs eventArgs)
+        {
+            if (CurrentTab == eventArgs.SelectedTab)
+                return;
+            CurrentTab = eventArgs.SelectedTab;
+
+            if (TabCount == -1)
+                TabCount = NonImageContent.GetTabCount();
+
+            Label.text = $"Page: {NonImageContent.GetCurrentTabNumber()}/{TabCount}";
+        }
+
+        protected virtual void OnDestroy() => UserTabSelector?.RemoveSelectedListener(OnTabSelected);
+    }
+}

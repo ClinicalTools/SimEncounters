@@ -2,10 +2,11 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class MobileReaderTabDrawerSelector : BaseUserTabDrawer
+    public class MobileReaderTabDrawerSelector : MonoBehaviour
     {
         public Transform TabParent { get => tabParent; set => tabParent = value; }
         [SerializeField] private Transform tabParent;
@@ -16,8 +17,19 @@ namespace ClinicalTools.SimEncounters
         public ScrollRectGradient ScrollGradient { get => scrollGradient; set => scrollGradient = value; }
         [SerializeField] private ScrollRectGradient scrollGradient;
 
+
+        protected ISelector<UserTabSelectedEventArgs> UserTabSelector { get; set; }
+        [Inject]
+        public virtual void Inject(ISelector<UserTabSelectedEventArgs> userTabSelector)
+        {
+            UserTabSelector = userTabSelector;
+            UserTabSelector.AddSelectedListener(OnTabSelected);
+        }
+
+        protected virtual void OnDestroy() => UserTabSelector?.RemoveSelectedListener(OnTabSelected);
+
         protected BaseUserTabDrawer CurrentTabDrawer { get; set; }
-        public override void Display(UserTabSelectedEventArgs eventArgs)
+        protected virtual void OnTabSelected(object sender, UserTabSelectedEventArgs eventArgs)
         {
             if (CurrentTabDrawer != null)
                 Destroy(CurrentTabDrawer.gameObject);

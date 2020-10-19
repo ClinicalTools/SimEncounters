@@ -6,9 +6,9 @@ namespace ClinicalTools.SimEncounters
     {
         public virtual Transform Line { get => line; set => line = value; }
         [SerializeField] private Transform line;
-        public override void Display(UserEncounter encounter)
+        protected override void OnEncounterSelected(object sender, UserEncounterSelectedEventArgs eventArgs)
         {
-            base.Display(encounter);
+            base.OnEncounterSelected(sender, eventArgs);
             Line.SetAsLastSibling();
         }
     }

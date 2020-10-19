@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderSectionSelector : BaseUserSectionSelector
+    public class ReaderSectionSelector : MonoBehaviour
     {
         public virtual bool StartSectionAtFirstTab { get => startSectionAtFirstTab; set => startSectionAtFirstTab = value; }
         [SerializeField] private bool startSectionAtFirstTab;
@@ -16,21 +17,36 @@ namespace ClinicalTools.SimEncounters
         public virtual ToggleGroup SectionsToggleGroup { get => sectionsToggleGroup; set => sectionsToggleGroup = value; }
         [SerializeField] private ToggleGroup sectionsToggleGroup;
 
-        public override event UserSectionSelectedHandler SectionSelected;
+        protected ISelector<UserEncounterSelectedEventArgs> UserEncounterSelector { get; set; }
+        protected ISelector<UserSectionSelectedEventArgs> UserSectionSelector { get; set; }
+        [Inject]
+        public virtual void Inject(ISelector<UserEncounterSelectedEventArgs> userEncounterSelector,
+            ISelector<UserSectionSelectedEventArgs> userSectionSelector)
+        {
+            UserEncounterSelector = userEncounterSelector;
+            UserEncounterSelector.AddSelectedListener(OnEncounterSelected);
+            UserSectionSelector = userSectionSelector;
+            UserSectionSelector.AddSelectedListener(OnSectionSelected);
+        }
+
+        protected virtual void OnDestroy()
+        {
+            UserEncounterSelector.RemoveSelectedListener(OnEncounterSelected);
+            UserSectionSelector.RemoveSelectedListener(OnSectionSelected);
+        }
 
         protected UserEncounter UserEncounter { get; set; }
-        protected Dictionary<UserSection, ReaderSectionToggle> SectionButtons { get; } = new Dictionary<UserSection, ReaderSectionToggle>();
-        public override void Display(UserEncounter encounter)
+        protected Dictionary<UserSection, ReaderSectionToggle> SectionButtons { get; } 
+            = new Dictionary<UserSection, ReaderSectionToggle>();
+        protected virtual void OnEncounterSelected(object sender, UserEncounterSelectedEventArgs eventArgs)
         {
             foreach (var sectionButton in SectionButtons)
                 Destroy(sectionButton.Value.gameObject);
             SectionButtons.Clear();
 
-            UserEncounter = encounter;
-            foreach (var section in encounter.Data.Content.NonImageContent.Sections) {
-                var userSection = encounter.GetSection(section.Key);
-                AddButton(userSection);
-            }
+            UserEncounter = eventArgs.Encounter;
+            foreach (var userSection in UserEncounter.Sections)
+                AddButton(userSection.Value);
         }
 
         protected void AddButton(UserSection section)
@@ -48,15 +64,16 @@ namespace ClinicalTools.SimEncounters
             if (CurrentSection == section)
                 return;
 
-            var selectedArgs = new UserSectionSelectedEventArgs(section, ChangeType.JumpTo);
             if (StartSectionAtFirstTab)
                 section.Data.CurrentTabIndex = 0;
             CurrentSection = section;
-            SectionSelected?.Invoke(this, selectedArgs);
+
+            var selectedArgs = new UserSectionSelectedEventArgs(section, ChangeType.JumpTo);
+            UserSectionSelector?.Select(this, selectedArgs);
         }
 
 
-        public override void Display(UserSectionSelectedEventArgs eventArgs)
+        protected virtual void OnSectionSelected(object sender, UserSectionSelectedEventArgs eventArgs)
         {
             if (CurrentSection == eventArgs.SelectedSection)
                 return;

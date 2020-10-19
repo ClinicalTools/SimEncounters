@@ -16,21 +16,18 @@ namespace ClinicalTools.SimEncounters
         event Action OpenSidebar;
     }
 
-    public class ReaderMobileSidebar : MonoBehaviour, IUserEncounterDrawer, IUserSectionSelector, IReaderSceneDrawer, ICloseSidebar, IOpenSidebar
+    public class ReaderMobileSidebar : MonoBehaviour, IUserEncounterDrawer, IUserSectionSelector, IReaderSceneDrawer, ICloseSidebar, ICloseHandler
     {
         public virtual event UserSectionSelectedHandler SectionSelected;
 
         public List<MonoBehaviour> SidebarObjects { get => sidebarObjects; }
         [SerializeField] private List<MonoBehaviour> sidebarObjects = new List<MonoBehaviour>();
-        public List<Button> CloseButtons { get => closeButtons; }
-        [SerializeField] private List<Button> closeButtons = new List<Button>();
 
         protected List<IUserEncounterDrawer> EncounterDrawers { get; } = new List<IUserEncounterDrawer>();
         protected List<IUserSectionSelector> SectionSelectors { get; } = new List<IUserSectionSelector>();
         protected List<IReaderSceneDrawer> SceneDrawers { get; } = new List<IReaderSceneDrawer>();
 
         public event Action CloseSidebar;
-        public event Action OpenSidebar;
 
 
         protected virtual void Awake() => Initialize();
@@ -45,8 +42,6 @@ namespace ClinicalTools.SimEncounters
 
             foreach (var sidebarObject in SidebarObjects)
                 AddSidebarObject(sidebarObject);
-            foreach (var closeButton in CloseButtons)
-                closeButton.onClick.AddListener(() => CloseSidebar?.Invoke());
 
             AddListeners();
         }
@@ -113,5 +108,7 @@ namespace ClinicalTools.SimEncounters
             yield return new WaitForSeconds(2f);
             CloseSidebar?.Invoke();
         }
+
+        public void Close(object sender) => CloseSidebar?.Invoke();
     }
 }

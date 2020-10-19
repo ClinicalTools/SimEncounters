@@ -23,15 +23,23 @@ namespace ClinicalTools.SimEncounters
         public List<GameObject> NonStandaloneSceneObjects { get => nonStandaloneSceneObjects; set => nonStandaloneSceneObjects = value; }
         [SerializeField] private List<GameObject> nonStandaloneSceneObjects;
 
+        protected ISelector<LoadingReaderSceneInfo> LoadingSceneInfoSelector { get; set; }
         protected IMetadataReader MetadataReader { get; set; }
         protected IUserEncounterReader EncounterReader { get; set; }
         protected IEncounterQuickStarter EncounterQuickStarter { get; set; }
         protected QuickActionFactory LinkActionFactory { get; set; }
         [Inject]
         public virtual void Inject(
-            IMetadataReader metadataReader, IUserEncounterReader encounterReader, 
-            IEncounterQuickStarter encounterQuickStarter, QuickActionFactory linkActionFactory)
+            ISelector<LoadingReaderSceneInfo> loadingSceneInfoSelector,
+            IMetadataReader metadataReader, 
+            IUserEncounterReader encounterReader, 
+            IEncounterQuickStarter encounterQuickStarter,
+            QuickActionFactory linkActionFactory)
         {
+            LoadingSceneInfoSelector = loadingSceneInfoSelector;
+            if (SceneInfo != null)
+                LoadingSceneInfoSelector.Select(this, SceneInfo);
+
             MetadataReader = metadataReader;
             EncounterReader = encounterReader;
             EncounterQuickStarter = encounterQuickStarter;
@@ -92,6 +100,7 @@ namespace ClinicalTools.SimEncounters
             DeepLinkManager.Instance.LinkActivated += Instance_LinkActivated;
 #endif
             ReaderDrawer.Display(sceneInfo);
+            LoadingSceneInfoSelector?.Select(this, sceneInfo);
         }
 
 

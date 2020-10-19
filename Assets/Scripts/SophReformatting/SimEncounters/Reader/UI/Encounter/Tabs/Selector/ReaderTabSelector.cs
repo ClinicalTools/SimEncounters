@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderTabSelector : BaseUserTabSelector
+    public class ReaderTabSelector : MonoBehaviour
     {
         public virtual Transform TabButtonsParent { get => tabButtonsParent; set => tabButtonsParent = value; }
         [SerializeField] private Transform tabButtonsParent;
@@ -16,10 +17,22 @@ namespace ClinicalTools.SimEncounters
         public virtual ScrollRect TabButtonsScroll { get => tabButtonsScroll; set => tabButtonsScroll = value; }
         [SerializeField] private ScrollRect tabButtonsScroll;
 
-        public override event UserTabSelectedHandler TabSelected;
+
+        protected ISelector<UserSectionSelectedEventArgs> UserSectionSelector { get; set; }
+        protected ISelector<UserTabSelectedEventArgs> UserTabSelector { get; set; }
+        [Inject]
+        public virtual void Inject(
+            ISelector<UserSectionSelectedEventArgs> userSectionSelector,
+            ISelector<UserTabSelectedEventArgs> userTabSelector)
+        {
+            UserSectionSelector = userSectionSelector;
+            UserSectionSelector.AddSelectedListener(OnSectionSelected);
+            UserTabSelector = userTabSelector;
+            UserTabSelector.AddSelectedListener(OnTabSelected);
+        }
 
         protected UserSection Section { get; set; }
-        public override void Display(UserSectionSelectedEventArgs eventArgs)
+        protected virtual void OnSectionSelected(object sender, UserSectionSelectedEventArgs eventArgs)
         {
             if (Section == eventArgs.SelectedSection)
                 return;
@@ -49,7 +62,7 @@ namespace ClinicalTools.SimEncounters
             if (CurrentTab != tab) {
                 CurrentTab = tab;
                 var selectedArgs = new UserTabSelectedEventArgs(tab, ChangeType.JumpTo);
-                TabSelected?.Invoke(this, selectedArgs);
+                UserTabSelector.Select(this, selectedArgs);
             }
 
             var tabButtonTransform = (RectTransform)TabButtons[tab].transform;
@@ -63,7 +76,7 @@ namespace ClinicalTools.SimEncounters
                 TabButtonsScroll.EnsureChildIsShowing((RectTransform)TabButtons[tab].transform);
         }
 
-        public override void Display(UserTabSelectedEventArgs eventArgs)
+        protected virtual void OnTabSelected(object sender, UserTabSelectedEventArgs eventArgs)
         {
             CurrentTab = eventArgs.SelectedTab;
             TabButtons[CurrentTab].Select();

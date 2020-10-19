@@ -7,50 +7,56 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderMobileTabHandler : ReaderCompletableEncounterHandler
+    public class ReaderMobileTabHandler : MonoBehaviour
     {
-        public MonoBehaviour TabContent1 { get => tabContent1; set => tabContent1 = value; }
-        [SerializeField] private MonoBehaviour tabContent1;
-        public MonoBehaviour TabContent2 { get => tabContent2; set => tabContent2 = value; }
-        [SerializeField] private MonoBehaviour tabContent2;
-        public MonoBehaviour TabContent3 { get => tabContent3; set => tabContent3 = value; }
-        [SerializeField] private MonoBehaviour tabContent3;
-        public MonoBehaviour TabContent4 { get => tabContent4; set => tabContent4 = value; }
-        [SerializeField] private MonoBehaviour tabContent4;
+        public UserTabDrawer TabDrawer1 { get => tabContent1; set => tabContent1 = value; }
+        [SerializeField] private UserTabDrawer tabContent1;
+        public UserTabDrawer TabDrawer2 { get => tabDrawer2; set => tabDrawer2 = value; }
+        [SerializeField] private UserTabDrawer tabDrawer2;
+        public UserTabDrawer TabDrawer3 { get => tabDrawer3; set => tabDrawer3 = value; }
+        [SerializeField] private UserTabDrawer tabDrawer3;
+        public UserTabDrawer TabDrawer4 { get => tabDrawer4; set => tabDrawer4 = value; }
+        [SerializeField] private UserTabDrawer tabDrawer4;
 
-        protected TabContent[] Contents { get; } = new TabContent[4];
+        protected UserTabDrawer[] Contents { get; } = new UserTabDrawer[4];
 
-        protected override void Awake()
+        protected virtual void Awake()
         {
-            Contents[0] = new TabContent(tabContent1);
-            Contents[1] = new TabContent(tabContent2);
-            Contents[2] = new TabContent(tabContent3);
-            Contents[3] = new TabContent(tabContent4);
-
-            base.Awake();
+            Contents[0] = TabDrawer1;
+            Contents[1] = TabDrawer2;
+            Contents[2] = TabDrawer3;
+            Contents[3] = TabDrawer4;
         }
 
+        protected ISelector<UserSectionSelectedEventArgs> UserSectionSelector { get; set; }
+        protected ISelector<UserTabSelectedEventArgs> UserTabSelector { get; set; }
         protected SwipeManager SwipeManager { get; set; }
         protected IShifter Curve { get; set; }
         [Inject]
-        public virtual void Inject(IShifter curve, SwipeManager swipeManager)
+        public virtual void Inject(
+            IShifter curve,
+            SwipeManager swipeManager,
+            ISelector<UserSectionSelectedEventArgs> userSectionSelector,
+            ISelector<UserTabSelectedEventArgs> userTabSelector)
         {
+            UserSectionSelector = userSectionSelector;
+            UserSectionSelector.AddSelectedListener(OnSectionSelected);
+            UserTabSelector = userTabSelector;
+            UserTabSelector.AddSelectedListener(OnTabSelected);
             Curve = curve;
             SwipeManager = swipeManager;
         }
 
-        protected TabContent Current { get; set; }
-        protected TabContent Next { get; set; }
-        protected TabContent Last { get; set; }
-        protected TabContent Leaving { get; set; }
+        protected UserTabDrawer Current { get; set; }
+        protected UserTabDrawer Next { get; set; }
+        protected UserTabDrawer Last { get; set; }
+        protected UserTabDrawer Leaving { get; set; }
 
         protected virtual OrderedCollection<UserTab> Tabs { get; set; }
-        public override void Display(UserSectionSelectedEventArgs eventArgs)
+        protected virtual void OnSectionSelected(object sender, UserSectionSelectedEventArgs eventArgs)
         {
             Tabs = eventArgs.SelectedSection.Tabs;
             ClearCurrent();
-
-            base.Display(eventArgs);
         }
 
         protected virtual void OnEnable()
@@ -66,21 +72,18 @@ namespace ClinicalTools.SimEncounters
         protected virtual void ClearCurrent()
         {
             Leaving = Current;
-            if (Current != null)
-                Deregister(Current.Behaviour);
             Current = null;
         }
 
-        public override void Display(UserTabSelectedEventArgs eventArgs)
+        protected virtual void OnTabSelected(object sender, UserTabSelectedEventArgs eventArgs)
         {
-            if (Current?.Tab == eventArgs.SelectedTab)
+            if (Current != null && Current.Tab == eventArgs.SelectedTab)
                 return;
 
-            HandleTabStuff(eventArgs);
-            base.Display(eventArgs);
+            HandleTabStuff(sender, eventArgs);
         }
 
-        protected virtual void HandleTabStuff(UserTabSelectedEventArgs eventArgs)
+        protected virtual void HandleTabStuff(object sender, UserTabSelectedEventArgs eventArgs)
         {
             var tabIndex = Tabs.IndexOf(eventArgs.SelectedTab);
             var lastTab = (tabIndex > 0) ? Tabs[tabIndex - 1].Value : null;
@@ -90,7 +93,7 @@ namespace ClinicalTools.SimEncounters
             Last = null;
             Next = null;
 
-            var unusedContent = new Stack<TabContent>();
+            var unusedContent = new Stack<UserTabDrawer>();
             foreach (var tabContent in Contents) {
                 if (tabContent.Tab == null)
                     unusedContent.Push(tabContent);
@@ -113,11 +116,11 @@ namespace ClinicalTools.SimEncounters
             if (nextTab != null && Next == null)
                 Next = unusedContent.Pop();
 
-            Current.ChangeTab(eventArgs);
-            Last?.ChangeTab(new UserTabSelectedEventArgs(lastTab, ChangeType.Inactive));
-            Next?.ChangeTab(new UserTabSelectedEventArgs(nextTab, ChangeType.Inactive));
-
-            Register(Current.Behaviour);
+            Current.ChangeTab(sender, eventArgs);
+            if (Last != null)
+                Last.ChangeTab(this, new UserTabSelectedEventArgs(lastTab, ChangeType.Inactive));
+            if (Next != null)
+                Next.ChangeTab(this, new UserTabSelectedEventArgs(nextTab, ChangeType.Inactive));
 
             TabDraw();
         }
@@ -126,7 +129,7 @@ namespace ClinicalTools.SimEncounters
         protected virtual void TabDraw()
         {
             foreach (var tabContent in Contents)
-                tabContent.GameObject.SetActive(tabContent == Current || tabContent == Leaving);
+                tabContent.gameObject.SetActive(tabContent == Current || tabContent == Leaving);
 
             if (currentCoroutine != null) {
                 StopCoroutine(currentCoroutine);
@@ -150,9 +153,9 @@ namespace ClinicalTools.SimEncounters
                 return ShiftBackward(Leaving);
         }
 
-        protected IEnumerator ShiftForward(TabContent leavingContent)
+        protected IEnumerator ShiftForward(UserTabDrawer leavingContent)
             => Shift(Curve.ShiftForward(leavingContent.RectTransform, Current.RectTransform));
-        protected IEnumerator ShiftBackward(TabContent leavingContent)
+        protected IEnumerator ShiftBackward(UserTabDrawer leavingContent)
             => Shift(Curve.ShiftBackward(leavingContent.RectTransform, Current.RectTransform));
         protected IEnumerator Shift(IEnumerator enumerator)
         {
@@ -185,19 +188,19 @@ namespace ClinicalTools.SimEncounters
         private void RightSwipeUpdate(float dist)
         {
             if (Next != null)
-                Next.GameObject.SetActive(false);
+                Next.gameObject.SetActive(false);
             if (Last == null)
                 return;
-            Last.GameObject.SetActive(true);
+            Last.gameObject.SetActive(true);
             Curve.SetMoveAmountBackward(Current.RectTransform, Last.RectTransform, dist);
         }
         private void LeftSwipeUpdate(float dist)
         {
             if (Last != null)
-                Last.GameObject.SetActive(false);
+                Last.gameObject.SetActive(false);
             if (Next == null)
                 return;
-            Next.GameObject.SetActive(true);
+            Next.gameObject.SetActive(true);
             Curve.SetMoveAmountForward(Current.RectTransform, Next.RectTransform, dist);
         }
         private void SwipeEnd(Swipe obj)
@@ -207,12 +210,12 @@ namespace ClinicalTools.SimEncounters
             var dist = (obj.LastPosition.x - obj.StartPosition.x) / Screen.width;
             if (dist > 0 && Last != null) {
                 if (dist > .5f || obj.Velocity.x / Screen.dpi > 1.5f)
-                    OnTabSelected(this, new UserTabSelectedEventArgs(Last.Tab, ChangeType.Previous));
+                    UserTabSelector.Select(this, new UserTabSelectedEventArgs(Last.Tab, ChangeType.Previous));
                 else
                     currentCoroutine = StartCoroutine(ShiftForward(Last));
             } else if (dist < 0 && Next != null) {
                 if (dist < -.5f || obj.Velocity.x / Screen.dpi < -1.5f)
-                    OnTabSelected(this, new UserTabSelectedEventArgs(Next.Tab, ChangeType.Next));
+                    UserTabSelector.Select(this, new UserTabSelectedEventArgs(Next.Tab, ChangeType.Next));
                 else
                     currentCoroutine = StartCoroutine(ShiftBackward(Next));
             }
