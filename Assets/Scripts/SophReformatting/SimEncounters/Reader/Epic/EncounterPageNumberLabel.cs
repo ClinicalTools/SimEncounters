@@ -8,8 +8,7 @@ namespace ClinicalTools.SimEncounters
     public class EncounterPageNumberLabel : MonoBehaviour
     {
         private TextMeshProUGUI label;
-        protected TextMeshProUGUI Label
-        {
+        protected TextMeshProUGUI Label {
             get {
                 if (label == null)
                     label = GetComponent<TextMeshProUGUI>();

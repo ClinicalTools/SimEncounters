@@ -16,8 +16,8 @@ namespace ClinicalTools.SimEncounters
             Container.Bind<ISelector<Encounter>>().To<EncounterSelector>().AsSingle();
 
             Container.Bind<ISelector<EncounterMetadata>>().To<Selector<EncounterMetadata>>().AsSingle();
-            Container.Bind<ISelector<Section>>().To<Selector<Section>>().AsSingle();
-            Container.Bind<ISelector<Tab>>().To<Selector<Tab>>().AsSingle();
+            Container.Bind<ISelector<SectionSelectedEventArgs>>().To<Selector<SectionSelectedEventArgs>>().AsSingle();
+            Container.Bind<ISelector<TabSelectedEventArgs>>().To<Selector<TabSelectedEventArgs>>().AsSingle();
 
             Container.Bind<ILinearEncounterNavigator>().To<LinearEncounterNavigator>().AsSingle();
             Container.Bind<ICompletionHandler>().To<CompletionHandler>().AsSingle();

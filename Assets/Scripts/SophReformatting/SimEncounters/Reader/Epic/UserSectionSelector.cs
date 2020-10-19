@@ -2,13 +2,14 @@
 {
     public class UserSectionSelector : Selector<UserSectionSelectedEventArgs>
     {
-        protected ISelector<Section> SectionSelector { get; }
+        protected ISelector<SectionSelectedEventArgs> SectionSelector { get; }
         protected ISelector<UserTabSelectedEventArgs> UserTabSelector { get; }
         public UserSectionSelector(
             ISelector<UserTabSelectedEventArgs> userTabSelector,
-            ISelector<Section> sectionSelector)
+            ISelector<SectionSelectedEventArgs> sectionSelector)
         {
             UserTabSelector = userTabSelector;
+            UserTabSelector.AddEarlySelectedListener(OnTabSelected);
             SectionSelector = sectionSelector;
         }
         public override void Select(object sender, UserSectionSelectedEventArgs value)
@@ -16,7 +17,7 @@
             base.Select(sender, value);
             var tabArgs = new UserTabSelectedEventArgs(value.SelectedSection.GetCurrentTab(), value.ChangeType);
             UserTabSelector.Select(this, tabArgs);
-            SectionSelector.Select(this, value.SelectedSection.Data);
+            SectionSelector.Select(this, new SectionSelectedEventArgs(value.SelectedSection.Data));
         }
 
         protected virtual void OnTabSelected(object sender, UserTabSelectedEventArgs eventArgs)

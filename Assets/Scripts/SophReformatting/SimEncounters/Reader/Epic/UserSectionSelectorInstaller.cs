@@ -9,6 +9,9 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private UserSectionSelectorBehaviour selectorBehaviour;
 
         public override void InstallBindings()
-            => Container.BindInstance<ISelector<UserSectionSelectedEventArgs>>(SelectorBehaviour);
+        {
+            Container.BindInstance<ISelector<UserSectionSelectedEventArgs>>(SelectorBehaviour);
+            Container.Bind<ISelector<SectionSelectedEventArgs>>().To<Selector<SectionSelectedEventArgs>>().AsSingle();
+        }
     }
 }

@@ -2,14 +2,14 @@
 {
     public class UserTabSelector : Selector<UserTabSelectedEventArgs>
     {
-        protected ISelector<Tab> TabSelector { get; }
-        public UserTabSelector(ISelector<Tab> tabSelector)
+        protected ISelector<TabSelectedEventArgs> TabSelector { get; }
+        public UserTabSelector(ISelector<TabSelectedEventArgs> tabSelector)
             => TabSelector = tabSelector;
 
         public override void Select(object sender, UserTabSelectedEventArgs value)
         {
             base.Select(sender, value);
-            TabSelector.Select(this, value.SelectedTab.Data);
+            TabSelector.Select(this, new TabSelectedEventArgs(value.SelectedTab.Data));
         }
     }
 }

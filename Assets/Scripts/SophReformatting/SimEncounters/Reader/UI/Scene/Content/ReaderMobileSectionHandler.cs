@@ -79,13 +79,13 @@ namespace ClinicalTools.SimEncounters
         protected virtual void ClearCurrent()
         {
             Leaving = Current;
-            if (Leaving != null)
-                Leaving.ChangeTab(this, new UserTabSelectedEventArgs(Leaving.Tab, ChangeType.Inactive));
-            if (Current != null) {
-                Current.UserSectionSelector.RemoveSelectedListener(UserSectionSelector.Select);
-                Current.UserTabSelector.RemoveSelectedListener(UserTabSelector.Select);
-            }
             Current = null;
+            if (Leaving == null)
+                return;
+
+            Leaving.UserSectionSelector.RemoveSelectedListener(UserSectionSelector.Select);
+            Leaving.UserTabSelector.RemoveSelectedListener(UserTabSelector.Select);
+            Leaving.ChangeTab(this, new UserTabSelectedEventArgs(Leaving.Tab, ChangeType.Inactive));
         }
         protected virtual void SetCurrent(UserSectionDrawer userSectionDrawer)
         {
@@ -104,10 +104,9 @@ namespace ClinicalTools.SimEncounters
 
             HandleSectionStuff(sender, eventArgs);
         }
+
         protected virtual void OnTabSelected(object sender, UserTabSelectedEventArgs eventArgs)
             => Current.ChangeTab(sender, eventArgs);
-
-
 
         protected virtual void HandleSectionStuff(object sender, UserSectionSelectedEventArgs eventArgs)
         {

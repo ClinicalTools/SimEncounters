@@ -40,51 +40,40 @@ namespace ClinicalTools.SimEncounters
             UserSectionSelector = userSectionSelector;
             UserSectionSelector.AddSelectedListener(OnSectionSelected);
             UserTabSelector = userTabSelector;
-            UserTabSelector.AddSelectedListener(OnTabSelected);
         }
 
-        private int tabCount;
-        private int tabNumber;
         protected UserEncounter UserEncounter { get; set; }
         protected EncounterNonImageContent NonImageContent
             => UserEncounter.Data.Content.NonImageContent;
+        protected Section CurrentSection
+            => NonImageContent.Sections[NonImageContent.CurrentSectionIndex].Value;
         protected virtual void OnEncounterSelected(object sender, UserEncounterSelectedEventArgs eventArgs)
-        {
-            UserEncounter = eventArgs.Encounter;
-            tabCount = NonImageContent.GetTabCount();
-        }
+            => UserEncounter = eventArgs.Encounter;
 
-        protected UserSection CurrentSection { get; set; }
+
+        protected UserSection CurrentUserSection { get; set; }
         protected virtual void OnSectionSelected(object sender, UserSectionSelectedEventArgs eventArgs)
-            => CurrentSection = eventArgs.SelectedSection;
+            => CurrentUserSection = eventArgs.SelectedSection;
 
-
-        protected UserTab CurrentTab { get; set; }
-        protected virtual void OnTabSelected(object sender, UserTabSelectedEventArgs eventArgs)
-        {
-            if (CurrentTab == eventArgs.SelectedTab)
-                return;
-            CurrentTab = eventArgs.SelectedTab;
-            tabNumber = NonImageContent.GetCurrentTabNumber();
-        }
-
-        protected virtual bool IsLast<T>(OrderedCollection<T> values, T value)
-            => values.IndexOf(value) == values.Count - 1;
-
-        public virtual bool HasNext() => tabNumber > 1;
+        public virtual bool HasNext() => HasNextSection() || HasNextTab();
+        protected virtual bool HasNextSection() => NonImageContent.CurrentSectionIndex + 1 < NonImageContent.Sections.Count;
+        protected virtual bool HasNextTab() => CurrentSection.CurrentTabIndex + 1 < CurrentSection.Tabs.Count;
         public virtual void GoToNext()
         {
-            if (CurrentSection.Data.CurrentTabIndex + 1 < CurrentSection.Data.Tabs.Count)
+            if (HasNextTab())
                 GoToNextTab();
-            else if (NonImageContent.CurrentSectionIndex + 1 < NonImageContent.Sections.Count)
+            else if (HasNextSection())
                 GoToNextSection();
         }
-        public virtual bool HasPrevious() => tabNumber < tabCount;
+
+        public virtual bool HasPrevious() => HasPreviousSection() || HasPreviousTab();
+        protected virtual bool HasPreviousSection() => NonImageContent.CurrentSectionIndex != 0;
+        protected virtual bool HasPreviousTab() => CurrentSection.CurrentTabIndex != 0;
         public virtual void GoToPrevious()
         {
-            if (CurrentSection.Data.CurrentTabIndex > 0)
+            if (HasPreviousTab())
                 GoToPreviousTab();
-            else if (NonImageContent.CurrentSectionIndex > 0)
+            else if (HasPreviousSection())
                 GoToPreviousSection();
         }
 
@@ -111,14 +100,14 @@ namespace ClinicalTools.SimEncounters
         }
 
         protected virtual void GoToNextTab()
-            => GoToTab(CurrentSection.Data.CurrentTabIndex + 1, ChangeType.Next);
+            => GoToTab(CurrentSection.CurrentTabIndex + 1, ChangeType.Next);
         protected virtual void GoToPreviousTab()
-            => GoToTab(CurrentSection.Data.CurrentTabIndex - 1, ChangeType.Previous);
+            => GoToTab(CurrentSection.CurrentTabIndex - 1, ChangeType.Previous);
         protected virtual void GoToTab(int tabIndex, ChangeType changeType)
         {
-            var section = CurrentSection.Data;
+            var section = CurrentSection;
             var nextTabKey = section.Tabs[tabIndex].Key;
-            var nextTab = CurrentSection.GetTab(nextTabKey);
+            var nextTab = CurrentUserSection.GetTab(nextTabKey);
             var selectedArgs = new UserTabSelectedEventArgs(nextTab, changeType);
             UserTabSelector.Select(this, selectedArgs);
         }
