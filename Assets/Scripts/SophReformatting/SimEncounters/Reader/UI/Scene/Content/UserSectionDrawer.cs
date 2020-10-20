@@ -1,17 +1,23 @@
 ﻿using UnityEngine;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
     public class UserSectionDrawer : UserTabDrawer
     {
-        public UserSectionSelectorBehaviour UserSectionSelector { get => userSectionSelector; set => userSectionSelector = value; }
-        [SerializeField] private UserSectionSelectorBehaviour userSectionSelector;
+        public ISelector<UserSectionSelectedEventArgs> UserSectionSelector { get; set; }
+        [Inject] public virtual void Inject(ISelector<UserSectionSelectedEventArgs> userSectionSelector) => UserSectionSelector = userSectionSelector;
 
         public UserSection Section { get; protected set; }
         public virtual void ChangeSection(object sender, UserSectionSelectedEventArgs eventArgs)
         {
             Section = eventArgs.SelectedSection;
             UserSectionSelector.Select(sender, eventArgs);
+        }
+        public override void ChangeTab(object sender, UserTabSelectedEventArgs eventArgs)
+        {
+            Tab = eventArgs.SelectedTab;
+            UserTabSelector.Select(sender, eventArgs);
         }
 
         public void SetFirstTab(object sender, ChangeType changeType) 

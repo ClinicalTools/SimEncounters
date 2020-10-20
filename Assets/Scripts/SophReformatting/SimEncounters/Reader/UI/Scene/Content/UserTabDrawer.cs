@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
     [RequireComponent(typeof(RectTransform))]
     public class UserTabDrawer : MonoBehaviour
     {
-        public UserTabSelectorBehaviour UserTabSelector { get => userTabSelector; set => userTabSelector = value; }
-        [SerializeField] private UserTabSelectorBehaviour userTabSelector;
+        public ISelector<UserTabSelectedEventArgs> UserTabSelector { get; set; }
+        [Inject] public virtual void Inject(ISelector<UserTabSelectedEventArgs> userTabSelector) => UserTabSelector = userTabSelector;
 
         public RectTransform RectTransform => (RectTransform)transform;
         public UserTab Tab { get; protected set; }

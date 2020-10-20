@@ -17,9 +17,9 @@ namespace ClinicalTools.SimEncounters
             }
         }
 
-        protected ISelector<UserSectionSelectedEventArgs> UserSectionSelector { get; set; }
+        protected ISelectedListener<UserSectionSelectedEventArgs> UserSectionSelector { get; set; }
         [Inject]
-        public virtual void Inject(ISelector<UserSectionSelectedEventArgs> userSectionSelector)
+        public virtual void Inject(ISelectedListener<UserSectionSelectedEventArgs> userSectionSelector)
         {
             UserSectionSelector = userSectionSelector;
             UserSectionSelector.AddSelectedListener(OnSectionSelected);

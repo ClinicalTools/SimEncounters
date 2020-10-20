@@ -16,12 +16,12 @@ namespace ClinicalTools.SimEncounters
             }
         }
 
-        protected ISelector<SectionSelectedEventArgs> SectionSelector { get; set; }
+        protected ISelectedListener<SectionSelectedEventArgs> SectionSelector { get; set; }
         protected ICompletionHandler CompletionHandler { get; set; }
         protected IUserEncounterMenuSceneStarter MenuSceneStarter { get; set; }
         [Inject]
         public virtual void Inject(
-            ISelector<SectionSelectedEventArgs> sectionSelector)
+            ISelectedListener<SectionSelectedEventArgs> sectionSelector)
         {
             SectionSelector = sectionSelector;
             SectionSelector.AddSelectedListener(OnSectionSelected);

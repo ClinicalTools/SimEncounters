@@ -16,12 +16,12 @@ namespace ClinicalTools.SimEncounters
             }
         }
 
-        protected ISelector<UserTabSelectedEventArgs> UserTabSelector { get; set; }
+        protected ISelectedListener<UserTabSelectedEventArgs> UserTabSelector { get; set; }
         protected ICompletionHandler CompletionHandler { get; set; }
         protected IUserEncounterMenuSceneStarter MenuSceneStarter { get; set; }
         [Inject]
         public virtual void Inject(
-            ISelector<UserTabSelectedEventArgs> userTabSelector)
+            ISelectedListener<UserTabSelectedEventArgs> userTabSelector)
         {
             UserTabSelector = userTabSelector;
             UserTabSelector.AddSelectedListener(OnTabSelected);
