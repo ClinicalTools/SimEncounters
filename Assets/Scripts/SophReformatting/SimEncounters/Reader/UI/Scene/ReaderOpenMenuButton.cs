@@ -4,7 +4,7 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderOpenMenuButton : BaseReaderSceneDrawer, IUserEncounterDrawer
+    public class ReaderOpenMenuButton : MonoBehaviour
     {
         public Button Button { get => button; set => button = value; }
         [SerializeField] private Button button;
@@ -13,34 +13,38 @@ namespace ClinicalTools.SimEncounters
 
         protected IUserEncounterMenuSceneStarter MenuSceneStarter { get; set; }
 
+        protected ISelectedListener<LoadingReaderSceneInfo> LoadingReaderSceneInfoSelector { get; set; }
         [Inject]
-        public virtual void Inject(IUserEncounterMenuSceneStarter menuSceneStarter) => MenuSceneStarter = menuSceneStarter;
+        public virtual void Inject(
+            IUserEncounterMenuSceneStarter menuSceneStarter,
+            ISelectedListener<LoadingReaderSceneInfo> loadingReaderSceneInfoTabSelector)
+        {
+            LoadingReaderSceneInfoSelector = loadingReaderSceneInfoTabSelector;
+            LoadingReaderSceneInfoSelector.AddSelectedListener(OnLoadingReaderSceneInfoSelected); 
+            MenuSceneStarter = menuSceneStarter;
+        }
 
         protected virtual void Awake() => Button.onClick.AddListener(OpenMenu);
-        protected User User { get; set; }
-        protected UserEncounter UserEncounter { get; set; }
-        protected ILoadingScreen LoadingScreen { get; set; }
-        public override void Display(LoadingReaderSceneInfo sceneInfo)
-            => Display(sceneInfo.User, sceneInfo.LoadingScreen);
-        public virtual void Display(User user, ILoadingScreen loadingScreen)
-        {
-            User = user;
-            LoadingScreen = loadingScreen;
-        }
-        public virtual void Display(UserEncounter userEncounter) => UserEncounter = userEncounter;
+        protected virtual void OnDestroy() 
+            => LoadingReaderSceneInfoSelector.RemoveSelectedListener(OnLoadingReaderSceneInfoSelected);
+        protected LoadingReaderSceneInfo SceneInfo { get; set; }
+        protected virtual void OnLoadingReaderSceneInfoSelected(object sender, LoadingReaderSceneInfo sceneInfo)
+            => SceneInfo = sceneInfo;
         protected virtual void OpenMenu()
         {
-            if (UserEncounter == null) {
+            var loadingScreen = SceneInfo.LoadingScreen;
+            if (!SceneInfo.Result.IsCompleted() || !SceneInfo.Result.Result.HasValue()) {
+                var user = SceneInfo.User;
                 if (ShowConfirmation)
-                    MenuSceneStarter.ConfirmStartingMenuScene(User, LoadingScreen);
+                    MenuSceneStarter.ConfirmStartingMenuScene(user, loadingScreen);
                 else
-                    MenuSceneStarter.StartMenuScene(User, LoadingScreen);
+                    MenuSceneStarter.StartMenuScene(user, loadingScreen);
             } else {
+                var encounter = SceneInfo.Result.Result.Value.Encounter;
                 if (ShowConfirmation)
-                    MenuSceneStarter.ConfirmStartingMenuScene(UserEncounter, LoadingScreen);
+                    MenuSceneStarter.ConfirmStartingMenuScene(encounter, loadingScreen);
                 else
-                    MenuSceneStarter.StartMenuScene(UserEncounter, LoadingScreen);
-
+                    MenuSceneStarter.StartMenuScene(encounter, loadingScreen);
             }
         }
     }

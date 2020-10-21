@@ -14,7 +14,7 @@ namespace ClinicalTools.SimEncounters.UI
 
         public float Height { get => height; set => height = value; }
         [SerializeField] private float height;
-        public float Width { get => width; set => Width = value; }
+        public float Width { get => width; set => width = value; }
         [SerializeField] private float width;
 
         private bool layoutElementInitialized;

@@ -37,7 +37,7 @@ namespace ClinicalTools.SimEncounters
             QuickActionFactory linkActionFactory)
         {
             LoadingSceneInfoSelector = loadingSceneInfoSelector;
-            if (SceneInfo != null)
+            if (started && SceneInfo != null)
                 LoadingSceneInfoSelector.Select(this, SceneInfo);
 
             MetadataReader = metadataReader;
@@ -45,6 +45,16 @@ namespace ClinicalTools.SimEncounters
             EncounterQuickStarter = encounterQuickStarter;
             LinkActionFactory = linkActionFactory;
         }
+
+        private bool started;
+        protected override void Start()
+        {
+            base.Start();
+            started = true;
+            if (SceneInfo != null)
+                LoadingSceneInfoSelector?.Select(this, SceneInfo);
+        }
+
         protected override void StartAsInitialScene()
         {
             Screen.fullScreen = false;
@@ -100,7 +110,8 @@ namespace ClinicalTools.SimEncounters
             DeepLinkManager.Instance.LinkActivated += Instance_LinkActivated;
 #endif
             ReaderDrawer.Display(sceneInfo);
-            LoadingSceneInfoSelector?.Select(this, sceneInfo);
+            if (started)
+                LoadingSceneInfoSelector?.Select(this, sceneInfo);
         }
 
 

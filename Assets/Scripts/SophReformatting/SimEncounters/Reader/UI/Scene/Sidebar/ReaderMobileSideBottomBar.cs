@@ -2,12 +2,7 @@
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderMobileSideBottomBar : ReaderBehaviour, IReaderSceneDrawer, IUserEncounterDrawer
+    public class ReaderMobileSideBottomBar : ReaderBehaviour
     {
-        public ReaderOpenMenuButton OpenMenuButton { get => openMenuButton; set => openMenuButton = value; }
-        [SerializeField] private ReaderOpenMenuButton openMenuButton;
-
-        public void Display(LoadingReaderSceneInfo sceneInfo) => OpenMenuButton.Display(sceneInfo);
-        public void Display(UserEncounter userEncounter) => OpenMenuButton.Display(userEncounter);
     }
 }

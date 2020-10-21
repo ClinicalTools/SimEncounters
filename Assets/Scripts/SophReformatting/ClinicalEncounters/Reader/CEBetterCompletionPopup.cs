@@ -40,8 +40,6 @@ namespace ClinicalTools.ClinicalEncounters
         protected CEEncounterMetadata CurrentMetadata { get; set; }
         public override void CompletionDraw(ReaderSceneInfo sceneInfo)
         {
-            MenuButton.Display(sceneInfo.User, sceneInfo.LoadingScreen);
-            MenuButton.Display(sceneInfo.Encounter);
             var encounter = sceneInfo.Encounter.Data;
 
             gameObject.SetActive(true);
