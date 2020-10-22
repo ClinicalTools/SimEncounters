@@ -32,6 +32,8 @@ namespace ClinicalTools.SimEncounters
             CurrentPanel = userPanel;
             BasicPanelDrawer.Display(userPanel, transform, transform);
         }
+        protected virtual void OnDestroy() => BasicPanelDrawer.Dispose();
+
         public override void SetColor(Color color)
         {
             color.a = 1;

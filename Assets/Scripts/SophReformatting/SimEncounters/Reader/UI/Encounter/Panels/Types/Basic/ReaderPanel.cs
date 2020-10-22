@@ -3,7 +3,6 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-
     public class ReaderPanel : BaseReaderPanel
     {
         public BaseReaderPanelsCreator ChildPanelCreator { get => childPanelCreator; set => childPanelCreator = value; }
@@ -20,8 +19,6 @@ namespace ClinicalTools.SimEncounters
                 ActualPanelDisplay();
         }
 
-
-
         public override void Display(UserPanel panel)
         {
             Panel = panel;
@@ -35,5 +32,7 @@ namespace ClinicalTools.SimEncounters
             if (ChildPanelCreator != null)
                 ChildPanelCreator.DrawChildPanels(Panel.GetChildPanels());
         }
+
+        protected virtual void OnDestroy() => BasicPanelDrawer.Dispose();
     }
 }

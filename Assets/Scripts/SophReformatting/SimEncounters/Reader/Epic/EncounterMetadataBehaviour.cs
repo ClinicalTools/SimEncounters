@@ -10,8 +10,9 @@ namespace ClinicalTools.SimEncounters
         public virtual void Inject(ISelectedListener<EncounterMetadata> metadataSelector)
         {
             MetadataSelector = metadataSelector;
-            MetadataSelector.AddSelectedListener(OnMetadataSelected);
         }
+
+        protected virtual void Start() => MetadataSelector.AddSelectedListener(OnMetadataSelected);
 
         protected abstract void OnMetadataSelected(object sender, EncounterMetadata metadata);
 

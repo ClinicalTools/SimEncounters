@@ -24,8 +24,8 @@ namespace ClinicalTools.SimEncounters
             ISelectedListener<UserTabSelectedEventArgs> userTabSelector)
         {
             UserTabSelector = userTabSelector;
-            UserTabSelector.AddSelectedListener(OnTabSelected);
         }
+        protected virtual void Start() => UserTabSelector.AddSelectedListener(OnTabSelected);
 
         protected int TabCount { get; set; } = -1;
         protected UserTab CurrentTab { get; set; }

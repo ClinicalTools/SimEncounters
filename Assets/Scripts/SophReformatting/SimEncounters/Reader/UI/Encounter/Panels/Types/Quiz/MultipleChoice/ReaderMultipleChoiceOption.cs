@@ -16,9 +16,8 @@ namespace ClinicalTools.SimEncounters
         [Inject] public virtual void Inject(IReaderPanelDisplay basicPanelDrawer) => BasicPanelDrawer = basicPanelDrawer;
 
         public override void Display(UserPanel panel)
-        {
-            BasicPanelDrawer.Display(panel, transform, transform);
-        }
+            => BasicPanelDrawer.Display(panel, transform, transform);
+        protected virtual void OnDestroy() => BasicPanelDrawer.Dispose();
 
         public override void SetToggleGroup(ToggleGroup group)
             => OptionToggle.group = group;

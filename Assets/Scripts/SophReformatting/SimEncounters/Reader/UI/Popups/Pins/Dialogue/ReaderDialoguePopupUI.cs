@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderDialoguePopupUI : UserDialoguePinDrawer
+    public class ReaderDialoguePopupUI : BaseUserDialoguePinDrawer
     {
         public List<Button> CloseButtons { get => closeButtons; set => closeButtons = value; }
         [SerializeField] private List<Button> closeButtons = new List<Button>();
@@ -29,8 +29,6 @@ namespace ClinicalTools.SimEncounters
             SetPanelsAsRead(dialoguePin.GetPanels());
 
             gameObject.SetActive(true);
-            if (PanelCreator is IUserDialoguePinDrawer dialoguePinDrawer)
-                dialoguePinDrawer.Display(dialoguePin);
 
             ReaderPanels = PanelCreator.DrawChildPanels(dialoguePin.GetPanels());
 

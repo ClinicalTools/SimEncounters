@@ -166,13 +166,16 @@ namespace ClinicalTools.SimEncounters
             IUserEncounterMenuSceneStarter menuSceneStarter)
         {
             UserEncounterSelector = userEncounterSelector;
-            UserEncounterSelector.AddSelectedListener(OnEncounterSelected);
             UserTabSelector = userTabSelector;
-            UserTabSelector.AddSelectedListener(OnTabSelected);
 
             LinearEncounterNavigator = linearEncounterNavigator;
             CompletionHandler = completionHandler;
             MenuSceneStarter = menuSceneStarter;
+        }
+        protected virtual void Start()
+        {
+            UserEncounterSelector.AddSelectedListener(OnEncounterSelected);
+            UserTabSelector.AddSelectedListener(OnTabSelected);
         }
 
         protected virtual void Awake()

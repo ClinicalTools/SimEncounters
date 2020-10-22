@@ -29,20 +29,28 @@ namespace ClinicalTools.SimEncounters
 
         private bool initialized;
         protected UserTab CurrentTab { get; set; }
+        protected Color NotVisitedColor { get; set; }
         public override void Display(UserTab tab)
         {
+            Selected = null;
+
             if (CurrentTab == tab) {
                 UpdateIsVisited();
                 return;
             }
 
             CurrentTab = tab;
+
+            if (!initialized)
+                Initialize();
+
             UpdateIsVisited();
+        }
 
-            if (initialized)
-                return;
-
+        protected virtual void Initialize()
+        {
             initialized = true;
+            NotVisitedColor = SelectToggle.Toggle.image.color;
             SelectToggle.Unselected += ToggleUnselected;
             SelectToggle.Selected += ToggleSelected;
         }
@@ -51,11 +59,10 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void UpdateIsVisited()
         {
-            if (CurrentTab?.IsRead() != true)
-                return;
+            var visited = CurrentTab?.IsRead() == true;
 
-            VisitedCheck.SetActive(true);
-            SelectToggle.Toggle.image.color = ColorManager.GetColor(ColorType.Green);
+            VisitedCheck.SetActive(visited);
+            SelectToggle.Toggle.image.color = visited ? ColorManager.GetColor(ColorType.Green) : NotVisitedColor;
         }
 
         protected virtual void ToggleUnselected()

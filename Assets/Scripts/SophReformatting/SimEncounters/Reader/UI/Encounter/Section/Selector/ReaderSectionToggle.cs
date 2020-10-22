@@ -3,7 +3,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -82,5 +82,8 @@ namespace ClinicalTools.SimEncounters
                 Icon.color = foregroundColor;
             NameLabel.color = foregroundColor;
         }
+
+
+        public class Factory : PlaceholderFactory<ReaderSectionToggle> { }
     }
 }

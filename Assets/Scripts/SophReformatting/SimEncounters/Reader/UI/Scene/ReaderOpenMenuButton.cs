@@ -20,9 +20,9 @@ namespace ClinicalTools.SimEncounters
             ISelectedListener<LoadingReaderSceneInfo> loadingReaderSceneInfoTabSelector)
         {
             LoadingReaderSceneInfoSelector = loadingReaderSceneInfoTabSelector;
-            LoadingReaderSceneInfoSelector.AddSelectedListener(OnLoadingReaderSceneInfoSelected); 
             MenuSceneStarter = menuSceneStarter;
         }
+        protected virtual void Start() => LoadingReaderSceneInfoSelector.AddSelectedListener(OnLoadingReaderSceneInfoSelected);
 
         protected virtual void Awake() => Button.onClick.AddListener(OpenMenu);
         protected virtual void OnDestroy() 

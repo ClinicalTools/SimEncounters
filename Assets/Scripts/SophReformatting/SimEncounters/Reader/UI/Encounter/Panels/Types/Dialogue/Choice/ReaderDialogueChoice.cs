@@ -36,6 +36,7 @@ namespace ClinicalTools.SimEncounters
             foreach (var option in Options)
                 option.CorrectlySelected += Option_CorrectlySelected;
         }
+        protected virtual void OnDestroy() => BasicPanelDrawer.Dispose();
 
         private void Option_CorrectlySelected(BaseReaderDialogueOption selectedOption)
         {

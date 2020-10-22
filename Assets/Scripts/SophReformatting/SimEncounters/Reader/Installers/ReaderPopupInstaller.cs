@@ -12,10 +12,10 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private BaseSettingsPopup settingsPopup;
         public BaseReaderEncounterInfoPopup EncounterInfoPopup { get => encounterInfoPopup; set => encounterInfoPopup = value; }
         [SerializeField] private BaseReaderEncounterInfoPopup encounterInfoPopup;
-        public UserDialoguePinDrawer DialoguePopup { get => dialoguePopup; set => dialoguePopup = value; }
-        [SerializeField] private UserDialoguePinDrawer dialoguePopup;
-        public UserQuizPinDrawer QuizPopup { get => quizPopup; set => quizPopup = value; }
-        [SerializeField] private UserQuizPinDrawer quizPopup;
+        public BaseUserDialoguePinDrawer DialoguePopup { get => dialoguePopup; set => dialoguePopup = value; }
+        [SerializeField] private BaseUserDialoguePinDrawer dialoguePopup;
+        public BaseUserQuizPinDrawer QuizPopup { get => quizPopup; set => quizPopup = value; }
+        [SerializeField] private BaseUserQuizPinDrawer quizPopup;
         public SpriteDrawer ImagePopup { get => imagePopup; set => imagePopup = value; }
         [SerializeField] private SpriteDrawer imagePopup;
         public BaseUserPinGroupDrawer PinButtonsPrefab { get => pinButtonsPrefab; set => pinButtonsPrefab = value; }
@@ -44,7 +44,6 @@ namespace ClinicalTools.SimEncounters
 
             Container.Bind<IStatusWriter>().To<LocalStatusWriter>().AsTransient();
 
-            Container.Bind<IReaderPanelDisplay>().To<ReaderPanelDisplay>().AsTransient();
             Container.Bind<FeedbackColorInfo>().To<FeedbackColorInfo>().AsTransient();
             Container.Bind<IStringDeserializer<Color>>().To<ColorDeserializer>().AsTransient();
 

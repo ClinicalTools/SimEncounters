@@ -28,10 +28,9 @@ namespace ClinicalTools.SimEncounters
             Toggle.onValueChanged.AddListener(GetFeedback);
         }
 
-        public override void Display(UserPanel panel)
-        {
-            BasicPanelDrawer.Display(panel, transform, transform);
-        }
+        public override void Display(UserPanel panel) 
+            => BasicPanelDrawer.Display(panel, transform, transform);
+        protected virtual void OnDestroy() => BasicPanelDrawer.Dispose();
 
         protected virtual void GetFeedback(bool isOn)
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -17,6 +18,9 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private BaseReaderPanel dialogueEntryRight;
         public BaseReaderDialogueChoice DialogueChoice { get => dialogueChoice; set => dialogueChoice = value; }
         [SerializeField] private BaseReaderDialogueChoice dialogueChoice;
+
+        protected BaseReaderPanel.Factory ReaderPanelFactory { get; set; }
+        [Inject] public virtual void Inject(BaseReaderPanel.Factory readerPanelFactory) => ReaderPanelFactory = readerPanelFactory;
 
         public override List<BaseReaderPanel> DrawChildPanels(IEnumerable<UserPanel> childPanels)
         {
@@ -57,7 +61,9 @@ namespace ClinicalTools.SimEncounters
                 (values.ContainsKey(CharacterNameKey) && values[CharacterNameKey] == ProviderName) ?
                 DialogueEntryRight : DialogueEntryLeft;
 
-            var panelDisplay = Instantiate(entryPrefab, transform);
+            var panelDisplay = ReaderPanelFactory.Create(entryPrefab);
+            panelDisplay.transform.SetParent(transform);
+            panelDisplay.transform.SetAsLastSibling();
             panelDisplay.Display(panel);
             return panelDisplay;
         }
@@ -66,7 +72,9 @@ namespace ClinicalTools.SimEncounters
         {
             Background.color = ColorManager.GetColor(ChoiceBackgroundColor);
 
-            var panelDisplay = Instantiate(DialogueChoice, transform);
+            var panelDisplay = (BaseReaderDialogueChoice)ReaderPanelFactory.Create(DialogueChoice);
+            panelDisplay.transform.SetParent(transform);
+            panelDisplay.transform.SetAsLastSibling();
             panelDisplay.Display(panels[panelIndex]);
 
             panelDisplay.Completed += () => DeserializeChildren(readerPanels, panels, panelIndex + 1);

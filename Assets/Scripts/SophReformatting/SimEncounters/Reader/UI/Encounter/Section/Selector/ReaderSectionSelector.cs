@@ -12,20 +12,25 @@ namespace ClinicalTools.SimEncounters
 
         public virtual Transform SectionButtonsParent { get => sectionButtonsParent; set => sectionButtonsParent = value; }
         [SerializeField] private Transform sectionButtonsParent;
-        public virtual ReaderSectionToggle SectionButtonPrefab { get => sectionButtonPrefab; set => sectionButtonPrefab = value; }
-        [SerializeField] private ReaderSectionToggle sectionButtonPrefab;
         public virtual ToggleGroup SectionsToggleGroup { get => sectionsToggleGroup; set => sectionsToggleGroup = value; }
         [SerializeField] private ToggleGroup sectionsToggleGroup;
 
+        protected ReaderSectionToggle.Factory SectionButtonFactory { get; set; }
         protected ISelector<UserEncounterSelectedEventArgs> UserEncounterSelector { get; set; }
         protected ISelector<UserSectionSelectedEventArgs> UserSectionSelector { get; set; }
         [Inject]
-        public virtual void Inject(ISelector<UserEncounterSelectedEventArgs> userEncounterSelector,
+        public virtual void Inject(
+            ReaderSectionToggle.Factory sectionButtonFactory,
+            ISelector<UserEncounterSelectedEventArgs> userEncounterSelector,
             ISelector<UserSectionSelectedEventArgs> userSectionSelector)
         {
+            SectionButtonFactory = sectionButtonFactory;
             UserEncounterSelector = userEncounterSelector;
-            UserEncounterSelector.AddSelectedListener(OnEncounterSelected);
             UserSectionSelector = userSectionSelector;
+        }
+        protected virtual void Start()
+        {
+            UserEncounterSelector.AddSelectedListener(OnEncounterSelected);
             UserSectionSelector.AddSelectedListener(OnSectionSelected);
         }
 
@@ -51,7 +56,9 @@ namespace ClinicalTools.SimEncounters
 
         protected void AddButton(UserSection section)
         {
-            var sectionButton = Instantiate(SectionButtonPrefab, SectionButtonsParent);
+            var sectionButton = SectionButtonFactory.Create();
+            sectionButton.transform.SetParent(SectionButtonsParent);
+                //Instantiate(SectionButtonPrefab, SectionButtonsParent);
             sectionButton.SetToggleGroup(SectionsToggleGroup);
             sectionButton.Display(section);
             sectionButton.Selected += () => OnSelected(section);

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Zenject;
 
 namespace ClinicalTools.SimEncounters
@@ -25,12 +24,16 @@ namespace ClinicalTools.SimEncounters
 
         public override void Display(UserPanel panel)
         {
+            CompletedObject.gameObject.SetActive(false);
+            IncompletedObject.gameObject.SetActive(true);
+
             BasicPanelDrawer.Display(panel, transform, transform);
             Options = ChildPanelCreator.DrawChildPanels(panel.GetChildPanels());
 
             foreach (var option in Options)
                 option.CorrectlySelected += Option_CorrectlySelected;
         }
+        protected virtual void OnDestroy() => BasicPanelDrawer.Dispose();
 
         private void Option_CorrectlySelected(BaseReaderDialogueOption selectedOption)
         {

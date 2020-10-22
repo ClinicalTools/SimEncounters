@@ -1,14 +1,13 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
 {
     public class ReaderPanelDisplay : IReaderPanelDisplay
     {
-        private readonly BaseUserPinGroupDrawer pinButtonsPrefab;
-        public ReaderPanelDisplay(BaseUserPinGroupDrawer pinButtonsPrefab)
+        protected BaseUserPinGroupDrawer.Pool PinButtonsPool { get; }
+        public ReaderPanelDisplay(BaseUserPinGroupDrawer.Pool pinButtonsPool)
         {
-            this.pinButtonsPrefab = pinButtonsPrefab;
+            PinButtonsPool = pinButtonsPool;
         }
 
         public virtual void Display(UserPanel userPanel, Transform panelTransform, Transform pinParent)
@@ -17,15 +16,17 @@ namespace ClinicalTools.SimEncounters
             InitializePanelValueFields(userPanel, panelTransform);
         }
 
+        protected BaseUserPinGroupDrawer PinButtons { get; set; }
         protected virtual BaseUserPinGroupDrawer CreatePinButtons(UserPanel userPanel, Transform pinParent)
         {
             if (userPanel.PinGroup == null)
                 return null;
 
-            var pinButtons = Object.Instantiate(pinButtonsPrefab, pinParent);
-            pinButtons.Display(userPanel.PinGroup);
+            PinButtons = PinButtonsPool.Spawn();
+            PinButtons.transform.SetParent(pinParent);
+            PinButtons.Display(userPanel.PinGroup);
 
-            return pinButtons;
+            return PinButtons;
         }
 
         protected virtual IPanelField[] InitializePanelValueFields(UserPanel userPanel, Transform transform)
@@ -56,6 +57,14 @@ namespace ClinicalTools.SimEncounters
             }
 
             return fields;
+        }
+
+        public virtual void Dispose()
+        {
+            if (PinButtons == null)
+                return;
+            PinButtonsPool.Despawn(PinButtons);
+            PinButtons = null;
         }
     }
 }

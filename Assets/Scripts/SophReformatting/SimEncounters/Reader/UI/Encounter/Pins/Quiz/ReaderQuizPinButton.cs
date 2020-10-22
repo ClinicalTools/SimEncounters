@@ -4,15 +4,15 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderQuizPinButton : UserQuizPinDrawer
+    public class ReaderQuizPinButton : BaseUserQuizPinDrawer
     {
         public virtual Button Button { get => button; set => button = value; }
         [SerializeField] private Button button;
         public virtual GameObject Completed { get => completed; set => completed = value; }
         [SerializeField] private GameObject completed;
 
-        protected UserQuizPinDrawer QuizPopup { get; set; }
-        [Inject] public virtual void Inject(UserQuizPinDrawer quizPopup) => QuizPopup = quizPopup;
+        protected BaseUserQuizPinDrawer QuizPopup { get; set; }
+        [Inject] public virtual void Inject(BaseUserQuizPinDrawer quizPopup) => QuizPopup = quizPopup;
 
 
         protected UserQuizPin UserQuizPin { get; set; }

@@ -29,6 +29,7 @@ namespace ClinicalTools.SimEncounters
             BasicPanelDrawer.Display(userPanel, transform, transform);
             Options = ChildPanelCreator.DrawChildPanels(userPanel.GetChildPanels());
         }
+        protected virtual void OnDestroy() => BasicPanelDrawer.Dispose();
 
         protected virtual void GetFeedback()
         {

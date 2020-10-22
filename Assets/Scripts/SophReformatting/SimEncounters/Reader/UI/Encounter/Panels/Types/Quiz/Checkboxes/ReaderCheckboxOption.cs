@@ -23,6 +23,7 @@ namespace ClinicalTools.SimEncounters
             if (ChildPanelCreator != null)
                 ChildPanelCreator.DrawChildPanels(userPanel.GetChildPanels());
         }
+        protected virtual void OnDestroy() => BasicPanelDrawer.Dispose();
 
         public override void GetFeedback()
         {

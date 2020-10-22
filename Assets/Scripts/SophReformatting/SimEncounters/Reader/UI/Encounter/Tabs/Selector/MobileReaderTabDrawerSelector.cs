@@ -19,12 +19,16 @@ namespace ClinicalTools.SimEncounters
 
 
         protected ISelector<UserTabSelectedEventArgs> UserTabSelector { get; set; }
+        protected BaseUserTabDrawer.Factory TabDrawerFactory { get; set; }
         [Inject]
-        public virtual void Inject(ISelector<UserTabSelectedEventArgs> userTabSelector)
+        public virtual void Inject(
+            ISelector<UserTabSelectedEventArgs> userTabSelector,
+             BaseUserTabDrawer.Factory tabDrawerFactory)
         {
             UserTabSelector = userTabSelector;
-            UserTabSelector.AddSelectedListener(OnTabSelected);
+            TabDrawerFactory = tabDrawerFactory;
         }
+        protected virtual void Start() => UserTabSelector.AddSelectedListener(OnTabSelected);
 
         protected virtual void OnDestroy() => UserTabSelector?.RemoveSelectedListener(OnTabSelected);
 
@@ -41,9 +45,17 @@ namespace ClinicalTools.SimEncounters
 
             var tab = eventArgs.SelectedTab;
             TabName.text = tab.Data.Name;
-            var prefab = GetTabPrefab(tab.Data);
-            CurrentTabDrawer = Instantiate(prefab, TabParent);
+            CurrentTabDrawer = TabDrawerFactory.Create(GetTabPrefabPath(tab.Data));
+            CurrentTabDrawer.transform.SetParent(TabParent);
+            //var prefab = GetTabPrefab(tab.Data);
+            //CurrentTabDrawer = Instantiate(prefab, TabParent);
             CurrentTabDrawer.Display(eventArgs);
+        }
+
+        protected virtual string GetTabPrefabPath(Tab tab)
+        {
+            var tabFolder = $"soph/se/Mobile/Reader/Tabs/{tab.Type} Tab/";
+            return $"{tabFolder}{tab.Type.Replace(" ", string.Empty)}Tab";
         }
 
         protected virtual BaseUserTabDrawer GetTabPrefab(Tab tab)

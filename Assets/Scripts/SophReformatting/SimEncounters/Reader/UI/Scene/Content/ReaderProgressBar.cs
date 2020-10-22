@@ -19,8 +19,11 @@ namespace ClinicalTools.SimEncounters
             ISelectedListener<TabSelectedEventArgs> tabSelector)
         {
             EncounterSelector = encounterSelector;
-            EncounterSelector.AddSelectedListener(OnEncounterSelected);
             TabSelector = tabSelector;
+        }
+        protected virtual void Start()
+        {
+            EncounterSelector.AddSelectedListener(OnEncounterSelected);
             TabSelector.AddSelectedListener(OnTabSelected);
         }
 

@@ -8,6 +8,7 @@ namespace ClinicalTools.SimEncounters
         public UserTabSelectorBehaviour SelectorBehaviour { get => selectorBehaviour; set => selectorBehaviour = value; }
         [SerializeField] private UserTabSelectorBehaviour selectorBehaviour;
 
-        public override void InstallBindings() => Container.BindInterfacesTo<UserTabSelectorBehaviour>().FromInstance(SelectorBehaviour);
+        public override void InstallBindings()
+            => Container.BindInterfacesTo<UserTabSelectorBehaviour>().FromInstance(SelectorBehaviour);
     }
 }

@@ -22,8 +22,8 @@ namespace ClinicalTools.SimEncounters
         public virtual void Inject(ISelectedListener<UserTabSelectedEventArgs> userTabSelector)
         {
             UserTabSelector = userTabSelector;
-            UserTabSelector.AddSelectedListener(OnTabSelected);
         }
+        protected virtual void Start() => UserTabSelector.AddSelectedListener(OnTabSelected);
 
         protected virtual void OnTabSelected(object sender, UserTabSelectedEventArgs eventArgs)
             => Label.text = eventArgs.SelectedTab.Data.Name;

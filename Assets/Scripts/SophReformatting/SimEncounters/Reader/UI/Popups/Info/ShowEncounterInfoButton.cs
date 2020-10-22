@@ -23,8 +23,8 @@ namespace ClinicalTools.SimEncounters
         {
             EncounterInfoPopup = encounterInfoPopup;
             UserEncounterSelector = userEncounterSelector;
-            UserEncounterSelector.AddSelectedListener(OnUserEncounterSelected);
         }
+        protected virtual void Start() => UserEncounterSelector.AddSelectedListener(OnUserEncounterSelected);
 
         protected virtual void OnUserEncounterSelected(object sender, UserEncounterSelectedEventArgs eventArgs) 
             => CurrentUserEncounter = eventArgs.Encounter;

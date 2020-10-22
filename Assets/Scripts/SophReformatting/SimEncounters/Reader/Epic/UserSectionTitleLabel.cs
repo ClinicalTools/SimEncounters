@@ -22,8 +22,8 @@ namespace ClinicalTools.SimEncounters
         public virtual void Inject(ISelectedListener<UserSectionSelectedEventArgs> userSectionSelector)
         {
             UserSectionSelector = userSectionSelector;
-            UserSectionSelector.AddSelectedListener(OnSectionSelected);
         }
+        protected virtual void Start() => UserSectionSelector.AddSelectedListener(OnSectionSelected);
 
         protected virtual void OnSectionSelected(object sender, UserSectionSelectedEventArgs eventArgs) 
             => Label.text = eventArgs.SelectedSection.Data.Name;

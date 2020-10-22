@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -8,6 +9,9 @@ namespace ClinicalTools.SimEncounters
     {
         public List<BaseReaderPanel> PanelOptions { get => panelOptions; set => panelOptions = value; }
         [SerializeField] private List<BaseReaderPanel> panelOptions = new List<BaseReaderPanel>();
+
+        protected BaseReaderPanel.Factory ReaderPanelFactory { get; set; }
+        [Inject] public virtual void Inject(BaseReaderPanel.Factory readerPanelFactory) => ReaderPanelFactory = readerPanelFactory;
 
         public override List<BaseReaderPanel> DrawChildPanels(IEnumerable<UserPanel> childPanels)
         {
@@ -17,7 +21,8 @@ namespace ClinicalTools.SimEncounters
                 if (prefab == null)
                     continue;
 
-                var panel = Instantiate(prefab, transform);
+                var panel = ReaderPanelFactory.Create(prefab);
+                panel.transform.SetParent(transform);
                 panel.Display(childPanel);
                 panels.Add(panel);
             }

@@ -17,17 +17,22 @@ namespace ClinicalTools.SimEncounters
         public virtual ScrollRect TabButtonsScroll { get => tabButtonsScroll; set => tabButtonsScroll = value; }
         [SerializeField] private ScrollRect tabButtonsScroll;
 
-
+        protected BaseReaderTabToggle.Pool TabButtonPool { get; set; }
         protected ISelector<UserSectionSelectedEventArgs> UserSectionSelector { get; set; }
         protected ISelector<UserTabSelectedEventArgs> UserTabSelector { get; set; }
         [Inject]
         public virtual void Inject(
+            BaseReaderTabToggle.Pool tabButtonPool,
             ISelector<UserSectionSelectedEventArgs> userSectionSelector,
             ISelector<UserTabSelectedEventArgs> userTabSelector)
         {
+            TabButtonPool = tabButtonPool;
             UserSectionSelector = userSectionSelector;
-            UserSectionSelector.AddSelectedListener(OnSectionSelected);
             UserTabSelector = userTabSelector;
+        }
+        protected virtual void Start()
+        {
+            UserSectionSelector.AddSelectedListener(OnSectionSelected);
             UserTabSelector.AddSelectedListener(OnTabSelected);
         }
 
@@ -39,7 +44,7 @@ namespace ClinicalTools.SimEncounters
             Section = eventArgs.SelectedSection;
 
             foreach (var tabButton in TabButtons)
-                Destroy(tabButton.Value.gameObject);
+                TabButtonPool.Despawn(tabButton.Value);
             TabButtons.Clear();
 
             foreach (var tab in Section.Data.Tabs)
@@ -49,7 +54,9 @@ namespace ClinicalTools.SimEncounters
         protected Dictionary<UserTab, BaseReaderTabToggle> TabButtons { get; } = new Dictionary<UserTab, BaseReaderTabToggle>();
         protected void AddButton(UserTab userTab)
         {
-            var tabButton = Instantiate(TabButtonPrefab, TabButtonsParent);
+            var tabButton = TabButtonPool.Spawn();
+            tabButton.transform.SetParent(TabButtonsParent);
+            tabButton.transform.SetAsLastSibling();
             tabButton.SetToggleGroup(TabsToggleGroup);
             tabButton.Display(userTab);
             tabButton.Selected += () => OnSelected(userTab);

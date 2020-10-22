@@ -34,6 +34,7 @@ namespace ClinicalTools.SimEncounters
 
             PanelDisplay.Display(panel, transform, transform);
         }
+        protected virtual void OnDestroy() => PanelDisplay.Dispose();
 
         protected virtual void SetCharacterImage(string characterName)
         {

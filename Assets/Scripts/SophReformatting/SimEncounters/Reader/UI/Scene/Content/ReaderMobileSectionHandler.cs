@@ -47,10 +47,13 @@ namespace ClinicalTools.SimEncounters
             SwipeManager = swipeManager;
 
             UserEncounterSelector = userEncounterSelector;
-            UserEncounterSelector.AddSelectedListener(OnEncounterSelected);
             UserSectionSelector = userSectionSelector;
-            UserSectionSelector.AddSelectedListener(OnSectionSelected);
             UserTabSelector = userTabSelector;
+        }
+        protected virtual void Start()
+        {
+            UserEncounterSelector.AddSelectedListener(OnEncounterSelected);
+            UserSectionSelector.AddSelectedListener(OnSectionSelected);
             UserTabSelector.AddSelectedListener(OnTabSelected);
         }
 

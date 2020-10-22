@@ -39,6 +39,7 @@ namespace ClinicalTools.SimEncounters
             foreach (var readerPanel in readerPanels)
                 DraggableGroupUI.Add(readerPanel);
         }
+        protected virtual void OnDestroy() => BasicPanelDrawer.Dispose();
 
         private void OrderChanged(object sender, RearrangedEventArgs2 rearrangedArgs)
         {

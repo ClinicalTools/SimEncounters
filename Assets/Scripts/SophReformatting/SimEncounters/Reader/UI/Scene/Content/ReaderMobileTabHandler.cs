@@ -40,11 +40,14 @@ namespace ClinicalTools.SimEncounters
             ISelector<UserTabSelectedEventArgs> userTabSelector)
         {
             UserSectionSelector = userSectionSelector;
-            UserSectionSelector.AddSelectedListener(OnSectionSelected);
             UserTabSelector = userTabSelector;
-            UserTabSelector.AddSelectedListener(OnTabSelected);
             Curve = curve;
             SwipeManager = swipeManager;
+        }
+        protected virtual void Start()
+        {
+            UserSectionSelector.AddSelectedListener(OnSectionSelected);
+            UserTabSelector.AddSelectedListener(OnTabSelected);
         }
 
         protected UserTabDrawer Current { get; set; }

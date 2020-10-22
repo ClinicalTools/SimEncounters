@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderQuizPopupUI : UserQuizPinDrawer
+    public class ReaderQuizPopupUI : BaseUserQuizPinDrawer
     {
         public List<Button> CloseButtons { get => closeButtons; set => closeButtons = value; }
         [SerializeField] private List<Button> closeButtons = new List<Button>();
