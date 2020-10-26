@@ -4,10 +4,11 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class MobileReaderTabToggle : BaseReaderTabToggle, ICompletionDrawer
+    public class MobileReaderTabToggle : BaseReaderTabToggle
     {
         public SelectableToggle SelectToggle { get => selectToggle; set => selectToggle = value; }
         [SerializeField] private SelectableToggle selectToggle;
@@ -15,6 +16,14 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private Image selectedImage;
         public GameObject VisitedCheck { get => visitedCheck; set => visitedCheck = value; }
         [SerializeField] private GameObject visitedCheck;
+
+        protected ICompletionHandler CompletionHandler { get; set; }
+        [Inject]
+        public virtual void Inject(ICompletionHandler completionHandler)
+        {
+            CompletionHandler = completionHandler;
+            CompletionHandler.Completed += CompletionDraw;
+        }
 
         public override event Action Selected;
 
@@ -83,6 +92,7 @@ namespace ClinicalTools.SimEncounters
             SelectToggle.Select();
             UpdateIsVisited();
         }
-        public void CompletionDraw(ReaderSceneInfo readerSceneInfo) => UpdateIsVisited();
+
+        protected virtual void CompletionDraw() => UpdateIsVisited();
     }
 }

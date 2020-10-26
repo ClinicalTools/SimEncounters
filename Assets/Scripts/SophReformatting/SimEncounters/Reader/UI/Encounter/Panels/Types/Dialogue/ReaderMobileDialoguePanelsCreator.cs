@@ -57,7 +57,7 @@ namespace ClinicalTools.SimEncounters
         protected virtual BaseReaderPanel CreateEntry(UserPanel panel)
         {
             var values = panel.Data.Values;
-            BaseReaderPanel entryPrefab = 
+            BaseReaderPanel entryPrefab =
                 (values.ContainsKey(CharacterNameKey) && values[CharacterNameKey] == ProviderName) ?
                 DialogueEntryRight : DialogueEntryLeft;
 

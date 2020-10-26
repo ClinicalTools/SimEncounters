@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderDialoguePopupUI : BaseUserDialoguePinDrawer
+    public class ReaderDialoguePopupUI : BaseUserDialoguePinDrawer, ISelector<UserDialoguePin>
     {
         public List<Button> CloseButtons { get => closeButtons; set => closeButtons = value; }
         [SerializeField] private List<Button> closeButtons = new List<Button>();
@@ -26,6 +26,7 @@ namespace ClinicalTools.SimEncounters
 
         public override void Display(UserDialoguePin dialoguePin)
         {
+            Select(this, dialoguePin);
             SetPanelsAsRead(dialoguePin.GetPanels());
 
             gameObject.SetActive(true);
@@ -57,5 +58,11 @@ namespace ClinicalTools.SimEncounters
                     panel.SetRead(true);
             }
         }
+
+        protected ISelector<UserDialoguePin> Selector { get; } = new Selector<UserDialoguePin>();
+        public UserDialoguePin CurrentValue => Selector.CurrentValue;
+        public void Select(object sender, UserDialoguePin eventArgs) => Selector.Select(sender, eventArgs);
+        public void AddSelectedListener(SelectedHandler<UserDialoguePin> handler) => Selector.AddSelectedListener(handler);
+        public void RemoveSelectedListener(SelectedHandler<UserDialoguePin> handler) => Selector.RemoveSelectedListener(handler);
     }
 }

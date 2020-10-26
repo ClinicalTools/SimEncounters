@@ -25,23 +25,25 @@ namespace ClinicalTools.SimEncounters
         protected virtual void OnDestroy() => TabSelector.RemoveSelectedListener(OnTabSelected);
 
         protected UserTab CurrentTab { get; set; }
-        protected List<ReaderPanelBehaviour> Children { get; } = new List<ReaderPanelBehaviour>();
+        protected Dictionary<UserPanel, ReaderPanelBehaviour> Children { get; } = new Dictionary<UserPanel, ReaderPanelBehaviour>();
         protected virtual void OnTabSelected(object sender, UserTabSelectedEventArgs eventArgs)
         {
-            if (CurrentTab == eventArgs.SelectedTab)
+            if (CurrentTab == eventArgs.SelectedTab) {
+                foreach (var child in Children)
+                    child.Value.Select(this, new UserPanelSelectedEventArgs(child.Key, eventArgs.ChangeType != ChangeType.Inactive));
                 return;
+            }
 
             CurrentTab = eventArgs.SelectedTab;
 
             foreach (var child in Children)
-                Destroy(child.gameObject);
-            Children.Clear();
-            Children.AddRange(DrawChildPanels(eventArgs.SelectedTab.GetPanels(), eventArgs.ChangeType));
+                Destroy(child.Value.gameObject);
+            DrawChildPanels(eventArgs.SelectedTab.GetPanels(), eventArgs.ChangeType);
         }
 
-        protected virtual List<ReaderPanelBehaviour> DrawChildPanels(IEnumerable<UserPanel> childPanels, ChangeType changeType)
+        protected virtual void DrawChildPanels(IEnumerable<UserPanel> childPanels, ChangeType changeType)
         {
-            var panels = new List<ReaderPanelBehaviour>();
+            Children.Clear();
             foreach (var childPanel in childPanels) {
                 var prefab = GetChildPanelPrefab(childPanel);
                 if (prefab == null)
@@ -49,11 +51,9 @@ namespace ClinicalTools.SimEncounters
 
                 var panel = ReaderPanelFactory.Create(prefab);
                 panel.transform.SetParent(transform);
-                panel.Select(this, new UserPanelSelectedEventArgs(childPanel, changeType));
-                panels.Add(panel);
+                panel.Select(this, new UserPanelSelectedEventArgs(childPanel, changeType != ChangeType.Inactive));
+                Children.Add(childPanel, panel);
             }
-
-            return panels;
         }
 
         protected virtual ReaderPanelBehaviour GetChildPanelPrefab(UserPanel childPanel)

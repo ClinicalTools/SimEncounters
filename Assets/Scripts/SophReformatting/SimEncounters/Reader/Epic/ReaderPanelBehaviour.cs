@@ -1,9 +1,26 @@
-﻿using UnityEngine;
+﻿using ClinicalTools.SimEncounters.Collections;
+using UnityEngine;
 using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderPanelBehaviour : UserPanelSelectorBehaviour {
+    public abstract class BaseChildUserPanelsDrawer : MonoBehaviour
+    {
+        public abstract void Display(OrderedCollection<UserPanel> panels, bool active);
+    }
+    public abstract class BaseChildUserPinsDrawer : MonoBehaviour
+    {
+        public abstract void Display(UserPinGroup pins);
+    }
+
+    public class ReaderPanelBehaviour : UserPanelSelectorBehaviour
+    {
+        public virtual BaseChildUserPanelsDrawer ChildPanelsDrawer { get => childPanelsDrawer; set => childPanelsDrawer = value; }
+        [SerializeField] private BaseChildUserPanelsDrawer childPanelsDrawer;
+        public virtual BaseChildUserPinsDrawer PinsDrawer { get => pinsDrawer; set => pinsDrawer = value; }
+        [SerializeField] private BaseChildUserPinsDrawer pinsDrawer;
+        public virtual bool SetReadOnSelect { get => setReadOnSelect; set => setReadOnSelect = value; }
+        [SerializeField] private bool setReadOnSelect = true;
         public virtual string Type { get => type; set => type = value; }
         [SerializeField] private string type;
 
@@ -11,10 +28,16 @@ namespace ClinicalTools.SimEncounters
         {
             base.Select(sender, eventArgs);
             var userPanel = eventArgs.SelectedPanel;
-            if (eventArgs.ChangeType != ChangeType.Inactive && !userPanel.IsRead() && !userPanel.HasChildren())
+
+            if (ChildPanelsDrawer != null && userPanel.ChildPanels?.Count > 0)
+                ChildPanelsDrawer.Display(eventArgs.SelectedPanel.ChildPanels, eventArgs.Active);
+            if (PinsDrawer != null && userPanel.ChildPanels?.Count > 0)
+                PinsDrawer.Display(eventArgs.SelectedPanel.PinGroup);
+
+            if (SetReadOnSelect && eventArgs.Active && !userPanel.IsRead() && !userPanel.HasChildren())
                 userPanel.SetRead(true);
         }
 
-        public class Factory : PlaceholderFactory<Object, ReaderPanelBehaviour> { }
+        public class Factory : PlaceholderFactory<UnityEngine.Object, ReaderPanelBehaviour> { }
     }
 }

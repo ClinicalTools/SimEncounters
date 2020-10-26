@@ -7,6 +7,9 @@ namespace ClinicalTools.SimEncounters
     {
         public abstract void Display(UserDialoguePin dialoguePin);
 
-        public class Pool : MonoMemoryPool<BaseUserDialoguePinDrawer> { }
+        public class Pool : SceneMonoMemoryPool<BaseUserDialoguePinDrawer>
+        {
+            public Pool(SignalBus signalBus) : base(signalBus) { }
+        }
     }
 }

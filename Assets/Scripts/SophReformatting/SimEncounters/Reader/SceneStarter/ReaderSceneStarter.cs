@@ -1,15 +1,23 @@
 ﻿using UnityEngine;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
     public class ReaderSceneStarter : IReaderSceneStarter
     {
         protected string ScenePath { get; }
-        public ReaderSceneStarter(string scenePath) => ScenePath = scenePath;
+        protected SignalBus SignalBus { get; }
+        public ReaderSceneStarter(string scenePath, SignalBus signalBus)
+        {
+            ScenePath = scenePath;
+            SignalBus = signalBus;
+        }
 
         public virtual void StartScene(LoadingReaderSceneInfo data)
         {
             data.LoadingScreen?.Show();
+            SignalBus.Fire<SceneChangedSignal>();
+
             var loading = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(ScenePath);
             loading.completed += (asyncOperation) => InitializeScene(data);
         }

@@ -4,6 +4,8 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
+    public class SceneChangedSignal { }
+
     public class ReaderPopupInstaller : MonoInstaller
     {
         public BaseInstructionsPopup InstructionsPopup { get => instructionsPopup; set => instructionsPopup = value; }

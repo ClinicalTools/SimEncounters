@@ -12,6 +12,9 @@ namespace ClinicalTools.SimEncounters
         public abstract void SetToggleGroup(ToggleGroup group);
         public abstract void Select();
 
-        public class Pool : MonoMemoryPool<BaseReaderTabToggle> { }
+        public class Pool : SceneMonoMemoryPool<BaseReaderTabToggle>
+        {
+            public Pool(SignalBus signalBus) : base(signalBus) { }
+        }
     }
 }
