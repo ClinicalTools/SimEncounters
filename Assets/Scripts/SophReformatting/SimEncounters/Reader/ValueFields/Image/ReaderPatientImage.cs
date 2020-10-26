@@ -1,8 +1,4 @@
-﻿
-using UnityEngine;
-using UnityEngine.UI;
-
-namespace ClinicalTools.SimEncounters
+﻿namespace ClinicalTools.SimEncounters
 {
     public class ReaderPatientImage : ReaderImage
     {

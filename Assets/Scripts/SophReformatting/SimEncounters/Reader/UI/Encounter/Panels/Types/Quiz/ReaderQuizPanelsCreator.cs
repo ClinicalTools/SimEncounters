@@ -1,15 +1,18 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
     public class ReaderQuizPanelsCreator : BaseReaderPanelsCreator
     {
-        [SerializeField] private BaseReaderPanel multipleChoicePanel;
         public BaseReaderPanel MultipleChoicePanel { get => multipleChoicePanel; set => multipleChoicePanel = value; }
-        [SerializeField] private BaseReaderPanel checkBoxPanel;
+        [SerializeField] private BaseReaderPanel multipleChoicePanel;
         public BaseReaderPanel CheckBoxPanel { get => checkBoxPanel; set => checkBoxPanel = value; }
+        [SerializeField] private BaseReaderPanel checkBoxPanel;
+
+        protected BaseReaderPanel.Factory ReaderPanelFactory { get; set; }
+        [Inject] public virtual void Inject(BaseReaderPanel.Factory readerPanelFactory) => ReaderPanelFactory = readerPanelFactory;
 
         public override List<BaseReaderPanel> DrawChildPanels(IEnumerable<UserPanel> childPanels)
         {
@@ -19,7 +22,9 @@ namespace ClinicalTools.SimEncounters
                 if (prefab == null)
                     continue;
 
-                var panel = Instantiate(prefab, transform);
+                var panel = ReaderPanelFactory.Create(prefab);
+                panel.transform.SetParent(transform);
+                panel.transform.localScale = Vector3.one;
                 panel.Display(childPanel);
                 panels.Add(panel);
             }

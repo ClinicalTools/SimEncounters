@@ -63,6 +63,7 @@ namespace ClinicalTools.SimEncounters
 
             var panelDisplay = ReaderPanelFactory.Create(entryPrefab);
             panelDisplay.transform.SetParent(transform);
+            panelDisplay.transform.localScale = Vector3.one;
             panelDisplay.transform.SetAsLastSibling();
             panelDisplay.Display(panel);
             return panelDisplay;
@@ -74,6 +75,7 @@ namespace ClinicalTools.SimEncounters
 
             var panelDisplay = (BaseReaderDialogueChoice)ReaderPanelFactory.Create(DialogueChoice);
             panelDisplay.transform.SetParent(transform);
+            panelDisplay.transform.localScale = Vector3.one;
             panelDisplay.transform.SetAsLastSibling();
             panelDisplay.Display(panels[panelIndex]);
 

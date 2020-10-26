@@ -720,6 +720,7 @@ GameObject:
   - component: {fileID: 936806815001506317}
   - component: {fileID: 941152216114170813}
   - component: {fileID: 936813782693586153}
+  - component: {fileID: 8093802076013207269}
   m_Layer: 5
   m_Name: BGPanel
   m_TagString: Untagged
@@ -846,6 +847,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8093802076013207269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 909018086658639797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a586b4dc65e9d744a990fce75982b98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &909292296134715737
 GameObject:
   m_ObjectHideFlags: 0
@@ -860,6 +873,8 @@ GameObject:
   - component: {fileID: 909292296134715738}
   - component: {fileID: 4924147635260282017}
   - component: {fileID: 7405997579278632139}
+  - component: {fileID: 940808474713877665}
+  - component: {fileID: 7646057273355672661}
   m_Layer: 5
   m_Name: MobileConfirmationPopup
   m_TagString: Untagged
@@ -923,9 +938,7 @@ MonoBehaviour:
   title: {fileID: 940608760524186243}
   description: {fileID: 940620183159411423}
   confirmationButton: {fileID: 6771152574880746182}
-  cancellationButtons:
-  - {fileID: 936813782693586153}
-  - {fileID: 5607917592805522163}
+  cancellationButtons: []
   confirmationLabel: {fileID: 3525952426693663557}
   cancellationLabel: {fileID: 3521016873078136760}
 --- !u!114 &4924147635260282017
@@ -952,6 +965,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af8ad754390fa444a87e280d722e8a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &940808474713877665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 909292296134715737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 928da6488a6dbb1488a3213ca5888910, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  closeBehaviour: {fileID: 909292296134715738}
+--- !u!114 &7646057273355672661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 909292296134715737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 940808474713877665}
+  _installerPrefabs: []
+  _autoRun: 1
+  _kernel: {fileID: 0}
 --- !u!1 &4899051904657631208
 GameObject:
   m_ObjectHideFlags: 0
@@ -965,6 +1009,7 @@ GameObject:
   - component: {fileID: 7040022107755571583}
   - component: {fileID: 5607917592805522163}
   - component: {fileID: 5858977577313369690}
+  - component: {fileID: 5326586239866761891}
   m_Layer: 5
   m_Name: CancelButton
   m_TagString: Untagged
@@ -1083,6 +1128,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f158c6fe3ddf74f428e31e3a40c72b34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5326586239866761891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4899051904657631208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a586b4dc65e9d744a990fce75982b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5027107858975334029

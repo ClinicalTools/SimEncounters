@@ -837,6 +837,9 @@ GameObject:
   - component: {fileID: 2266529083857636963}
   - component: {fileID: 8479723448364485322}
   - component: {fileID: 7510998534431112954}
+  - component: {fileID: 3823677977665509833}
+  - component: {fileID: 9116517502613750836}
+  - component: {fileID: 7968039435099655868}
   m_Layer: 5
   m_Name: FinishedCasePanel
   m_TagString: Untagged
@@ -885,9 +888,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ace2f9528208f2444ad171ecd167512d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  closeButtons:
-  - {fileID: 5249011258310003644}
-  - {fileID: 7440206385734626031}
+  closeButtons: []
   menuButton: {fileID: 2341699352155878516}
   urlLabel: {fileID: 0}
   urlButton: {fileID: 2231699318615072348}
@@ -938,6 +939,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ef5f6f6efb2034c9ed557aeed68199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3823677977665509833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2226119932789522945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73f8584557d28db4c8865f3db98aacc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9116517502613750836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2226119932789522945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 928da6488a6dbb1488a3213ca5888910, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  closeBehaviour: {fileID: 3823677977665509833}
+--- !u!114 &7968039435099655868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2226119932789522945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 9116517502613750836}
+  _installerPrefabs: []
+  _autoRun: 1
+  _kernel: {fileID: 0}
 --- !u!1 &2332531261788518112
 GameObject:
   m_ObjectHideFlags: 0
@@ -2349,6 +2393,7 @@ GameObject:
   - component: {fileID: 8359774924555727018}
   - component: {fileID: 5249011258310003644}
   - component: {fileID: 6221615058768726976}
+  - component: {fileID: 8837697228062227389}
   m_Layer: 5
   m_Name: CancelButton
   m_TagString: Untagged
@@ -2449,6 +2494,18 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &8837697228062227389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4612958185995770544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a586b4dc65e9d744a990fce75982b98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4617300611357629923
 GameObject:
   m_ObjectHideFlags: 0
@@ -3659,6 +3716,7 @@ GameObject:
   - component: {fileID: 7440206385734626029}
   - component: {fileID: 7440206385734626030}
   - component: {fileID: 7440206385734626031}
+  - component: {fileID: 5880640211046348976}
   m_Layer: 5
   m_Name: DimBG
   m_TagString: Untagged
@@ -3765,6 +3823,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5880640211046348976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7440206385734620433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a586b4dc65e9d744a990fce75982b98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7643113757445014075
 GameObject:
   m_ObjectHideFlags: 0

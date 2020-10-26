@@ -18,7 +18,8 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private bool trim;
 
         private TextMeshProUGUI label;
-        protected TextMeshProUGUI Label {
+        protected TextMeshProUGUI Label
+        {
             get {
                 if (label == null)
                     label = GetComponent<TextMeshProUGUI>();

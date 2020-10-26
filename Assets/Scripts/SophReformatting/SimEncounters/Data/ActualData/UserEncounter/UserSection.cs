@@ -17,7 +17,7 @@ namespace ClinicalTools.SimEncounters
             Encounter = encounter;
             Data = data;
             Status = status;
-
+            
             foreach (var tab in data.Tabs) {
                 var userTab = new UserTab(encounter, tab.Value, status.GetTabStatus(tab.Key));
                 userTab.StatusChanged += UpdateIsRead;

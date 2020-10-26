@@ -5,6 +5,9 @@ namespace ClinicalTools.SimEncounters
 {
     public class PinButtonsInstaller : MonoInstaller
     {
+        public virtual RectTransform PoolParent { get => poolParent; set => poolParent = value; }
+        [SerializeField] private RectTransform poolParent;
+
         public virtual BaseUserPinGroupDrawer PinButtonsPrefab { get => pinButtonsPrefab; set => pinButtonsPrefab = value; }
         [SerializeField] private BaseUserPinGroupDrawer pinButtonsPrefab;
         public virtual BaseUserDialoguePinDrawer DialoguePinButtonPrefab { get => dialoguePinButtonPrefab; set => dialoguePinButtonPrefab = value; }
@@ -16,11 +19,14 @@ namespace ClinicalTools.SimEncounters
         {
             Container.Bind<IReaderPanelDisplay>().To<ReaderPanelDisplay>().AsTransient();
             Container.BindMemoryPool<BaseUserPinGroupDrawer, BaseUserPinGroupDrawer.Pool>()
-                .FromComponentInNewPrefab(PinButtonsPrefab);
+                .FromComponentInNewPrefab(PinButtonsPrefab)
+                .UnderTransform(PoolParent);
             Container.BindMemoryPool<BaseUserDialoguePinDrawer, BaseUserDialoguePinDrawer.Pool>()
-                .FromComponentInNewPrefab(DialoguePinButtonPrefab);
+                .FromComponentInNewPrefab(DialoguePinButtonPrefab)
+                .UnderTransform(PoolParent);
             Container.BindMemoryPool<BaseUserQuizPinDrawer, BaseUserQuizPinDrawer.Pool>()
-                .FromComponentInNewPrefab(QuizPinButtonPrefab);
+                .FromComponentInNewPrefab(QuizPinButtonPrefab)
+                .UnderTransform(PoolParent);
         }
     }
 }

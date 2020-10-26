@@ -33,9 +33,19 @@
         public virtual void RemoveSelectedListener(SelectedHandler<TabSelectedEventArgs> handler) => TabSelector.RemoveSelectedListener(handler);
         public virtual void RemoveSelectedListener(SelectedHandler<EncounterMetadata> handler) => MetadataSelector.RemoveSelectedListener(handler);
 
+        UserEncounterSelectedEventArgs ISelectedListener<UserEncounterSelectedEventArgs>.CurrentValue => UserEncounterSelector.CurrentValue;
+        UserSectionSelectedEventArgs ISelectedListener<UserSectionSelectedEventArgs>.CurrentValue => UserSectionSelector.CurrentValue;
+        UserTabSelectedEventArgs ISelectedListener<UserTabSelectedEventArgs>.CurrentValue => UserTabSelector.CurrentValue;
+        Encounter ISelectedListener<Encounter>.CurrentValue => EncounterSelector.CurrentValue;
+        SectionSelectedEventArgs ISelectedListener<SectionSelectedEventArgs>.CurrentValue => SectionSelector.CurrentValue;
+        TabSelectedEventArgs ISelectedListener<TabSelectedEventArgs>.CurrentValue => TabSelector.CurrentValue;
+        EncounterMetadata ISelectedListener<EncounterMetadata>.CurrentValue => MetadataSelector.CurrentValue;
+
         protected UserEncounter CurrentEncounter { get; set; }
         protected UserSection CurrentSection { get; set; }
         protected UserTab CurrentTab { get; set; }
+
+
         public virtual void Select(object sender, UserEncounterSelectedEventArgs eventArgs)
         {
             CurrentEncounter = eventArgs.Encounter;

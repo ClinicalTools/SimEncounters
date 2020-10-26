@@ -18,6 +18,7 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private ScrollRectGradient scrollGradient;
 
 
+        protected UserTab CurrentTab { get; set; }
         protected ISelector<UserTabSelectedEventArgs> UserTabSelector { get; set; }
         protected BaseUserTabDrawer.Factory TabDrawerFactory { get; set; }
         [Inject]
@@ -35,6 +36,11 @@ namespace ClinicalTools.SimEncounters
         protected BaseUserTabDrawer CurrentTabDrawer { get; set; }
         protected virtual void OnTabSelected(object sender, UserTabSelectedEventArgs eventArgs)
         {
+            if (CurrentTab == eventArgs.SelectedTab)
+                return;
+
+            CurrentTab = eventArgs.SelectedTab;
+
             if (CurrentTabDrawer != null)
                 Destroy(CurrentTabDrawer.gameObject);
 

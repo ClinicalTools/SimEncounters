@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 114063812460294556}
   - component: {fileID: 3022543835062350905}
   - component: {fileID: 4897695620223548059}
-  - component: {fileID: 3025280559691738903}
+  - component: {fileID: 2313577730185738922}
   - component: {fileID: 2581844078726245418}
   - component: {fileID: 8595670845096416572}
+  - component: {fileID: 6167485303931175884}
   m_Layer: 5
   m_Name: TextboxPanel
   m_TagString: Untagged
@@ -110,7 +111,7 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &3025280559691738903
+--- !u!114 &2313577730185738922
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,9 +120,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1390136783978056}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfc52c65b1be4604584ff0bb41f4d7d8, type: 3}
+  m_Script: {fileID: 11500000, guid: 4773abaf2286229458636d535ad1ca9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: TextboxPanel
 --- !u!114 &2581844078726245418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,7 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e679ed7be15e264eb7c8576cd0a328f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectorBehaviour: {fileID: 3025280559691738903}
+  selectorBehaviour: {fileID: 2313577730185738922}
 --- !u!114 &8595670845096416572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,6 +155,18 @@ MonoBehaviour:
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
+--- !u!114 &6167485303931175884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390136783978056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa64156e307b2544e9b6bfc6bae03434, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1685764414141194
 GameObject:
   m_ObjectHideFlags: 0
@@ -165,7 +179,7 @@ GameObject:
   - component: {fileID: 222101515405070796}
   - component: {fileID: 114180560949484864}
   - component: {fileID: 114681646303398810}
-  - component: {fileID: 7110625466836729602}
+  - component: {fileID: 3578522439479101633}
   m_Layer: 5
   m_Name: CustomContentValue
   m_TagString: Untagged
@@ -310,7 +324,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &7110625466836729602
+--- !u!114 &3578522439479101633
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -319,7 +333,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1685764414141194}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f1155e9ca0f22f4481dc60a71c2419c, type: 3}
+  m_Script: {fileID: 11500000, guid: 96063da5e39c90b49806483f7b2940e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   controlledObjects: []

@@ -1,5 +1,4 @@
-﻿using ClinicalTools.UI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -8,7 +7,7 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ConfirmationPopup : BaseConfirmationPopup
+    public class ConfirmationPopup : BaseConfirmationPopup, ICloseHandler
     {
         public TextMeshProUGUI Title { get => title; set => title = value; }
         [SerializeField] private TextMeshProUGUI title;
@@ -81,5 +80,7 @@ namespace ClinicalTools.SimEncounters
             BackButton.Deregister(Cancel);
 #endif
         }
+
+        public void Close(object sender) => Cancel();
     }
 }

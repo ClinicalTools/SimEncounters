@@ -26,6 +26,11 @@ namespace ClinicalTools.SimEncounters
         protected UserSection CurrentSection { get; set; }
         protected UserTab CurrentTab { get; set; }
 
+        UserSectionSelectedEventArgs ISelectedListener<UserSectionSelectedEventArgs>.CurrentValue => UserSectionSelector.CurrentValue;
+        UserTabSelectedEventArgs ISelectedListener<UserTabSelectedEventArgs>.CurrentValue => UserTabSelector.CurrentValue;
+        SectionSelectedEventArgs ISelectedListener<SectionSelectedEventArgs>.CurrentValue => SectionSelector.CurrentValue;
+        TabSelectedEventArgs ISelectedListener<TabSelectedEventArgs>.CurrentValue => TabSelector.CurrentValue;
+
         public virtual void Select(object sender, UserSectionSelectedEventArgs eventArgs)
         {
             CurrentSection = eventArgs.SelectedSection;

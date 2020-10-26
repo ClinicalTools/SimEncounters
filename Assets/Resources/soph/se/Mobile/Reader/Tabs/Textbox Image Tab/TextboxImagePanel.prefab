@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 222362569779212166}
   - component: {fileID: 114501127972167580}
   - component: {fileID: 114489442571953798}
-  - component: {fileID: 394296980753962037}
+  - component: {fileID: 4524885937464487259}
   m_Layer: 5
   m_Name: CustomContentValue
   m_TagString: Untagged
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33255628a2c5e6b4da0576aba0d21ef5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &394296980753962037
+--- !u!114 &4524885937464487259
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -157,7 +157,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000313001149090}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f1155e9ca0f22f4481dc60a71c2419c, type: 3}
+  m_Script: {fileID: 11500000, guid: 96063da5e39c90b49806483f7b2940e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   controlledObjects: []
@@ -499,8 +499,10 @@ GameObject:
   - component: {fileID: -5714913017796127584}
   - component: {fileID: 6581964146360255722}
   - component: {fileID: 6984009271511823866}
-  - component: {fileID: 684401974819258144}
+  - component: {fileID: 4197100081504866263}
+  - component: {fileID: 3959483472903581642}
   - component: {fileID: 2819824364408680503}
+  - component: {fileID: 8332721899276634573}
   m_Layer: 5
   m_Name: TextboxImagePanel
   m_TagString: Untagged
@@ -613,7 +615,7 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &684401974819258144
+--- !u!114 &4197100081504866263
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -622,9 +624,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1611877227813298}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfc52c65b1be4604584ff0bb41f4d7d8, type: 3}
+  m_Script: {fileID: 11500000, guid: aa64156e307b2544e9b6bfc6bae03434, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3959483472903581642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611877227813298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4773abaf2286229458636d535ad1ca9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: TextboxImagePanel
 --- !u!114 &2819824364408680503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -637,7 +652,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e679ed7be15e264eb7c8576cd0a328f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectorBehaviour: {fileID: 684401974819258144}
+  selectorBehaviour: {fileID: 3959483472903581642}
+--- !u!114 &8332721899276634573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611877227813298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 2819824364408680503}
+  _installerPrefabs: []
+  _autoRun: 1
+  _kernel: {fileID: 0}
 --- !u!1 &1612708545586430
 GameObject:
   m_ObjectHideFlags: 0
@@ -928,7 +961,7 @@ GameObject:
   - component: {fileID: 3266554468298723705}
   - component: {fileID: 7409977587872644065}
   - component: {fileID: 4716494873513399520}
-  - component: {fileID: 7339167134687721297}
+  - component: {fileID: 153876189805899409}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -992,7 +1025,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7339167134687721297
+--- !u!114 &153876189805899409
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1001,7 +1034,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4449430758558682724}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd8e108b676a6d54aabb9cbe1311f457, type: 3}
+  m_Script: {fileID: 11500000, guid: 08ac57cb6cd1cc2429270b64b5c6b827, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   imageGroup: {fileID: 1147145504334888}

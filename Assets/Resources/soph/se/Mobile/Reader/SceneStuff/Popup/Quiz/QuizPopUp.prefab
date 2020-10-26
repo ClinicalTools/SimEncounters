@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 3708362104351741765}
   - component: {fileID: 3524499066243431837}
   - component: {fileID: 7123303451042498905}
+  - component: {fileID: 5047118605803261810}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -135,6 +136,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 398504981615835295}
   m_CullTransparentMesh: 0
+--- !u!114 &5047118605803261810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398504981615835295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a586b4dc65e9d744a990fce75982b98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &506227808198169402
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,6 +270,7 @@ GameObject:
   - component: {fileID: 846754251482248602}
   - component: {fileID: 666760915838246186}
   - component: {fileID: 666628351091350962}
+  - component: {fileID: 8077838419292961484}
   m_Layer: 5
   m_Name: DimPanel
   m_TagString: Untagged
@@ -363,6 +377,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8077838419292961484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 635397280148969162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a586b4dc65e9d744a990fce75982b98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &635715522116860424
 GameObject:
   m_ObjectHideFlags: 0
@@ -467,6 +493,9 @@ GameObject:
   - component: {fileID: 875395230409541496}
   - component: {fileID: 4495390728340481045}
   - component: {fileID: 6691649749118685970}
+  - component: {fileID: 2435840162092205799}
+  - component: {fileID: 643505894306896635}
+  - component: {fileID: 8406101831963649626}
   m_Layer: 5
   m_Name: QuizPopUp
   m_TagString: Untagged
@@ -535,10 +564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 904ad2ab75bd7144780a1d34cd4350e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  closeButtons:
-  - {fileID: 3250892130769927605}
-  - {fileID: 3524499066243431837}
-  - {fileID: 666628351091350962}
+  closeButtons: []
   panelCreator: {fileID: 8758818891825944591}
   scrollRect: {fileID: 2456336999681227757}
   scrollGradient: {fileID: 0}
@@ -566,6 +592,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ef5f6f6efb2034c9ed557aeed68199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2435840162092205799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 636007009255674446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73f8584557d28db4c8865f3db98aacc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &643505894306896635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 636007009255674446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 928da6488a6dbb1488a3213ca5888910, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  closeBehaviour: {fileID: 2435840162092205799}
+--- !u!114 &8406101831963649626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 636007009255674446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 643505894306896635}
+  _installerPrefabs: []
+  _autoRun: 1
+  _kernel: {fileID: 0}
 --- !u!1 &1181672282660746315
 GameObject:
   m_ObjectHideFlags: 0
@@ -965,7 +1034,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3485647594150734504
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1130,7 +1199,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1220,7 +1289,7 @@ RectTransform:
   m_AnchorMin: {x: -0.5, y: 0}
   m_AnchorMax: {x: 1.5, y: 0}
   m_AnchoredPosition: {x: 0.00012207031, y: -0.0004272461}
-  m_SizeDelta: {x: 0, y: 50.330097}
+  m_SizeDelta: {x: 0, y: 44.737865}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &6676969065588557385
 CanvasRenderer:
@@ -1330,7 +1399,7 @@ MonoBehaviour:
     m_Left: 0
     m_Right: 0
     m_Top: 0
-    m_Bottom: 90
+    m_Bottom: 80
   m_ChildAlignment: 4
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
@@ -1553,7 +1622,7 @@ RectTransform:
   m_AnchorMin: {x: -0.5, y: 1}
   m_AnchorMax: {x: 1.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 2}
-  m_SizeDelta: {x: 0, y: 50.330097}
+  m_SizeDelta: {x: 0, y: 44.737865}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &7205604265005789767
 MonoBehaviour:
@@ -1915,6 +1984,7 @@ GameObject:
   - component: {fileID: 5281566698269056180}
   - component: {fileID: 8847846268022665714}
   - component: {fileID: 8690068993084827167}
+  - component: {fileID: 5499067446265602906}
   m_Layer: 5
   m_Name: CancelButton
   m_TagString: Untagged
@@ -2127,6 +2197,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f158c6fe3ddf74f428e31e3a40c72b34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5499067446265602906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6686511256694569114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a586b4dc65e9d744a990fce75982b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7006563067774557061
@@ -2577,7 +2659,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 67.1068, y: 67.1068}
+  m_SizeDelta: {x: 59.650486, y: 59.650486}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8006301559509639562
 CanvasRenderer:

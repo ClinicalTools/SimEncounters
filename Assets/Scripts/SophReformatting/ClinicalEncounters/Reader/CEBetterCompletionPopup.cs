@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.ClinicalEncounters
 {
-    public class CEBetterCompletionPopup : BaseCompletionPopup
+    public class CEBetterCompletionPopup : MonoBehaviour
     {
         public List<Button> CloseButtons { get => closeButtons; set => closeButtons = value; }
         [SerializeField] private List<Button> closeButtons;
@@ -25,9 +26,21 @@ namespace ClinicalTools.ClinicalEncounters
         public Tooltip CopiedTooltip { get => copiedTooltip; set => copiedTooltip = value; }
         [SerializeField] private Tooltip copiedTooltip;
 
-        public override event Action ExitScene { add { } remove { } }
+        protected ISelectedListener<ReaderSceneInfo> SceneInfoSelectedListener { get; set; }
+        protected ICompletionHandler CompletionHandler { get; set; }
+        protected IUserEncounterMenuSceneStarter MenuSceneStarter { get; set; }
+        [Inject] public virtual void Inject(
+            ISelectedListener<ReaderSceneInfo> sceneInfoSelectedListener,
+            ICompletionHandler completionHandler,
+            IUserEncounterMenuSceneStarter menuSceneStarter)
+        {
+            SceneInfoSelectedListener = sceneInfoSelectedListener;
+            CompletionHandler = completionHandler;
+            CompletionHandler.Completed += CompletionDraw;
+            MenuSceneStarter = menuSceneStarter;
+        }
 
-        protected virtual void Awake()
+        protected virtual void Start()
         {
             MenuButton.gameObject.SetActive(true);
             foreach (var closeButton in CloseButtons)
@@ -38,8 +51,9 @@ namespace ClinicalTools.ClinicalEncounters
         }
 
         protected CEEncounterMetadata CurrentMetadata { get; set; }
-        public override void CompletionDraw(ReaderSceneInfo sceneInfo)
+        protected virtual void CompletionDraw() 
         {
+            var sceneInfo = SceneInfoSelectedListener.CurrentValue;
             var encounter = sceneInfo.Encounter.Data;
 
             gameObject.SetActive(true);

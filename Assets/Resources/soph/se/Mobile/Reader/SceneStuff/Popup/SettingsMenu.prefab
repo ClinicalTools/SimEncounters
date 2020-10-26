@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 5458641129346537949}
   - component: {fileID: 7476521874188579040}
   - component: {fileID: 6599409183348554132}
+  - component: {fileID: 3793858211148115603}
   m_Layer: 5
   m_Name: CancelButton
   m_TagString: Untagged
@@ -245,6 +246,18 @@ MonoBehaviour:
   scale: 0.5
   sizeWidth: 1
   sizeHeight: 1
+--- !u!114 &3793858211148115603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3966585648453891792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a586b4dc65e9d744a990fce75982b98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7134598006475539478
 GameObject:
   m_ObjectHideFlags: 0
@@ -1187,6 +1200,7 @@ GameObject:
   - component: {fileID: 7134598007126092495}
   - component: {fileID: 7134598007126092492}
   - component: {fileID: 7134598007126092493}
+  - component: {fileID: 7857259476969444593}
   m_Layer: 5
   m_Name: DimBG
   m_TagString: Untagged
@@ -1293,6 +1307,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7857259476969444593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7134598007126092483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a586b4dc65e9d744a990fce75982b98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7134598007414702585
 GameObject:
   m_ObjectHideFlags: 0
@@ -2798,6 +2824,9 @@ GameObject:
   - component: {fileID: 7134598008301428784}
   - component: {fileID: 7134598008301428797}
   - component: {fileID: 8482724473209567943}
+  - component: {fileID: 8225230730414609765}
+  - component: {fileID: 5195846781389799914}
+  - component: {fileID: 8070248693846929073}
   m_Layer: 5
   m_Name: SettingsMenu
   m_TagString: Untagged
@@ -2846,9 +2875,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75061cd2504fb8541aa43f8299739f0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  closeButtons:
-  - {fileID: 7134598007126092493}
-  - {fileID: 2714460560099410891}
+  closeButtons: []
 --- !u!114 &7134598008301428784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2893,6 +2920,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ef5f6f6efb2034c9ed557aeed68199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8225230730414609765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7134598008301428790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73f8584557d28db4c8865f3db98aacc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5195846781389799914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7134598008301428790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 928da6488a6dbb1488a3213ca5888910, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  closeBehaviour: {fileID: 8225230730414609765}
+--- !u!114 &8070248693846929073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7134598008301428790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 5195846781389799914}
+  _installerPrefabs: []
+  _autoRun: 1
+  _kernel: {fileID: 0}
 --- !u!1 &7827098679700808622
 GameObject:
   m_ObjectHideFlags: 0

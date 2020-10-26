@@ -7,6 +7,7 @@
     }
     public interface ISelectedListener<T>
     {
+        T CurrentValue { get; }
         void AddSelectedListener(SelectedHandler<T> handler);
         void RemoveSelectedListener(SelectedHandler<T> handler);
     }

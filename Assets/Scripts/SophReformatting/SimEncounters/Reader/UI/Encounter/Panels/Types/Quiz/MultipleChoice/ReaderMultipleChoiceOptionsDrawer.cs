@@ -1,8 +1,8 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -15,6 +15,9 @@ namespace ClinicalTools.SimEncounters
         public virtual Transform FeedbackParent { get => feedbackParent; set => feedbackParent = value; }
         [SerializeField] private Transform feedbackParent;
 
+        protected BaseReaderPanel.Factory ReaderPanelFactory { get; set; }
+        [Inject] public virtual void Inject(BaseReaderPanel.Factory readerPanelFactory) => ReaderPanelFactory = readerPanelFactory;
+
         public override List<BaseReaderOptionPanel> DrawChildPanels(IEnumerable<UserPanel> childPanels)
         {
             var options = new List<BaseReaderOptionPanel>();
@@ -23,7 +26,9 @@ namespace ClinicalTools.SimEncounters
                 if (prefab == null)
                     continue;
 
-                var option = Instantiate(prefab, transform);
+                var option = (BaseReaderMultipleChoiceOption)ReaderPanelFactory.Create(prefab);
+                option.transform.SetParent(transform);
+                option.transform.localScale = Vector3.one;
                 option.Display(childPanel);
                 option.SetToggleGroup(ToggleGroup);
                 option.SetFeedbackParent(FeedbackParent);
