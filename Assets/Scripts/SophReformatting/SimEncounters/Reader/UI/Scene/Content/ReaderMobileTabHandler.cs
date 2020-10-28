@@ -9,16 +9,16 @@ namespace ClinicalTools.SimEncounters
 {
     public class ReaderMobileTabHandler : MonoBehaviour
     {
-        public UserTabDrawer TabDrawer1 { get => tabContent1; set => tabContent1 = value; }
-        [SerializeField] private UserTabDrawer tabContent1;
-        public UserTabDrawer TabDrawer2 { get => tabDrawer2; set => tabDrawer2 = value; }
-        [SerializeField] private UserTabDrawer tabDrawer2;
-        public UserTabDrawer TabDrawer3 { get => tabDrawer3; set => tabDrawer3 = value; }
-        [SerializeField] private UserTabDrawer tabDrawer3;
-        public UserTabDrawer TabDrawer4 { get => tabDrawer4; set => tabDrawer4 = value; }
-        [SerializeField] private UserTabDrawer tabDrawer4;
+        public ReaderTabContent TabDrawer1 { get => tabContent1; set => tabContent1 = value; }
+        [SerializeField] private ReaderTabContent tabContent1;
+        public ReaderTabContent TabDrawer2 { get => tabDrawer2; set => tabDrawer2 = value; }
+        [SerializeField] private ReaderTabContent tabDrawer2;
+        public ReaderTabContent TabDrawer3 { get => tabDrawer3; set => tabDrawer3 = value; }
+        [SerializeField] private ReaderTabContent tabDrawer3;
+        public ReaderTabContent TabDrawer4 { get => tabDrawer4; set => tabDrawer4 = value; }
+        [SerializeField] private ReaderTabContent tabDrawer4;
 
-        protected UserTabDrawer[] Contents { get; } = new UserTabDrawer[4];
+        protected ReaderTabContent[] Contents { get; } = new ReaderTabContent[4];
 
         protected virtual void Awake()
         {
@@ -50,10 +50,10 @@ namespace ClinicalTools.SimEncounters
             UserTabSelector.AddSelectedListener(OnTabSelected);
         }
 
-        protected UserTabDrawer Current { get; set; }
-        protected UserTabDrawer Next { get; set; }
-        protected UserTabDrawer Last { get; set; }
-        protected UserTabDrawer Leaving { get; set; }
+        protected ReaderTabContent Current { get; set; }
+        protected ReaderTabContent Next { get; set; }
+        protected ReaderTabContent Last { get; set; }
+        protected ReaderTabContent Leaving { get; set; }
 
         protected virtual OrderedCollection<UserTab> Tabs { get; set; }
         protected virtual void OnSectionSelected(object sender, UserSectionSelectedEventArgs eventArgs)
@@ -96,7 +96,7 @@ namespace ClinicalTools.SimEncounters
             Last = null;
             Next = null;
 
-            var unusedContent = new Stack<UserTabDrawer>();
+            var unusedContent = new Stack<ReaderTabContent>();
             foreach (var tabContent in Contents) {
                 if (tabContent.Tab == null)
                     unusedContent.Push(tabContent);
@@ -119,11 +119,11 @@ namespace ClinicalTools.SimEncounters
             if (nextTab != null && Next == null)
                 Next = unusedContent.Pop();
 
-            Current.ChangeTab(sender, eventArgs);
+            Current.Select(sender, eventArgs);
             if (Last != null)
-                Last.ChangeTab(this, new UserTabSelectedEventArgs(lastTab, ChangeType.Inactive));
+                Last.Select(this, new UserTabSelectedEventArgs(lastTab, ChangeType.Inactive));
             if (Next != null)
-                Next.ChangeTab(this, new UserTabSelectedEventArgs(nextTab, ChangeType.Inactive));
+                Next.Select(this, new UserTabSelectedEventArgs(nextTab, ChangeType.Inactive));
 
             TabDraw();
         }
@@ -156,9 +156,9 @@ namespace ClinicalTools.SimEncounters
                 return ShiftBackward(Leaving);
         }
 
-        protected IEnumerator ShiftForward(UserTabDrawer leavingContent)
+        protected IEnumerator ShiftForward(ReaderTabContent leavingContent)
             => Shift(Curve.ShiftForward(leavingContent.RectTransform, Current.RectTransform));
-        protected IEnumerator ShiftBackward(UserTabDrawer leavingContent)
+        protected IEnumerator ShiftBackward(ReaderTabContent leavingContent)
             => Shift(Curve.ShiftBackward(leavingContent.RectTransform, Current.RectTransform));
         protected IEnumerator Shift(IEnumerator enumerator)
         {

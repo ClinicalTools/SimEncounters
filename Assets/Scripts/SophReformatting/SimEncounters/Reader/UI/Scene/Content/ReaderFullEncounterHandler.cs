@@ -72,10 +72,10 @@ namespace ClinicalTools.SimEncounters
             foreach (var sectionDrawer in SectionDrawers)
                 sectionDrawer.Display(eventArgs);
         }
-        public virtual void Display(UserTabSelectedEventArgs eventArgs)
+        public virtual void Select(UserTabSelectedEventArgs eventArgs)
         {
             foreach (var tabDrawer in TabDrawers)
-                tabDrawer.Display(eventArgs);
+                tabDrawer.Select(eventArgs);
         }
 
         protected virtual void OnSectionSelected(object sender, UserSectionSelectedEventArgs e)

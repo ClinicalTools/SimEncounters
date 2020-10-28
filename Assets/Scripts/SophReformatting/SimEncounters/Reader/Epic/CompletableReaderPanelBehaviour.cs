@@ -6,10 +6,12 @@ namespace ClinicalTools.SimEncounters
     {
         public bool IsCompleted { get; protected set; } = false;
         public virtual event Action Completed;
-        public void SetCompleted()
+        public virtual void SetCompleted()
         {
             IsCompleted = true;
             Completed?.Invoke();
+
+            CurrentPanel.SetChildPanelsRead(true);
         }
     }
 }

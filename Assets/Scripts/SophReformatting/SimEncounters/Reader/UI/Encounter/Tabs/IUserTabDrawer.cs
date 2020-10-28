@@ -2,6 +2,6 @@
 {
     public interface IUserTabDrawer
     {
-        void Display(UserTabSelectedEventArgs eventArgs);
+        void Select(UserTabSelectedEventArgs eventArgs);
     }
 }

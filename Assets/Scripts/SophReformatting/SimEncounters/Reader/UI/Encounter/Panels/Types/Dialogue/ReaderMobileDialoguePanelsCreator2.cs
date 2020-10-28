@@ -1,4 +1,5 @@
-﻿using ClinicalTools.SimEncounters.UI;
+﻿using ClinicalTools.SimEncounters.Collections;
+using ClinicalTools.SimEncounters.UI;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,7 +7,7 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderMobileDialoguePanelsCreator2 : MonoBehaviour
+    public class ReaderMobileDialoguePanelsCreator2 : BaseChildUserPanelsDrawer
     {
         public Image Background { get => background; set => background = value; }
         [SerializeField] private Image background;
@@ -20,31 +21,18 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private CompletableReaderPanelBehaviour dialogueChoice;
 
         protected ReaderPanelBehaviour.Factory ReaderPanelFactory { get; set; }
-        protected ISelector<UserDialoguePin> PinSelector { get; set; }
         [Inject]
-        public virtual void Inject(
-            ISelector<UserDialoguePin> pinSelector,
-            ReaderPanelBehaviour.Factory readerPanelFactory)
-        {
-            PinSelector = pinSelector;
-            ReaderPanelFactory = readerPanelFactory;
-        }
-        protected virtual void Start() => PinSelector.AddSelectedListener(OnPinSelected);
-        protected virtual void OnDestroy() => PinSelector.RemoveSelectedListener(OnPinSelected);
+        public virtual void Inject(ReaderPanelBehaviour.Factory readerPanelFactory)
+            => ReaderPanelFactory = readerPanelFactory;
 
-        protected virtual void OnPinSelected(object sender, UserDialoguePin dialoguePin)
-            => DrawChildPanels(dialoguePin.GetPanels());
-
-        protected virtual List<ReaderPanelBehaviour> DrawChildPanels(IEnumerable<UserPanel> childPanels)
+        public override void Display(OrderedCollection<UserPanel> panels, bool active)
         {
             foreach (Transform child in transform)
                 Destroy(child.gameObject);
 
-            var panels = new List<ReaderPanelBehaviour>();
-            var childList = new List<UserPanel>(childPanels);
-            DeserializeChildren(panels, childList, 0);
-
-            return panels;
+            var panelBehaviours = new List<ReaderPanelBehaviour>();
+            var childList = new List<UserPanel>(panels.Values);
+            DeserializeChildren(panelBehaviours, childList, 0);
         }
 
         protected virtual void DeserializeChildren(List<ReaderPanelBehaviour> readerPanels, List<UserPanel> panels, int startIndex)

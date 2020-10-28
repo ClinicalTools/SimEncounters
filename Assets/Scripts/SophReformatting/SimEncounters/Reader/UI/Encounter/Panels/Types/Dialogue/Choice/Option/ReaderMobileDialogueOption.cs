@@ -26,19 +26,12 @@ namespace ClinicalTools.SimEncounters
 
         public override event Action<BaseReaderDialogueOption> CorrectlySelected;
 
-        protected IReaderPanelDisplay BasicPanelDrawer { get; set; }
-        [Inject] public virtual void Inject(IReaderPanelDisplay basicPanelDrawer) => BasicPanelDrawer = basicPanelDrawer;
-
         protected virtual void Awake()
         {
             OffColor = OnColor;
             OffSprite = Toggle.image.sprite;
             Toggle.onValueChanged.AddListener(GetFeedback);
         }
-
-        public override void Display(UserPanel panel)
-            => BasicPanelDrawer.Display(panel, transform, transform);
-        protected virtual void OnDestroy() => BasicPanelDrawer.Dispose();
 
         protected virtual void GetFeedback(bool isOn)
         {

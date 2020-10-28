@@ -42,8 +42,19 @@ namespace ClinicalTools.SimEncounters
         {
             if (Status.Read == read)
                 return;
+
             Status.Read = read;
             StatusChanged?.Invoke();
+        }
+        public void SetChildPanelsRead(bool read)
+        {
+            if (ChildPanels.Count == 0) {
+                SetRead(true);
+                return;
+            }
+
+            foreach (var childPanel in ChildPanels.Values)
+                childPanel.SetChildPanelsRead(read);
         }
 
         public virtual OrderedCollection<UserPanel> ChildPanels { get; } = new OrderedCollection<UserPanel>();

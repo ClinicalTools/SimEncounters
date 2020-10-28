@@ -4,12 +4,6 @@ namespace ClinicalTools.SimEncounters
 {
     public class ReaderPanelDisplay : IReaderPanelDisplay
     {
-        protected BaseUserPinGroupDrawer.Pool PinButtonsPool { get; }
-        public ReaderPanelDisplay(BaseUserPinGroupDrawer.Pool pinButtonsPool)
-        {
-            PinButtonsPool = pinButtonsPool;
-        }
-
         public virtual void Display(UserPanel userPanel, Transform panelTransform, Transform pinParent)
         {
             CreatePinButtons(userPanel, pinParent);
@@ -22,11 +16,7 @@ namespace ClinicalTools.SimEncounters
             if (userPanel.PinGroup == null)
                 return null;
 
-            PinButtons = PinButtonsPool.Spawn();
-            PinButtons.transform.SetParent(pinParent);
-            PinButtons.Display(userPanel.PinGroup);
-
-            return PinButtons;
+            return null;
         }
 
         protected virtual IPanelField[] InitializePanelValueFields(UserPanel userPanel, Transform transform)
@@ -63,7 +53,7 @@ namespace ClinicalTools.SimEncounters
         {
             if (PinButtons == null)
                 return;
-            PinButtonsPool.Despawn(PinButtons);
+            //PinButtonsPool.Despawn(PinButtons);
             PinButtons = null;
         }
     }

@@ -6,7 +6,7 @@ using Zenject;
 namespace ClinicalTools.SimEncounters
 {
     [RequireComponent(typeof(Image))]
-    public class MobileReaderImage2 : UIBehaviour
+    public class MobileReaderPanelImage : UIBehaviour
     {
         private float width;
 

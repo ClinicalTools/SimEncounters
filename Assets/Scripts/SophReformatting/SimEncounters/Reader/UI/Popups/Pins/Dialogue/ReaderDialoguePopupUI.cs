@@ -9,14 +9,13 @@ namespace ClinicalTools.SimEncounters
     {
         public List<Button> CloseButtons { get => closeButtons; set => closeButtons = value; }
         [SerializeField] private List<Button> closeButtons = new List<Button>();
-        public BaseReaderPanelsCreator PanelCreator { get => panelCreator; set => panelCreator = value; }
-        [SerializeField] private BaseReaderPanelsCreator panelCreator;
+        public BaseChildUserPanelsDrawer PanelCreator { get => panelCreator; set => panelCreator = value; }
+        [SerializeField] private BaseChildUserPanelsDrawer panelCreator;
         public ScrollRect ScrollRect { get => scrollRect; set => scrollRect = value; }
         [SerializeField] private ScrollRect scrollRect;
         public ScrollRectGradient ScrollGradient { get => scrollGradient; set => scrollGradient = value; }
         [SerializeField] private ScrollRectGradient scrollGradient;
 
-        protected List<BaseReaderPanel> ReaderPanels { get; set; }
 
         protected virtual void Awake()
         {
@@ -27,11 +26,10 @@ namespace ClinicalTools.SimEncounters
         public override void Display(UserDialoguePin dialoguePin)
         {
             Select(this, dialoguePin);
-            SetPanelsAsRead(dialoguePin.GetPanels());
 
             gameObject.SetActive(true);
 
-            ReaderPanels = PanelCreator.DrawChildPanels(dialoguePin.GetPanels());
+            PanelCreator.Display(dialoguePin.Panels, true);
 
             ScrollRect.normalizedPosition = Vector2.one;
             if (ScrollGradient != null)
@@ -40,23 +38,7 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void Hide()
         {
-            if (ReaderPanels != null) {
-                foreach (var readerPanel in ReaderPanels)
-                    Destroy(readerPanel.gameObject);
-            }
-
             gameObject.SetActive(false);
-        }
-
-        protected virtual void SetPanelsAsRead(IEnumerable<UserPanel> panels)
-        {
-            foreach (var panel in panels) {
-                var childPanels = new List<UserPanel>(panel.GetChildPanels());
-                if (childPanels.Count > 0)
-                    SetPanelsAsRead(childPanels);
-                else
-                    panel.SetRead(true);
-            }
         }
 
         protected ISelector<UserDialoguePin> Selector { get; } = new Selector<UserDialoguePin>();

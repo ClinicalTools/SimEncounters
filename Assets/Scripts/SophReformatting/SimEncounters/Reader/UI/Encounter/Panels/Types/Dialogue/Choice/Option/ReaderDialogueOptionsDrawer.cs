@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClinicalTools.SimEncounters.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,7 +7,7 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderDialogueOptionsDrawer : BaseDialogueOptionsDrawer
+    public class ReaderDialogueOptionsDrawer : BaseChildUserPanelsDrawer
     {
         protected List<BaseReaderDialogueOption> PanelOptions { get => panelOptions; set => panelOptions = value; }
         [SerializeField] private List<BaseReaderDialogueOption> panelOptions = new List<BaseReaderDialogueOption>();
@@ -15,29 +16,39 @@ namespace ClinicalTools.SimEncounters
         public virtual Transform FeedbackParent { get => feedbackParent; set => feedbackParent = value; }
         [SerializeField] private Transform feedbackParent;
 
-        protected BaseReaderPanel.Factory ReaderPanelFactory { get; set; }
-        [Inject] public virtual void Inject(BaseReaderPanel.Factory readerPanelFactory) => ReaderPanelFactory = readerPanelFactory;
-
-        public override List<BaseReaderDialogueOption> DrawChildPanels(IEnumerable<UserPanel> childPanels)
+        protected ReaderPanelBehaviour.Factory ReaderPanelFactory { get; set; }
+        protected IPanelCompletedHandler PanelCompletedHandler { get; set; }
+        [Inject]
+        public virtual void Inject(
+            ReaderPanelBehaviour.Factory readerPanelFactory,
+            IPanelCompletedHandler panelCompletedHandler)
         {
-            var options = new List<BaseReaderDialogueOption>();
-            foreach (var childPanel in childPanels) {
-                var prefab = GetChildPanelPrefab(childPanel);
-                if (prefab == null)
-                    continue;
-
-                var option = (BaseReaderDialogueOption)ReaderPanelFactory.Create(prefab);
-                option.transform.SetParent(transform);
-                option.transform.localScale = Vector3.one;
-                option.Display(childPanel);
-                option.SetGroup(toggleGroup);
-                if (FeedbackParent != null)
-                    option.SetFeedbackParent(FeedbackParent);
-                options.Add(option);
-            }
-
-            return options;
+            ReaderPanelFactory = readerPanelFactory;
+            PanelCompletedHandler = panelCompletedHandler;
         }
+        public override void Display(OrderedCollection<UserPanel> panels, bool active)
+        {
+            foreach (var panel in panels.Values)
+                DisplayOption(panel, active);
+        }
+
+        protected virtual void DisplayOption(UserPanel panel, bool active)
+        {
+            var prefab = GetChildPanelPrefab(panel);
+            if (prefab == null)
+                return;
+
+            var option = (BaseReaderDialogueOption)ReaderPanelFactory.Create(prefab);
+            option.transform.SetParent(transform);
+            option.transform.localScale = Vector3.one;
+            option.Select(this, new UserPanelSelectedEventArgs(panel, true));
+            option.SetGroup(toggleGroup);
+            if (FeedbackParent != null)
+                option.SetFeedbackParent(FeedbackParent);
+            option.CorrectlySelected += OnOptionSelectedCorrectly;
+        }
+
+        private void OnOptionSelectedCorrectly(BaseReaderDialogueOption obj) => PanelCompletedHandler.SetCompleted();
 
         protected virtual BaseReaderDialogueOption GetChildPanelPrefab(UserPanel childPanel)
         {

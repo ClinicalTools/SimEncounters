@@ -28,6 +28,11 @@ namespace ClinicalTools.SimEncounters
         protected BaseUserQuizPinDrawer QuizButton { get; set; }
         public override void Display(UserPinGroup pinGroup)
         {
+            if (pinGroup == null || (pinGroup.DialoguePin == null && pinGroup.QuizPin == null)) {
+                gameObject.SetActive(false);
+                return;
+            }
+
             transform.localScale = Vector3.one;
             DisplayDialoguePin(pinGroup.DialoguePin);
             DisplayQuizPin(pinGroup.QuizPin);

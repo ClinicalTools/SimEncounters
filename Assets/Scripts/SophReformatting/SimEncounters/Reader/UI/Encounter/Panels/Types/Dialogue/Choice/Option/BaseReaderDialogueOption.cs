@@ -1,10 +1,11 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public abstract class BaseReaderDialogueOption : BaseReaderPanel
+    public abstract class BaseReaderDialogueOption : ReaderPanelBehaviour
     {
         public abstract event Action<BaseReaderDialogueOption> CorrectlySelected;
         public abstract void SetGroup(ToggleGroup group);

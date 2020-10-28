@@ -1,4 +1,5 @@
-﻿using ClinicalTools.SimEncounters.UI;
+﻿using ClinicalTools.SimEncounters.Collections;
+using ClinicalTools.SimEncounters.UI;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,35 +7,35 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderMobileDialoguePanelsCreator : BaseReaderPanelsCreator
+    public class ReaderMobileDialoguePanelsCreator : BaseChildUserPanelsDrawer
     {
         public Image Background { get => background; set => background = value; }
         [SerializeField] private Image background;
         public ColorType ChoiceBackgroundColor { get => choiceBackgroundColor; set => choiceBackgroundColor = value; }
         [SerializeField] private ColorType choiceBackgroundColor;
-        public BaseReaderPanel DialogueEntryLeft { get => dialogueEntryLeft; set => dialogueEntryLeft = value; }
-        [SerializeField] private BaseReaderPanel dialogueEntryLeft;
-        public BaseReaderPanel DialogueEntryRight { get => dialogueEntryRight; set => dialogueEntryRight = value; }
-        [SerializeField] private BaseReaderPanel dialogueEntryRight;
-        public BaseReaderDialogueChoice DialogueChoice { get => dialogueChoice; set => dialogueChoice = value; }
-        [SerializeField] private BaseReaderDialogueChoice dialogueChoice;
+        public ReaderPanelBehaviour DialogueEntryLeft { get => dialogueEntryLeft; set => dialogueEntryLeft = value; }
+        [SerializeField] private ReaderPanelBehaviour dialogueEntryLeft;
+        public ReaderPanelBehaviour DialogueEntryRight { get => dialogueEntryRight; set => dialogueEntryRight = value; }
+        [SerializeField] private ReaderPanelBehaviour dialogueEntryRight;
+        public CompletableReaderPanelBehaviour DialogueChoice { get => dialogueChoice; set => dialogueChoice = value; }
+        [SerializeField] private CompletableReaderPanelBehaviour dialogueChoice;
 
-        protected BaseReaderPanel.Factory ReaderPanelFactory { get; set; }
-        [Inject] public virtual void Inject(BaseReaderPanel.Factory readerPanelFactory) => ReaderPanelFactory = readerPanelFactory;
+        protected ReaderPanelBehaviour.Factory ReaderPanelFactory { get; set; }
+        [Inject]
+        public virtual void Inject(ReaderPanelBehaviour.Factory readerPanelFactory)
+            => ReaderPanelFactory = readerPanelFactory;
 
-        public override List<BaseReaderPanel> DrawChildPanels(IEnumerable<UserPanel> childPanels)
+        public override void Display(OrderedCollection<UserPanel> panels, bool active)
         {
             foreach (Transform child in transform)
                 Destroy(child.gameObject);
 
-            var panels = new List<BaseReaderPanel>();
-            var childList = new List<UserPanel>(childPanels);
-            DeserializeChildren(panels, childList, 0);
-
-            return panels;
+            var panelBehaviours = new List<ReaderPanelBehaviour>();
+            var childList = new List<UserPanel>(panels.Values);
+            DeserializeChildren(panelBehaviours, childList, 0);
         }
 
-        protected virtual void DeserializeChildren(List<BaseReaderPanel> readerPanels, List<UserPanel> panels, int startIndex)
+        protected virtual void DeserializeChildren(List<ReaderPanelBehaviour> readerPanels, List<UserPanel> panels, int startIndex)
         {
             Background.color = Color.white;
 
@@ -54,10 +55,10 @@ namespace ClinicalTools.SimEncounters
 
         private const string CharacterNameKey = "characterName";
         private const string ProviderName = "Provider";
-        protected virtual BaseReaderPanel CreateEntry(UserPanel panel)
+        protected virtual ReaderPanelBehaviour CreateEntry(UserPanel panel)
         {
             var values = panel.Data.Values;
-            BaseReaderPanel entryPrefab =
+            ReaderPanelBehaviour entryPrefab =
                 (values.ContainsKey(CharacterNameKey) && values[CharacterNameKey] == ProviderName) ?
                 DialogueEntryRight : DialogueEntryLeft;
 
@@ -65,19 +66,19 @@ namespace ClinicalTools.SimEncounters
             panelDisplay.transform.SetParent(transform);
             panelDisplay.transform.localScale = Vector3.one;
             panelDisplay.transform.SetAsLastSibling();
-            panelDisplay.Display(panel);
+            panelDisplay.Select(this, new UserPanelSelectedEventArgs(panel, true));
             return panelDisplay;
         }
 
-        protected virtual BaseReaderDialogueChoice CreateChoice(List<BaseReaderPanel> readerPanels, List<UserPanel> panels, int panelIndex)
+        protected virtual CompletableReaderPanelBehaviour CreateChoice(List<ReaderPanelBehaviour> readerPanels, List<UserPanel> panels, int panelIndex)
         {
             Background.color = ColorManager.GetColor(ChoiceBackgroundColor);
 
-            var panelDisplay = (BaseReaderDialogueChoice)ReaderPanelFactory.Create(DialogueChoice);
+            var panelDisplay = (CompletableReaderPanelBehaviour)ReaderPanelFactory.Create(DialogueChoice);
             panelDisplay.transform.SetParent(transform);
             panelDisplay.transform.localScale = Vector3.one;
             panelDisplay.transform.SetAsLastSibling();
-            panelDisplay.Display(panels[panelIndex]);
+            panelDisplay.Select(this, new UserPanelSelectedEventArgs(panels[panelIndex], true));
 
             panelDisplay.Completed += () => DeserializeChildren(readerPanels, panels, panelIndex + 1);
             return panelDisplay;

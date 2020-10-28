@@ -69,7 +69,7 @@ namespace ClinicalTools.SimEncounters
         }
 
         protected UserTab CurrentTab { get; set; }
-        public override void Display(UserTabSelectedEventArgs eventArgs)
+        public override void Select(UserTabSelectedEventArgs eventArgs)
         {
             if (CurrentTab == eventArgs.SelectedTab)
                 return;

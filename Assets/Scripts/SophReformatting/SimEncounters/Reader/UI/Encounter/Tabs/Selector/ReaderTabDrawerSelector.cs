@@ -8,14 +8,14 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private Transform tabParent;
 
         protected BaseUserTabDrawer CurrentTabDrawer { get; set; }
-        public override void Display(UserTabSelectedEventArgs eventArgs)
+        public override void Select(UserTabSelectedEventArgs eventArgs)
         {
             if (CurrentTabDrawer != null)
                 Destroy(CurrentTabDrawer.gameObject);
 
             var prefab = GetTabPrefab(eventArgs.SelectedTab.Data);
             CurrentTabDrawer = Instantiate(prefab, TabParent);
-            CurrentTabDrawer.Display(eventArgs);
+            CurrentTabDrawer.Select(eventArgs);
         }
 
         protected virtual BaseUserTabDrawer GetTabPrefab(Tab tab)

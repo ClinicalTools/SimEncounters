@@ -82,7 +82,7 @@ namespace ClinicalTools.SimEncounters
             SetPanelsAsRead(CurrentTab.GetPanels());
 
             foreach (var tabDrawer in TabDrawers)
-                tabDrawer.Display(eventArgs);
+                tabDrawer.Select(eventArgs);
         }
 
         protected virtual void SetPanelsAsRead(IEnumerable<UserPanel> panels)

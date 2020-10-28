@@ -407,6 +407,8 @@ GameObject:
   - component: {fileID: 1880644559514467187}
   - component: {fileID: 862968132557011101}
   - component: {fileID: 8670520943367375255}
+  - component: {fileID: 5059886803020530253}
+  - component: {fileID: 590173050481901931}
   m_Layer: 5
   m_Name: DialogueQuizQuestionOption
   m_TagString: Untagged
@@ -455,6 +457,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45ed3bfbf0a6c5f4097c2320353e35dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  childPanelsDrawer: {fileID: 0}
+  pinsDrawer: {fileID: 0}
+  setReadOnSelect: 1
   type: DialogueOption
   correctlySelectedObject: {fileID: 7443034130472933728}
   normalObject: {fileID: 7062322165350313439}
@@ -508,6 +513,37 @@ MonoBehaviour:
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+--- !u!114 &5059886803020530253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750773782943250669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e679ed7be15e264eb7c8576cd0a328f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectorBehaviour: {fileID: 1880644559514467187}
+--- !u!114 &590173050481901931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750773782943250669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 5059886803020530253}
+  _installerPrefabs: []
+  _autoRun: 1
+  _kernel: {fileID: 0}
 --- !u!1 &751372370772998851
 GameObject:
   m_ObjectHideFlags: 0

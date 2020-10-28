@@ -13,6 +13,8 @@ namespace ClinicalTools.SimEncounters
                       .FromFactory<PrefabFactory<BaseReaderPanel>>();
             Container.BindFactory<Object, ReaderPanelBehaviour, ReaderPanelBehaviour.Factory>()
                       .FromFactory<PrefabFactory<ReaderPanelBehaviour>>();
+            Container.BindFactory<string, UserTabSelectorBehaviour, UserTabSelectorBehaviour.Factory>()
+                      .FromFactory<PrefabResourceFactory<UserTabSelectorBehaviour>>();
         }
     }
 }

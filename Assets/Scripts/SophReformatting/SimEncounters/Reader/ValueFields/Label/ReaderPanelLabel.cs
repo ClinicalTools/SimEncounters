@@ -5,7 +5,7 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderLabelField2 : BaseValueField
+    public class ReaderPanelLabel : BaseValueField
     {
         public override string Name => name;
         public override string Value => Label.text;

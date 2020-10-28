@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -12,6 +13,8 @@ namespace ClinicalTools.SimEncounters
         UserTabSelectedEventArgs ISelectedListener<UserTabSelectedEventArgs>.CurrentValue => UserTabSelector.CurrentValue;
         TabSelectedEventArgs ISelectedListener<TabSelectedEventArgs>.CurrentValue => TabSelector.CurrentValue;
 
+        protected UserTab CurrentTab { get; set; }
+
         public virtual void AddSelectedListener(SelectedHandler<UserTabSelectedEventArgs> handler) => UserTabSelector.AddSelectedListener(handler);
         public virtual void AddSelectedListener(SelectedHandler<TabSelectedEventArgs> handler) => TabSelector.AddSelectedListener(handler);
 
@@ -20,8 +23,11 @@ namespace ClinicalTools.SimEncounters
 
         public virtual void Select(object sender, UserTabSelectedEventArgs eventArgs)
         {
+            CurrentTab = eventArgs.SelectedTab;
             UserTabSelector.Select(sender, eventArgs);
             TabSelector.Select(sender, new TabSelectedEventArgs(eventArgs.SelectedTab.Data));
         }
+
+        public class Factory : PlaceholderFactory<string, UserTabSelectorBehaviour> { }
     }
 }
