@@ -14,7 +14,8 @@ namespace ClinicalTools.SimEncounters
                 return difficultyUI;
             }
         }
-        protected override void OnMetadataSelected(object sender, EncounterMetadata metadata)
-            => DifficultyUI.Display(metadata.Difficulty);
+
+        protected override void OnMetadataSelected(object sender, EncounterMetadataSelectedEventArgs eventArgs)
+            => DifficultyUI.Display(eventArgs.Metadata.Difficulty);
     }
 }

@@ -25,8 +25,11 @@ namespace ClinicalTools.SimEncounters
         protected UserTabSelectorBehaviour CurrentTabDrawer { get; set; }
         protected virtual void OnTabSelected(object sender, UserTabSelectedEventArgs eventArgs)
         {
-            if (CurrentTab == eventArgs.SelectedTab)
+            if (CurrentTab == eventArgs.SelectedTab) {
+                if (CurrentTabDrawer != null)
+                    CurrentTabDrawer.Select(sender, eventArgs);
                 return;
+            }
 
             CurrentTab = eventArgs.SelectedTab;
 

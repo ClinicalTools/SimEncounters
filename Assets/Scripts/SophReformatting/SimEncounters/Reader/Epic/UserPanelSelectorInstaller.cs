@@ -9,6 +9,6 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private UserPanelSelectorBehaviour selectorBehaviour;
 
         public override void InstallBindings()
-            => Container.BindInterfacesTo<UserPanelSelectorBehaviour>().FromInstance(SelectorBehaviour);
+            => Container.BindInterfacesTo(SelectorBehaviour.GetType()).FromInstance(SelectorBehaviour);
     }
 }

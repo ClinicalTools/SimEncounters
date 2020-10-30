@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 namespace ClinicalTools.SimEncounters
 {
     public class EncounterReadStarter : IEncounterStarter

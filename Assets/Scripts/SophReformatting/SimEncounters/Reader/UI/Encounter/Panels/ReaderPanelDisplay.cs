@@ -53,7 +53,7 @@ namespace ClinicalTools.SimEncounters
         {
             if (PinButtons == null)
                 return;
-            //PinButtonsPool.Despawn(PinButtons);
+
             PinButtons = null;
         }
     }

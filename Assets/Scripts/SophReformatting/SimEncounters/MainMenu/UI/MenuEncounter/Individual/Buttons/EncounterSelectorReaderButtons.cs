@@ -15,21 +15,33 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private bool useCaps;
 
         protected IEncounterStarter EncounterStarter { get; set; }
-        [Inject] protected virtual void Inject(IEncounterStarter encounterStarter) => EncounterStarter = encounterStarter;
+        protected virtual ISelectedListener<MenuSceneInfoSelectedEventArgs> SceneInfoSelectedListener { get; set; }
+        protected virtual ISelectedListener<MenuEncounterSelectedEventArgs> MenuEncounterSelectedListener { get; set; }
+        [Inject]
+        public virtual void Inject(
+            IEncounterStarter encounterStarter,
+            ISelectedListener<MenuSceneInfoSelectedEventArgs> sceneInfoSelectedListener,
+            ISelectedListener<MenuEncounterSelectedEventArgs> menuEncounterSelectedListener)
+        {
+            EncounterStarter = encounterStarter;
+            SceneInfoSelectedListener = sceneInfoSelectedListener;
+            MenuEncounterSelectedListener = menuEncounterSelectedListener;
+            MenuEncounterSelectedListener.AddSelectedListener(MenuEncounterSelected);
+        }
 
         protected virtual void Awake() => ReadButton.onClick.AddListener(StartEncounter);
 
-        protected MenuSceneInfo SceneInfo { get; set; }
-        protected MenuEncounter MenuEncounter { get; set; }
-        public override void Display(MenuSceneInfo sceneInfo, MenuEncounter menuEncounter)
+        protected virtual void MenuEncounterSelected(object sender, MenuEncounterSelectedEventArgs eventArgs)
         {
-            SceneInfo = sceneInfo;
-            MenuEncounter = menuEncounter;
+            if (eventArgs.SelectionType != EncounterSelectionType.Read) {
+                gameObject.SetActive(false);
+                return;
+            }
 
             gameObject.SetActive(true);
 
             ReadButton.gameObject.SetActive(true);
-            var readText = GetReadButtonText(menuEncounter.Status);
+            var readText = GetReadButtonText(eventArgs.Encounter.Status);
             if (UseCaps)
                 readText = readText.ToUpper();
             ReadText.text = readText;
@@ -47,6 +59,9 @@ namespace ClinicalTools.SimEncounters
                 return "Continue Case";
         }
 
-        public virtual void StartEncounter() =>  EncounterStarter.StartEncounter(SceneInfo, MenuEncounter);
+        public virtual void StartEncounter()
+        {
+            EncounterStarter.StartEncounter(SceneInfoSelectedListener.CurrentValue.SceneInfo, MenuEncounterSelectedListener.CurrentValue.Encounter);
+        }            
     }
 }

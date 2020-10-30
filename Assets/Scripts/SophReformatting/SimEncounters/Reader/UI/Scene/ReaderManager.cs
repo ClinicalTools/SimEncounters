@@ -23,23 +23,20 @@ namespace ClinicalTools.SimEncounters
         public List<GameObject> NonStandaloneSceneObjects { get => nonStandaloneSceneObjects; set => nonStandaloneSceneObjects = value; }
         [SerializeField] private List<GameObject> nonStandaloneSceneObjects;
 
-        protected ISelector<LoadingReaderSceneInfo> LoadingSceneInfoSelector { get; set; }
+        protected ISelector<LoadingReaderSceneInfoSelectedEventArgs> LoadingSceneInfoSelector { get; set; }
         protected IMetadataReader MetadataReader { get; set; }
         protected IUserEncounterReader EncounterReader { get; set; }
         protected IEncounterQuickStarter EncounterQuickStarter { get; set; }
         protected QuickActionFactory LinkActionFactory { get; set; }
         [Inject]
         public virtual void Inject(
-            ISelector<LoadingReaderSceneInfo> loadingSceneInfoSelector,
+            ISelector<LoadingReaderSceneInfoSelectedEventArgs> loadingSceneInfoSelector,
             IMetadataReader metadataReader, 
             IUserEncounterReader encounterReader, 
             IEncounterQuickStarter encounterQuickStarter,
             QuickActionFactory linkActionFactory)
         {
             LoadingSceneInfoSelector = loadingSceneInfoSelector;
-            if (started && SceneInfo != null)
-                LoadingSceneInfoSelector.Select(this, SceneInfo);
-
             MetadataReader = metadataReader;
             EncounterReader = encounterReader;
             EncounterQuickStarter = encounterQuickStarter;
@@ -52,7 +49,7 @@ namespace ClinicalTools.SimEncounters
             base.Start();
             started = true;
             if (SceneInfo != null)
-                LoadingSceneInfoSelector?.Select(this, SceneInfo);
+                LoadingSceneInfoSelector.Select(this, new LoadingReaderSceneInfoSelectedEventArgs(SceneInfo));
         }
 
         protected override void StartAsInitialScene()
@@ -109,9 +106,8 @@ namespace ClinicalTools.SimEncounters
 #if !STANDALONE_SCENE
             DeepLinkManager.Instance.LinkActivated += Instance_LinkActivated;
 #endif
-            ReaderDrawer.Display(sceneInfo);
             if (started)
-                LoadingSceneInfoSelector?.Select(this, sceneInfo);
+                LoadingSceneInfoSelector.Select(this, new LoadingReaderSceneInfoSelectedEventArgs(SceneInfo));
         }
 
 

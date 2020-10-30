@@ -1,52 +1,56 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class MainMenuEncounterUI : MonoBehaviour
+    public class MainMenuEncounterUI : MonoBehaviour,
+        ISelector<MenuEncounterSelectedEventArgs>,
+        ISelectedListener<EncounterMetadataSelectedEventArgs>
     {
-        public event Action<MenuEncounter> Selected;
+        protected Selector<MenuEncounterSelectedEventArgs> EncounterSelector { get; } = new Selector<MenuEncounterSelectedEventArgs>();
+        protected Selector<EncounterMetadataSelectedEventArgs> MetadataSelector { get; } = new Selector<EncounterMetadataSelectedEventArgs>();
 
         public virtual Button SelectButton { get => selectButton; set => selectButton = value; }
         [SerializeField] private Button selectButton;
-        public virtual EncounterButtonsUI EncounterButtons { get => encounterButtons; set => encounterButtons = value; }
-        [SerializeField] private EncounterButtonsUI encounterButtons;
-        public virtual EncounterInfoUI InfoViewer { get => infoViewer; set => infoViewer = value; }
-        [SerializeField] private EncounterInfoUI infoViewer;
         public virtual GameObject InProgressObject { get => inProgressObject; set => inProgressObject = value; }
         [SerializeField] private GameObject inProgressObject;
         public virtual GameObject CompletedObject { get => completedObject; set => completedObject = value; }
         [SerializeField] private GameObject completedObject;
 
-        public virtual void DisplayForRead(MenuSceneInfo sceneInfo, MenuEncounter encounter)
-        {
-            Display(sceneInfo, encounter);
+        protected virtual BaseMenuEncounterOverview MenuEncounterOverview { get; set; }
+        [Inject] public virtual void Inject(BaseMenuEncounterOverview menuEncounterOverview) => MenuEncounterOverview = menuEncounterOverview;
 
-            if (EncounterButtons != null)
-                EncounterButtons.DisplayForRead(sceneInfo, encounter);
+        MenuEncounterSelectedEventArgs ISelectedListener<MenuEncounterSelectedEventArgs>.CurrentValue => EncounterSelector.CurrentValue;
+        EncounterMetadataSelectedEventArgs ISelectedListener<EncounterMetadataSelectedEventArgs>.CurrentValue => MetadataSelector.CurrentValue;
+
+
+        protected virtual void Start() => SelectButton.onClick.AddListener(OnSelected);
+        protected virtual void OnSelected() => MenuEncounterOverview.Select(this, EncounterSelector.CurrentValue);
+
+        public void AddSelectedListener(SelectedHandler<MenuEncounterSelectedEventArgs> handler)
+            => EncounterSelector.AddSelectedListener(handler);
+        public void AddSelectedListener(SelectedHandler<EncounterMetadataSelectedEventArgs> handler)
+            => MetadataSelector.AddSelectedListener(handler);
+
+        public void RemoveSelectedListener(SelectedHandler<EncounterMetadataSelectedEventArgs> handler)
+            => MetadataSelector.RemoveSelectedListener(handler);
+        public void RemoveSelectedListener(SelectedHandler<MenuEncounterSelectedEventArgs> handler)
+            => EncounterSelector.RemoveSelectedListener(handler);
+
+        public void Select(object sender, MenuEncounterSelectedEventArgs eventArgs)
+        {
+            EncounterSelector.Select(sender, eventArgs);
+            MetadataSelector.Select(sender, new EncounterMetadataSelectedEventArgs(eventArgs.Encounter.GetLatestMetadata()));
+
+            var status = eventArgs.Encounter.Status;
+            CompletedObject.SetActive(status?.Completed == true);
+            InProgressObject.SetActive(status?.Completed == false);
         }
 
-        public virtual void DisplayForEdit(MenuSceneInfo sceneInfo, MenuEncounter encounter)
+        public class Pool : SceneMonoMemoryPool<MainMenuEncounterUI>
         {
-            Display(sceneInfo, encounter);
-
-            if (EncounterButtons != null)
-                EncounterButtons.DisplayForEdit(sceneInfo, encounter);
-        }
-
-        protected virtual void Display(MenuSceneInfo sceneInfo, MenuEncounter encounter)
-        {
-            if (InfoViewer != null)
-                InfoViewer.Display(encounter.GetLatestMetadata());
-            SelectButton.onClick.AddListener(() => Selected?.Invoke(encounter));
-
-            if (encounter.Status != null) {
-                if (encounter.Status.Completed)
-                    CompletedObject.SetActive(true);
-                else
-                    InProgressObject.SetActive(true);
-            }
+            public Pool(SignalBus signalBus) : base(signalBus) { }
         }
     }
 }

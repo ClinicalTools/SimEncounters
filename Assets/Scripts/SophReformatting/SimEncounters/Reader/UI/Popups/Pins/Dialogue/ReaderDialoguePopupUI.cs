@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderDialoguePopupUI : BaseUserDialoguePinDrawer, ISelector<UserDialoguePin>
+    public class ReaderDialoguePopupUI : BaseUserDialoguePinDrawer, ISelector<UserDialoguePinSelectedEventArgs>
     {
         public List<Button> CloseButtons { get => closeButtons; set => closeButtons = value; }
         [SerializeField] private List<Button> closeButtons = new List<Button>();
@@ -25,7 +25,7 @@ namespace ClinicalTools.SimEncounters
 
         public override void Display(UserDialoguePin dialoguePin)
         {
-            Select(this, dialoguePin);
+            Select(this, new UserDialoguePinSelectedEventArgs(dialoguePin));
 
             gameObject.SetActive(true);
 
@@ -41,10 +41,10 @@ namespace ClinicalTools.SimEncounters
             gameObject.SetActive(false);
         }
 
-        protected ISelector<UserDialoguePin> Selector { get; } = new Selector<UserDialoguePin>();
-        public UserDialoguePin CurrentValue => Selector.CurrentValue;
-        public void Select(object sender, UserDialoguePin eventArgs) => Selector.Select(sender, eventArgs);
-        public void AddSelectedListener(SelectedHandler<UserDialoguePin> handler) => Selector.AddSelectedListener(handler);
-        public void RemoveSelectedListener(SelectedHandler<UserDialoguePin> handler) => Selector.RemoveSelectedListener(handler);
+        protected ISelector<UserDialoguePinSelectedEventArgs> Selector { get; } = new Selector<UserDialoguePinSelectedEventArgs>();
+        public UserDialoguePinSelectedEventArgs CurrentValue => Selector.CurrentValue;
+        public void Select(object sender, UserDialoguePinSelectedEventArgs eventArgs) => Selector.Select(sender, eventArgs);
+        public void AddSelectedListener(SelectedHandler<UserDialoguePinSelectedEventArgs> handler) => Selector.AddSelectedListener(handler);
+        public void RemoveSelectedListener(SelectedHandler<UserDialoguePinSelectedEventArgs> handler) => Selector.RemoveSelectedListener(handler);
     }
 }

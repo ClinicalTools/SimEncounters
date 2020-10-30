@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -17,6 +16,7 @@ namespace ClinicalTools.SimEncounters
             }
         }
 
-        protected override void OnMetadataSelected(object sender, EncounterMetadata metadata) => Image.sprite = metadata.Sprite;
+        protected override void OnMetadataSelected(object sender, EncounterMetadataSelectedEventArgs eventArgs) 
+            => Image.sprite = eventArgs.Metadata.Sprite;
     }
 }

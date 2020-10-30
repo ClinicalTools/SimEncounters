@@ -1,9 +1,8 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-
     public class EncounterButtonsUI : MonoBehaviour
     {
         public BaseEncounterSelectorButtons ReadButtons { get => readButtons; set => readButtons = value; }
@@ -13,10 +12,22 @@ namespace ClinicalTools.SimEncounters
         public BaseEncounterSelectorButtons TemplateButtons { get => templateButtons; set => templateButtons = value; }
         [SerializeField] private BaseEncounterSelectorButtons templateButtons;
 
+        protected virtual ISelectedListener<MenuEncounterSelectedEventArgs> MenuEncounterSelectedListener { get; set; }
+        [Inject]
+        public virtual void Inject(ISelectedListener<MenuEncounterSelectedEventArgs> menuEncounterSelectedListener)
+        {
+            MenuEncounterSelectedListener = menuEncounterSelectedListener;
+            MenuEncounterSelectedListener.AddSelectedListener(MenuEncounterSelected);
+        }
+
+        protected virtual void MenuEncounterSelected(object sender, MenuEncounterSelectedEventArgs eventArgs)
+        {
+
+        }
         public virtual void DisplayForRead(MenuSceneInfo sceneInfo, MenuEncounter menuEncounter)
         {
-            if (ReadButtons)
-                ReadButtons.Display(sceneInfo, menuEncounter);
+            //if (ReadButtons)
+                //ReadButtons.Display(sceneInfo, menuEncounter);
             if (WriteButtons)
                 WriteButtons.Hide();
             if (TemplateButtons)
@@ -41,8 +52,8 @@ namespace ClinicalTools.SimEncounters
 
             if (hideButtons)
                 hideButtons.Hide();
-            if (displayButtons)
-                displayButtons.Display(sceneInfo, menuEncounter);
+            //if (displayButtons)
+                //displayButtons.Display(sceneInfo, menuEncounter);
         }
     }
 }

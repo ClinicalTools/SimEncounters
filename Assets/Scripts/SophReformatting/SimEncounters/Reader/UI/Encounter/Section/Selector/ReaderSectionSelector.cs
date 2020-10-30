@@ -90,7 +90,7 @@ namespace ClinicalTools.SimEncounters
             foreach (var sectionButton in SectionButtons) {
                 if (sectionButton.Key == CurrentSection)
                     continue;
-                sectionButton.Value.SelectToggle.Toggle.isOn = false;
+                sectionButton.Value.Deselect();
             }
         }
     }

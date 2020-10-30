@@ -13,11 +13,11 @@ namespace ClinicalTools.SimEncounters
 
         protected IUserEncounterMenuSceneStarter MenuSceneStarter { get; set; }
 
-        protected ISelectedListener<LoadingReaderSceneInfo> LoadingReaderSceneInfoSelector { get; set; }
+        protected ISelectedListener<LoadingReaderSceneInfoSelectedEventArgs> LoadingReaderSceneInfoSelector { get; set; }
         [Inject]
         public virtual void Inject(
             IUserEncounterMenuSceneStarter menuSceneStarter,
-            ISelectedListener<LoadingReaderSceneInfo> loadingReaderSceneInfoTabSelector)
+            ISelectedListener<LoadingReaderSceneInfoSelectedEventArgs> loadingReaderSceneInfoTabSelector)
         {
             LoadingReaderSceneInfoSelector = loadingReaderSceneInfoTabSelector;
             MenuSceneStarter = menuSceneStarter;
@@ -27,9 +27,11 @@ namespace ClinicalTools.SimEncounters
         protected virtual void Awake() => Button.onClick.AddListener(OpenMenu);
         protected virtual void OnDestroy() 
             => LoadingReaderSceneInfoSelector.RemoveSelectedListener(OnLoadingReaderSceneInfoSelected);
+
         protected LoadingReaderSceneInfo SceneInfo { get; set; }
-        protected virtual void OnLoadingReaderSceneInfoSelected(object sender, LoadingReaderSceneInfo sceneInfo)
-            => SceneInfo = sceneInfo;
+        protected virtual void OnLoadingReaderSceneInfoSelected(object sender, LoadingReaderSceneInfoSelectedEventArgs eventArgs)
+            => SceneInfo = eventArgs.SceneInfo;
+
         protected virtual void OpenMenu()
         {
             var loadingScreen = SceneInfo.LoadingScreen;

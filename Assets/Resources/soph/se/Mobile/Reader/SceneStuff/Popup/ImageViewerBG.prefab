@@ -437,8 +437,8 @@ GameObject:
   - component: {fileID: 2773124826138862251}
   - component: {fileID: 2795844087842807587}
   - component: {fileID: 8403169991972029984}
-  - component: {fileID: 2168228100847816501}
-  - component: {fileID: 5207694245065525178}
+  - component: {fileID: 4270222765722381356}
+  - component: {fileID: 2505118572540197456}
   - component: {fileID: 6316978977896802539}
   m_Layer: 5
   m_Name: ImageViewerBG
@@ -564,7 +564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ef5f6f6efb2034c9ed557aeed68199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2168228100847816501
+--- !u!114 &4270222765722381356
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -573,10 +573,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6954318987453315205}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73f8584557d28db4c8865f3db98aacc1, type: 3}
+  m_Script: {fileID: 11500000, guid: 21f5c220ed97a944a9f5bb10c889183d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5207694245065525178
+--- !u!114 &2505118572540197456
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -585,10 +585,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6954318987453315205}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 928da6488a6dbb1488a3213ca5888910, type: 3}
+  m_Script: {fileID: 11500000, guid: 21ccc177d44becc4da7398ed3530450d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  closeBehaviour: {fileID: 2168228100847816501}
+  behaviours:
+  - {fileID: 4270222765722381356}
 --- !u!114 &6316978977896802539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -603,7 +604,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
-  - {fileID: 5207694245065525178}
+  - {fileID: 2505118572540197456}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}

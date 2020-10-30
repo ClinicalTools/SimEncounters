@@ -8,7 +8,7 @@ namespace ClinicalTools.SimEncounters
         public override void Install(DiContainer container)
         {
             SignalBusInstaller.Install(Container);
-            Container.DeclareSignal<SceneChangedSignal>();
+            Container.DeclareSignal<SceneChangedSignal>().OptionalSubscriber();
 
             container.Bind<ICurve>().To<AccCurve>().AsTransient();
             container.Bind<IShifter>().To<Shifter>().AsTransient();

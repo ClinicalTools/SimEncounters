@@ -27,22 +27,23 @@ namespace ClinicalTools.SimEncounters
                 return label;
             }
         }
-        protected ISelectedListener<Panel> PanelSelectedListener { get; set; }
+        protected ISelectedListener<PanelSelectedEventArgs> PanelSelectedListener { get; set; }
         [Inject]
-        public virtual void Inject(ISelectedListener<Panel> panelSelectedListener) 
-            => PanelSelectedListener = panelSelectedListener;
-
-
-        protected virtual void Start() => PanelSelectedListener.AddSelectedListener(OnPanelSelected);
-        protected virtual void OnDestroy() => PanelSelectedListener.RemoveSelectedListener(OnPanelSelected);
-        protected virtual void OnPanelSelected(object sender, Panel panel)
+        public virtual void Inject(ISelectedListener<PanelSelectedEventArgs> panelSelectedListener)
         {
-            if (!panel.Values.ContainsKey(Name)) {
+            PanelSelectedListener = panelSelectedListener; 
+            PanelSelectedListener.AddSelectedListener(OnPanelSelected);
+        }
+
+        protected virtual void OnDestroy() => PanelSelectedListener.RemoveSelectedListener(OnPanelSelected);
+        protected virtual void OnPanelSelected(object sender, PanelSelectedEventArgs eventArgs)
+        {
+            if (!eventArgs.Panel.Values.ContainsKey(Name)) {
                 HideControlledObjects();
                 return;
             }
 
-            var value = panel.Values[Name];
+            var value = eventArgs.Panel.Values[Name];
             SetText(value);
 
             if (string.IsNullOrWhiteSpace(value))

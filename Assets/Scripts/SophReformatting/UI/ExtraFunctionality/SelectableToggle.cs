@@ -18,16 +18,38 @@ namespace ClinicalTools.UI
         {
             if (initialized)
                 return;
+            initialized = true;
             toggle.onValueChanged.AddListener(ToggleChanged);
         }
 
-        public void Select()
+        public virtual void Select()
         {
             Initialize();
             // changing to selected color should be instantaneous here, so fade duration needs to be temporarily changed
             var fadeDuration = Toggle.colors.fadeDuration;
             SetToggleFadeDuration(0);
             Toggle.isOn = true;
+            SetToggleFadeDuration(fadeDuration);
+        }
+
+        public virtual void SelectWithNoNotify()
+        {
+            Initialize();
+            // changing to selected color should be instantaneous here, so fade duration needs to be temporarily changed
+            var fadeDuration = Toggle.colors.fadeDuration;
+            SetToggleFadeDuration(0);
+            Toggle.SetIsOnWithoutNotify(true);
+            Toggle.interactable = false;
+            SetToggleFadeDuration(fadeDuration);
+        }
+        public virtual void DeselectWithNoNotify()
+        {
+            Initialize();
+            // changing to selected color should be instantaneous here, so fade duration needs to be temporarily changed
+            var fadeDuration = Toggle.colors.fadeDuration;
+            SetToggleFadeDuration(0);
+            Toggle.SetIsOnWithoutNotify(false);
+            Toggle.interactable = true;
             SetToggleFadeDuration(fadeDuration);
         }
 

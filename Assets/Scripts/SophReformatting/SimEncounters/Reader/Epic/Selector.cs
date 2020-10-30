@@ -1,6 +1,9 @@
-﻿namespace ClinicalTools.SimEncounters
+﻿using System;
+
+namespace ClinicalTools.SimEncounters
 {
     public class Selector<T> : ISelector<T>
+        where T : EventArgs
     {
         public event SelectedHandler<T> Selected;
 

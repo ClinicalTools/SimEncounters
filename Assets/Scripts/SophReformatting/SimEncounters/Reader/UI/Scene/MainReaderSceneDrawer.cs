@@ -4,6 +4,7 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
+
     public class MainReaderSceneDrawer : BaseReaderSceneDrawer
     {
         public List<MonoBehaviour> ReaderObjects { get => readerObjects; }

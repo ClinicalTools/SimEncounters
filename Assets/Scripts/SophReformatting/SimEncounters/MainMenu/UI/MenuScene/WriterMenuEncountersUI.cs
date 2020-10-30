@@ -13,8 +13,8 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private ChangeSidePanelScript showEncountersToggle;
         public ChangeSidePanelScript ShowTemplatesToggle { get => showTemplatesToggle; set => showTemplatesToggle = value; }
         [SerializeField] private ChangeSidePanelScript showTemplatesToggle;
-        public OverviewUI Overview { get => overview; set => overview = value; }
-        [SerializeField] private OverviewUI overview;
+        public MenuEncounterOverview Overview { get => overview; set => overview = value; }
+        [SerializeField] private MenuEncounterOverview overview;
 
         public MenuSceneInfo SceneInfo { get; set; }
 
@@ -25,7 +25,6 @@ namespace ClinicalTools.SimEncounters
                 return;
             IsOn = true;
 
-            EncounterSelector.EncounterSelected += EncounterSelected;
             ShowEncountersToggle.Selected += DisplayEncounters;
             ShowTemplatesToggle.Selected += DisplayTemplates;
         }
@@ -35,12 +34,12 @@ namespace ClinicalTools.SimEncounters
                 return;
             IsOn = false;
 
-            EncounterSelector.EncounterSelected -= EncounterSelected;
             ShowEncountersToggle.Selected -= DisplayEncounters;
             ShowTemplatesToggle.Selected -= DisplayTemplates;
         }
 
-        private void EncounterSelected(MenuEncounter encounter) => Overview.DisplayForEdit(SceneInfo, encounter);
+        private void EncounterSelected(MenuEncounter encounter) 
+            => Overview.Select(this, new MenuEncounterSelectedEventArgs(encounter, EncounterSelectionType.Edit));
 
         public void Initialize()
         {
@@ -77,13 +76,11 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void DisplayEncounters()
         {
-            Overview.Hide();
             if (SceneInfo != null)
                 DisplayEncounters(SceneInfo.MenuEncountersInfo.GetUserEncounters());
         }
         protected virtual void DisplayTemplates()
         {
-            Overview.Hide();
             if (SceneInfo != null) 
                 DisplayEncounters(SceneInfo.MenuEncountersInfo.GetTemplates());
         }
@@ -96,7 +93,6 @@ namespace ClinicalTools.SimEncounters
             EncounterSelector.Hide();
             ShowTemplatesToggle.Hide();
             ShowEncountersToggle.Hide();
-            Overview.Hide();
         }
     }
 }

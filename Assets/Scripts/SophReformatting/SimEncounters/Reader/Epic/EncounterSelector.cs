@@ -1,15 +1,15 @@
 ﻿namespace ClinicalTools.SimEncounters
 {
-    public class EncounterSelector : Selector<Encounter>
+    public class EncounterSelector : Selector<EncounterSelectedEventArgs>
     {
-        protected ISelector<EncounterMetadata> MetadataSelector { get; }
-        public EncounterSelector(ISelector<EncounterMetadata> metadataSelector)
+        protected ISelector<EncounterMetadataSelectedEventArgs> MetadataSelector { get; }
+        public EncounterSelector(ISelector<EncounterMetadataSelectedEventArgs> metadataSelector)
             => MetadataSelector = metadataSelector;
 
-        public override void Select(object sender, Encounter value)
+        public override void Select(object sender, EncounterSelectedEventArgs eventArgs)
         {
-            base.Select(sender, value);
-            MetadataSelector.Select(this, value.Metadata);
+            base.Select(sender, eventArgs);
+            MetadataSelector.Select(this, new EncounterMetadataSelectedEventArgs(eventArgs.Encounter.Metadata));
         }
     }
 }

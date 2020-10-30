@@ -17,12 +17,8 @@ namespace ClinicalTools.SimEncounters
         public ChangeSidePanelScript ShowEncountersToggle { get => showEncountersToggle; set => showEncountersToggle = value; }
         [SerializeField] private ChangeSidePanelScript showEncountersToggle;
 
-        public OverviewUI Overview { get => overview; set => overview = value; }
-        [SerializeField] private OverviewUI overview;
-
         public List<GameObject> DownloadingMessageObjects { get => downloadingMessageObjects; set => downloadingMessageObjects = value; }
         [SerializeField] private List<GameObject> downloadingMessageObjects;
-
 
         public MenuSceneInfo SceneInfo { get; set; }
 
@@ -35,7 +31,6 @@ namespace ClinicalTools.SimEncounters
 
             ShowCategoriesToggle.Selected += DisplayCategories;
             CategorySelector.CategorySelected += CategorySelected;
-            EncounterSelector.EncounterSelected += EncounterSelected;
         }
         protected virtual void RemoveListeners()
         {
@@ -45,7 +40,6 @@ namespace ClinicalTools.SimEncounters
 
             ShowCategoriesToggle.Selected -= DisplayCategories;
             CategorySelector.CategorySelected -= CategorySelected;
-            EncounterSelector.EncounterSelected -= EncounterSelected;
         }
 
         public override void Display(LoadingMenuSceneInfo loadingSceneInfo)
@@ -88,7 +82,6 @@ namespace ClinicalTools.SimEncounters
         {
             ShowEncountersToggle.Hide();
             EncounterSelector.Hide();
-            Overview.Hide();
 
             CategorySelector.Show();
         }
@@ -101,7 +94,6 @@ namespace ClinicalTools.SimEncounters
             EncounterSelector.DisplayForRead(SceneInfo, category.Encounters);
         }
 
-        protected virtual void EncounterSelected(MenuEncounter menuEncounter) => Overview.DisplayForRead(SceneInfo, menuEncounter);
         public override void Hide()
         {
             RemoveListeners();
@@ -110,7 +102,6 @@ namespace ClinicalTools.SimEncounters
             EncounterSelector.Hide();
             ShowCategoriesToggle.Hide();
             ShowEncountersToggle.Hide();
-            Overview.Hide();
         }
     }
 }

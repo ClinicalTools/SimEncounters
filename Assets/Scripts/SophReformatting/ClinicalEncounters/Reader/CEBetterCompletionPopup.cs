@@ -26,11 +26,11 @@ namespace ClinicalTools.ClinicalEncounters
         public Tooltip CopiedTooltip { get => copiedTooltip; set => copiedTooltip = value; }
         [SerializeField] private Tooltip copiedTooltip;
 
-        protected ISelectedListener<ReaderSceneInfo> SceneInfoSelectedListener { get; set; }
+        protected ISelectedListener<ReaderSceneInfoSelectedEventArgs> SceneInfoSelectedListener { get; set; }
         protected ICompletionHandler CompletionHandler { get; set; }
         protected IUserEncounterMenuSceneStarter MenuSceneStarter { get; set; }
         [Inject] public virtual void Inject(
-            ISelectedListener<ReaderSceneInfo> sceneInfoSelectedListener,
+            ISelectedListener<ReaderSceneInfoSelectedEventArgs> sceneInfoSelectedListener,
             ICompletionHandler completionHandler,
             IUserEncounterMenuSceneStarter menuSceneStarter)
         {
@@ -53,7 +53,7 @@ namespace ClinicalTools.ClinicalEncounters
         protected CEEncounterMetadata CurrentMetadata { get; set; }
         protected virtual void CompletionDraw() 
         {
-            var sceneInfo = SceneInfoSelectedListener.CurrentValue;
+            var sceneInfo = SceneInfoSelectedListener.CurrentValue.SceneInfo;
             var encounter = sceneInfo.Encounter.Data;
 
             gameObject.SetActive(true);

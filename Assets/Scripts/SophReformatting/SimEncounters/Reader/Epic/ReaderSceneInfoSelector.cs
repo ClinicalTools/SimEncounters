@@ -1,15 +1,23 @@
 ﻿namespace ClinicalTools.SimEncounters
 {
-    public class ReaderSceneInfoSelector : Selector<ReaderSceneInfo>
+    public class ReaderSceneInfoSelector : Selector<ReaderSceneInfoSelectedEventArgs>
     {
         protected ISelector<UserEncounterSelectedEventArgs> UserEncounterSelector { get; }
         public ReaderSceneInfoSelector(ISelector<UserEncounterSelectedEventArgs> userEncounterSelector)
             => UserEncounterSelector = userEncounterSelector;
 
-        public override void Select(object sender, ReaderSceneInfo value)
+        public override void Select(object sender, ReaderSceneInfoSelectedEventArgs eventArgs)
         {
-            base.Select(sender, value);
-            UserEncounterSelector.Select(this, new UserEncounterSelectedEventArgs(value.Encounter));
+            base.Select(sender, eventArgs);
+            UserEncounterSelector.Select(this, new UserEncounterSelectedEventArgs(eventArgs.SceneInfo.Encounter));
+        }
+    }
+    public class MenuSceneInfoSelector : Selector<MenuSceneInfoSelectedEventArgs>
+    {
+        
+        public override void Select(object sender, MenuSceneInfoSelectedEventArgs eventArgs)
+        {
+            base.Select(sender, eventArgs);
         }
     }
 }

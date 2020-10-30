@@ -873,7 +873,7 @@ GameObject:
   - component: {fileID: 909292296134715738}
   - component: {fileID: 4924147635260282017}
   - component: {fileID: 7405997579278632139}
-  - component: {fileID: 940808474713877665}
+  - component: {fileID: 4570290559527804444}
   - component: {fileID: 7646057273355672661}
   m_Layer: 5
   m_Name: MobileConfirmationPopup
@@ -965,7 +965,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af8ad754390fa444a87e280d722e8a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &940808474713877665
+--- !u!114 &4570290559527804444
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -974,10 +974,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 909292296134715737}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 928da6488a6dbb1488a3213ca5888910, type: 3}
+  m_Script: {fileID: 11500000, guid: 21ccc177d44becc4da7398ed3530450d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  closeBehaviour: {fileID: 909292296134715738}
+  behaviours:
+  - {fileID: 909292296134715738}
 --- !u!114 &7646057273355672661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -992,7 +993,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
-  - {fileID: 940808474713877665}
+  - {fileID: 4570290559527804444}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}

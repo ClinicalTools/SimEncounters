@@ -18,12 +18,18 @@ namespace ClinicalTools.SimEncounters
         public List<GameObject> WelcomeScreens { get => welcomeScreens; }
         [SerializeField] private List<GameObject> welcomeScreens = new List<GameObject>();
 
+        protected virtual ISelector<LoadingMenuSceneInfoSelectedEventArgs> SceneInfoSelectedListener { get; set; }
         protected IMenuEncountersInfoReader MenuInfoReader { get; set; }
         protected IEncounterQuickStarter EncounterQuickStarter { get; set; }
         protected QuickActionFactory LinkActionFactory { get; set; }
         [Inject]
-        public virtual void Inject(IMenuEncountersInfoReader menuInfoReader, IEncounterQuickStarter encounterQuickStarter, QuickActionFactory linkActionFactory)
+        public virtual void Inject(
+            ISelector<LoadingMenuSceneInfoSelectedEventArgs> sceneInfoSelectedListener,
+            IMenuEncountersInfoReader menuInfoReader,
+            IEncounterQuickStarter encounterQuickStarter,
+            QuickActionFactory linkActionFactory)
         {
+            SceneInfoSelectedListener = sceneInfoSelectedListener;
             MenuInfoReader = menuInfoReader;
             EncounterQuickStarter = encounterQuickStarter;
             LinkActionFactory = linkActionFactory;
@@ -35,6 +41,15 @@ namespace ClinicalTools.SimEncounters
 
             if (MenuDrawer is ILogoutHandler logoutHandler)
                 logoutHandler.Logout += Logout;
+        }
+        private bool started;
+        protected override void Start()
+        {
+            base.Start();
+            started = true;
+
+            if (SceneInfo != null)
+                SceneInfoSelectedListener.Select(this, new LoadingMenuSceneInfoSelectedEventArgs(SceneInfo));
         }
 
         protected override void StartAsInitialScene()
@@ -61,8 +76,10 @@ namespace ClinicalTools.SimEncounters
             DeepLinkManager.Instance.LinkActivated += Instance_LinkActivated;
 #endif
             MenuDrawer.Display(sceneInfo);
-
             sceneInfo.Result.AddOnCompletedListener(SceneInfoLoaded);
+
+            if (started)
+                SceneInfoSelectedListener.Select(this, new LoadingMenuSceneInfoSelectedEventArgs(SceneInfo));
         }
         protected virtual void SceneInfoLoaded(TaskResult<MenuSceneInfo> sceneInfo)
         {

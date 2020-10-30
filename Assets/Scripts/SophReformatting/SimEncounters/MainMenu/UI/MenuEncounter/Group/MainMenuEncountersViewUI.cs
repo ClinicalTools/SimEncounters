@@ -16,19 +16,21 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private Button newCaseButton;
         public Transform OptionsParent { get => optionsParent; set => optionsParent = value; }
         [SerializeField] private Transform optionsParent;
-        public MainMenuEncounterUI OptionPrefab { get => optionPrefab; set => optionPrefab = value; }
-        [SerializeField] private MainMenuEncounterUI optionPrefab;
+        protected MainMenuEncounterUI.Pool OptionPool { get; set; }
 
-
-        public override event Action<MenuEncounter> EncounterSelected;
         protected MenuSceneInfo CurrentSceneInfo { get; set; }
 
         protected virtual bool IsRead { get; set; }
 
         protected BaseAddEncounterPopup AddEncounterPopup { get; set; }
         [Inject]
-        protected virtual void Inject(BaseAddEncounterPopup addEncounterPopup)
-            => AddEncounterPopup = addEncounterPopup;
+        protected virtual void Inject(
+            MainMenuEncounterUI.Pool optionPool,
+            BaseAddEncounterPopup addEncounterPopup)
+        {
+            OptionPool = optionPool; 
+            AddEncounterPopup = addEncounterPopup;
+        }
         protected virtual void Awake()
         {
             if (NewCaseButton != null)
@@ -48,6 +50,7 @@ namespace ClinicalTools.SimEncounters
             Display(sceneInfo, encounters);
         }
 
+        protected IEnumerable<MenuEncounter> CurrentEncounters { get; set; }
         protected virtual void Display(MenuSceneInfo sceneInfo, IEnumerable<MenuEncounter> encounters)
         {
             SceneInfo = sceneInfo;
@@ -56,8 +59,12 @@ namespace ClinicalTools.SimEncounters
             gameObject.SetActive(true);
             CurrentSceneInfo = sceneInfo;
 
+            if (CurrentEncounters == encounters)
+                return;
+            CurrentEncounters = encounters;
+
             foreach (MainMenuEncounterUI encounterDisplay in EncounterDisplays)
-                Destroy(encounterDisplay.gameObject);
+                OptionPool.Despawn(encounterDisplay);
             EncounterDisplays.Clear();
 
             foreach (var encounter in encounters)
@@ -67,22 +74,21 @@ namespace ClinicalTools.SimEncounters
 
         public override void Hide()
         {
-            foreach (var encounterDisplay in EncounterDisplays)
-                Destroy(encounterDisplay.gameObject);
-            EncounterDisplays.Clear();
-
             gameObject.SetActive(false);
         }
 
         protected List<MainMenuEncounterUI> EncounterDisplays { get; } = new List<MainMenuEncounterUI>();
         protected virtual void SetEncounter(MenuEncounter encounter)
         {
-            var encounterUI = Instantiate(OptionPrefab, OptionsParent);
-            encounterUI.Selected += (selectedEncounter) => EncounterSelected?.Invoke(selectedEncounter);
+            var encounterUI = OptionPool.Spawn();
+            encounterUI.transform.SetParent(OptionsParent);
+            encounterUI.transform.SetAsLastSibling();
+            encounterUI.transform.localScale = Vector3.one;
+
             if (IsRead)
-                encounterUI.DisplayForRead(CurrentSceneInfo, encounter);
+                encounterUI.Select(this, new MenuEncounterSelectedEventArgs(encounter, EncounterSelectionType.Read));
             else
-                encounterUI.DisplayForEdit(CurrentSceneInfo, encounter);
+                encounterUI.Select(this, new MenuEncounterSelectedEventArgs(encounter, EncounterSelectionType.Edit));
 
             EncounterDisplays.Add(encounterUI);
         }

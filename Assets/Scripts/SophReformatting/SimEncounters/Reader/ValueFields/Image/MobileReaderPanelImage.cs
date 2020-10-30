@@ -46,13 +46,13 @@ namespace ClinicalTools.SimEncounters
         }
 
         protected SpriteDrawer SpritePopup { get; set; }
-        protected ISelectedListener<Encounter> EncounterSelectedListener { get; set; }
-        protected ISelectedListener<Panel> PanelSelectedListener { get; set; }
+        protected ISelectedListener<EncounterSelectedEventArgs> EncounterSelectedListener { get; set; }
+        protected ISelectedListener<PanelSelectedEventArgs> PanelSelectedListener { get; set; }
         [Inject]
         public virtual void Inject(
             SpriteDrawer spritePopup,
-            ISelectedListener<Encounter> encounterSelectedListener,
-            ISelectedListener<Panel> panelSelectedListener)
+            ISelectedListener<EncounterSelectedEventArgs> encounterSelectedListener,
+            ISelectedListener<PanelSelectedEventArgs> panelSelectedListener)
         {
             SpritePopup = spritePopup;
             EncounterSelectedListener = encounterSelectedListener;
@@ -70,15 +70,15 @@ namespace ClinicalTools.SimEncounters
             PanelSelectedListener.RemoveSelectedListener(OnPanelSelected);
         }
 
-        protected virtual void OnPanelSelected(object sender, Panel panel)
+        protected virtual void OnPanelSelected(object sender, PanelSelectedEventArgs eventArgs)
         {
-            if (!panel.Values.ContainsKey(Name)) {
+            if (!eventArgs.Panel.Values.ContainsKey(Name)) {
                 HideImage();
                 return;
             }
 
-            Value = panel.Values[Name];
-            var sprites = EncounterSelectedListener.CurrentValue.Content.ImageContent.Sprites;
+            Value = eventArgs.Panel.Values[Name];
+            var sprites = EncounterSelectedListener.CurrentValue.Encounter.Content.ImageContent.Sprites;
             if (Value != null && sprites.ContainsKey(Value))
                 SetSprite(sprites[Value]);
             else

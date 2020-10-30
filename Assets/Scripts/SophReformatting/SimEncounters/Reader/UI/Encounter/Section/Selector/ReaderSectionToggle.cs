@@ -63,7 +63,16 @@ namespace ClinicalTools.SimEncounters
         }
 
         private void StatusChanged() => Visited.SetActive(UserSection.IsRead());
-        public void Select() => SelectToggle.Select();
+        public void Select()
+        {
+            SelectToggle.SelectWithNoNotify();
+            SetColor(true);
+        }
+        public void Deselect()
+        {
+            SelectToggle.DeselectWithNoNotify();
+            SetColor(false);
+        }
         public void SetToggleGroup(ToggleGroup group) => SelectToggle.SetToggleGroup(group);
 
         protected virtual void SetColor(bool isOn)

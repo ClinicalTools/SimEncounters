@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,13 +18,8 @@ namespace ClinicalTools.SimEncounters
 
         private int currentViewIndex = 0;
 
-        public override event Action<MenuEncounter> EncounterSelected;
-
         protected void Awake()
         {
-            foreach (var encounterView in EncounterViews)
-                encounterView.EncounterSelected += EncountersView_Selected;
-
             if (ToggleViewButton != null) {
                 ToggleViewButton.Display(GetNextView());
                 ToggleViewButton.Selected += ChangeView;
@@ -86,8 +80,6 @@ namespace ClinicalTools.SimEncounters
             ScrollRect.content = (RectTransform)encounterView.transform;
             ScrollRect.verticalNormalizedPosition = 1;
         }
-
-        private void EncountersView_Selected(MenuEncounter menuEncounter) => EncounterSelected?.Invoke(menuEncounter);
 
         protected void ChangeView()
         {

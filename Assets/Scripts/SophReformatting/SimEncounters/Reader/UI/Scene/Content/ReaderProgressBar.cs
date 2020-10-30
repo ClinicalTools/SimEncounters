@@ -11,11 +11,11 @@ namespace ClinicalTools.SimEncounters
         public Image FillImage { get => fillImage; set => fillImage = value; }
         [SerializeField] private Image fillImage;
 
-        protected ISelectedListener<Encounter> EncounterSelector { get; set; }
+        protected ISelectedListener<EncounterSelectedEventArgs> EncounterSelector { get; set; }
         protected ISelectedListener<TabSelectedEventArgs> TabSelector { get; set; }
         [Inject]
         public virtual void Inject(
-            ISelectedListener<Encounter> encounterSelector, 
+            ISelectedListener<EncounterSelectedEventArgs> encounterSelector, 
             ISelectedListener<TabSelectedEventArgs> tabSelector)
         {
             EncounterSelector = encounterSelector;
@@ -29,9 +29,9 @@ namespace ClinicalTools.SimEncounters
 
         protected EncounterNonImageContent NonImageContent { get; set; }
         private float tabCount;
-        public virtual void OnEncounterSelected(object sender, Encounter encounter)
+        public virtual void OnEncounterSelected(object sender, EncounterSelectedEventArgs eventArgs)
         {
-            NonImageContent = encounter.Content.NonImageContent;
+            NonImageContent = eventArgs.Encounter.Content.NonImageContent;
             var sections = NonImageContent.Sections;
 
             tabCount = NonImageContent.GetTabCount();

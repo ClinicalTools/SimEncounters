@@ -311,8 +311,8 @@ GameObject:
   - component: {fileID: 1791108959986821836}
   - component: {fileID: 1791108959986821833}
   - component: {fileID: 6997796133349684283}
-  - component: {fileID: 2820585442040264289}
-  - component: {fileID: 7212080025046955527}
+  - component: {fileID: 7152409239687677596}
+  - component: {fileID: 8335772804910036573}
   - component: {fileID: 3566240935818337612}
   m_Layer: 5
   m_Name: CaseOverview
@@ -406,7 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ef5f6f6efb2034c9ed557aeed68199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2820585442040264289
+--- !u!114 &7152409239687677596
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -415,10 +415,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1791108959986821826}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73f8584557d28db4c8865f3db98aacc1, type: 3}
+  m_Script: {fileID: 11500000, guid: 21f5c220ed97a944a9f5bb10c889183d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7212080025046955527
+--- !u!114 &8335772804910036573
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -427,10 +427,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1791108959986821826}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 928da6488a6dbb1488a3213ca5888910, type: 3}
+  m_Script: {fileID: 11500000, guid: 21ccc177d44becc4da7398ed3530450d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  closeBehaviour: {fileID: 2820585442040264289}
+  behaviours:
+  - {fileID: 7152409239687677596}
 --- !u!114 &3566240935818337612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,7 +446,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
-  - {fileID: 7212080025046955527}
+  - {fileID: 8335772804910036573}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}

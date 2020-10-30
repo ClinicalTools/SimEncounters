@@ -493,8 +493,8 @@ GameObject:
   - component: {fileID: 875395230409541496}
   - component: {fileID: 4495390728340481045}
   - component: {fileID: 6691649749118685970}
-  - component: {fileID: 2435840162092205799}
-  - component: {fileID: 643505894306896635}
+  - component: {fileID: 654710748298642463}
+  - component: {fileID: 4940516442810804806}
   - component: {fileID: 8406101831963649626}
   m_Layer: 5
   m_Name: QuizPopUp
@@ -592,7 +592,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ef5f6f6efb2034c9ed557aeed68199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2435840162092205799
+--- !u!114 &654710748298642463
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -601,10 +601,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 636007009255674446}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73f8584557d28db4c8865f3db98aacc1, type: 3}
+  m_Script: {fileID: 11500000, guid: 21f5c220ed97a944a9f5bb10c889183d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &643505894306896635
+--- !u!114 &4940516442810804806
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -613,10 +613,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 636007009255674446}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 928da6488a6dbb1488a3213ca5888910, type: 3}
+  m_Script: {fileID: 11500000, guid: 21ccc177d44becc4da7398ed3530450d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  closeBehaviour: {fileID: 2435840162092205799}
+  behaviours:
+  - {fileID: 654710748298642463}
 --- !u!114 &8406101831963649626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -631,7 +632,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
-  - {fileID: 643505894306896635}
+  - {fileID: 4940516442810804806}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
