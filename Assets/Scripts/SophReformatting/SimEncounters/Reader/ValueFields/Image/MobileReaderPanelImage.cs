@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
@@ -34,10 +35,11 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private LayoutElement layoutElement;
         public Button EnlargeImageButton { get => enlargeImageButton; set => enlargeImageButton = value; }
         [SerializeField] private Button enlargeImageButton;
+        public bool UseEncounterImage { get => useEncounterImage; set => useEncounterImage = value; }
+        [SerializeField] private bool useEncounterImage;
 
         private Image image;
-        protected Image Image
-        {
+        protected Image Image {
             get {
                 if (image == null)
                     image = GetComponent<Image>();
@@ -72,17 +74,32 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void OnPanelSelected(object sender, PanelSelectedEventArgs eventArgs)
         {
-            if (!eventArgs.Panel.Values.ContainsKey(Name)) {
-                HideImage();
-                return;
-            }
-
-            Value = eventArgs.Panel.Values[Name];
-            var sprites = EncounterSelectedListener.CurrentValue.Encounter.Content.ImageContent.Sprites;
-            if (Value != null && sprites.ContainsKey(Value))
-                SetSprite(sprites[Value]);
+            var sprite = GetSprite(eventArgs);
+            if (sprite != null)
+                SetSprite(sprite);
             else
                 HideImage();
+        }
+
+        private const string PatientImageKey = "patientImage";
+        protected virtual Sprite GetSprite(PanelSelectedEventArgs eventArgs)
+        {
+            if (UseEncounterImage)
+                return EncounterSelectedListener.CurrentValue.Encounter.Metadata.Sprite;
+
+            if (!eventArgs.Panel.Values.ContainsKey(Name))
+                return null;
+
+            Value = eventArgs.Panel.Values[Name];
+
+            if (Value.Equals(PatientImageKey, StringComparison.InvariantCultureIgnoreCase))
+                return EncounterSelectedListener.CurrentValue.Encounter.Metadata.Sprite;
+
+            var sprites = EncounterSelectedListener.CurrentValue.Encounter.Content.ImageContent.Sprites;
+            if (Value != null && sprites.ContainsKey(Value))
+                return sprites[Value];
+            else
+                return null;
         }
 
         protected virtual void HideImage()

@@ -12,6 +12,15 @@ namespace ClinicalTools.ClinicalEncounters
 
         protected string PatientImageKey { get; } = "patientImage";
 
+        protected override void Awake()
+        {
+            base.Awake();
+
+            patientImageToggle.onValueChanged.AddListener(ToggleValueChanged);
+        }
+
+        protected virtual void ToggleValueChanged(bool isOn) => UploadImageButton.interactable = !isOn;
+
         public override WaitableTask<string> SelectSprite(KeyedCollection<Sprite> sprites, string spriteKey)
         {
             var waitableSprite = base.SelectSprite(sprites, spriteKey);
@@ -20,6 +29,7 @@ namespace ClinicalTools.ClinicalEncounters
             if (isPatientImage)
                 CurrentKey = null;
             PatientImageToggle.isOn = isPatientImage;
+            ToggleValueChanged(isPatientImage);
 
             return waitableSprite;
         }

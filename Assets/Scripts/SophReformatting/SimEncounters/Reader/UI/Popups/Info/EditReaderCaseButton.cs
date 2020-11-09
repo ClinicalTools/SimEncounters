@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
@@ -19,15 +20,23 @@ namespace ClinicalTools.SimEncounters
 
         protected IWriterSceneStarter WriterSceneStarter { get; set; }
         protected ISelector<ReaderSceneInfoSelectedEventArgs> SceneInfoSelector { get; set; }
+        protected ISelectedListener<UserEncounterSelectedEventArgs> EncounterSelector { get; set; }
 
         [Inject]
         public void Inject(
             IWriterSceneStarter writerSceneStarter,
-            ISelector<ReaderSceneInfoSelectedEventArgs> sceneInfoSelector)
+            ISelector<ReaderSceneInfoSelectedEventArgs> sceneInfoSelector, 
+            ISelectedListener<UserEncounterSelectedEventArgs> encounterSelector)
         {
             WriterSceneStarter = writerSceneStarter;
             SceneInfoSelector = sceneInfoSelector;
+            EncounterSelector = encounterSelector;
+            EncounterSelector.AddSelectedListener(OnEncounterSelected);
         }
+
+        protected virtual void OnEncounterSelected(object sender, UserEncounterSelectedEventArgs e) 
+            => gameObject.SetActive(e.Encounter.Data.Metadata.AuthorAccountId == e.Encounter.User.AccountId);
+        
 
         protected virtual void Awake() => Button.onClick.AddListener(ShowInstructions);
         public virtual void ShowInstructions() {

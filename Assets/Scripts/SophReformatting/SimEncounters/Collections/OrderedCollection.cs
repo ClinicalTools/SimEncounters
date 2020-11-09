@@ -29,7 +29,7 @@ namespace ClinicalTools.SimEncounters.Collections
         public OrderedCollection() : base() { }
         public OrderedCollection(IKeyGenerator keyGenerator) : base(keyGenerator) { }
 
-        protected override bool AddKeyedValue(string key, T value)
+        public override bool AddKeyedValue(string key, T value)
         {
             if (!base.AddKeyedValue(key, value))
                 return false;

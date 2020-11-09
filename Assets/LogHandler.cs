@@ -54,7 +54,7 @@ namespace ClinicalTools.SimEncounters
                 var dirPath = Path.Combine(Application.persistentDataPath, "logs");
                 if (!Directory.Exists(dirPath))
                     Directory.CreateDirectory(dirPath);
-                FileWriter = new StreamWriter(Path.Combine(dirPath, DateTime.UtcNow.Ticks.ToString()));
+                FileWriter = new StreamWriter(Path.Combine(dirPath, $"{DateTime.UtcNow.Ticks.ToString()}.log"));
             }
 
             FileWriter.WriteLine($"{GetLogTypePrefix(type)}\t{logString}\n{stackTrace}\n\n");

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
@@ -13,8 +14,7 @@ namespace ClinicalTools.SimEncounters
         public Button SelectImageButton { get => selectImageButton; set => selectImageButton = value; }
         [SerializeField] private Button selectImageButton;
 
-        protected Image Image
-        {
+        protected Image Image {
             get {
                 if (image == null)
                     image = GetComponent<Image>();
@@ -41,10 +41,10 @@ namespace ClinicalTools.SimEncounters
         {
             value = imageKey;
 
-            var sprites = CurrentEncounter.Content.ImageContent.Sprites;
+            var sprite = GetSprite(imageKey);
             Color imageColor;
-            if (imageKey != null && sprites.ContainsKey(imageKey)) {
-                Image.sprite = sprites[imageKey];
+            if (sprite != null) {
+                Image.sprite = sprite;
                 imageColor = Color.white;
             } else {
                 imageColor = Color.clear;
@@ -52,6 +52,22 @@ namespace ClinicalTools.SimEncounters
 
             Image.color = imageColor;
             Image.enabled = imageKey != null;
+        }
+
+        private const string PatientImageKey = "patientImage";
+        protected virtual Sprite GetSprite(string imageKey)
+        {
+            if (imageKey == null)
+                return null;
+
+            if (imageKey.Equals(PatientImageKey, StringComparison.InvariantCultureIgnoreCase))
+                return CurrentEncounter.Metadata.Sprite;
+
+            var sprites = CurrentEncounter.Content.ImageContent.Sprites;
+            if (sprites.ContainsKey(imageKey))
+                return sprites[imageKey];
+
+            return null;
         }
 
         protected virtual void SelectImage()

@@ -99,7 +99,7 @@ namespace ClinicalTools.SimEncounters.Collections
             return null;
         }
 
-        protected virtual bool AddKeyedValue(string key, T value)
+        public virtual bool AddKeyedValue(string key, T value)
         {
             if (KeyCollection.ContainsKey(value)) {
                 Debug.LogError($"Value already exists in collection:\n" +

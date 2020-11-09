@@ -31,6 +31,8 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void SetPatientImage()
         {
+            if (Encounter.Metadata.Sprite != null)
+                Encounter.Content.ImageContent.Sprites.AddKeyedValue(PatientImageKey, Encounter.Metadata.Sprite);
             var spriteKey = PatientSpriteSelector.SelectSprite(Encounter.Content.ImageContent.Sprites, PatientImageKey);
             spriteKey.AddOnCompletedListener((key) => PatientImageSet());
         }
@@ -38,10 +40,13 @@ namespace ClinicalTools.SimEncounters
         protected virtual void PatientImageSet()
         {
             Sprite sprite;
-            if (Encounter.Content.ImageContent.Sprites.ContainsKey(PatientImageKey))
+            if (Encounter.Content.ImageContent.Sprites.ContainsKey(PatientImageKey)) {
                 sprite = Encounter.Content.ImageContent.Sprites[PatientImageKey];
-            else
-                sprite = null;
+                Encounter.Content.ImageContent.Sprites.Remove(PatientImageKey);
+            } else {
+                sprite = Encounter.Metadata.Sprite;
+            }
+            Encounter.Metadata.Sprite = sprite;
             PatientImage.sprite = sprite;
         }
     }

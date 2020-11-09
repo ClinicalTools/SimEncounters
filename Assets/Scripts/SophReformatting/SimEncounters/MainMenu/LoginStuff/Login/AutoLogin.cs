@@ -17,7 +17,7 @@ namespace ClinicalTools.SimEncounters
             UserDeserializer = userDeserializer;
         }
 
-        public WaitableTask<User> Login()
+        public virtual WaitableTask<User> Login()
         {
             var webRequest = GetWebRequest();
             var serverResult = ServerReader.Begin(webRequest);
@@ -45,6 +45,8 @@ namespace ClinicalTools.SimEncounters
             }
 
             var user = UserDeserializer.Deserialize(serverResult.Value);
+            result.SetError(new Exception($"No auto login right now"));
+            return;
             if (user == null)
                 result.SetError(new Exception($"Could not parse user: {serverResult.Value}"));
             else
