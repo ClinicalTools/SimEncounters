@@ -4,10 +4,18 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
+    [RequireComponent(typeof(Button))]
     public class ShowSettingsButton : MonoBehaviour
     {
-        public Button Button { get => button; set => button = value; }
-        [SerializeField] private Button button;
+        private Button button;
+        protected Button Button
+        {
+            get {
+                if (button == null)
+                    button = GetComponent<Button>();
+                return button;
+            }
+        }
 
         protected BaseSettingsPopup SettingsPopup { get; set; }
         [Inject]

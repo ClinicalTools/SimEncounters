@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 6034196717952189874}
   - component: {fileID: 5854634858043030372}
   - component: {fileID: 8047634925626946287}
-  - component: {fileID: 6152605077376256279}
+  - component: {fileID: 604602219609146764}
   - component: {fileID: 3510717994170838065}
   m_Layer: 5
   m_Name: DialogueChoiceEntry
@@ -245,13 +245,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf5d2e80beef1d3439c3845be752ac31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  childPanelsDrawer: {fileID: 6603207724363010538}
-  pinsDrawer: {fileID: 0}
-  setReadOnSelect: 0
   type: DialogueChoiceEntry
+  childPanelsDrawer: {fileID: 6603207724363010538}
   completedObject: {fileID: 6219267910422012725}
   incompletedObject: {fileID: 1161929351507318659}
---- !u!114 &6152605077376256279
+--- !u!114 &604602219609146764
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -260,10 +258,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5812941053419092518}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e679ed7be15e264eb7c8576cd0a328f, type: 3}
+  m_Script: {fileID: 11500000, guid: 21ccc177d44becc4da7398ed3530450d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectorBehaviour: {fileID: 8047634925626946287}
+  behaviours:
+  - {fileID: 8047634925626946287}
 --- !u!114 &3510717994170838065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,7 +277,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
-  - {fileID: 6152605077376256279}
+  - {fileID: 604602219609146764}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
@@ -822,6 +821,8 @@ MonoBehaviour:
   - {fileID: 1880644559514467187, guid: 4e01c8ab05474224d8f18c38931e3b87, type: 3}
   toggleGroup: {fileID: 6821726370964377464}
   feedbackParent: {fileID: 0}
+  optionsParent: {fileID: 6031605426442127646}
+  completedOptionsParent: {fileID: 1975244365138241971}
 --- !u!1 &6219267910422012725
 GameObject:
   m_ObjectHideFlags: 0
@@ -839,7 +840,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1975244365138241971
 RectTransform:
   m_ObjectHideFlags: 0
@@ -854,10 +855,10 @@ RectTransform:
   m_Father: {fileID: 6031742321135168190}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 450, y: -79}
-  m_SizeDelta: {x: 900, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5903125046189661559
 MonoBehaviour:

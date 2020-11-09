@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ClinicalTools.SimEncounters.UI;
+using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -19,11 +20,11 @@ namespace ClinicalTools.SimEncounters
         {
             switch (optionType) {
                 case OptionType.Correct:
-                    return CorrectColor;
+                    return ColorManager.GetColor(ColorType.LightCorrect);
                 case OptionType.Incorrect:
-                    return IncorrectColor;
+                    return ColorManager.GetColor(ColorType.LightIncorrect);
                 case OptionType.PartiallyCorrect:
-                    return PartiallyCorrectColor;
+                    return ColorManager.GetColor(ColorType.LightPartiallyCorrect);
                 default:
                     return DefaultColor;
             }

@@ -1,12 +1,15 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
     public class ReaderMobileDialogueOption : BaseReaderDialogueOption
     {
+        protected override BaseChildUserPanelsDrawer ChildPanelsDrawer { get => childPanelsDrawer; }
+        [SerializeField] private BaseChildUserPanelsDrawer childPanelsDrawer;
+        protected override BaseUserPinGroupDrawer PinsDrawer => null;
+
         public virtual GameObject CorrectlySelectedObject { get => correctlySelectedObject; set => correctlySelectedObject = value; }
         [SerializeField] private GameObject correctlySelectedObject;
         public virtual GameObject NormalObject { get => normalObject; set => normalObject = value; }

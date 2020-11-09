@@ -41,7 +41,7 @@ namespace ClinicalTools.SimEncounters
             StatusChanged?.Invoke();
         }
 
-        protected virtual OrderedCollection<UserPanel> Panels { get; } = new OrderedCollection<UserPanel>();
+        public virtual OrderedCollection<UserPanel> Panels { get; } = new OrderedCollection<UserPanel>();
         public virtual IEnumerable<UserPanel> GetPanels() => Panels.Values;
         public virtual UserPanel GetPanel(string key) => Panels[key];
     }

@@ -11,6 +11,7 @@ namespace ClinicalTools.SimEncounters.UI
         LightColor = 2,
         OffBlack = 3, 
         Green = 4,
+
         Gray1 = 5,
         Gray2 = 10,
         Gray3 = 11,
@@ -18,6 +19,13 @@ namespace ClinicalTools.SimEncounters.UI
         Gray5 = 7,
         Gray6 = 8,
         Gray7 = 9,
+
+        Correct = 12,
+        PartiallyCorrect = 13,
+        Incorrect = 14,
+        LightCorrect = 15,
+        LightPartiallyCorrect = 16,
+        LightIncorrect = 17,
     }
     // I don't like using white, because it is used a lot, 
     // and I can't imagine all instances changing at once
@@ -38,6 +46,14 @@ namespace ClinicalTools.SimEncounters.UI
         private static readonly Color gray5Color = new Color(0.675f, 0.737f, 0.788f);
         private static readonly Color gray6Color = new Color(0.522f, 0.592f, 0.647f);
         private static readonly Color gray7Color = new Color(0.482f, 0.486f, 0.494f);
+
+        private static readonly Color lightIncorrectColor = new Color(1f, 0.8588235f, 0.8588235f);
+        private static readonly Color lightPartiallyCorrectColor = new Color(0.9607843f, 0.9333333f, 0.8235294f);
+        private static readonly Color lightCorrectColor = new Color(0.8627451f, 0.9372549f, 0.8588235f);
+        private static readonly Color incorrectColor = new Color(0.8470588f, 0.2352941f, 0.2352941f, 0.6f);
+        private static readonly Color partiallyCorrectColor = new Color(1, 0.7019608f, 0.2862745f, 0.6f);
+        private static readonly Color correctColor = new Color(0.2627451f, 0.7294118f, 0.282353f, 0.6f);
+
 
         public static Color GetColor(ColorType colorType)
         {
@@ -66,6 +82,18 @@ namespace ClinicalTools.SimEncounters.UI
                     return gray6Color;
                 case ColorType.Gray7:
                     return gray7Color;
+                case ColorType.Correct:
+                    return correctColor;
+                case ColorType.PartiallyCorrect:
+                    return partiallyCorrectColor;
+                case ColorType.Incorrect:
+                    return incorrectColor;
+                case ColorType.LightCorrect:
+                    return lightCorrectColor;
+                case ColorType.LightPartiallyCorrect:
+                    return lightPartiallyCorrectColor;
+                case ColorType.LightIncorrect:
+                    return lightIncorrectColor;
                 default:
                     return primaryColor;
             }

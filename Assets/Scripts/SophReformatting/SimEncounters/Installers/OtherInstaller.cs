@@ -1,4 +1,5 @@
 ﻿using ClinicalTools.UI;
+using UnityEngine;
 using Zenject;
 
 namespace ClinicalTools.SimEncounters
@@ -7,11 +8,14 @@ namespace ClinicalTools.SimEncounters
     {
         public override void Install(DiContainer container)
         {
-            SignalBusInstaller.Install(Container);
-            Container.DeclareSignal<SceneChangedSignal>().OptionalSubscriber();
+            SignalBusInstaller.Install(container);
+            container.DeclareSignal<SceneChangedSignal>().OptionalSubscriber();
 
             container.Bind<ICurve>().To<AccCurve>().AsTransient();
             container.Bind<IShifter>().To<Shifter>().AsTransient();
+
+            container.BindFactory<Object, GameObject, GameObjectFactory>()
+                     .FromFactory<PrefabFactory<GameObject>>();
         }
     }
 }

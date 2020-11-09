@@ -21,6 +21,15 @@ namespace ClinicalTools.SimEncounters
         protected BaseUserTabDrawer CurrentTabDrawer { get; set; }
         protected virtual void OnTabSelected(object sender, TabSelectedEventArgs eventArgs)
         {
+            return;
+            if (ScrollRect != null)
+                ScrollRect.verticalNormalizedPosition = 1;
+            if (ScrollGradient != null)
+                ScrollGradient.ResetGradients();
+        }
+
+        protected virtual void OnDisable()
+        {
             if (ScrollRect != null)
                 ScrollRect.verticalNormalizedPosition = 1;
             if (ScrollGradient != null)

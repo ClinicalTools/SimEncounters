@@ -65,12 +65,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1749083307390084199}
-  - component: {fileID: 8564107866638096666}
   - component: {fileID: 3472193643561173717}
   - component: {fileID: 2876273326259341129}
   - component: {fileID: 5359530407795130929}
   - component: {fileID: 2318345078950826097}
-  - component: {fileID: 103194106390213494}
+  - component: {fileID: 6363435180984250744}
+  - component: {fileID: 1665948155016420449}
   - component: {fileID: 5513360485498469868}
   m_Layer: 5
   m_Name: DialogueEntryRight
@@ -101,22 +101,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 750, y: 97}
   m_Pivot: {x: 0, y: 1}
---- !u!114 &8564107866638096666
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1972253766811118677}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4773abaf2286229458636d535ad1ca9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  childPanelsDrawer: {fileID: 0}
-  pinsDrawer: {fileID: 0}
-  setReadOnSelect: 1
-  type: DialogueEntryRight
 --- !u!222 &3472193643561173717
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -197,7 +181,7 @@ MonoBehaviour:
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
---- !u!114 &103194106390213494
+--- !u!114 &6363435180984250744
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -206,10 +190,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 1972253766811118677}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e679ed7be15e264eb7c8576cd0a328f, type: 3}
+  m_Script: {fileID: 11500000, guid: 229cfb00cda11334c80c33b1e823707c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectorBehaviour: {fileID: 8564107866638096666}
+  type: DialogueEntryRight
+  childPanelsDrawer: {fileID: 0}
+  pinsDrawer: {fileID: 0}
+  setReadOnSelect: 1
+--- !u!114 &1665948155016420449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972253766811118677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ccc177d44becc4da7398ed3530450d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  behaviours:
+  - {fileID: 6363435180984250744}
 --- !u!114 &5513360485498469868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,7 +225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
-  - {fileID: 103194106390213494}
+  - {fileID: 1665948155016420449}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
@@ -389,6 +390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96063da5e39c90b49806483f7b2940e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  valueName: 
   controlledObjects: []
   prefix: 
   trim: 0

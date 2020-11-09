@@ -1,23 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using ClinicalTools.SimEncounters.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderQuizPanelsCreator : BaseReaderPanelsCreator
+    public class ReaderQuizPanelsCreator : BaseChildUserPanelsDrawer
     {
-        public BaseReaderPanel MultipleChoicePanel { get => multipleChoicePanel; set => multipleChoicePanel = value; }
-        [SerializeField] private BaseReaderPanel multipleChoicePanel;
-        public BaseReaderPanel CheckBoxPanel { get => checkBoxPanel; set => checkBoxPanel = value; }
-        [SerializeField] private BaseReaderPanel checkBoxPanel;
+        public BaseReaderPanelBehaviour MultipleChoicePanel { get => multipleChoicePanel; set => multipleChoicePanel = value; }
+        [SerializeField] private BaseReaderPanelBehaviour multipleChoicePanel;
+        public BaseReaderPanelBehaviour CheckBoxPanel { get => checkBoxPanel; set => checkBoxPanel = value; }
+        [SerializeField] private BaseReaderPanelBehaviour checkBoxPanel;
 
-        protected BaseReaderPanel.Factory ReaderPanelFactory { get; set; }
-        [Inject] public virtual void Inject(BaseReaderPanel.Factory readerPanelFactory) => ReaderPanelFactory = readerPanelFactory;
+        protected List<BaseReaderPanelBehaviour> PanelBehaviours {get;} = new List<BaseReaderPanelBehaviour>();
 
-        public override List<BaseReaderPanel> DrawChildPanels(IEnumerable<UserPanel> childPanels)
+        protected BaseReaderPanelBehaviour.Factory ReaderPanelFactory { get; set; }
+        [Inject] public virtual void Inject(BaseReaderPanelBehaviour.Factory readerPanelFactory) => ReaderPanelFactory = readerPanelFactory;
+
+        public override void Display(OrderedCollection<UserPanel> panels, bool active)
         {
-            var panels = new List<BaseReaderPanel>();
-            foreach (var childPanel in childPanels) {
+            foreach (var panelBehaviour in PanelBehaviours)
+                Destroy(panelBehaviour.gameObject);
+            PanelBehaviours.Clear();
+
+            foreach (var childPanel in panels.Values) {
                 var prefab = GetChildPanelPrefab(childPanel);
                 if (prefab == null)
                     continue;
@@ -25,14 +31,12 @@ namespace ClinicalTools.SimEncounters
                 var panel = ReaderPanelFactory.Create(prefab);
                 panel.transform.SetParent(transform);
                 panel.transform.localScale = Vector3.one;
-                panel.Display(childPanel);
-                panels.Add(panel);
+                panel.Select(this, new UserPanelSelectedEventArgs(childPanel, active));
+                PanelBehaviours.Add(panel);
             }
-
-            return panels;
         }
 
-        protected virtual BaseReaderPanel GetChildPanelPrefab(UserPanel panel)
+        protected virtual BaseReaderPanelBehaviour GetChildPanelPrefab(UserPanel panel)
         {
             if (panel.Data.Values.ContainsKey("OptionTypeValue") && panel.Data.Values["OptionTypeValue"] == "Multiple Choice")
                 return MultipleChoicePanel;

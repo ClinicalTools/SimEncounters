@@ -21,6 +21,8 @@ namespace ClinicalTools.UI
 
         public override void Add(IDraggable draggable)
         {
+            draggable.RectTransform.SetParent(ChildrenParent);
+
             DraggableObjects.Add(draggable);
             draggable.DragStarted += DragStarted;
             draggable.DragEnded += DragEnded;

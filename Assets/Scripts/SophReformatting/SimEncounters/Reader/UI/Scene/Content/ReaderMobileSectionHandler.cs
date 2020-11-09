@@ -149,7 +149,7 @@ namespace ClinicalTools.SimEncounters
 
             if (Previous != null) {
                 Previous.Select(this, new UserSectionSelectedEventArgs(previousSection, ChangeType.Inactive));
-                Previous.SetCurrentTab(this, ChangeType.Inactive);
+                Previous.SetLastTab(this, ChangeType.Inactive);
             }
 
             if (Next != null) {
@@ -196,6 +196,7 @@ namespace ClinicalTools.SimEncounters
         {
             SwipeManager.DisableSwipe();
             yield return enumerator;
+
             SwipeManager.ReenableSwipe();
         }
 
@@ -258,10 +259,12 @@ namespace ClinicalTools.SimEncounters
 
             var dist = (obj.LastPosition.x - obj.StartPosition.x) / Screen.width;
             if (swipingRight && dist > 0 && Previous != null && Current.Section.Data.CurrentTabIndex == 0) {
-                if (dist > .5f || obj.Velocity.x / Screen.dpi > 1.5f)
+                if (dist > .5f || obj.Velocity.x / Screen.dpi > 1.5f) {
+                    Previous.Section.Data.CurrentTabIndex = Previous.Section.Data.Tabs.Count - 1;
                     UserSectionSelector.Select(this, new UserSectionSelectedEventArgs(Previous.Section, ChangeType.Previous));
-                else
+                } else {
                     currentCoroutine = StartCoroutine(ShiftForward(Previous));
+                }
             } else if (swipingLeft && dist < 0 && Next != null && Current.Section.Data.CurrentTabIndex + 1 == Current.Section.Tabs.Count) {
                 if (dist < -.5f || obj.Velocity.x / Screen.dpi < -1.5f)
                     UserSectionSelector.Select(this, new UserSectionSelectedEventArgs(Next.Section, ChangeType.Next));

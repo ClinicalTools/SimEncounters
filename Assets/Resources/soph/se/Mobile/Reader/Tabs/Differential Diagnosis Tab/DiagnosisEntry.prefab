@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 114549509171490008}
   - component: {fileID: 114918228007925786}
   - component: {fileID: 3971824949102027519}
-  - component: {fileID: 3451241479413922824}
-  - component: {fileID: -2683882339835480973}
-  - component: {fileID: 5894324592529968076}
+  - component: {fileID: 3839249280190860272}
+  - component: {fileID: 1595128228865078527}
+  - component: {fileID: 3528714976643669435}
   m_Layer: 5
   m_Name: DiagnosisEntry
   m_TagString: Untagged
@@ -72,7 +72,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4fc5b92170681ad46a4f63c3a9e6837a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7f306ddb5e16a284e82d71f9f2c53ce3, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 60
+    m_Left: 85
     m_Right: 32
     m_Top: 12
     m_Bottom: 16
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &3451241479413922824
+--- !u!114 &3839249280190860272
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1303831603215848}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d6037fb88864d5499db4b0154f3564d, type: 3}
+  m_Script: {fileID: 11500000, guid: f3340a7451e063543abfc8cd5a459900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   type: DiagnosisEntry
@@ -187,7 +187,8 @@ MonoBehaviour:
   dragHandle: {fileID: 114918228007925786}
   coloredImages:
   - {fileID: 114232556050044978}
---- !u!114 &-2683882339835480973
+  - {fileID: 114615150093552468}
+--- !u!114 &1595128228865078527
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -196,11 +197,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1303831603215848}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
+  m_Script: {fileID: 11500000, guid: 21ccc177d44becc4da7398ed3530450d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _containerSource: 2
---- !u!114 &5894324592529968076
+  behaviours:
+  - {fileID: 3839249280190860272}
+--- !u!114 &3528714976643669435
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -209,10 +211,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1303831603215848}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ae2e44fec0dd134d87c03445b40205e, type: 3}
+  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorType: 0
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 1595128228865078527}
+  _installerPrefabs: []
+  _autoRun: 1
+  _kernel: {fileID: 0}
 --- !u!1 &1431020190976744
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,7 +231,7 @@ GameObject:
   - component: {fileID: 224649002786288816}
   - component: {fileID: 222333498969567706}
   - component: {fileID: 114886516273637252}
-  - component: {fileID: 458200365021855695}
+  - component: {fileID: 6194812517309365443}
   m_Layer: 5
   m_Name: DiagnosisValue
   m_TagString: Untagged
@@ -306,8 +313,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
-  m_fontSizeBase: 30
+  m_fontSize: 32
+  m_fontSizeBase: 32
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -348,7 +355,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &458200365021855695
+--- !u!114 &6194812517309365443
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -357,11 +364,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1431020190976744}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f1155e9ca0f22f4481dc60a71c2419c, type: 3}
+  m_Script: {fileID: 11500000, guid: 96063da5e39c90b49806483f7b2940e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  valueName: 
   controlledObjects: []
   prefix: 
+  trim: 0
 --- !u!1 &1454893889575340
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,6 +383,7 @@ GameObject:
   - component: {fileID: 222728815438721704}
   - component: {fileID: 114615150093552468}
   - component: {fileID: 114744086795450876}
+  - component: {fileID: 7149087847672549299}
   m_Layer: 5
   m_Name: ReorderBar
   m_TagString: Untagged
@@ -399,7 +409,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 48, y: 0}
+  m_SizeDelta: {x: 64, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &222728815438721704
 CanvasRenderer:
@@ -416,13 +426,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1454893889575340}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3647059, g: 0.6862745, b: 0.6784314, a: 1}
+  m_Color: {r: 0.2784314, g: 0.4666667, b: 0.6980392, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -458,6 +468,19 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &7149087847672549299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1454893889575340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ae2e44fec0dd134d87c03445b40205e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorType: 0
 --- !u!1 &1788329186446144
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,7 +517,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 48, y: 48}
+  m_SizeDelta: {x: 64, y: 46}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222656504191508262
 CanvasRenderer:

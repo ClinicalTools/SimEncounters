@@ -6,6 +6,10 @@ namespace ClinicalTools.SimEncounters
 {
     public class ReaderDialogueOption : BaseReaderDialogueOption
     {
+        protected override BaseChildUserPanelsDrawer ChildPanelsDrawer { get => childPanelsDrawer; }
+        [SerializeField] private BaseChildUserPanelsDrawer childPanelsDrawer;
+        protected override BaseUserPinGroupDrawer PinsDrawer => null;
+
         public virtual Toggle Toggle { get => toggle; set => toggle = value; }
         [SerializeField] private Toggle toggle;
         public virtual Color OnColor { get => onColor; set => onColor = value; }

@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 222867302880752924}
   - component: {fileID: 114063812460294556}
   - component: {fileID: 4897695620223548059}
-  - component: {fileID: 2313577730185738922}
-  - component: {fileID: 2581844078726245418}
+  - component: {fileID: 2107573159704888646}
+  - component: {fileID: 1180355035422091814}
   - component: {fileID: 8595670845096416572}
   m_Layer: 5
   m_Name: TextboxPanel
@@ -64,10 +64,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 36
-    m_Right: 36
-    m_Top: 24
-    m_Bottom: 36
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
   m_ChildAlignment: 4
   m_Spacing: 10
   m_ChildForceExpandWidth: 1
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &2313577730185738922
+--- !u!114 &2107573159704888646
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,14 +105,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1390136783978056}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4773abaf2286229458636d535ad1ca9b, type: 3}
+  m_Script: {fileID: 11500000, guid: 229cfb00cda11334c80c33b1e823707c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: TextboxPanel
   childPanelsDrawer: {fileID: 0}
   pinsDrawer: {fileID: 6749409625066366488}
   setReadOnSelect: 1
-  type: TextboxPanel
---- !u!114 &2581844078726245418
+--- !u!114 &1180355035422091814
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,10 +121,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1390136783978056}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e679ed7be15e264eb7c8576cd0a328f, type: 3}
+  m_Script: {fileID: 11500000, guid: 21ccc177d44becc4da7398ed3530450d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectorBehaviour: {fileID: 2313577730185738922}
+  behaviours:
+  - {fileID: 2107573159704888646}
 --- !u!114 &8595670845096416572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,7 +140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
-  - {fileID: 2581844078726245418}
+  - {fileID: 1180355035422091814}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
@@ -312,6 +313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96063da5e39c90b49806483f7b2940e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  valueName: 
   controlledObjects: []
   prefix: 
   trim: 1

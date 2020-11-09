@@ -5,7 +5,7 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public abstract class BaseReaderDialogueOption : ReaderPanelBehaviour
+    public abstract class BaseReaderDialogueOption : BaseReaderPanelBehaviour
     {
         public abstract event Action<BaseReaderDialogueOption> CorrectlySelected;
         public abstract void SetGroup(ToggleGroup group);

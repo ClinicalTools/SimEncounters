@@ -46,7 +46,8 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void Awake()
         {
-            CloseButton.onClick.AddListener(CloseFeedback);
+            if (CloseButton != null)
+                CloseButton.onClick.AddListener(CloseFeedback);
         }
 
         public virtual void ShowFeedback(bool isOn)

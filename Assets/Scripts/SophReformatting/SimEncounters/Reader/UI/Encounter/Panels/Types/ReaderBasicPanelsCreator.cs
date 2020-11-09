@@ -6,17 +6,41 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ReaderBasicPanelsCreator : BaseChildUserPanelsDrawer
+    public class ReaderGeneralPanelsCreator<T> : BaseChildUserPanelsDrawer
+        where T : BaseReaderPanelBehaviour
     {
-        public List<ReaderPanelBehaviour> PanelOptions { get => panelOptions; set => panelOptions = value; }
-        [SerializeField] private List<ReaderPanelBehaviour> panelOptions = new List<ReaderPanelBehaviour>();
+        [SerializeField] private Transform childParent;
+        public Transform ChildParent
+        {
+            get {
+                if (childParent != null)
+                    return childParent;
+                return transform;
+            }
+        }
 
-        protected ReaderPanelBehaviour.Factory ReaderPanelFactory { get; set; }
+        public List<T> PanelOptions { get => panelOptions; set => panelOptions = value; }
+        [SerializeField] private List<T> panelOptions = new List<T>();
+
+        public GameObject SpacerPrefab { get => spacerPrefab; set => spacerPrefab = value; }
+        [SerializeField] private GameObject spacerPrefab;
+
+        protected Stack<GameObject> SpacerStack { get; } = new Stack<GameObject>();
+        protected List<GameObject> Spacers { get; } = new List<GameObject>();
+
+        protected BaseReaderPanelBehaviour.Factory ReaderPanelFactory { get; set; }
+        protected GameObjectFactory GameObjectFactory { get; set; }
         [Inject]
-        public virtual void Inject(ReaderPanelBehaviour.Factory readerPanelFactory) => ReaderPanelFactory = readerPanelFactory;
+        public virtual void Inject(
+            BaseReaderPanelBehaviour.Factory readerPanelFactory,
+            GameObjectFactory gameObjectFactory)
+        {
+            ReaderPanelFactory = readerPanelFactory;
+            GameObjectFactory = gameObjectFactory;
+        }
 
         protected OrderedCollection<UserPanel> CurrentPanels { get; set; }
-        protected Dictionary<UserPanel, ReaderPanelBehaviour> Children { get; } = new Dictionary<UserPanel, ReaderPanelBehaviour>();
+        protected Dictionary<UserPanel, T> Children { get; } = new Dictionary<UserPanel, T>();
 
         public override void Display(OrderedCollection<UserPanel> panels, bool active)
         {
@@ -30,25 +54,59 @@ namespace ClinicalTools.SimEncounters
 
             foreach (var child in Children)
                 Destroy(child.Value.gameObject);
-            
+
+            foreach (var spacer in Spacers)
+                SpacerStack.Push(spacer);
+
             Children.Clear();
-            foreach (var panel in panels.Values)
-                DrawPanel(panel, active);
+            DrawChildren(panels.ValueArr, active);
+
+            while (SpacerStack.Count > 0)
+                SpacerStack.Pop().SetActive(false);
         }
 
-        protected virtual void DrawPanel(UserPanel panel, bool active)
+        protected virtual void DrawChildren(UserPanel[] panelValues, bool active)
+        {
+            for (int i = 0; i < panelValues.Length; i++) {
+                if (i > 0)
+                    DrawSpacer();
+                DrawPanel(panelValues[i], active);
+            }
+        }
+
+        protected virtual void DrawSpacer()
+        {
+            if (SpacerPrefab == null)
+                return;
+
+            GameObject spacer;
+            if (SpacerStack.Count > 0) {
+                spacer = SpacerStack.Pop();
+                spacer.SetActive(true);
+            } else {
+                spacer = GameObjectFactory.Create(SpacerPrefab);
+                spacer.transform.SetParent(ChildParent);
+                Spacers.Add(spacer);
+            }
+            spacer.transform.SetAsLastSibling();
+        }
+
+        protected virtual T DrawPanel(UserPanel panel, bool active)
         {
             var prefab = GetChildPanelPrefab(panel);
             if (prefab == null)
-                return;
+                return null;
 
-            var panelBehaviour = ReaderPanelFactory.Create(prefab);
-            panelBehaviour.transform.SetParent(transform);
+            var panelBehaviour = (T)ReaderPanelFactory.Create(prefab);
+            panelBehaviour.transform.SetParent(ChildParent);
+            panelBehaviour.transform.localScale = Vector3.one;
             panelBehaviour.Select(this, new UserPanelSelectedEventArgs(panel, active));
             Children.Add(panel, panelBehaviour);
+
+            return panelBehaviour;
         }
 
-        protected virtual ReaderPanelBehaviour GetChildPanelPrefab(UserPanel childPanel)
+        protected virtual T GetChildPanelPrefab(UserPanel childPanel)
         {
             var type = childPanel.Data.Type;
 
@@ -63,5 +121,8 @@ namespace ClinicalTools.SimEncounters
             Debug.LogError($"No prefab for panel type \"{type}\"");
             return null;
         }
+    }
+    public class ReaderBasicPanelsCreator : ReaderGeneralPanelsCreator<BaseReaderPanelBehaviour>
+    {
     }
 }

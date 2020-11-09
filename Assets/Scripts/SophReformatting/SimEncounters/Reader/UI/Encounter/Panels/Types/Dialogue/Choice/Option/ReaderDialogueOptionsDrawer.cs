@@ -13,14 +13,16 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private List<BaseReaderDialogueOption> panelOptions = new List<BaseReaderDialogueOption>();
         protected ToggleGroup ToggleGroup { get => toggleGroup; set => toggleGroup = value; }
         [SerializeField] private ToggleGroup toggleGroup;
-        public virtual Transform FeedbackParent { get => feedbackParent; set => feedbackParent = value; }
-        [SerializeField] private Transform feedbackParent;
+        public virtual Transform OptionsParent { get => optionsParent; set => optionsParent = value; }
+        [SerializeField] private Transform optionsParent;
+        public virtual Transform CompletedOptionsParent { get => completedOptionsParent; set => completedOptionsParent = value; }
+        [SerializeField] private Transform completedOptionsParent;
 
-        protected ReaderPanelBehaviour.Factory ReaderPanelFactory { get; set; }
+        protected BaseReaderPanelBehaviour.Factory ReaderPanelFactory { get; set; }
         protected IPanelCompletedHandler PanelCompletedHandler { get; set; }
         [Inject]
         public virtual void Inject(
-            ReaderPanelBehaviour.Factory readerPanelFactory,
+            BaseReaderPanelBehaviour.Factory readerPanelFactory,
             IPanelCompletedHandler panelCompletedHandler)
         {
             ReaderPanelFactory = readerPanelFactory;
@@ -39,16 +41,19 @@ namespace ClinicalTools.SimEncounters
                 return;
 
             var option = (BaseReaderDialogueOption)ReaderPanelFactory.Create(prefab);
-            option.transform.SetParent(transform);
+            option.transform.SetParent(OptionsParent);
             option.transform.localScale = Vector3.one;
             option.Select(this, new UserPanelSelectedEventArgs(panel, true));
             option.SetGroup(toggleGroup);
-            if (FeedbackParent != null)
-                option.SetFeedbackParent(FeedbackParent);
             option.CorrectlySelected += OnOptionSelectedCorrectly;
         }
 
-        private void OnOptionSelectedCorrectly(BaseReaderDialogueOption obj) => PanelCompletedHandler.SetCompleted();
+        private void OnOptionSelectedCorrectly(BaseReaderDialogueOption obj)
+        {
+            if (CompletedOptionsParent != null)
+                obj.transform.SetParent(CompletedOptionsParent);
+            PanelCompletedHandler.SetCompleted();
+        }
 
         protected virtual BaseReaderDialogueOption GetChildPanelPrefab(UserPanel childPanel)
         {

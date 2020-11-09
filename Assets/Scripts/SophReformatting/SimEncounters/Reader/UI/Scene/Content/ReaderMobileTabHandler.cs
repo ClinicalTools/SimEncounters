@@ -120,11 +120,12 @@ namespace ClinicalTools.SimEncounters
                 Next = unusedContent.Pop();
 
             Current.Select(sender, eventArgs);
+            
             if (Last != null)
                 Last.Select(this, new UserTabSelectedEventArgs(lastTab, ChangeType.Inactive));
             if (Next != null)
                 Next.Select(this, new UserTabSelectedEventArgs(nextTab, ChangeType.Inactive));
-
+            
             TabDraw();
         }
 

@@ -7,14 +7,22 @@ namespace ClinicalTools.SimEncounters
 {
     public class ReaderPanelLabel : BaseValueField
     {
-        public override string Name => name;
+        [SerializeField] private string valueName;
+        public override string Name
+        {
+            get {
+                if (!string.IsNullOrWhiteSpace(valueName))
+                    return valueName;
+                return name;
+            }
+        }
         public override string Value => Label.text;
 
         public List<GameObject> ControlledObjects { get => controlledObjects; set => controlledObjects = value; }
         [SerializeField] private List<GameObject> controlledObjects;
 
         public string Prefix { get => prefix; set => prefix = value; }
-        [SerializeField] private string prefix;
+        [Multiline] [SerializeField] private string prefix;
         public bool Trim { get => trim; set => trim = value; }
         [SerializeField] private bool trim;
 
@@ -31,7 +39,7 @@ namespace ClinicalTools.SimEncounters
         [Inject]
         public virtual void Inject(ISelectedListener<PanelSelectedEventArgs> panelSelectedListener)
         {
-            PanelSelectedListener = panelSelectedListener; 
+            PanelSelectedListener = panelSelectedListener;
             PanelSelectedListener.AddSelectedListener(OnPanelSelected);
         }
 
@@ -76,8 +84,12 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void HideControlledObjects()
         {
-            foreach (var controlledObject in ControlledObjects)
-                controlledObject.SetActive(false);
+            foreach (var controlledObject in ControlledObjects) {
+                if (controlledObject == null)
+                    Debug.LogError(gameObject.name);
+                else
+                    controlledObject.SetActive(false);
+            }
         }
     }
 }

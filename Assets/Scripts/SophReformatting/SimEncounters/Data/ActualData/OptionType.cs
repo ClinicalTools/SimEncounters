@@ -2,6 +2,6 @@
 {
     public enum OptionType
     {
-        Incorrect, PartiallyCorrect, Correct
+        Incorrect, PartiallyCorrect, Neutral, Correct
     }
 }
