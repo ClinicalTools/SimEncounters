@@ -23,7 +23,7 @@ public class ResizeCanvas : MonoBehaviour
 
     private void Start()
     {
-        print("Resizing to: " + GlobalData.resizeVal);
+        //print("Resizing to: " + GlobalData.resizeVal);
         if (GlobalData.caseObj == null)
             ScaleMenuResize(GlobalData.resizeVal);
         else

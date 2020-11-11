@@ -11,7 +11,6 @@ namespace ClinicalTools.SimEncounters
         public Image PatientImage { get => patientImage; set => patientImage = value; }
         [SerializeField] private Image patientImage;
 
-        protected string PatientImageKey { get; } = "patientImage";
         protected BaseSpriteSelector PatientSpriteSelector { get; set; }
         [Inject] public virtual void Inject(BaseSpriteSelector patientSpriteSelector) => PatientSpriteSelector = patientSpriteSelector;
 
@@ -26,23 +25,26 @@ namespace ClinicalTools.SimEncounters
         {
             base.Display(encounter);
 
-            PatientImageSet();
+            PatientImage.sprite = Encounter.Metadata.Sprite;
         }
 
         protected virtual void SetPatientImage()
         {
-            if (Encounter.Metadata.Sprite != null)
-                Encounter.Content.ImageContent.Sprites.AddKeyedValue(PatientImageKey, Encounter.Metadata.Sprite);
-            var spriteKey = PatientSpriteSelector.SelectSprite(Encounter.Content.ImageContent.Sprites, PatientImageKey);
-            spriteKey.AddOnCompletedListener((key) => PatientImageSet());
+            var sprite = Encounter.Metadata.Sprite;
+            var key = (sprite != null) ? Encounter.Content.ImageContent.Sprites.Add(sprite) : null;
+            var spriteKey = PatientSpriteSelector.SelectSprite(Encounter.Content.ImageContent.Sprites, key);
+            spriteKey.AddOnCompletedListener(PatientImageSet);
         }
 
-        protected virtual void PatientImageSet()
+        protected virtual void PatientImageSet(TaskResult<string> key)
         {
+            if (!key.HasValue())
+                return;
+
             Sprite sprite;
-            if (Encounter.Content.ImageContent.Sprites.ContainsKey(PatientImageKey)) {
-                sprite = Encounter.Content.ImageContent.Sprites[PatientImageKey];
-                Encounter.Content.ImageContent.Sprites.Remove(PatientImageKey);
+            if (Encounter.Content.ImageContent.Sprites.ContainsKey(key.Value)) {
+                sprite = Encounter.Content.ImageContent.Sprites[key.Value];
+                Encounter.Content.ImageContent.Sprites.Remove(key.Value);
             } else {
                 sprite = Encounter.Metadata.Sprite;
             }

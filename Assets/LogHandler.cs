@@ -19,8 +19,8 @@ namespace ClinicalTools.SimEncounters
             DontDestroyOnLoad(gameObject);
 
             Instance = this;
- 
-             Application.logMessageReceived += HandleLog;
+
+            Application.logMessageReceived += HandleLog;
         }
 
         protected virtual void OnDestroy()
@@ -28,7 +28,7 @@ namespace ClinicalTools.SimEncounters
             if (Instance != this)
                 return;
 
-            FileWriter.Close();
+            FileWriter?.Close();
             Application.logMessageReceived -= HandleLog;
         }
 
@@ -50,11 +50,14 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void HandleLog(string logString, string stackTrace, LogType type)
         {
+            if (string.IsNullOrWhiteSpace(logString) && string.IsNullOrWhiteSpace(stackTrace))
+                return;
+
             if (FileWriter == null) {
                 var dirPath = Path.Combine(Application.persistentDataPath, "logs");
                 if (!Directory.Exists(dirPath))
                     Directory.CreateDirectory(dirPath);
-                FileWriter = new StreamWriter(Path.Combine(dirPath, $"{DateTime.UtcNow.Ticks.ToString()}.log"));
+                FileWriter = new StreamWriter(Path.Combine(dirPath, $"{DateTime.UtcNow.Ticks}.log"));
             }
 
             FileWriter.WriteLine($"{GetLogTypePrefix(type)}\t{logString}\n{stackTrace}\n\n");
