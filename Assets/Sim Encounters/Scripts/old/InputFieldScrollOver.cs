@@ -17,7 +17,6 @@ public class InputFieldScrollOver : TMP_InputField
     {
         base.Start();
 
-        UnityEngine.Debug.LogWarning("InputFieldScrollOver");
         textComponent.enabled = true;
     }
 

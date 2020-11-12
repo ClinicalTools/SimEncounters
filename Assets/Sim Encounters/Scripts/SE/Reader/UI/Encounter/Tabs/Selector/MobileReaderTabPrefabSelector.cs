@@ -44,7 +44,7 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual string GetTabPrefabPath(Tab tab)
         {
-            var tabFolder = $"se/Mobile/Reader/Tabs/{tab.Type} Tab/";
+            var tabFolder = $"Prefabs/Shared/Reader/Tabs/{tab.Type} Tab/";
             return $"{tabFolder}{tab.Type.Replace(" ", string.Empty)}Tab";
         }
 

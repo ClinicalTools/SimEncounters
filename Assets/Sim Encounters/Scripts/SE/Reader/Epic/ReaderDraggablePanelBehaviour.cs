@@ -14,8 +14,6 @@ namespace ClinicalTools.SimEncounters
         public override LayoutElement LayoutElement { get => layoutElement; }
         [SerializeField] private LayoutElement layoutElement = null;
 
-        public override Layout.ILayoutElement LayoutElement2 => null;
-
         protected override BaseChildUserPanelsDrawer ChildPanelsDrawer => null;
         protected override BaseUserPinGroupDrawer PinsDrawer => null;
 

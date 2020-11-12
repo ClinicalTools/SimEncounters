@@ -25,7 +25,7 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual BaseTabDrawer GetTabPrefab(Tab tab)
         {
-            var tabFolder = $"Writer/Prefabs/Tabs/{tab.Type} Tab/";
+            var tabFolder = $"Prefabs/Desktop/Writer/Tabs/{tab.Type} Tab/";
             var tabPrefabPath = $"{tabFolder}{tab.Type.Replace(" ", string.Empty)}Tab";
             var tabPrefabGameObject = Resources.Load(tabPrefabPath) as GameObject;
             return tabPrefabGameObject.GetComponent<BaseTabDrawer>();

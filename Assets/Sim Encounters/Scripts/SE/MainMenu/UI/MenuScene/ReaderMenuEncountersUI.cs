@@ -30,7 +30,7 @@ namespace ClinicalTools.SimEncounters
             IsOn = true;
 
             ShowCategoriesToggle.Selected += DisplayCategories;
-            CategorySelector.CategorySelected += CategorySelected;
+            CategorySelector.AddSelectedListener(CategorySelected);
         }
         protected virtual void RemoveListeners()
         {
@@ -39,7 +39,7 @@ namespace ClinicalTools.SimEncounters
             IsOn = false;
 
             ShowCategoriesToggle.Selected -= DisplayCategories;
-            CategorySelector.CategorySelected -= CategorySelected;
+            CategorySelector.AddSelectedListener(CategorySelected);
         }
 
         public override void Display(LoadingMenuSceneInfo loadingSceneInfo)
@@ -86,12 +86,12 @@ namespace ClinicalTools.SimEncounters
             CategorySelector.Show();
         }
 
-        protected virtual void CategorySelected(Category category)
+        protected virtual void CategorySelected(object sender, CategorySelectedEventArgs eventArgs)
         {
             CategorySelector.Hide();
 
-            ShowEncountersToggle.Show(category.Name);
-            EncounterSelector.DisplayForRead(SceneInfo, category.Encounters);
+            ShowEncountersToggle.Show(eventArgs.Category.Name);
+            EncounterSelector.DisplayForRead(SceneInfo, eventArgs.Category.Encounters);
         }
 
         public override void Hide()

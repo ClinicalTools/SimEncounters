@@ -1,9 +1,17 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace ClinicalTools.UI
 {
     public class VerticalDraggableGroup : DraggableGroup
     {
+        protected override void DragStarted(IDraggable draggable, Vector3 mousePosition)
+        {
+            base.DragStarted(draggable, mousePosition);
+
+            (Placeholder.GetComponent<LayoutElement>()).minHeight = draggable.RectTransform.sizeDelta.y;
+        }
+
         protected override void SetPosition(IDraggable draggable, Vector3 mousePosition)
         {
             var position = draggable.RectTransform.position;

@@ -8,7 +8,6 @@ namespace ClinicalTools.UI
     {
         RectTransform RectTransform { get; }
         LayoutElement LayoutElement { get; }
-        Layout.ILayoutElement LayoutElement2 { get; }
 
         event Action<IDraggable, Vector3> DragStarted;
         event Action<IDraggable, Vector3> DragEnded;

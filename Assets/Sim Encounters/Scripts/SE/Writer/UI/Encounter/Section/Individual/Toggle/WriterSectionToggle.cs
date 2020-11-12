@@ -21,9 +21,6 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private Button editButton;
         public override LayoutElement LayoutElement { get => layoutElement; }
         [SerializeField] private LayoutElement layoutElement = null;
-        public override Layout.ILayoutElement LayoutElement2 => LayoutElement3;
-        public Layout.HorizontalGroup LayoutElement3 { get => layoutElement3; set => layoutElement3 = value; }
-        [SerializeField] private Layout.HorizontalGroup layoutElement3;
         public BaseDragHandle DragHandle { get => dragHandle; set => dragHandle = value; }
         [SerializeField] private BaseDragHandle dragHandle;
 
@@ -66,18 +63,10 @@ namespace ClinicalTools.SimEncounters
         {
             Selected?.Invoke();
             EditButton.gameObject.SetActive(true);
-            LayoutElement3.GroupWidth.ControlChild = false;
-            LayoutElement3.GroupWidth.ExpandChild = false;
-            LayoutElement3.GroupWidth.FitChild = true;
-            LayoutElement3.GroupWidth.DimensionLayout.Preferred = null;
         }
         protected virtual void OnUnselected()
         {
             EditButton.gameObject.SetActive(false);
-            LayoutElement3.GroupWidth.ControlChild = true;
-            LayoutElement3.GroupWidth.ExpandChild = true;
-            LayoutElement3.GroupWidth.FitChild = false;
-            LayoutElement3.GroupWidth.DimensionLayout.Preferred = 150;
         }
 
         protected virtual void Edit()

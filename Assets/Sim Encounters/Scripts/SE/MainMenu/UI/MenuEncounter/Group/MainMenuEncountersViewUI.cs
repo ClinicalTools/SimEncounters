@@ -16,7 +16,7 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private Button newCaseButton;
         public Transform OptionsParent { get => optionsParent; set => optionsParent = value; }
         [SerializeField] private Transform optionsParent;
-        protected MainMenuEncounterUI.Pool OptionPool { get; set; }
+        protected MenuEncounterSelector.Pool OptionPool { get; set; }
 
         protected MenuSceneInfo CurrentSceneInfo { get; set; }
 
@@ -25,7 +25,7 @@ namespace ClinicalTools.SimEncounters
         protected BaseAddEncounterPopup AddEncounterPopup { get; set; }
         [Inject]
         protected virtual void Inject(
-            MainMenuEncounterUI.Pool optionPool,
+            MenuEncounterSelector.Pool optionPool,
             BaseAddEncounterPopup addEncounterPopup)
         {
             OptionPool = optionPool; 
@@ -63,8 +63,9 @@ namespace ClinicalTools.SimEncounters
                 return;
             CurrentEncounters = encounters;
 
-            foreach (MainMenuEncounterUI encounterDisplay in EncounterDisplays)
+            foreach (MenuEncounterSelector encounterDisplay in EncounterDisplays)
                 OptionPool.Despawn(encounterDisplay);
+
             EncounterDisplays.Clear();
 
             foreach (var encounter in encounters)
@@ -77,7 +78,7 @@ namespace ClinicalTools.SimEncounters
             gameObject.SetActive(false);
         }
 
-        protected List<MainMenuEncounterUI> EncounterDisplays { get; } = new List<MainMenuEncounterUI>();
+        protected List<MenuEncounterSelector> EncounterDisplays { get; } = new List<MenuEncounterSelector>();
         protected virtual void SetEncounter(MenuEncounter encounter)
         {
             var encounterUI = OptionPool.Spawn();

@@ -14,4 +14,12 @@ namespace ClinicalTools.SimEncounters
             SelectionType = selectionType;
         }
     }
+    public class CategorySelectedEventArgs : EventArgs
+    {
+        public Category Category { get; }
+        public CategorySelectedEventArgs(Category category)
+        {
+            Category = category;
+        }
+    }
 }

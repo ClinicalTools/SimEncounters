@@ -23,7 +23,6 @@ namespace ClinicalTools.SimEncounters
 
         public override void InstallBindings()
         {
-            Application.logMessageReceived += Logger.Application_logMessageReceived;
             Container.Bind<IEncounterStarter>().To<EncounterEditStarter>().AsTransient().WhenInjectedInto<EncounterSelectorWriterButtons>();
             Container.Bind<IEncounterStarter>().To<EncounterReadStarter>().AsTransient().WhenInjectedInto<EncounterSelectorReaderButtons>();
 
@@ -36,7 +35,7 @@ namespace ClinicalTools.SimEncounters
             Container.BindInstance(MetadataSelector);
             Container.BindInstance(MenuEncounterOverview);
 
-            Container.BindMemoryPool<MainMenuEncounterUI, MainMenuEncounterUI.Pool>()
+            Container.BindMemoryPool<MainMenuEncounterUI, MenuEncounterSelector.Pool>()
                 .FromComponentInNewPrefab(EncounterSelectorPrefab)
                 .UnderTransform(PoolParent);
         }

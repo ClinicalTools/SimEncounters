@@ -28,7 +28,6 @@ public class InputFieldResizer : MonoBehaviour
 
     void Start()
     {
-        Debug.LogWarning("InputFieldResizer");
         if (InputField.characterValidation.Equals(TMP_InputField.CharacterValidation.None))
             InputField.onValidateInput += MyValidate;
         NextFrame.Function(ResizeField);

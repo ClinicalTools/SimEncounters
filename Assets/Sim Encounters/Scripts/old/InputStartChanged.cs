@@ -9,7 +9,6 @@ public class InputStartChanged : MonoBehaviour {
 	// Use this for initialization
 	void Start()
     {
-        Debug.LogWarning("InputStartChanged");
         var input = gameObject.GetComponent<TMP_InputField>();
         NextFrame.Function(
             delegate { input.onValueChanged.Invoke(input.text); });

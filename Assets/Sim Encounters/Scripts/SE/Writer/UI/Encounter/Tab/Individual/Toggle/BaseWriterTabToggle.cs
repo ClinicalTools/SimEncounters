@@ -9,9 +9,7 @@ namespace ClinicalTools.SimEncounters
     {
         public virtual RectTransform RectTransform => (RectTransform)transform;
 
-        public abstract UnityEngine.UI.LayoutElement LayoutElement { get; }
-
-        public abstract Layout.ILayoutElement LayoutElement2 { get; }
+        public abstract LayoutElement LayoutElement { get; }
 
         public abstract event Action Selected;
         public abstract event Action<Tab> Edited;

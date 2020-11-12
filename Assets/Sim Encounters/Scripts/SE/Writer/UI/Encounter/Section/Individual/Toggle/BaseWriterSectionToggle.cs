@@ -11,7 +11,6 @@ namespace ClinicalTools.SimEncounters
 
         public abstract LayoutElement LayoutElement { get; }
 
-        public abstract Layout.ILayoutElement LayoutElement2 { get; }
 
         public abstract event Action Selected;
         public abstract event Action<Section> Edited;

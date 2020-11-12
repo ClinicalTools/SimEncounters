@@ -24,8 +24,10 @@ namespace ClinicalTools.SimEncounters
                 ToggleViewButton.Display(GetNextView());
                 ToggleViewButton.Selected += ChangeView;
             }
-            Sidebar.SearchStuff.SortingOrder.SortingOrderChanged += (sortingOrder) => ShowEncounters();
-            Sidebar.SearchStuff.Filters.FilterChanged += (filter) => ShowEncounters();
+            if (Sidebar != null) {
+                Sidebar.SearchStuff.SortingOrder.SortingOrderChanged += (sortingOrder) => ShowEncounters();
+                Sidebar.SearchStuff.Filters.FilterChanged += (filter) => ShowEncounters();
+            }
         }
 
         public override void Initialize()
@@ -55,14 +57,17 @@ namespace ClinicalTools.SimEncounters
             CurrentEncounters = encounters;
 
             ShowEncounters();
-
-            Sidebar.Show();
+            if (Sidebar != null)
+                Sidebar.Show();
             if (ToggleViewButton != null)
                 ToggleViewButton.Show();
         }
 
         private IEnumerable<MenuEncounter> FilterEncounterDetails(IEnumerable<MenuEncounter> encounters)
         {
+            if (Sidebar == null)
+                return encounters;
+
             var filter = Sidebar.SearchStuff.Filters.EncounterFilter;
             return encounters.Where(e => filter(e));
         }
@@ -70,7 +75,8 @@ namespace ClinicalTools.SimEncounters
         private void ShowEncounters()
         {
             var encounters = new List<MenuEncounter>(FilterEncounterDetails(CurrentEncounters));
-            encounters.Sort(Sidebar.SearchStuff.SortingOrder.Comparison);
+            if (Sidebar != null)
+                encounters.Sort(Sidebar.SearchStuff.SortingOrder.Comparison);
 
             var encounterView = EncounterViews[currentViewIndex];
             if (IsRead)
@@ -104,8 +110,10 @@ namespace ClinicalTools.SimEncounters
         {
             EncounterViews[currentViewIndex].Hide();
             if (ToggleViewButton != null)
-                ToggleViewButton.Hide();
-            Sidebar.Hide();
+                ToggleViewButton.Hide(); 
+            
+            if (Sidebar != null)
+                Sidebar.Hide();
         }
     }
 }

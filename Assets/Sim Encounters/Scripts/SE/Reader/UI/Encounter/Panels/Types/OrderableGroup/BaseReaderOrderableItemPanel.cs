@@ -2,6 +2,7 @@
 using ClinicalTools.UI;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -9,9 +10,8 @@ namespace ClinicalTools.SimEncounters
     {
         public UserPanel CurrentPanel { get; protected set; }
         public abstract RectTransform RectTransform { get; }
-        public abstract UnityEngine.UI.LayoutElement LayoutElement { get; }
+        public abstract LayoutElement LayoutElement { get; }
 
-        public Layout.ILayoutElement LayoutElement2 => null;
 
         public abstract event Action<IDraggable, Vector3> DragStarted;
         public abstract event Action<IDraggable, Vector3> DragEnded;

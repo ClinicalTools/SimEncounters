@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace ClinicalTools.UI
 {
@@ -8,7 +9,7 @@ namespace ClinicalTools.UI
         {
             base.DragStarted(draggable, mousePosition);
 
-            (Placeholder.GetComponent<Layout.LayoutElement>()).WidthValues.Min = draggable.RectTransform.sizeDelta.x;
+            (Placeholder.GetComponent<LayoutElement>()).minWidth = draggable.RectTransform.sizeDelta.x;
         }
 
         protected override void SetPosition(IDraggable draggable, Vector3 mousePosition)

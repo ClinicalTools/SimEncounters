@@ -44,8 +44,7 @@ namespace ClinicalTools.SimEncounters
     public abstract class ReaderOrderablePanelBehaviour : BaseReaderPanelBehaviour, IDraggable
     {
         public abstract RectTransform RectTransform { get; }
-        public abstract UnityEngine.UI.LayoutElement LayoutElement { get; }
-        public abstract Layout.ILayoutElement LayoutElement2 { get; }
+        public abstract LayoutElement LayoutElement { get; }
 
         public abstract event ReaderPanelsReordered ReaderPanelsReordered;
         public abstract event Action<IDraggable, Vector3> DragStarted;

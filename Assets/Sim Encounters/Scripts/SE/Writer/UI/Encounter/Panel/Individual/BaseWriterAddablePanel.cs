@@ -13,7 +13,6 @@ namespace ClinicalTools.SimEncounters
         public RectTransform RectTransform => (RectTransform)transform;
         public abstract LayoutElement LayoutElement { get; }
 
-        public virtual Layout.ILayoutElement LayoutElement2 => null;
 
         public abstract event Action<IDraggable, Vector3> DragStarted;
         public abstract event Action<IDraggable, Vector3> DragEnded;

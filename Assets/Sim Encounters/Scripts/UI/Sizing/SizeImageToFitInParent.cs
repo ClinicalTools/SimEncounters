@@ -30,7 +30,7 @@ namespace ClinicalTools.SimEncounters.UI
         }
         protected virtual void Update()
         {
-            if (Texture == Image.sprite.texture)
+            if (Image.sprite == null || Texture == Image.sprite.texture)
                 return;
 
             UpdateSize();
@@ -45,6 +45,8 @@ namespace ClinicalTools.SimEncounters.UI
 
         protected virtual void UpdateSize()
         {
+            if (Image.sprite == null)
+                return;
             Texture = Image.sprite.texture;
             if (Texture == null)
                 return;

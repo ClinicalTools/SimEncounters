@@ -1,7 +1,6 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -10,22 +9,25 @@ namespace ClinicalTools.SimEncounters
     {
         public Transform OptionsParent { get => optionsParent; set => optionsParent = value; }
         [SerializeField] private Transform optionsParent;
-        public MainMenuCategorySelectorUI CategoryPrefab { get => categoryPrefab; set => categoryPrefab = value; }
-        [SerializeField] private MainMenuCategorySelectorUI categoryPrefab;
+        protected CategorySelector.Pool OptionPool { get; set; }
 
-        public override event Action<Category> CategorySelected;
-
-        protected List<MainMenuCategorySelectorUI> CategoryUIs { get; } = new List<MainMenuCategorySelectorUI>();
+        protected List<CategorySelector> CategoryUIs { get; } = new List<CategorySelector>();
         protected IEnumerable<Category> CurrentCategories { get; set; }
+
+
+        [Inject] protected virtual void Inject(CategorySelector.Pool optionPool) => OptionPool = optionPool;
+
         public override void Display(MenuSceneInfo sceneInfo, IEnumerable<Category> categories)
         {
             gameObject.SetActive(true);
             if (CurrentCategories == categories)
                 return;
             CurrentCategories = categories;
-            
-            foreach (var categoryUI in CategoryUIs)
-                Destroy(categoryUI.gameObject);
+
+            foreach (var categoryUI in CategoryUIs) {
+                categoryUI.RemoveSelectedListener(Selector.Select);
+                OptionPool.Despawn(categoryUI);
+            }
             CategoryUIs.Clear();
 
             var sortedCategories = SortCategories(categories);
@@ -42,10 +44,18 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void ShowCategoryButton(Category category)
         {
-            var categoryUI = Instantiate(CategoryPrefab, OptionsParent);
-            categoryUI.Selected += () => CategorySelected?.Invoke(category);
-            categoryUI.Display(category.Name, category);
+            var categoryUI = OptionPool.Spawn(); 
+            categoryUI.transform.SetParent(OptionsParent);
+            categoryUI.transform.localScale = Vector3.one;
+            categoryUI.Select(this, new CategorySelectedEventArgs(category));
+            categoryUI.AddSelectedListener(Select);
             CategoryUIs.Add(categoryUI);
+        }
+
+        protected virtual void Select(object sender, CategorySelectedEventArgs eventArgs)
+        {
+            if ((object)sender != this)
+                Selector.Select(sender, eventArgs);
         }
 
         public override void Show() => gameObject.SetActive(true);

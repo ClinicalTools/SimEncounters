@@ -5,8 +5,8 @@ namespace ClinicalTools.SimEncounters
 {
     public class MenuEncounterSelectorPoolInstaller : MonoInstaller
     {
-        public MainMenuEncounterUI EncounterSelectorPrefab { get => encounterSelectorPrefab; set => encounterSelectorPrefab = value; }
-        [SerializeField] private MainMenuEncounterUI encounterSelectorPrefab;
+        public MenuEncounterSelector EncounterSelectorPrefab { get => encounterSelectorPrefab; set => encounterSelectorPrefab = value; }
+        [SerializeField] private MenuEncounterSelector encounterSelectorPrefab;
         public Transform PoolParent { get => poolParent; set => poolParent = value; }
         [SerializeField] private Transform poolParent;
         public int InitialSize { get => initialSize; set => initialSize = value; }
@@ -14,7 +14,7 @@ namespace ClinicalTools.SimEncounters
 
         public override void InstallBindings()
         {
-            Container.BindMemoryPool<MainMenuEncounterUI, MainMenuEncounterUI.Pool>()
+            Container.BindMemoryPool<MenuEncounterSelector, MenuEncounterSelector.Pool>()
                 .WithInitialSize(InitialSize)
                 .FromComponentInNewPrefab(EncounterSelectorPrefab)
                 .UnderTransform(PoolParent);
