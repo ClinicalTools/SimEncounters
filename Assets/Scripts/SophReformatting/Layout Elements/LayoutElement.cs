@@ -17,6 +17,9 @@ namespace ClinicalTools.Layout
 
             WidthValues.ValueChanged += () => InvokeValueChanged();
             HeightValues.ValueChanged += () => InvokeValueChanged();
+
+
+            Debug.LogWarning("LayoutElement");
         }
     }
 }

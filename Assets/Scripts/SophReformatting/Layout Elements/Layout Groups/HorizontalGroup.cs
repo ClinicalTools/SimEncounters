@@ -14,6 +14,8 @@ namespace ClinicalTools.Layout
 
         protected override void Initialize()
         {
+            Debug.LogWarning("HorizontalGroup");
+
             HorizontalPadding.ValueChanged += InvokeValueChanged;
             VerticalPadding.ValueChanged += InvokeValueChanged;
 

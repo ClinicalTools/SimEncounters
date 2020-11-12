@@ -1457,7 +1457,7 @@ PrefabInstance:
     - target: {fileID: 932577650080248913, guid: 85b94a20491c8b24d9595fd21868532d,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 69.11
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 932577650080248913, guid: 85b94a20491c8b24d9595fd21868532d,
         type: 3}
@@ -2783,7 +2783,6 @@ GameObject:
   - component: {fileID: 708644090}
   - component: {fileID: 708644094}
   - component: {fileID: 708644093}
-  - component: {fileID: 708644092}
   - component: {fileID: 708644091}
   m_Layer: 5
   m_Name: MobileCursor
@@ -2830,19 +2829,6 @@ MonoBehaviour:
   normalCursorTexture: {fileID: 2800000, guid: cb21a4a7e9dccb849b0e98e1a13611c2, type: 3}
   draggableCursorTexture: {fileID: 2800000, guid: 57a0d30217546f540a0a8ef56ee187ec,
     type: 3}
---- !u!114 &708644092
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 708644089}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c568e29efb496e645ad85ee4a6523b58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  image: {fileID: 708644093}
 --- !u!114 &708644093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9149,7 +9135,6 @@ GameObject:
   - component: {fileID: 1595584731}
   - component: {fileID: 1595584730}
   - component: {fileID: 1595584729}
-  - component: {fileID: 1595584736}
   - component: {fileID: 1595584733}
   - component: {fileID: 1595584735}
   - component: {fileID: 1595584734}
@@ -9232,9 +9217,9 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1353375279}
+  - {fileID: 1703515286}
   - {fileID: 1146575640}
   - {fileID: 1127499989595049307}
-  - {fileID: 1703515286}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9292,18 +9277,6 @@ MonoBehaviour:
   saveButton: {fileID: 1628804987}
   readerButton: {fileID: 5271864625889975377}
   encounterDrawer: {fileID: 1595584734}
---- !u!114 &1595584736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1595584728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a53b0237cd03e84ba84d294588855e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1611962170
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10800,7 +10773,7 @@ RectTransform:
   - {fileID: 2010034873}
   - {fileID: 1957263082}
   m_Father: {fileID: 1595584732}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -11799,7 +11772,6 @@ GameObject:
   - component: {fileID: 224390266067528178}
   - component: {fileID: 114238766124020398}
   - component: {fileID: 114433238702374980}
-  - component: {fileID: 114864936322376250}
   - component: {fileID: 223448534845632992}
   - component: {fileID: 114169237920457946}
   m_Layer: 5
@@ -11859,9 +11831,7 @@ GameObject:
   - component: {fileID: 222131697751854318}
   - component: {fileID: 114763781304856384}
   - component: {fileID: 114683338972765402}
-  - component: {fileID: 114482412571973844}
   - component: {fileID: 223145664272279066}
-  - component: {fileID: 114632802582561678}
   - component: {fileID: 114890968267269328}
   - component: {fileID: 1407962976}
   m_Layer: 5
@@ -11923,8 +11893,6 @@ GameObject:
   - component: {fileID: 222325240919831396}
   - component: {fileID: 114336445999752590}
   - component: {fileID: 114179468510056418}
-  - component: {fileID: 114986334972466514}
-  - component: {fileID: 114325952801020478}
   - component: {fileID: 223818248634400050}
   - component: {fileID: 114449754216270086}
   - component: {fileID: 1365716723857722124}
@@ -12165,7 +12133,6 @@ GameObject:
   - component: {fileID: 114617926224765110}
   - component: {fileID: 114917361525234552}
   - component: {fileID: 114766801570424722}
-  - component: {fileID: 114693754064206928}
   - component: {fileID: 5776852291464962902}
   m_Layer: 5
   m_Name: ExitApplication
@@ -12514,7 +12481,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114864936322376250}
+      - m_Target: {fileID: 0}
         m_MethodName: ToggleOverlay
         m_Mode: 1
         m_Arguments:
@@ -12655,20 +12622,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &114325952801020478
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1333334849990492}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b34ec394414a2e441a46a6699367e136, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  helpName: AddSectionButton
-  ignorePosition: 1
 --- !u!114 &114329094884416162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12807,23 +12760,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114482412571973844
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1297622052829602}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48f7701ed552bd4abee751999b78a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TitleText: 
-  DescriptionText: 
-  Delay: 0.5
-  ToolTipCanvas: {fileID: 0}
-  tooltipName: AddTabButton
 --- !u!114 &114508712679372378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12995,20 +12931,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &114632802582561678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1297622052829602}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b34ec394414a2e441a46a6699367e136, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  helpName: AddTabButton
-  ignorePosition: 1
 --- !u!114 &114632946395415494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13171,19 +13093,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &114693754064206928
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1867206961354636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78cb8fdee89f6bc44870a157594f5b0c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hideOnWindowed: 1
 --- !u!114 &114713301075934060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13409,18 +13318,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &114864936322376250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1208113484175242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61a0fa6b32b96c943a1038f8da205652, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114890968267269328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13494,18 +13391,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114617926224765110}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114693754064206928}
-        m_MethodName: ConfirmExit
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &114924368866723114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13622,23 +13508,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &114986334972466514
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1333334849990492}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48f7701ed552bd4abee751999b78a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TitleText: 
-  DescriptionText: 
-  Delay: 0.5
-  ToolTipCanvas: {fileID: 0}
-  tooltipName: AddSectionButton
 --- !u!222 &222000505081374690
 CanvasRenderer:
   m_ObjectHideFlags: 0
