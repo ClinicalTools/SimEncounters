@@ -12,7 +12,7 @@ namespace ClinicalTools.UI
         public Toggle Toggle { get => toggle; set => toggle = value; }
         [SerializeField] private Toggle toggle;
 
-        protected void Awake() => Initialize();
+        protected virtual void Start() => Initialize();
         private bool initialized = false;
         protected virtual void Initialize()
         {

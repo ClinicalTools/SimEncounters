@@ -30,22 +30,21 @@ namespace ClinicalTools.SimEncounters
             base.Select(sender, eventArgs);
         }
 
-        protected virtual void CategorySelected() => Selector.Select(this, CurrentValue);
+        protected virtual void CategorySelected() => Select(this, CurrentValue);
 
     }
     public abstract class CategorySelector : MonoBehaviour,
         ISelector<CategorySelectedEventArgs>
     {
-        protected virtual Selector<CategorySelectedEventArgs> Selector { get; } = new Selector<CategorySelectedEventArgs>();
+        public virtual CategorySelectedEventArgs CurrentValue { get; protected set; }
 
-        public virtual CategorySelectedEventArgs CurrentValue => Selector.CurrentValue;
-        public virtual void AddSelectedListener(SelectedHandler<CategorySelectedEventArgs> handler)
-            => Selector.AddSelectedListener(handler);
+        public event SelectedHandler<CategorySelectedEventArgs> Selected;
 
-        public virtual void RemoveSelectedListener(SelectedHandler<CategorySelectedEventArgs> handler)
-            => Selector.RemoveSelectedListener(handler);
-
-        public virtual void Select(object sender, CategorySelectedEventArgs eventArgs) => Selector.Select(sender, eventArgs);
+        public virtual void Select(object sender, CategorySelectedEventArgs eventArgs)
+        {
+            CurrentValue = eventArgs;
+            Selected?.Invoke(sender, eventArgs);
+        }
 
         public class Pool : SceneMonoMemoryPool<CategorySelector>
         {

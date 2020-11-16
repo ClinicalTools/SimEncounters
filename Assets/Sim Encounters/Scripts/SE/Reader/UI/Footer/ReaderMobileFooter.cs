@@ -35,8 +35,13 @@ namespace ClinicalTools.SimEncounters
         }
         protected virtual void Start()
         {
-            UserEncounterSelector.AddSelectedListener(OnEncounterSelected);
-            UserTabSelector.AddSelectedListener(OnTabSelected);
+            UserEncounterSelector.Selected += OnEncounterSelected;
+            if (UserEncounterSelector.CurrentValue != null)
+                OnEncounterSelected(UserEncounterSelector, UserEncounterSelector.CurrentValue);
+
+            UserTabSelector.Selected += OnTabSelected;
+            if (UserTabSelector.CurrentValue != null)
+                OnTabSelected(UserTabSelector, UserTabSelector.CurrentValue);
         }
 
         protected virtual void Awake()

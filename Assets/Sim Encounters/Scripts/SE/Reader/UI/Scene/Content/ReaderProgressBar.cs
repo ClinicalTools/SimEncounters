@@ -23,8 +23,13 @@ namespace ClinicalTools.SimEncounters
         }
         protected virtual void Start()
         {
-            EncounterSelector.AddSelectedListener(OnEncounterSelected);
-            TabSelector.AddSelectedListener(OnTabSelected);
+            EncounterSelector.Selected += OnEncounterSelected;
+            if (EncounterSelector.CurrentValue != null)
+                OnEncounterSelected(EncounterSelector, EncounterSelector.CurrentValue);
+
+            TabSelector.Selected += OnTabSelected;
+            if (TabSelector.CurrentValue != null)
+                OnTabSelected(TabSelector, TabSelector.CurrentValue);
         }
 
         protected EncounterNonImageContent NonImageContent { get; set; }
@@ -57,9 +62,8 @@ namespace ClinicalTools.SimEncounters
         
         protected virtual void OnDestroy()
         {
-            EncounterSelector?.RemoveSelectedListener(OnEncounterSelected);
-            TabSelector?.RemoveSelectedListener(OnTabSelected);
+            EncounterSelector.Selected -= OnEncounterSelected;
+            TabSelector.Selected -= OnTabSelected;
         }
-
     }
 }

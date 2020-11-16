@@ -64,12 +64,14 @@ namespace ClinicalTools.SimEncounters
         protected override void Start()
         {
             base.Start();
-            PanelSelectedListener.AddSelectedListener(OnPanelSelected);
+            PanelSelectedListener.Selected += OnPanelSelected;
+            if (PanelSelectedListener.CurrentValue != null)
+                OnPanelSelected(PanelSelectedListener, PanelSelectedListener.CurrentValue);
         }
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            PanelSelectedListener.RemoveSelectedListener(OnPanelSelected);
+            PanelSelectedListener.Selected -= OnPanelSelected;
         }
 
         protected virtual void OnPanelSelected(object sender, PanelSelectedEventArgs eventArgs)

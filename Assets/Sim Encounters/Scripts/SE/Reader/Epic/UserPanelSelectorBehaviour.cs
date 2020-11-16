@@ -6,24 +6,24 @@ namespace ClinicalTools.SimEncounters
         ISelector<UserPanelSelectedEventArgs>,
         ISelectedListener<PanelSelectedEventArgs>
     {
-        protected ISelector<UserPanelSelectedEventArgs> UserPanelSelector { get; } = new Selector<UserPanelSelectedEventArgs>();
-        protected ISelector<PanelSelectedEventArgs> PanelSelector { get; } = new Selector<PanelSelectedEventArgs>();
+        public UserPanelSelectedEventArgs CurrentValue { get; protected set; }
+        protected PanelSelectedEventArgs CurrentPanelValue { get; set; }
+        PanelSelectedEventArgs ISelectedListener<PanelSelectedEventArgs>.CurrentValue => CurrentPanelValue;
 
-        UserPanelSelectedEventArgs ISelectedListener<UserPanelSelectedEventArgs>.CurrentValue => UserPanelSelector.CurrentValue;
-        PanelSelectedEventArgs ISelectedListener<PanelSelectedEventArgs>.CurrentValue => PanelSelector.CurrentValue;
+        public event SelectedHandler<UserPanelSelectedEventArgs> Selected;
+        public event SelectedHandler<PanelSelectedEventArgs> PanelSelected;
+        event SelectedHandler<PanelSelectedEventArgs> ISelectedListener<PanelSelectedEventArgs>.Selected {
+            add => PanelSelected += value;
+            remove => PanelSelected -= value;
+        }
 
-        public virtual void AddSelectedListener(SelectedHandler<UserPanelSelectedEventArgs> handler)
-            => UserPanelSelector.AddSelectedListener(handler);
-        public virtual void AddSelectedListener(SelectedHandler<PanelSelectedEventArgs> handler) => PanelSelector.AddSelectedListener(handler);
-
-        public virtual void RemoveSelectedListener(SelectedHandler<UserPanelSelectedEventArgs> handler) 
-            => UserPanelSelector.RemoveSelectedListener(handler);
-        public virtual void RemoveSelectedListener(SelectedHandler<PanelSelectedEventArgs> handler) => PanelSelector.RemoveSelectedListener(handler);
-
-        public virtual void Select(object sender, UserPanelSelectedEventArgs userPanel)
+        public virtual void Select(object sender, UserPanelSelectedEventArgs eventArgs)
         {
-            UserPanelSelector.Select(sender, userPanel);
-            PanelSelector.Select(sender, new PanelSelectedEventArgs(userPanel.SelectedPanel.Data));
+            CurrentValue = eventArgs;
+            Selected?.Invoke(sender, eventArgs);
+
+            CurrentPanelValue = new PanelSelectedEventArgs(eventArgs.SelectedPanel.Data);
+            PanelSelected?.Invoke(sender, CurrentPanelValue);
         }
     }
 }

@@ -24,12 +24,16 @@ namespace ClinicalTools.SimEncounters
             EncounterInfoPopup = encounterInfoPopup;
             UserEncounterSelector = userEncounterSelector;
         }
-        protected virtual void Start() => UserEncounterSelector.AddSelectedListener(OnUserEncounterSelected);
-
+        protected virtual void Start()
+        {
+            UserEncounterSelector.Selected += OnUserEncounterSelected;
+            if (UserEncounterSelector.CurrentValue != null)
+                OnUserEncounterSelected(UserEncounterSelector, UserEncounterSelector.CurrentValue);
+        }
         protected virtual void OnUserEncounterSelected(object sender, UserEncounterSelectedEventArgs eventArgs) 
             => CurrentUserEncounter = eventArgs.Encounter;
 
-        protected virtual void OnDestroy() => UserEncounterSelector?.RemoveSelectedListener(OnUserEncounterSelected);
+        protected virtual void OnDestroy() => UserEncounterSelector.Selected -= OnUserEncounterSelected;
         protected virtual void Awake() => Button.onClick.AddListener(ShowEncounterInfo);
         public virtual void ShowEncounterInfo() => EncounterInfoPopup.ShowEncounterInfo(CurrentUserEncounter);
     }

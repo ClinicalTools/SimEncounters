@@ -4,30 +4,34 @@
         ISelector<UserSectionSelectedEventArgs>,
         ISelectedListener<SectionSelectedEventArgs>
     {
-        protected ISelector<UserSectionSelectedEventArgs> UserSectionSelector { get; } = new Selector<UserSectionSelectedEventArgs>();
-        protected ISelector<SectionSelectedEventArgs> SectionSelector { get; } = new Selector<SectionSelectedEventArgs>();
+        protected UserSectionSelectedEventArgs UserSectionValue { get; set; }
+        UserSectionSelectedEventArgs ISelectedListener<UserSectionSelectedEventArgs>.CurrentValue => UserSectionValue;
+        public event SelectedHandler<UserSectionSelectedEventArgs> UserSectionSelected;
+        event SelectedHandler<UserSectionSelectedEventArgs> ISelectedListener<UserSectionSelectedEventArgs>.Selected {
+            add => UserSectionSelected += value;
+            remove => UserSectionSelected -= value;
+        }
 
-        UserSectionSelectedEventArgs ISelectedListener<UserSectionSelectedEventArgs>.CurrentValue => UserSectionSelector.CurrentValue;
-        SectionSelectedEventArgs ISelectedListener<SectionSelectedEventArgs>.CurrentValue => SectionSelector.CurrentValue;
-
-        protected UserSection CurrentSection { get; set; }
-
-        public virtual void AddSelectedListener(SelectedHandler<UserSectionSelectedEventArgs> handler) => UserSectionSelector.AddSelectedListener(handler);
-        public virtual void AddSelectedListener(SelectedHandler<SectionSelectedEventArgs> handler) => SectionSelector.AddSelectedListener(handler);
-
-        public virtual void RemoveSelectedListener(SelectedHandler<UserSectionSelectedEventArgs> handler) => UserSectionSelector.RemoveSelectedListener(handler);
-        public virtual void RemoveSelectedListener(SelectedHandler<SectionSelectedEventArgs> handler) => SectionSelector.RemoveSelectedListener(handler);
+        protected SectionSelectedEventArgs SectionValue { get; set; }
+        SectionSelectedEventArgs ISelectedListener<SectionSelectedEventArgs>.CurrentValue => SectionValue;
+        public event SelectedHandler<SectionSelectedEventArgs> SectionSelected;
+        event SelectedHandler<SectionSelectedEventArgs> ISelectedListener<SectionSelectedEventArgs>.Selected {
+            add => SectionSelected += value;
+            remove => SectionSelected -= value;
+        }
 
         public virtual void Select(object sender, UserSectionSelectedEventArgs eventArgs)
         {
-            CurrentSection = eventArgs.SelectedSection;
-            UserSectionSelector.Select(sender, eventArgs);
-            SectionSelector.Select(sender, new SectionSelectedEventArgs(CurrentSection.Data));
+            UserSectionValue = eventArgs;
+            UserSectionSelected?.Invoke(sender, UserSectionValue);
+
+            SectionValue = new SectionSelectedEventArgs(UserSectionValue.SelectedSection.Data);
+            SectionSelected?.Invoke(sender, SectionValue);
         }
 
         public override void Select(object sender, UserTabSelectedEventArgs eventArgs)
         {
-            CurrentSection.Data.SetCurrentTab(eventArgs.SelectedTab.Data);
+            SectionValue.SelectedSection.SetCurrentTab(eventArgs.SelectedTab.Data);
             base.Select(sender, eventArgs);
         }
     }

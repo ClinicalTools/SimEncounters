@@ -32,8 +32,13 @@ namespace ClinicalTools.SimEncounters
         }
         protected virtual void Start()
         {
-            UserSectionSelector.AddSelectedListener(OnSectionSelected);
-            UserTabSelector.AddSelectedListener(OnTabSelected);
+            UserSectionSelector.Selected += OnSectionSelected;
+            if (UserSectionSelector.CurrentValue != null)
+                OnSectionSelected(UserSectionSelector, UserSectionSelector.CurrentValue);
+
+            UserTabSelector.Selected += OnTabSelected;
+            if (UserTabSelector.CurrentValue != null)
+                OnTabSelected(UserTabSelector, UserTabSelector.CurrentValue);
         }
 
         protected UserSection Section { get; set; }
@@ -85,6 +90,9 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void OnTabSelected(object sender, UserTabSelectedEventArgs eventArgs)
         {
+            if ((object)sender == this)
+                return;
+
             CurrentTab = eventArgs.SelectedTab;
             TabButtons[CurrentTab].Select();
         }

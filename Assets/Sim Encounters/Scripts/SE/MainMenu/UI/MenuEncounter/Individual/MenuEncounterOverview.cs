@@ -12,33 +12,31 @@ namespace ClinicalTools.SimEncounters
         ISelector<MenuEncounterSelectedEventArgs>,
         ISelectedListener<EncounterMetadataSelectedEventArgs>
     {
-        protected Selector<MenuEncounterSelectedEventArgs> EncounterSelector { get; } = new Selector<MenuEncounterSelectedEventArgs>();
-        protected Selector<EncounterMetadataSelectedEventArgs> MetadataSelector { get; } = new Selector<EncounterMetadataSelectedEventArgs>();
+        public MenuEncounterSelectedEventArgs CurrentValue { get; protected set; }
+        protected EncounterMetadataSelectedEventArgs CurrentMetadataValue { get; set; }
+        EncounterMetadataSelectedEventArgs ISelectedListener<EncounterMetadataSelectedEventArgs>.CurrentValue => CurrentMetadataValue;
+
+        public event SelectedHandler<MenuEncounterSelectedEventArgs> Selected;
+        public event SelectedHandler<EncounterMetadataSelectedEventArgs> MetadataSelected;
+        event SelectedHandler<EncounterMetadataSelectedEventArgs> ISelectedListener<EncounterMetadataSelectedEventArgs>.Selected {
+            add => MetadataSelected += value;
+            remove => MetadataSelected -= value;
+        }
 
         public virtual EncounterButtonsUI EncounterButtons { get => encounterButtons; set => encounterButtons = value; }
         [SerializeField] private EncounterButtonsUI encounterButtons;
         public virtual DeleteDownloadHandler DeleteDownloadHandler { get => deleteDownloadHandler; set => deleteDownloadHandler = value; }
         [SerializeField] private DeleteDownloadHandler deleteDownloadHandler;
 
-        MenuEncounterSelectedEventArgs ISelectedListener<MenuEncounterSelectedEventArgs>.CurrentValue => EncounterSelector.CurrentValue;
-        EncounterMetadataSelectedEventArgs ISelectedListener<EncounterMetadataSelectedEventArgs>.CurrentValue => MetadataSelector.CurrentValue;
-
-
-        public void AddSelectedListener(SelectedHandler<MenuEncounterSelectedEventArgs> handler)
-            => EncounterSelector.AddSelectedListener(handler);
-        public void AddSelectedListener(SelectedHandler<EncounterMetadataSelectedEventArgs> handler)
-            => MetadataSelector.AddSelectedListener(handler);
-
-        public void RemoveSelectedListener(SelectedHandler<EncounterMetadataSelectedEventArgs> handler)
-            => MetadataSelector.RemoveSelectedListener(handler);
-        public void RemoveSelectedListener(SelectedHandler<MenuEncounterSelectedEventArgs> handler)
-            => EncounterSelector.RemoveSelectedListener(handler);
 
         public override void Select(object sender, MenuEncounterSelectedEventArgs eventArgs)
         {
             gameObject.SetActive(true);
-            EncounterSelector.Select(sender, eventArgs);
-            MetadataSelector.Select(sender, new EncounterMetadataSelectedEventArgs(eventArgs.Encounter.GetLatestMetadata()));
+
+            CurrentValue = eventArgs;
+            Selected?.Invoke(sender, eventArgs);
+            CurrentMetadataValue = new EncounterMetadataSelectedEventArgs(eventArgs.Encounter.GetLatestMetadata());
+            MetadataSelected?.Invoke(sender, CurrentMetadataValue);
         }
 
         public override void Hide() => gameObject.SetActive(false);

@@ -40,12 +40,20 @@ namespace ClinicalTools.SimEncounters
         public virtual void Inject(ISelectedListener<PanelSelectedEventArgs> panelSelectedListener)
         {
             PanelSelectedListener = panelSelectedListener;
-            PanelSelectedListener.AddSelectedListener(OnPanelSelected);
+            PanelSelectedListener.Selected += OnPanelSelected;
+            if (PanelSelectedListener.CurrentValue != null)
+                OnPanelSelected(PanelSelectedListener, PanelSelectedListener.CurrentValue);
         }
 
-        protected virtual void OnDestroy() => PanelSelectedListener.RemoveSelectedListener(OnPanelSelected);
+        protected Panel Panel { get; set; }
+        protected virtual void OnDestroy() => PanelSelectedListener.Selected -= OnPanelSelected;
         protected virtual void OnPanelSelected(object sender, PanelSelectedEventArgs eventArgs)
         {
+            if (Panel == eventArgs.Panel)
+                return;
+
+            Panel = eventArgs.Panel;
+
             if (!eventArgs.Panel.Values.ContainsKey(Name)) {
                 HideControlledObjects();
                 return;

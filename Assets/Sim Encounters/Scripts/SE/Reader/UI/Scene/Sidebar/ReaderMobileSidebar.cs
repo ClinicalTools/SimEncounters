@@ -23,7 +23,12 @@ namespace ClinicalTools.SimEncounters
         [Inject]
         public virtual void Inject(ISelectedListener<UserEncounterSelectedEventArgs> encounterSelector)
             => EncounterSelector = encounterSelector;
-        protected virtual void Start() => EncounterSelector.AddSelectedListener(OnEncounterSelected);
+        protected virtual void Start()
+        {
+            EncounterSelector.Selected += OnEncounterSelected;
+            if (EncounterSelector.CurrentValue != null)
+                OnEncounterSelected(EncounterSelector, EncounterSelector.CurrentValue);
+        }
 
         public virtual void OnEncounterSelected(object sender, UserEncounterSelectedEventArgs userEncounter)
             => StartCoroutine(CloseAfterSecond());

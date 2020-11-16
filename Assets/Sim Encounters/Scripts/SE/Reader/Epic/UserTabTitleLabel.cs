@@ -23,11 +23,15 @@ namespace ClinicalTools.SimEncounters
         {
             UserTabSelector = userTabSelector;
         }
-        protected virtual void Start() => UserTabSelector.AddSelectedListener(OnTabSelected);
-
-        protected virtual void OnTabSelected(object sender, UserTabSelectedEventArgs eventArgs)
+        protected virtual void Start()
+        {
+            UserTabSelector.Selected += OnTabSelected;
+            if (UserTabSelector.CurrentValue != null)
+                OnTabSelected(UserTabSelector, UserTabSelector.CurrentValue);
+        }
+        protected virtual void OnTabSelected(object sender, UserTabSelectedEventArgs eventArgs) 
             => Label.text = eventArgs.SelectedTab.Data.Name;
 
-        protected virtual void OnDestroy() => UserTabSelector?.RemoveSelectedListener(OnTabSelected);
+        protected virtual void OnDestroy() => UserTabSelector.Selected -= OnTabSelected;
     }
 }

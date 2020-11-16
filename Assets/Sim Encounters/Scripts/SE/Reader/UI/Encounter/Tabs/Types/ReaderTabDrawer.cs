@@ -1,5 +1,4 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -12,7 +11,7 @@ namespace ClinicalTools.SimEncounters
         {
             base.Select(sender, eventArgs);
             if (PanelCreator != null && eventArgs.SelectedTab.Panels?.Count > 0)
-                PanelCreator.Display(eventArgs.SelectedTab.Panels, eventArgs.ChangeType != ChangeType.Inactive);
+                PanelCreator.Display(eventArgs.SelectedTab.Panels, eventArgs.ChangeType != ChangeType.Inactive); 
         }
     }
 }

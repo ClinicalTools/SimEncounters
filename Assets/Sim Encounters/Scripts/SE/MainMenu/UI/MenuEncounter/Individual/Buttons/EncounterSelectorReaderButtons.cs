@@ -25,8 +25,11 @@ namespace ClinicalTools.SimEncounters
         {
             EncounterStarter = encounterStarter;
             SceneInfoSelectedListener = sceneInfoSelectedListener;
+
             MenuEncounterSelectedListener = menuEncounterSelectedListener;
-            MenuEncounterSelectedListener.AddSelectedListener(MenuEncounterSelected);
+            MenuEncounterSelectedListener.Selected += MenuEncounterSelected;
+            if (MenuEncounterSelectedListener.CurrentValue != null)
+                MenuEncounterSelected(MenuEncounterSelectedListener, MenuEncounterSelectedListener.CurrentValue);
         }
 
         protected virtual void Awake() => ReadButton.onClick.AddListener(StartEncounter);

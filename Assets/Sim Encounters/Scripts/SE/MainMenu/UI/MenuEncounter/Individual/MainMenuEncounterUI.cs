@@ -17,7 +17,7 @@ namespace ClinicalTools.SimEncounters
         [Inject] public virtual void Inject(BaseMenuEncounterOverview menuEncounterOverview) => MenuEncounterOverview = menuEncounterOverview;
 
         protected virtual void Start() => SelectButton.onClick.AddListener(OnSelected);
-        protected virtual void OnSelected() => MenuEncounterOverview.Select(this, EncounterSelector.CurrentValue);
+        protected virtual void OnSelected() => Select(this, CurrentValue);
 
         public override void Select(object sender, MenuEncounterSelectedEventArgs eventArgs)
         {
@@ -32,26 +32,25 @@ namespace ClinicalTools.SimEncounters
         ISelector<MenuEncounterSelectedEventArgs>,
         ISelectedListener<EncounterMetadataSelectedEventArgs>
     {
-        protected virtual Selector<MenuEncounterSelectedEventArgs> EncounterSelector { get; } = new Selector<MenuEncounterSelectedEventArgs>();
-        protected virtual Selector<EncounterMetadataSelectedEventArgs> MetadataSelector { get; } = new Selector<EncounterMetadataSelectedEventArgs>();
+        public MenuEncounterSelectedEventArgs CurrentValue { get; protected set; }
+        protected EncounterMetadataSelectedEventArgs CurrentMetadataValue { get; set; }
+        EncounterMetadataSelectedEventArgs ISelectedListener<EncounterMetadataSelectedEventArgs>.CurrentValue => CurrentMetadataValue;
 
-        MenuEncounterSelectedEventArgs ISelectedListener<MenuEncounterSelectedEventArgs>.CurrentValue => EncounterSelector.CurrentValue;
-        EncounterMetadataSelectedEventArgs ISelectedListener<EncounterMetadataSelectedEventArgs>.CurrentValue => MetadataSelector.CurrentValue;
+        public event SelectedHandler<MenuEncounterSelectedEventArgs> Selected;
+        public event SelectedHandler<EncounterMetadataSelectedEventArgs> MetadataSelected;
 
-        public virtual void AddSelectedListener(SelectedHandler<MenuEncounterSelectedEventArgs> handler)
-            => EncounterSelector.AddSelectedListener(handler);
-        public virtual void AddSelectedListener(SelectedHandler<EncounterMetadataSelectedEventArgs> handler)
-            => MetadataSelector.AddSelectedListener(handler);
-
-        public virtual void RemoveSelectedListener(SelectedHandler<EncounterMetadataSelectedEventArgs> handler)
-            => MetadataSelector.RemoveSelectedListener(handler);
-        public virtual void RemoveSelectedListener(SelectedHandler<MenuEncounterSelectedEventArgs> handler)
-            => EncounterSelector.RemoveSelectedListener(handler);
+        event SelectedHandler<EncounterMetadataSelectedEventArgs> ISelectedListener<EncounterMetadataSelectedEventArgs>.Selected {
+            add => MetadataSelected += value;
+            remove => MetadataSelected -= value;
+        }
 
         public virtual void Select(object sender, MenuEncounterSelectedEventArgs eventArgs)
         {
-            EncounterSelector.Select(sender, eventArgs);
-            MetadataSelector.Select(sender, new EncounterMetadataSelectedEventArgs(eventArgs.Encounter.GetLatestMetadata()));
+            CurrentValue = eventArgs;
+            Selected?.Invoke(sender, eventArgs);
+
+            CurrentMetadataValue = new EncounterMetadataSelectedEventArgs(eventArgs.Encounter.GetLatestMetadata());
+            MetadataSelected?.Invoke(sender, CurrentMetadataValue);
         }
 
         public class Pool : SceneMonoMemoryPool<MenuEncounterSelector>

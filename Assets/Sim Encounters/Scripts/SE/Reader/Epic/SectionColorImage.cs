@@ -25,8 +25,12 @@ namespace ClinicalTools.SimEncounters
         {
             SectionSelector = sectionSelector;
         }
-        protected virtual void Start() => SectionSelector.AddSelectedListener(OnSectionSelected);
-
+        protected virtual void Start()
+        {
+            SectionSelector.Selected += OnSectionSelected;
+            if (SectionSelector.CurrentValue != null)
+                OnSectionSelected(SectionSelector, SectionSelector.CurrentValue);
+        }
 
         protected virtual void OnSectionSelected(object sender, SectionSelectedEventArgs eventArgs)
             => Image.color = eventArgs.SelectedSection.Color;

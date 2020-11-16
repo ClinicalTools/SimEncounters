@@ -16,6 +16,7 @@ namespace ClinicalTools.SimEncounters
         public ScrollRectGradient ScrollGradient { get => scrollGradient; set => scrollGradient = value; }
         [SerializeField] private ScrollRectGradient scrollGradient;
 
+        public event SelectedHandler<UserDialoguePinSelectedEventArgs> Selected;
 
         protected virtual void Awake()
         {
@@ -41,10 +42,7 @@ namespace ClinicalTools.SimEncounters
             gameObject.SetActive(false);
         }
 
-        protected ISelector<UserDialoguePinSelectedEventArgs> Selector { get; } = new Selector<UserDialoguePinSelectedEventArgs>();
-        public UserDialoguePinSelectedEventArgs CurrentValue => Selector.CurrentValue;
-        public void Select(object sender, UserDialoguePinSelectedEventArgs eventArgs) => Selector.Select(sender, eventArgs);
-        public void AddSelectedListener(SelectedHandler<UserDialoguePinSelectedEventArgs> handler) => Selector.AddSelectedListener(handler);
-        public void RemoveSelectedListener(SelectedHandler<UserDialoguePinSelectedEventArgs> handler) => Selector.RemoveSelectedListener(handler);
+        public UserDialoguePinSelectedEventArgs CurrentValue { get; protected set; }
+        public void Select(object sender, UserDialoguePinSelectedEventArgs eventArgs) => Selected?.Invoke(sender, eventArgs);
     }
 }

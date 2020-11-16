@@ -2,6 +2,7 @@
 using ClinicalTools.UI;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using Zenject;
 
@@ -46,13 +47,18 @@ namespace ClinicalTools.SimEncounters
         }
         protected virtual void Start()
         {
-            UserSectionSelector.AddSelectedListener(OnSectionSelected);
-            UserTabSelector.AddSelectedListener(OnTabSelected);
+            UserSectionSelector.Selected += OnSectionSelected;
+            if (UserSectionSelector.CurrentValue != null)
+                OnSectionSelected(UserSectionSelector, UserSectionSelector.CurrentValue);
+
+            UserTabSelector.Selected += OnTabSelected;
+            if (UserTabSelector.CurrentValue != null)
+                OnTabSelected(UserTabSelector, UserTabSelector.CurrentValue);
         }
 
         protected ReaderTabContent Current { get; set; }
         protected ReaderTabContent Next { get; set; }
-        protected ReaderTabContent Last { get; set; }
+        protected ReaderTabContent Previous { get; set; }
         protected ReaderTabContent Leaving { get; set; }
 
         protected virtual OrderedCollection<UserTab> Tabs { get; set; }
@@ -83,28 +89,32 @@ namespace ClinicalTools.SimEncounters
             if (Current != null && Current.Tab == eventArgs.SelectedTab)
                 return;
 
+            var stopwatch = Stopwatch.StartNew();
             HandleTabStuff(sender, eventArgs);
+            UnityEngine.Debug.LogWarning($"C. TAB: {stopwatch.ElapsedMilliseconds}");
         }
 
+        protected UserTab PreviousTab { get; set; }
+        protected UserTab NextTab { get; set; }
         protected virtual void HandleTabStuff(object sender, UserTabSelectedEventArgs eventArgs)
         {
             var tabIndex = Tabs.IndexOf(eventArgs.SelectedTab);
-            var lastTab = (tabIndex > 0) ? Tabs[tabIndex - 1].Value : null;
-            var nextTab = (tabIndex < Tabs.Count - 1) ? Tabs[tabIndex + 1].Value : null;
+            PreviousTab = (tabIndex > 0) ? Tabs[tabIndex - 1].Value : null;
+            NextTab = (tabIndex < Tabs.Count - 1) ? Tabs[tabIndex + 1].Value : null;
 
             ClearCurrent();
-            Last = null;
+            Previous = null;
             Next = null;
 
             var unusedContent = new Stack<ReaderTabContent>();
             foreach (var tabContent in Contents) {
                 if (tabContent.Tab == null)
                     unusedContent.Push(tabContent);
-                else if (tabContent.Tab == lastTab)
-                    Last = tabContent;
+                else if (tabContent.Tab == PreviousTab)
+                    Previous = tabContent;
                 else if (tabContent.Tab == eventArgs.SelectedTab)
                     Current = tabContent;
-                else if (tabContent.Tab == nextTab)
+                else if (tabContent.Tab == NextTab)
                     Next = tabContent;
                 else if (tabContent == Leaving)
                     continue;
@@ -114,18 +124,13 @@ namespace ClinicalTools.SimEncounters
 
             if (Current == null)
                 Current = unusedContent.Pop();
-            if (lastTab != null && Last == null)
-                Last = unusedContent.Pop();
-            if (nextTab != null && Next == null)
+            if (PreviousTab != null && Previous == null)
+                Previous = unusedContent.Pop();
+            if (NextTab != null && Next == null)
                 Next = unusedContent.Pop();
 
             Current.Select(sender, eventArgs);
-            
-            if (Last != null)
-                Last.Select(this, new UserTabSelectedEventArgs(lastTab, ChangeType.Inactive));
-            if (Next != null)
-                Next.Select(this, new UserTabSelectedEventArgs(nextTab, ChangeType.Inactive));
-            
+
             TabDraw();
         }
 
@@ -141,12 +146,21 @@ namespace ClinicalTools.SimEncounters
             }
 
             IEnumerator shiftSectionRoutine = GetShiftRoutine();
-            if (shiftSectionRoutine != null)
+            if (shiftSectionRoutine != null) {
                 currentCoroutine = StartCoroutine(shiftSectionRoutine);
-            else
+            } else {
                 Curve.SetPosition(Current.RectTransform);
+                SetNextAndPrevious();
+            }
         }
 
+        protected virtual void SetNextAndPrevious()
+        {
+            if (Previous != null)
+                Previous.Select(this, new UserTabSelectedEventArgs(PreviousTab, ChangeType.Inactive));
+            if (Next != null)
+                Next.Select(this, new UserTabSelectedEventArgs(NextTab, ChangeType.Inactive));
+        }
         protected IEnumerator GetShiftRoutine()
         {
             if (!gameObject.activeInHierarchy || Leaving == null)
@@ -166,6 +180,8 @@ namespace ClinicalTools.SimEncounters
             SwipeManager.DisableSwipe();
             yield return enumerator;
             SwipeManager.ReenableSwipe();
+            yield return null;
+            SetNextAndPrevious();
         }
 
         protected SwipeParameter SwipeParamater { get; set; }
@@ -193,15 +209,15 @@ namespace ClinicalTools.SimEncounters
         {
             if (Next != null)
                 Next.gameObject.SetActive(false);
-            if (Last == null)
+            if (Previous == null)
                 return;
-            Last.gameObject.SetActive(true);
-            Curve.SetMoveAmountBackward(Current.RectTransform, Last.RectTransform, dist);
+            Previous.gameObject.SetActive(true);
+            Curve.SetMoveAmountBackward(Current.RectTransform, Previous.RectTransform, dist);
         }
         private void LeftSwipeUpdate(float dist)
         {
-            if (Last != null)
-                Last.gameObject.SetActive(false);
+            if (Previous != null)
+                Previous.gameObject.SetActive(false);
             if (Next == null)
                 return;
             Next.gameObject.SetActive(true);
@@ -212,11 +228,11 @@ namespace ClinicalTools.SimEncounters
             SwipeUpdate(obj);
 
             var dist = (obj.LastPosition.x - obj.StartPosition.x) / Screen.width;
-            if (dist > 0 && Last != null) {
+            if (dist > 0 && Previous != null) {
                 if (dist > .5f || obj.Velocity.x / Screen.dpi > 1.5f)
-                    UserTabSelector.Select(this, new UserTabSelectedEventArgs(Last.Tab, ChangeType.Previous));
+                    UserTabSelector.Select(this, new UserTabSelectedEventArgs(Previous.Tab, ChangeType.Previous));
                 else
-                    currentCoroutine = StartCoroutine(ShiftForward(Last));
+                    currentCoroutine = StartCoroutine(ShiftForward(Previous));
             } else if (dist < 0 && Next != null) {
                 if (dist < -.5f || obj.Velocity.x / Screen.dpi < -1.5f)
                     UserTabSelector.Select(this, new UserTabSelectedEventArgs(Next.Tab, ChangeType.Next));

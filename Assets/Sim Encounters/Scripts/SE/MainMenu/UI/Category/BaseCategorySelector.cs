@@ -6,13 +6,14 @@ namespace ClinicalTools.SimEncounters
     public abstract class BaseCategorySelector : MonoBehaviour,
         ISelectedListener<CategorySelectedEventArgs>
     {
-        protected virtual Selector<CategorySelectedEventArgs> Selector { get; } = new Selector<CategorySelectedEventArgs>();
+        public virtual CategorySelectedEventArgs CurrentValue { get; protected set; }
 
-        public virtual CategorySelectedEventArgs CurrentValue => Selector.CurrentValue;
-        public virtual void AddSelectedListener(SelectedHandler<CategorySelectedEventArgs> handler)
-            => Selector.AddSelectedListener(handler);
-        public virtual void RemoveSelectedListener(SelectedHandler<CategorySelectedEventArgs> handler)
-            => Selector.RemoveSelectedListener(handler);
+        public event SelectedHandler<CategorySelectedEventArgs> Selected;
+        protected virtual void Select(object sender, CategorySelectedEventArgs eventArgs)
+        {
+            CurrentValue = eventArgs;
+            Selected?.Invoke(sender, eventArgs);
+        }
 
         public abstract void Display(MenuSceneInfo sceneInfo, IEnumerable<Category> categories);
         public abstract void Show();

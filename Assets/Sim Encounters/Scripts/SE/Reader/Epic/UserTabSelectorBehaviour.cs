@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Diagnostics;
+using UnityEngine;
 using Zenject;
 
 namespace ClinicalTools.SimEncounters
@@ -7,25 +8,33 @@ namespace ClinicalTools.SimEncounters
         ISelector<UserTabSelectedEventArgs>,
         ISelectedListener<TabSelectedEventArgs>
     {
-        protected ISelector<UserTabSelectedEventArgs> UserTabSelector { get; } = new Selector<UserTabSelectedEventArgs>();
-        protected ISelector<TabSelectedEventArgs> TabSelector { get; } = new Selector<TabSelectedEventArgs>();
+        protected UserTabSelectedEventArgs UserTabValue { get; set; }
+        UserTabSelectedEventArgs ISelectedListener<UserTabSelectedEventArgs>.CurrentValue => UserTabValue;
+        public event SelectedHandler<UserTabSelectedEventArgs> UserTabSelected;
+        event SelectedHandler<UserTabSelectedEventArgs> ISelectedListener<UserTabSelectedEventArgs>.Selected {
+            add => UserTabSelected += value;
+            remove => UserTabSelected -= value;
+        }
 
-        UserTabSelectedEventArgs ISelectedListener<UserTabSelectedEventArgs>.CurrentValue => UserTabSelector.CurrentValue;
-        TabSelectedEventArgs ISelectedListener<TabSelectedEventArgs>.CurrentValue => TabSelector.CurrentValue;
-
-        protected UserTab CurrentTab { get; set; }
-
-        public virtual void AddSelectedListener(SelectedHandler<UserTabSelectedEventArgs> handler) => UserTabSelector.AddSelectedListener(handler);
-        public virtual void AddSelectedListener(SelectedHandler<TabSelectedEventArgs> handler) => TabSelector.AddSelectedListener(handler);
-
-        public virtual void RemoveSelectedListener(SelectedHandler<UserTabSelectedEventArgs> handler) => UserTabSelector.RemoveSelectedListener(handler);
-        public virtual void RemoveSelectedListener(SelectedHandler<TabSelectedEventArgs> handler) => TabSelector.RemoveSelectedListener(handler);
+        protected TabSelectedEventArgs TabValue { get; set; }
+        TabSelectedEventArgs ISelectedListener<TabSelectedEventArgs>.CurrentValue => TabValue;
+        public event SelectedHandler<TabSelectedEventArgs> TabSelected;
+        event SelectedHandler<TabSelectedEventArgs> ISelectedListener<TabSelectedEventArgs>.Selected {
+            add => TabSelected += value;
+            remove => TabSelected -= value;
+        }
 
         public virtual void Select(object sender, UserTabSelectedEventArgs eventArgs)
         {
-            CurrentTab = eventArgs.SelectedTab;
-            UserTabSelector.Select(sender, eventArgs);
-            TabSelector.Select(sender, new TabSelectedEventArgs(eventArgs.SelectedTab.Data));
+            var stopwatch = Stopwatch.StartNew();
+            UserTabValue = eventArgs;
+            UserTabSelected?.Invoke(sender, UserTabValue);
+            //UnityEngine.Debug.LogWarning($"F. {stopwatch.ElapsedMilliseconds}");
+            stopwatch.Restart();
+
+            TabValue = new TabSelectedEventArgs(eventArgs.SelectedTab.Data);
+            TabSelected?.Invoke(sender, TabValue);
+            //UnityEngine.Debug.LogWarning($"G. {stopwatch.ElapsedMilliseconds}");
         }
 
         public class Factory : PlaceholderFactory<string, UserTabSelectorBehaviour> { }

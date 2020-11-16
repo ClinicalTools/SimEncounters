@@ -14,9 +14,15 @@ namespace ClinicalTools.SimEncounters
             ISelector<UserTabSelectedEventArgs> userTabSelector)
         {
             UserEncounterSelector = userEncounterSelector;
-            UserEncounterSelector.AddSelectedListener(OnEncounterSelected);
+            UserEncounterSelector.Selected += OnEncounterSelected;
+            if (UserEncounterSelector.CurrentValue != null)
+                OnEncounterSelected(UserEncounterSelector, UserEncounterSelector.CurrentValue);
+
             UserSectionSelector = userSectionSelector;
-            UserSectionSelector.AddSelectedListener(OnSectionSelected);
+            UserSectionSelector.Selected += OnSectionSelected;
+            if (UserSectionSelector.CurrentValue != null)
+                OnSectionSelected(UserSectionSelector, UserSectionSelector.CurrentValue);
+
             UserTabSelector = userTabSelector;
         }
 

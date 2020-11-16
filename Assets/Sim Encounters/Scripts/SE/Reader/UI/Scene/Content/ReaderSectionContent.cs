@@ -6,8 +6,8 @@ namespace ClinicalTools.SimEncounters
     public class ReaderSectionContent : UserSectionSelectorBehaviour
     {
         public RectTransform RectTransform => (RectTransform)transform;
-        public UserSection Section => CurrentSection;
-        public UserTab Tab => CurrentTab;
+        public UserSection Section => UserSectionValue?.SelectedSection;
+        public UserTab Tab => UserTabValue?.SelectedTab;
 
         public void SetFirstTab(object sender, ChangeType changeType) 
             => Select(sender, new UserTabSelectedEventArgs(Section.Tabs[0].Value, changeType));

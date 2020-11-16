@@ -25,7 +25,7 @@ namespace ClinicalTools.SimEncounters
             CurrentCategories = categories;
 
             foreach (var categoryUI in CategoryUIs) {
-                categoryUI.RemoveSelectedListener(Selector.Select);
+                categoryUI.Selected -= Select;
                 OptionPool.Despawn(categoryUI);
             }
             CategoryUIs.Clear();
@@ -48,14 +48,8 @@ namespace ClinicalTools.SimEncounters
             categoryUI.transform.SetParent(OptionsParent);
             categoryUI.transform.localScale = Vector3.one;
             categoryUI.Select(this, new CategorySelectedEventArgs(category));
-            categoryUI.AddSelectedListener(Select);
+            categoryUI.Selected += Select;
             CategoryUIs.Add(categoryUI);
-        }
-
-        protected virtual void Select(object sender, CategorySelectedEventArgs eventArgs)
-        {
-            if ((object)sender != this)
-                Selector.Select(sender, eventArgs);
         }
 
         public override void Show() => gameObject.SetActive(true);

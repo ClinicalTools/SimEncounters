@@ -1,4 +1,7 @@
-﻿namespace ClinicalTools.SimEncounters
+﻿
+using System.Diagnostics;
+
+namespace ClinicalTools.SimEncounters
 {
     public class ReaderEncounterManager :
         ISelector<UserEncounterSelectedEventArgs>,
@@ -9,67 +12,110 @@
         ISelectedListener<TabSelectedEventArgs>,
         ISelectedListener<EncounterMetadataSelectedEventArgs>
     {
-        protected ISelector<UserEncounterSelectedEventArgs> UserEncounterSelector { get; } = new Selector<UserEncounterSelectedEventArgs>();
-        protected ISelector<UserSectionSelectedEventArgs> UserSectionSelector { get; } = new Selector<UserSectionSelectedEventArgs>();
-        protected ISelector<UserTabSelectedEventArgs> UserTabSelector { get; } = new Selector<UserTabSelectedEventArgs>();
-        protected ISelector<EncounterSelectedEventArgs> EncounterSelector { get; } = new Selector<EncounterSelectedEventArgs>();
-        protected ISelector<SectionSelectedEventArgs> SectionSelector { get; } = new Selector<SectionSelectedEventArgs>();
-        protected ISelector<TabSelectedEventArgs> TabSelector { get; } = new Selector<TabSelectedEventArgs>();
-        protected ISelector<EncounterMetadataSelectedEventArgs> MetadataSelector { get; } = new Selector<EncounterMetadataSelectedEventArgs>();
+        protected UserEncounterSelectedEventArgs UserEncounterValue { get; set; }
+        UserEncounterSelectedEventArgs ISelectedListener<UserEncounterSelectedEventArgs>.CurrentValue => UserEncounterValue;
+        public event SelectedHandler<UserEncounterSelectedEventArgs> UserEncounterSelected;
+        event SelectedHandler<UserEncounterSelectedEventArgs> ISelectedListener<UserEncounterSelectedEventArgs>.Selected {
+            add => UserEncounterSelected += value;
+            remove => UserEncounterSelected -= value;
+        }
 
-        public virtual void AddSelectedListener(SelectedHandler<UserEncounterSelectedEventArgs> handler) => UserEncounterSelector.AddSelectedListener(handler);
-        public virtual void AddSelectedListener(SelectedHandler<UserSectionSelectedEventArgs> handler) => UserSectionSelector.AddSelectedListener(handler);
-        public virtual void AddSelectedListener(SelectedHandler<UserTabSelectedEventArgs> handler) => UserTabSelector.AddSelectedListener(handler);
-        public virtual void AddSelectedListener(SelectedHandler<EncounterSelectedEventArgs> handler) => EncounterSelector.AddSelectedListener(handler);
-        public virtual void AddSelectedListener(SelectedHandler<SectionSelectedEventArgs> handler) => SectionSelector.AddSelectedListener(handler);
-        public virtual void AddSelectedListener(SelectedHandler<TabSelectedEventArgs> handler) => TabSelector.AddSelectedListener(handler);
-        public virtual void AddSelectedListener(SelectedHandler<EncounterMetadataSelectedEventArgs> handler) => MetadataSelector.AddSelectedListener(handler);
+        protected EncounterSelectedEventArgs EncounterValue { get; set; }
+        EncounterSelectedEventArgs ISelectedListener<EncounterSelectedEventArgs>.CurrentValue => EncounterValue;
+        public event SelectedHandler<EncounterSelectedEventArgs> EncounterSelected;
+        event SelectedHandler<EncounterSelectedEventArgs> ISelectedListener<EncounterSelectedEventArgs>.Selected {
+            add => EncounterSelected += value;
+            remove => EncounterSelected -= value;
+        }
 
-        public virtual void RemoveSelectedListener(SelectedHandler<UserEncounterSelectedEventArgs> handler) => UserEncounterSelector.RemoveSelectedListener(handler);
-        public virtual void RemoveSelectedListener(SelectedHandler<UserSectionSelectedEventArgs> handler) => UserSectionSelector.RemoveSelectedListener(handler);
-        public virtual void RemoveSelectedListener(SelectedHandler<UserTabSelectedEventArgs> handler) => UserTabSelector.RemoveSelectedListener(handler);
-        public virtual void RemoveSelectedListener(SelectedHandler<EncounterSelectedEventArgs> handler) => EncounterSelector.RemoveSelectedListener(handler);
-        public virtual void RemoveSelectedListener(SelectedHandler<SectionSelectedEventArgs> handler) => SectionSelector.RemoveSelectedListener(handler);
-        public virtual void RemoveSelectedListener(SelectedHandler<TabSelectedEventArgs> handler) => TabSelector.RemoveSelectedListener(handler);
-        public virtual void RemoveSelectedListener(SelectedHandler<EncounterMetadataSelectedEventArgs> handler) => MetadataSelector.RemoveSelectedListener(handler);
+        protected EncounterMetadataSelectedEventArgs MetadataValue { get; set; }
+        EncounterMetadataSelectedEventArgs ISelectedListener<EncounterMetadataSelectedEventArgs>.CurrentValue => MetadataValue;
+        public event SelectedHandler<EncounterMetadataSelectedEventArgs> MetadataSelected;
+        event SelectedHandler<EncounterMetadataSelectedEventArgs> ISelectedListener<EncounterMetadataSelectedEventArgs>.Selected {
+            add => MetadataSelected += value;
+            remove => MetadataSelected -= value;
+        }
 
-        UserEncounterSelectedEventArgs ISelectedListener<UserEncounterSelectedEventArgs>.CurrentValue => UserEncounterSelector.CurrentValue;
-        UserSectionSelectedEventArgs ISelectedListener<UserSectionSelectedEventArgs>.CurrentValue => UserSectionSelector.CurrentValue;
-        UserTabSelectedEventArgs ISelectedListener<UserTabSelectedEventArgs>.CurrentValue => UserTabSelector.CurrentValue;
-        EncounterSelectedEventArgs ISelectedListener<EncounterSelectedEventArgs>.CurrentValue => EncounterSelector.CurrentValue;
-        SectionSelectedEventArgs ISelectedListener<SectionSelectedEventArgs>.CurrentValue => SectionSelector.CurrentValue;
-        TabSelectedEventArgs ISelectedListener<TabSelectedEventArgs>.CurrentValue => TabSelector.CurrentValue;
-        EncounterMetadataSelectedEventArgs ISelectedListener<EncounterMetadataSelectedEventArgs>.CurrentValue => MetadataSelector.CurrentValue;
+        protected UserSectionSelectedEventArgs UserSectionValue { get; set; }
+        UserSectionSelectedEventArgs ISelectedListener<UserSectionSelectedEventArgs>.CurrentValue => UserSectionValue;
+        public event SelectedHandler<UserSectionSelectedEventArgs> UserSectionSelected;
+        event SelectedHandler<UserSectionSelectedEventArgs> ISelectedListener<UserSectionSelectedEventArgs>.Selected {
+            add => UserSectionSelected += value;
+            remove => UserSectionSelected -= value;
+        }
 
-        protected UserEncounter CurrentEncounter { get; set; }
-        protected UserSection CurrentSection { get; set; }
-        protected UserTab CurrentTab { get; set; }
+        protected SectionSelectedEventArgs SectionValue { get; set; }
+        SectionSelectedEventArgs ISelectedListener<SectionSelectedEventArgs>.CurrentValue => SectionValue;
+        public event SelectedHandler<SectionSelectedEventArgs> SectionSelected;
+        event SelectedHandler<SectionSelectedEventArgs> ISelectedListener<SectionSelectedEventArgs>.Selected {
+            add => SectionSelected += value;
+            remove => SectionSelected -= value;
+        }
+
+        protected UserTabSelectedEventArgs UserTabValue { get; set; }
+        UserTabSelectedEventArgs ISelectedListener<UserTabSelectedEventArgs>.CurrentValue => UserTabValue;
+        public event SelectedHandler<UserTabSelectedEventArgs> UserTabSelected;
+        event SelectedHandler<UserTabSelectedEventArgs> ISelectedListener<UserTabSelectedEventArgs>.Selected {
+            add => UserTabSelected += value;
+            remove => UserTabSelected -= value;
+        }
+
+        protected TabSelectedEventArgs TabValue { get; set; }
+        TabSelectedEventArgs ISelectedListener<TabSelectedEventArgs>.CurrentValue => TabValue;
+        public event SelectedHandler<TabSelectedEventArgs> TabSelected;
+        event SelectedHandler<TabSelectedEventArgs> ISelectedListener<TabSelectedEventArgs>.Selected {
+            add => TabSelected += value;
+            remove => TabSelected -= value;
+        }
 
 
         public virtual void Select(object sender, UserEncounterSelectedEventArgs eventArgs)
         {
-            CurrentEncounter = eventArgs.Encounter;
-            UserEncounterSelector.Select(sender, eventArgs);
-            EncounterSelector.Select(sender, new EncounterSelectedEventArgs(CurrentEncounter.Data));
-            MetadataSelector.Select(sender, new EncounterMetadataSelectedEventArgs(CurrentEncounter.Data.Metadata));
-            Select(sender, new UserSectionSelectedEventArgs(CurrentEncounter.GetCurrentSection(), ChangeType.JumpTo));
+            if (UserEncounterValue == eventArgs)
+                return;
+
+            UserEncounterValue = eventArgs;
+            UserEncounterSelected?.Invoke(sender, UserEncounterValue);
+
+            EncounterValue = new EncounterSelectedEventArgs(UserEncounterValue.Encounter.Data);
+            EncounterSelected?.Invoke(sender, EncounterValue);
+
+            MetadataValue = new EncounterMetadataSelectedEventArgs(EncounterValue.Encounter.Metadata);
+            MetadataSelected?.Invoke(sender, MetadataValue);
+            Select(sender, new UserSectionSelectedEventArgs(UserEncounterValue.Encounter.GetCurrentSection(), ChangeType.JumpTo));
         }
 
         public virtual void Select(object sender, UserSectionSelectedEventArgs eventArgs)
         {
-            CurrentSection = eventArgs.SelectedSection;
-            CurrentEncounter.Data.Content.NonImageContent.SetCurrentSection(CurrentSection.Data);
-            UserSectionSelector.Select(sender, eventArgs);
-            SectionSelector.Select(sender, new SectionSelectedEventArgs(CurrentSection.Data));
-            Select(sender, new UserTabSelectedEventArgs(CurrentSection.GetCurrentTab(), eventArgs.ChangeType));
+            if (UserSectionValue == eventArgs)
+                return;
+
+            var stopwatch = Stopwatch.StartNew();
+            var userSection = eventArgs.SelectedSection;
+
+            UserSectionValue = eventArgs;
+            EncounterValue.Encounter.Content.NonImageContent.SetCurrentSection(userSection.Data);
+            UserSectionSelected?.Invoke(sender, UserSectionValue);
+
+            SectionValue = new SectionSelectedEventArgs(userSection.Data);
+            SectionSelected?.Invoke(sender, SectionValue);
+            Select(sender, new UserTabSelectedEventArgs(userSection.GetCurrentTab(), eventArgs.ChangeType));
+            UnityEngine.Debug.LogWarning($"A. SECTION: {stopwatch.ElapsedMilliseconds}");
         }
 
         public virtual void Select(object sender, UserTabSelectedEventArgs eventArgs)
         {
-            CurrentTab = eventArgs.SelectedTab;
-            CurrentSection.Data.SetCurrentTab(CurrentTab.Data);
-            UserTabSelector.Select(sender, eventArgs);
-            TabSelector.Select(sender, new TabSelectedEventArgs(CurrentTab.Data));
+            if (UserTabValue == eventArgs)
+                return;
+
+            var stopwatch = Stopwatch.StartNew();
+            UserTabValue = eventArgs;
+            SectionValue.SelectedSection.SetCurrentTab(UserTabValue.SelectedTab.Data);
+            UserTabSelected?.Invoke(sender, UserTabValue);
+
+            TabValue = new TabSelectedEventArgs(UserTabValue.SelectedTab.Data);
+            TabSelected?.Invoke(sender, TabValue);
+            UnityEngine.Debug.LogWarning($"A. TAB: {stopwatch.ElapsedMilliseconds}");
         }
     }
 }

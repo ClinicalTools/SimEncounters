@@ -20,12 +20,16 @@ namespace ClinicalTools.SimEncounters
         protected ICompletionHandler CompletionHandler { get; set; }
         protected IUserEncounterMenuSceneStarter MenuSceneStarter { get; set; }
         [Inject]
-        public virtual void Inject(
-            ISelectedListener<UserTabSelectedEventArgs> userTabSelector)
+        public virtual void Inject(ISelectedListener<UserTabSelectedEventArgs> userTabSelector)
         {
             UserTabSelector = userTabSelector;
         }
-        protected virtual void Start() => UserTabSelector.AddSelectedListener(OnTabSelected);
+        protected virtual void Start()
+        {
+            UserTabSelector.Selected += OnTabSelected;
+            if (UserTabSelector.CurrentValue != null)
+                OnTabSelected(UserTabSelector, UserTabSelector.CurrentValue);
+        }
 
         protected int TabCount { get; set; } = -1;
         protected UserTab CurrentTab { get; set; }
@@ -43,6 +47,6 @@ namespace ClinicalTools.SimEncounters
             Label.text = $"Page: {NonImageContent.GetCurrentTabNumber()}/{TabCount}";
         }
 
-        protected virtual void OnDestroy() => UserTabSelector?.RemoveSelectedListener(OnTabSelected);
+        protected virtual void OnDestroy() => UserTabSelector.Selected -= OnTabSelected;
     }
 }

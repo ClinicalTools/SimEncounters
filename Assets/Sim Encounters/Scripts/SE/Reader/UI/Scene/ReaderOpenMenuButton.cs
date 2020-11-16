@@ -22,11 +22,15 @@ namespace ClinicalTools.SimEncounters
             LoadingReaderSceneInfoSelector = loadingReaderSceneInfoTabSelector;
             MenuSceneStarter = menuSceneStarter;
         }
-        protected virtual void Start() => LoadingReaderSceneInfoSelector.AddSelectedListener(OnLoadingReaderSceneInfoSelected);
-
+        protected virtual void Start()
+        {
+            LoadingReaderSceneInfoSelector.Selected += OnLoadingReaderSceneInfoSelected;
+            if (LoadingReaderSceneInfoSelector.CurrentValue != null)
+                OnLoadingReaderSceneInfoSelected(LoadingReaderSceneInfoSelector, LoadingReaderSceneInfoSelector.CurrentValue);
+        }
         protected virtual void Awake() => Button.onClick.AddListener(OpenMenu);
         protected virtual void OnDestroy() 
-            => LoadingReaderSceneInfoSelector.RemoveSelectedListener(OnLoadingReaderSceneInfoSelected);
+            => LoadingReaderSceneInfoSelector.Selected -= OnLoadingReaderSceneInfoSelected;
 
         protected LoadingReaderSceneInfo SceneInfo { get; set; }
         protected virtual void OnLoadingReaderSceneInfoSelected(object sender, LoadingReaderSceneInfoSelectedEventArgs eventArgs)

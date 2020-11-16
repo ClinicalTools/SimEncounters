@@ -30,7 +30,9 @@ namespace ClinicalTools.SimEncounters
             IsOn = true;
 
             ShowCategoriesToggle.Selected += DisplayCategories;
-            CategorySelector.AddSelectedListener(CategorySelected);
+            CategorySelector.Selected += CategorySelected;
+            if (CategorySelector.CurrentValue != null)
+                CategorySelected(CategorySelector, CategorySelector.CurrentValue);
         }
         protected virtual void RemoveListeners()
         {
@@ -39,7 +41,7 @@ namespace ClinicalTools.SimEncounters
             IsOn = false;
 
             ShowCategoriesToggle.Selected -= DisplayCategories;
-            CategorySelector.AddSelectedListener(CategorySelected);
+            CategorySelector.Selected -= CategorySelected;
         }
 
         public override void Display(LoadingMenuSceneInfo loadingSceneInfo)

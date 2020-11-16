@@ -8,8 +8,7 @@ namespace ClinicalTools.SimEncounters
     public class UserSectionTitleLabel : MonoBehaviour
     {
         private TextMeshProUGUI label;
-        protected TextMeshProUGUI Label
-        {
+        protected TextMeshProUGUI Label {
             get {
                 if (label == null)
                     label = GetComponent<TextMeshProUGUI>();
@@ -23,11 +22,15 @@ namespace ClinicalTools.SimEncounters
         {
             UserSectionSelector = userSectionSelector;
         }
-        protected virtual void Start() => UserSectionSelector.AddSelectedListener(OnSectionSelected);
-
-        protected virtual void OnSectionSelected(object sender, UserSectionSelectedEventArgs eventArgs) 
+        protected virtual void Start()
+        {
+            UserSectionSelector.Selected += OnSectionSelected;
+            if (UserSectionSelector.CurrentValue != null)
+                OnSectionSelected(UserSectionSelector, UserSectionSelector.CurrentValue);
+        }
+        protected virtual void OnSectionSelected(object sender, UserSectionSelectedEventArgs eventArgs)
             => Label.text = eventArgs.SelectedSection.Data.Name;
 
-        protected virtual void OnDestroy() => UserSectionSelector?.RemoveSelectedListener(OnSectionSelected);
+        protected virtual void OnDestroy() => UserSectionSelector.Selected -= OnSectionSelected;
     }
 }

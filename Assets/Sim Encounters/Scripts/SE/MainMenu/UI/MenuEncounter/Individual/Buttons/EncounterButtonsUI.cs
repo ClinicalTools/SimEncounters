@@ -17,7 +17,9 @@ namespace ClinicalTools.SimEncounters
         public virtual void Inject(ISelectedListener<MenuEncounterSelectedEventArgs> menuEncounterSelectedListener)
         {
             MenuEncounterSelectedListener = menuEncounterSelectedListener;
-            MenuEncounterSelectedListener.AddSelectedListener(MenuEncounterSelected);
+            MenuEncounterSelectedListener.Selected += MenuEncounterSelected;
+            if (MenuEncounterSelectedListener.CurrentValue != null)
+                MenuEncounterSelected(MenuEncounterSelectedListener, MenuEncounterSelectedListener.CurrentValue);
         }
 
         protected virtual void MenuEncounterSelected(object sender, MenuEncounterSelectedEventArgs eventArgs)

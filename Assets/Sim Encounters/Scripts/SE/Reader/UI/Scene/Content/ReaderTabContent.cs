@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Diagnostics;
+using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -6,6 +7,13 @@ namespace ClinicalTools.SimEncounters
     public class ReaderTabContent : UserTabSelectorBehaviour
     {
         public RectTransform RectTransform => (RectTransform)transform;
-        public UserTab Tab => CurrentTab;
+        public UserTab Tab => UserTabValue?.SelectedTab;
+
+        public override void Select(object sender, UserTabSelectedEventArgs eventArgs)
+        {
+            var stopwatch = Stopwatch.StartNew();
+            base.Select(sender, eventArgs);
+            UnityEngine.Debug.LogWarning($"D. [{eventArgs.SelectedTab.Data.Name}] ({eventArgs.ChangeType != ChangeType.Inactive}): {stopwatch.ElapsedMilliseconds}");
+        }
     }
 }

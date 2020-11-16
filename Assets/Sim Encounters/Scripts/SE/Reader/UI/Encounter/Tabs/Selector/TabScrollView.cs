@@ -14,9 +14,14 @@ namespace ClinicalTools.SimEncounters
 
         protected ISelectedListener<TabSelectedEventArgs> UserTabSelector { get; set; }
         [Inject] public virtual void Inject(ISelectedListener<TabSelectedEventArgs> userTabSelector) => UserTabSelector = userTabSelector;
-        
-        protected virtual void Start() => UserTabSelector.AddSelectedListener(OnTabSelected);
-        protected virtual void OnDestroy() => UserTabSelector?.RemoveSelectedListener(OnTabSelected);
+
+        protected virtual void Start()
+        {
+            UserTabSelector.Selected += OnTabSelected;
+            if (UserTabSelector.CurrentValue != null)
+                OnTabSelected(UserTabSelector, UserTabSelector.CurrentValue);
+        }
+        protected virtual void OnDestroy() => UserTabSelector.Selected -= OnTabSelected;
 
         protected BaseUserTabDrawer CurrentTabDrawer { get; set; }
         protected virtual void OnTabSelected(object sender, TabSelectedEventArgs eventArgs)
