@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -23,9 +24,12 @@ namespace ClinicalTools.SimEncounters
         public override event Action<Section> SectionEdited;
         public override event Action<Section> SectionDeleted;
 
+        protected virtual BaseWriterSectionToggle.Pool SectionButtonPool { get; set; }
+        [Inject] public virtual void Inject(BaseWriterSectionToggle.Pool sectionButtonPool) => SectionButtonPool = sectionButtonPool;
+
         protected Encounter CurrentEncounter { get; set; }
         protected Dictionary<Section, BaseWriterSectionToggle> SectionButtons { get; } = new Dictionary<Section, BaseWriterSectionToggle>();
-        
+
         protected virtual void Awake()
         {
             AddButton.onClick.AddListener(AddSection);
@@ -63,7 +67,9 @@ namespace ClinicalTools.SimEncounters
 
         protected void AddSectionButton(Encounter encounter, Section section)
         {
-            var sectionButton = RearrangeableGroup.AddFromPrefab(SectionButtonPrefab);
+            var sectionButton = SectionButtonPool.Spawn();
+            RearrangeableGroup.Add(sectionButton);
+            sectionButton.RectTransform.localScale = Vector3.one;
             sectionButton.SetToggleGroup(SectionsToggleGroup);
             sectionButton.Display(encounter, section);
             sectionButton.Selected += () => OnSelected(section);
@@ -93,6 +99,7 @@ namespace ClinicalTools.SimEncounters
             CurrentEncounter.Content.NonImageContent.Sections.Remove(section);
 
             CurrentSection = section;
+            SectionButtonPool.Despawn(button);
             SectionDeleted?.Invoke(section);
         }
 

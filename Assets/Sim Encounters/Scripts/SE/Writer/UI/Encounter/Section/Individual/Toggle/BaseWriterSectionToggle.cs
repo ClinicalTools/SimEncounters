@@ -2,6 +2,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -26,5 +27,10 @@ namespace ClinicalTools.SimEncounters
         public virtual void StartDrag(Vector3 mousePosition) => DragStarted?.Invoke(this, mousePosition);
         public virtual void EndDrag(Vector3 mousePosition) => DragEnded?.Invoke(this, mousePosition);
         public virtual void Drag(Vector3 mousePosition) => Dragging?.Invoke(this, mousePosition);
+
+        public class Pool : SceneMonoMemoryPool<BaseWriterSectionToggle>
+        {
+            public Pool(SignalBus signalBus) : base(signalBus) { }
+        }
     }
 }

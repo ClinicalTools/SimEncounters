@@ -82,7 +82,6 @@ namespace ClinicalTools.SimEncounters
             
             if (editedSection.Value == null) {
                 Deleted?.Invoke(CurrentSection);
-                Destroy(gameObject);
                 return;
             }
 

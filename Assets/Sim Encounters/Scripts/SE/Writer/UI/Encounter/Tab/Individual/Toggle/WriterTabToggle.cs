@@ -78,7 +78,6 @@ namespace ClinicalTools.SimEncounters
 
             if (editedTab.Value == null) {
                 Deleted?.Invoke(CurrentTab);
-                Destroy(gameObject);
                 return;
             }
 

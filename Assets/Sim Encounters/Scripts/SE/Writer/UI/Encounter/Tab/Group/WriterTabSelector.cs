@@ -3,6 +3,7 @@ using ClinicalTools.UI.Extensions;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -22,6 +23,9 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private TabCreatorPopup addTabPopup;
 
         public override event TabSelectedHandler TabSelected;
+
+        protected virtual BaseWriterTabToggle.Pool TabButtonPool { get; set; }
+        [Inject] public virtual void Inject(BaseWriterTabToggle.Pool tabButtonPool) => TabButtonPool = tabButtonPool;
 
         protected virtual void Awake()
         {
@@ -69,7 +73,9 @@ namespace ClinicalTools.SimEncounters
         protected Dictionary<Tab, BaseWriterTabToggle> TabButtons { get; } = new Dictionary<Tab, BaseWriterTabToggle>();
         protected void AddTabButton(Encounter encounter, Tab tab)
         {
-            var tabButton = RearrangeableGroup.AddFromPrefab(TabButtonPrefab);
+            var tabButton = TabButtonPool.Spawn();
+            RearrangeableGroup.Add(tabButton);
+            tabButton.RectTransform.localScale = Vector3.one;
             tabButton.SetToggleGroup(TabsToggleGroup);
             tabButton.Display(encounter, tab);
             tabButton.Selected += () => OnSelected(tab);
@@ -92,6 +98,7 @@ namespace ClinicalTools.SimEncounters
             rearrangeableGroup.Remove(tabButton);
             TabButtons.Remove(tab);
             CurrentSection.Tabs.Remove(tab);
+            TabButtonPool.Despawn(tabButton);
         }
 
         public override void SelectTab(Tab tab)
