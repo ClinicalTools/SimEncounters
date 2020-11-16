@@ -16,6 +16,8 @@ namespace ClinicalTools.SimEncounters
 
             container.BindFactory<Object, GameObject, GameObjectFactory>()
                      .FromFactory<PrefabFactory<GameObject>>();
+            container.BindFactory<Object, RectTransform, RectTransformFactory>()
+                     .FromFactory<PrefabFactory<RectTransform>>();
         }
     }
 }

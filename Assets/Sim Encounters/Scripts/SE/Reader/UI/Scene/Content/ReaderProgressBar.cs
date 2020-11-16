@@ -13,13 +13,16 @@ namespace ClinicalTools.SimEncounters
 
         protected ISelectedListener<EncounterSelectedEventArgs> EncounterSelector { get; set; }
         protected ISelectedListener<TabSelectedEventArgs> TabSelector { get; set; }
+        protected RectTransformFactory RectTransformFactory { get; set; }
         [Inject]
         public virtual void Inject(
             ISelectedListener<EncounterSelectedEventArgs> encounterSelector, 
-            ISelectedListener<TabSelectedEventArgs> tabSelector)
+            ISelectedListener<TabSelectedEventArgs> tabSelector,
+            RectTransformFactory rectTransformFactory)
         {
             EncounterSelector = encounterSelector;
             TabSelector = tabSelector;
+            RectTransformFactory = rectTransformFactory;
         }
         protected virtual void Start()
         {
@@ -33,7 +36,7 @@ namespace ClinicalTools.SimEncounters
         }
 
         protected EncounterNonImageContent NonImageContent { get; set; }
-        private float tabCount;
+        private int tabCount;
         public virtual void OnEncounterSelected(object sender, EncounterSelectedEventArgs eventArgs)
         {
             NonImageContent = eventArgs.Encounter.Content.NonImageContent;
@@ -45,20 +48,27 @@ namespace ClinicalTools.SimEncounters
             var rect = ((RectTransform)transform).rect;
 
             for (var i = 0; i < sections.Count; i++) {
-                var sectionDot = Instantiate(SectionDotPrefab, transform);
-                var position = 1f * tabs / tabCount;
-                sectionDot.anchorMin = new Vector2(position, 0);
-                sectionDot.anchorMax = new Vector2(position, 1);
-                sectionDot.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rect.height);
-
-                sectionDot.anchoredPosition = Vector2.zero;
-
+                CreateSectionDot(tabs, tabCount, rect.height);
                 tabs += sections[i].Value.Tabs.Count;
             }
         }
 
+        protected virtual void CreateSectionDot(int tabsSoFar, int tabCount, float height)
+        {
+            var sectionDot = RectTransformFactory.Create(sectionDotPrefab);
+            sectionDot.SetParent(transform);
+            sectionDot.localScale = Vector3.one;
+
+            var position = 1f * tabsSoFar / tabCount;
+            sectionDot.anchorMin = new Vector2(position, 0);
+            sectionDot.anchorMax = new Vector2(position, 1);
+            sectionDot.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+
+            sectionDot.anchoredPosition = Vector2.zero;
+        }
+
         protected virtual void OnTabSelected(object sender, TabSelectedEventArgs eventArgs)
-            => FillImage.fillAmount = NonImageContent.GetCurrentTabNumber() / tabCount;
+            => FillImage.fillAmount = 1f * NonImageContent.GetCurrentTabNumber() / tabCount;
         
         protected virtual void OnDestroy()
         {

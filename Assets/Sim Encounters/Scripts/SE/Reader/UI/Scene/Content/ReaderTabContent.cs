@@ -13,7 +13,7 @@ namespace ClinicalTools.SimEncounters
         {
             var stopwatch = Stopwatch.StartNew();
             base.Select(sender, eventArgs);
-            UnityEngine.Debug.LogWarning($"D. [{eventArgs.SelectedTab.Data.Name}] ({eventArgs.ChangeType != ChangeType.Inactive}): {stopwatch.ElapsedMilliseconds}");
+            UnityEngine.Debug.LogWarning($"D. {eventArgs.SelectedTab.Data.Name}: {stopwatch.ElapsedMilliseconds}");
         }
     }
 }

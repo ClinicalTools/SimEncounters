@@ -91,7 +91,7 @@ namespace ClinicalTools.SimEncounters
 
             var stopwatch = Stopwatch.StartNew();
             HandleTabStuff(sender, eventArgs);
-            UnityEngine.Debug.LogWarning($"C. TAB: {stopwatch.ElapsedMilliseconds}");
+            UnityEngine.Debug.LogWarning($"C. {eventArgs.SelectedTab.Data.Name} TAB: {stopwatch.ElapsedMilliseconds}");
         }
 
         protected UserTab PreviousTab { get; set; }
@@ -129,13 +129,14 @@ namespace ClinicalTools.SimEncounters
             if (NextTab != null && Next == null)
                 Next = unusedContent.Pop();
 
+            var useDelay = Current.Tab != eventArgs.SelectedTab;
             Current.Select(sender, eventArgs);
 
-            TabDraw();
+            TabDraw(useDelay);
         }
 
         private Coroutine currentCoroutine;
-        protected virtual void TabDraw()
+        protected virtual void TabDraw(bool useDelay)
         {
             foreach (var tabContent in Contents)
                 tabContent.gameObject.SetActive(tabContent == Current || tabContent == Leaving);
@@ -147,7 +148,7 @@ namespace ClinicalTools.SimEncounters
 
             IEnumerator shiftSectionRoutine = GetShiftRoutine();
             if (shiftSectionRoutine != null) {
-                currentCoroutine = StartCoroutine(shiftSectionRoutine);
+                currentCoroutine = StartCoroutine(AnimationCoroutine(shiftSectionRoutine, useDelay));
             } else {
                 Curve.SetPosition(Current.RectTransform);
                 SetNextAndPrevious();
@@ -172,13 +173,21 @@ namespace ClinicalTools.SimEncounters
         }
 
         protected IEnumerator ShiftForward(ReaderTabContent leavingContent)
-            => Shift(Curve.ShiftForward(leavingContent.RectTransform, Current.RectTransform));
+            => Curve.ShiftForward(leavingContent.RectTransform, Current.RectTransform);
         protected IEnumerator ShiftBackward(ReaderTabContent leavingContent)
-            => Shift(Curve.ShiftBackward(leavingContent.RectTransform, Current.RectTransform));
-        protected IEnumerator Shift(IEnumerator enumerator)
+            => Curve.ShiftBackward(leavingContent.RectTransform, Current.RectTransform);
+        protected virtual IEnumerator AnimationCoroutine(IEnumerator shiftRoutine, bool useDelay)
         {
             SwipeManager.DisableSwipe();
-            yield return enumerator;
+
+            if (useDelay) {
+                Current.RectTransform.anchorMin = new Vector2(1, Current.RectTransform.anchorMin.y);
+                Current.RectTransform.anchorMax = new Vector2(2, Current.RectTransform.anchorMax.y);
+                yield return null;
+                yield return null;
+            }
+
+            yield return shiftRoutine;
             SwipeManager.ReenableSwipe();
             yield return null;
             SetNextAndPrevious();

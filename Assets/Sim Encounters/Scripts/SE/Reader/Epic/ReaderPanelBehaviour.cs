@@ -51,5 +51,6 @@ namespace ClinicalTools.SimEncounters
         public class Factory : PlaceholderFactory<UnityEngine.Object, BaseReaderPanelBehaviour> { }
     }
     public class GameObjectFactory : PlaceholderFactory<UnityEngine.Object, GameObject> { }
+    public class RectTransformFactory : PlaceholderFactory<UnityEngine.Object, RectTransform> { }
 
 }

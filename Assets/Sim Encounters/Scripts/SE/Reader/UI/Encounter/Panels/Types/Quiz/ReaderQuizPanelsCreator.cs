@@ -12,13 +12,18 @@ namespace ClinicalTools.SimEncounters
         public BaseReaderPanelBehaviour CheckBoxPanel { get => checkBoxPanel; set => checkBoxPanel = value; }
         [SerializeField] private BaseReaderPanelBehaviour checkBoxPanel;
 
-        protected List<BaseReaderPanelBehaviour> PanelBehaviours {get;} = new List<BaseReaderPanelBehaviour>();
+        protected List<BaseReaderPanelBehaviour> PanelBehaviours { get; } = new List<BaseReaderPanelBehaviour>();
 
         protected BaseReaderPanelBehaviour.Factory ReaderPanelFactory { get; set; }
         [Inject] public virtual void Inject(BaseReaderPanelBehaviour.Factory readerPanelFactory) => ReaderPanelFactory = readerPanelFactory;
 
+        protected OrderedCollection<UserPanel> CurrentPanels { get; set; }
         public override void Display(OrderedCollection<UserPanel> panels, bool active)
         {
+            if (CurrentPanels == panels)
+                return;
+            CurrentPanels = panels;
+
             foreach (var panelBehaviour in PanelBehaviours)
                 Destroy(panelBehaviour.gameObject);
             PanelBehaviours.Clear();

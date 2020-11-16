@@ -116,7 +116,9 @@ namespace ClinicalTools.SimEncounters
         protected virtual void OnTabSelected(object sender, UserTabSelectedEventArgs eventArgs)
         {
             var stopwatch = Stopwatch.StartNew();
+            Current.UserTabSelected -= UserTabSelector.Select;
             Current.Select(sender, eventArgs);
+            Current.UserTabSelected += UserTabSelector.Select;
             UnityEngine.Debug.LogWarning($"B. TAB: {stopwatch.ElapsedMilliseconds}");
         }
 
@@ -156,7 +158,6 @@ namespace ClinicalTools.SimEncounters
                 Next = unusedContent.Pop();
 
             Current.Select(sender, eventArgs);
-            Current.SetCurrentTab(sender, eventArgs.ChangeType);
             Current.UserSectionSelected += UserSectionSelector.Select;
             Current.UserTabSelected += UserTabSelector.Select;
 

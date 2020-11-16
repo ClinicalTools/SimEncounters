@@ -50,6 +50,8 @@ namespace ClinicalTools.SimEncounters
         private const float FADE_TIME = 1;
         public IEnumerator Hide()
         {
+            yield return null;
+            yield return null;
             while (CanvasGroup.alpha > 0) {
                 yield return null;
                 CanvasGroup.alpha -= Time.deltaTime / FADE_TIME;

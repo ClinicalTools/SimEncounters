@@ -10,8 +10,7 @@ namespace ClinicalTools.SimEncounters
         where T : BaseReaderPanelBehaviour
     {
         [SerializeField] private Transform childParent;
-        public Transform ChildParent
-        {
+        public Transform ChildParent {
             get {
                 if (childParent != null)
                     return childParent;
@@ -45,6 +44,7 @@ namespace ClinicalTools.SimEncounters
         public override void Display(OrderedCollection<UserPanel> panels, bool active)
         {
             if (CurrentPanels == panels) {
+                return;
                 foreach (var child in Children)
                     child.Value.Select(this, new UserPanelSelectedEventArgs(child.Key, active));
                 return;
