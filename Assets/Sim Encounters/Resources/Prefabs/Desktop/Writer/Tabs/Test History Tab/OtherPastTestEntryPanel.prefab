@@ -161,7 +161,6 @@ GameObject:
   - component: {fileID: 222199151678881790}
   - component: {fileID: 114085458592550552}
   - component: {fileID: 114065275434718088}
-  - component: {fileID: 114581916709854372}
   - component: {fileID: 9127717887725775221}
   m_Layer: 5
   m_Name: ReorderBar
@@ -247,23 +246,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &114581916709854372
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1015596878469150}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48f7701ed552bd4abee751999b78a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TitleText: 
-  DescriptionText: 
-  Delay: 0.5
-  ToolTipCanvas: {fileID: 0}
-  tooltipName: ReorderBar
 --- !u!114 &9127717887725775221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -925,6 +907,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &1200610898327240
 GameObject:
   m_ObjectHideFlags: 0
@@ -1803,6 +1787,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &1234674642289262
 GameObject:
   m_ObjectHideFlags: 0
@@ -2451,6 +2437,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &1344036294698732
 GameObject:
   m_ObjectHideFlags: 0
@@ -3055,6 +3043,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &1452572272077408
 GameObject:
   m_ObjectHideFlags: 0
@@ -3846,6 +3836,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &1600769123096146
 GameObject:
   m_ObjectHideFlags: 0
@@ -5371,6 +5363,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &1791225928443466
 GameObject:
   m_ObjectHideFlags: 0
@@ -6444,7 +6438,6 @@ GameObject:
   - component: {fileID: 114313573700624086}
   - component: {fileID: 114651535467692550}
   - component: {fileID: 114114035566848010}
-  - component: {fileID: 1169354549674780664}
   - component: {fileID: 5439227772082378320}
   m_Layer: 5
   m_Name: Image
@@ -6580,18 +6573,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   topRect: {fileID: 0}
   botRect: {fileID: 0}
---- !u!114 &1169354549674780664
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1918128574865052}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4ce387e788977948a02bfc16f196c01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5439227772082378320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6617,8 +6598,6 @@ GameObject:
   - component: {fileID: 222396824920894410}
   - component: {fileID: 114539337177909538}
   - component: {fileID: 114357727939027490}
-  - component: {fileID: 114528650278104226}
-  - component: {fileID: 114671804468801264}
   m_Layer: 5
   m_Name: CollapseButton
   m_TagString: Untagged
@@ -6729,53 +6708,8 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114528650278104226}
-        m_MethodName: ToggleTarget
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_IsOn: 0
---- !u!114 &114528650278104226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1944900822226704}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a7c892347a3f3b4dbcd4444b072b1f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targets:
-  - {fileID: 1155134538395322}
-  invertValue: 0
-  autoCollapse: 1
-  toggleGameObjects: 0
---- !u!114 &114671804468801264
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1944900822226704}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48f7701ed552bd4abee751999b78a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TitleText: 
-  DescriptionText: 
-  Delay: 0.5
-  ToolTipCanvas: {fileID: 0}
-  tooltipName: CollapseButton
 --- !u!1 &1975226749981788
 GameObject:
   m_ObjectHideFlags: 0
@@ -6788,7 +6722,6 @@ GameObject:
   - component: {fileID: 222029112094886592}
   - component: {fileID: 114560190781405616}
   - component: {fileID: 114209526248363704}
-  - component: {fileID: 114229403537098016}
   m_Layer: 5
   m_Name: DeleteIcon
   m_TagString: Untagged
@@ -6895,23 +6828,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &114229403537098016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1975226749981788}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48f7701ed552bd4abee751999b78a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TitleText: 
-  DescriptionText: 
-  Delay: 0.5
-  ToolTipCanvas: {fileID: 0}
-  tooltipName: DeleteEntryButton
 --- !u!1 &1983768360366472
 GameObject:
   m_ObjectHideFlags: 0
@@ -7063,7 +6979,6 @@ GameObject:
   - component: {fileID: 225203253188256606}
   - component: {fileID: 114345509336950152}
   - component: {fileID: 8769180817016101771}
-  - component: {fileID: 7202950647408698467}
   m_Layer: 5
   m_Name: OtherPastTestEntryPanel
   m_TagString: Untagged
@@ -7233,19 +7148,6 @@ MonoBehaviour:
   deleteButton: {fileID: 114209526248363704}
   childPanelCreator: {fileID: 0}
   pinsDrawer: {fileID: 771403171333659059}
---- !u!114 &7202950647408698467
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1983778916670174}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _containerSource: 2
 --- !u!1 &3136172516746348961
 GameObject:
   m_ObjectHideFlags: 0
@@ -7679,12 +7581,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 328e52009c15c7a4699753fcb4bc8591, type: 3}
---- !u!224 &5971519374791793165 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8067747074748472410, guid: 328e52009c15c7a4699753fcb4bc8591,
-    type: 3}
-  m_PrefabInstance: {fileID: 4407190066439882327}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &771403171333659059 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4007622143649275876, guid: 328e52009c15c7a4699753fcb4bc8591,
@@ -7697,3 +7593,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84525afdb2f187e40854e80b20028aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &5971519374791793165 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8067747074748472410, guid: 328e52009c15c7a4699753fcb4bc8591,
+    type: 3}
+  m_PrefabInstance: {fileID: 4407190066439882327}
+  m_PrefabAsset: {fileID: 0}

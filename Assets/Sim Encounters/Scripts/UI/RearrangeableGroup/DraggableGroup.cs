@@ -12,13 +12,6 @@ namespace ClinicalTools.UI
         public override event RearrangedEventHandler Rearranged;
         protected List<IDraggable> DraggableObjects { get; } = new List<IDraggable>();
 
-        public override T AddFromPrefab<T>(T draggablePrefab)
-        {
-            var draggableElement = Instantiate(draggablePrefab, ChildrenParent);
-            Add(draggableElement);
-            return draggableElement;
-        }
-
         public override void Add(IDraggable draggable)
         {
             draggable.RectTransform.SetParent(ChildrenParent);

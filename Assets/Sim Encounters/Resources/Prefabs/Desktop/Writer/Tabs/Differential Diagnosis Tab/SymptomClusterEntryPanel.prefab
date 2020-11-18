@@ -11,9 +11,7 @@ GameObject:
   - component: {fileID: 224726141179419460}
   - component: {fileID: 222566655617436538}
   - component: {fileID: 114081312142122372}
-  - component: {fileID: 114617846559915624}
   - component: {fileID: 114251310958094996}
-  - component: {fileID: 114948181428484708}
   m_Layer: 5
   m_Name: AddPinButton
   m_TagString: Untagged
@@ -78,21 +76,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &114617846559915624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1001403410351408}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e58ca183c0cf0140bcb92c355daaeb4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pinImages:
-  - {fileID: 21300000, guid: 5b386df515297c44895146ef4d8146fc, type: 3}
-  - {fileID: 21300000, guid: 234f70e6a6a3706408288d2fbb0ca8fe, type: 3}
 --- !u!114 &114251310958094996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,35 +118,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114081312142122372}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114617846559915624}
-        m_MethodName: pinList
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &114948181428484708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1001403410351408}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48f7701ed552bd4abee751999b78a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TitleText: 
-  DescriptionText: 
-  Delay: 1
-  ToolTipCanvas: {fileID: 0}
-  tooltipName: AddPinButton
+      m_Calls: []
 --- !u!1 &1007450196506862
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,7 +228,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 71.205, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222699203111377776
@@ -533,7 +488,6 @@ GameObject:
   - component: {fileID: 222077402989364170}
   - component: {fileID: 114624192888694246}
   - component: {fileID: 114721145289861780}
-  - component: {fileID: 114491996762667092}
   m_Layer: 5
   m_Name: DeleteIcon
   m_TagString: Untagged
@@ -640,23 +594,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &114491996762667092
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1096077095741896}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48f7701ed552bd4abee751999b78a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TitleText: 
-  DescriptionText: 
-  Delay: 0.5
-  ToolTipCanvas: {fileID: 0}
-  tooltipName: DeleteEntryButton
 --- !u!1 &1136386275668638
 GameObject:
   m_ObjectHideFlags: 0
@@ -1090,8 +1027,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 636.99994, y: 0}
+  m_SizeDelta: {x: 1273.9999, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &222594680175180582
 CanvasRenderer:
@@ -1425,8 +1362,6 @@ GameObject:
   - component: {fileID: 222452905875851250}
   - component: {fileID: 114129100520304308}
   - component: {fileID: 114945816284769802}
-  - component: {fileID: 114171522346073796}
-  - component: {fileID: 114479689148418358}
   m_Layer: 5
   m_Name: CollapseButton
   m_TagString: Untagged
@@ -1537,56 +1472,8 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114171522346073796}
-        m_MethodName: ToggleTarget
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_IsOn: 0
---- !u!114 &114171522346073796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1305769477989618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a7c892347a3f3b4dbcd4444b072b1f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targets:
-  - {fileID: 1804292979753638}
-  - {fileID: 1288904078340622}
-  - {fileID: 1437710355946236}
-  - {fileID: 1575326466067526}
-  invertValue: 0
-  autoCollapse: 1
-  toggleGameObjects: 0
---- !u!114 &114479689148418358
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1305769477989618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48f7701ed552bd4abee751999b78a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TitleText: 
-  DescriptionText: 
-  Delay: 0.5
-  ToolTipCanvas: {fileID: 0}
-  tooltipName: CollapseButton
 --- !u!1 &1332424104114340
 GameObject:
   m_ObjectHideFlags: 0
@@ -1723,7 +1610,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 126.77, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222592345281174036
@@ -1995,6 +1882,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &1395125274509390
 GameObject:
   m_ObjectHideFlags: 0
@@ -2875,7 +2764,6 @@ GameObject:
   - component: {fileID: 6933828390791659493}
   - component: {fileID: 6703112172498812336}
   - component: {fileID: 5349115720618593563}
-  - component: {fileID: 3004957514671379029}
   - component: {fileID: 1731189868554200211}
   - component: {fileID: 3452536091969696552}
   m_Layer: 5
@@ -3048,19 +2936,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   addButton: {fileID: 114905478575787162}
---- !u!114 &3004957514671379029
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1468077646075202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _containerSource: 2
 --- !u!114 &1731189868554200211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3503,7 +3378,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 77.505, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222656636179010412
@@ -5573,6 +5448,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &1854235914834294
 GameObject:
   m_ObjectHideFlags: 0
@@ -5659,7 +5536,6 @@ GameObject:
   - component: {fileID: 222287102091312558}
   - component: {fileID: 114758146880456406}
   - component: {fileID: 114448147238756302}
-  - component: {fileID: 114966371840816582}
   - component: {fileID: 9186815697850125653}
   m_Layer: 5
   m_Name: ReorderBar
@@ -5745,23 +5621,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &114966371840816582
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1861135504948618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48f7701ed552bd4abee751999b78a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TitleText: 
-  DescriptionText: 
-  Delay: 0.5
-  ToolTipCanvas: {fileID: 0}
-  tooltipName: ReorderBar
 --- !u!114 &9186815697850125653
 MonoBehaviour:
   m_ObjectHideFlags: 0

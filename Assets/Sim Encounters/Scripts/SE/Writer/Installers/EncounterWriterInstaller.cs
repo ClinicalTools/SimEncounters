@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using Zenject;
 
 namespace ClinicalTools.SimEncounters

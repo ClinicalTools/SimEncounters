@@ -50,6 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &1350853311866259106
 GameObject:
   m_ObjectHideFlags: 0
@@ -986,7 +988,6 @@ GameObject:
   - component: {fileID: 2200989170154194329}
   - component: {fileID: 6309723451665530672}
   - component: {fileID: 4125072221042797630}
-  - component: {fileID: 539853208061419187}
   - component: {fileID: 7733114647296505171}
   m_Layer: 5
   m_Name: TreatmentPanel
@@ -1168,19 +1169,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   addButton: {fileID: 3661662661705070821}
---- !u!114 &539853208061419187
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3693494546712092293}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _containerSource: 2
 --- !u!114 &7733114647296505171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2216,8 +2204,6 @@ GameObject:
   - component: {fileID: 3482041341519871733}
   - component: {fileID: 3661811509002293317}
   - component: {fileID: 3665659857169640345}
-  - component: {fileID: 3661932288020097533}
-  - component: {fileID: 3662189349782766741}
   m_Layer: 5
   m_Name: CollapseButton
   m_TagString: Untagged
@@ -2328,54 +2314,8 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3661932288020097533}
-        m_MethodName: ToggleTarget
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_IsOn: 0
---- !u!114 &3661932288020097533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3693859616869363209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a7c892347a3f3b4dbcd4444b072b1f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targets:
-  - {fileID: 3693840518324220069}
-  - {fileID: 3693238589789414557}
-  invertValue: 0
-  autoCollapse: 1
-  toggleGameObjects: 0
---- !u!114 &3662189349782766741
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3693859616869363209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48f7701ed552bd4abee751999b78a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TitleText: 
-  DescriptionText: 
-  Delay: 0.5
-  ToolTipCanvas: {fileID: 0}
-  tooltipName: CollapseButton
 --- !u!1 &3693885793619430515
 GameObject:
   m_ObjectHideFlags: 0
@@ -2453,7 +2393,6 @@ GameObject:
   - component: {fileID: 3481505471384877889}
   - component: {fileID: 3662014512656213115}
   - component: {fileID: 3665655964194566879}
-  - component: {fileID: 3661945624441072047}
   - component: {fileID: 4688402406526943249}
   m_Layer: 5
   m_Name: ReorderBar
@@ -2539,23 +2478,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &3661945624441072047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3693897657176845587}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48f7701ed552bd4abee751999b78a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TitleText: 
-  DescriptionText: 
-  Delay: 0.5
-  ToolTipCanvas: {fileID: 0}
-  tooltipName: ReorderBar
 --- !u!114 &4688402406526943249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2698,7 +2620,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 85.84, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3482391704901388693
@@ -2824,7 +2746,6 @@ GameObject:
   - component: {fileID: 3482018501652577087}
   - component: {fileID: 3661943597976793973}
   - component: {fileID: 3661740066804774397}
-  - component: {fileID: 3662070867427076339}
   m_Layer: 5
   m_Name: DeleteIcon
   m_TagString: Untagged
@@ -2931,23 +2852,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &3662070867427076339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3694303494809437665}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48f7701ed552bd4abee751999b78a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TitleText: 
-  DescriptionText: 
-  Delay: 0.5
-  ToolTipCanvas: {fileID: 0}
-  tooltipName: DeleteEntryButton
 --- !u!1 &3694341524858265987
 GameObject:
   m_ObjectHideFlags: 0
@@ -3625,15 +3529,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66daff47fb8573043beb84923ef42abf, type: 3}
---- !u!1 &1665032791200807984 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1432536386628798, guid: 66daff47fb8573043beb84923ef42abf,
-    type: 3}
-  m_PrefabInstance: {fileID: 1665896877043044494}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1441210738263814872 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224689487247319638, guid: 66daff47fb8573043beb84923ef42abf,
+    type: 3}
+  m_PrefabInstance: {fileID: 1665896877043044494}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1665032791200807984 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1432536386628798, guid: 66daff47fb8573043beb84923ef42abf,
     type: 3}
   m_PrefabInstance: {fileID: 1665896877043044494}
   m_PrefabAsset: {fileID: 0}

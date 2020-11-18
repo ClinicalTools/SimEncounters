@@ -1,6 +1,7 @@
 ﻿using ClinicalTools.SimEncounters.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -13,20 +14,21 @@ namespace ClinicalTools.SimEncounters
         public List<string> PanelNames { get => panelNames; set => panelNames = value; }
         [SerializeField] private List<string> panelNames;
 
+        protected BaseWriterPanel.Factory PanelFactory { get; set; }
+        [Inject] public virtual void Inject(BaseWriterPanel.Factory panelFactory) => PanelFactory = panelFactory;
+        
         protected virtual OrderedCollection<BaseWriterPanel> WriterPanels { get; set; } = new OrderedCollection<BaseWriterPanel>();
-
 
         public override List<BaseWriterPanel> DrawChildPanels(Encounter encounter, OrderedCollection<Panel> childPanels)
         {
             foreach (var writerPanel in WriterPanels.Values)
                 Destroy(writerPanel.gameObject);
 
-            var blah = new ChildrenPanelManager();
             WriterPanels = new OrderedCollection<BaseWriterPanel>();
 
             var panels = new List<BaseWriterPanel>();
             foreach (var panel in childPanels) {
-                var panelUI = Instantiate(PanelPrefab, PanelsParent);
+                var panelUI = InstantiatePanel();
                 panelUI.Display(encounter, panel.Value);
                 panels.Add(panelUI);
                 WriterPanels.Add(panel.Key, panelUI);
@@ -43,13 +45,21 @@ namespace ClinicalTools.SimEncounters
             foreach (var panelName in PanelNames) {
                 var panel = new Panel(PanelPrefab.Type);
                 panel.Values.Add("PanelNameValue", panelName);
-                var panelUI = Instantiate(panelPrefab, PanelsParent);
+                var panelUI = InstantiatePanel();
                 panelUI.Display(encounter, panel);
                 panels.Add(panelUI);
                 WriterPanels.Add(panelUI);
             }
 
             return panels;
+        }
+
+        protected virtual BaseWriterPanel InstantiatePanel()
+        {
+            var writerPanel = PanelFactory.Create(PanelPrefab);
+            writerPanel.transform.SetParent(PanelsParent);
+            writerPanel.transform.localScale = Vector3.one;
+            return writerPanel;
         }
 
         public override OrderedCollection<Panel> SerializeChildren()

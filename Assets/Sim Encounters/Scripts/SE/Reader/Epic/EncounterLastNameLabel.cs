@@ -1,5 +1,4 @@
-﻿using ClinicalTools.ClinicalEncounters;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
@@ -9,8 +8,8 @@ namespace ClinicalTools.SimEncounters
     {
         protected override void OnMetadataSelected(object sender, EncounterMetadataSelectedEventArgs eventArgs)
         {
-            if (eventArgs.Metadata is CEEncounterMetadata metadata)
-                Label.text = metadata.Name.LastName;
+            if (eventArgs.Metadata is INamed named)
+                Label.text = named.Name.LastName;
         }
     }
 }

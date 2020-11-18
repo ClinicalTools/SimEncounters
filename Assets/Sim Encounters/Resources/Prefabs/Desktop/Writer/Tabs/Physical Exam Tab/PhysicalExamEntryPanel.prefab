@@ -736,7 +736,6 @@ GameObject:
   - component: {fileID: 114417593519551484}
   - component: {fileID: 114807377218490290}
   - component: {fileID: 114667920502898718}
-  - component: {fileID: 8585381734717852364}
   - component: {fileID: 6468624386890091665}
   m_Layer: 5
   m_Name: Image
@@ -872,18 +871,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   topRect: {fileID: 0}
   botRect: {fileID: 0}
---- !u!114 &8585381734717852364
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1430180163379814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4ce387e788977948a02bfc16f196c01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6468624386890091665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1021,6 +1008,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &1554916302716640
 GameObject:
   m_ObjectHideFlags: 0
@@ -2453,7 +2442,6 @@ GameObject:
   - component: {fileID: 114216669887023414}
   - component: {fileID: 114009756688344648}
   - component: {fileID: -5382528660696411875}
-  - component: {fileID: 7644742444116798100}
   m_Layer: 5
   m_Name: PhysicalExamEntryPanel
   m_TagString: Untagged
@@ -2585,19 +2573,6 @@ MonoBehaviour:
   type: PhysicalExamEntryPanel
   childPanelCreator: {fileID: 0}
   pinsDrawer: {fileID: 5921751921535267467}
---- !u!114 &7644742444116798100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1936453288745482}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _containerSource: 2
 --- !u!1 &1944099665695598
 GameObject:
   m_ObjectHideFlags: 0
@@ -2785,7 +2760,6 @@ GameObject:
   - component: {fileID: 222070282466591450}
   - component: {fileID: 114653128258862158}
   - component: {fileID: 114550100526909908}
-  - component: {fileID: 114316888940666022}
   - component: {fileID: 114603673525781222}
   - component: {fileID: 5128122631684763580}
   m_Layer: 5
@@ -2899,36 +2873,8 @@ MonoBehaviour:
   m_Group: {fileID: 114230801754367586}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114316888940666022}
-        m_MethodName: ToggleTarget
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_IsOn: 0
---- !u!114 &114316888940666022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1964629815185242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a7c892347a3f3b4dbcd4444b072b1f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targets:
-  - {fileID: 1616528174505752}
-  invertValue: 0
-  autoCollapse: 1
-  toggleGameObjects: 0
 --- !u!114 &114603673525781222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3618,12 +3564,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 328e52009c15c7a4699753fcb4bc8591, type: 3}
---- !u!224 &740213063587246389 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8067747074748472410, guid: 328e52009c15c7a4699753fcb4bc8591,
-    type: 3}
-  m_PrefabInstance: {fileID: 7328384518072364399}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5921751921535267467 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4007622143649275876, guid: 328e52009c15c7a4699753fcb4bc8591,
@@ -3636,3 +3576,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84525afdb2f187e40854e80b20028aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &740213063587246389 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8067747074748472410, guid: 328e52009c15c7a4699753fcb4bc8591,
+    type: 3}
+  m_PrefabInstance: {fileID: 7328384518072364399}
+  m_PrefabAsset: {fileID: 0}

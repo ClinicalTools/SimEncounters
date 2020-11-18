@@ -7,7 +7,7 @@ namespace ClinicalTools.SimEncounters
 {
     public class DefaultFileManager : IFileManager
     {
-        protected string DefaultDirectory => Application.streamingAssetsPath + "/Default/";
+        protected string DefaultDirectory => Path.Combine(Application.streamingAssetsPath, "Default");
         protected string EncounterFilename => "encounter";
 
         private readonly IFileExtensionGetter fileExtensionManager;

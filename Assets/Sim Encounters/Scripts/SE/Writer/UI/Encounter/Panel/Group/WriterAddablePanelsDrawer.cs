@@ -2,6 +2,7 @@
 using ClinicalTools.UI;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -13,6 +14,9 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private List<BaseWriterAddablePanel> panelOptions;
         public BaseWriterPanelCreator PanelCreator { get => panelCreator; set => panelCreator = value; }
         [SerializeField] private BaseWriterPanelCreator panelCreator;
+
+        protected BaseWriterPanel.Factory PanelFactory { get; set; }
+        [Inject] public virtual void Inject(BaseWriterPanel.Factory panelFactory) => PanelFactory = panelFactory;
 
         protected virtual void Awake()
         {
@@ -30,13 +34,14 @@ namespace ClinicalTools.SimEncounters
             foreach (var writerPanel in WriterPanels.Values)
                 Destroy(writerPanel.gameObject);
 
-            var blah = new ChildrenPanelManager();
+            var childrenPanelManager = new ChildrenPanelManager();
             WriterPanels = new OrderedCollection<BaseWriterPanel>();
 
             var panels = new List<BaseWriterPanel>();
             foreach (var panel in childPanels) {
-                var prefab = blah.ChoosePrefab(PanelOptions, panel.Value);
-                var panelUI = ReorderableGroup.AddFromPrefab(prefab);
+                var prefab = childrenPanelManager.ChoosePrefab(PanelOptions, panel.Value);
+                var panelUI = InstantiatePanel(prefab);
+                ReorderableGroup.Add(panelUI);
                 panelUI.Display(encounter, panel.Value);
                 panelUI.Deleted += () => PanelDeleted(panelUI);
                 panels.Add(panelUI);
@@ -64,7 +69,8 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void AddPanel(BaseWriterAddablePanel prefab)
         {
-            var panelUI = ReorderableGroup.AddFromPrefab(prefab);
+            var panelUI = InstantiatePanel(prefab);
+            ReorderableGroup.Add(panelUI);
             panelUI.Display(CurrentEncounter);
             panelUI.Deleted += () => PanelDeleted(panelUI);
             WriterPanels.Add(panelUI);
@@ -74,6 +80,14 @@ namespace ClinicalTools.SimEncounters
         {
             ReorderableGroup.Remove(panel);
             WriterPanels.Remove(panel);
+        }
+
+        protected virtual BaseWriterAddablePanel InstantiatePanel(BaseWriterAddablePanel writerPanelPrefab)
+        {
+            var writerPanel = (BaseWriterAddablePanel)PanelFactory.Create(writerPanelPrefab);
+            writerPanel.transform.SetParent(ReorderableGroup.transform);
+            writerPanel.transform.localScale = Vector3.one;
+            return writerPanel;
         }
     }
 }

@@ -96,6 +96,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -169,6 +170,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -194,7 +196,6 @@ GameObject:
   - component: {fileID: 222515685050897066}
   - component: {fileID: 114193341272435072}
   - component: {fileID: 114250385699752578}
-  - component: {fileID: 114074672679540570}
   m_Layer: 5
   m_Name: AddFieldButton
   m_TagString: Untagged
@@ -245,6 +246,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0.74509805, b: 0.27058825, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -301,23 +303,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &114074672679540570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1588269646943462}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48f7701ed552bd4abee751999b78a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TitleText: 
-  DescriptionText: 
-  Delay: 1
-  ToolTipCanvas: {fileID: 0}
-  tooltipName: AddEntryButton
 --- !u!1 &1686171444545742
 GameObject:
   m_ObjectHideFlags: 0
@@ -458,6 +443,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -606,6 +592,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -870,6 +857,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b17499f574f859343b20ffa73618bf5f, type: 3}
+--- !u!224 &3635967329090389448 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7403391516026221273, guid: b17499f574f859343b20ffa73618bf5f,
+    type: 3}
+  m_PrefabInstance: {fileID: 6110166841009239825}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2428607833191338459 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8466637190143682250, guid: b17499f574f859343b20ffa73618bf5f,
@@ -882,9 +875,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa2bf5234b651d1468786c3d1c5ae390, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &3635967329090389448 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 7403391516026221273, guid: b17499f574f859343b20ffa73618bf5f,
-    type: 3}
-  m_PrefabInstance: {fileID: 6110166841009239825}
-  m_PrefabAsset: {fileID: 0}

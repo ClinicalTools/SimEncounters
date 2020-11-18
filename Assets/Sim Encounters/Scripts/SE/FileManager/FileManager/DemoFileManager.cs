@@ -8,7 +8,7 @@ namespace ClinicalTools.SimEncounters
 {
     public class DemoFileManager : IFileManager
     {
-        protected string DemoDirectory => Application.streamingAssetsPath + "/DemoCases/";
+        protected string DemoDirectory => Path.Combine(Application.streamingAssetsPath, "DemoCases");
         protected string EncountersListFilename => "list.txt";
 
         private readonly IFileExtensionGetter fileExtensionManager;

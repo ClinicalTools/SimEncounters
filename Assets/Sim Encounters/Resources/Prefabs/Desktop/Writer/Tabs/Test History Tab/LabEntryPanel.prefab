@@ -214,6 +214,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &1042922692487046
 GameObject:
   m_ObjectHideFlags: 0
@@ -622,6 +624,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &1072037796203448
 GameObject:
   m_ObjectHideFlags: 0
@@ -2070,8 +2074,6 @@ GameObject:
   - component: {fileID: 222765820880004530}
   - component: {fileID: 114661297415539732}
   - component: {fileID: 114208829408329028}
-  - component: {fileID: 114929629527195286}
-  - component: {fileID: 114470853395059074}
   m_Layer: 5
   m_Name: CollapseButton
   m_TagString: Untagged
@@ -2182,55 +2184,8 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114929629527195286}
-        m_MethodName: ToggleTarget
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_IsOn: 0
---- !u!114 &114929629527195286
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1173917112869364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a7c892347a3f3b4dbcd4444b072b1f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targets:
-  - {fileID: 1006043265092692}
-  - {fileID: 1893299621269756}
-  - {fileID: 1226353882699388}
-  invertValue: 0
-  autoCollapse: 1
-  toggleGameObjects: 0
---- !u!114 &114470853395059074
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1173917112869364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48f7701ed552bd4abee751999b78a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TitleText: 
-  DescriptionText: Collapse/Uncollapse Entry
-  Delay: 0.5
-  ToolTipCanvas: {fileID: 0}
-  tooltipName: CollapseButton
 --- !u!1 &1179158718079876
 GameObject:
   m_ObjectHideFlags: 0
@@ -2356,6 +2311,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &1197732877389824
 GameObject:
   m_ObjectHideFlags: 0
@@ -4722,6 +4679,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &1421706876963074
 GameObject:
   m_ObjectHideFlags: 0
@@ -5737,7 +5696,6 @@ GameObject:
   - component: {fileID: 225794255773114270}
   - component: {fileID: 114839158140796004}
   - component: {fileID: 7904278077683932905}
-  - component: {fileID: 1315102438287828180}
   m_Layer: 5
   m_Name: LabEntryPanel
   m_TagString: Untagged
@@ -5909,19 +5867,6 @@ MonoBehaviour:
   deleteButton: {fileID: 3987718390220574926}
   childPanelCreator: {fileID: 0}
   pinsDrawer: {fileID: 3666546707617719542}
---- !u!114 &1315102438287828180
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1582162525629358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _containerSource: 2
 --- !u!1 &1587453846957338
 GameObject:
   m_ObjectHideFlags: 0
@@ -6814,6 +6759,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &1650884179010192
 GameObject:
   m_ObjectHideFlags: 0
@@ -8498,6 +8445,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &1795413183458862
 GameObject:
   m_ObjectHideFlags: 0
@@ -8511,7 +8460,6 @@ GameObject:
   - component: {fileID: 114333104301331264}
   - component: {fileID: 114557287629250930}
   - component: {fileID: 114536718456775056}
-  - component: {fileID: 923581280798048241}
   - component: {fileID: 1730048335297999776}
   m_Layer: 5
   m_Name: Image
@@ -8635,18 +8583,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   topRect: {fileID: 0}
   botRect: {fileID: 0}
---- !u!114 &923581280798048241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1795413183458862}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4ce387e788977948a02bfc16f196c01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1730048335297999776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8806,7 +8742,6 @@ GameObject:
   - component: {fileID: 222868639570936316}
   - component: {fileID: 114884889688031992}
   - component: {fileID: 114893994079001636}
-  - component: {fileID: 114864095251731272}
   - component: {fileID: 1264729577577706814}
   m_Layer: 5
   m_Name: ReorderBar
@@ -8892,23 +8827,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &114864095251731272
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1806683213260842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48f7701ed552bd4abee751999b78a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TitleText: 
-  DescriptionText: Drag to reorder
-  Delay: 0.5
-  ToolTipCanvas: {fileID: 0}
-  tooltipName: ReorderBar
 --- !u!114 &1264729577577706814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9562,6 +9480,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &1893299621269756
 GameObject:
   m_ObjectHideFlags: 0
@@ -10623,7 +10543,6 @@ GameObject:
   - component: {fileID: 1797836708997457810}
   - component: {fileID: 2357309033643627767}
   - component: {fileID: 3987718390220574926}
-  - component: {fileID: 1852973396167470426}
   m_Layer: 5
   m_Name: DeleteIcon
   m_TagString: Untagged
@@ -10730,23 +10649,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1852973396167470426
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8309097991941379351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48f7701ed552bd4abee751999b78a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TitleText: 
-  DescriptionText: 
-  Delay: 0.5
-  ToolTipCanvas: {fileID: 0}
-  tooltipName: DeleteEntryButton
 --- !u!1001 &396281405968677650
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11106,12 +11008,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 328e52009c15c7a4699753fcb4bc8591, type: 3}
---- !u!224 &7676872573640943432 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8067747074748472410, guid: 328e52009c15c7a4699753fcb4bc8591,
-    type: 3}
-  m_PrefabInstance: {fileID: 396281405968677650}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3666546707617719542 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4007622143649275876, guid: 328e52009c15c7a4699753fcb4bc8591,
@@ -11124,3 +11020,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84525afdb2f187e40854e80b20028aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &7676872573640943432 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8067747074748472410, guid: 328e52009c15c7a4699753fcb4bc8591,
+    type: 3}
+  m_PrefabInstance: {fileID: 396281405968677650}
+  m_PrefabAsset: {fileID: 0}

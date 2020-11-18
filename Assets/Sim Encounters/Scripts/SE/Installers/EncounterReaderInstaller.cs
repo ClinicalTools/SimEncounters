@@ -1,5 +1,4 @@
-﻿using ClinicalTools.ClinicalEncounters;
-using System;
+﻿using System;
 using Zenject;
 
 namespace ClinicalTools.SimEncounters
@@ -75,7 +74,7 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void BindEncounterDataReaderInstaller(DiContainer subcontainer, SaveType saveType)
         {
-            subcontainer.Bind<IEncounterDataReader>().To<CEEncounterDataReader>().AsTransient();
+            subcontainer.Bind<IEncounterDataReader>().To<EncounterDataReader>().AsTransient();
             if (saveType == SaveType.Server) {
                 subcontainer.Bind<INonImageContentReader>().To<ServerNonImageContentReader>().AsTransient();
                 subcontainer.Bind<IImageContentReader>().To<ServerImageContentReader>().AsTransient();

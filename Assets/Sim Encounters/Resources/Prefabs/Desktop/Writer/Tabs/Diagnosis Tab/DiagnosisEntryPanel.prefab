@@ -2588,7 +2588,6 @@ GameObject:
   - component: {fileID: 3997127217419146881}
   - component: {fileID: -4072371993504607151}
   - component: {fileID: 4672001502001255245}
-  - component: {fileID: 2408379627887241213}
   - component: {fileID: 3593012406383705660}
   - component: {fileID: 7821095603140792820}
   m_Layer: 5
@@ -2759,19 +2758,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   addButton: {fileID: 114185316835157906}
---- !u!114 &2408379627887241213
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1330181416070118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _containerSource: 2
 --- !u!114 &3593012406383705660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3452,9 +3438,7 @@ GameObject:
   - component: {fileID: 224115164085040150}
   - component: {fileID: 222878487788137382}
   - component: {fileID: 114567228102418924}
-  - component: {fileID: 114022079739319710}
   - component: {fileID: 114835278074590406}
-  - component: {fileID: 114501596272456024}
   m_Layer: 5
   m_Name: DeleteIcon
   m_TagString: Untagged
@@ -3518,19 +3502,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &114022079739319710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1650364317729810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 338ce7789e01dd241ab1269ca07a655d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bypassConfirmation: 0
 --- !u!114 &114835278074590406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3573,35 +3544,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114567228102418924}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114022079739319710}
-        m_MethodName: RemoveEntry
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1330181416070118}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &114501596272456024
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1650364317729810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48f7701ed552bd4abee751999b78a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TitleText: 
-  DescriptionText: 
-  Delay: 0.5
-  ToolTipCanvas: {fileID: 0}
-  tooltipName: DeleteEntryButton
+      m_Calls: []
 --- !u!1 &1754248055477458
 GameObject:
   m_ObjectHideFlags: 0
@@ -3652,6 +3595,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &1808580258018350
 GameObject:
   m_ObjectHideFlags: 0
@@ -3892,8 +3837,6 @@ GameObject:
   - component: {fileID: 222211259374499406}
   - component: {fileID: 114772090358355470}
   - component: {fileID: 114285960522920414}
-  - component: {fileID: 114318668095523694}
-  - component: {fileID: 114958587263568086}
   m_Layer: 5
   m_Name: CollapseButton
   m_TagString: Untagged
@@ -4004,54 +3947,8 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114318668095523694}
-        m_MethodName: ToggleTarget
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_IsOn: 0
---- !u!114 &114318668095523694
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1838354493471740}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a7c892347a3f3b4dbcd4444b072b1f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targets:
-  - {fileID: 1460625097994406}
-  - {fileID: 1139415730770862}
-  invertValue: 0
-  autoCollapse: 1
-  toggleGameObjects: 0
---- !u!114 &114958587263568086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1838354493471740}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48f7701ed552bd4abee751999b78a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TitleText: 
-  DescriptionText: 
-  Delay: 0.5
-  ToolTipCanvas: {fileID: 0}
-  tooltipName: CollapseButton
 --- !u!1 &1950788818292028
 GameObject:
   m_ObjectHideFlags: 0
@@ -4346,7 +4243,6 @@ GameObject:
   - component: {fileID: 7044601058021120272}
   - component: {fileID: 5131703424212931488}
   - component: {fileID: 3926435937854093160}
-  - component: {fileID: 5845105217131161257}
   - component: {fileID: 4017267268810389356}
   m_Layer: 5
   m_Name: ReorderBar
@@ -4432,23 +4328,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &5845105217131161257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2701555207976899461}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48f7701ed552bd4abee751999b78a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TitleText: 
-  DescriptionText: 
-  Delay: 0.5
-  ToolTipCanvas: {fileID: 0}
-  tooltipName: ReorderBar
 --- !u!114 &4017267268810389356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4965,6 +4844,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 328e52009c15c7a4699753fcb4bc8591, type: 3}
+--- !u!224 &3862822391678461903 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8067747074748472410, guid: 328e52009c15c7a4699753fcb4bc8591,
+    type: 3}
+  m_PrefabInstance: {fileID: 6516116331236899733}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7921843137957028977 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4007622143649275876, guid: 328e52009c15c7a4699753fcb4bc8591,
@@ -4977,12 +4862,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84525afdb2f187e40854e80b20028aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &3862822391678461903 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8067747074748472410, guid: 328e52009c15c7a4699753fcb4bc8591,
-    type: 3}
-  m_PrefabInstance: {fileID: 6516116331236899733}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7773826816402350140
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5105,15 +4984,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66daff47fb8573043beb84923ef42abf, type: 3}
---- !u!1 &7775245606206999682 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1432536386628798, guid: 66daff47fb8573043beb84923ef42abf,
-    type: 3}
-  m_PrefabInstance: {fileID: 7773826816402350140}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &7565044244125401706 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224689487247319638, guid: 66daff47fb8573043beb84923ef42abf,
+    type: 3}
+  m_PrefabInstance: {fileID: 7773826816402350140}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7775245606206999682 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1432536386628798, guid: 66daff47fb8573043beb84923ef42abf,
     type: 3}
   m_PrefabInstance: {fileID: 7773826816402350140}
   m_PrefabAsset: {fileID: 0}

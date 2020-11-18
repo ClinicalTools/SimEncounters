@@ -27,14 +27,16 @@ namespace ClinicalTools.SimEncounters
         public TextMeshProUGUI DescriptionLabel { get => descriptionLabel; set => descriptionLabel = value; }
         [SerializeField] private TextMeshProUGUI descriptionLabel;
 
-        public TabTypeButtonUI TypeButtonPrefab { get => typeButtonPrefab; set => typeButtonPrefab = value; }
-        [SerializeField] private TabTypeButtonUI typeButtonPrefab;
-
         protected WaitableTask<Tab> CurrentWaitableTab { get; set; }
 
         protected BaseMessageHandler MessageHandler { get; set; }
-        [Inject] public virtual void Inject(BaseMessageHandler messageHandler) => MessageHandler = messageHandler;
-
+        protected TabTypeButtonUI.Factory TabTypeButtonFactory { get; set; }
+        [Inject]
+        public virtual void Inject(BaseMessageHandler messageHandler, TabTypeButtonUI.Factory tabTypeButtonFactory)
+        {
+            MessageHandler = messageHandler;
+            TabTypeButtonFactory = tabTypeButtonFactory;
+        }
         public virtual WaitableTask<Tab> CreateTab()
         {
             CurrentWaitableTab?.SetError(new Exception("New popup opened"));
@@ -94,7 +96,10 @@ namespace ClinicalTools.SimEncounters
         public void AddCategories(Dictionary<string, List<TabType>> tabTypeGroups)
         {
             foreach (var group in tabTypeGroups) {
-                var groupButton = Instantiate(TypeButtonPrefab, TabGroups.transform);
+                var groupButton = TabTypeButtonFactory.Create();
+                groupButton.transform.SetParent(TabGroups.transform);
+                groupButton.transform.localScale = Vector3.one;
+
                 groupButton.Label.text = group.Key;
                 groupButton.Toggle.group = TabGroups;
                 groupButton.Toggle.AddOnSelectListener(() => GroupSelected(groupButton, group.Value));
@@ -113,7 +118,10 @@ namespace ClinicalTools.SimEncounters
             DescriptionLabel.text = "";
 
             foreach (var tabType in tabTypes) {
-                var tabButton = Instantiate(TypeButtonPrefab, TabTypes.transform);
+                var tabButton = TabTypeButtonFactory.Create();
+                tabButton.transform.SetParent(TabTypes.transform);
+                tabButton.transform.localScale = Vector3.one;
+
                 tabButton.Label.text = tabType.Display;
                 tabButton.Toggle.group = TabTypes;
                 tabButton.Toggle.AddOnSelectListener(() => TypeSelected(tabType.Display, tabType));

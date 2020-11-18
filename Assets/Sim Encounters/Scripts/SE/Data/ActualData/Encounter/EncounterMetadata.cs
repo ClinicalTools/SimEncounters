@@ -4,6 +4,15 @@ using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
 {
+    public interface INamed
+    {
+        Name Name { get; set; }
+    }
+    public interface IWebCompletion
+    {
+        string Url { get; set; }
+        string CompletionCode { get; set; }
+    }
     public enum Difficulty
     {
         Beginner, Intermediate, Advanced

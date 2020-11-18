@@ -473,7 +473,6 @@ GameObject:
   - component: {fileID: 114060603519861058}
   - component: {fileID: 114324273677247036}
   - component: {fileID: -3910002080820743100}
-  - component: {fileID: 1408126916594703661}
   m_Layer: 5
   m_Name: ReviewOfSystemsPanel
   m_TagString: Untagged
@@ -607,19 +606,6 @@ MonoBehaviour:
   type: ReviewOfSystemsPanel
   childPanelCreator: {fileID: 0}
   pinsDrawer: {fileID: 6086816597864333939}
---- !u!114 &1408126916594703661
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1214194690054710}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _containerSource: 2
 --- !u!1 &1226440419667480
 GameObject:
   m_ObjectHideFlags: 0
@@ -658,7 +644,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1249, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222785270022871566
@@ -923,6 +909,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &1444559366420808
 GameObject:
   m_ObjectHideFlags: 0
@@ -1009,7 +997,6 @@ GameObject:
   - component: {fileID: 222210505541034510}
   - component: {fileID: 114347114321626824}
   - component: {fileID: 114918570316786206}
-  - component: {fileID: 114115520824719132}
   - component: {fileID: 114680076137340896}
   - component: {fileID: 3624992867270950685}
   m_Layer: 5
@@ -1123,38 +1110,8 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114115520824719132}
-        m_MethodName: ToggleTarget
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_IsOn: 0
---- !u!114 &114115520824719132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1506729609501750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a7c892347a3f3b4dbcd4444b072b1f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targets:
-  - {fileID: 1844085232263082}
-  - {fileID: 1305486807210534}
-  - {fileID: 1226440419667480}
-  invertValue: 0
-  autoCollapse: 1
-  toggleGameObjects: 0
 --- !u!114 &114680076137340896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1168,7 +1125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topRect: {fileID: 0}
-  botRect: {fileID: 0}
+  bottomRect: {fileID: 0}
 --- !u!114 &3624992867270950685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1355,7 +1312,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 53.18, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222694738615901034
@@ -1971,7 +1928,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topRect: {fileID: 0}
-  botRect: {fileID: 0}
+  bottomRect: {fileID: 0}
 --- !u!114 &9034439617792833735
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
-﻿using ClinicalTools.UI.Extensions;
+﻿using ClinicalTools.UI;
+using ClinicalTools.UI.Extensions;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;

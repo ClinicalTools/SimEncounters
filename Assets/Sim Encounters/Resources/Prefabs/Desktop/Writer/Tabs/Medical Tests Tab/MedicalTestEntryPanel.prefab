@@ -1089,7 +1089,6 @@ GameObject:
   - component: {fileID: 7321471935583524586}
   - component: {fileID: 6088200335018302207}
   - component: {fileID: 5862028666075028698}
-  - component: {fileID: 3990418480992934408}
   m_Layer: 5
   m_Name: MedicalTestEntryPanel
   m_TagString: Untagged
@@ -1263,19 +1262,6 @@ MonoBehaviour:
   deleteButton: {fileID: 114687050567599016}
   childPanelCreator: {fileID: 0}
   pinsDrawer: {fileID: 5278030127358113387}
---- !u!114 &3990418480992934408
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1132699729415562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 717a02054ef2699498e6bd4234fd7995, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _containerSource: 2
 --- !u!1 &1141301817001640
 GameObject:
   m_ObjectHideFlags: 0
@@ -2655,7 +2641,6 @@ GameObject:
   - component: {fileID: 222279505985741846}
   - component: {fileID: 114540922278660548}
   - component: {fileID: 114687050567599016}
-  - component: {fileID: 114907948813835236}
   m_Layer: 5
   m_Name: DeleteIcon
   m_TagString: Untagged
@@ -2762,23 +2747,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &114907948813835236
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1252677118801914}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48f7701ed552bd4abee751999b78a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TitleText: 
-  DescriptionText: 
-  Delay: 0
-  ToolTipCanvas: {fileID: 0}
-  tooltipName: 
 --- !u!1 &1254180740524384
 GameObject:
   m_ObjectHideFlags: 0
@@ -3016,7 +2984,6 @@ GameObject:
   - component: {fileID: 114558752550958244}
   - component: {fileID: 114444081754411332}
   - component: {fileID: 114685444299940790}
-  - component: {fileID: 5897620764503323061}
   - component: {fileID: 207897065429013920}
   m_Layer: 5
   m_Name: Image
@@ -3152,18 +3119,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   topRect: {fileID: 0}
   botRect: {fileID: 0}
---- !u!114 &5897620764503323061
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1279542327822342}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4ce387e788977948a02bfc16f196c01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &207897065429013920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3189,8 +3144,6 @@ GameObject:
   - component: {fileID: 222546740396239760}
   - component: {fileID: 114494203773575102}
   - component: {fileID: 114497280225986052}
-  - component: {fileID: 114035747224823628}
-  - component: {fileID: 114411427855023442}
   m_Layer: 5
   m_Name: CollapseButton
   m_TagString: Untagged
@@ -3301,57 +3254,8 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114035747224823628}
-        m_MethodName: ToggleTarget
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_IsOn: 0
---- !u!114 &114035747224823628
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1303112526241492}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a7c892347a3f3b4dbcd4444b072b1f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targets:
-  - {fileID: 1443003472571192}
-  - {fileID: 1100812651021886}
-  - {fileID: 1163169879517482}
-  - {fileID: 1459532101824870}
-  - {fileID: 1699493198040714}
-  invertValue: 0
-  autoCollapse: 1
-  toggleGameObjects: 0
---- !u!114 &114411427855023442
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1303112526241492}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48f7701ed552bd4abee751999b78a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TitleText: 
-  DescriptionText: 
-  Delay: 0
-  ToolTipCanvas: {fileID: 0}
-  tooltipName: 
 --- !u!1 &1337556681544594
 GameObject:
   m_ObjectHideFlags: 0
@@ -3632,7 +3536,6 @@ GameObject:
   - component: {fileID: 222991845275749692}
   - component: {fileID: 114998952475668290}
   - component: {fileID: 114326554814704272}
-  - component: {fileID: 114862495073263032}
   - component: {fileID: 1849429786528111283}
   m_Layer: 5
   m_Name: ReorderBar
@@ -3718,23 +3621,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &114862495073263032
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1356826525975434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e48f7701ed552bd4abee751999b78a81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TitleText: 
-  DescriptionText: 
-  Delay: 0
-  ToolTipCanvas: {fileID: 0}
-  tooltipName: 
 --- !u!114 &1849429786528111283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15051,6 +14937,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 328e52009c15c7a4699753fcb4bc8591, type: 3}
+--- !u!224 &1248867417855981013 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8067747074748472410, guid: 328e52009c15c7a4699753fcb4bc8591,
+    type: 3}
+  m_PrefabInstance: {fileID: 9125061906137688463}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5278030127358113387 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4007622143649275876, guid: 328e52009c15c7a4699753fcb4bc8591,
@@ -15063,9 +14955,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84525afdb2f187e40854e80b20028aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &1248867417855981013 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8067747074748472410, guid: 328e52009c15c7a4699753fcb4bc8591,
-    type: 3}
-  m_PrefabInstance: {fileID: 9125061906137688463}
-  m_PrefabAsset: {fileID: 0}

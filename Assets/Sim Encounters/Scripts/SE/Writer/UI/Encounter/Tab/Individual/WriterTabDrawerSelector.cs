@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -6,6 +7,9 @@ namespace ClinicalTools.SimEncounters
     {
         public Transform TabParent { get => tabParent; set => tabParent = value; }
         [SerializeField] private Transform tabParent;
+
+        protected Factory TabDrawerFactory { get; set; }
+        [Inject] public virtual void Inject(Factory tabDrawerFactory) => TabDrawerFactory = tabDrawerFactory;
 
         protected BaseTabDrawer CurrentTabDrawer { get; set; }
         public override void Display(Encounter encounter, Tab tab)
@@ -16,19 +20,20 @@ namespace ClinicalTools.SimEncounters
                 CurrentTabDrawer = null;
                 return;
             }
+            
+            CurrentTabDrawer = TabDrawerFactory.Create(GetTabPath(tab));
+            CurrentTabDrawer.transform.SetParent(TabParent);
+            CurrentTabDrawer.transform.localScale = Vector3.one;
+            ((RectTransform)CurrentTabDrawer.transform).offsetMin = Vector2.zero;
+            ((RectTransform)CurrentTabDrawer.transform).offsetMax = Vector2.zero;
 
-
-            var prefab = GetTabPrefab(tab);
-            CurrentTabDrawer = Instantiate(prefab, TabParent);
             CurrentTabDrawer.Display(encounter, tab);
         }
 
-        protected virtual BaseTabDrawer GetTabPrefab(Tab tab)
+        protected virtual string GetTabPath(Tab tab)
         {
             var tabFolder = $"Prefabs/Desktop/Writer/Tabs/{tab.Type} Tab/";
-            var tabPrefabPath = $"{tabFolder}{tab.Type.Replace(" ", string.Empty)}Tab";
-            var tabPrefabGameObject = Resources.Load(tabPrefabPath) as GameObject;
-            return tabPrefabGameObject.GetComponent<BaseTabDrawer>();
+            return $"{tabFolder}{tab.Type.Replace(" ", string.Empty)}Tab";
         }
 
         public override Tab Serialize() => CurrentTabDrawer.Serialize();

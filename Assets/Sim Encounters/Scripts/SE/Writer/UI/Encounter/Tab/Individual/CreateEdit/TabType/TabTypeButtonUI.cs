@@ -1,7 +1,7 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -11,5 +11,7 @@ namespace ClinicalTools.SimEncounters
         [field: SerializeField] public Toggle Toggle { get; set; }
 
         internal void Deselect() => Toggle.isOn = false;
+
+        public class Factory : PlaceholderFactory<TabTypeButtonUI> { }
     }
 }

@@ -1,13 +1,9 @@
-﻿using ClinicalTools.ClinicalEncounters;
-
-using ClinicalTools.UI;
-using System;
+﻿using ClinicalTools.UI;
 using UnityEngine;
 using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-
     public class WriterPopupInstaller : MonoInstaller
     {
         public WriterDialoguePopup DialoguePopup { get => dialoguePopup; set => dialoguePopup = value; }
@@ -26,6 +22,8 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private BaseSpriteSelector patientSpriteSelector;
         public BaseMessageHandler MessageHandler { get => messageHandler; set => messageHandler = value; }
         [SerializeField] private BaseMessageHandler messageHandler;
+        public SwipeManager SwipeManager { get => swipeManager; set => swipeManager = value; }
+        [SerializeField] private SwipeManager swipeManager;
 
         public override void InstallBindings()
         {
@@ -34,16 +32,12 @@ namespace ClinicalTools.SimEncounters
             Container.BindInstance(SectionEditorPopup);
             Container.BindInstance(TabEditorPopup);
             Container.BindInstance(ConfirmationPopup);
-
             Container.BindInstance(SpriteSelector).WhenNotInjectedInto<CEWriterEncounterDrawer>();
             Container.BindInstance(PatientSpriteSelector).WhenInjectedInto<CEWriterEncounterDrawer>();
 
-
-            Container.BindInstance<SwipeManager>(null);
+            Container.BindInstance(SwipeManager);
 
             Container.BindInstance(MessageHandler);
-
-            Container.Bind<IStringSerializer<EncounterMetadata>>().To<CEEncounterMetadataSerializer>().AsTransient();
         }
     }
 }

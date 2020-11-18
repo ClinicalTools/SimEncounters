@@ -11,8 +11,8 @@ namespace ClinicalTools.SimEncounters
             SignalBusInstaller.Install(container);
             container.DeclareSignal<SceneChangedSignal>().OptionalSubscriber();
 
-            container.Bind<ICurve>().To<AccCurve>().AsTransient();
-            container.Bind<IShifter>().To<Shifter>().AsTransient();
+            container.Bind<ICurve>().To<AccelerationCurve>().AsTransient();
+            container.Bind<IShiftTransformsAnimator>().To<ShiftTransformsAnimator>().AsTransient();
 
             container.BindFactory<Object, GameObject, GameObjectFactory>()
                      .FromFactory<PrefabFactory<GameObject>>();

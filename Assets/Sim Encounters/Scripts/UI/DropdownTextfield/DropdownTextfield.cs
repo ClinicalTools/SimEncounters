@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using ClinicalTools.UI.Extensions;
 using UnityEngine.EventSystems;
+using Zenject;
 
 namespace ClinicalTools.UI
 {
@@ -12,8 +13,8 @@ namespace ClinicalTools.UI
         public BaseOptionsRetriever OptionRetriever { get => optionRetriever; set => optionRetriever = value; }
         [SerializeField] private BaseOptionsRetriever optionRetriever;
 
-        public DropdownOption OptionPrefab { get => optionPrefab; set => optionPrefab = value; }
-        [SerializeField] private DropdownOption optionPrefab;
+        public BaseDropdownOption OptionPrefab { get => optionPrefab; set => optionPrefab = value; }
+        [SerializeField] private BaseDropdownOption optionPrefab;
         public ScrollRect OptionsScrollRect { get => optionsScrollRect; set => optionsScrollRect = value; }
         [SerializeField] private ScrollRect optionsScrollRect;
         public Button ShowOptionsButton { get => showOptionsButton; set => showOptionsButton = value; }
@@ -27,9 +28,14 @@ namespace ClinicalTools.UI
         public List<Button> CloseButtons { get => closeButtons; set => closeButtons = value; }
         [SerializeField] private List<Button> closeButtons;
 
-        protected virtual List<DropdownOption> Options { get; } = new List<DropdownOption>();
+        protected virtual List<BaseDropdownOption> Options { get; } = new List<BaseDropdownOption>();
         protected virtual int HighlightedOptionIndex { get; set; } = -1;
-        protected virtual List<DropdownOption> DisplayedOptions { get; set; } = new List<DropdownOption>();
+        protected virtual List<BaseDropdownOption> DisplayedOptions { get; set; } = new List<BaseDropdownOption>();
+
+
+        protected virtual BaseDropdownOption.Factory OptionFactory { get; set; }
+        [Inject] public virtual void Inject(BaseDropdownOption.Factory optionFactory) => OptionFactory = optionFactory;
+
 
         // Start is used rather than Awake, so that automatically populating fields doesn't trigger listeners
         protected virtual void Start()
@@ -60,7 +66,9 @@ namespace ClinicalTools.UI
 
         public virtual void AddOption(string option)
         {
-            var optionObject = Instantiate(OptionPrefab, OptionsScrollRect.content);
+            var optionObject = OptionFactory.Create();
+            optionObject.transform.SetParent(OptionsScrollRect.content);
+            optionObject.transform.localScale = Vector3.one;
             optionObject.Display(option);
             optionObject.Selected += OptionSelected;
             Options.Add(optionObject);
@@ -68,7 +76,7 @@ namespace ClinicalTools.UI
 
         protected virtual void TextChanged(string text)
         {
-            var displayedOptions = new List<DropdownOption>();
+            var displayedOptions = new List<BaseDropdownOption>();
             var invariantText = text.ToUpperInvariant();
             foreach (var option in Options) {
                 var invariantOptionValue = option.Value.ToUpperInvariant();
@@ -108,7 +116,7 @@ namespace ClinicalTools.UI
             SetHighlightedOption(HighlightedOptionIndex + shiftAmount);
         }
 
-        protected virtual void SetDisplayedOptions(List<DropdownOption> displayedOptions)
+        protected virtual void SetDisplayedOptions(List<BaseDropdownOption> displayedOptions)
         {
             Dropdown.SetActive(displayedOptions.Count > 0);
             if (DisplayedOptions.Count > 0)

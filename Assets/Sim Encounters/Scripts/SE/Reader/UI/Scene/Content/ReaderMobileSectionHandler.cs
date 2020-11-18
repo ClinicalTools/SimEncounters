@@ -35,10 +35,10 @@ namespace ClinicalTools.SimEncounters
         protected ISelector<UserSectionSelectedEventArgs> UserSectionSelector { get; set; }
         protected ISelector<UserTabSelectedEventArgs> UserTabSelector { get; set; }
         protected SwipeManager SwipeManager { get; set; }
-        protected IShifter Curve { get; set; }
+        protected IShiftTransformsAnimator Curve { get; set; }
         [Inject]
         public virtual void Inject(
-            IShifter curve,
+            IShiftTransformsAnimator curve,
             SwipeManager swipeManager,
             ISelector<UserEncounterSelectedEventArgs> userEncounterSelector,
             ISelector<UserSectionSelectedEventArgs> userSectionSelector,

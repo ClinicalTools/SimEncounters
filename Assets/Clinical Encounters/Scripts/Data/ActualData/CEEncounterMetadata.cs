@@ -2,7 +2,7 @@
 
 namespace ClinicalTools.ClinicalEncounters
 {
-    public class CEEncounterMetadata : EncounterMetadata
+    public class CEEncounterMetadata : EncounterMetadata, INamed, IWebCompletion
     {
         public Name Name { get; set; } = new Name();
         public string Url { get; set; }

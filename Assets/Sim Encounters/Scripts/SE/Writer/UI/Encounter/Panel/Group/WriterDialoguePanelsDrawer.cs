@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -26,8 +27,13 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private BaseWriterAddablePanel choicePrefab;
 
         protected virtual OrderedCollection<BaseWriterPanel> WriterPanels { get; set; } = new OrderedCollection<BaseWriterPanel>();
-
         protected virtual List<BaseWriterAddablePanel> PanelPrefabs { get; } = new List<BaseWriterAddablePanel>();
+
+
+        protected BaseWriterPanel.Factory PanelFactory { get; set; }
+        [Inject] public virtual void Inject(BaseWriterPanel.Factory panelFactory) => PanelFactory = panelFactory;
+
+
         protected virtual void Awake()
         {
             PanelPrefabs.Add(EntryPrefab);
@@ -47,14 +53,16 @@ namespace ClinicalTools.SimEncounters
             panel.Values.Add("characterName", characterName);
             panel.Values.Add("charColor", characterColor.ToString());
 
-            var panelUI = ReorderableGroup.AddFromPrefab(EntryPrefab);
+            var panelUI = InstantiatePanel(EntryPrefab);
+            ReorderableGroup.Add(panelUI);
             panelUI.Display(CurrentEncounter, panel);
             WriterPanels.Add(panelUI);
         }
 
         private void AddChoice()
         {
-            var panelUI = ReorderableGroup.AddFromPrefab(ChoicePrefab);
+            var panelUI = InstantiatePanel(ChoicePrefab);
+            ReorderableGroup.Add(panelUI);
             panelUI.Display(CurrentEncounter);
             WriterPanels.Add(panelUI);
         }
@@ -75,7 +83,9 @@ namespace ClinicalTools.SimEncounters
             var panels = new List<BaseWriterPanel>();
             foreach (var panel in childPanels) {
                 var prefab = blah.ChoosePrefab(PanelPrefabs, panel.Value);
-                var panelUI = ReorderableGroup.AddFromPrefab(prefab);
+                
+                var panelUI = InstantiatePanel(prefab);
+                ReorderableGroup.Add(panelUI);
                 panelUI.Display(encounter, panel.Value);
                 panels.Add(panelUI);
                 WriterPanels.Add(panel.Key, panelUI);
@@ -94,6 +104,14 @@ namespace ClinicalTools.SimEncounters
         {
             var blah = new ChildrenPanelManager();
             return blah.SerializeChildren(WriterPanels);
+        }
+
+        protected virtual BaseWriterAddablePanel InstantiatePanel(BaseWriterAddablePanel writerPanelPrefab)
+        {
+            var writerPanel = (BaseWriterAddablePanel)PanelFactory.Create(writerPanelPrefab);
+            writerPanel.transform.SetParent(ReorderableGroup.transform);
+            writerPanel.transform.localScale = Vector3.one;
+            return writerPanel;
         }
     }
 }

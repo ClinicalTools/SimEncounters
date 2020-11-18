@@ -1,5 +1,4 @@
-﻿using ClinicalTools.ClinicalEncounters;
-using ClinicalTools.SimEncounters.Extensions;
+﻿using ClinicalTools.SimEncounters.Extensions;
 using ClinicalTools.SimEncounters.XmlSerialization;
 using System;
 using System.Collections.Generic;
@@ -18,8 +17,8 @@ namespace ClinicalTools.SimEncounters
         protected ISerializationFactory<EncounterImageContent> ImageDataSerializer { get; }
         protected ISerializationFactory<EncounterNonImageContent> EncounterContentSerializer { get; }
         public ServerEncounterWriter(
-            IServerReader serverReader, 
-            IUrlBuilder urlBuilder, 
+            IServerReader serverReader,
+            IUrlBuilder urlBuilder,
             IStringSerializer<Sprite> spriteSerializer,
             ISerializationFactory<EncounterImageContent> imageDataSerializer,
             ISerializationFactory<EncounterNonImageContent> encounterContentSerializer)
@@ -54,14 +53,11 @@ namespace ClinicalTools.SimEncounters
         {
             var form = new WWWForm();
 
-            if (!(encounter.Metadata is CEEncounterMetadata metadata))
-                return null;
-
             form.AddField(AccountIdVariable, user.AccountId);
-            AddFormModeFields(form, metadata);
+            AddFormModeFields(form, encounter.Metadata);
             AddFormContentFields(form, encounter.Content.NonImageContent);
             AddFormImageDataFields(form, encounter.Content.ImageContent);
-            AddMetadataFields(form, metadata);
+            AddMetadataFields(form, encounter.Metadata);
 
             return form;
         }
@@ -113,6 +109,7 @@ namespace ClinicalTools.SimEncounters
 
         private const string FirstNameVariable = "firstName";
         private const string LastNameVariable = "lastName";
+        private const string TitleVariable = "title";
         private const string DifficultyVariable = "difficulty";
         private const string SubtitleVariable = "subtitle";
         private const string DescriptionVariable = "description";
@@ -127,10 +124,15 @@ namespace ClinicalTools.SimEncounters
         private const string SpriteDataVariable = "imageData";
         private const string SpriteWidthVariable = "imageWidth";
         private const string SpriteHeightVariable = "imageHeight";
-        private void AddMetadataFields(WWWForm form, CEEncounterMetadata metadata)
+        private void AddMetadataFields(WWWForm form, EncounterMetadata metadata)
         {
-            AddEscapedField(form, FirstNameVariable, metadata.Name.FirstName);
-            AddEscapedField(form, LastNameVariable, metadata.Name.LastName);
+            if (metadata is INamed named) {
+                AddEscapedField(form, FirstNameVariable, named.Name.FirstName);
+                AddEscapedField(form, LastNameVariable, named.Name.LastName);
+            } else {
+                AddEscapedField(form, TitleVariable, metadata.Title);
+            }
+
             AddEscapedField(form, DifficultyVariable, metadata.Difficulty.ToString());
             AddEscapedField(form, SubtitleVariable, metadata.Subtitle);
             AddEscapedField(form, DescriptionVariable, metadata.Description);
@@ -139,8 +141,12 @@ namespace ClinicalTools.SimEncounters
             form.AddField(DateModifiedVariable, metadata.DateModified.ToString());
             AddEscapedField(form, AudienceVariable, metadata.Audience);
             AddEscapedField(form, VersionVariable, VersionValue);
-            AddEscapedField(form, UrlVariable, metadata.Url);
-            AddEscapedField(form, CompletionCodeVariable, metadata.CompletionCode);
+            
+            if (metadata is IWebCompletion webCompletion) {
+                AddEscapedField(form, UrlVariable, webCompletion.Url);
+                AddEscapedField(form, CompletionCodeVariable, webCompletion.CompletionCode);
+            }
+            
             form.AddField(PublicVariable, metadata.IsPublic);
             form.AddField(TemplateVariable, metadata.IsTemplate);
             if (metadata.Sprite == null)

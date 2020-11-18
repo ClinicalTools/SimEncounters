@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -11,5 +12,8 @@ namespace ClinicalTools.SimEncounters
         public abstract void Display(Encounter encounter, Panel panel);
 
         public abstract Panel Serialize();
+
+
+        public class Factory : PlaceholderFactory<UnityEngine.Object, BaseWriterPanel> { }
     }
 }

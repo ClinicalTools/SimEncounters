@@ -18,7 +18,7 @@ namespace ClinicalTools.SimEncounters
         protected virtual int FirstLineIndex { get; } = 1;
 
         protected virtual string TabsFileName { get; } = "Tabs.tsv";
-        protected virtual string TabsPath => Application.streamingAssetsPath + "/Instructions/" + TabsFileName;
+        protected virtual string TabsPath => Path.Combine(Application.streamingAssetsPath, "Instructions", TabsFileName);
         protected virtual char SplitChar => '\t';
 
         public Dictionary<string, List<TabType>> Groups { get; } = new Dictionary<string, List<TabType>>();
