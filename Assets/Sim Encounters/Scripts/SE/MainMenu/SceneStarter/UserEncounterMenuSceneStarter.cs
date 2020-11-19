@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace ClinicalTools.SimEncounters
+﻿namespace ClinicalTools.SimEncounters
 {
     public class UserEncounterMenuSceneStarter : UserMenuSceneStarter, IUserEncounterMenuSceneStarter
     {

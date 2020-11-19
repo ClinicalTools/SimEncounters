@@ -8,6 +8,12 @@ namespace ClinicalTools.SimEncounters
     public class Section
     {
         public int CurrentTabIndex { get; set; }
+        public virtual Tab GetCurrentTab()
+        {
+            if (Tabs.Count == 0)
+                return null;
+            return Tabs[CurrentTabIndex].Value;
+        }
         public virtual string GetCurrentTabKey()
         {
             if (Tabs.Count == 0)

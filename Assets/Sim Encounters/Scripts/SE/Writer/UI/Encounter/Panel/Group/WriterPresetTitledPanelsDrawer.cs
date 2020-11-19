@@ -19,7 +19,7 @@ namespace ClinicalTools.SimEncounters
         
         protected virtual OrderedCollection<BaseWriterPanel> WriterPanels { get; set; } = new OrderedCollection<BaseWriterPanel>();
 
-        public override List<BaseWriterPanel> DrawChildPanels(Encounter encounter, OrderedCollection<Panel> childPanels)
+        public override void DrawChildPanels(OrderedCollection<Panel> childPanels)
         {
             foreach (var writerPanel in WriterPanels.Values)
                 Destroy(writerPanel.gameObject);
@@ -29,15 +29,13 @@ namespace ClinicalTools.SimEncounters
             var panels = new List<BaseWriterPanel>();
             foreach (var panel in childPanels) {
                 var panelUI = InstantiatePanel();
-                panelUI.Display(encounter, panel.Value);
+                panelUI.Select(this, new PanelSelectedEventArgs(panel.Value));
                 panels.Add(panelUI);
                 WriterPanels.Add(panel.Key, panelUI);
             }
-
-            return panels;
         }
 
-        public override List<BaseWriterPanel> DrawDefaultChildPanels(Encounter encounter)
+        public override void DrawDefaultChildPanels()
         {
             WriterPanels = new OrderedCollection<BaseWriterPanel>();
 
@@ -46,12 +44,10 @@ namespace ClinicalTools.SimEncounters
                 var panel = new Panel(PanelPrefab.Type);
                 panel.Values.Add("PanelNameValue", panelName);
                 var panelUI = InstantiatePanel();
-                panelUI.Display(encounter, panel);
+                panelUI.Select(this, new PanelSelectedEventArgs(panel));
                 panels.Add(panelUI);
                 WriterPanels.Add(panelUI);
             }
-
-            return panels;
         }
 
         protected virtual BaseWriterPanel InstantiatePanel()

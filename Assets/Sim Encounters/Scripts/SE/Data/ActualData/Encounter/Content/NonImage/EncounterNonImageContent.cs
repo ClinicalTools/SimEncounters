@@ -6,6 +6,7 @@ namespace ClinicalTools.SimEncounters
     public class EncounterNonImageContent
     {
         public virtual int CurrentSectionIndex { get; set; }
+        public virtual Section GetCurrentSection() => Sections[CurrentSectionIndex].Value;
         public virtual string GetCurrentSectionKey() => Sections[CurrentSectionIndex].Key;
         public virtual void SetCurrentSection(Section section)
         {

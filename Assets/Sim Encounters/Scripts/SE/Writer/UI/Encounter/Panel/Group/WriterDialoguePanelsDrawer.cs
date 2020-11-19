@@ -55,55 +55,47 @@ namespace ClinicalTools.SimEncounters
 
             var panelUI = InstantiatePanel(EntryPrefab);
             ReorderableGroup.Add(panelUI);
-            panelUI.Display(CurrentEncounter, panel);
+            panelUI.Select(this, new PanelSelectedEventArgs(panel));
             WriterPanels.Add(panelUI);
         }
 
-        private void AddChoice()
+        protected virtual void AddChoice()
         {
             var panelUI = InstantiatePanel(ChoicePrefab);
             ReorderableGroup.Add(panelUI);
-            panelUI.Display(CurrentEncounter);
+            panelUI.Select(this, new PanelSelectedEventArgs(null));
             WriterPanels.Add(panelUI);
         }
 
-        protected Encounter CurrentEncounter { get; set; }
-        public override List<BaseWriterPanel> DrawChildPanels(Encounter encounter, OrderedCollection<Panel> childPanels)
+        public override void DrawChildPanels(OrderedCollection<Panel> childPanels)
         {
-            CurrentEncounter = encounter;
-
             foreach (var writerPanel in WriterPanels.Values) {
                 if (writerPanel != null)
                     Destroy(writerPanel.gameObject);
             }
 
-            var blah = new ChildrenPanelManager();
+            var childrenPanelManager = new ChildrenPanelManager();
             WriterPanels = new OrderedCollection<BaseWriterPanel>();
 
             var panels = new List<BaseWriterPanel>();
             foreach (var panel in childPanels) {
-                var prefab = blah.ChoosePrefab(PanelPrefabs, panel.Value);
-                
+                var prefab = childrenPanelManager.ChoosePrefab(PanelPrefabs, panel.Value);
+
                 var panelUI = InstantiatePanel(prefab);
                 ReorderableGroup.Add(panelUI);
-                panelUI.Display(encounter, panel.Value);
+                panelUI.Select(this, new PanelSelectedEventArgs(panel.Value));
                 panels.Add(panelUI);
                 WriterPanels.Add(panel.Key, panelUI);
             }
-
-            return panels;
         }
 
-        public override List<BaseWriterPanel> DrawDefaultChildPanels(Encounter encounter)
-        {
-            WriterPanels = new OrderedCollection<BaseWriterPanel>();
-            return new List<BaseWriterPanel>();
-        }
+        public override void DrawDefaultChildPanels()
+            => WriterPanels = new OrderedCollection<BaseWriterPanel>();
 
         public override OrderedCollection<Panel> SerializeChildren()
         {
-            var blah = new ChildrenPanelManager();
-            return blah.SerializeChildren(WriterPanels);
+            var childrenPanelManager = new ChildrenPanelManager();
+            return childrenPanelManager.SerializeChildren(WriterPanels);
         }
 
         protected virtual BaseWriterAddablePanel InstantiatePanel(BaseWriterAddablePanel writerPanelPrefab)

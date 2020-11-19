@@ -14,9 +14,9 @@ namespace ClinicalTools.SimEncounters
             CurrentEncounter = encounter;
             CurrentTab = tab;
             if (tab.Panels.Count == 0)
-                PanelCreator.DrawDefaultChildPanels(encounter);
+                PanelCreator.DrawDefaultChildPanels();
             else
-                PanelCreator.DrawChildPanels(encounter, tab.Panels);
+                PanelCreator.DrawChildPanels(tab.Panels);
         }
 
         public override Tab Serialize()

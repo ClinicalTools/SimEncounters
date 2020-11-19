@@ -40,7 +40,7 @@ namespace ClinicalTools.SimEncounters
 
             gameObject.SetActive(true);
 
-            ConversationDrawer.DrawChildPanels(encounter, dialoguePin.Conversation);
+            ConversationDrawer.DrawChildPanels(dialoguePin.Conversation);
 
             return CurrentWaitableDialogue;
         }

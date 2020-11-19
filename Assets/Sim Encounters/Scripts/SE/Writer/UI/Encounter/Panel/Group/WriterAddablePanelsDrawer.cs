@@ -24,13 +24,10 @@ namespace ClinicalTools.SimEncounters
             PanelCreator.Initialize(PanelOptions);
         }
 
-        protected Encounter CurrentEncounter { get; set; }
         protected virtual OrderedCollection<BaseWriterPanel> WriterPanels { get; set; } = new OrderedCollection<BaseWriterPanel>();
 
-        public override List<BaseWriterPanel> DrawChildPanels(Encounter encounter, OrderedCollection<Panel> childPanels)
+        public override void DrawChildPanels(OrderedCollection<Panel> childPanels)
         {
-            CurrentEncounter = encounter;
-
             foreach (var writerPanel in WriterPanels.Values)
                 Destroy(writerPanel.gameObject);
 
@@ -42,36 +39,29 @@ namespace ClinicalTools.SimEncounters
                 var prefab = childrenPanelManager.ChoosePrefab(PanelOptions, panel.Value);
                 var panelUI = InstantiatePanel(prefab);
                 ReorderableGroup.Add(panelUI);
-                panelUI.Display(encounter, panel.Value);
+                panelUI.Select(this, new PanelSelectedEventArgs(panel.Value));
                 panelUI.Deleted += () => PanelDeleted(panelUI);
                 panels.Add(panelUI);
                 WriterPanels.Add(panel.Key, panelUI);
             }
-
-            return panels;
         }
 
-        public override List<BaseWriterPanel> DrawDefaultChildPanels(Encounter encounter)
+        public override void DrawDefaultChildPanels()
         {
-            CurrentEncounter = encounter;
             WriterPanels = new OrderedCollection<BaseWriterPanel>();
-
-            var panels = new List<BaseWriterPanel>();
-
-            return panels;
         }
 
         public override OrderedCollection<Panel> SerializeChildren()
         {
-            var blah = new ChildrenPanelManager();
-            return blah.SerializeChildren(WriterPanels);
+            var childrenPanelManager = new ChildrenPanelManager();
+            return childrenPanelManager.SerializeChildren(WriterPanels);
         }
 
         protected virtual void AddPanel(BaseWriterAddablePanel prefab)
         {
             var panelUI = InstantiatePanel(prefab);
             ReorderableGroup.Add(panelUI);
-            panelUI.Display(CurrentEncounter);
+            panelUI.Select(this, new PanelSelectedEventArgs(null));
             panelUI.Deleted += () => PanelDeleted(panelUI);
             WriterPanels.Add(panelUI);
         }

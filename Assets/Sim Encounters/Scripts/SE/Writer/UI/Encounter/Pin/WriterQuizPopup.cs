@@ -42,7 +42,7 @@ namespace ClinicalTools.SimEncounters
 
             gameObject.SetActive(true);
 
-            QuestionsDrawer.DrawChildPanels(encounter, quizPin.Questions);
+            QuestionsDrawer.DrawChildPanels(quizPin.Questions);
 
             return CurrentWaitableQuiz;
         }
