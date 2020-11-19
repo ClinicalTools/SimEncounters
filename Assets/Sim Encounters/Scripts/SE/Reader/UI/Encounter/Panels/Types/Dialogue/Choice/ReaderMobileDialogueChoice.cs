@@ -5,7 +5,7 @@ namespace ClinicalTools.SimEncounters
     public class ReaderMobileDialogueChoice : CompletableReaderPanelBehaviour
     {
         protected override BaseChildUserPanelsDrawer ChildPanelsDrawer { get => childPanelsDrawer; }
-        [SerializeField] private BaseChildUserPanelsDrawer childPanelsDrawer;
+        [SerializeField] private BaseChildUserPanelsDrawer childPanelsDrawer = null;
         protected override BaseUserPinGroupDrawer PinsDrawer => null;
 
         public virtual GameObject CompletedObject { get => completedObject; set => completedObject = value; }

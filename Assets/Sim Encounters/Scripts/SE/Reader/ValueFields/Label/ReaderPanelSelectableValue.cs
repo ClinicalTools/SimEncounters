@@ -7,7 +7,8 @@ namespace ClinicalTools.SimEncounters
 {
     public class ReaderPanelSelectableValue : BaseValueField
     {
-        [SerializeField] private string valueName;
+        public string ValueName { get => valueName; set => valueName = value; }
+        [SerializeField] private string valueName = null;
         public override string Name
         {
             get {

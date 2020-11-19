@@ -1,4 +1,4 @@
-﻿using ClinicalTools.SimEncounters.Collections;
+﻿using ClinicalTools.Collections;
 using ClinicalTools.UI;
 using System;
 using System.Collections.Generic;

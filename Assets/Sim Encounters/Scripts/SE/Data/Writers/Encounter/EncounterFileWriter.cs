@@ -1,5 +1,4 @@
-﻿using ClinicalTools.SimEncounters.XmlSerialization;
-using System.Xml;
+﻿using System.Xml;
 
 namespace ClinicalTools.SimEncounters
 {
@@ -7,13 +6,13 @@ namespace ClinicalTools.SimEncounters
     {
         protected IMetadataWriter MetadataWriter { get; }
         protected IFileManager FileManager { get; }
-        protected ISerializationFactory<EncounterImageContent> ImageDataSerializer { get; }
-        protected ISerializationFactory<EncounterNonImageContent> EncounterContentSerializer { get; }
+        protected IXmlSerializer<EncounterImageContent> ImageDataSerializer { get; }
+        protected IXmlSerializer<EncounterNonImageContent> EncounterContentSerializer { get; }
         public EncounterFileWriter(
             IMetadataWriter metadataWriter,
             IFileManager fileManager, 
-            ISerializationFactory<EncounterImageContent> imageDataSerializer, 
-            ISerializationFactory<EncounterNonImageContent> encounterContentSerializer)
+            IXmlSerializer<EncounterImageContent> imageDataSerializer, 
+            IXmlSerializer<EncounterNonImageContent> encounterContentSerializer)
         {
             MetadataWriter = metadataWriter;
             FileManager = fileManager;

@@ -46,7 +46,6 @@ namespace ClinicalTools.SimEncounters
         public abstract RectTransform RectTransform { get; }
         public abstract LayoutElement LayoutElement { get; }
 
-        public abstract event ReaderPanelsReordered ReaderPanelsReordered;
         public abstract event Action<IDraggable, Vector3> DragStarted;
         public abstract event Action<IDraggable, Vector3> DragEnded;
         public abstract event Action<IDraggable, Vector3> Dragging;

@@ -15,13 +15,12 @@ namespace ClinicalTools.SimEncounters
 
         public override void InstallBindings()
         {
-            Container.Bind<IReaderPanelDisplay>().To<ReaderPanelDisplay>().AsTransient();
             Container.BindMemoryPool<BaseUserDialoguePinDrawer, BaseUserDialoguePinDrawer.Pool>()
-                .FromComponentInNewPrefab(DialoguePinButtonPrefab)
-                .UnderTransform(PoolParent);
+                     .FromComponentInNewPrefab(DialoguePinButtonPrefab)
+                     .UnderTransform(PoolParent);
             Container.BindMemoryPool<BaseUserQuizPinDrawer, BaseUserQuizPinDrawer.Pool>()
-                .FromComponentInNewPrefab(QuizPinButtonPrefab)
-                .UnderTransform(PoolParent);
+                     .FromComponentInNewPrefab(QuizPinButtonPrefab)
+                     .UnderTransform(PoolParent);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace ClinicalTools.SimEncounters.UI
+namespace ClinicalTools.UI
 {
     [ExecuteAlways]
     public class SizeImageByScreenHeight : MonoBehaviour

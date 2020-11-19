@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Xml;
 using UnityEngine;
 
-namespace ClinicalTools.SimEncounters.XmlSerialization
+namespace ClinicalTools.SimEncounters
 {
     public class XmlDeserializer
     {
@@ -14,7 +14,7 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
 
         public virtual string GetName() => Node.Name;
 
-        public virtual string GetString(NodeInfo valueFinder)
+        public virtual string GetString(XmlNodeInfo valueFinder)
         {
             var value = valueFinder.FindNodeText(Node);
             if (string.IsNullOrWhiteSpace(value))
@@ -23,7 +23,7 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
             return value;
         }
 
-        public virtual bool GetBool(NodeInfo valueFinder)
+        public virtual bool GetBool(XmlNodeInfo valueFinder)
         {
             var boolStr = GetString(valueFinder);
             if (boolStr == null)
@@ -37,7 +37,7 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
                 return false;
         }
 
-        public virtual int GetInt(NodeInfo valueFinder)
+        public virtual int GetInt(XmlNodeInfo valueFinder)
         {
             var intStr = GetString(valueFinder);
             if (intStr == null)
@@ -51,7 +51,7 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
                 return -1;
         }
 
-        public virtual Color GetColor(NodeInfo valueFinder)
+        public virtual Color GetColor(XmlNodeInfo valueFinder)
         {
             var colorStr = GetString(valueFinder);
             if (colorStr == null)
@@ -74,10 +74,10 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
 
 
 
-        public virtual T GetValue<T>(NodeInfo valueFinder, ISerializationFactory<T> serializationFactory)
+        public virtual T GetValue<T>(XmlNodeInfo valueFinder, IXmlSerializer<T> serializationFactory)
             => GetValue(Node, valueFinder, serializationFactory);
 
-        protected virtual T GetValue<T>(XmlNode node, NodeInfo valueFinder, ISerializationFactory<T> serializationFactory)
+        protected virtual T GetValue<T>(XmlNode node, XmlNodeInfo valueFinder, IXmlSerializer<T> serializationFactory)
         {
             if (node == null)
                 return default;
@@ -88,7 +88,7 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
 
             return GetValue(valueNode, serializationFactory);
         }
-        protected virtual T GetValue<T>(XmlNode valueNode, ISerializationFactory<T> serializationFactory)
+        protected virtual T GetValue<T>(XmlNode valueNode, IXmlSerializer<T> serializationFactory)
         {
             var deserializer = new XmlDeserializer(valueNode);
 
@@ -101,7 +101,7 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
             }
         }
 
-        protected virtual IEnumerable<XmlNode> GetElementNodes(CollectionInfo collectionInfo)
+        protected virtual IEnumerable<XmlNode> GetElementNodes(XmlCollectionInfo collectionInfo)
         {
             var valueNode = collectionInfo.CollectionNode.FindNode(Node);
             if (valueNode == null)
@@ -110,7 +110,7 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
             return collectionInfo.ElementNode.GetNodeList(valueNode);
         }
 
-        public virtual List<string> GetStringList(CollectionInfo collectionInfo)
+        public virtual List<string> GetStringList(XmlCollectionInfo collectionInfo)
         {
             var nodes = GetElementNodes(collectionInfo);
             if (nodes == null)
@@ -126,7 +126,7 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
             return list;
         }
 
-        public virtual List<T> GetList<T>(CollectionInfo collectionInfo, ISerializationFactory<T> serializationFactory)
+        public virtual List<T> GetList<T>(XmlCollectionInfo collectionInfo, IXmlSerializer<T> serializationFactory)
         {
             var nodes = GetElementNodes(collectionInfo);
             if (nodes == null)
@@ -142,10 +142,10 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
             return list;
         }
 
-        public virtual List<KeyValuePair<string, string>> GetStringKeyValuePairs(CollectionInfo collectionInfo)
+        public virtual List<KeyValuePair<string, string>> GetStringKeyValuePairs(XmlCollectionInfo collectionInfo)
             => GetStringKeyValuePairs(collectionInfo, DefaultKeyValuePairInfo);
         public virtual List<KeyValuePair<string, string>> GetStringKeyValuePairs(
-            CollectionInfo collectionInfo, KeyValuePair<NodeInfo, NodeInfo> keyValuePairInfo)
+            XmlCollectionInfo collectionInfo, KeyValuePair<XmlNodeInfo, XmlNodeInfo> keyValuePairInfo)
         {
             var elementNodes = GetElementNodes(collectionInfo);
             if (elementNodes == null)
@@ -165,15 +165,15 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
             return pairs;
         }
 
-        protected virtual KeyValuePair<NodeInfo, NodeInfo> DefaultKeyValuePairInfo { get; } =
-            new KeyValuePair<NodeInfo, NodeInfo>(
-                new NodeInfo("id", TagComparison.AttributeNameEquals),
-                NodeInfo.RootValue
+        protected virtual KeyValuePair<XmlNodeInfo, XmlNodeInfo> DefaultKeyValuePairInfo { get; } =
+            new KeyValuePair<XmlNodeInfo, XmlNodeInfo>(
+                new XmlNodeInfo("id", XmlTagComparison.AttributeNameEquals),
+                XmlNodeInfo.RootValue
             );
-        public virtual List<KeyValuePair<string, T>> GetKeyValuePairs<T>(CollectionInfo collectionInfo, ISerializationFactory<T> serializationFactory)
+        public virtual List<KeyValuePair<string, T>> GetKeyValuePairs<T>(XmlCollectionInfo collectionInfo, IXmlSerializer<T> serializationFactory)
             => GetKeyValuePairs(collectionInfo, DefaultKeyValuePairInfo, serializationFactory);
         public virtual List<KeyValuePair<string, T>> GetKeyValuePairs<T>(
-            CollectionInfo collectionInfo, KeyValuePair<NodeInfo, NodeInfo> keyValuePairInfo, ISerializationFactory<T> serializationFactory)
+            XmlCollectionInfo collectionInfo, KeyValuePair<XmlNodeInfo, XmlNodeInfo> keyValuePairInfo, IXmlSerializer<T> serializationFactory)
         {
             var elementNodes = GetElementNodes(collectionInfo);
             if (elementNodes == null)

@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-namespace ClinicalTools.SimEncounters.UI
+namespace ClinicalTools.UI
 {
     [ExecuteAlways]
     public class ColorLabel : ColorBehaviour

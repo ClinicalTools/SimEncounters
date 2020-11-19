@@ -6,7 +6,7 @@ namespace ClinicalTools.UI
     [ExecuteAlways]
     public class AnchorsToMatchAspectRatio : UIBehaviour
     {
-        [SerializeField] private Vector2 aspectRatio;
+        [SerializeField] private Vector2 aspectRatio = Vector2.one;
 
         protected RectTransform RectTransform => (RectTransform)transform;
 

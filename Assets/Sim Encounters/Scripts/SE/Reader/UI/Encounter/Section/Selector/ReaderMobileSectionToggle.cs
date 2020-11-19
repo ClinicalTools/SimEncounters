@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-
 namespace ClinicalTools.SimEncounters
 {
     public class ReaderMobileSectionToggle : ReaderSectionToggle

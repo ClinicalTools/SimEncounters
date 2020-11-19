@@ -32,8 +32,8 @@ namespace ClinicalTools.SimEncounters
             Container.BindInstance(SectionEditorPopup);
             Container.BindInstance(TabEditorPopup);
             Container.BindInstance(ConfirmationPopup);
-            Container.BindInstance(SpriteSelector).WhenNotInjectedInto<CEWriterEncounterDrawer>();
-            Container.BindInstance(PatientSpriteSelector).WhenInjectedInto<CEWriterEncounterDrawer>();
+            Container.BindInstance(SpriteSelector).WhenNotInjectedInto<WriterEncounterDrawer>();
+            Container.BindInstance(PatientSpriteSelector).WhenInjectedInto<WriterEncounterDrawer>();
 
             Container.BindInstance(SwipeManager);
 

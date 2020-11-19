@@ -6,9 +6,9 @@ namespace ClinicalTools.SimEncounters
     public class ReaderMultipleChoiceOptionPanel : ReaderExclusiveOptionPanelBehaviour
     {
         protected override BaseChildUserPanelsDrawer ChildPanelsDrawer { get => childPanelsDrawer; }
-        [SerializeField] private BaseChildUserPanelsDrawer childPanelsDrawer;
+        [SerializeField] private BaseChildUserPanelsDrawer childPanelsDrawer = null;
         protected override BaseUserPinGroupDrawer PinsDrawer { get => pinsDrawer; }
-        [SerializeField] private BaseUserPinGroupDrawer pinsDrawer;
+        [SerializeField] private BaseUserPinGroupDrawer pinsDrawer = null;
 
         public virtual Toggle Toggle { get => toggle; set => toggle = value; }
         [SerializeField] private Toggle toggle;

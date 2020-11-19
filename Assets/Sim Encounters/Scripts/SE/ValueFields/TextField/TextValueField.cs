@@ -1,7 +1,9 @@
 ﻿using TMPro;
+using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
 {
+    [RequireComponent(typeof(TMP_InputField))]
     public class TextValueField : BaseValueField
     {
         public override string Name => name;

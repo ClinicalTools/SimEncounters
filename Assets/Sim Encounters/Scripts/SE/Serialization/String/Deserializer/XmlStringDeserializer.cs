@@ -1,13 +1,12 @@
-﻿using ClinicalTools.SimEncounters.XmlSerialization;
-using System.Xml;
+﻿using System.Xml;
 
 namespace ClinicalTools.SimEncounters
 {
     public class XmlStringDeserializer<T> : IStringDeserializer<T>
     {
         private readonly IStringDeserializer<XmlDocument> xmlParser;
-        private readonly ISerializationFactory<T> serializationFactory;
-        public XmlStringDeserializer(IStringDeserializer<XmlDocument> xmlParser, ISerializationFactory<T> serializationFactory)
+        private readonly IXmlSerializer<T> serializationFactory;
+        public XmlStringDeserializer(IStringDeserializer<XmlDocument> xmlParser, IXmlSerializer<T> serializationFactory)
         {
             this.xmlParser = xmlParser;
             this.serializationFactory = serializationFactory;

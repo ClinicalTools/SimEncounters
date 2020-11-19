@@ -52,13 +52,5 @@ namespace ClinicalTools.SimEncounters
             var tabFolder = $"Prefabs/Shared/Reader/Tabs/{tab.Type} Tab/";
             return $"{tabFolder}{tab.Type.Replace(" ", string.Empty)}Tab";
         }
-
-        protected virtual BaseUserTabDrawer GetTabPrefab(Tab tab)
-        {
-            var tabFolder = $"soph/se/Mobile/Reader/Tabs/{tab.Type} Tab/";
-            var tabPrefabPath = $"{tabFolder}{tab.Type.Replace(" ", string.Empty)}Tab";
-            var tabPrefabGameObject = Resources.Load(tabPrefabPath) as GameObject;
-            return tabPrefabGameObject.GetComponent<BaseUserTabDrawer>();
-        }
     }
 }

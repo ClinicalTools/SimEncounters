@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ClinicalTools.SimEncounters.UI
+namespace ClinicalTools.UI
 {
     // while assigning each value of an enum to a number is usually frowned upon,
     // this allows new values to be added anywhere in the enum wihtout messing up serialized uses

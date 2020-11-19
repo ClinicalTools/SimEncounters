@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ClinicalTools.SimEncounters.UI
+namespace ClinicalTools.UI
 {
     [ExecuteAlways]
     public abstract class ColorBehaviour : MonoBehaviour

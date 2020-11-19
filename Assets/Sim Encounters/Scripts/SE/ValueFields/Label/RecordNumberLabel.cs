@@ -1,9 +1,9 @@
-﻿using ClinicalTools.SimEncounters;
-
-using TMPro;
+﻿using TMPro;
+using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
 {
+    [RequireComponent(typeof(TextMeshProUGUI))]
     public class RecordNumberLabel : BaseEncounterField
     {
         public override string Name => name;

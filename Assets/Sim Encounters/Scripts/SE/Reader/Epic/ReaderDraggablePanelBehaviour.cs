@@ -22,7 +22,6 @@ namespace ClinicalTools.SimEncounters
         public List<Image> ColoredImages { get => coloredImages; set => coloredImages = value; }
         [SerializeField] private List<Image> coloredImages;
 
-        public override event ReaderPanelsReordered ReaderPanelsReordered;
         public override event Action<IDraggable, Vector3> DragStarted;
         public override event Action<IDraggable, Vector3> DragEnded;
         public override event Action<IDraggable, Vector3> Dragging;

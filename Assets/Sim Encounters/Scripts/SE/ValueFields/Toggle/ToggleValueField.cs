@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters
 {
+    [RequireComponent(typeof(Toggle))]
     public class ToggleValueField : BaseValueField
     {
         public override string Name => name;

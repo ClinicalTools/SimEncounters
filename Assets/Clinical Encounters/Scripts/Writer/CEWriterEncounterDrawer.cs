@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using ClinicalTools.SimEncounters;
+using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace ClinicalTools.SimEncounters
+namespace ClinicalTools.ClinicalEncounters
 {
     public class CEWriterEncounterDrawer : WriterEncounterDrawer
     {

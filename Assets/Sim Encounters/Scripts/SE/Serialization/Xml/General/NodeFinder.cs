@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Xml;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace ClinicalTools.SimEncounters.XmlSerialization
+namespace ClinicalTools.SimEncounters
 {
-    public enum TagComparison
+    public enum XmlTagComparison
     {
         NameEquals,
         NameEqualsIgnoreCase,
@@ -26,22 +25,22 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
         RootValue
     }
 
-    public class NodeInfo
+    public class XmlNodeInfo
     {
         /// <summary>
         /// Represents the root tag's name as the value.
         /// </summary>
-        public static NodeInfo RootName { get; } = new NodeInfo(null, TagComparison.RootName);
+        public static XmlNodeInfo RootName { get; } = new XmlNodeInfo(null, XmlTagComparison.RootName);
         /// <summary>
         /// Represents the contents of the root tag as the value.
         /// </summary>
-        public static NodeInfo RootValue { get; } = new NodeInfo(null, TagComparison.RootValue);
+        public static XmlNodeInfo RootValue { get; } = new XmlNodeInfo(null, XmlTagComparison.RootValue);
 
-        protected virtual TagComparison XmlFinder { get; } = TagComparison.NameEquals;
+        protected virtual XmlTagComparison XmlFinder { get; } = XmlTagComparison.NameEquals;
         public virtual string Name { get; }
-        protected virtual NodeInfo SubNodeFinder { get; }
+        protected virtual XmlNodeInfo SubNodeFinder { get; }
 
-        public NodeInfo(string name, TagComparison xmlFinder = TagComparison.NameEquals, NodeInfo subNodeFinder = null)
+        public XmlNodeInfo(string name, XmlTagComparison xmlFinder = XmlTagComparison.NameEquals, XmlNodeInfo subNodeFinder = null)
         {
             Name = name;
             XmlFinder = xmlFinder;
@@ -50,13 +49,13 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
 
         public virtual XmlNode FindNode(XmlNode node)
         {
-            if (XmlFinder == TagComparison.NameEquals)
+            if (XmlFinder == XmlTagComparison.NameEquals)
                 node = node[Name];
-            else if (XmlFinder == TagComparison.AttributeNameEquals)
+            else if (XmlFinder == XmlTagComparison.AttributeNameEquals)
                 node = node.Attributes[Name];
-            else if (XmlFinder == TagComparison.ChildNameEquals)
+            else if (XmlFinder == XmlTagComparison.ChildNameEquals)
                 node = GetFirstMatchingSubchild(node);
-            else if (XmlFinder != TagComparison.RootValue && XmlFinder != TagComparison.RootName)
+            else if (XmlFinder != XmlTagComparison.RootValue && XmlFinder != XmlTagComparison.RootName)
                 node = GetFirstMatchingChild(node);
 
 
@@ -94,19 +93,19 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
                 Debug.LogError("Cannot use a sub node finder when getting a node list.");
 
             switch (XmlFinder) {
-                case TagComparison.NameEquals:
-                case TagComparison.NameEqualsIgnoreCase:
-                case TagComparison.NameStartsWith:
-                case TagComparison.NameEndsWith:
-                case TagComparison.NameNotEqualTo:
+                case XmlTagComparison.NameEquals:
+                case XmlTagComparison.NameEqualsIgnoreCase:
+                case XmlTagComparison.NameStartsWith:
+                case XmlTagComparison.NameEndsWith:
+                case XmlTagComparison.NameNotEqualTo:
                     return GetMatchingChildren(node);
-                case TagComparison.ChildNameEquals:
+                case XmlTagComparison.ChildNameEquals:
                     return GetMatchingSubchildren(node);
                 // The root element is an individual node and can't represent a list
-                case TagComparison.RootName:
-                case TagComparison.RootValue:
+                case XmlTagComparison.RootName:
+                case XmlTagComparison.RootValue:
                 // XML attributes have unique names and can't represent a list
-                case TagComparison.AttributeNameEquals:
+                case XmlTagComparison.AttributeNameEquals:
                 default:
                     return null;
             }
@@ -139,17 +138,17 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
         protected virtual Func<XmlNode, bool> GetComparisonPredicate()
         {
             switch (XmlFinder) {
-                case TagComparison.NameEquals:
+                case XmlTagComparison.NameEquals:
                     return (node => node.Name == Name);
-                case TagComparison.NameEqualsIgnoreCase:
+                case XmlTagComparison.NameEqualsIgnoreCase:
                     return (node => node.Name.Equals(Name, StringComparison.InvariantCultureIgnoreCase));
-                case TagComparison.NameStartsWith:
+                case XmlTagComparison.NameStartsWith:
                     return (node => node.Name.StartsWith(Name, StringComparison.InvariantCultureIgnoreCase));
-                case TagComparison.NameEndsWith:
+                case XmlTagComparison.NameEndsWith:
                     return (node => node.Name.EndsWith(Name, StringComparison.InvariantCultureIgnoreCase));
-                case TagComparison.NameNotEqualTo:
+                case XmlTagComparison.NameNotEqualTo:
                     return (node => node.Name != Name);
-                case TagComparison.ChildNameEquals:
+                case XmlTagComparison.ChildNameEquals:
                     return (node => node[Name] != null);
                 // The rest don't check children like this
                 default:
@@ -180,10 +179,10 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
 
             switch (XmlFinder) {
                 // Root is used to get the name of the root node
-                case TagComparison.RootName:
+                case XmlTagComparison.RootName:
                     return textNode.Name;
                 // Value is used for the attribute value
-                case TagComparison.AttributeNameEquals:
+                case XmlTagComparison.AttributeNameEquals:
                     return textNode.Value;
                 // InnerText is used for all other search methods
                 default:

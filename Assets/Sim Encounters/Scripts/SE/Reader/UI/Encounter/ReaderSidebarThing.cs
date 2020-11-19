@@ -130,7 +130,7 @@ namespace ClinicalTools.SimEncounters
         {
             SidebarMainPanel.interactable = true;
             SidebarDimBackground.interactable = true;
-            //swipeManager.AddSwipeAction(CloseSidebarSwipeParamater);
+            swipeManager.AddSwipeAction(CloseSidebarSwipeParamater);
             //swipeManager.RemoveSwipeAction(OpenSidebarSwipeParamater);
 
             BackButton.Register(StartCloseEnumerator);
@@ -147,7 +147,7 @@ namespace ClinicalTools.SimEncounters
         {
             Sidebar.SetActive(false);
             //swipeManager.AddSwipeAction(OpenSidebarSwipeParamater);
-            //swipeManager.RemoveSwipeAction(CloseSidebarSwipeParamater);
+            swipeManager.RemoveSwipeAction(CloseSidebarSwipeParamater);
         }
 
 

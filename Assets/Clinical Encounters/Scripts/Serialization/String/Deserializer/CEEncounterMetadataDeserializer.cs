@@ -1,13 +1,11 @@
 ﻿using ClinicalTools.SimEncounters;
-using ClinicalTools.SimEncounters.SerializationFactories;
 using System;
-using System.Linq.Expressions;
 using UnityEngine;
 using UnityEngine.Networking;
 
 namespace ClinicalTools.ClinicalEncounters
 {
-    public class CEEncounterMetadataDeserializer : IStringDeserializer<EncounterMetadata>
+    public class CEEncounterMetadataDeserializer : IStringDeserializer<CEEncounterMetadata>, IStringDeserializer<EncounterMetadata>
     {
         private readonly ISpriteDeserializer spriteDeserializer = new SpriteDeserializer();
         public CEEncounterMetadataDeserializer(ISpriteDeserializer spriteDeserializer)
@@ -39,7 +37,8 @@ namespace ClinicalTools.ClinicalEncounters
         private const int ImageHeightIndex = 17;
         private const int ImageDataIndex = 18;
 
-        public EncounterMetadata Deserialize(string text)
+        EncounterMetadata IStringDeserializer<EncounterMetadata>.Deserialize(string text) => Deserialize(text);
+        public CEEncounterMetadata Deserialize(string text)
         {
             try {
                 var parsedItem = text.Split(CaseInfoDivider);

@@ -1,7 +1,9 @@
 ﻿using TMPro;
+using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
 {
+    [RequireComponent(typeof(TextMeshProUGUI))]
     public class LabelValueField : BaseValueField
     {
         public override string Name => name;

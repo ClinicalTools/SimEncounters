@@ -4,7 +4,7 @@ using System.Text;
 using System.Xml;
 using UnityEngine;
 
-namespace ClinicalTools.SimEncounters.Loading
+namespace ClinicalTools.SimEncounters
 {
     public class XmlDocumentDeserializer : IStringDeserializer<XmlDocument>
     {

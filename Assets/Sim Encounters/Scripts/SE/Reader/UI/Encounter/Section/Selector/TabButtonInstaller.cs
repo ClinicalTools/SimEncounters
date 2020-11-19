@@ -10,7 +10,7 @@ namespace ClinicalTools.SimEncounters
 
         public override void InstallBindings()
             => Container.BindMemoryPool<BaseReaderTabToggle, BaseReaderTabToggle.Pool>()
-                    .WithInitialSize(10)
-                    .FromComponentInNewPrefab(TabButtonPrefab);
+                        .WithInitialSize(10)
+                        .FromComponentInNewPrefab(TabButtonPrefab);
     }
 }

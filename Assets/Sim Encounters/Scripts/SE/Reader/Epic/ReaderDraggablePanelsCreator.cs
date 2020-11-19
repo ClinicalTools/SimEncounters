@@ -3,7 +3,6 @@ using UnityEngine;
 using ClinicalTools.SimEncounters.Extensions;
 using System.Collections.Generic;
 using System;
-using ClinicalTools.SimEncounters.UI;
 
 namespace ClinicalTools.SimEncounters
 {

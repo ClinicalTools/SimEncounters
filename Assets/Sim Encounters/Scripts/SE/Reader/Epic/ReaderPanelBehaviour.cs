@@ -1,4 +1,4 @@
-﻿using ClinicalTools.SimEncounters.Collections;
+﻿using ClinicalTools.Collections;
 using UnityEngine;
 using Zenject;
 
@@ -12,9 +12,9 @@ namespace ClinicalTools.SimEncounters
     public class ReaderPanelBehaviour : BaseReaderPanelBehaviour
     {
         protected override BaseChildUserPanelsDrawer ChildPanelsDrawer { get => childPanelsDrawer; }
-        [SerializeField] private BaseChildUserPanelsDrawer childPanelsDrawer;
+        [SerializeField] private BaseChildUserPanelsDrawer childPanelsDrawer = null;
         protected override BaseUserPinGroupDrawer PinsDrawer { get => pinsDrawer; }
-        [SerializeField] private BaseUserPinGroupDrawer pinsDrawer;
+        [SerializeField] private BaseUserPinGroupDrawer pinsDrawer = null;
         public virtual bool SetReadOnSelect { get => setReadOnSelect; set => setReadOnSelect = value; }
         [SerializeField] private bool setReadOnSelect = true;
         public override void Select(object sender, UserPanelSelectedEventArgs eventArgs)

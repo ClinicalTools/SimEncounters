@@ -4,7 +4,7 @@ using System.Xml;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace ClinicalTools.SimEncounters.XmlSerialization
+namespace ClinicalTools.SimEncounters
 {
     public class XmlSerializer
     {
@@ -45,23 +45,23 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
             return node;
         }
 
-        public virtual void AddString(NodeInfo nodeData, string value)
+        public virtual void AddString(XmlNodeInfo nodeData, string value)
         {
             if (!string.IsNullOrWhiteSpace(value))
                 CreateElement(nodeData.Name, value, Node);
         }
 
-        public virtual void AddBool(NodeInfo nodeData, bool value)
+        public virtual void AddBool(XmlNodeInfo nodeData, bool value)
             => CreateElement(nodeData.Name, value.ToString(), Node);
-        public virtual void AddInt(NodeInfo nodeData, int value)
+        public virtual void AddInt(XmlNodeInfo nodeData, int value)
             => CreateElement(nodeData.Name, value.ToString(), Node);
 
         // considered storing each value in their own tag, but individual panel fields must store their colors as a string
         // later the serialization and deserialization for colors to and from a string should be moved out so panels can access it
-        public virtual void AddColor(NodeInfo nodeData, Color value)
+        public virtual void AddColor(XmlNodeInfo nodeData, Color value)
             => CreateElement(nodeData.Name, $"{value.r},{value.g},{value.b},{value.a}", Node);
 
-        public virtual void AddValue<T>(NodeInfo nodeData, T value, ISerializationFactory<T> serializationFactory)
+        public virtual void AddValue<T>(XmlNodeInfo nodeData, T value, IXmlSerializer<T> serializationFactory)
         {
             if (!serializationFactory.ShouldSerialize(value))
                 return;
@@ -71,7 +71,7 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
             serializationFactory.Serialize(serializer, value);
         }
 
-        public virtual void AddStringList(CollectionInfo collectionInfo, IEnumerable<string> list)
+        public virtual void AddStringList(XmlCollectionInfo collectionInfo, IEnumerable<string> list)
         {
             if (list.Count() == 0)
                 return;
@@ -81,8 +81,8 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
                 CreateElement(collectionInfo.ElementNode.Name, value, listNode);
         }
 
-        public virtual void AddList<T>(CollectionInfo collectionInfo, IEnumerable<T> list,
-            ISerializationFactory<T> serializationFactory)
+        public virtual void AddList<T>(XmlCollectionInfo collectionInfo, IEnumerable<T> list,
+            IXmlSerializer<T> serializationFactory)
         {
             if (list.Count() == 0)
                 return;
@@ -97,7 +97,7 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
         }
 
         protected virtual string KeyAttributeName { get; } = "id";
-        public virtual void AddStringKeyValuePairs(CollectionInfo collectionInfo,
+        public virtual void AddStringKeyValuePairs(XmlCollectionInfo collectionInfo,
             IEnumerable<KeyValuePair<string, string>> list)
         {
             if (list.Count() == 0)
@@ -111,8 +111,8 @@ namespace ClinicalTools.SimEncounters.XmlSerialization
             }
         }
 
-        public virtual void AddKeyValuePairs<T>(CollectionInfo collectionInfo,
-            IEnumerable<KeyValuePair<string, T>> list, ISerializationFactory<T> serializationFactory)
+        public virtual void AddKeyValuePairs<T>(XmlCollectionInfo collectionInfo,
+            IEnumerable<KeyValuePair<string, T>> list, IXmlSerializer<T> serializationFactory)
         {
             if (list.Count() == 0)
                 return;

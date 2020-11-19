@@ -10,6 +10,6 @@ namespace ClinicalTools.SimEncounters
 
         public override void InstallBindings()
             => Container.BindFactory<ReaderSectionToggle, ReaderSectionToggle.Factory>()
-                    .FromComponentInNewPrefab(SectionButtonPrefab);
+                        .FromComponentInNewPrefab(SectionButtonPrefab);
     }
 }

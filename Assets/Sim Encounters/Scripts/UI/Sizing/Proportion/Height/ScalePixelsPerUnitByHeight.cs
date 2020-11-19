@@ -2,7 +2,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace ClinicalTools.SimEncounters.UI
+namespace ClinicalTools.UI
 {
     [ExecuteAlways]
     public class ScalePixelsPerUnitByHeight : UIBehaviour

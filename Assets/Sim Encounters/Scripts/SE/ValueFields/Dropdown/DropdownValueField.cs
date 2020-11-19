@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace ClinicalTools.SimEncounters
 {
+    [RequireComponent(typeof(TMP_Dropdown))]
     public class DropdownValueField : BaseValueField
     {
         public override string Name => name;

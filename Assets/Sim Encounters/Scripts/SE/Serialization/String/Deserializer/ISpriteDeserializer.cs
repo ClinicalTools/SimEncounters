@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ClinicalTools.SimEncounters.SerializationFactories
+namespace ClinicalTools.SimEncounters
 {
     public interface ISpriteDeserializer
     {

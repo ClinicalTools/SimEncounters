@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace ClinicalTools.SimEncounters.UI
+namespace ClinicalTools.UI
 {
     [ExecuteAlways]
     public class UnscaledDimensions : UIBehaviour
@@ -39,7 +39,6 @@ namespace ClinicalTools.SimEncounters.UI
             Update();
         }
 
-
         protected override void Awake()
         {
             base.Awake();
@@ -51,6 +50,7 @@ namespace ClinicalTools.SimEncounters.UI
             base.Start();
             Update();
         }
+
         protected virtual void Update()
         {
             if (LossyScale == transform.lossyScale && LastHeight == Height && LastWidth == Width)

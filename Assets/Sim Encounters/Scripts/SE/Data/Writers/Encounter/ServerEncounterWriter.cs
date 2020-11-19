@@ -1,5 +1,4 @@
 ﻿using ClinicalTools.SimEncounters.Extensions;
-using ClinicalTools.SimEncounters.XmlSerialization;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,14 +13,14 @@ namespace ClinicalTools.SimEncounters
         protected IServerReader ServerReader { get; }
         protected IUrlBuilder UrlBuilder { get; }
         protected IStringSerializer<Sprite> SpriteSerializer { get; }
-        protected ISerializationFactory<EncounterImageContent> ImageDataSerializer { get; }
-        protected ISerializationFactory<EncounterNonImageContent> EncounterContentSerializer { get; }
+        protected IXmlSerializer<EncounterImageContent> ImageDataSerializer { get; }
+        protected IXmlSerializer<EncounterNonImageContent> EncounterContentSerializer { get; }
         public ServerEncounterWriter(
             IServerReader serverReader,
             IUrlBuilder urlBuilder,
             IStringSerializer<Sprite> spriteSerializer,
-            ISerializationFactory<EncounterImageContent> imageDataSerializer,
-            ISerializationFactory<EncounterNonImageContent> encounterContentSerializer)
+            IXmlSerializer<EncounterImageContent> imageDataSerializer,
+            IXmlSerializer<EncounterNonImageContent> encounterContentSerializer)
         {
             ServerReader = serverReader;
             UrlBuilder = urlBuilder;

@@ -1,4 +1,4 @@
-﻿using ClinicalTools.SimEncounters.Collections;
+﻿using ClinicalTools.Collections;
 using Crosstales.FB;
 using System;
 using System.IO;
