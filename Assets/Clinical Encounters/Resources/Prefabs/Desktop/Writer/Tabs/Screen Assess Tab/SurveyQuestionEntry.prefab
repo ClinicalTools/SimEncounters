@@ -1286,7 +1286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topRect: {fileID: 0}
-  botRect: {fileID: 0}
+  bottomRect: {fileID: 0}
 --- !u!114 &8495650630235039056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1589,6 +1589,8 @@ GameObject:
   - component: {fileID: 225015184179686214}
   - component: {fileID: 114139322662205224}
   - component: {fileID: 5093098514089341446}
+  - component: {fileID: 6684100164628645240}
+  - component: {fileID: 6664870738355046234}
   m_Layer: 5
   m_Name: SurveyQuestionEntry
   m_TagString: Untagged
@@ -1729,6 +1731,38 @@ MonoBehaviour:
   deleteButton: {fileID: 114287997681500318}
   childPanelCreator: {fileID: 0}
   pinsDrawer: {fileID: 0}
+--- !u!114 &6684100164628645240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649766544529200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ccc177d44becc4da7398ed3530450d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  behaviours:
+  - {fileID: 5093098514089341446}
+--- !u!114 &6664870738355046234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649766544529200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 6684100164628645240}
+  _installerPrefabs: []
+  _autoRun: 1
+  _kernel: {fileID: 0}
 --- !u!1 &1740107387494154
 GameObject:
   m_ObjectHideFlags: 0
@@ -2311,7 +2345,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topRect: {fileID: 0}
-  botRect: {fileID: 0}
+  bottomRect: {fileID: 0}
 --- !u!114 &7628905866187862506
 MonoBehaviour:
   m_ObjectHideFlags: 0

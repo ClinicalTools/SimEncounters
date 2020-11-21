@@ -792,7 +792,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topRect: {fileID: 0}
-  botRect: {fileID: 0}
+  bottomRect: {fileID: 0}
 --- !u!114 &7592223572152506014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1761,6 +1761,8 @@ GameObject:
   - component: {fileID: 225655301994911160}
   - component: {fileID: 114194117306231282}
   - component: {fileID: 7812259323627554850}
+  - component: {fileID: 3564141137365919262}
+  - component: {fileID: 6680636205170369377}
   m_Layer: 5
   m_Name: ReferralOptionEntry
   m_TagString: Untagged
@@ -1887,6 +1889,38 @@ MonoBehaviour:
   deleteButton: {fileID: 114850722845606102}
   childPanelCreator: {fileID: 0}
   pinsDrawer: {fileID: 0}
+--- !u!114 &3564141137365919262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303324577558700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ccc177d44becc4da7398ed3530450d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  behaviours:
+  - {fileID: 7812259323627554850}
+--- !u!114 &6680636205170369377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303324577558700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 3564141137365919262}
+  _installerPrefabs: []
+  _autoRun: 1
+  _kernel: {fileID: 0}
 --- !u!1 &1335342165569190
 GameObject:
   m_ObjectHideFlags: 0
@@ -2537,7 +2571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topRect: {fileID: 0}
-  botRect: {fileID: 0}
+  bottomRect: {fileID: 0}
 --- !u!114 &8033463378470635521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4140,7 +4174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topRect: {fileID: 0}
-  botRect: {fileID: 0}
+  bottomRect: {fileID: 0}
 --- !u!114 &5696246763266268663
 MonoBehaviour:
   m_ObjectHideFlags: 0

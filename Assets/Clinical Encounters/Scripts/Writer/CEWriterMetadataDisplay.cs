@@ -30,6 +30,7 @@ namespace ClinicalTools.ClinicalEncounters
         [SerializeField] private Toggle privateToggle;
         public Toggle TemplateToggle { get => templateToggle; set => templateToggle = value; }
         [SerializeField] private Toggle templateToggle;
+        // !!!! fix audience reference
         public BaseValueField Audience { get => audience; set => audience = value; }
         [SerializeField] private BaseValueField audience;
         public TMP_Dropdown Difficulty { get => difficulty; set => difficulty = value; }
@@ -69,7 +70,7 @@ namespace ClinicalTools.ClinicalEncounters
             Summary.text = metadata.Subtitle;
             Description.text = metadata.Description;
             Tags.text = string.Join("; ", metadata.Categories);
-            Audience.Initialize(metadata.Audience);
+            //Audience.Initialize(metadata.Audience);
             Difficulty.value = (int)metadata.Difficulty;
             PrivateToggle.isOn = !metadata.IsPublic;
             TemplateToggle.isOn = metadata.IsTemplate;
@@ -94,7 +95,7 @@ namespace ClinicalTools.ClinicalEncounters
             var categories = Tags.text.Split(tagsSplit, StringSplitOptions.RemoveEmptyEntries);
             foreach (var category in categories.Where((c) => !string.IsNullOrWhiteSpace(c)))
                 metadata.Categories.Add(category);
-            metadata.Audience = Audience.Value;
+            //metadata.Audience = Audience.Value;
             metadata.Difficulty = (Difficulty)Difficulty.value;
             metadata.IsPublic = !PrivateToggle.isOn;
             metadata.IsTemplate = TemplateToggle.isOn;

@@ -1411,7 +1411,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topRect: {fileID: 0}
-  botRect: {fileID: 0}
+  bottomRect: {fileID: 0}
 --- !u!114 &6490490265955439943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1659,7 +1659,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topRect: {fileID: 0}
-  botRect: {fileID: 0}
+  bottomRect: {fileID: 0}
 --- !u!114 &4146848182785514523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2093,6 +2093,8 @@ GameObject:
   - component: {fileID: 114119950127616256}
   - component: {fileID: 114761800927297602}
   - component: {fileID: -767963219342343199}
+  - component: {fileID: 8673421678726375033}
+  - component: {fileID: 2824610113969698291}
   m_Layer: 5
   m_Name: DietExercisePanel
   m_TagString: Untagged
@@ -2225,6 +2227,38 @@ MonoBehaviour:
   type: DietExercisePanel
   childPanelCreator: {fileID: 0}
   pinsDrawer: {fileID: 1161957266568763092}
+--- !u!114 &8673421678726375033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1787087457462370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ccc177d44becc4da7398ed3530450d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  behaviours:
+  - {fileID: -767963219342343199}
+--- !u!114 &2824610113969698291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1787087457462370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 8673421678726375033}
+  _installerPrefabs: []
+  _autoRun: 1
+  _kernel: {fileID: 0}
 --- !u!1 &1864523682425104
 GameObject:
   m_ObjectHideFlags: 0

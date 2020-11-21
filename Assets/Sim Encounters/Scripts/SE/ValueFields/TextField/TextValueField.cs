@@ -1,16 +1,18 @@
 ﻿using TMPro;
 using UnityEngine;
+using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
     [RequireComponent(typeof(TMP_InputField))]
-    public class TextValueField : BaseValueField
+    public class TextValueField : MonoBehaviour, IPanelField
     {
-        public override string Name => name;
-        public override string Value => InputField.text;
+        public string Name => name;
+        public string Value => InputField.text;
 
         private TMP_InputField inputField;
-        protected TMP_InputField InputField {
+        protected TMP_InputField InputField
+        {
             get {
                 if (inputField == null)
                     inputField = GetComponent<TMP_InputField>();
@@ -18,7 +20,19 @@ namespace ClinicalTools.SimEncounters
             }
         }
 
-        public override void Initialize() { }
-        public override void Initialize(string value) => InputField.text = value;
+        protected ISelectedListener<PanelSelectedEventArgs> PanelSelectedListener { get; set; }
+        [Inject]
+        public virtual void Inject(ISelectedListener<PanelSelectedEventArgs> panelSelectedListener)
+        {
+            PanelSelectedListener = panelSelectedListener;
+            PanelSelectedListener.Selected += OnPanelSelected;
+        }
+
+        protected virtual void OnPanelSelected(object sender, PanelSelectedEventArgs e)
+        {
+            var values = e.Panel.Values;
+            if (values.ContainsKey(Name))
+                InputField.text = values[Name];
+        }
     }
 }

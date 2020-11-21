@@ -369,7 +369,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topRect: {fileID: 0}
-  botRect: {fileID: 0}
+  bottomRect: {fileID: 0}
 --- !u!114 &4380612151280211870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1424,6 +1424,8 @@ GameObject:
   - component: {fileID: 114148762973119482}
   - component: {fileID: 114404904604996506}
   - component: {fileID: 6127302315706358622}
+  - component: {fileID: 237376272371544493}
+  - component: {fileID: 1788742646460255602}
   m_Layer: 5
   m_Name: QuizQuestionOption
   m_TagString: Untagged
@@ -1579,6 +1581,38 @@ MonoBehaviour:
   deleteButton: {fileID: 114704786848547582}
   childPanelCreator: {fileID: 0}
   pinsDrawer: {fileID: 0}
+--- !u!114 &237376272371544493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381448760020130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ccc177d44becc4da7398ed3530450d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  behaviours:
+  - {fileID: 6127302315706358622}
+--- !u!114 &1788742646460255602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381448760020130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 237376272371544493}
+  _installerPrefabs: []
+  _autoRun: 1
+  _kernel: {fileID: 0}
 --- !u!1 &1387478477714916
 GameObject:
   m_ObjectHideFlags: 0
@@ -2434,7 +2468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topRect: {fileID: 0}
-  botRect: {fileID: 0}
+  bottomRect: {fileID: 0}
 --- !u!114 &4600897894674320480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3189,7 +3223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topRect: {fileID: 0}
-  botRect: {fileID: 0}
+  bottomRect: {fileID: 0}
 --- !u!114 &232448436238527212
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -27,9 +27,9 @@ namespace ClinicalTools.SimEncounters
                 eventArgs = new PanelSelectedEventArgs(new Panel(type));
 
             CurrentValue = eventArgs;
+            Fields = GetComponentsInChildren<IPanelField>(true);
             Selected?.Invoke(sender, eventArgs);
 
-            Fields = GetComponentsInChildren<IPanelField>();
 
             DrawChildPanels(eventArgs);
             DrawPins(eventArgs);
@@ -42,8 +42,13 @@ namespace ClinicalTools.SimEncounters
         }
         protected virtual void DrawPins(PanelSelectedEventArgs eventArgs)
         {
-            if (PinsDrawer != null)
-                PinsDrawer.Display(eventArgs.Panel.Pins);
+            if (PinsDrawer == null)
+                return;
+
+            var pins = eventArgs.Panel.Pins;
+            if (pins == null)
+                pins = new PinGroup();
+            PinsDrawer.Display(pins);
         }
 
         public virtual Panel Serialize()

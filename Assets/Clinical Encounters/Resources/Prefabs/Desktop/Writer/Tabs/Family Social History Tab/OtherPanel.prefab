@@ -1187,7 +1187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topRect: {fileID: 0}
-  botRect: {fileID: 0}
+  bottomRect: {fileID: 0}
 --- !u!114 &7296172861426634485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1215,6 +1215,8 @@ GameObject:
   - component: {fileID: 114714752833814764}
   - component: {fileID: 114641711381243626}
   - component: {fileID: -2002663263152894427}
+  - component: {fileID: 1501638937807468074}
+  - component: {fileID: 3222978455080237824}
   m_Layer: 5
   m_Name: OtherPanel
   m_TagString: Untagged
@@ -1346,6 +1348,38 @@ MonoBehaviour:
   type: OtherPanel
   childPanelCreator: {fileID: 0}
   pinsDrawer: {fileID: 4012573836449192120}
+--- !u!114 &1501638937807468074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1774166942570170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ccc177d44becc4da7398ed3530450d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  behaviours:
+  - {fileID: -2002663263152894427}
+--- !u!114 &3222978455080237824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1774166942570170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 1501638937807468074}
+  _installerPrefabs: []
+  _autoRun: 1
+  _kernel: {fileID: 0}
 --- !u!1 &1830142490909194
 GameObject:
   m_ObjectHideFlags: 0
@@ -1735,7 +1769,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topRect: {fileID: 0}
-  botRect: {fileID: 0}
+  bottomRect: {fileID: 0}
 --- !u!114 &4490687342805909574
 MonoBehaviour:
   m_ObjectHideFlags: 0
