@@ -1267,6 +1267,7 @@ MonoBehaviour:
   spriteSelector: {fileID: 1192924666}
   patientSpriteSelector: {fileID: 337363924}
   messageHandler: {fileID: 105156484}
+  swipeManager: {fileID: 0}
 --- !u!114 &248023175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3939,20 +3940,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e935c2ca683404a4a865ee791da51289, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &816460569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1717331873784082}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06451b662bacc8b49ab137a298587e23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sectionBorders:
-  - {fileID: 114172684153215422}
 --- !u!224 &851871972 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224275700976546614, guid: a2e41c8af7ca45b47a9d0b83c1cfb946,
@@ -9282,7 +9269,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sectionSelector: {fileID: 102589324}
   tabSelector: {fileID: 1240485052}
-  sectionDrawer: {fileID: 816460569}
+  sectionDrawer: {fileID: 0}
   tabDrawer: {fileID: 195950828}
   patientImageButton: {fileID: 449002994}
   patientImage: {fileID: 995386100}
@@ -10756,6 +10743,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 72
       objectReference: {fileID: 0}
+    - target: {fileID: 224880474227255850, guid: 4734cb44fa15b074a9573d5fdabf5740,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -50
+      objectReference: {fileID: 0}
     - target: {fileID: 6235656545330999072, guid: 4734cb44fa15b074a9573d5fdabf5740,
         type: 3}
       propertyPath: m_SizeDelta.y
@@ -10916,6 +10908,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placeholder: {fileID: 783307452956448492}
+  controlPlaceholderWidth: 1
 --- !u!224 &1792795674 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8168522652231155669, guid: 795647fb33b462c48898efeb3a8e56c7,
@@ -11567,6 +11560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placeholder: {fileID: 1807104062}
+  controlPlaceholderWidth: 1
 --- !u!224 &2010034873 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5271864627294121716, guid: 3da8e43f06f0ddf499707e36cd6b76ac,
@@ -12062,7 +12056,6 @@ GameObject:
   m_Component:
   - component: {fileID: 224307234047960266}
   - component: {fileID: 222562528476742730}
-  - component: {fileID: 816460569}
   m_Layer: 5
   m_Name: ContentPanel
   m_TagString: Untagged
@@ -12177,6 +12170,7 @@ GameObject:
   - component: {fileID: 224642304568522512}
   - component: {fileID: 222233557108073008}
   - component: {fileID: 114172684153215422}
+  - component: {fileID: 1891910470850191}
   - component: {fileID: 1240485052}
   - component: {fileID: 1891910470850190}
   - component: {fileID: 1891910470850189}
@@ -12221,6 +12215,18 @@ MonoBehaviour:
     type: 3}
   poolParent: {fileID: 479275295}
   initialSize: 0
+--- !u!114 &1891910470850191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1891910470850188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac6b9cedbd7f32e46be304561373b03a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1904762975867228
 GameObject:
   m_ObjectHideFlags: 0

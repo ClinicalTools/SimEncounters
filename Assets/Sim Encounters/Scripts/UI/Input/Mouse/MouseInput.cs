@@ -44,17 +44,29 @@ namespace ClinicalTools.UI
 
         protected virtual void UpdateCursor()
         {
-            var currentCursorState = CurrentCursorState;
-
             if (CursorImage == null || NormalCursorSprite == null || DraggableCursorSprite == null)
                 return;
-            if (currentCursorState == CursorState.Normal) {
+            SetCursorImage(CurrentCursorState);
+        }
+
+        protected virtual void SetCursorImage(CursorState cursorState)
+        {
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+            if (cursorState == CursorState.Normal) {
+                WindowsCursorConctroller.ChangeCursor(WindowsCursor.StandardArrow);
+            } else if (cursorState == CursorState.Draggable) {
+                WindowsCursorConctroller.ChangeCursor(WindowsCursor.FourPointedArrowPointingNorthSouthEastAndWest);
+            }
+
+#else
+            if (cursorState == CursorState.Normal) {
                 CursorImage.sprite = NormalCursorSprite;
                 Cursor.SetCursor(NormalCursorTexture, new Vector2(32, 32), CursorMode.ForceSoftware);
-            } else if (currentCursorState == CursorState.Draggable) {
+            } else if (cursorState == CursorState.Draggable) {
                 CursorImage.sprite = DraggableCursorSprite;
                 Cursor.SetCursor(DraggableCursorTexture, new Vector2(32, 32), CursorMode.ForceSoftware);
             }
+#endif
         }
 
         public virtual void SetCursorState(CursorState cursorState)
@@ -78,8 +90,14 @@ namespace ClinicalTools.UI
             UpdateCursor();
         }
 
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+        protected virtual void LateUpdate() => SetCursorImage(CurrentCursorState);
+#endif
         protected virtual void Update()
         {
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+            SetCursorImage(CurrentCursorState);
+#endif
             if (DraggedObjects.Count > 0) {
                 if (Input.GetMouseButtonUp(0))
                     EndDrag(Input.mousePosition);

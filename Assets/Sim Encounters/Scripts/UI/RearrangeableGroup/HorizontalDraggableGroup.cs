@@ -5,11 +5,26 @@ namespace ClinicalTools.UI
 {
     public class HorizontalDraggableGroup : DraggableGroup
     {
+        public bool ControlPlaceholderWidth { get => controlPlaceholderWidth; set => controlPlaceholderWidth = value; }
+        [SerializeField] private bool controlPlaceholderWidth;
+
+        protected LayoutElement PlaceholderLayoutElement { get; set; }
+        protected virtual void Awake()
+        {
+            if (ControlPlaceholderWidth)
+                PlaceholderLayoutElement = Placeholder.GetComponent<LayoutElement>();
+        }
+
         protected override void DragStarted(IDraggable draggable, Vector3 mousePosition)
         {
             base.DragStarted(draggable, mousePosition);
 
-            (Placeholder.GetComponent<LayoutElement>()).minWidth = draggable.RectTransform.sizeDelta.x;
+            if (ControlPlaceholderWidth) {
+                if (PlaceholderLayoutElement)
+                    PlaceholderLayoutElement.minWidth = draggable.RectTransform.sizeDelta.x;
+                else
+                    Debug.LogError("Cannot control placeholder width if placeholder does not have a Layout Element component.");
+            }
         }
 
         protected override void SetPosition(IDraggable draggable, Vector3 mousePosition)

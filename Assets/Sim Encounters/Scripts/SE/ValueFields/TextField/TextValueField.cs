@@ -7,8 +7,8 @@ namespace ClinicalTools.SimEncounters
     [RequireComponent(typeof(TMP_InputField))]
     public class TextValueField : MonoBehaviour, IPanelField
     {
-        public string Name => name;
-        public string Value => InputField.text;
+        public virtual string Name => name;
+        public virtual string Value => InputField.text;
 
         private TMP_InputField inputField;
         protected TMP_InputField InputField
@@ -26,6 +26,8 @@ namespace ClinicalTools.SimEncounters
         {
             PanelSelectedListener = panelSelectedListener;
             PanelSelectedListener.Selected += OnPanelSelected;
+            if (PanelSelectedListener.CurrentValue != null)
+                OnPanelSelected(this, PanelSelectedListener.CurrentValue);
         }
 
         protected virtual void OnPanelSelected(object sender, PanelSelectedEventArgs e)
@@ -33,6 +35,8 @@ namespace ClinicalTools.SimEncounters
             var values = e.Panel.Values;
             if (values.ContainsKey(Name))
                 InputField.text = values[Name];
+            else
+                InputField.text = "";
         }
     }
 }

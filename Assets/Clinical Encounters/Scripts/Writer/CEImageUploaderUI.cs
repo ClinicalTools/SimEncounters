@@ -23,6 +23,7 @@ namespace ClinicalTools.ClinicalEncounters
 
         public override WaitableTask<string> SelectSprite(KeyedCollection<Sprite> sprites, string spriteKey)
         {
+            gameObject.SetActive(true);
             var waitableSprite = base.SelectSprite(sprites, spriteKey);
 
             var isPatientImage = CurrentKey == PatientImageKey;

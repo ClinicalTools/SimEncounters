@@ -27,7 +27,8 @@ namespace ClinicalTools.UI
         {
             if (InputField.characterValidation.Equals(TMP_InputField.CharacterValidation.None))
                 InputField.onValidateInput += MyValidate;
-            NextFrame.Function(ResizeField);
+            NextFrame.Function(ResizeField2);
+            InputField.onValueChanged.AddListener(ResizeField);
         }
 
         char MyValidate(string input, int charIndex, char charToValidate)
@@ -40,6 +41,11 @@ namespace ClinicalTools.UI
         // Ensures that the coroutine is only called once per frame.
         private bool resizeLock;
         public void ResizeField()
+        {
+            Debug.LogWarning($"{name}: Resize field called");
+        }
+        protected virtual void ResizeField(string str) => ResizeField2();
+        protected virtual void ResizeField2()
         {
             if (resizeLock)
                 return;
@@ -57,7 +63,7 @@ namespace ClinicalTools.UI
         {
             if (isPasting) {
                 isPasting = false;
-                ResizeField();
+                ResizeField2();
             }
 
             // The input caret must be resized manually

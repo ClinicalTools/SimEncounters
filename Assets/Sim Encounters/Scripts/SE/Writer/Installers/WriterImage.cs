@@ -5,10 +5,11 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class WriterImage : BaseEncounterField
+    [RequireComponent(typeof(Image))]
+    public class WriterImage : MonoBehaviour, IPanelField
     {
-        public override string Name => name;
-        public override string Value => value;
+        public virtual string Name => name;
+        public virtual string Value => value;
         private string value = null;
 
         public Button SelectImageButton { get => selectImageButton; set => selectImageButton = value; }
@@ -23,18 +24,32 @@ namespace ClinicalTools.SimEncounters
         }
         private Image image;
 
-        protected BaseSpriteSelector SpritePopup { get; set; }
-        [Inject] public virtual void Inject(BaseSpriteSelector spritePopup) => SpritePopup = spritePopup;
 
-        protected Encounter CurrentEncounter { get; set; }
+        protected Encounter Encounter => EncounterSelectedListener.CurrentValue.Encounter;
+        protected BaseSpriteSelector SpritePopup { get; set; }
+        protected ISelectedListener<EncounterSelectedEventArgs> EncounterSelectedListener { get; set; }
+        protected ISelectedListener<PanelSelectedEventArgs> PanelSelectedListener { get; set; }
+        [Inject]
+        public virtual void Inject(
+            BaseSpriteSelector spritePopup,
+            ISelectedListener<EncounterSelectedEventArgs> encounterSelectedListener,
+            ISelectedListener<PanelSelectedEventArgs> panelSelectedListener)
+        {
+            SpritePopup = spritePopup;
+            EncounterSelectedListener = encounterSelectedListener;
+            PanelSelectedListener = panelSelectedListener;
+            PanelSelectedListener.Selected += OnPanelSelected;
+            if (PanelSelectedListener.CurrentValue != null)
+                OnPanelSelected(this, PanelSelectedListener.CurrentValue);
+        }
 
         protected virtual void Awake() => SelectImageButton.onClick.AddListener(SelectImage);
 
-        public override void Initialize(Encounter encounter) => CurrentEncounter = encounter;
-        public override void Initialize(Encounter encounter, string value)
+        protected virtual void OnPanelSelected(object sender, PanelSelectedEventArgs e)
         {
-            CurrentEncounter = encounter;
-            SetSprite(value);
+            var values = e.Panel.Values;
+            if (values.ContainsKey(Name))
+                SetSprite(values[Name]);
         }
 
         public virtual void SetSprite(string imageKey)
@@ -61,9 +76,9 @@ namespace ClinicalTools.SimEncounters
                 return null;
 
             if (imageKey.Equals(PatientImageKey, StringComparison.InvariantCultureIgnoreCase))
-                return CurrentEncounter.Metadata.Sprite;
+                return Encounter.Metadata.Sprite;
 
-            var sprites = CurrentEncounter.Content.ImageContent.Sprites;
+            var sprites = Encounter.Content.ImageContent.Sprites;
             if (sprites.ContainsKey(imageKey))
                 return sprites[imageKey];
 
@@ -72,7 +87,7 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void SelectImage()
         {
-            var newImageKey = SpritePopup.SelectSprite(CurrentEncounter.Content.ImageContent.Sprites, Value);
+            var newImageKey = SpritePopup.SelectSprite(Encounter.Content.ImageContent.Sprites, Value);
             newImageKey.AddOnCompletedListener(ImageSelected);
         }
 

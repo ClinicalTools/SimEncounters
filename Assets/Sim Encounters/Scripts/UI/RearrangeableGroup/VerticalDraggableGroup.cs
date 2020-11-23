@@ -5,11 +5,26 @@ namespace ClinicalTools.UI
 {
     public class VerticalDraggableGroup : DraggableGroup
     {
+        public bool ControlPlaceholderHeight { get => controlPlaceholderHeight; set => controlPlaceholderHeight = value; }
+        [SerializeField] private bool controlPlaceholderHeight;
+        
+        protected LayoutElement PlaceholderLayoutElement { get; set; }
+        protected virtual void Awake()
+        {
+            if (ControlPlaceholderHeight)
+                PlaceholderLayoutElement = Placeholder.GetComponent<LayoutElement>();
+        }
+
         protected override void DragStarted(IDraggable draggable, Vector3 mousePosition)
         {
             base.DragStarted(draggable, mousePosition);
 
-            (Placeholder.GetComponent<LayoutElement>()).minHeight = draggable.RectTransform.sizeDelta.y;
+            if (ControlPlaceholderHeight) {
+                if (PlaceholderLayoutElement)
+                    PlaceholderLayoutElement.minHeight = draggable.RectTransform.sizeDelta.y;
+                else
+                    Debug.LogError("Cannot control placeholder height if placeholder does not have a Layout Element component.");
+            }
         }
 
         protected override void SetPosition(IDraggable draggable, Vector3 mousePosition)

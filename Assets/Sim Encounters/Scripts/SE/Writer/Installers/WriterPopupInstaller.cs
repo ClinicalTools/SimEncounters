@@ -38,6 +38,10 @@ namespace ClinicalTools.SimEncounters
             Container.BindInstance(SwipeManager);
 
             Container.BindInstance(MessageHandler);
+
+            Container.BindInterfacesTo<WriterEncounterManager>().AsSingle();
+            Container.DeclareSignal<SerializeTabSignal>().OptionalSubscriber();
         }
     }
+    public class SerializeTabSignal { }
 }
