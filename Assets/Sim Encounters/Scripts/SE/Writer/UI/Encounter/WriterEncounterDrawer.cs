@@ -30,9 +30,7 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void Awake()
         {
-            SectionSelector.SectionSelected += OnSectionSelected;
-            SectionSelector.SectionEdited += OnSectionEdited;
-            TabSelector.TabSelected += OnTabSelected;
+
         }
 
         protected Encounter Encounter { get; set; }
@@ -41,20 +39,12 @@ namespace ClinicalTools.SimEncounters
             Encounter = encounter;
             EncounterSelector2.Select(this, new EncounterSelectedEventArgs(encounter));
 
-            SectionSelector.Display(encounter);
             var sections = encounter.Content.NonImageContent.Sections;
-            var section = sections[encounter.Content.NonImageContent.CurrentSectionIndex].Value;
-            OnSectionSelected(this, new SectionSelectedEventArgs(section));
         }
 
         public override void Serialize() => TabDrawer.Serialize();
 
         protected virtual Section CurrentSection { get; set; }
-        private void OnSectionSelected(object sender, SectionSelectedEventArgs e)
-        {
-            SectionSelector2.Select(sender, e);
-            SelectSection(e.SelectedSection);
-        }
         private void SelectSection(Section selectedSection)
         {
             if (CurrentSection == selectedSection)
@@ -62,8 +52,6 @@ namespace ClinicalTools.SimEncounters
 
             CurrentSection = selectedSection;
             Encounter.Content.NonImageContent.SetCurrentSection(selectedSection);
-
-            SectionSelector.SelectSection(selectedSection);
 
             TabSelector.Display(Encounter, selectedSection);
             //SectionDrawer.Display(Encounter, selectedSection);
@@ -97,14 +85,12 @@ namespace ClinicalTools.SimEncounters
 
             CurrentSection.SetCurrentTab(selectedTab);
             TabSelector.SelectTab(selectedTab);
-            TabDrawer.Display(Encounter, selectedTab);
         }
         private void UnselectTab()
         {
             if (CurrentTab != null)
                 TabDrawer.Serialize();
             CurrentTab = null;
-            TabDrawer.Display(Encounter, null);
         }
     }
 }

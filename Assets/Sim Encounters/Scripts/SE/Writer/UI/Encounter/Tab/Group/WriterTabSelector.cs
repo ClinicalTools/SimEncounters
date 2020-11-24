@@ -1,5 +1,6 @@
 ﻿using ClinicalTools.UI;
 using ClinicalTools.UI.Extensions;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,7 +8,7 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class WriterTabSelector : BaseTabSelector
+    public class WriterTabSelector : MonoBehaviour
     {
         public virtual BaseRearrangeableGroup RearrangeableGroup { get => rearrangeableGroup; set => rearrangeableGroup = value; }
         [SerializeField] private BaseRearrangeableGroup rearrangeableGroup;
@@ -22,15 +23,59 @@ namespace ClinicalTools.SimEncounters
         public TabCreatorPopup AddTabPopup { get => addTabPopup; set => addTabPopup = value; }
         [SerializeField] private TabCreatorPopup addTabPopup;
 
-        public override event TabSelectedHandler TabSelected;
-
+        protected ISelectedListener<SectionSelectedEventArgs> SectionSelectedListener { get; set; }
+        protected ISelector<TabSelectedEventArgs> TabSelector { get; set; }
         protected virtual BaseWriterTabToggle.Pool TabButtonPool { get; set; }
-        [Inject] public virtual void Inject(BaseWriterTabToggle.Pool tabButtonPool) => TabButtonPool = tabButtonPool;
+        [Inject]
+        public virtual void Inject(
+            ISelectedListener<SectionSelectedEventArgs> sectionSelectedListener,
+            ISelector<TabSelectedEventArgs> tabSelector,
+            BaseWriterTabToggle.Pool tabButtonPool)
+        {
+            TabButtonPool = tabButtonPool;
+
+            SectionSelectedListener = sectionSelectedListener;
+            SectionSelectedListener.Selected += OnSectionSelected;
+            if (SectionSelectedListener.CurrentValue != null)
+                OnSectionSelected(this, SectionSelectedListener.CurrentValue);
+
+            TabSelector = tabSelector;
+            TabSelector.Selected += OnTabSelected;
+            if (TabSelector.CurrentValue != null)
+                OnTabSelected(this, TabSelector.CurrentValue);
+
+        }
 
         protected virtual void Awake()
         {
             AddButton.onClick.AddListener(AddTab);
             RearrangeableGroup.Rearranged += TabsRearranged;
+        }
+
+        protected virtual void OnSectionSelected(object sender, SectionSelectedEventArgs e)
+        {
+            CurrentSection = e.SelectedSection;
+            RearrangeableGroup.Clear();
+            foreach (var tabButton in TabButtons)
+                Destroy(tabButton.Value.gameObject);
+
+            TabButtons.Clear();
+
+            if (CurrentSection.Tabs.Count == 0) {
+                AddTab();
+            } else {
+                foreach (var tab in CurrentSection.Tabs)
+                    AddTabButton(CurrentSection.Tabs[tab.Key]);
+            }
+        }
+
+        protected virtual void OnTabSelected(object sender, TabSelectedEventArgs e)
+        {
+            if (e.SelectedTab == CurrentTab)
+                return;
+
+            CurrentTab = e.SelectedTab;
+            TabButtons[CurrentTab].Select();
         }
 
         private void AddTab()
@@ -45,39 +90,21 @@ namespace ClinicalTools.SimEncounters
                 return;
 
             CurrentSection.Tabs.Add(tab.Value);
-            AddTabButton(CurrentEncounter, tab.Value);
+            AddTabButton(tab.Value);
 
-            SelectTab(tab.Value);
+            TabSelector.Select(this, new TabSelectedEventArgs(tab.Value));
         }
 
-        protected Encounter CurrentEncounter { get; set; }
         protected Section CurrentSection { get; set; }
-        public override void Display(Encounter encounter, Section section)
-        {
-            CurrentEncounter = encounter;
-            CurrentSection = section;
-            RearrangeableGroup.Clear();
-            foreach (var tabButton in TabButtons)
-                Destroy(tabButton.Value.gameObject);
-
-            TabButtons.Clear();
-
-            if (section.Tabs.Count == 0) {
-                AddTab();
-            } else {
-                foreach (var tab in section.Tabs)
-                    AddTabButton(encounter, section.Tabs[tab.Key]);
-            }
-        }
 
         protected Dictionary<Tab, BaseWriterTabToggle> TabButtons { get; } = new Dictionary<Tab, BaseWriterTabToggle>();
-        protected void AddTabButton(Encounter encounter, Tab tab)
+        protected void AddTabButton(Tab tab)
         {
             var tabButton = TabButtonPool.Spawn();
             RearrangeableGroup.Add(tabButton);
             tabButton.RectTransform.localScale = Vector3.one;
             tabButton.SetToggleGroup(TabsToggleGroup);
-            tabButton.Display(encounter, tab);
+            tabButton.Display(tab);
             tabButton.Selected += () => OnSelected(tab);
             tabButton.Deleted += OnDeleted;
             TabButtons.Add(tab, tabButton);
@@ -88,7 +115,7 @@ namespace ClinicalTools.SimEncounters
         {
             var selectedArgs = new TabSelectedEventArgs(tab);
             CurrentTab = tab;
-            TabSelected?.Invoke(this, selectedArgs);
+            TabSelector.Select(this, selectedArgs);
 
             TabButtonsScroll.EnsureChildIsShowing(TabButtons[tab].RectTransform);
         }
@@ -101,15 +128,7 @@ namespace ClinicalTools.SimEncounters
             TabButtonPool.Despawn(tabButton);
         }
 
-        public override void SelectTab(Tab tab)
-        {
-            if (tab == CurrentTab)
-                return;
-
-            TabButtons[tab].Select();
-        }
-
-        protected virtual void TabsRearranged(object sender, RearrangedEventArgs2 e) 
+        protected virtual void TabsRearranged(object sender, RearrangedEventArgs2 e)
             => CurrentSection.Tabs.MoveValue(e.NewIndex, e.OldIndex);
     }
 }

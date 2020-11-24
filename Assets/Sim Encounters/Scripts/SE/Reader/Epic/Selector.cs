@@ -18,18 +18,5 @@ namespace ClinicalTools.SimEncounters
             CurrentValue = value;
             Selected?.Invoke(sender, value);
         }
-
-        public virtual void AddSelectedListener(SelectedHandler<T> handler)
-        {
-            Selected += handler;
-            InitiateHandler(handler);
-        }
-        protected virtual void InitiateHandler(SelectedHandler<T> handler)
-        {
-            if (CurrentValue != null)
-                handler(CurrentSender, CurrentValue);
-        }
-
-        public virtual void RemoveSelectedListener(SelectedHandler<T> handler) => Selected -= handler;
     }
 }

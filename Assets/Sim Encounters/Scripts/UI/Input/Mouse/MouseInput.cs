@@ -91,12 +91,17 @@ namespace ClinicalTools.UI
         }
 
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        protected virtual void LateUpdate() => SetCursorImage(CurrentCursorState);
+        protected virtual void LateUpdate()
+        {
+            if (CurrentCursorState != CursorState.Normal)
+                SetCursorImage(CurrentCursorState);
+        }
 #endif
         protected virtual void Update()
         {
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-            SetCursorImage(CurrentCursorState);
+            if (CurrentCursorState != CursorState.Normal)
+                SetCursorImage(CurrentCursorState);
 #endif
             if (DraggedObjects.Count > 0) {
                 if (Input.GetMouseButtonUp(0))

@@ -54,7 +54,8 @@ namespace ClinicalTools.UI
             NextFrame.Function(ActivateResizeTMP);
             NextFrame.Function(delegate { NextFrame.Function(ActivateResizeTMP); });
 
-            ZeroRectTransformOffsets(InputField.textComponent.rectTransform);
+            if (InputField)
+                ZeroRectTransformOffsets(InputField.textComponent.rectTransform);
         }
 
         private RectTransform inputCaret;

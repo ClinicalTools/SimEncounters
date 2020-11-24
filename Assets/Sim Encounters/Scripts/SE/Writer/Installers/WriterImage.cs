@@ -26,12 +26,12 @@ namespace ClinicalTools.SimEncounters
 
 
         protected Encounter Encounter => EncounterSelectedListener.CurrentValue.Encounter;
-        protected BaseSpriteSelector SpritePopup { get; set; }
+        protected IKeyedSpriteSelector SpritePopup { get; set; }
         protected ISelectedListener<EncounterSelectedEventArgs> EncounterSelectedListener { get; set; }
         protected ISelectedListener<PanelSelectedEventArgs> PanelSelectedListener { get; set; }
         [Inject]
         public virtual void Inject(
-            BaseSpriteSelector spritePopup,
+            IKeyedSpriteSelector spritePopup,
             ISelectedListener<EncounterSelectedEventArgs> encounterSelectedListener,
             ISelectedListener<PanelSelectedEventArgs> panelSelectedListener)
         {

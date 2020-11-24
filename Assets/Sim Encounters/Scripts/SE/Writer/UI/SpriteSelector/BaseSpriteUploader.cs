@@ -1,13 +1,11 @@
-﻿using ClinicalTools.Collections;
-using Crosstales.FB;
-using System;
+﻿using Crosstales.FB;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class ImageUploaderUI : BaseSpriteSelector
+    public class BaseSpriteUploader : MonoBehaviour
     {
         public virtual Button CancelButton { get => cancelButton; set => cancelButton = value; }
         [SerializeField] private Button cancelButton;
@@ -33,59 +31,13 @@ namespace ClinicalTools.SimEncounters
             UploadImageButton.onClick.AddListener(UploadImage);
         }
 
-        protected WaitableTask<string> CurrentWaitableSpriteKey { get; set; }
-        protected KeyedCollection<Sprite> SpriteCollection { get; set; }
-        protected string CurrentKey { get; set; }
+
+        protected virtual void ApplyClicked() => Close();
+        protected virtual void Remove() => Close();
+        protected virtual void Close() => gameObject.SetActive(false);
+        
+
         protected Sprite CurrentImage { get; set; }
-        public override WaitableTask<string> SelectSprite(KeyedCollection<Sprite> sprites, string spriteKey)
-        {
-            if (CurrentWaitableSpriteKey?.IsCompleted() == false)
-                CurrentWaitableSpriteKey.SetError(new Exception("New popup opened"));
-
-            gameObject.SetActive(true);
-            SpriteCollection = sprites;
-            CurrentKey = spriteKey;
-            CurrentWaitableSpriteKey = new WaitableTask<string>();
-
-            if (spriteKey != null && SpriteCollection.ContainsKey(spriteKey))
-                SetImage(SpriteCollection[spriteKey]);
-            else
-                SetImage(null);
-
-            return CurrentWaitableSpriteKey;
-        }
-
-        protected virtual void ApplyClicked()
-        {
-            if (CurrentImage != null) {
-                if (CurrentKey != null && SpriteCollection.ContainsKey(CurrentKey))
-                    SpriteCollection[CurrentKey] = CurrentImage;
-                else if (CurrentKey != null)
-                    SpriteCollection.Add(CurrentKey, CurrentImage);
-                else
-                    CurrentKey = SpriteCollection.Add(CurrentImage);
-            }
-
-            CurrentWaitableSpriteKey.SetResult(CurrentKey);
-            Close();
-        }
-        protected virtual void Remove()
-        {
-            if (CurrentKey != null && SpriteCollection.ContainsKey(CurrentKey))
-                SpriteCollection.Remove(CurrentKey);
-
-            CurrentWaitableSpriteKey.SetResult(null);
-            Close();
-        }
-
-        protected virtual void Close()
-        {
-            if (CurrentWaitableSpriteKey?.IsCompleted() == false)
-                CurrentWaitableSpriteKey.SetError(new Exception("Canceled"));
-
-            gameObject.SetActive(false);
-        }
-
         protected virtual void SetImage(Sprite image)
         {
             CurrentImage = image;
@@ -93,7 +45,7 @@ namespace ClinicalTools.SimEncounters
             NoImageGameObject.SetActive(!hasImage);
             HasImageGameObject.SetActive(hasImage);
             RemoveImageButton.interactable = hasImage;
-            ImageObject.sprite = CurrentImage;
+            ImageObject.sprite = image;
         }
 
         protected virtual void UploadImage()

@@ -1,33 +1,60 @@
-﻿using UnityEngine;
+﻿using ClinicalTools.Collections;
+using UnityEngine;
 using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class WriterTabDrawerSelector : BaseTabDrawer
+    public class WriterTabDrawerSelector : MonoBehaviour
     {
         public Transform TabParent { get => tabParent; set => tabParent = value; }
         [SerializeField] private Transform tabParent;
 
-        protected Factory TabDrawerFactory { get; set; }
-        [Inject] public virtual void Inject(Factory tabDrawerFactory) => TabDrawerFactory = tabDrawerFactory;
-
-        protected BaseTabDrawer CurrentTabDrawer { get; set; }
-        public override void Display(Encounter encounter, Tab tab)
+        protected ISelectedListener<SectionSelectedEventArgs> SectionSelectedListener { get; set; }
+        protected ISelectedListener<TabSelectedEventArgs> TabSelectedListener { get; set; }
+        protected BaseTabDrawer.Factory TabDrawerFactory { get; set; }
+        [Inject]
+        public virtual void Inject(
+            SignalBus signalBus,
+            ISelectedListener<SectionSelectedEventArgs> sectionSelectedListener ,
+            ISelectedListener<TabSelectedEventArgs> tabSelectedListener, 
+            BaseTabDrawer.Factory tabDrawerFactory)
         {
-            if (CurrentTabDrawer != null)
+            signalBus.Subscribe<SerializeEncounterSignal>(Serialize);
+            SectionSelectedListener = sectionSelectedListener;
+            TabDrawerFactory = tabDrawerFactory;
+            TabSelectedListener = tabSelectedListener;
+            TabSelectedListener.Selected += OnTabSelected;
+        }
+        protected OrderedCollection<Tab> TabCollection { get; set; }
+        protected string TabKey { get; set; }
+        protected Tab CurrentTab { get; set; }
+        protected BaseTabDrawer CurrentTabDrawer { get; set; }
+        public virtual void OnTabSelected(object sender, TabSelectedEventArgs e)
+        {
+            if (e.SelectedTab == CurrentTab)
+                return;
+            CurrentTab = e.SelectedTab;
+
+            if (CurrentTabDrawer != null) {
+                Serialize();
                 Destroy(CurrentTabDrawer.gameObject);
-            if (tab == null) {
+            }
+
+            if (CurrentTab == null) {
                 CurrentTabDrawer = null;
                 return;
             }
-            
-            CurrentTabDrawer = TabDrawerFactory.Create(GetTabPath(tab));
+
+            TabCollection = SectionSelectedListener.CurrentValue.SelectedSection.Tabs;
+            TabKey = TabCollection[CurrentTab];
+
+            CurrentTabDrawer = TabDrawerFactory.Create(GetTabPath(CurrentTab));
             CurrentTabDrawer.transform.SetParent(TabParent);
             CurrentTabDrawer.transform.localScale = Vector3.one;
             ((RectTransform)CurrentTabDrawer.transform).offsetMin = Vector2.zero;
             ((RectTransform)CurrentTabDrawer.transform).offsetMax = Vector2.zero;
 
-            CurrentTabDrawer.Display(encounter, tab);
+            CurrentTabDrawer.Select(sender, e);
         }
 
         protected virtual string GetTabPath(Tab tab)
@@ -36,6 +63,10 @@ namespace ClinicalTools.SimEncounters
             return $"{tabFolder}{tab.Type.Replace(" ", string.Empty)}Tab";
         }
 
-        public override Tab Serialize() => CurrentTabDrawer.Serialize();
+        protected virtual void Serialize()
+        {
+            if (CurrentTabDrawer != null)
+                TabCollection[TabKey] = CurrentTabDrawer.Serialize();
+        }
     }
 }

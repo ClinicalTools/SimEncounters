@@ -1,5 +1,4 @@
 ﻿using ClinicalTools.UI;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,7 +6,7 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-    public class WriterSectionsHandler : BaseWriterSectionsHandler
+    public class WriterSectionsHandler : MonoBehaviour
     {
         public virtual BaseRearrangeableGroup RearrangeableGroup { get => rearrangeableGroup; set => rearrangeableGroup = value; }
         [SerializeField] private BaseRearrangeableGroup rearrangeableGroup;
@@ -20,12 +19,27 @@ namespace ClinicalTools.SimEncounters
         public SectionCreatorPopup AddSectionPopup { get => addSectionPopup; set => addSectionPopup = value; }
         [SerializeField] private SectionCreatorPopup addSectionPopup;
 
-        public override event SectionSelectedHandler SectionSelected;
-        public override event Action<Section> SectionEdited;
-        public override event Action<Section> SectionDeleted;
-
+        protected ISelectedListener<EncounterSelectedEventArgs> EncounterSelectedListener { get; set; }
+        protected ISelector<SectionSelectedEventArgs> SectionSelector { get; set; }
         protected virtual BaseWriterSectionToggle.Pool SectionButtonPool { get; set; }
-        [Inject] public virtual void Inject(BaseWriterSectionToggle.Pool sectionButtonPool) => SectionButtonPool = sectionButtonPool;
+        [Inject]
+        public virtual void Inject(
+            ISelectedListener<EncounterSelectedEventArgs> encounterSelectedListener,
+            ISelector<SectionSelectedEventArgs> sectionSelectedListener,
+            BaseWriterSectionToggle.Pool sectionButtonPool)
+        {
+            SectionButtonPool = sectionButtonPool;
+
+            EncounterSelectedListener = encounterSelectedListener;
+            EncounterSelectedListener.Selected += OnEncounterSelected;
+            if (EncounterSelectedListener.CurrentValue != null)
+                OnEncounterSelected(this, EncounterSelectedListener.CurrentValue);
+
+            SectionSelector = sectionSelectedListener;
+            SectionSelector.Selected += OnSectionSelected;
+            if (SectionSelector.CurrentValue != null)
+                OnSectionSelected(this, SectionSelector.CurrentValue);
+        }
 
         protected Encounter CurrentEncounter { get; set; }
         protected Dictionary<Section, BaseWriterSectionToggle> SectionButtons { get; } = new Dictionary<Section, BaseWriterSectionToggle>();
@@ -36,17 +50,28 @@ namespace ClinicalTools.SimEncounters
             RearrangeableGroup.Rearranged += SectionsRearranged;
         }
 
-        public override void Display(Encounter encounter)
+        protected virtual void OnEncounterSelected(object sender, EncounterSelectedEventArgs e)
         {
             RearrangeableGroup.Clear();
             foreach (var sectionButton in SectionButtons)
                 Destroy(sectionButton.Value.gameObject);
             SectionButtons.Clear();
 
-            CurrentEncounter = encounter;
-            foreach (var section in encounter.Content.NonImageContent.Sections)
-                AddSectionButton(encounter, section.Value);
+            CurrentEncounter = e.Encounter;
+            foreach (var section in CurrentEncounter.Content.NonImageContent.Sections)
+                AddSectionButton(CurrentEncounter, section.Value);
         }
+
+
+        private void OnSectionSelected(object sender, SectionSelectedEventArgs e)
+        {
+            if (CurrentSection == e.SelectedSection)
+                return;
+
+            CurrentSection = e.SelectedSection;
+            SectionButtons[CurrentSection].Select();
+        }
+
         protected virtual void AddSection()
         {
             var newSection = AddSectionPopup.CreateSection(CurrentEncounter);
@@ -62,7 +87,7 @@ namespace ClinicalTools.SimEncounters
             AddSectionButton(CurrentEncounter, section.Value);
 
             var sectionSelectedArgs = new SectionSelectedEventArgs(section.Value);
-            SectionSelected?.Invoke(this, sectionSelectedArgs);
+            SectionSelector.Select(this, sectionSelectedArgs);
         }
 
         protected void AddSectionButton(Encounter encounter, Section section)
@@ -73,23 +98,32 @@ namespace ClinicalTools.SimEncounters
             sectionButton.SetToggleGroup(SectionsToggleGroup);
             sectionButton.Display(encounter, section);
             sectionButton.Selected += () => OnSelected(section);
-            sectionButton.Edited += (editedSection) => SectionEdited?.Invoke(editedSection);
+            sectionButton.Edited += OnSectionEdited;
             sectionButton.Deleted += OnDeleted;
             SectionButtons.Add(section, sectionButton);
+        }
+
+        protected virtual void OnSectionEdited(Section section)
+        {
+            if (section == SectionSelector.CurrentValue.SelectedSection)
+                SectionSelector.Select(this, new SectionSelectedEventArgs(section, SelectionType.Edited));
         }
 
         protected Section CurrentSection { get; set; }
         protected void OnSelected(Section section)
         {
+            if (CurrentSection == section)
+                return;
+
             var selectedArgs = new SectionSelectedEventArgs(section);
             CurrentSection = section;
-            SectionSelected?.Invoke(this, selectedArgs);
+            SectionSelector.Select(this, selectedArgs);
         }
         protected void OnEdited(Section section)
         {
             var selectedArgs = new SectionSelectedEventArgs(section);
             CurrentSection = section;
-            SectionSelected?.Invoke(this, selectedArgs);
+            SectionSelector.Select(this, selectedArgs);
         }
         protected void OnDeleted(Section section)
         {
@@ -100,15 +134,6 @@ namespace ClinicalTools.SimEncounters
 
             CurrentSection = section;
             SectionButtonPool.Despawn(button);
-            SectionDeleted?.Invoke(section);
-        }
-
-        public override void SelectSection(Section section)
-        {
-            if (CurrentSection == section)
-                return;
-
-            SectionButtons[section].Select();
         }
 
         private void SectionsRearranged(object sender, RearrangedEventArgs2 e)

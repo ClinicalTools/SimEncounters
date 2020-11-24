@@ -2,6 +2,16 @@
 
 namespace ClinicalTools.SimEncounters
 {
+    public class LoadingWriterSceneInfoSelectedEventArgs : EventArgs
+    {
+        public LoadingWriterSceneInfo SceneInfo { get; }
+        public LoadingWriterSceneInfoSelectedEventArgs(LoadingWriterSceneInfo sceneInfo) => SceneInfo = sceneInfo;
+    }
+    public class WriterSceneInfoSelectedEventArgs : EventArgs
+    {
+        public WriterSceneInfo SceneInfo { get; }
+        public WriterSceneInfoSelectedEventArgs(WriterSceneInfo sceneInfo) => SceneInfo = sceneInfo;
+    }
     public class UserEncounterSelectedEventArgs : EventArgs
     {
         public UserEncounter Encounter { get; }

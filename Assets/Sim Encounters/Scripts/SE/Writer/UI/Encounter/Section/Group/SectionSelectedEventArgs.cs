@@ -17,5 +17,10 @@ namespace ClinicalTools.SimEncounters
         {
             SelectedSection = selectedSection;
         }
+        public SectionSelectedEventArgs(Section selectedSection, SelectionType selectionType)
+        {
+            SelectedSection = selectedSection;
+            SelectionType = selectionType;
+        }
     }
 }

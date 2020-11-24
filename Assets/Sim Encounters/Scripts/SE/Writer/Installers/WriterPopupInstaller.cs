@@ -16,10 +16,10 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private TabEditorPopup tabEditorPopup;
         public BaseConfirmationPopup ConfirmationPopup { get => confirmationPopup; set => confirmationPopup = value; }
         [SerializeField] private BaseConfirmationPopup confirmationPopup;
-        public BaseSpriteSelector SpriteSelector { get => spriteSelector; set => spriteSelector = value; }
-        [SerializeField] private BaseSpriteSelector spriteSelector;
-        public BaseSpriteSelector PatientSpriteSelector { get => patientSpriteSelector; set => patientSpriteSelector = value; }
-        [SerializeField] private BaseSpriteSelector patientSpriteSelector;
+        public KeyedSpriteUploader KeyedSpriteSelector { get => keyedSpriteSelector; set => keyedSpriteSelector = value; }
+        [SerializeField] private KeyedSpriteUploader keyedSpriteSelector;
+        public SpriteUploader SpriteSelector { get => spriteSelector; set => spriteSelector = value; }
+        [SerializeField] private SpriteUploader spriteSelector;
         public BaseMessageHandler MessageHandler { get => messageHandler; set => messageHandler = value; }
         [SerializeField] private BaseMessageHandler messageHandler;
         public SwipeManager SwipeManager { get => swipeManager; set => swipeManager = value; }
@@ -32,16 +32,19 @@ namespace ClinicalTools.SimEncounters
             Container.BindInstance(SectionEditorPopup);
             Container.BindInstance(TabEditorPopup);
             Container.BindInstance(ConfirmationPopup);
-            Container.BindInstance(SpriteSelector).WhenNotInjectedInto<WriterEncounterDrawer>();
-            Container.BindInstance(PatientSpriteSelector).WhenInjectedInto<WriterEncounterDrawer>();
+            Container.BindInstance<IKeyedSpriteSelector>(KeyedSpriteSelector);
+            Container.BindInstance<ISpriteSelector>(SpriteSelector);
 
             Container.BindInstance(SwipeManager);
 
             Container.BindInstance(MessageHandler);
 
             Container.BindInterfacesTo<WriterEncounterManager>().AsSingle();
-            Container.DeclareSignal<SerializeTabSignal>().OptionalSubscriber();
+            Container.BindInterfacesTo<LoadingWriterSceneInfoSelector>().AsSingle();
+            Container.BindInterfacesTo<WriterSceneInfoSelector>().AsSingle();
+            Container.DeclareSignal<SerializeEncounterSignal>().OptionalSubscriber();
         }
     }
-    public class SerializeTabSignal { }
+
+    public class SerializeEncounterSignal { }
 }

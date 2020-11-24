@@ -169,7 +169,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultEncounterFileName: -536498_aa_a
-  writerDrawer: {fileID: 1595584733}
 --- !u!4 &103394028
 Transform:
   m_ObjectHideFlags: 0
@@ -200,18 +199,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce37b7b3d5f5abe46b844ee1d66311f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &130196958 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 613529737322542824, guid: 3da8e43f06f0ddf499707e36cd6b76ac,
-    type: 3}
-  m_PrefabInstance: {fileID: 5271864625889975373}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &166599050 stripped
@@ -1264,8 +1251,8 @@ MonoBehaviour:
   sectionEditorPopup: {fileID: 906180831}
   tabEditorPopup: {fileID: 2096121924}
   confirmationPopup: {fileID: 782966142}
-  spriteSelector: {fileID: 1192924666}
-  patientSpriteSelector: {fileID: 337363924}
+  keyedSpriteSelector: {fileID: 1192924666}
+  spriteSelector: {fileID: 565709088}
   messageHandler: {fileID: 105156484}
   swipeManager: {fileID: 0}
 --- !u!114 &248023175
@@ -1360,18 +1347,6 @@ MonoBehaviour:
   scroll: {fileID: 688298915}
   leftButton: {fileID: 552765171}
   rightButton: {fileID: 901091695}
---- !u!114 &337363924 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4112514922112127763, guid: 96841cb14dde78143ba7555af8393b3f,
-    type: 3}
-  m_PrefabInstance: {fileID: 565709086}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 569a311cc7b1b8043bf188b5ee00ef20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &369333019
 GameObject:
   m_ObjectHideFlags: 0
@@ -1446,18 +1421,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 369333019}
   m_CullTransparentMesh: 0
---- !u!114 &449002994 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 612767719892718044, guid: 3da8e43f06f0ddf499707e36cd6b76ac,
-    type: 3}
-  m_PrefabInstance: {fileID: 5271864625889975373}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &479275294
 GameObject:
   m_ObjectHideFlags: 0
@@ -2676,6 +2639,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 565709086}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &565709088 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9064693128459918802, guid: 96841cb14dde78143ba7555af8393b3f,
+    type: 3}
+  m_PrefabInstance: {fileID: 565709086}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3a97097022f28841a0313b3db40d624, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &608217177
 GameObject:
   m_ObjectHideFlags: 0
@@ -9147,9 +9122,7 @@ GameObject:
   - component: {fileID: 1595584731}
   - component: {fileID: 1595584730}
   - component: {fileID: 1595584729}
-  - component: {fileID: 1595584733}
   - component: {fileID: 1595584735}
-  - component: {fileID: 1595584734}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -9240,39 +9213,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1595584733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1595584728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b00eed8801bcf174194a7bb609459985, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  encounterSaver: {fileID: 1595584735}
-  mainMenuButtons:
-  - {fileID: 130196958}
---- !u!114 &1595584734
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1595584728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e7e29fb4a532af4aba48780a8f7c533, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sectionSelector: {fileID: 102589324}
-  tabSelector: {fileID: 1240485052}
-  sectionDrawer: {fileID: 0}
-  tabDrawer: {fileID: 195950828}
-  patientImageButton: {fileID: 449002994}
-  patientImage: {fileID: 995386100}
 --- !u!114 &1595584735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9288,7 +9228,6 @@ MonoBehaviour:
   savePopup: {fileID: 1462496276}
   saveButton: {fileID: 1628804987}
   readerButton: {fileID: 5271864625889975377}
-  encounterDrawer: {fileID: 1595584734}
 --- !u!1001 &1611962170
 PrefabInstance:
   m_ObjectHideFlags: 0

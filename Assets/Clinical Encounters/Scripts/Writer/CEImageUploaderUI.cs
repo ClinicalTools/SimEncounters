@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace ClinicalTools.ClinicalEncounters
 {
-    public class CEImageUploaderUI : ImageUploaderUI
+    public class CEImageUploaderUI : KeyedSpriteUploader
     {
         public virtual Toggle PatientImageToggle { get => patientImageToggle; set => patientImageToggle = value; }
         [SerializeField] private Toggle patientImageToggle;

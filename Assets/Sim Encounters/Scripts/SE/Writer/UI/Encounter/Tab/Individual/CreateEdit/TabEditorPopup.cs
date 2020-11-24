@@ -36,7 +36,7 @@ namespace ClinicalTools.SimEncounters
         }
         protected WaitableTask<Tab> CurrentWaitableTab { get; set; }
         protected Tab CurrentTab { get; set; }
-        public virtual WaitableTask<Tab> EditTab(Encounter encounter, Tab tab)
+        public virtual WaitableTask<Tab> EditTab(Tab tab)
         {
             CurrentTab = tab;
 

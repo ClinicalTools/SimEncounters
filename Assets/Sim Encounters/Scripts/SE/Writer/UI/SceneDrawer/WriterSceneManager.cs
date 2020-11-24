@@ -7,14 +7,17 @@ namespace ClinicalTools.SimEncounters
     {
         public string DefaultEncounterFileName { get => defaultEncounterFileName; set => defaultEncounterFileName = value; }
         [SerializeField] private string defaultEncounterFileName;
-        public BaseLoadingWriterSceneDrawer WriterDrawer { get => writerDrawer; set => writerDrawer = value; }
-        [SerializeField] private BaseLoadingWriterSceneDrawer writerDrawer;
 
+        protected ISelector<LoadingWriterSceneInfoSelectedEventArgs> SceneSelector { get; set; }
         protected IMetadataReader MetadataReader { get; set; }
         protected IEncounterReader EncounterReader { get; set; }
         [Inject]
-        public virtual void Inject(IMetadataReader metadataReader, IEncounterReader encounterReader)
+        public virtual void Inject(
+            ISelector<LoadingWriterSceneInfoSelectedEventArgs> sceneSelector,
+            IMetadataReader metadataReader, 
+            IEncounterReader encounterReader)
         {
+            SceneSelector = sceneSelector;
             MetadataReader = metadataReader;
             EncounterReader = encounterReader;
         }
@@ -44,7 +47,7 @@ namespace ClinicalTools.SimEncounters
 
         public void Display(LoadingWriterSceneInfo sceneInfo)
         {
-            WriterDrawer.Display(sceneInfo);
+            SceneSelector.Select(this, new LoadingWriterSceneInfoSelectedEventArgs(sceneInfo));
             sceneInfo.Result.AddOnCompletedListener(SceneInfoLoaded);
         }
         protected virtual void SceneInfoLoaded(TaskResult<WriterSceneInfo> sceneInfo)

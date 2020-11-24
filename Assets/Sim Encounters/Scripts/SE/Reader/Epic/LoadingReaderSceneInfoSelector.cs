@@ -1,7 +1,24 @@
-﻿using System.Diagnostics;
-
-namespace ClinicalTools.SimEncounters
+﻿namespace ClinicalTools.SimEncounters
 {
+    public class LoadingWriterSceneInfoSelector : Selector<LoadingWriterSceneInfoSelectedEventArgs>
+    {
+        protected ISelector<WriterSceneInfoSelectedEventArgs> SceneInfoSelector { get; }
+        public LoadingWriterSceneInfoSelector(ISelector<WriterSceneInfoSelectedEventArgs> sceneInfoSelector)
+            => SceneInfoSelector = sceneInfoSelector;
+
+        public override void Select(object sender, LoadingWriterSceneInfoSelectedEventArgs value)
+        {
+            base.Select(sender, value);
+            value.SceneInfo.Result.AddOnCompletedListener(SelectReaderSceneInfo);
+        }
+
+        protected virtual void SelectReaderSceneInfo(TaskResult<WriterSceneInfo> sceneInfoResult)
+        {
+            CurrentValue.SceneInfo.LoadingScreen?.Stop();
+            if (sceneInfoResult.HasValue())
+                SceneInfoSelector.Select(this, new WriterSceneInfoSelectedEventArgs(sceneInfoResult.Value));
+        }
+    }
     public class LoadingReaderSceneInfoSelector : Selector<LoadingReaderSceneInfoSelectedEventArgs>
     {
         protected ISelector<ReaderSceneInfoSelectedEventArgs> ReaderSceneInfoSelector { get; }
@@ -19,25 +36,6 @@ namespace ClinicalTools.SimEncounters
             CurrentValue.SceneInfo.LoadingScreen?.Stop();
             if (sceneInfoResult.HasValue())
                 ReaderSceneInfoSelector.Select(this, new ReaderSceneInfoSelectedEventArgs(sceneInfoResult.Value));
-        }
-    }
-    public class LoadingMenuSceneInfoSelector : Selector<LoadingMenuSceneInfoSelectedEventArgs>
-    {
-        protected ISelector<MenuSceneInfoSelectedEventArgs> MenuSceneInfoSelector { get; }
-        public LoadingMenuSceneInfoSelector(ISelector<MenuSceneInfoSelectedEventArgs> menuSceneInfoSelector)
-            => MenuSceneInfoSelector = menuSceneInfoSelector;
-
-        public override void Select(object sender, LoadingMenuSceneInfoSelectedEventArgs value)
-        {
-            base.Select(sender, value);
-            value.SceneInfo.Result.AddOnCompletedListener(SelectReaderSceneInfo);
-        }
-
-        protected virtual void SelectReaderSceneInfo(TaskResult<MenuSceneInfo> sceneInfoResult)
-        {
-            CurrentValue.SceneInfo.LoadingScreen?.Stop();
-            if (sceneInfoResult.HasValue())
-                MenuSceneInfoSelector.Select(this, new MenuSceneInfoSelectedEventArgs(sceneInfoResult.Value));
         }
     }
 }

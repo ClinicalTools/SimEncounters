@@ -12,8 +12,8 @@ namespace ClinicalTools.ClinicalEncounters
         public Image PatientImage { get => patientImage; set => patientImage = value; }
         [SerializeField] private Image patientImage;
 
-        protected BaseSpriteSelector PatientSpriteSelector { get; set; }
-        [Inject] public virtual void Inject(BaseSpriteSelector patientSpriteSelector) => PatientSpriteSelector = patientSpriteSelector;
+        protected IKeyedSpriteSelector PatientSpriteSelector { get; set; }
+        [Inject] public virtual void Inject(IKeyedSpriteSelector patientSpriteSelector) => PatientSpriteSelector = patientSpriteSelector;
 
         protected override void Awake()
         {

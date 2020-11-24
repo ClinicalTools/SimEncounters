@@ -39,14 +39,9 @@ namespace ClinicalTools.SimEncounters
             MouseInput.Instance.RegisterDraggable(this);
         }
 
-        protected Encounter CurrentEncounter { get; set; }
         protected Tab CurrentTab { get; set; }
-
-
-
-        public override void Display(Encounter encounter, Tab tab)
+        public override void Display(Tab tab)
         {
-            CurrentEncounter = encounter;
             CurrentTab = tab;
             NameLabel.text = tab.Name;
         }
@@ -67,7 +62,7 @@ namespace ClinicalTools.SimEncounters
 
         protected virtual void Edit()
         {
-            var tab = TabEditorPopup.EditTab(CurrentEncounter, CurrentTab);
+            var tab = TabEditorPopup.EditTab(CurrentTab);
             tab.AddOnCompletedListener(FinishEdit);
         }
 
@@ -84,7 +79,7 @@ namespace ClinicalTools.SimEncounters
             CurrentTab = editedTab.Value;
             Edited?.Invoke(CurrentTab);
 
-            Display(CurrentEncounter, CurrentTab);
+            Display(CurrentTab);
         }
     }
 }
