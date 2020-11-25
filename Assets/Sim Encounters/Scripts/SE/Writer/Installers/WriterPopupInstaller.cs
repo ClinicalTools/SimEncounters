@@ -24,6 +24,8 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private BaseMessageHandler messageHandler;
         public SwipeManager SwipeManager { get => swipeManager; set => swipeManager = value; }
         [SerializeField] private SwipeManager swipeManager;
+        public BaseSaveEncounterDisplay SaveEncounterDisplay { get => saveEncounterDisplay; set => saveEncounterDisplay = value; }
+        [SerializeField] private BaseSaveEncounterDisplay saveEncounterDisplay;
 
         public override void InstallBindings()
         {
@@ -34,6 +36,7 @@ namespace ClinicalTools.SimEncounters
             Container.BindInstance(ConfirmationPopup);
             Container.BindInstance<IKeyedSpriteSelector>(KeyedSpriteSelector);
             Container.BindInstance<ISpriteSelector>(SpriteSelector);
+            Container.BindInstance(SaveEncounterDisplay);
 
             Container.BindInstance(SwipeManager);
 

@@ -28,11 +28,9 @@ namespace ClinicalTools.SimEncounters
         }
 
         protected WaitableTask<QuizPin> CurrentWaitableQuiz { get; set; }
-        protected Encounter CurrentEncounter { get; set; }
         protected QuizPin CurrentQuiz { get; set; }
-        public virtual WaitableTask<QuizPin> EditQuiz(Encounter encounter, QuizPin quizPin)
+        public virtual WaitableTask<QuizPin> EditQuiz(QuizPin quizPin)
         {
-            CurrentEncounter = encounter;
             CurrentQuiz = quizPin;
 
             if (CurrentWaitableQuiz?.IsCompleted() == false)

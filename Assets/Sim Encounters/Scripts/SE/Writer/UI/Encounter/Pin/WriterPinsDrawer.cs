@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
@@ -26,11 +25,9 @@ namespace ClinicalTools.SimEncounters
             QuizPinButton.onClick.AddListener(EditQuiz);
         }
 
-        protected Encounter CurrentEncounter { get; set; }
         protected PinGroup CurrentPinData { get; set; }
-        public override void Display(Encounter encounter, PinGroup pinData)
+        public override void Display(PinGroup pinData)
         {
-            CurrentEncounter = encounter;
             CurrentPinData = pinData;
 
             QuizPinButton.image.color = GetButtonColor(CurrentPinData?.Quiz != null);
@@ -47,7 +44,7 @@ namespace ClinicalTools.SimEncounters
             else
                 dialogue = new DialoguePin();
 
-            var newDialogue = DialoguePopup.EditDialogue(CurrentEncounter, dialogue);
+            var newDialogue = DialoguePopup.EditDialogue(dialogue);
             newDialogue.AddOnCompletedListener(SetDialogue);
         }
 
@@ -68,7 +65,7 @@ namespace ClinicalTools.SimEncounters
             else
                 quiz = new QuizPin();
 
-            var newQuiz = QuizPopup.EditQuiz(CurrentEncounter, quiz);
+            var newQuiz = QuizPopup.EditQuiz(quiz);
             newQuiz.AddOnCompletedListener(SetQuiz);
         }
 

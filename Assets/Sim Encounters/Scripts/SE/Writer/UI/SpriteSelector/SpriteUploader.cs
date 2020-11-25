@@ -14,6 +14,7 @@ namespace ClinicalTools.SimEncounters
             gameObject.SetActive(true);
             SetImage(sprite);
 
+            CurrentWaitableSprite = new WaitableTask<Sprite>();
             return CurrentWaitableSprite;
         }
 

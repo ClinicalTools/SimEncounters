@@ -10,7 +10,7 @@ namespace ClinicalTools.SimEncounters
         protected virtual void Start()
         {
             MetadataSelector.Selected += OnMetadataSelected;
-            if (MetadataSelector.CurrentValue != null) 
+            if (MetadataSelector.CurrentValue != null)
                 OnMetadataSelected(MetadataSelector, MetadataSelector.CurrentValue);
         }
         protected abstract void OnMetadataSelected(object sender, EncounterMetadataSelectedEventArgs eventArgs);

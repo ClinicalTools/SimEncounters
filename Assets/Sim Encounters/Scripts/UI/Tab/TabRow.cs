@@ -8,7 +8,7 @@ namespace ClinicalTools.UI
             var xComparision = child1.transform.position.x.CompareTo(child2.transform.position.x);
             if (xComparision != 0)
                 return xComparision;
-            return child1.transform.position.y.CompareTo(child2.transform.position.y);
+            return -child1.transform.position.y.CompareTo(child2.transform.position.y);
         }
     }
 }

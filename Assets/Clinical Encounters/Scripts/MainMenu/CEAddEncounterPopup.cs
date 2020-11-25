@@ -89,9 +89,6 @@ namespace ClinicalTools.ClinicalEncounters
             encounter.SetResult(result);
         }
 
-        protected virtual void Close()
-        {
-            gameObject.SetActive(false);
-        }
+        protected virtual void Close() => gameObject.SetActive(false);
     }
 }

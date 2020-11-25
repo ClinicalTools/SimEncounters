@@ -29,7 +29,7 @@ namespace ClinicalTools.SimEncounters
 
         protected WaitableTask<DialoguePin> CurrentWaitableDialogue { get; set; }
         protected DialoguePin CurrentDialogue { get; set; }
-        public virtual WaitableTask<DialoguePin> EditDialogue(Encounter encounter, DialoguePin dialoguePin)
+        public virtual WaitableTask<DialoguePin> EditDialogue(DialoguePin dialoguePin)
         {
             CurrentDialogue = dialoguePin;
 
