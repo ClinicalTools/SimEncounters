@@ -14,12 +14,12 @@ namespace ClinicalTools.SimEncounters
         public virtual bool UseCaps { get => useCaps; set => useCaps = value; }
         [SerializeField] private bool useCaps;
 
-        protected IEncounterStarter EncounterStarter { get; set; }
+        protected IMenuEncounterStarter EncounterStarter { get; set; }
         protected virtual ISelectedListener<MenuSceneInfoSelectedEventArgs> SceneInfoSelectedListener { get; set; }
         protected virtual ISelectedListener<MenuEncounterSelectedEventArgs> MenuEncounterSelectedListener { get; set; }
         [Inject]
         public virtual void Inject(
-            IEncounterStarter encounterStarter,
+            IMenuEncounterStarter encounterStarter,
             ISelectedListener<MenuSceneInfoSelectedEventArgs> sceneInfoSelectedListener,
             ISelectedListener<MenuEncounterSelectedEventArgs> menuEncounterSelectedListener)
         {

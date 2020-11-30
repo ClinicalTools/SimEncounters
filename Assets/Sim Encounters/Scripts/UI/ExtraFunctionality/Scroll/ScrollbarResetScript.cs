@@ -8,20 +8,19 @@ namespace ClinicalTools.UI
     {
         protected Scrollbar Scrollbar { get; set; }
 
-        // Use this for initialization
-        void Start()
+        protected virtual void Start()
         {
             Scrollbar = GetComponent<Scrollbar>();
             NextFrame.Function(ResetScroll);
         }
 
-        private void ResetScroll()
+        protected virtual void ResetScroll()
         {
             if (this != null)
                 Scrollbar.value = 1;
         }
 
-        void Update()
+        protected virtual void Update()
         {
             if (Scrollbar.value > 1 || Scrollbar.value < 0)
                 ResetScroll();

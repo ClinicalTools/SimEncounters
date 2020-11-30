@@ -38,9 +38,6 @@ namespace ClinicalTools.SimEncounters
             ShowTemplatesToggle.Selected -= DisplayTemplates;
         }
 
-        private void EncounterSelected(MenuEncounter encounter) 
-            => Overview.Select(this, new MenuEncounterSelectedEventArgs(encounter, EncounterSelectionType.Edit));
-
         public void Initialize()
         {
             AddListeners();

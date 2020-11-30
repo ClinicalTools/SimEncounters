@@ -29,7 +29,11 @@ namespace ClinicalTools.SimEncounters
                 return;
             IsOn = true;
 
+            if (!SelectCategory)
+                return;
+
             ShowCategoriesToggle.Selected += DisplayCategories;
+
             CategorySelector.Selected += CategorySelected;
             if (CategorySelector.CurrentValue != null)
                 CategorySelected(CategorySelector, CategorySelector.CurrentValue);
@@ -57,9 +61,12 @@ namespace ClinicalTools.SimEncounters
                 ShowCategoriesToggle.Select();
                 DisplayCategories();
             } else {
-                ShowCategoriesToggle.Hide();
-                ShowEncountersToggle.Hide();
-                CategorySelector.Hide();
+                if (ShowCategoriesToggle != null)
+                    ShowCategoriesToggle.Hide();
+                if (ShowEncountersToggle != null)
+                    ShowEncountersToggle.Hide();
+                if (CategorySelector != null)
+                    CategorySelector.Hide();
             }
 
             loadingSceneInfo.Result.AddOnCompletedListener(SceneInfoLoaded);

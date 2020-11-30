@@ -4,7 +4,6 @@ using Zenject;
 
 namespace ClinicalTools.SimEncounters
 {
-
     public class MenuCategorySelector : BaseCategorySelector
     {
         public Transform OptionsParent { get => optionsParent; set => optionsParent = value; }

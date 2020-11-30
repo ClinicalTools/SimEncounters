@@ -6,6 +6,7 @@ using System;
 
 namespace ClinicalTools.SimEncounters
 {
+    [RequireComponent(typeof(Toggle))]
     public class ChangeSidePanelScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         public event Action Selected;
@@ -18,7 +19,6 @@ namespace ClinicalTools.SimEncounters
             }
         }
 
-
         public TextMeshProUGUI Label { get => label; set => label = value; }
         [SerializeField] private TextMeshProUGUI label;
         public Color OnColor { get => onColor; set => onColor = value; }
@@ -28,8 +28,8 @@ namespace ClinicalTools.SimEncounters
         public Color HoverColor { get => hoverColor; set => hoverColor = value; }
         [SerializeField] private Color hoverColor;
 
-        // Use this for initialization
-        protected void Start()
+
+        protected virtual void Start()
         {
             Toggle.onValueChanged.AddListener(ToggleThis);
             ToggleThis(Toggle.isOn);

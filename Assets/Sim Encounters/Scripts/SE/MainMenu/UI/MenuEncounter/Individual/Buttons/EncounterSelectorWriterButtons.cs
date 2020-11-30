@@ -13,18 +13,19 @@ namespace ClinicalTools.SimEncounters
         public virtual bool IsTemplate { get => isTemplate; set => isTemplate = value; }
         [SerializeField] private bool isTemplate;
 
-        protected IEncounterStarter EncounterStarter { get; set; }
+        protected IMenuEncounterStarter EncounterStarter { get; set; }
         protected BaseAddEncounterPopup AddEncounterPopup { get; set; }
         protected virtual ISelectedListener<MenuSceneInfoSelectedEventArgs> SceneInfoSelectedListener { get; set; }
         protected virtual ISelectedListener<MenuEncounterSelectedEventArgs> MenuEncounterSelectedListener { get; set; }
         [Inject] protected virtual void Inject(
-            IEncounterStarter encounterStarter,
+            IMenuEncounterStarter encounterStarter,
             ISelectedListener<MenuSceneInfoSelectedEventArgs> sceneInfoSelectedListener,
             ISelectedListener<MenuEncounterSelectedEventArgs> menuEncounterSelectedListener,
             BaseAddEncounterPopup addEncounterPopup) {
             EncounterStarter = encounterStarter;
             AddEncounterPopup = addEncounterPopup;
             SceneInfoSelectedListener = sceneInfoSelectedListener;
+
             MenuEncounterSelectedListener = menuEncounterSelectedListener;
             MenuEncounterSelectedListener.Selected += MenuEncounterSelected;
             if (MenuEncounterSelectedListener.CurrentValue != null)

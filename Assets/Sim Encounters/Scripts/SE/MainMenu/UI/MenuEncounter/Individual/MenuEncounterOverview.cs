@@ -2,7 +2,6 @@
 
 namespace ClinicalTools.SimEncounters
 {
-
     public class MenuEncounterOverview : BaseMenuEncounterOverview,
         ISelector<MenuEncounterSelectedEventArgs>,
         ISelectedListener<EncounterMetadataSelectedEventArgs>
@@ -17,12 +16,6 @@ namespace ClinicalTools.SimEncounters
             add => MetadataSelected += value;
             remove => MetadataSelected -= value;
         }
-
-        public virtual EncounterButtonsUI EncounterButtons { get => encounterButtons; set => encounterButtons = value; }
-        [SerializeField] private EncounterButtonsUI encounterButtons;
-        public virtual DeleteDownloadHandler DeleteDownloadHandler { get => deleteDownloadHandler; set => deleteDownloadHandler = value; }
-        [SerializeField] private DeleteDownloadHandler deleteDownloadHandler;
-
 
         public override void Select(object sender, MenuEncounterSelectedEventArgs eventArgs)
         {

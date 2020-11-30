@@ -23,8 +23,8 @@ namespace ClinicalTools.SimEncounters
 
         public override void InstallBindings()
         {
-            Container.Bind<IEncounterStarter>().To<EncounterEditStarter>().AsTransient().WhenInjectedInto<EncounterSelectorWriterButtons>();
-            Container.Bind<IEncounterStarter>().To<EncounterReadStarter>().AsTransient().WhenInjectedInto<EncounterSelectorReaderButtons>();
+            Container.Bind<IMenuEncounterStarter>().To<MenuEncounterEditStarter>().AsTransient().WhenInjectedInto<EncounterSelectorWriterButtons>();
+            Container.Bind<IMenuEncounterStarter>().To<MenuEncounterReadStarter>().AsTransient().WhenInjectedInto<EncounterSelectorReaderButtons>();
 
             Container.BindInterfacesTo<LoadingMenuSceneInfoSelector>().AsSingle();
             Container.BindInterfacesTo<MenuSceneInfoSelector>().AsSingle();
