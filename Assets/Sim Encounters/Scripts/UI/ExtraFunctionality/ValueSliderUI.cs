@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ClinicalTools.SimEncounters
+namespace ClinicalTools.UI
 {
     public class ValueSliderUI : MonoBehaviour
     {

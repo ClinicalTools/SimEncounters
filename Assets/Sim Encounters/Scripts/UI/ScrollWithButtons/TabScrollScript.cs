@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace ClinicalTools.SimEncounters
+namespace ClinicalTools.UI
 {
     public class TabScrollScript : MonoBehaviour
     {

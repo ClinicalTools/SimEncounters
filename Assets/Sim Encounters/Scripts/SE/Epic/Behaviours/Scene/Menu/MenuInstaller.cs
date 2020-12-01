@@ -10,8 +10,8 @@ namespace ClinicalTools.SimEncounters
         [SerializeField] private BaseAddEncounterPopup addEncounterPopup;
         public BaseMessageHandler MessageHandler { get => messageHandler; set => messageHandler = value; }
         [SerializeField] private BaseMessageHandler messageHandler;
-        public BaseMetadataSelector MetadataSelector { get => metadataSelector; set => metadataSelector = value; }
-        [SerializeField] private BaseMetadataSelector metadataSelector;
+        public BaseMenuEncounterMetadataSelector MetadataSelector { get => metadataSelector; set => metadataSelector = value; }
+        [SerializeField] private BaseMenuEncounterMetadataSelector metadataSelector;
         public AndroidBackButton BackButton { get => backButton; set => backButton = value; }
         [SerializeField] private AndroidBackButton backButton;
         public MainMenuEncounterUI EncounterSelectorPrefab { get => encounterSelectorPrefab; set => encounterSelectorPrefab = value; }
@@ -23,8 +23,8 @@ namespace ClinicalTools.SimEncounters
 
         public override void InstallBindings()
         {
-            Container.Bind<IMenuEncounterStarter>().To<MenuEncounterEditStarter>().AsTransient().WhenInjectedInto<EncounterSelectorWriterButtons>();
-            Container.Bind<IMenuEncounterStarter>().To<MenuEncounterReadStarter>().AsTransient().WhenInjectedInto<EncounterSelectorReaderButtons>();
+            Container.Bind<IMenuEncounterStarter>().To<MenuEncounterEditStarter>().AsTransient().WhenInjectedInto<MenuEncounterWriterButtons>();
+            Container.Bind<IMenuEncounterStarter>().To<MenuEncounterReadStarter>().AsTransient().WhenInjectedInto<MenuEncounterReaderButtons>();
 
             Container.BindInterfacesTo<LoadingMenuSceneInfoSelector>().AsSingle();
             Container.BindInterfacesTo<MenuSceneInfoSelector>().AsSingle();

@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace ClinicalTools.SimEncounters
+namespace ClinicalTools.UI
 {
     public class DisableSwipeWhileOpen : MonoBehaviour
     {

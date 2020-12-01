@@ -10,8 +10,8 @@ namespace ClinicalTools.SimEncounters
 
         public BaseCategorySelector CategorySelector { get => categorySelector; set => categorySelector = value; }
         [SerializeField] private BaseCategorySelector categorySelector;
-        public BaseEncounterSelector EncounterSelector { get => encounterSelector; set => encounterSelector = value; }
-        [SerializeField] private BaseEncounterSelector encounterSelector;
+        public BaseMenuEncounterSelectionManager EncounterSelector { get => encounterSelector; set => encounterSelector = value; }
+        [SerializeField] private BaseMenuEncounterSelectionManager encounterSelector;
         public ChangeSidePanelScript ShowCategoriesToggle { get => showCategoriesToggle; set => showCategoriesToggle = value; }
         [SerializeField] private ChangeSidePanelScript showCategoriesToggle;
         public ChangeSidePanelScript ShowEncountersToggle { get => showEncountersToggle; set => showEncountersToggle = value; }

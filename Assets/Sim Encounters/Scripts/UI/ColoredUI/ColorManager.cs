@@ -30,8 +30,12 @@ namespace ClinicalTools.UI
     // I don't like using white, because it is used a lot, 
     // and I can't imagine all instances changing at once
     // If an offwhite is eventually needed, I can see more usage
+    public interface IColorManager
+    {
+        Color GetColor(ColorType colorType);
+    }
 
-    public class ColorManager
+    public class ColorManager : IColorManager
     {
         private static readonly Color primaryColor = new Color(0.2784314f, 0.4666667f, 0.6980392f);
         private static readonly Color darkColor = new Color(0.1960784f, 0.3529412f, 0.5529412f);
@@ -55,7 +59,7 @@ namespace ClinicalTools.UI
         private static readonly Color correctColor = new Color(0.2627451f, 0.7294118f, 0.282353f, 0.6f);
 
 
-        public static Color GetColor(ColorType colorType)
+        public Color GetColor(ColorType colorType)
         {
             switch (colorType) {
                 case ColorType.PrimaryColor:

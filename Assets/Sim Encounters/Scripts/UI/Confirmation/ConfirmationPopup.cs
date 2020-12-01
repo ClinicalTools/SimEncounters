@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
 
-namespace ClinicalTools.SimEncounters
+namespace ClinicalTools.UI
 {
     public class ConfirmationPopup : BaseConfirmationPopup, ICloseHandler
     {

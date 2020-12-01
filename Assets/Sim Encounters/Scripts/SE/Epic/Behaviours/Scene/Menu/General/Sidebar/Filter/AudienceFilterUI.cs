@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
-
+using ClinicalTools.UI;
 
 namespace ClinicalTools.SimEncounters
 {

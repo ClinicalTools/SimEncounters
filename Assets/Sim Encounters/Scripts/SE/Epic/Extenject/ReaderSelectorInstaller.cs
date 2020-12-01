@@ -11,6 +11,8 @@ namespace ClinicalTools.SimEncounters
             Container.BindInterfacesTo<LoadingReaderSceneInfoSelector>().AsSingle();
             Container.BindInterfacesTo<ReaderSceneInfoSelector>().AsSingle();
 
+            Container.Bind<IFeedbackColorManager>().To<FeedbackColorManager>().AsTransient();
+
             Container.Bind<ILinearEncounterNavigator>().To<LinearUserEncounterNavigator>().AsSingle();
             Container.Bind<ICompletionHandler>().To<CompletionHandler>().AsSingle();
         }

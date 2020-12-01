@@ -1,4 +1,6 @@
-﻿namespace ClinicalTools.SimEncounters
+﻿using ClinicalTools.UI;
+
+namespace ClinicalTools.SimEncounters
 {
     public class UserMenuSceneStarter : IUserMenuSceneStarter
     {

@@ -6,8 +6,8 @@ namespace ClinicalTools.SimEncounters
     {
         protected IWriterSceneStarter SceneStarter { get; set; }
         protected IEncounterReader EncounterReader { get; set; }
-        protected BaseMetadataSelector MetadataSelector { get; set; }
-        public MenuEncounterEditStarter(IWriterSceneStarter sceneStarter, IEncounterReader encounterReader, BaseMetadataSelector metadataSelector)
+        protected BaseMenuEncounterMetadataSelector MetadataSelector { get; set; }
+        public MenuEncounterEditStarter(IWriterSceneStarter sceneStarter, IEncounterReader encounterReader, BaseMenuEncounterMetadataSelector metadataSelector)
         {
             SceneStarter = sceneStarter;
             EncounterReader = encounterReader;

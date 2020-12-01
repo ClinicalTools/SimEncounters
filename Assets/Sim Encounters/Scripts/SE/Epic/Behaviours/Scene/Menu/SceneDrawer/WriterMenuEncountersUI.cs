@@ -5,8 +5,8 @@ namespace ClinicalTools.SimEncounters
 {
     public class WriterMenuEncountersUI : BaseMenuSceneDrawer
     {
-        public BaseEncounterSelector EncounterSelector { get => encounterSelector; set => encounterSelector = value; }
-        [SerializeField] private BaseEncounterSelector encounterSelector;
+        public BaseMenuEncounterSelectionManager EncounterSelector { get => encounterSelector; set => encounterSelector = value; }
+        [SerializeField] private BaseMenuEncounterSelectionManager encounterSelector;
         public GameObject DownloadingCases { get => downloadingCases; set => downloadingCases = value; }
         [SerializeField] private GameObject downloadingCases;
         public ChangeSidePanelScript ShowEncountersToggle { get => showEncountersToggle; set => showEncountersToggle = value; }

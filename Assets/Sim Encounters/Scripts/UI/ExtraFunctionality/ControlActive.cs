@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ClinicalTools.SimEncounters
+namespace ClinicalTools.UI
 {
     public class ControlActive : MonoBehaviour
     {
